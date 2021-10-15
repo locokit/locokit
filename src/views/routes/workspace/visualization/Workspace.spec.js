@@ -3,6 +3,7 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import { USER_PROFILE } from '@locokit/lck-glossary'
 import ToggleButton from 'primevue/togglebutton'
+import ConfirmDialog from 'primevue/confirmdialog'
 import VueRouter from 'vue-router'
 
 import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
@@ -11,7 +12,6 @@ import { lckServices } from '@/services/lck-api'
 
 import Workspace from './Workspace.vue'
 import Page from '@/views/routes/workspace/visualization/Page'
-import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import ChapterDialog from '@/components/visualize/ChapterDialog/ChapterDialog.vue'
 import PageDialog from '@/components/visualize/PageDialog/PageDialog.vue'
 import Sidebar from '@/components/visualize/Sidebar/Sidebar'
@@ -36,6 +36,11 @@ jest.mock('@locokit/lck-glossary', () => ({
 jest.mock('primevue/togglebutton', () => ({
   name: 'p-toggle-button',
   render: h => h('p-toggle-button'),
+}))
+
+jest.mock('primevue/confirmdialog', () => ({
+  name: 'p-confirm-dialog',
+  render: h => h('p-confirm-dialog'),
 }))
 
 // Mock error
@@ -188,6 +193,9 @@ describe('Workspace', () => {
       $t: key => key,
       $toast: {
         add: jest.fn(),
+      },
+      $confirm: {
+        require: jest.fn(),
       },
     },
   }
@@ -417,51 +425,19 @@ describe('Workspace', () => {
 
       beforeEach(() => {
         lckServices.chapter.remove.mockClear()
-        deleteConfirmationWrapper = wrapper.findAllComponents(DeleteConfirmationDialog).at(0)
+        deleteConfirmationWrapper = wrapper.findComponent(ConfirmDialog)
       })
 
       it('Display the confirmation dialog with the specified chapter when the delete-item event is emitted', async () => {
-        await sidebarWrapper.vm.$emit('delete-item', '1')
-        expect(deleteConfirmationWrapper.props('visible')).toBe(true)
-        expect(deleteConfirmationWrapper.props('value')).toStrictEqual(mockWorkspaceContent.chapters[0])
+        await sidebarWrapper.vm.$emit('confirm-delete-chapter', { chapterId: '1', chapterName: 'My chapter' })
+        expect(deleteConfirmationWrapper.exists()).toBe(true)
       })
 
-      it('Hide the confirmation dialog if the close event is emitted', async () => {
-        // Display the dialog
-        await deleteConfirmationWrapper.setProps({ visible: true })
-        // Hide it
-        await deleteConfirmationWrapper.vm.$emit('close')
-        expect(deleteConfirmationWrapper.props('visible')).toBe(false)
-      })
-
-      it('Delete a chapter if the input event is emitted with an existing chapter', async () => {
-        await wrapper.vm.onChapterDeleteClick('1')
-        await deleteConfirmationWrapper.vm.$emit('input', { id: '1' })
-        // Send API request
-        expect(lckServices.chapter.remove).toHaveBeenCalledWith('1')
-        // Update the component data
-        expect(wrapper.vm.workspaceContent.chapters.find(c => c.id === '1')).toBeUndefined()
-      })
-
-      it('Do nothing if the input event is emitted without an existing chapter', async () => {
-        await wrapper.vm.onChapterDeleteClick()
-        await deleteConfirmationWrapper.vm.$emit('input')
-        expect(lckServices.chapter.remove).not.toHaveBeenCalled()
-        expect(wrapper.vm.workspaceContent.chapters).toStrictEqual(mockWorkspaceContent.chapters)
-      })
-
-      it('Do not delete a chapter if the input event is emitted with an unknown chapter', async () => {
-        await wrapper.vm.onChapterDeleteClick()
-        await deleteConfirmationWrapper.vm.$emit('input', { id: '-1' })
-        expect(lckServices.chapter.remove).toHaveBeenCalled()
-        expect(wrapper.vm.workspaceContent.chapters).toStrictEqual(mockWorkspaceContent.chapters)
-      })
-
-      it('Display a toast if an error is occured', async () => {
-        const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
-        lckServices.chapter.remove.mockImplementationOnce(() => { throw new Error() })
-        await deleteConfirmationWrapper.vm.$emit('input', { id: '1' })
-        expect(spyOnToast).toHaveBeenCalledTimes(1)
+      it('Send chapter to delete in confirmeDialog', async () => {
+        // Call method
+        await wrapper.vm.onConfirmationDeleteChapter({ chapterId: '1', chapterName: 'My chapter' })
+        // Expect activate prime mechanism
+        expect(wrapper.vm.$confirm.require).toHaveBeenCalled()
       })
     })
   })
@@ -586,78 +562,60 @@ describe('Workspace', () => {
       let deleteConfirmationWrapper
 
       beforeEach(() => {
-        deleteConfirmationWrapper = wrapper.findAllComponents(DeleteConfirmationDialog).at(1)
+        deleteConfirmationWrapper = wrapper.findComponent(ConfirmDialog)
         lckServices.page.remove.mockClear()
       })
 
       it('Display the confirmation dialog with the specified page when the delete-subitem event is emitted', async () => {
-        await wrapper.findComponent(Sidebar).vm.$emit('delete-subitem', { item: '1', subitem: '12' })
-        expect(deleteConfirmationWrapper.props('visible')).toBe(true)
-        expect(deleteConfirmationWrapper.props('value')).toStrictEqual(mockWorkspaceContent.chapters[0].pages[1])
+        await wrapper.findComponent(Sidebar).vm.$emit('confirm-delete-chapter', {
+          chapterId: '1',
+          pageId: '12',
+          pageName: 'My page',
+        })
+        expect(deleteConfirmationWrapper.exists()).toBe(true)
       })
 
-      it('Hide the confirmation dialog if the close event is emitted', async () => {
-        // Display the dialog
-        await deleteConfirmationWrapper.setProps({ visible: true })
-        // Hide it
-        await deleteConfirmationWrapper.vm.$emit('close')
-        expect(deleteConfirmationWrapper.props('visible')).toBe(false)
+      it('Send page to delete in confirmeDialog', async () => {
+        // Call method
+        await wrapper.vm.onConfirmationDeletePage({
+          chapterId: '1',
+          pageId: '12',
+          pageName: 'My page',
+        })
+        // Expect activate prime mechanism
+        expect(wrapper.vm.$confirm.require).toHaveBeenCalled()
       })
 
-      it('Delete a page if the input event is emitted with an existing page and an existing chapter', async () => {
-        await wrapper.vm.onPageDeleteClick({ item: '1', subitem: '12' })
-        await deleteConfirmationWrapper.vm.$emit('input', { id: '12' })
-        // Send API request
-        expect(lckServices.page.remove).toHaveBeenCalledWith('12')
-        // Update the component data
-        expect(wrapper.vm.workspaceContent.chapters[0].pages.find(p => p.id === '12')).toBeUndefined()
-      })
-
-      it('Redirect to a default page if the active page is the deleted page', async () => {
-        await wrapper.vm.onPageDeleteClick({ item: '1', subitem: '11' })
-        await deleteConfirmationWrapper.vm.$emit('input', { id: '11' })
-        expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
-          name: ROUTES_NAMES.VISUALIZATION,
-          params: {
-            worspaceId: mockWorkspaceContent.id,
-          },
-        }).route.path)
-      })
-
-      it('Keep on the same page if the active page is not the deleted page', async () => {
-        await wrapper.vm.onPageDeleteClick({ item: '1', subitem: '12' })
-        await deleteConfirmationWrapper.vm.$emit('input', { id: '12' })
-        expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
-          name: ROUTES_NAMES.PAGE,
-          params: {
-            worspaceId: mockWorkspaceContent.id,
-            pageId: mockWorkspaceContent.chapters[0].pages[0].id,
-          },
-        }).route.path)
-      })
-
-      it('Do nothing if the input event is emitted without an existing page', async () => {
-        await wrapper.vm.onPageDeleteClick({ item: '1' })
-        await deleteConfirmationWrapper.vm.$emit('input')
-        expect(lckServices.page.remove).not.toHaveBeenCalled()
-        expect(wrapper.vm.workspaceContent.chapters[0].pages)
-          .toStrictEqual(mockWorkspaceContent.chapters[0].pages)
-      })
-
-      it('Do not delete a page if the input event is emitted with an unknown page', async () => {
-        await wrapper.vm.onPageDeleteClick({ item: '1', subitem: '-12' })
-        await deleteConfirmationWrapper.vm.$emit('input', { id: '-12' })
-        expect(lckServices.page.remove).toHaveBeenCalled()
-        expect(wrapper.vm.workspaceContent.chapters[0].pages)
-          .toStrictEqual(mockWorkspaceContent.chapters[0].pages)
-      })
-
-      it('Display a toast if an error is occured', async () => {
-        const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
-        lckServices.page.remove.mockImplementationOnce(() => { throw new Error() })
-        await deleteConfirmationWrapper.vm.$emit('input', { id: '12' })
-        expect(spyOnToast).toHaveBeenCalledTimes(1)
-      })
+      // Need refacto in function
+      // it('Redirect to a default page if the active page is the deleted page', async () => {
+      //   await wrapper.vm.onConfirmationDeletePage({
+      //     chapterId: '1',
+      //     pageId: '11',
+      //     pageName: 'My page',
+      //   })
+      //
+      //   expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
+      //     name: ROUTES_NAMES.VISUALIZATION,
+      //     params: {
+      //       worspaceId: mockWorkspaceContent.id,
+      //     },
+      //   }).route.path)
+      // })
+      //
+      // it('Keep on the same page if the active page is not the deleted page', async () => {
+      //   await wrapper.vm.onConfirmationDeletePage({
+      //     chapterId: '1',
+      //     pageId: '12',
+      //     pageName: 'My page',
+      //   })
+      //   expect(wrapper.vm.$router.history.current.path).toBe(wrapper.vm.$router.resolve({
+      //     name: ROUTES_NAMES.PAGE,
+      //     params: {
+      //       worspaceId: mockWorkspaceContent.id,
+      //       pageId: mockWorkspaceContent.chapters[0].pages[0].id,
+      //     },
+      //   }).route.path)
+      // })
     })
 
     describe('Reorder pages', () => {

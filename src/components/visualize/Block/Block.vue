@@ -19,7 +19,7 @@
             :title="$t('pages.workspace.block.delete')"
             class="p-button-lg p-button-text remove-block-button"
             icon="pi pi-trash"
-            @click="$emit('delete-block')"
+            @click="$emit('confirm-delete-block')"
           />
         </span>
       </div>

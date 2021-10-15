@@ -47,8 +47,8 @@
       "toolbar": {
         "export": {
           "label": "Exporter",
-          "exportXLS" : "en XLS",
-          "exportCSV" : "en CSV"
+          "exportXLS": "en XLS",
+          "exportCSV": "en CSV"
         },
         "lists": {
           "label": "aucune colonne | {n} colonne | {n} colonnes"
@@ -66,7 +66,7 @@
         "filters": {
           "label": "aucun filtre | {n} filtre | {n} filtres",
           "noFilters": "Aucun filtre n'est appliqué.",
-          "form" : {
+          "form": {
             "operator": "Opérateur",
             "column": "Colonne",
             "action": "Action",
@@ -230,77 +230,77 @@
         "TEXT": "Fonctions textuelles"
       },
       "functions": {
-          "DATE": {
-            "DATEADD": "Retourne une nouvelle date correspondant à la date originale à laquelle on a ajouté ou retiré un intervalle de temps (unités disponibles : 'year' pour l'année, 'month' pour le mois,'week' pour la semaine, 'day' pour le jour, 'hour' pour l'heure, 'minute' pour la minute et 'second' pour la seconde).",
-            "DAY": "Retourne un nombre correspondant au jour dans le mois de la date spécifiée.",
-            "DAYS": "Retourne le nombre de jours qu'il y a entre deux dates.",
-            "EARLIER": "Retourne vrai si la première date est antérieure à la seconde, sinon retourne faux.",
-            "EQUAL": "Retourne vrai si les deux dates sont égales, sinon retourne faux.",
-            "EOMONTH": "Retourne la date du dernier jour d'un mois, un certain nombre de mois avant ou après la date originale.",
-            "HOUR": "Retourne un nombre correspondant à l'heure dans la journée de la date.",
-            "LATER": "Retourne vrai si la première date est postérieure à la seconde, sinon retourne faux.",
-            "MINUTE": "Retourne un nombre correspondant aux minutes dans l'heure de la date spécifiée.",
-            "MONTH": "Retourne un nombre correspondant au mois de l'année de la date spécifiée.",
-            "MONTHS": "Retourne le nombre de mois qu'il y a entre deux dates.",
-            "SECOND": "Retourne un nombre correspondant aux secondes dans la minute de la date spécifiée.",
-            "WEEKDAY": "Retourne un nombre correspondant au jour dans la semaine de la date spécifiée.",
-            "WEEKNUM": "Retourne un nombre correpondant au numéro de la semaine dans l'année de la date spécifiée.",
-            "YEAR": "Retourne un nombre correspondant à l'année de la date spécifiée.",
-            "YEARS": "Retourne le nombre d'années qu'il y a entre deux dates."
-          },
-          "LOGIC": {
-            "AND": "Retourne vrai si toutes les conditions sont vraies, sinon retourne faux.",
-            "FALSE": "Retourne la valeur logique correspondant à faux.",
-            "IF": "Retourne le premier résultat si la condition est vraie, sinon retourne le second résultat.",
-            "IFS": "Retourne le résultat associé à la première condition vraie.",
-            "NOT": "Retourne faux si la condition est vraie, sinon retourne vrai.",
-            "OR": "Retourne vrai si au-moins une des conditions est vraie, sinon retourne faux.",
-            "SWITCH": "Retourne le résultat associé à la première valeur égale à l'expression spécifiée, sinon retourne la valeur par défaut.",
-            "TRUE": "Retourne la valeur logique correspondant à vrai"
-          },
-          "NUMERIC": {
-            "ABS": "Retourne la valeur absolue du nombre spécifié.",
-            "AVERAGE": "Retourne la valeur moyenne des nombres spécifiés.",
-            "CEILING": "Arrondi le nombre spécifié à la valeur entière supérieure si c'est un nombre décimal, sinon retourne simplement le nombre si c'est un entier.",
-            "DIVIDE": "Retourne le résultat de la division des nombres spécifiés.",
-            "E": "Retourne la valeur du nombre d'Euler.",
-            "EQUAL": "Retourne vrai si les deux nombres sont égaux, sinon retourne faux.",
-            "FLOOR": "Arrondi le nombre spécifié à la valeur entière inférieure si c'est un nombre décimal, sinon retourne simplement le nombre si c'est un entier.",
-            "GREATER": "Retourne vrai si le premier nombre est supérieur au second, sinon retourne faux.",
-            "GREATEREQ": "Retourne vrai si le premier nombre est supérieur ou égal au second, sinon retourne faux.",
-            "INT": "Arrondi le nombre spécifié à la valeur entière la plus proche.",
-            "LESS": "Retourne vrai si le premier nombre est inférieur au second, sinon retourne faux.",
-            "LESSEQ": "Retourne vrai si le premier nombre est inférieur ou égal au second, sinon retourne faux.",
-            "LOG": "Retourne le logarithme d'un nombre dans la base spécifiée.",
-            "MAX": "Retourne la plus grande valeur parmi les nombres spécifiés.",
-            "MIN": "Retourne la plus petite valeur parmi les nombres spécifiés.",
-            "MOD": "Retourne le reste de la division entre deux nombres.",
-            "PI": "Retourne la valeur du nombre PI.",
-            "PRODUCT": "Retourne le résultat du produit des nombres spécifiés.",
-            "ROUND": "Arrondi le nombre spécifié à un certain nombre de décimales.",
-            "SIGN": "Retourne -1 si le nombre spécifié est négatif, 0 s'il est nul et 1 s'il est positif.",
-            "SQRT": "Retourne la racine carrée du nombre spécifié.",
-            "SUBTRACT": "Retourne le résultat de la soustraction des nombres spécifiés.",
-            "SUM": "Retourne le résultat de l'addition des nombres spécifiés.",
-            "UNEQUAL": "Retourne vrai si les deux nombres ne sont pas égaux, sinon retourne faux."
-          },
-          "TEXT": {
-            "CONCAT": "Retourne la concaténation des textes spécifiés.",
-            "EXACT": "Retourne vrai si les deux textes sont égaux, sinon retourne faux.",
-            "FIND": "Retourne la position de la première occurrence du texte recherché dans un autre texte, ou 0 si le texte recherché n'est pas trouvé.",
-            "LEFT": "Retourne les premiers caractères du texte spécifié.",
-            "LEN": "Retourne le nombre de caractères qu'il y a dans le texte.",
-            "LOWER": "Retourne le texte spécifié en minuscules.",
-            "MID": "Retourne un certain nombre de caractères contenus dans un texte, à partir d'une position spécifiée.",
-            "REPLACE": "Retourne un nouveau texte dans lequel un certain nombre de caractères ont été remplacés par une nouvelle expression dans un texte donné.",
-            "REPT": "Retourne un texte contenant un certain nombre de fois le texte spécifié.",
-            "RIGHT": "Retourne les derniers caractères du texte spécifié.",
-            "SUBSTITUTE": "Retourne un nouveau texte dans lequel une expression a été remplacée par une autre dans un texte donné.",
-            "TEXTJOIN": "Retourne la concaténation des textes spécifiés, séparés par une expression donnée.",
-            "TRIM": "Retourne un nouveau texte correspondant au texte donné dans lequel les espaces en début et en fin ont été supprimés.",
-            "UPPER": "Retourne le texte spécifié en majuscules."
-          }
+        "DATE": {
+          "DATEADD": "Retourne une nouvelle date correspondant à la date originale à laquelle on a ajouté ou retiré un intervalle de temps (unités disponibles : 'year' pour l'année, 'month' pour le mois,'week' pour la semaine, 'day' pour le jour, 'hour' pour l'heure, 'minute' pour la minute et 'second' pour la seconde).",
+          "DAY": "Retourne un nombre correspondant au jour dans le mois de la date spécifiée.",
+          "DAYS": "Retourne le nombre de jours qu'il y a entre deux dates.",
+          "EARLIER": "Retourne vrai si la première date est antérieure à la seconde, sinon retourne faux.",
+          "EQUAL": "Retourne vrai si les deux dates sont égales, sinon retourne faux.",
+          "EOMONTH": "Retourne la date du dernier jour d'un mois, un certain nombre de mois avant ou après la date originale.",
+          "HOUR": "Retourne un nombre correspondant à l'heure dans la journée de la date.",
+          "LATER": "Retourne vrai si la première date est postérieure à la seconde, sinon retourne faux.",
+          "MINUTE": "Retourne un nombre correspondant aux minutes dans l'heure de la date spécifiée.",
+          "MONTH": "Retourne un nombre correspondant au mois de l'année de la date spécifiée.",
+          "MONTHS": "Retourne le nombre de mois qu'il y a entre deux dates.",
+          "SECOND": "Retourne un nombre correspondant aux secondes dans la minute de la date spécifiée.",
+          "WEEKDAY": "Retourne un nombre correspondant au jour dans la semaine de la date spécifiée.",
+          "WEEKNUM": "Retourne un nombre correpondant au numéro de la semaine dans l'année de la date spécifiée.",
+          "YEAR": "Retourne un nombre correspondant à l'année de la date spécifiée.",
+          "YEARS": "Retourne le nombre d'années qu'il y a entre deux dates."
+        },
+        "LOGIC": {
+          "AND": "Retourne vrai si toutes les conditions sont vraies, sinon retourne faux.",
+          "FALSE": "Retourne la valeur logique correspondant à faux.",
+          "IF": "Retourne le premier résultat si la condition est vraie, sinon retourne le second résultat.",
+          "IFS": "Retourne le résultat associé à la première condition vraie.",
+          "NOT": "Retourne faux si la condition est vraie, sinon retourne vrai.",
+          "OR": "Retourne vrai si au-moins une des conditions est vraie, sinon retourne faux.",
+          "SWITCH": "Retourne le résultat associé à la première valeur égale à l'expression spécifiée, sinon retourne la valeur par défaut.",
+          "TRUE": "Retourne la valeur logique correspondant à vrai"
+        },
+        "NUMERIC": {
+          "ABS": "Retourne la valeur absolue du nombre spécifié.",
+          "AVERAGE": "Retourne la valeur moyenne des nombres spécifiés.",
+          "CEILING": "Arrondi le nombre spécifié à la valeur entière supérieure si c'est un nombre décimal, sinon retourne simplement le nombre si c'est un entier.",
+          "DIVIDE": "Retourne le résultat de la division des nombres spécifiés.",
+          "E": "Retourne la valeur du nombre d'Euler.",
+          "EQUAL": "Retourne vrai si les deux nombres sont égaux, sinon retourne faux.",
+          "FLOOR": "Arrondi le nombre spécifié à la valeur entière inférieure si c'est un nombre décimal, sinon retourne simplement le nombre si c'est un entier.",
+          "GREATER": "Retourne vrai si le premier nombre est supérieur au second, sinon retourne faux.",
+          "GREATEREQ": "Retourne vrai si le premier nombre est supérieur ou égal au second, sinon retourne faux.",
+          "INT": "Arrondi le nombre spécifié à la valeur entière la plus proche.",
+          "LESS": "Retourne vrai si le premier nombre est inférieur au second, sinon retourne faux.",
+          "LESSEQ": "Retourne vrai si le premier nombre est inférieur ou égal au second, sinon retourne faux.",
+          "LOG": "Retourne le logarithme d'un nombre dans la base spécifiée.",
+          "MAX": "Retourne la plus grande valeur parmi les nombres spécifiés.",
+          "MIN": "Retourne la plus petite valeur parmi les nombres spécifiés.",
+          "MOD": "Retourne le reste de la division entre deux nombres.",
+          "PI": "Retourne la valeur du nombre PI.",
+          "PRODUCT": "Retourne le résultat du produit des nombres spécifiés.",
+          "ROUND": "Arrondi le nombre spécifié à un certain nombre de décimales.",
+          "SIGN": "Retourne -1 si le nombre spécifié est négatif, 0 s'il est nul et 1 s'il est positif.",
+          "SQRT": "Retourne la racine carrée du nombre spécifié.",
+          "SUBTRACT": "Retourne le résultat de la soustraction des nombres spécifiés.",
+          "SUM": "Retourne le résultat de l'addition des nombres spécifiés.",
+          "UNEQUAL": "Retourne vrai si les deux nombres ne sont pas égaux, sinon retourne faux."
+        },
+        "TEXT": {
+          "CONCAT": "Retourne la concaténation des textes spécifiés.",
+          "EXACT": "Retourne vrai si les deux textes sont égaux, sinon retourne faux.",
+          "FIND": "Retourne la position de la première occurrence du texte recherché dans un autre texte, ou 0 si le texte recherché n'est pas trouvé.",
+          "LEFT": "Retourne les premiers caractères du texte spécifié.",
+          "LEN": "Retourne le nombre de caractères qu'il y a dans le texte.",
+          "LOWER": "Retourne le texte spécifié en minuscules.",
+          "MID": "Retourne un certain nombre de caractères contenus dans un texte, à partir d'une position spécifiée.",
+          "REPLACE": "Retourne un nouveau texte dans lequel un certain nombre de caractères ont été remplacés par une nouvelle expression dans un texte donné.",
+          "REPT": "Retourne un texte contenant un certain nombre de fois le texte spécifié.",
+          "RIGHT": "Retourne les derniers caractères du texte spécifié.",
+          "SUBSTITUTE": "Retourne un nouveau texte dans lequel une expression a été remplacée par une autre dans un texte donné.",
+          "TEXTJOIN": "Retourne la concaténation des textes spécifiés, séparés par une expression donnée.",
+          "TRIM": "Retourne un nouveau texte correspondant au texte donné dans lequel les espaces en début et en fin ont été supprimés.",
+          "UPPER": "Retourne le texte spécifié en majuscules."
         }
+      }
     }
   },
   "pages": {
@@ -387,6 +387,7 @@
         "docLabel": "Documentation"
       },
       "title": "Espaces de travail",
+      "noWorkspace": "Aucun espace de travail à afficher",
       "created": "Créé le :",
       "updated": "Mis à jour le :",
       "noChapter": "Aucun chapitre à afficher",
@@ -443,11 +444,11 @@
           "icon": "Icône",
           "class": {
             "title": "Style de l'icône",
-            "danger":  "@:common.colorClass.danger",
-            "warning":  "@:common.colorClass.warning",
-            "success":  "@:common.colorClass.success",
-            "primary":  "@:common.colorClass.primary",
-            "secondary":  "@:common.colorClass.secondary"
+            "danger": "@:common.colorClass.danger",
+            "warning": "@:common.colorClass.warning",
+            "success": "@:common.colorClass.success",
+            "primary": "@:common.colorClass.primary",
+            "secondary": "@:common.colorClass.secondary"
           },
           "order": "Ordre"
         }
@@ -485,11 +486,11 @@
         "labelButton": "Libellé du bouton",
         "classButton": {
           "title": "Style du bouton",
-          "danger":  "@:pages.workspace.container.anchor.class.danger",
-          "warning":  "@:pages.workspace.container.anchor.class.warning",
-          "success":  "@:pages.workspace.container.anchor.class.success",
-          "primary":  "@:pages.workspace.container.anchor.class.primary",
-          "secondary":  "@:pages.workspace.container.anchor.class.secondary"
+          "danger": "@:pages.workspace.container.anchor.class.danger",
+          "warning": "@:pages.workspace.container.anchor.class.warning",
+          "success": "@:pages.workspace.container.anchor.class.success",
+          "primary": "@:pages.workspace.container.anchor.class.primary",
+          "secondary": "@:pages.workspace.container.anchor.class.secondary"
         },
         "markdownField": {
           "textAlign": "@:pages.workspace.block.markdown.textAlign",
@@ -500,11 +501,11 @@
           "labelButton": "Libellé du bouton",
           "classButton": {
             "title": "Style du bouton",
-            "danger":  "@:common.colorClass.danger",
-            "warning":  "@:common.colorClass.warning",
-            "success":  "@:common.colorClass.success",
-            "primary":  "@:common.colorClass.primary",
-            "secondary":  "@:common.colorClass.secondary"
+            "danger": "@:common.colorClass.danger",
+            "warning": "@:common.colorClass.warning",
+            "success": "@:common.colorClass.success",
+            "primary": "@:common.colorClass.primary",
+            "secondary": "@:common.colorClass.secondary"
           },
           "icon": "Icône du bouton",
           "trigger": {
@@ -575,8 +576,9 @@
       "addNewRow": "Ajouter une ligne"
     },
     "databaseSchema": {
-      "title": "Database schema",
-      "noSchema": "No schema to display. Please create one database.",
+      "title": "Schéma de la base de données",
+      "noSchema": "Aucun schéma à afficher. Veuillez créer une base de données.",
+      "addTable": "Ajouter une table",
       "createTableModal": {
         "createTable": "Créer une table",
         "tableName": "Nom de la table",
@@ -701,7 +703,7 @@
           "group": "Groupe",
           "role": "Rôle"
         },
-        "text" : {
+        "text": {
           "chapter": "chapitre",
           "selectUser": "Sélectionnez un utilisateur",
           "selectRole": "Sélectionnez un rôle",
@@ -738,6 +740,7 @@
   },
   "success": {
     "basic": "Votre demande à bien été enregistrée.",
+    "removed": "L'élément a bien été supprimé.",
     "save": "Enregistrement réussi"
   },
   "error": {
@@ -748,6 +751,7 @@
       "403": "Accès interdit",
       "404": "Non trouvé",
       "406": "Non acceptable",
+      "409": "Conflit de données",
       "500": "Une erreur a eu lieu…"
     },
     "lck": {
@@ -822,11 +826,61 @@
     "upload": "Téléverser",
     "cancel": "Annuler",
     "firstDayOfWeek": 1,
-    "dayNames": ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
-    "dayNamesShort": ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
-    "dayNamesMin": ["D", "L", "Ma", "Me", "J", "V", "S"],
-    "monthNames": [ "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" ],
-    "monthNamesShort": [ "Jan", "Fév", "Mar", "Avr", "Mai", "Jun", "Jul", "Aoû", "Sep", "Oct", "Nov", "Déc" ],
+    "dayNames": [
+      "Dimanche",
+      "Lundi",
+      "Mardi",
+      "Mercredi",
+      "Jeudi",
+      "Vendredi",
+      "Samedi"
+    ],
+    "dayNamesShort": [
+      "Dim",
+      "Lun",
+      "Mar",
+      "Mer",
+      "Jeu",
+      "Ven",
+      "Sam"
+    ],
+    "dayNamesMin": [
+      "D",
+      "L",
+      "Ma",
+      "Me",
+      "J",
+      "V",
+      "S"
+    ],
+    "monthNames": [
+      "Janvier",
+      "Février",
+      "Mars",
+      "Avril",
+      "Mai",
+      "Juin",
+      "Juillet",
+      "Août",
+      "Septembre",
+      "Octobre",
+      "Novembre",
+      "Décembre"
+    ],
+    "monthNamesShort": [
+      "Jan",
+      "Fév",
+      "Mar",
+      "Avr",
+      "Mai",
+      "Jun",
+      "Jul",
+      "Aoû",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Déc"
+    ],
     "today": "Aujourd'hui",
     "clear": "Réinitialiser",
     "dateFormat": "dd/mm/yy",

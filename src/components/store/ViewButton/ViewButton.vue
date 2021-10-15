@@ -24,11 +24,9 @@
         />
         <p-column>
           <template #body="slotProps">
-            <span
-              :class="{
+            <span :class="{
                 'p-text-bold': slotProps.data.id === value,
-              }"
-            >
+              }">
               <span v-if="slotProps.data.locked">
                 <i class="pi pi-lock" />
               </span>
@@ -48,7 +46,7 @@
                 v-if="!slotProps.data.locked"
                 class="p-button-sm p-button-text p-button-rounded p-button-danger"
                 icon="pi pi-trash"
-                @click="emitEvent('delete', overlaySlotProps.toggleOverlayPanel, slotProps.data)"
+                @click="emitEvent('confirm', overlaySlotProps.toggleOverlayPanel, slotProps.data)"
               />
             </span>
           </template>

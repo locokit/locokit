@@ -12,9 +12,7 @@
         :activeIndex="activePanel.indexOf(true)"
         @tab-change="onTabChange"
       >
-        <p-tab-panel
-          :header="$t('pages.workspace.page.pageConfiguration')"
-        >
+        <p-tab-panel :header="$t('pages.workspace.page.pageConfiguration')">
           <update-page-form
             :containers="page.containers"
             :autocompleteSuggestions="autocompleteSuggestions"
@@ -62,14 +60,11 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 
+import { LckBlockExtended, LckContainer } from '@/services/lck-api/definitions'
+
 import Sidebar from 'primevue/sidebar'
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
-
-import {
-  LckBlockExtended,
-  LckContainer,
-} from '@/services/lck-api/definitions'
 
 import UpdateBlockForm from '@/components/visualize/UpdateSidebar/UpdateBlockForm/UpdateBlockForm.vue'
 import UpdateContainerForm from '@/components/visualize/UpdateSidebar/UpdateContainerForm/UpdateContainerForm.vue'
@@ -92,11 +87,11 @@ export default {
     },
     container: {
       type: Object as PropType<LckContainer>,
-      default: () => (new LckContainer()),
+      default: () => new LckContainer(),
     },
     block: {
       type: Object as PropType<LckBlockExtended>,
-      default: () => (new LckBlockExtended()),
+      default: () => new LckBlockExtended(),
     },
     page: {
       type: Object,
@@ -112,19 +107,19 @@ export default {
     },
     autocompleteSuggestions: {
       type: Array as PropType<{ label: string; value: string }[]>,
-      default: () => ([]),
+      default: () => [],
     },
     blockDisplayTableViewSuggestions: {
       type: Array as PropType<{ label: string; value: string }[]>,
-      default: () => ([]),
+      default: () => [],
     },
     blockDisplayFieldSuggestions: {
       type: Array as PropType<{ label: string; value: string }[]>,
-      default: () => ([]),
+      default: () => [],
     },
     relatedChapterPages: {
       type: Array,
-      default: () => ([]),
+      default: () => [],
     },
   },
   computed: {
@@ -139,11 +134,11 @@ export default {
     },
   },
   methods: {
-    onTabChange (event) {
-      if (event.index === 1) {
+    onTabChange ({ index }: { index: number }) {
+      if (index === 1) {
         this.$emit('reset-current-block', {})
       }
-      if (event.index === 0) {
+      if (index === 0) {
         this.$emit('reset-current-block', {})
         this.$emit('reset-current-container', {})
       }
