@@ -682,10 +682,10 @@ export default {
           return true
       }
     },
-    async onComplete ({ column_type_id: columnTypeId, settings }, { query }) {
+    async onComplete ({ column_type_id: columnTypeId, settings, foreign_filter: filter }, { query }) {
       this.$emit(
         'update-suggestions',
-        { columnTypeId, settings },
+        { columnTypeId, settings, filter },
         { query },
       )
     },

@@ -71,10 +71,10 @@
         />
       </validation-provider>
       <validation-provider
-          vid="referenceToHandle-position"
-          tag="div"
-          class="input-number-reference"
-        >
+        vid="referenceToHandle-position"
+        tag="div"
+        class="input-number-reference"
+      >
         <p-input-number
           id="referenceToHandle-position"
           v-model="referenceToHandle.position"
@@ -170,7 +170,7 @@
         validate,
       }"
     >
-      <label for="column-formula-content" >{{ $t('components.formulas.formula') }}</label>
+      <label for="column-formula-content">{{ $t('components.formulas.formula') }}</label>
       <span class="field-required">*</span>
       <lck-monaco-editor
         id="column-formula-content"
@@ -183,12 +183,19 @@
       />
       <span :class="classes">{{ errors[0] }}</span>
     </validation-provider>
-    <div v-if="errorHandleColumn" class="p-invalid">
-      <small id="error-column-to-handle" class="p-invalid">
+    <div
+      v-if="errorHandleColumn"
+      class="p-invalid"
+    >
+      <small
+        id="error-column-to-handle"
+        class="p-invalid"
+      >
         {{ errorHandleColumn }}
       </small>
     </div>
   </lck-dialog-form>
+
 </template>
 
 <script>
@@ -248,7 +255,10 @@ export default {
   data () {
     return {
       COLUMN_TYPE,
-      columnTypes: Object.keys(COLUMN_TYPE).filter((key) => isNaN(key)).map((key) => ({ id: COLUMN_TYPE[key], name: key })),
+      columnTypes: Object.keys(COLUMN_TYPE).filter((key) => isNaN(key)).map((key) => ({
+        id: COLUMN_TYPE[key],
+        name: key,
+      })),
       columnNameToHandle: null,
       columnDocumentation: null,
       referenceToHandle: { isActive: false, position: 0 },
@@ -367,7 +377,12 @@ export default {
     },
     formulaChange (data, validate) {
       validate(data)
-      this.$refs['vp-column-formula-content'].setFlags({ pristine: false, dirty: true, touched: true, untouched: false })
+      this.$refs['vp-column-formula-content'].setFlags({
+        pristine: false,
+        dirty: true,
+        touched: true,
+        untouched: false,
+      })
       this.settings.formula = data
     },
     formulaSettings () {
@@ -390,7 +405,12 @@ export default {
         this.selectedColumnTypeIdToHandle = this.columnToHandle.column_type_id
         // Set formula column
         if (this.isFormulaType) {
-          this.settings.formula = formulaColumnsIdsToNames(this.columnToHandle.settings?.formula || '', this.tableColumns)
+          this.settings.formula = formulaColumnsIdsToNames(
+            this.columnToHandle.settings?.formula || '',
+            this.tableColumns,
+          )
+        } else {
+          this.settings = this.columnToHandle.settings
         }
       }
       this.errorHandleColumn = null

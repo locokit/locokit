@@ -471,13 +471,14 @@ export default {
       return getComponentDisplayDetailForColumnType(getColumnTypeId(column))
     },
     onComplete (
-      { column_type_id: columnTypeId, settings }: LckTableViewColumn,
+      { column_type_id: columnTypeId, settings, foreign_filter: filter }: LckTableViewColumn,
       { query }: { query: string },
     ) {
       this.$emit(
         'update-suggestions', {
           columnTypeId,
           settings,
+          filter,
         }, { query })
     },
     async onAutocompleteEdit (rowId: string, columnId: string, event: { value: { value: string } } | null = null) {

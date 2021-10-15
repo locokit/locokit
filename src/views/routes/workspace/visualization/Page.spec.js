@@ -15,13 +15,14 @@ import Workspace from '@/views/routes/workspace/visualization/Workspace.vue'
 
 import Block from '@/components/visualize/Block/Block.vue'
 import UpdateSidebar from '@/components/visualize/UpdateSidebar/UpdateSidebar.vue'
-import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 import TableSet from '@/components/visualize/TableSet/TableSet.vue'
 import MapSet from '@/components/visualize/MapSet/MapSet.vue'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import Form from '@/components/ui/Form/Form.vue'
+
+import Vue from 'vue'
 
 import {
   mockDatabase,
@@ -1371,6 +1372,9 @@ describe('Page', () => {
         $toast: {
           add: jest.fn(),
         },
+        $confirm: {
+          require: jest.fn(),
+        },
       },
       parentComponent: Workspace,
     }
@@ -1514,7 +1518,6 @@ describe('Page', () => {
       beforeEach(async () => {
         wrapper = await shallowMount(Page, { ...globalComponentParams(), propsData: { pageId: '1', editMode: true, workspaceId: 'toto', groupId: 'this-is-a-group' } })
         containerSidebarWrapper = wrapper.findComponent(UpdateSidebar)
-        deleteConfirmationWrapper = wrapper.findComponent(DeleteConfirmationDialog)
       })
 
       describe('Add a new container', () => {
@@ -1603,63 +1606,19 @@ describe('Page', () => {
 
         beforeEach(() => {
           spyOnContainerRemove.mockClear()
-        })
+          lckServices.container.remove.mockClear()
 
-        it('Display the confirmation dialog with the specified container when the remove button is clicked', async () => {
-          await wrapper.find('.remove-container-button').vm.$emit('click')
-          expect(deleteConfirmationWrapper.props('visible')).toBe(true)
-          expect(deleteConfirmationWrapper.props('value')).toStrictEqual(firstDisplayedContainer)
-        })
-
-        it('Hide the confirmation dialog if the close event is emitted', async () => {
-          // Display the dialog
-          await deleteConfirmationWrapper.setProps({ visible: true })
-          // Hide it
-          await deleteConfirmationWrapper.vm.$emit('close')
-          expect(deleteConfirmationWrapper.props('visible')).toBe(false)
         })
 
         it('Delete a container if the input event is emitted with an existing container', async () => {
-          await wrapper.find('.remove-container-button').vm.$emit('click')
-          await deleteConfirmationWrapper.vm.$emit('input', firstDisplayedContainer)
           // Send API request
+          await wrapper.vm.onContainerDeleteInput(firstDisplayedContainer)
           expect(spyOnContainerRemove).toHaveBeenCalledWith(firstDisplayedContainer.id)
+
           // Update the component data
           expect(
             wrapper.vm.page.containers.find(container => container.id === firstDisplayedContainer.id),
           ).toBeUndefined()
-        })
-
-        it('Do nothing if the input event is emitted with an empty container', async () => {
-          await wrapper.find('.remove-container-button').vm.$emit('click')
-          await deleteConfirmationWrapper.vm.$emit('input', {})
-          expect(
-            wrapper.vm.page.containers.find(container => container.id === firstDisplayedContainer.id),
-          ).toBeDefined()
-        })
-
-        it('Do nothing if the input event is emitted with an undefined container', async () => {
-          await wrapper.find('.remove-container-button').vm.$emit('click')
-          await deleteConfirmationWrapper.vm.$emit('input')
-          expect(
-            wrapper.vm.page.containers.find(container => container.id === firstDisplayedContainer.id),
-          ).toBeDefined()
-        })
-
-        it('Do nothing if the input event is emitted with an unknown container', async () => {
-          await wrapper.find('.remove-container-button').vm.$emit('click')
-          await deleteConfirmationWrapper.vm.$emit('input', { ...firstDisplayedContainer, id: '-1' })
-          expect(
-            wrapper.vm.page.containers.find(container => container.id === firstDisplayedContainer.id),
-          ).toBeDefined()
-        })
-
-        it('Display a toast if an error is occured', async () => {
-          const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
-          spyOnContainerRemove.mockImplementationOnce(() => { throw new Error() })
-          await wrapper.find('.remove-container-button').vm.$emit('click')
-          await deleteConfirmationWrapper.vm.$emit('input', { id: firstDisplayedContainer.id })
-          expect(spyOnToast).toHaveBeenCalledTimes(1)
         })
       })
 
@@ -1731,7 +1690,6 @@ describe('Page', () => {
       beforeEach(async () => {
         wrapper = await shallowMount(Page, { ...globalComponentParams(), propsData: { pageId: '1', editMode: true, workspaceId: 'toto', groupId: 'this-is-a-group' } })
         containerSidebarWrapper = wrapper.findComponent(UpdateSidebar)
-        // deleteBlockWrapper = wrapper.findAllComponents(DeleteConfirmationDialog).at(1)
       })
 
       describe('Add a new block', () => {
@@ -1889,7 +1847,7 @@ describe('Page', () => {
         })
       })
 
-      describe('Delete a container', () => {
+      describe('Delete a block', () => {
         let deleteBlockWrapper
         let spyOnBlockRemove
 
@@ -1899,74 +1857,16 @@ describe('Page', () => {
 
         beforeEach(async () => {
           spyOnBlockRemove.mockClear()
-          deleteBlockWrapper = wrapper.findAllComponents(DeleteConfirmationDialog).at(1)
-        })
-
-        it('Display the confirmation dialog with the specified block when the delete-block event is emitted from the Block component.', async () => {
-          await wrapper.findAllComponents(Block).at(0).vm.$emit('delete-block')
-          expect(deleteBlockWrapper.props('visible')).toBe(true)
-          expect(deleteBlockWrapper.props('value')).toStrictEqual(expect.objectContaining({ ...firstDisplayedBlock }))
-        })
-
-        it('Display the confirmation dialog with the specified block when the delete-block event is emitted from the sidebar.', async () => {
-          await wrapper.findAll('.edit-container-button').at(1).vm.$emit('click', secondDisplayedContainer)
-          await containerSidebarWrapper.vm.$emit('delete-block', firstDisplayedBlock)
-          expect(deleteBlockWrapper.props('visible')).toBe(true)
-          expect(deleteBlockWrapper.props('value')).toStrictEqual(expect.objectContaining({ ...firstDisplayedBlock }))
-        })
-
-        it('Hide the confirmation dialog if the close event is emitted', async () => {
-          // Display the dialog
-          await deleteBlockWrapper.setProps({ visible: true })
-          // Hide it
-          await deleteBlockWrapper.vm.$emit('close')
-          expect(deleteBlockWrapper.props('visible')).toBe(false)
         })
 
         it('Delete a block if the input event is emitted with an existing block', async () => {
-          await wrapper.findAll('.edit-container-button').at(1).vm.$emit('click', secondDisplayedContainer)
-          await wrapper.findAllComponents(Block).at(0).vm.$emit('delete-block')
-          await deleteBlockWrapper.vm.$emit('input', firstDisplayedBlock)
-          // Send API request
+          wrapper.setData({ currentContainerToDelete: firstDisplayedContainer, currentBlockToDelete: firstDisplayedBlock })
+          await wrapper.vm.onBlockDeleteInput(firstDisplayedBlock)
           expect(spyOnBlockRemove).toHaveBeenCalledWith(firstDisplayedBlock.id)
           // // Update the component data
           // expect(
           //   wrapper.vm.page.containers[1].blocks.find(block => block.id === firstDisplayedBlock.id)
           // ).toBeUndefined()
-        })
-
-        it('Delete a block if the input event is emitted with an existing block which is editing', async () => {
-          await wrapper.findAllComponents(Block).at(0).vm.$emit('update-block')
-          await wrapper.findAllComponents(Block).at(0).vm.$emit('delete-block')
-          await deleteBlockWrapper.vm.$emit('input', firstDisplayedBlock)
-          // Send API request
-          expect(spyOnBlockRemove).toHaveBeenCalledWith(firstDisplayedBlock.id)
-          // Update the component data
-          // expect(
-          //   wrapper.vm.page.containers[1].blocks.find(block => block.id === firstDisplayedBlock.id)
-          // ).toBeUndefined()
-        })
-
-        it('Do nothing if the input event is emitted with an empty block', async () => {
-          await wrapper.findAllComponents(Block).at(0).vm.$emit('delete-block')
-          await deleteBlockWrapper.vm.$emit('input', {})
-          expect(spyOnBlockRemove).not.toHaveBeenCalled()
-          expect(wrapper.vm.page.containers[1].blocks.length).toBe(3)
-        })
-
-        it('Do not update the local data if the input event is emitted with an unknown container', async () => {
-          await wrapper.findAllComponents(Block).at(0).vm.$emit('delete-block')
-          await deleteBlockWrapper.vm.$emit('input', { ...firstDisplayedBlock, id: '-1' })
-          expect(spyOnBlockRemove).toHaveBeenCalled()
-          expect(wrapper.vm.page.containers[1].blocks.length).toBe(3)
-        })
-
-        it('Display a toast if an error is occured', async () => {
-          const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
-          spyOnBlockRemove.mockImplementationOnce(() => { throw new Error() })
-          await wrapper.find('.remove-container-button').vm.$emit('click')
-          await deleteBlockWrapper.vm.$emit('input', firstDisplayedBlock)
-          expect(spyOnToast).toHaveBeenCalledTimes(1)
         })
       })
 

@@ -31,9 +31,7 @@
       </div>
 
       <div class="p-d-flex d-flex-1 o-auto">
-        <layout-with-toolbar
-          class="p-d-flex p-flex-column d-flex-1 o-auto"
-        >
+        <layout-with-toolbar class="p-d-flex p-flex-column d-flex-1 o-auto">
           <div
             class="lck-database-background"
             :style="`background-image: url(${PAGE_DATABASE_BACKGROUND_IMAGE_URL})`"
@@ -46,7 +44,7 @@
                 v-model="selectedViewId"
                 @create="onCreateView"
                 @update="onUpdateView"
-                @delete="onDeleteView"
+                @confirm="onConfirmationView"
                 @reorder="onReorderView"
                 @input="onSelectView"
               />
@@ -111,7 +109,6 @@
             :cellState="cellState"
             :columnsSetPrefix="currentView && currentView.id"
             :workspaceId="workspaceId"
-
             @update-content="onUpdateContent"
             @update-suggestions="updateCRUDAutocompleteSuggestions"
             @update-cell="onUpdateCell"
@@ -127,9 +124,7 @@
             @open-detail="onOpenDetail"
             @create-process-run="onTriggerProcess"
             @go-to-page-detail="goToPage"
-
             @download-attachment="onDownloadAttachment"
-
             @upload-files="onUploadFiles"
             @remove-attachment="onRemoveAttachment"
           />
@@ -224,6 +219,8 @@
           @search-page="updatePageSuggestions"
         />
       </p-sidebar>
+
+      <confirm-dialog />
     </div>
     <div v-else>
       {{ $t('pages.database.noDatabase') }}
@@ -235,6 +232,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import Vue from 'vue'
+import ConfirmDialog from 'primevue/confirmdialog'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
@@ -295,6 +293,7 @@ const defaultDatatableSort = {
 export default {
   name: 'Database',
   components: {
+    'confirm-dialog': ConfirmDialog,
     'lck-datatable': DataTable,
     'lck-filter-button': FilterButton,
     'lck-view-button': ViewButton,
@@ -743,27 +742,41 @@ export default {
       this.viewDialogData = viewToUpdate
       this.displayViewDialog = true
     },
-    async onDeleteView (viewToRemove) {
-      try {
-        await lckServices.tableView.remove(viewToRemove.id)
-        this.views = await retrieveTableViews(this.currentTableId)
-        /**
-         * We change the view if the previous one is the one that has been removed
-         */
-        if (viewToRemove.id === this.selectedViewId) {
-          this.selectedViewId = this.views[0].id
-          this.resetColumnEdit()
-        }
-        this.resetSecondarySources(viewToRemove.id)
-      } catch (error) {
-        this.$toast.add({
-          severity: 'error',
-          summary: this.$t('error.http.' + error.code),
-          detail: this.$t('error.lck.' + error.data?.code),
-          life: 5000,
-        })
-      }
+    async onConfirmationView (viewToRemove) {
+      this.$confirm.require({
+        message: `${this.$t('form.specificDeleteConfirmation')} ${viewToRemove.text}`,
+        header: this.$t('form.confirmation'),
+        icon: 'pi pi-exclamation-triangle',
+        accept: async () => {
+          try {
+            await lckServices.tableView.remove(viewToRemove.id)
+            this.views = await retrieveTableViews(this.currentTableId)
+            /**
+        * We change the view if the previous one is the one that has been removed
+        */
+            if (viewToRemove.id === this.selectedViewId) {
+              this.selectedViewId = this.views[0].id
+              this.resetColumnEdit()
+            }
+            this.resetSecondarySources(viewToRemove.id)
+            this.$toast.add({
+              severity: 'success',
+              summary: this.$t('components.processPanel.SUCCESS'),
+              detail: this.$t('success.removed'),
+              life: 5000,
+            })
+          } catch (error) {
+            this.$toast.add({
+              severity: 'error',
+              summary: this.$t('components.processPanel.ERROR'),
+              detail: this.$t('components.processPanel.failedNewRun'),
+              life: 5000,
+            })
+          }
+        },
+      })
     },
+
     async onReorderView ({ value: views }) {
       this.views = views
       await Promise.all(
@@ -802,7 +815,8 @@ export default {
             ...currentColumn.style,
             width: newWidth,
           },
-        })
+        },
+      )
       // replace existing definition with new column
       currentColumn.style = newColumn.style
     },
@@ -994,20 +1008,22 @@ export default {
     async updatePageSuggestions ({ query, filters }) {
       this.autocompleteSuggestions = await this.searchPageWithChapter(query, filters)
     },
-    async updateLocalAutocompleteSuggestions ({ columnTypeId, settings }, { query }) {
+    async updateLocalAutocompleteSuggestions ({ columnTypeId, settings, filter }, { query }) {
       this.autocompleteSuggestions = await this.searchItems({
         columnTypeId,
         tableId: settings?.tableId,
         query,
         groupId: this.groupId,
+        filter,
       })
     },
-    async updateCRUDAutocompleteSuggestions ({ columnTypeId, settings }, { query }) {
+    async updateCRUDAutocompleteSuggestions ({ columnTypeId, settings, filter }, { query }) {
       this.crudAutocompleteItems = await this.searchItems({
         columnTypeId,
         tableId: settings?.tableId,
         query,
         groupId: this.groupId,
+        filter,
       })
     },
     async onUpdateCell ({ rowId, columnId, newValue }) {
@@ -1234,13 +1250,23 @@ export default {
   margin: 0 0.25rem;
 }
 
-::v-deep .lck-database-nav .p-tabview .p-tabview-nav li .p-tabview-nav-link:hover {
+::v-deep
+  .lck-database-nav
+  .p-tabview
+  .p-tabview-nav
+  li
+  .p-tabview-nav-link:hover {
   color: var(--primary-color-darken);
   border: 1px solid var(--primary-color-darken);
   border-bottom: 0;
 }
 
-::v-deep .lck-database-nav .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+::v-deep
+  .lck-database-nav
+  .p-tabview
+  .p-tabview-nav
+  li.p-highlight
+  .p-tabview-nav-link {
   background-color: var(--surface-a);
   border: 1px solid var(--primary-color-darken);
   border-bottom: 0;

@@ -1,19 +1,26 @@
 <template>
-  <div
-    class="generic-view-container p-mx-auto"
-  >
+  <div class="generic-view-container p-mx-auto">
     <header class="p-my-4 lck-color-title">
       {{ $t('pages.workspace.title') }}
     </header>
+    <template>
+      <p v-if="$can('create', 'workspace')"></p>
+      <p v-else>{{ $t('pages.workspace.noWorkspace') }}</p>
+    </template>
 
     <p-card v-if="loading">
       <template slot="content">
-        <p-skeleton width="10rem" class="p-mb-2"></p-skeleton>
+        <p-skeleton
+          width="10rem"
+          class="p-mb-2"
+        ></p-skeleton>
         <p-skeleton class="p-mb-2"></p-skeleton>
-        <p-skeleton width="10rem" height="2rem"></p-skeleton>
+        <p-skeleton
+          width="10rem"
+          height="2rem"
+        ></p-skeleton>
       </template>
     </p-card>
-
     <p-card
       class="p-mb-4 p-col"
       v-for="group in groups"
@@ -110,7 +117,7 @@
           :autoResize="true"
           v-model="newWorkspace.documentation"
         />
-        <br/>
+        <br />
         <p-button
           icon="pi pi-plus-circle"
           :label="$t('pages.workspace.form.create')"

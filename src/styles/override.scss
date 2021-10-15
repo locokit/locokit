@@ -181,3 +181,10 @@ a.no-decoration-link {
 .p-toast {
   z-index: 1101 !important;
 }
+
+// Fix bug close dialog on confirmation-dialog
+.p-dialog.p-component.p-confirm-dialog {
+  .p-dialog-header-icon.p-dialog-header-close.p-link {
+    display: none !important;
+  }
+}
