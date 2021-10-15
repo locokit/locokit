@@ -192,18 +192,15 @@ export default {
     },
     async loadTables () {
       try {
-        const tablesWithColumns = await lckServices.table.find({
+        const database = await lckServices.database.get(this.databaseId, {
           query: {
-            // eslint-disable-next-line @typescript-eslint/camelcase
-            database_id: this.databaseId,
-            $eager: '[columns]',
-            $limit: 100,
+            $eager: '[tables.[columns]]',
           },
-        }) as Paginated<LckTable>
-        this.tables = tablesWithColumns.data
+        })
+        this.tables = database.tables
         if (this.currentTable) {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          this.currentTable = tablesWithColumns.data.find((table) => table.id === this.currentTable!.id) || null
+          this.currentTable = database.tables.find((table) => table.id === this.currentTable!.id) || null
         }
       } catch (errorLoadTables) {
         this.errorLoadTables = true
@@ -255,12 +252,12 @@ export default {
   display: flex;
   flex-direction: column;
   max-width: 100vw;
-  max-height: 100%;
+  height: 100%;
 }
 
 #svg-container {
   max-width: 100vw;
-  max-height: 100%;
+  height: 100%;
   overflow: hidden;
 }
 
