@@ -868,18 +868,16 @@ export default {
           )
           // Update the table column
           if (Array.isArray(this.block?.definition?.columns)) {
-            const tableColumnData = this.block.definition.columns.find(column => column.id === this.currentColumnToEdit.id)
-            for (const key in tableColumnData) {
-              if (tableColumnData[key] == null && updatedColumn[key] != null) this.$set(tableColumnData, key, updatedColumn[key])
-              else tableColumnData[key] = updatedColumn[key]
-            }
+            const localTableColumnIndex = this.block.definition.columns.findIndex(
+              column => column.id === this.currentColumnToEdit.id,
+            )
+            this.block.definition.columns.splice(localTableColumnIndex, 1, updatedColumn)
           }
           // Update the column of each table view of the table
           this.views.forEach(view => {
             const currentTableViewColumn = view.columns.find(column => column.id === this.currentColumnToEdit.id)
             for (const key in updatedColumn) {
-              if (currentTableViewColumn[key] == null && updatedColumn[key] != null) this.$set(currentTableViewColumn, key, updatedColumn[key])
-              else currentTableViewColumn[key] = updatedColumn[key]
+              this.$set(currentTableViewColumn, key, updatedColumn[key])
             }
           })
           this.resetSecondarySources()

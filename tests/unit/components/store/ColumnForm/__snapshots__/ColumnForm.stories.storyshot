@@ -55,6 +55,53 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
             </span>
           </div>
            
+          <div>
+            
+        Validation rules
+        
+            <div
+              class="p-my-2"
+            >
+              <div
+                class="rule-container"
+              >
+                <div
+                  class="rule-enable"
+                >
+                  <div
+                    class="p-mr-2 p-checkbox p-component"
+                  >
+                    <div
+                      class="p-hidden-accessible"
+                    >
+                      <input
+                        id="required-enable"
+                        name="rule-enable"
+                        type="checkbox"
+                        value=""
+                      />
+                    </div>
+                     
+                    <div
+                      class="p-checkbox-box"
+                      role="checkbox"
+                    >
+                      <span
+                        class="p-checkbox-icon"
+                      />
+                    </div>
+                  </div>
+                   
+                  <label
+                    for="required-enable"
+                  >
+                    Required column
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+           
           <div
             class="p-mb-3"
           >
@@ -337,46 +384,6 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
           </div>
            
           <div
-            class="p-field p-mb-2"
-          >
-            <label
-              for="columnRequiredField"
-            >
-              Required column
-            </label>
-             
-            <span
-              class="field-required"
-            >
-              *
-            </span>
-             
-            <div
-              class="p-inputswitch p-component"
-              id="columnRequiredField"
-            >
-              <div
-                class="p-hidden-accessible"
-              >
-                <input
-                  role="switch"
-                  type="checkbox"
-                />
-              </div>
-               
-              <span
-                class="p-inputswitch-slider"
-              />
-            </div>
-             
-            <span
-              class="untouched pristine"
-            >
-              
-            </span>
-          </div>
-           
-          <div
             class="lck-form-footer"
           >
             <!---->
@@ -462,6 +469,54 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
             >
               
             </span>
+          </div>
+           
+          <div>
+            
+        Validation rules
+        
+            <div
+              class="p-my-2"
+            >
+              <div
+                class="rule-container"
+              >
+                <div
+                  class="rule-enable"
+                >
+                  <div
+                    class="p-mr-2 p-checkbox p-component p-checkbox-checked"
+                  >
+                    <div
+                      class="p-hidden-accessible"
+                    >
+                      <input
+                        id="required-enable"
+                        name="rule-enable"
+                        type="checkbox"
+                        value=""
+                      />
+                    </div>
+                     
+                    <div
+                      aria-checked="true"
+                      class="p-checkbox-box p-highlight"
+                      role="checkbox"
+                    >
+                      <span
+                        class="p-checkbox-icon pi pi-check"
+                      />
+                    </div>
+                  </div>
+                   
+                  <label
+                    for="required-enable"
+                  >
+                    Required column
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
            
           <!---->
@@ -568,46 +623,6 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
             <div
               class="p-inputswitch p-component"
               id="columnEditableField"
-            >
-              <div
-                class="p-hidden-accessible"
-              >
-                <input
-                  role="switch"
-                  type="checkbox"
-                />
-              </div>
-               
-              <span
-                class="p-inputswitch-slider"
-              />
-            </div>
-             
-            <span
-              class="untouched pristine"
-            >
-              
-            </span>
-          </div>
-           
-          <div
-            class="p-field p-mb-2"
-          >
-            <label
-              for="columnRequiredField"
-            >
-              Required column
-            </label>
-             
-            <span
-              class="field-required"
-            >
-              *
-            </span>
-             
-            <div
-              class="p-inputswitch p-component"
-              id="columnRequiredField"
             >
               <div
                 class="p-hidden-accessible"
@@ -718,6 +733,54 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
             </span>
           </div>
            
+          <div>
+            
+        Validation rules
+        
+            <div
+              class="p-my-2"
+            >
+              <div
+                class="rule-container"
+              >
+                <div
+                  class="rule-enable"
+                >
+                  <div
+                    class="p-mr-2 p-checkbox p-component p-checkbox-checked"
+                  >
+                    <div
+                      class="p-hidden-accessible"
+                    >
+                      <input
+                        id="required-enable"
+                        name="rule-enable"
+                        type="checkbox"
+                        value=""
+                      />
+                    </div>
+                     
+                    <div
+                      aria-checked="true"
+                      class="p-checkbox-box p-highlight"
+                      role="checkbox"
+                    >
+                      <span
+                        class="p-checkbox-icon pi pi-check"
+                      />
+                    </div>
+                  </div>
+                   
+                  <label
+                    for="required-enable"
+                  >
+                    Required column
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+           
           <!---->
            
           <div
@@ -822,46 +885,6 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
             <div
               class="p-inputswitch p-component"
               id="columnEditableField"
-            >
-              <div
-                class="p-hidden-accessible"
-              >
-                <input
-                  role="switch"
-                  type="checkbox"
-                />
-              </div>
-               
-              <span
-                class="p-inputswitch-slider"
-              />
-            </div>
-             
-            <span
-              class="untouched pristine"
-            >
-              
-            </span>
-          </div>
-           
-          <div
-            class="p-field p-mb-2"
-          >
-            <label
-              for="columnRequiredField"
-            >
-              Required column
-            </label>
-             
-            <span
-              class="field-required"
-            >
-              *
-            </span>
-             
-            <div
-              class="p-inputswitch p-component"
-              id="columnRequiredField"
             >
               <div
                 class="p-hidden-accessible"

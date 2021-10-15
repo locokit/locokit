@@ -32,6 +32,13 @@ export class LckAttachment {
   workspace_id!: string
 }
 
+export type LckTableColumnValidation = {
+  minDate?: {
+    fromDate: string;
+  };
+  required?: boolean;
+}
+
 /**
  * Database section
  */
@@ -102,11 +109,7 @@ export class LckTableColumn extends LckBaseModel {
     map_sources?: (MapSourceSettings & { excludeFromBounds: boolean })[];
   };
 
-  validation?: {
-    minDate?: {
-      fromDate: string;
-    };
-  }
+  validation?: LckTableColumnValidation;
 }
 
 export class LckTableViewColumn extends LckTableColumn {
