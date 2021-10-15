@@ -469,37 +469,6 @@ describe('DataDetail', () => {
 
       await wrapper.find('input[type=checkbox]').trigger('click')
 
-      console.log(wrapper.vm.isColumnDisplayed({
-        text: 'Conditional text if previous boolean is checked',
-        id: '882326b8-b634-4ebb-aeb3-a2a2aa082c11',
-        table_id: '0076b18b-5c85-4587-bff7-bba95f7361ca',
-        column_type_id: COLUMN_TYPE.TEXT,
-        order: null,
-        filter: null,
-        displayed: true,
-        editable: true,
-        display_conditions: [{
-          field_id: 'e165323c-1151-447f-be0f-6d2728117b38',
-          operator: '$eq',
-          value: true,
-        }],
-      }))
-      console.log(wrapper.vm.isColumnDisplayed({
-        text: 'Conditional text if previous boolean is not checked',
-        id: 'cf1ad5b7-54d0-46a2-9bd2-8b1ecf059c42',
-        table_id: '0076b18b-5c85-4587-bff7-bba95f7361ca',
-        column_type_id: COLUMN_TYPE.TEXT,
-        order: null,
-        filter: null,
-        displayed: true,
-        editable: true,
-        display_conditions: [{
-          field_id: 'e165323c-1151-447f-be0f-6d2728117b38',
-          operator: '$ne', // here we use $ne, because if field is pristine, it could be null
-          value: true,
-        }],
-      }))
-
       expect(wrapper.vm.$props.row.data['e165323c-1151-447f-be0f-6d2728117b38']).toBe(true)
 
       expect(wrapper.html()).toMatchSnapshot()
