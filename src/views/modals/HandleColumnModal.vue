@@ -30,10 +30,9 @@
         classes
       }"
     >
-      <label for="column-name">
+      <label for="column-name" class="label-field-required">
         {{ $t('pages.databaseSchema.handleColumnModal.columnName') }}
       </label>
-      <span class="field-required">*</span>
       <p-input-text
         v-model="columnNameToHandle"
         id="column-name"
@@ -104,10 +103,9 @@
         classes
       }"
     >
-      <label for="column-type">
+      <label for="column-type" class="label-field-required">
         {{ $t('pages.databaseSchema.handleColumnModal.columnType') }}
       </label>
-      <span class="field-required">*</span>
       <p-dropdown
         @change="onSelectedColumnTypeTohandleChange"
         id="column-type"
@@ -178,8 +176,7 @@
         validate,
       }"
     >
-      <label for="column-formula-content">{{ $t('components.formulas.formula') }}</label>
-      <span class="field-required">*</span>
+      <label for="column-formula-content" class="label-field-required">{{ $t('components.formulas.formula') }}</label>
       <lck-monaco-editor
         id="column-formula-content"
         :handledError="errorHandleColumn"

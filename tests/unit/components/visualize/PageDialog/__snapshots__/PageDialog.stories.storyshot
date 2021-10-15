@@ -56,16 +56,11 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
               class="p-field"
             >
               <label
+                class="label-field-required"
                 for="pageTextField"
               >
                 Page Name
               </label>
-               
-              <span
-                class="field-required"
-              >
-                *
-              </span>
                
               <input
                 autofocus="autofocus"
@@ -358,16 +353,11 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
               class="p-field"
             >
               <label
+                class="label-field-required"
                 for="pageTextField"
               >
                 Page Name
               </label>
-               
-              <span
-                class="field-required"
-              >
-                *
-              </span>
                
               <input
                 autofocus="autofocus"

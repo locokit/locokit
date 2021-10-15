@@ -162,7 +162,7 @@
         >
           <div class="p-field p-grid p-mb-3">
             <label
-              class="p-col p-md-3"
+              class="p-col p-md-3 label-field-required"
               for="oldPassword"
             >
               {{ $t('pages.account.edit.oldPassword') }}
@@ -178,7 +178,7 @@
           <div class="p-field p-grid p-mb-3">
             <div class="p-d-flex p-md-12">
               <label
-                class="p-col p-md-3"
+                class="p-col p-md-3 label-field-required"
                 for="password"
               >
                 {{ $t('pages.account.edit.newPassword') }}
@@ -207,7 +207,7 @@
           </div>
           <div class="p-field p-grid">
             <label
-              class="p-col p-md-3"
+              class="p-col p-md-3 label-field-required"
               for="passwordCheck"
             >
               {{ $t('pages.account.edit.passwordCheck') }}

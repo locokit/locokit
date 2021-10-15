@@ -20,8 +20,7 @@
             classes
           }"
         >
-          <label for="columnTextField">{{ $t('components.datatable.column.title') }}</label>
-          <span class="field-required">*</span>
+          <label for="columnTextField" class="label-field-required">{{ $t('components.datatable.column.title') }}</label>
           <p-input-text
             id="columnTextField"
             v-model="columnCopy.text"
@@ -64,8 +63,7 @@
             classes
           }"
         >
-          <label for="columnDisplayedField">{{ $t('components.datatable.column.displayed') }}</label>
-          <span class="field-required">*</span>
+          <label for="columnDisplayedField" class="label-field-required">{{ $t('components.datatable.column.displayed') }}</label>
           <p-input-switch
             id="columnDisplayedField"
             v-model="columnCopy.displayed"
@@ -83,8 +81,7 @@
             classes
           }"
         >
-          <label for="columnEditableField">{{ $t('components.datatable.column.editable') }}</label>
-          <span class="field-required">*</span>
+          <label for="columnEditableField" class="label-field-required">{{ $t('components.datatable.column.editable') }}</label>
           <p-input-switch
             id="columnEditableField"
             v-model="columnCopy.editable"
@@ -120,10 +117,10 @@ export default {
   name: 'ColumnForm',
   components: {
     'lck-form': LckForm,
-    'lck-column-validation': ColumnValidation,
     'lck-select-type-column': SelectTypeColumn,
     'p-input-text': Vue.extend(InputText),
     'p-input-switch': Vue.extend(InputSwitch),
+    'lck-column-validation': ColumnValidation,
     'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {

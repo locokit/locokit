@@ -20,10 +20,9 @@
         classes
       }"
     >
-      <label for="viewTextField">
+      <label for="viewTextField" class="label-field-required">
         {{ $t('components.datatable.toolbar.views.viewTextLabel') }}
       </label>
-      <span class="field-required">*</span>
       <p-input-text
         id="viewTextField"
         v-model="currentData.text"

@@ -17,10 +17,9 @@
         classes
       }"
       >
-        <label for="container-name">
+        <label for="container-name" class="label-field-required">
           {{ $t('pages.workspace.container.name') }}
         </label>
-        <span class="field-required">*</span>
         <p-input-text
           id="container-name"
           type="text"
@@ -83,10 +82,9 @@
               classes
             }"
           >
-            <label for="container-anchor_label">
+            <label for="container-anchor_label" class="label-field-required">
               {{ $t('pages.workspace.container.anchor.label') }}
             </label>
-            <span class="field-required">*</span>
             <p-input-text
               id="container-anchor_label"
               type="text"

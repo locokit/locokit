@@ -64,8 +64,7 @@
         classes
       }"
     >
-      <label for="action">{{ $t('pages.workspace.block.actionButton.trigger.type') }}</label>
-      <span class="field-required">*</span>
+      <label for="action" class="label-field-required">{{ $t('pages.workspace.block.actionButton.trigger.type') }}</label>
       <p-dropdown
         id="action"
         :value="action"
@@ -105,8 +104,7 @@
           classes
         }"
       >
-        <label for="processId">{{ $t('pages.workspace.block.actionButton.processId') }}</label>
-        <span class="field-required">*</span>
+        <label for="processId" class="label-field-required">{{ $t('pages.workspace.block.actionButton.processId') }}</label>
         <p-input-text
           id="processId"
           :value="processId"
@@ -170,8 +168,7 @@
           classes
         }"
       >
-        <label for="pageDetailId">{{ $t('pages.workspace.block.actionButton.pageDetailId') }}</label>
-        <span class="field-required">*</span>
+        <label for="pageDetailId" class="label-field-required">{{ $t('pages.workspace.block.actionButton.pageDetailId') }}</label>
         <p-input-text
           id="pageDetailId"
           :value="pageDetailId"

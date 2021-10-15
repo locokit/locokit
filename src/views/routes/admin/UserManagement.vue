@@ -172,8 +172,7 @@
             classes
           }"
         >
-          <label for="name">{{ $t("pages.userManagement.name") }}</label>
-          <span class="field-required">*</span>
+          <label for="name" class="label-field-required">{{ $t("pages.userManagement.name") }}</label>
           <p-input-text
             id="name"
             v-model.trim="user.name"
@@ -193,10 +192,9 @@
             classes
           }"
         >
-          <label for="email">
+          <label for="email" class="label-field-required">
             {{ $t("pages.userManagement.email") }}
           </label>
-          <span class="field-required">*</span>
           <p-input-text
             id="email"
             type="email"
