@@ -10,9 +10,8 @@
       <p-button
         v-if="crudMode"
         class="p-button-text p-button-rounded save-filter-button"
-        :disabled="invalidFilters"
-        :icon="`pi ${ hasChanged ? 'pi-star-o' : 'pi-star'}`"
-        :title="!invalidFilters && $t('components.datatable.toolbar.filters.action.saveFilters')"
+        :disabled="!canSaveFilters"
+        :icon="`pi ${ value.length === 0 || hasChanged ? 'pi-star-o' : 'pi-star'}`"
         @click="saveFilters()"
       />
       <div
@@ -270,6 +269,9 @@ export default {
         ({ column, action, pattern }) => (column === null) || (action === null) || (pattern === null),
       )
     },
+    canSaveFilters (): boolean {
+      return !this.invalidFilters && (this.value.length > 0 || this.hasChanged)
+    },
   },
   methods: {
     getComponentEditorCellForColumnType,
@@ -284,8 +286,8 @@ export default {
       overlaySlotProps.toggleOverlayPanel()
     },
     saveFilters () {
-      this.$emit('save-filter')
-      this.hasChanged = false
+      this.$emit('save-filters', this.hasChanged)
+      this.hasChanged = !this.hasChanged
     },
     addFilter () {
       this.value.push({

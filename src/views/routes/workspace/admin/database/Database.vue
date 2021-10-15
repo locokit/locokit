@@ -74,7 +74,7 @@
                 :disabled="!hasDataToDisplay && currentDatatableFilters.length === 0"
                 @submit="onSubmitFilter"
                 @reset="onResetFilter"
-                @save-filter="onSaveFilter"
+                @save-filters="onSaveFilters"
               />
 
             </div>
@@ -612,17 +612,17 @@ export default {
       this.currentDatatableFilters = []
       this.loadCurrentTableData()
     },
-    async onSaveFilter () {
+    async onSaveFilters (hasChanged) {
       if (!this.currentView) return
       try {
         const updatedView = await lckServices.tableView.patch(this.currentView.id, {
-          filter: convertFiltersToDatatabase(this.currentDatatableFilters),
+          filter: hasChanged ? convertFiltersToDatatabase(this.currentDatatableFilters) : null,
         })
         this.$set(this.currentView, 'filter', updatedView.filter)
         this.$toast.add({
           severity: 'success',
           summary: this.$t('success.save'),
-          detail: this.currentView.filter
+          detail: hasChanged
             ? this.$t('components.datatable.toolbar.filters.updateSuccess')
             : this.$t('components.datatable.toolbar.filters.resetSuccess'),
           life: 5000,

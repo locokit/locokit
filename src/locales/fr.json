@@ -78,8 +78,8 @@
             "close": "Fermer",
             "saveFilters": "Enregistrer les filtres"
           },
-          "updateSuccess": "Les filtres ont bien été enregistrés.",
-          "resetSuccess": "Les filtres ont bien été réinitialisés.",
+          "updateSuccess": "Les filtres par défaut ont bien été enregistrés.",
+          "resetSuccess": "Les filtres par défaut ont bien été réinitialisés.",
           "updateError": "Une erreur est survenue lors de l'enregistrement des filtres.",
           "select": {
             "operator": {

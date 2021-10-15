@@ -78,8 +78,8 @@
             "close": "Close",
             "saveFilters": "Save the filters"
           },
-          "updateSuccess": "The filters have been saved.",
-          "resetSuccess": "The filters have been reset.",
+          "updateSuccess": "The default filters have been saved.",
+          "resetSuccess": "The default filters have been reset.",
           "updateError": "An error occured when saving the filters.",
           "select": {
             "operator": {

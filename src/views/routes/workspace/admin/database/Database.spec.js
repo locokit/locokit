@@ -550,7 +550,7 @@ describe('Database', () => {
           currentDatatableFilters: mockFilters,
         })
         // Save the filters
-        await wrapper.vm.onSaveFilter()
+        await wrapper.vm.onSaveFilters(true)
         expect(wrapper.vm.currentView.filter).toEqual({
           operator: '$or',
           values: [
@@ -578,13 +578,13 @@ describe('Database', () => {
         )
       })
 
-      it('Reset the table view filter if no filter is specified', async () => {
+      it('Reset the table view filter if no filter has been changed', async () => {
         // Reset the filters
         await wrapper.setData({
-          currentDatatableFilters: [],
+          currentDatatableFilters: mockFilters,
         })
         // Save the filters
-        await wrapper.vm.onSaveFilter()
+        await wrapper.vm.onSaveFilters(false)
         expect(wrapper.vm.currentView.filter).toBeNull()
         // Display a sucessful message
         expect(spyOnToast).toHaveBeenCalledTimes(1)
@@ -600,7 +600,7 @@ describe('Database', () => {
         // Simulate an API error
         lckServices.tableView.patch.mockImplementationOnce(() => { throw new Error() })
         // Save the filters
-        await wrapper.vm.onSaveFilter()
+        await wrapper.vm.onSaveFilters()
         // Display an error message
         expect(spyOnToast).toHaveBeenCalledTimes(1)
         expect(spyOnToast).toHaveBeenCalledWith(
