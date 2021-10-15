@@ -369,41 +369,6 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
           </div>
            
           <div
-            class="p-field p-mb-2"
-          >
-            <label
-              class="label-field-required"
-              for="columnRequiredField"
-            >
-              Required column
-            </label>
-             
-            <div
-              class="p-inputswitch p-component"
-              id="columnRequiredField"
-            >
-              <div
-                class="p-hidden-accessible"
-              >
-                <input
-                  role="switch"
-                  type="checkbox"
-                />
-              </div>
-               
-              <span
-                class="p-inputswitch-slider"
-              />
-            </div>
-             
-            <span
-              class="untouched pristine"
-            >
-              
-            </span>
-          </div>
-           
-          <div
             class="lck-form-footer"
           >
             <!---->
@@ -875,41 +840,6 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
             <div
               class="p-inputswitch p-component"
               id="columnEditableField"
-            >
-              <div
-                class="p-hidden-accessible"
-              >
-                <input
-                  role="switch"
-                  type="checkbox"
-                />
-              </div>
-               
-              <span
-                class="p-inputswitch-slider"
-              />
-            </div>
-             
-            <span
-              class="untouched pristine"
-            >
-              
-            </span>
-          </div>
-           
-          <div
-            class="p-field p-mb-2"
-          >
-            <label
-              class="label-field-required"
-              for="columnRequiredField"
-            >
-              Required column
-            </label>
-             
-            <div
-              class="p-inputswitch p-component"
-              id="columnRequiredField"
             >
               <div
                 class="p-hidden-accessible"
