@@ -308,6 +308,16 @@
       "title": "Oh oh ?!... on dirait que vous êtes perdu... Désolé. Vraiment.",
       "link": "Vous pouvez tenter de revenir sur la page d'accueil ?"
     },
+    "acl": {
+      "aclSetError": "Impossible de récupérer les permissions liées au workspace courant.",
+      "listing": {
+        "title": "Permissions"
+      },
+      "detail": {
+        "createTitle": "Création d'un nouveau groupe de permissions",
+        "editTitle": "Édition d'un groupe de permissions"
+      }
+    },
     "home": {
       "title": "Bienvenue",
       "subtitle": ""
@@ -398,6 +408,7 @@
       "buttonSchema": "Schéma",
       "buttonVisualization": "Visualisation",
       "buttonProcess": "Processus",
+      "buttonAcl": "Permissions",
       "createChapter": "Créer un nouveau chapitre",
       "editChapter": "Modifier un chapitre",
       "chapter": "Chapitre",

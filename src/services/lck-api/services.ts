@@ -19,6 +19,7 @@ import {
   LckWorkspace,
   LckAttachment,
   LckTableAction,
+  LckAclSet,
 } from './definitions'
 
 interface ServiceUpload {
@@ -62,6 +63,10 @@ export const lckServices = {
    */
   process: lckClient.service('process') as Service<LckProcess>,
   processRun: lckClient.service('process-run') as Service<LckProcessRun>,
+  /**
+   * Acl
+   */
+  aclset: lckClient.service('aclset') as Service<LckAclSet>,
   /**
    * User
    */

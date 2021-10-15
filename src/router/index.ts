@@ -16,6 +16,7 @@ import DatabaseSchema
   from '@/views/routes/workspace/admin/database/DatabaseSchema.vue'
 import ProcessListing
   from '@/views/routes/workspace/admin/process/ProcessListing.vue'
+import AclSetListing from '@/views/routes/workspace/admin/acl/AclSetListing.vue'
 
 import Admin from '@/views/routes/admin/Admin.vue'
 import UserManagement from '@/views/routes/admin/UserManagement.vue'
@@ -132,6 +133,14 @@ const routes: Array<RouteConfig> = [
     path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.PROCESS,
     name: 'ProcessListing',
     component: ProcessListing,
+    props: true,
+    meta: {
+      needAuthentication: true,
+    },
+  }, {
+    path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ACL,
+    name: ROUTES_NAMES.ACL,
+    component: AclSetListing,
     props: true,
     meta: {
       needAuthentication: true,
