@@ -54,7 +54,6 @@
 <script lang="ts">
 import Vue from 'vue'
 
-import { Paginated } from '@feathersjs/feathers'
 import { renderSvg } from 'nomnoml'
 import svgPanZoom from 'svg-pan-zoom'
 
@@ -192,15 +191,18 @@ export default {
     },
     async loadTables () {
       try {
-        const database = await lckServices.database.get(this.databaseId, {
+        const tablesWithColumns = await lckServices.table.find({
           query: {
-            $eager: '[tables.[columns]]',
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            database_id: this.databaseId,
+            $eager: '[columns]',
+            $limit: -1,
           },
-        })
-        this.tables = database.tables
+        }) as LckTable[]
+        this.tables = tablesWithColumns
         if (this.currentTable) {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          this.currentTable = database.tables.find((table) => table.id === this.currentTable!.id) || null
+          this.currentTable = tablesWithColumns.find((table) => table.id === this.currentTable!.id) || null
         }
       } catch (errorLoadTables) {
         this.errorLoadTables = true
