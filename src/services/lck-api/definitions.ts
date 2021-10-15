@@ -120,6 +120,7 @@ export class LckTableViewColumn extends LckTableColumn {
    * Filters
    */
   filter?: object[]
+  foreign_filter?: object
   /**
    * Whether editable
    */

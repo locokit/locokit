@@ -1008,20 +1008,22 @@ export default {
     async updatePageSuggestions ({ query, filters }) {
       this.autocompleteSuggestions = await this.searchPageWithChapter(query, filters)
     },
-    async updateLocalAutocompleteSuggestions ({ columnTypeId, settings }, { query }) {
+    async updateLocalAutocompleteSuggestions ({ columnTypeId, settings, filter }, { query }) {
       this.autocompleteSuggestions = await this.searchItems({
         columnTypeId,
         tableId: settings?.tableId,
         query,
         groupId: this.groupId,
+        filter,
       })
     },
-    async updateCRUDAutocompleteSuggestions ({ columnTypeId, settings }, { query }) {
+    async updateCRUDAutocompleteSuggestions ({ columnTypeId, settings, filter }, { query }) {
       this.crudAutocompleteItems = await this.searchItems({
         columnTypeId,
         tableId: settings?.tableId,
         query,
         groupId: this.groupId,
+        filter,
       })
     },
     async onUpdateCell ({ rowId, columnId, newValue }) {

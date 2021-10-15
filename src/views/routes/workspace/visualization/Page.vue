@@ -645,12 +645,13 @@ export default {
       }
       this.$set(block, 'loading', false)
     },
-    async onUpdateSuggestions ({ columnTypeId, settings }, { query }) {
+    async onUpdateSuggestions ({ columnTypeId, settings, filter }, { query }) {
       this.autocompleteSuggestions = await this.searchItems({
         columnTypeId: columnTypeId,
         tableId: settings?.tableId,
         query,
         groupId: this.groupId,
+        filter,
       })
     },
     async onUpdateCell (block, {
