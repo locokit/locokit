@@ -1,9 +1,7 @@
 <template>
-  <div class="p-grid h-full">
-    <div class="sidebar-menu-container lck-bg-primary o-auto h-max-full">
-      <lck-sidebar :items="sidebarItems" v-on="$listeners" />
-    </div>
-    <div class="main-container h-full p-col o-auto h-max-full">
+  <div class="lck-layout">
+    <lck-sidebar :items="sidebarItems" v-on="$listeners" />
+    <div class="h-full o-auto h-max-full">
       <router-view />
     </div>
   </div>

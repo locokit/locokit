@@ -16,6 +16,7 @@ export const ROUTES_PATH = {
   WORKSPACE: '/workspace',
   VISUALIZATION: '/visualization',
   DATABASE: '/database',
+  DATABASETABLES: '/tables',
   DATABASESCHEMA: '/schema',
   PROCESS: '/process',
   ACL: '/acl',

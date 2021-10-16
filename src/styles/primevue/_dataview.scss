@@ -14,7 +14,7 @@
   border: 1px solid #e9ecef;
   border-width: 1px 0 1px 0;
   padding: 1rem 1rem;
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
 }
 
 .p-dataview .p-dataview-content {
@@ -35,7 +35,7 @@
   border: 1px solid #e9ecef;
   border-width: 0 0 1px 0;
   padding: 1rem 1rem;
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
 }

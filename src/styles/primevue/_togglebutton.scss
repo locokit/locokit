@@ -22,8 +22,8 @@
 }
 
 .p-togglebutton.p-button.p-highlight {
-  background: #2196F3;
-  border-color: #2196F3;
+  background: var(--primary-color);
+  border-color: var(--primary-color);
   color: #ffffff;
 }
 
@@ -33,8 +33,8 @@
 }
 
 .p-togglebutton.p-button.p-highlight:hover {
-  background: #0d89ec;
-  border-color: #0d89ec;
+  background: var(--primary-color-darken);
+  border-color: var(--primary-color-darken);
   color: #ffffff;
 }
 
@@ -44,5 +44,5 @@
 }
 
 .p-togglebutton.p-button.p-invalid>.p-button {
-  border-color: #f44336;
+  border-color: var(--color-error);
 }

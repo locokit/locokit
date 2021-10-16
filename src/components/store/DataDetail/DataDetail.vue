@@ -753,7 +753,7 @@ export default {
 
 ::v-deep .p-checkbox .p-checkbox-box .p-checkbox-icon {
   color: var(--primary-color-darken) !important;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 ::v-deep .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {

@@ -14,8 +14,8 @@
 }
 
 .p-dialog .p-dialog-header .p-dialog-title {
-  font-weight: 600;
-  font-size: 1.25rem;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xl);
 }
 
 .p-dialog .p-dialog-header .p-dialog-header-icon {
@@ -38,7 +38,7 @@
 .p-dialog .p-dialog-header .p-dialog-header-icon:focus {
   outline: 0 none;
   outline-offset: 0;
-  box-shadow: 0 0 0 0.2rem #a6d5fa;
+  box-shadow: 0 0 0 0.2rem var(--primary-color-lighten);
 }
 
 .p-dialog .p-dialog-header .p-dialog-header-icon:last-child {
@@ -76,4 +76,11 @@
 
 .p-dialog-mask.p-component-overlay {
   background-color: rgba(0, 0, 0, 0.4);
+}
+
+// Fix bug close dialog on confirmation-dialog
+.p-dialog.p-component.p-confirm-dialog {
+  .p-dialog-header-icon.p-dialog-header-close.p-link {
+    display: none !important;
+  }
 }

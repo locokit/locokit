@@ -399,6 +399,19 @@ export async function retrieveWorkspaceWithChaptersAndPages (groupId: string) {
 }
 
 /**
+ * Get workspace with all databases
+ */
+export async function retrieveWorkspaceWithDatabases (groupId: string): Promise<LckWorkspace> {
+  const group: LckGroup = await lckServices.group.get(groupId, {
+    query: { $eager: 'aclset' },
+  })
+  const workspace: LckWorkspace = await lckServices.workspace.get(group?.aclset?.workspace_id as string, {
+    query: { $eager: '[databases.[tables]]' },
+  })
+  return workspace
+}
+
+/**
  * Get page with all containers and blocks
  */
 export async function retrievePageWithContainersAndBlocks (id: string) {
@@ -590,6 +603,7 @@ export default {
   getPageWithChapters,
   uploadMultipleFiles,
   retrieveWorkspaceWithChaptersAndPages,
+  retrieveWorkspaceWithDatabases,
   retrieveTableViewData,
   retrieveViewData,
   retrieveViewDefinition,

@@ -155,12 +155,12 @@ pre {
 
 /deep/ .lck-process-tab.p-tabview .p-tabview-nav li .p-tabview-nav-link {
   padding: 0.25rem;
-  font-weight: normal;
+  font-weight: var(--font-weight-regular);
   margin: 0.25rem;
 }
 
 pre {
-  font-size: .8rem;
+  font-size: var(--font-size-sm);
   line-height: 1rem;
 }
 </style>

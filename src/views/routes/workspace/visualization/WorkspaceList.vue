@@ -2,7 +2,7 @@
   <div
     class="generic-view-container p-mx-auto"
   >
-    <h1 class="p-my-4 p-px-3 lck-color-title">
+    <h1 class="p-my-4 lck-color-title">
       {{ $t('pages.workspace.title') }}
     </h1>
 
@@ -26,7 +26,7 @@
       <div v-for="group in groups" :key="group.id" class="p-col-12 p-md-6 p-lg-3 workspaces-item">
         <router-link
           class="p-component p-button p-button-outlined workspaces-button p-mr-2"
-          :to="`${ROUTES_PATH.WORKSPACE}/${group.id}${ROUTES_PATH.DATABASE}/${group.aclset.workspace.databases[0].id}${ROUTES_PATH.DATABASESCHEMA}`"
+          :to="`${ROUTES_PATH.WORKSPACE}/${group.id}`"
         >
           <p class="workspaces-button-title">{{ group.aclset.workspace.text }}</p>
           <p class="workspaces-button-group">
@@ -39,8 +39,8 @@
       </div>
 
       <div v-if="$can('create', 'workspace')" class="p-col-12 p-md-6 p-lg-3 workspaces-item">
-        <button class="workspaces-placeholder" @click="dialogVisible = true">
-          <i class="bi bi-file-plus workspaces-placeholder-icon"></i>
+        <button class="workspaces-new" @click="dialogVisible = true">
+          <i class="bi bi-file-plus workspaces-new-icon"></i>
           <p class="p-button p-button-sm">{{ $t('pages.workspace.form.new') }}</p>
         </button>
       </div>
@@ -207,3 +207,83 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+.workspaces {
+  &-item {
+    padding: .75rem;
+  }
+
+  &-button {
+    flex-direction: column;
+    justify-content: center;
+    background: #ffffff;
+    min-height: 10rem;
+    border-radius: var(--border-radius);
+    width: 100%;
+    cursor: pointer;
+    border: solid 1px var(--primary-color);
+    color: var(--text-color);
+    box-shadow: 0 1px 3px 2px rgba(141, 27, 27, 0.04);
+    transition: box-shadow .3s;
+    font-weight: var(--font-weight-regular);
+
+    &,
+    p {
+      text-decoration: none;
+      color: var(--text-color);
+    }
+
+    &-title {
+      display: block;
+      font-weight: var(--font-weight-regular);
+      margin: 0;
+    }
+
+    &-group {
+      font-size: var(--font-size-md);
+      display: block;
+      margin-top: 0;
+      margin-bottom: .25rem;
+    }
+
+    &:hover {
+      box-shadow: 0 0 0 0.1rem var(--primary-color);
+      background-color: var(--primary-color-very-lighten);
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 0.1rem var(--primary-color), 0 0 0 0.3rem var(--primary-color-lighten);
+    }
+  }
+
+  &-new {
+    width: 100%;
+    min-height: 10rem;
+    border-radius: var(--border-radius);
+    border: dashed 2px var(--secondary-color-lighten);
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--primary-color);
+
+    &-icon {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    &:hover {
+      border-color: var(--surface-a);
+      background-color: var(--primary-color-very-lighten);
+    }
+
+    &:focus {
+      outline: none;
+      background-color: var(--primary-color-very-lighten);
+
+      .p-button {
+        background-color: var(--primary-color-darken);
+      }
+    }
+  }
+}
+</style>

@@ -23,7 +23,7 @@
 }
 
 .p-toast .p-toast-message .p-toast-message-content .p-toast-summary {
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
 }
 
 .p-toast .p-toast-message .p-toast-message-content .p-toast-detail {
@@ -45,7 +45,7 @@
 .p-toast .p-toast-message .p-toast-icon-close:focus {
   outline: 0 none;
   outline-offset: 0;
-  box-shadow: 0 0 0 0.2rem #a6d5fa;
+  box-shadow: 0 0 0 0.2rem var(--primary-color-lighten);
 }
 
 .p-toast .p-toast-message.p-toast-message-info {

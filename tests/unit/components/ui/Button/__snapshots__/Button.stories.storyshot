@@ -1,0 +1,153 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/ui/Buttons Button states 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    style="margin: 1em;"
+  >
+    <div>
+      <div>
+        <button
+          class="p-button p-button p-component"
+          type="button"
+        >
+          Default
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <button
+          class="p-button p-button-outlined p-button p-component"
+          type="button"
+        >
+          Default outline
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <button
+          class="p-button p-button-text p-button p-component"
+          type="button"
+        >
+          Default text
+          <span
+            class="p-ink"
+          />
+        </button>
+      </div>
+       
+      <div
+        style="margin-top: 1em;"
+      >
+        <button
+          class="p-button p-button p-component"
+          disabled="disabled"
+          type="button"
+        >
+          Default disabled
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <button
+          class="p-button p-button-outlined p-button p-component"
+          disabled="disabled"
+          type="button"
+        >
+          Default outline disabled
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <button
+          class="p-button p-button-text p-button p-component"
+          disabled="disabled"
+          type="button"
+        >
+          Default text disabled
+          <span
+            class="p-ink"
+          />
+        </button>
+      </div>
+       
+      <div
+        style="margin-top: 1em;"
+      >
+        <button
+          class="p-button p-button-secondary p-button p-component"
+          type="button"
+        >
+          Secondary
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <button
+          class="p-button p-button-outlined p-button-secondary p-button p-component"
+          type="button"
+        >
+          Secondary outline
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <button
+          class="p-button p-button-text p-button-secondary p-button p-component"
+          type="button"
+        >
+          Secondary outline
+          <span
+            class="p-ink"
+          />
+        </button>
+      </div>
+       
+      <div
+        style="margin-top: 1em;"
+      >
+        <button
+          class="p-button p-button-secondary p-button p-component"
+          disabled="disabled"
+          type="button"
+        >
+          Secondary disabled
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <button
+          class="p-button p-button-outlined p-button-secondary p-button p-component"
+          disabled="disabled"
+          type="button"
+        >
+          Secondary outline disabled
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <button
+          class="p-button p-button-text p-button-secondary p-button p-component"
+          disabled="disabled"
+          type="button"
+        >
+          Secondary outline disabled
+          <span
+            class="p-ink"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

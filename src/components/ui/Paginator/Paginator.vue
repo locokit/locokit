@@ -82,6 +82,6 @@ export default {
 
 .paginator-nav p {
   margin: 0;
-  font-size: 0.90rem;
+  font-size: var(--font-size-md);
 }
 </style>

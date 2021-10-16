@@ -1,9 +1,9 @@
 <template>
   <div
-    class="p-grid h-full"
+    class="lck-layout-content"
     v-if="workspaceContent"
   >
-    <div class="sidebar-menu-container lck-bg-sidebar o-auto h-max-full">
+    <div class="lck-sidebar">
       <lck-sidebar
         :items="sidebarItems"
         :displayEditActions="editMode"
@@ -19,7 +19,7 @@
         @confirm-delete-page="onConfirmationDeletePage($event)"
       />
     </div>
-    <div class="main-container h-full p-col o-auto h-max-full">
+    <div class="lck-content">
       <router-view
         :key="forceUpdateKey"
         :editMode="editMode"

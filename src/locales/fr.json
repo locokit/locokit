@@ -427,6 +427,13 @@
         "docPlaceholder": "Ajoutez une description de votre espace de travail, une documentation...",
         "docLabel": "Documentation"
       },
+      "menu": {
+        "databases": "Bases de données",
+        "tables": "Tables",
+        "schema": "Schema",
+        "visualization": "Visualization",
+        "process": "Processus"
+      },
       "title": "Espaces de travail",
       "noWorkspace": "Aucun espace de travail à afficher",
       "created": "Créé le :",

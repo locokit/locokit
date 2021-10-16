@@ -1,26 +1,27 @@
 <template>
   <div class="container">
-    <p-toolbar class="p-d-flex p-flex-wrap">
-      <template slot="left">
+    <header class="p-m-3 p-d-flex p-ai-center p-jc-between">
+      <div class="">
         {{ $t('pages.databaseSchema.title') }}
-      </template>
-      <template slot="right">
+      </div>
+      <div>
         <p-button
           :label="$t('pages.databaseSchema.addTable')"
           icon="bi bi-plus-lg"
           @click="onClickCreateTableModalButton"
         />
-      </template>
-    </p-toolbar>
-    <p
-      v-if="tables && tables.length === 0"
-      class="schema-info"
-    >
-      <i class="bi bi-info-circle"></i>
-      {{ $t('pages.databaseSchema.noTable') }}
-    </p>
+        <p
+          v-if="tables && tables.length === 0"
+          class="schema-info"
+        >
+          <i class="bi bi-info-circle"></i>
+          {{ $t('pages.databaseSchema.noTable') }}
+        </p>
+      </div>
+    </header>
+
     <div
-      v-else-if="!errorLoadTables"
+      v-if="!errorLoadTables"
       id="svg-container"
       v-html="nomnomlSVG"
       @click="onClickTable"
@@ -64,7 +65,6 @@ import { objectFromArray } from '@/services/lck-utils/arrays'
 
 import Button from 'primevue/button'
 import ConfirmDialog from 'primevue/confirmdialog'
-import Toolbar from 'primevue/toolbar'
 
 import CreateTableModal from '@/views/modals/CreateTableModal.vue'
 import UpdateTableSidebar from '@/views/modals/UpdateTableSidebar.vue'
@@ -75,7 +75,6 @@ export default {
     'create-table-modal': CreateTableModal,
     'update-table-sidebar': UpdateTableSidebar,
     'p-confirm-dialog': Vue.extend(ConfirmDialog),
-    'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button),
   },
   props: {

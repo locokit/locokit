@@ -11,12 +11,12 @@
 
 .p-card .p-card-title {
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: var(--font-weight-regular);
   margin-bottom: 0.5rem;
 }
 
 .p-card .p-card-subtitle {
-  font-weight: 400;
+  font-weight: var(--font-weight-regular);
   margin-bottom: 0.5rem;
   color: #6c757d;
 }

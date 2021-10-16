@@ -4,37 +4,6 @@
       v-if="database && database.tables.length > 0"
       class="p-d-flex p-flex-column d-flex-1 o-auto"
     >
-      <div class="p-d-flex p-jc-between o-auto lck-database-nav">
-        <div class="lck-table-links p-d-flex p-flex-row p-mt-2 o-auto">
-          <router-link
-            v-for="table in database.tables"
-            class=""
-            :key="table.id"
-            :to="{
-              name: DATABASE_ROUTE,
-              params: {
-                groupId: groupId,
-                databaseId : databaseId,
-                tableId: table.id,
-              }
-            }"
-          >
-          {{ table.text}}
-        </router-link>
-        </div>
-        <div class="p-d-flex p-as-start process-toolbar-button">
-          <p-button
-            :label="$t('pages.process.titleButton')"
-            class="p-button-sm p-button-primary p-m-1 p-p-1"
-            icon="pi pi-th-large"
-            :class="{
-              'p-button-text': !displayPanel
-            }"
-            @click="displayPanel = !displayPanel"
-          />
-        </div>
-      </div>
-
       <div class="p-d-flex d-flex-1 o-auto">
         <layout-with-toolbar class="p-d-flex p-flex-column d-flex-1 o-auto">
           <div
@@ -1244,34 +1213,6 @@ export default {
 </script>
 
 <style scoped>
-.lck-database-nav {
-  border-bottom: 1px solid var(--header-border-bottom-color);
-}
-
-.lck-database-nav a {
-  background-color: transparent;
-  border: 1px solid var(--surface-a);
-  border-bottom: 0px;
-  border-radius: 3px 3px 0 0;
-  color: var(--surface-a);
-  margin: 0 0.25rem;
-  padding: 0.25em 0.5em;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.lck-database-nav .router-link-active {
-  pointer-events: none;
-  color: var(--paginator-text-color-active);
-  background-color: var(--surface-a);
-  border-color: var(--primary-color-darken);
-}
-
-.lck-database-nav a:hover {
-  color: var(--primary-color-darken);
-  border-color: var(--primary-color-darken);
-}
-
 .lck-database-background {
   content: "";
   background-repeat: no-repeat;

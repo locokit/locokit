@@ -155,7 +155,7 @@ export default {
 }
 
 .menu-button i {
-  font-size: 24px;
+  font-size: 1.5rem;
   line-height: inherit;
 }
 

@@ -427,6 +427,13 @@
         "docPlaceholder": "Add a description of your workspace, a documentation, ...",
         "docLabel": "Documentation"
       },
+      "menu": {
+        "databases": "Databases",
+        "tables": "Tables",
+        "schema": "Schema",
+        "visualization": "Visualization",
+        "process": "Processes"
+      },
       "title": "Workspaces",
       "noWorkspace": "No workspace to display",
       "created": "Created:",
@@ -435,10 +442,6 @@
       "errorTypeBlock": "This {blockType} block type does not exist.",
       "notYetImplementedBlock": "This {blockType} block type is not yet implemented.",
       "errorUnknownTypeBlock": "The block type does not exist.",
-      "buttonDatabase": "Database",
-      "buttonSchema": "Schema",
-      "buttonVisualization": "Visualization",
-      "buttonProcess": "Processes",
       "createChapter": "Create a new chapter",
       "editChapter": "Edit a chapter",
       "chapter": "Chapter",

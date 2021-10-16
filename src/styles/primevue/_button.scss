@@ -44,7 +44,7 @@
 }
 
 .p-togglebutton.p-button.p-invalid>.p-button {
-  border-color: #f44336;
+  border-color: var(--color-error);
 }
 
 .p-button {
@@ -52,7 +52,7 @@
   background: var(--primary-color);
   border: 1px solid var(--primary-color);
   padding: 0.5rem 1rem;
-  font-size: 1rem;
+  font-size: var(--font-size-md);
   transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
   border-radius: var(--border-radius);
 }
@@ -189,21 +189,26 @@
 }
 
 .p-button.p-button-sm {
-  font-size: 0.875rem;
-  padding: 0.4375rem 0.875rem;
+  font-size: var(--font-size-sm);
+  padding: 0.4375rem var(--font-size-sm);
 }
 
 .p-button.p-button-sm .p-button-icon {
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
+
+  // Adjust bootstrap icons font-size
+  .bi {
+    font-size: 1.0rem;
+  }
 }
 
 .p-button.p-button-lg {
-  font-size: 1.25rem;
-  padding: 0.625rem 1.25rem;
+  font-size: var(--font-size-lg);
+  padding: 0.625rem var(--font-size-lg);
 }
 
 .p-button.p-button-lg .p-button-icon {
-  font-size: 1.25rem;
+  font-size: var(--font-size-lg);
 }
 
 .p-button.p-button-loading-label-only .p-button-label {

@@ -356,7 +356,7 @@ export default Vue.extend({
 
 ::v-deep .lck-process-listing-tab.p-tabview .p-tabview-nav li .p-tabview-nav-link {
   padding: 0.25rem;
-  font-weight: normal;
+  font-weight: var(--font-weight-regular);
   margin: 0.25rem;
   border-color: var(--primary-color);
   color: var(--primary-color);
@@ -383,7 +383,7 @@ export default Vue.extend({
 }
 
 .lck-process-item .process-text {
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   margin-bottom: 0.5rem;
 }
 

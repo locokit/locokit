@@ -1,8 +1,8 @@
 .p-toolbar {
   background: #f8f9fa;
   border: 1px solid #dee2e6;
-  padding: 1rem;
-  border-radius: 3px;
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
 }
 
 .p-toolbar .p-toolbar-separator {

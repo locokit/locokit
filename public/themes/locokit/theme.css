@@ -3,7 +3,31 @@
  * Please define the colors you want to use inside the app
  */
 :root {
+  /* Spacings */
+  --spacing-sm: .25rem;
+  --spacing: .5rem;
+  --spacing-lg: 1rem;
+  --spacing-xl: 2rem;
 
+  /* Fonts */
+
+  /* 12px */
+  --font-size-sm: 0.75rem;
+  /* 14px */
+  --font-size-md: 0.875rem;
+  /* 16px */
+  --font-size-lg: 1rem;
+  /* 20px */
+  --font-size-xl: 1.25rem;
+
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  --font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+
+  /* Colors */
   --color-warning: rgb(255, 169, 0);
   --color-warning-light: rgba(196, 144, 44, .8);
   --color-error: #f44336;
@@ -55,18 +79,11 @@
   --primary-color-darken: #0B373F;
   --primary-color-text: #33384A;
 
-  /* --secondary-color: #4c44a7;
-  --secondary-color-very-lighten: #eeecf7;
-  --secondary-color-lighten: #b7b4d8;
-  --secondary-color-light: #b5b1e2;
-  --secondary-color-darken: #383372; */
   --secondary-color: #d49307;
   --secondary-color-very-lighten: #f8f4ec;
   --secondary-color-lighten: #f5d693;
   --secondary-color-light: #e4aa2f;
   --secondary-color-darken: #aa7709;
-
-  --font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 
   --border-radius: 2px;
   --accordion-header-link-padding: 10rem .5rem;

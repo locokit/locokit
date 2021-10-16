@@ -2,78 +2,102 @@
 
 exports[`Workspace Create workspace button Hide if the user has a USER_PROFILE "USER" 1`] = `
 <div class="generic-view-container p-mx-auto" groupid="0">
-  <header class="p-my-4 lck-color-title">
+  <h1 class="p-my-4 lck-color-title">
     pages.workspace.title
   </header>
+  </h1>
   <!---->
   <p>pages.workspace.noWorkspace</p>
   <div class="p-grid">
-    <div class="p-col-12 p-md-6 p-lg-3"></div>
-    <div class="p-col-12 p-md-6 p-lg-3 workspaces-placeholder">
-      <p-button-stub iconpos="left">Create new workspace</p-button-stub>
-    </div>
+    <!---->
   </div>
-  <!---->
-  <!---->
+  <p-dialog-stub header="pages.workspace.form.create" modal="true" closable="true" closeonescape="true" showheader="true" basezindex="0" autozindex="true" ariacloselabel="close" position="center">
+    <form class="p-fluid">
+      <div class="p-field">
+        <p-input-text-stub value="" placeholder="pages.workspace.form.textPlaceholder"></p-input-text-stub>
+      </div>
+      <div class="p-field"><label>pages.workspace.form.docLabel</label>
+        <p-textarea-stub value="" autoresize="true" placeholder="pages.workspace.form.docPlaceholder" class="p-mb-2"></p-textarea-stub>
+      </div>
+    </form>
+  </p-dialog-stub>
 </div>
 `;
 
 exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "ADMIN" 1`] = `
 <div class="generic-view-container p-mx-auto" groupid="0">
-  <header class="p-my-4 lck-color-title">
+  <h1 class="p-my-4 lck-color-title">
     pages.workspace.title
   </header>
+  </h1>
   <!---->
   <p>pages.workspace.noWorkspace</p>
   <div class="p-grid">
-    <div class="p-col-12 p-md-6 p-lg-3"></div>
-    <div class="p-col-12 p-md-6 p-lg-3 workspaces-placeholder">
-      <p-button-stub iconpos="left">Create new workspace</p-button-stub>
-    </div>
+    <div class="p-col-12 p-md-6 p-lg-3 workspaces-item"><button class="workspaces-new"><i class="bi bi-file-plus workspaces-new-icon"></i>
+        <p class="p-button p-button-sm">pages.workspace.form.new</p>
+      </button></div>
   </div>
-  <header class="p-my-4 lck-color-title">
-    pages.workspace.form.create
-  </header>
-  <p-card-stub class="p-mb-4 p-col p-fluid"><template></template> <template></template></p-card-stub>
+  <p-dialog-stub header="pages.workspace.form.create" modal="true" closable="true" closeonescape="true" showheader="true" basezindex="0" autozindex="true" ariacloselabel="close" position="center">
+    <form class="p-fluid">
+      <div class="p-field">
+        <p-input-text-stub value="" placeholder="pages.workspace.form.textPlaceholder"></p-input-text-stub>
+      </div>
+      <div class="p-field"><label>pages.workspace.form.docLabel</label>
+        <p-textarea-stub value="" autoresize="true" placeholder="pages.workspace.form.docPlaceholder" class="p-mb-2"></p-textarea-stub>
+      </div>
+    </form>
+  </p-dialog-stub>
 </div>
 `;
 
 exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "CREATOR" 1`] = `
 <div class="generic-view-container p-mx-auto" groupid="0">
-  <header class="p-my-4 lck-color-title">
+  <h1 class="p-my-4 lck-color-title">
     pages.workspace.title
   </header>
+  </h1>
   <!---->
   <p>pages.workspace.noWorkspace</p>
   <div class="p-grid">
-    <div class="p-col-12 p-md-6 p-lg-3"></div>
-    <div class="p-col-12 p-md-6 p-lg-3 workspaces-placeholder">
-      <p-button-stub iconpos="left">Create new workspace</p-button-stub>
-    </div>
+    <div class="p-col-12 p-md-6 p-lg-3 workspaces-item"><button class="workspaces-new"><i class="bi bi-file-plus workspaces-new-icon"></i>
+        <p class="p-button p-button-sm">pages.workspace.form.new</p>
+      </button></div>
   </div>
-  <header class="p-my-4 lck-color-title">
-    pages.workspace.form.create
-  </header>
-  <p-card-stub class="p-mb-4 p-col p-fluid"><template></template> <template></template></p-card-stub>
+  <p-dialog-stub header="pages.workspace.form.create" modal="true" closable="true" closeonescape="true" showheader="true" basezindex="0" autozindex="true" ariacloselabel="close" position="center">
+    <form class="p-fluid">
+      <div class="p-field">
+        <p-input-text-stub value="" placeholder="pages.workspace.form.textPlaceholder"></p-input-text-stub>
+      </div>
+      <div class="p-field"><label>pages.workspace.form.docLabel</label>
+        <p-textarea-stub value="" autoresize="true" placeholder="pages.workspace.form.docPlaceholder" class="p-mb-2"></p-textarea-stub>
+      </div>
+    </form>
+  </p-dialog-stub>
 </div>
 `;
 
 exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "SUPERADMIN" 1`] = `
 <div class="generic-view-container p-mx-auto" groupid="0">
-  <header class="p-my-4 lck-color-title">
+  <h1 class="p-my-4 lck-color-title">
     pages.workspace.title
   </header>
+  </h1>
   <!---->
   <p>pages.workspace.noWorkspace</p>
   <div class="p-grid">
-    <div class="p-col-12 p-md-6 p-lg-3"></div>
-    <div class="p-col-12 p-md-6 p-lg-3 workspaces-placeholder">
-      <p-button-stub iconpos="left">Create new workspace</p-button-stub>
-    </div>
+    <div class="p-col-12 p-md-6 p-lg-3 workspaces-item"><button class="workspaces-new"><i class="bi bi-file-plus workspaces-new-icon"></i>
+        <p class="p-button p-button-sm">pages.workspace.form.new</p>
+      </button></div>
   </div>
-  <header class="p-my-4 lck-color-title">
-    pages.workspace.form.create
-  </header>
-  <p-card-stub class="p-mb-4 p-col p-fluid"><template></template> <template></template></p-card-stub>
+  <p-dialog-stub header="pages.workspace.form.create" modal="true" closable="true" closeonescape="true" showheader="true" basezindex="0" autozindex="true" ariacloselabel="close" position="center">
+    <form class="p-fluid">
+      <div class="p-field">
+        <p-input-text-stub value="" placeholder="pages.workspace.form.textPlaceholder"></p-input-text-stub>
+      </div>
+      <div class="p-field"><label>pages.workspace.form.docLabel</label>
+        <p-textarea-stub value="" autoresize="true" placeholder="pages.workspace.form.docPlaceholder" class="p-mb-2"></p-textarea-stub>
+      </div>
+    </form>
+  </p-dialog-stub>
 </div>
 `;

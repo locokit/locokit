@@ -344,7 +344,7 @@ label,
 
 label {
   display: block;
-  font-size: 0.8rem;
+  font-size: var(--font-size-sm);
 }
 
 .input,

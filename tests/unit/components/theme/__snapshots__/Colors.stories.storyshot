@@ -15,7 +15,19 @@ exports[`storyshots theme/Colors main 1`] = `
       style="padding: 1rem;"
     />
     
+    primary-color-light
+    
+    <p
+      style="padding: 1rem;"
+    />
+    
     primary-color-lighten
+    
+    <p
+      style="padding: 1rem;"
+    />
+    
+    primary-color-very-lighten
     
     <p
       style="padding: 1rem;"
@@ -37,7 +49,19 @@ exports[`storyshots theme/Colors main 1`] = `
       style="padding: 1rem;"
     />
     
+    secondary-color-light
+    
+    <p
+      style="padding: 1rem;"
+    />
+    
     secondary-color-lighten
+    
+    <p
+      style="padding: 1rem;"
+    />
+    
+    secondary-color-very-lighten
     
     <p
       style="padding: 1rem;"

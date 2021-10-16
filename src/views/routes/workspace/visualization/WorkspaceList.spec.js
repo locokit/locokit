@@ -166,7 +166,7 @@ describe('Workspace', () => {
       authState.data.user.profile = USER_PROFILE.USER
       const wrapper = await shallowMount(WorkspaceList, globalComponentParams)
       await Vue.nextTick()
-      expect(wrapper.findAll('header').length).toBe(1)
+      expect(wrapper.findAll('.workspaces-new').length).toBe(0)
       expect(wrapper).toMatchSnapshot()
       authState.data.user.profile = ''
     })
@@ -179,7 +179,7 @@ describe('Workspace', () => {
       lckAbilitiesService.update(authState.data.user.rules)
       const wrapper = await shallowMount(WorkspaceList, globalComponentParams)
       await Vue.nextTick()
-      expect(wrapper.findAll('header').length).toBe(2)
+      expect(wrapper.findAll('.workspaces-new').length).toBe(1)
       expect(wrapper).toMatchSnapshot()
       authState.data.user.profile = ''
     })
@@ -192,7 +192,7 @@ describe('Workspace', () => {
       lckAbilitiesService.update(authState.data.user.rules)
       const wrapper = await shallowMount(WorkspaceList, globalComponentParams)
       await Vue.nextTick()
-      expect(wrapper.findAll('header').length).toBe(2)
+      expect(wrapper.findAll('.workspaces-new').length).toBe(1)
       expect(wrapper).toMatchSnapshot()
       authState.data.user.profile = ''
     })
@@ -205,7 +205,7 @@ describe('Workspace', () => {
       lckAbilitiesService.update(authState.data.user.rules)
       const wrapper = await shallowMount(WorkspaceList, globalComponentParams)
       await Vue.nextTick()
-      expect(wrapper.findAll('header').length).toBe(2)
+      expect(wrapper.findAll('.workspaces-new').length).toBe(1)
       expect(wrapper).toMatchSnapshot()
       authState.data.user.profile = ''
     })

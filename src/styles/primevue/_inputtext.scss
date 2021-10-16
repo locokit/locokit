@@ -60,12 +60,11 @@
 }
 
 .p-inputnumber.p-invalid.p-component>.p-inputtext {
-  border-color: #f44336;
+  border-color: var(--color-error);
 }
 
 .p-inputtext {
-  font-family: $font-stack;
-  font-size: 1rem;
+  font-size: var(--font-size-lg);
   color: #495057;
   background: #ffffff;
   padding: 0.5rem 0.5rem;
@@ -87,16 +86,16 @@
 }
 
 .p-inputtext.p-invalid.p-component {
-  border-color: #f44336;
+  border-color: var(--color-error);
 }
 
 .p-inputtext.p-inputtext-sm {
-  font-size: 0.875rem;
+  font-size: var(--font-size-md);
   padding: 0.4375rem 0.4375rem;
 }
 
 .p-inputtext.p-inputtext-lg {
-  font-size: 1.25rem;
+  font-size: var(--font-size-lg);
   padding: 0.625rem 0.625rem;
 }
 
@@ -157,11 +156,11 @@
 }
 
 .p-inputtext-sm .p-inputtext {
-  font-size: 0.875rem;
+  font-size: var(--font-size-md);
   padding: 0.4375rem 0.4375rem;
 }
 
 .p-inputtext-lg .p-inputtext {
-  font-size: 1.25rem;
+  font-size: var(--font-size-lg);
   padding: 0.625rem 0.625rem;
 }
