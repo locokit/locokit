@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/ui/JSONField default story 1`] = `
+<div
+  style="height: 100%;"
+>
+  <textarea
+    class="p-inputtextarea p-inputtext p-component p-filled"
+    cols="30"
+    placeholder="Enter a JSON value."
+    rows="5"
+  />
+</div>
+`;

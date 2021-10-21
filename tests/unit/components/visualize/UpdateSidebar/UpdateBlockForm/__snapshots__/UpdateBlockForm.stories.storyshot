@@ -4,7 +4,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -802,7 +802,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;
 
@@ -810,7 +810,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -1193,7 +1193,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;
 
@@ -1201,7 +1201,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -1517,7 +1517,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;
 
@@ -1525,7 +1525,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -2600,7 +2600,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;
 
@@ -2608,7 +2608,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -3053,7 +3053,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;
 
@@ -3061,7 +3061,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -3746,7 +3746,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;
 
@@ -3754,7 +3754,7 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -4070,7 +4070,7 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;
 
@@ -4078,7 +4078,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -4419,7 +4419,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;
 
@@ -4427,7 +4427,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -4969,7 +4969,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;
 
@@ -4977,7 +4977,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -5293,6 +5293,6 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;

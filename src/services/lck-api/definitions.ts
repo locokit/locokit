@@ -19,6 +19,7 @@ export class LckWorkspace extends LckBaseModel {
   text!: string;
   chapters?: LckChapter[];
   databases?: LckDatabase[];
+  aclsets?: LckAclSet[];
 }
 
 export class LckAttachment {
@@ -381,6 +382,30 @@ export class LckUserGroup extends LckBaseModel {
   group?: LckGroup
 }
 
+export class LckAclTable extends LckBaseModel {
+  aclset_id!: string
+  table_id!: string
+  create_rows = false
+  read_rows = false
+  update_rows = false
+  delete_rows = false
+  read_filter = {}
+  update_filter = {}
+  delete_filter = {}
+  table?: LckTable
+
+  constructor (aclSetId: string, table: LckTable | undefined) {
+    super()
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    this.aclset_id = aclSetId
+    if (table) {
+      this.table = table
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      this.table_id = table.id
+    }
+  }
+}
+
 export class LckAclSet extends LckBaseModel {
   label!: string
   workspace_id!: string
@@ -389,6 +414,15 @@ export class LckAclSet extends LckBaseModel {
   chapter?: LckChapter
   manager!: boolean
   groups?: LckGroup[]
+  acltables?: LckAclTable[]
+
+  constructor (label = '', workspaceId = '', manager = false) {
+    super()
+    this.label = label
+    this.manager = manager
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    this.workspace_id = workspaceId
+  }
 }
 
 export interface Submitting {

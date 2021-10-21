@@ -56,7 +56,7 @@ exports[`storyshots components/store/process/Process default 1`] = `
           class="p-tabview-panel"
           role="tabpanel"
         >
-          <span>
+          <div>
             <form
               class="p-fluid"
             >
@@ -363,7 +363,7 @@ exports[`storyshots components/store/process/Process default 1`] = `
                 </button>
               </div>
             </form>
-          </span>
+          </div>
         </div>
          
         <div

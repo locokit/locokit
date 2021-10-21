@@ -24,7 +24,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
         Global configuration
       </h2>
        
-      <span>
+      <div>
         <form
           class="p-fluid"
         >
@@ -239,7 +239,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
             </button>
           </div>
         </form>
-      </span>
+      </div>
     </div>
      
     <div
@@ -251,7 +251,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
         Configuration for the visualization part
       </h2>
        
-      <span>
+      <div>
         <form
           class="p-fluid"
         >
@@ -403,7 +403,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
             </button>
           </div>
         </form>
-      </span>
+      </div>
     </div>
   </div>
 </div>
@@ -433,7 +433,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
         Global configuration
       </h2>
        
-      <span>
+      <div>
         <form
           class="p-fluid"
         >
@@ -493,7 +493,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
             </button>
           </div>
         </form>
-      </span>
+      </div>
     </div>
      
     <div
@@ -505,7 +505,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
         Configuration for the visualization part
       </h2>
        
-      <span>
+      <div>
         <form
           class="p-fluid"
         >
@@ -657,7 +657,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
             </button>
           </div>
         </form>
-      </span>
+      </div>
     </div>
   </div>
 </div>
@@ -687,7 +687,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
         Global configuration
       </h2>
        
-      <span>
+      <div>
         <form
           class="p-fluid"
         >
@@ -747,7 +747,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
             </button>
           </div>
         </form>
-      </span>
+      </div>
     </div>
      
     <div
@@ -759,7 +759,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
         Configuration for the visualization part
       </h2>
        
-      <span>
+      <div>
         <form
           class="p-fluid"
         >
@@ -911,7 +911,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
             </button>
           </div>
         </form>
-      </span>
+      </div>
     </div>
   </div>
 </div>
