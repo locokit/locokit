@@ -3,7 +3,6 @@
     v-model="stringValue"
     :cols="cols"
     :placeholder="$t('components.jsonField.placeholder')"
-    ref="json-field"
     :rows="rows"
     @blur="onBlur"
   />
@@ -52,7 +51,12 @@ export default {
       immediate: true,
       deep: true,
       handler (newValue) {
-        this.stringValue = newValue ? JSON.stringify(newValue, undefined, 2) : ''
+        try {
+          this.stringValue = newValue ? JSON.stringify(newValue, undefined, 2) : ''
+        } catch (error) {
+          this.stringValue = ''
+          this.$emit('error', error)
+        }
       },
     },
   },

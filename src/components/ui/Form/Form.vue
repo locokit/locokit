@@ -1,7 +1,7 @@
 <template>
   <validation-observer v-slot="{ valid, reset, pristine }" tag="div">
     <form
-      :class="[...additionalClasses, 'p-fluid']"
+      class="p-fluid"
       @submit.prevent="$emit('submit')"
       @reset.prevent="reset"
       ref="lck-form-record"
@@ -50,10 +50,6 @@ export default {
     'validation-observer': Vue.extend(ValidationObserver),
   },
   props: {
-    additionalClasses: {
-      type: Array,
-      default: () => [],
-    },
     submitting: {
       type: Boolean,
       default: false,

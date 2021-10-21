@@ -389,9 +389,9 @@ export class LckAclTable extends LckBaseModel {
   read_rows = false
   update_rows = false
   delete_rows = false
-  read_filter = {}
-  update_filter = {}
-  delete_filter = {}
+  read_filter: object = {}
+  update_filter: object = {}
+  delete_filter: object = {}
   table?: LckTable
 
   constructor (aclSetId: string, table: LckTable | undefined) {

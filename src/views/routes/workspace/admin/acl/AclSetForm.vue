@@ -16,7 +16,7 @@
       <p-tab-panel :header="$t('pages.acl.detail.properties')">
         <lck-form
           :submitting="submitting.aclSet"
-          @submit="$emit('save-aclset', aclSet)"
+          @submit="$emit('set-aclset', aclSet)"
           @cancel="$emit('cancel')"
         >
 
@@ -66,8 +66,8 @@
               :placeholder="$t('components.datatable.placeholder')"
               :suggestions="chapterSuggestions"
               v-model="aclSet.chapter"
-              @item-select="aclSet.chapter_id = $event.value.id"
               @clear="aclSet.chapter_id = null"
+              @item-select="aclSet.chapter_id = $event.value.id"
               @search="$emit('search-chapter', $event.query)"
             />
             <span :class="classes" class="p-my-2">{{ errors[0] }}</span>
@@ -77,17 +77,18 @@
       </p-tab-panel>
 
       <!-- ACLTable configurations -->
-      <p-tab-panel v-if="aclSet && aclSet.id">
+      <p-tab-panel v-if="aclSet.id">
+
         <template #header>
           <span class="p-tabview-title">
             {{ $t("pages.acl.detail.aclTables") }}
           </span>
         </template>
+
         <p-datatable
-          v-if="aclSet && aclSet.id"
+          class="acltables"
           dataKey="id"
           :value="aclSet.acltables"
-          class="acltables"
         >
           <template #empty>{{ $t("pages.acl.detail.noAclTable") }}</template>
           <!-- Table header -->
@@ -95,9 +96,9 @@
             <p-row>
               <p-column
                 :header="$t('pages.acl.detail.aclTableName')"
-                :rowspan="2"
-                headerStyle="width: 250px; border-right-width: 1px;"
                 headerClass="sticky-column"
+                headerStyle="width: 250px; border-right-width: 1px;"
+                :rowspan="2"
               />
               <p-column
                 :colspan="4"
@@ -114,8 +115,8 @@
               <p-column
                 v-for="property in allAclTableProperties"
                 :field="property.label"
-                :key="property.label"
                 :headerStyle="property.style"
+                :key="property.label"
               >
                 <template #header>
                   <i :class="property.icon" :title="$t(`pages.acl.detail.${property.label}`)"></i>
@@ -125,9 +126,9 @@
           </p-column-group>
           <!-- Table body -->
           <p-column
-            field="table.text"
-            bodyStyle="border-right-width: 1px; background-color: white;"
             bodyClass="sticky-column"
+            bodyStyle="border-right-width: 1px; background-color: white;"
+            field="table.text"
           />
           <p-column
             v-for="property in aclTableProperties"
@@ -181,8 +182,6 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable @typescript-eslint/camelcase */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import Vue from 'vue'
 import { ValidationProvider } from 'vee-validate'
@@ -238,7 +237,7 @@ export default {
   props: {
     aclSet: {
       type: Object,
-      default: null,
+      required: true,
     } as Vue.PropOptions<LckAclSet>,
     chapterSuggestions: {
       type: Array,
@@ -330,7 +329,7 @@ export default {
   },
   methods: {
     setAclTable (aclTable: LckAclTable, index: number, data: Partial<LckAclTable>) {
-      this.$emit('set-acl-table', {
+      this.$emit('set-acltable', {
         index,
         aclTable,
         newData: data,
@@ -353,8 +352,8 @@ export default {
 /* Common */
 
 .aclset-form-container {
-  position: relative;
   padding: 0 0.5rem;
+  position: relative;
 }
 
 ::v-deep .lck-aclset-tab.p-tabview .p-tabview-nav {

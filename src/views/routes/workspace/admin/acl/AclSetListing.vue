@@ -55,9 +55,9 @@
         :submitting="submitting"
         @cancel="cancelEdit"
         @delete="deleteAclSet"
-        @save-aclset="saveAclSet"
         @search-chapter="onSearchChapter"
-        @set-acl-table="setAclTable"
+        @set-aclset="setAclSet"
+        @set-acltable="setAclTable"
       />
     </div>
     <p-confirm-dialog />
@@ -223,6 +223,43 @@ export default {
       this.chapterSuggestions = result.data
     },
     /**
+     * Update or create an aclset based on the aclset configuration form values.
+     */
+    async setAclSet ({ id, chapter_id, label, manager, workspace_id, acltables, chapter }: LckAclSet) {
+      if (!this.workspace?.aclsets) return
+      try {
+        this.submitting.aclSet = true
+        if (id) {
+          // On update
+          const savedAclSet = await lckServices.aclset.patch(id, {
+            chapter_id,
+            label,
+            manager,
+          })
+          savedAclSet.acltables = acltables
+          savedAclSet.chapter = chapter
+          this.selectedAclSet = savedAclSet
+          const indexOfAclSet = this.workspace.aclsets.findIndex(aclSet => aclSet.id === id)
+          this.$set(this.workspace.aclsets, indexOfAclSet, this.selectedAclSet)
+        } else {
+          // On create
+          this.selectedAclSet = await lckServices.aclset.create({
+            chapter_id,
+            label,
+            manager,
+            workspace_id,
+          })
+          this.selectedAclSet.chapter = chapter
+          this.setDefaultAclTables(this.selectedAclSet)
+          this.workspace.aclsets.push(this.selectedAclSet)
+        }
+      } catch (error) {
+        this.displayToastOnError(error)
+      } finally {
+        this.submitting.aclSet = false
+      }
+    },
+    /**
      * Create or update an acl table linked the selected acl set.
      */
     async setAclTable ({ index, aclTable, newData }: { index: number; aclTable: LckAclTable; newData: Partial<LckAclTable> }) {
@@ -242,43 +279,6 @@ export default {
       }
     },
     /**
-     * Update or create an aclset based on the aclset configuration form values.
-     */
-    async saveAclSet ({ id, chapter_id, label, manager, workspace_id, acltables, chapter }: LckAclSet) {
-      if (!this.workspace?.aclsets) return
-      try {
-        this.submitting.aclSet = true
-        if (id) {
-          // On update
-          const savedAclSet = await lckServices.aclset.patch(id, {
-            label,
-            manager,
-            chapter_id,
-          })
-          savedAclSet.acltables = acltables
-          savedAclSet.chapter = chapter
-          this.selectedAclSet = savedAclSet
-          const indexOfAclSet = this.workspace.aclsets.findIndex(aclSet => aclSet.id === id)
-          this.$set(this.workspace.aclsets, indexOfAclSet, this.selectedAclSet)
-        } else {
-          // On create
-          this.selectedAclSet = await lckServices.aclset.create({
-            label,
-            manager,
-            workspace_id,
-            chapter_id,
-          })
-          this.selectedAclSet.chapter = chapter
-          this.setDefaultAclTables(this.selectedAclSet)
-          this.workspace.aclsets.push(this.selectedAclSet)
-        }
-      } catch (error) {
-        this.displayToastOnError(error)
-      } finally {
-        this.submitting.aclSet = false
-      }
-    },
-    /**
      * Complete and set default acl tables for the selected aclset.
      */
     setDefaultAclTables (aclSet: LckAclSet) {
@@ -292,7 +292,7 @@ export default {
       // Define default acltables for the tables that are not yet linked to the current acltable
       for (const tableId in this.tables) {
         if (!addedTablesIds.has(tableId)) {
-          aclTables.push(new LckAclTable(this.selectedAclSet!.id, this.tables[tableId]))
+          aclTables.push(new LckAclTable(aclSet.id, this.tables[tableId]))
         }
       }
       // Sort acltable by table name
