@@ -30,10 +30,9 @@
         classes
       }"
     >
-      <label for="column-name">
+      <label for="column-name" class="label-field-required">
         {{ $t('pages.databaseSchema.handleColumnModal.columnName') }}
       </label>
-      <span class="field-required">*</span>
       <p-input-text
         v-model="columnNameToHandle"
         id="column-name"
@@ -85,6 +84,14 @@
         />
       </validation-provider>
     </div>
+    <div>
+      {{ $t('pages.databaseSchema.handleColumnModal.validation') }}
+      <lck-column-validation
+        :columnType="selectedColumnTypeIdToHandle"
+        :columnValidation="columnValidation"
+        class="p-my-2"
+      />
+    </div>
     <validation-provider
       vid="column-type"
       tag="div"
@@ -96,10 +103,9 @@
         classes
       }"
     >
-      <label for="column-type">
+      <label for="column-type" class="label-field-required">
         {{ $t('pages.databaseSchema.handleColumnModal.columnType') }}
       </label>
-      <span class="field-required">*</span>
       <p-dropdown
         @change="onSelectedColumnTypeTohandleChange"
         id="column-type"
@@ -170,8 +176,7 @@
         validate,
       }"
     >
-      <label for="column-formula-content">{{ $t('components.formulas.formula') }}</label>
-      <span class="field-required">*</span>
+      <label for="column-formula-content" class="label-field-required">{{ $t('components.formulas.formula') }}</label>
       <lck-monaco-editor
         id="column-formula-content"
         :handledError="errorHandleColumn"
@@ -216,6 +221,7 @@ import Checkbox from 'primevue/checkbox'
 
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn.vue'
+import ColumnValidation from '@/components/admin/database/ColumnValidation/ColumnValidation.vue'
 import RelationBetweenTablesTypeColumn from '@/views/modals/RelationBetweenTablesTypeColumn.vue'
 import LookedUpTypeColumn from '@/views/modals/LookedUpTypeColumn.vue'
 
@@ -227,6 +233,7 @@ export default {
     'lck-monaco-editor': () => import(/* webpackChunkName: "lck-monaco-editor" */'@/components/store/MonacoEditor/MonacoEditor.vue'),
     'lck-relation-between-tables-type-column': RelationBetweenTablesTypeColumn,
     'lck-looked-up-type-column': LookedUpTypeColumn,
+    'lck-column-validation': ColumnValidation,
     'p-input-text': Vue.extend(InputText),
     'p-textarea': Vue.extend(Textarea),
     'p-dropdown': Vue.extend(Dropdown),
@@ -261,6 +268,7 @@ export default {
       })),
       columnNameToHandle: null,
       columnDocumentation: null,
+      columnValidation: {},
       referenceToHandle: { isActive: false, position: 0 },
       selectedColumnTypeIdToHandle: null,
       errorHandleColumn: null,
@@ -298,6 +306,7 @@ export default {
       this.columnNameToHandle = null
       this.columnDocumentation = null
       this.selectedColumnTypeIdToHandle = null
+      this.columnValidation = {}
       this.$emit('close', false)
     },
     async confirmHandleColumnModal () {
@@ -315,6 +324,7 @@ export default {
               // eslint-disable-next-line @typescript-eslint/camelcase
               // column_type_id: this.selectedColumnTypeIdToHandle,
               settings: this.getSettings(),
+              validation: this.columnValidation,
             })
           } else {
             await lckServices.tableColumn.create({
@@ -328,11 +338,13 @@ export default {
               // eslint-disable-next-line @typescript-eslint/camelcase
               column_type_id: this.selectedColumnTypeIdToHandle,
               settings: this.getSettings(),
+              validation: this.columnValidation,
             })
           }
           this.columnNameToHandle = null
           this.columnDocumentation = null
           this.selectedColumnTypeIdToHandle = null
+          this.columnValidation = {}
           this.$emit('close', true)
         } else {
           throw new Error(this.$t('pages.databaseSchema.handleColumnModal.errorNoData'))
@@ -403,6 +415,7 @@ export default {
           this.referenceToHandle.position = this.columnToHandle.reference_position
         }
         this.selectedColumnTypeIdToHandle = this.columnToHandle.column_type_id
+        this.columnValidation = this.columnToHandle.validation || {}
         // Set formula column
         if (this.isFormulaType) {
           this.settings.formula = formulaColumnsIdsToNames(

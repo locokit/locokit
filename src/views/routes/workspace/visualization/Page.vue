@@ -645,12 +645,13 @@ export default {
       }
       this.$set(block, 'loading', false)
     },
-    async onUpdateSuggestions ({ columnTypeId, settings }, { query }) {
+    async onUpdateSuggestions ({ columnTypeId, settings, filter }, { query }) {
       this.autocompleteSuggestions = await this.searchItems({
         columnTypeId: columnTypeId,
         tableId: settings?.tableId,
         query,
         groupId: this.groupId,
+        filter,
       })
     },
     async onUpdateCell (block, {
@@ -1523,7 +1524,12 @@ export default {
     min-height: 100%;
     overflow: hidden;
   }
-  .lck-layout-full .lck-page-content .lck-container-parent,
+  .lck-layout-full .lck-page-content .lck-container-parent {
+    height: calc(100% - 5rem);
+    max-height: calc(100% - 5rem);
+    min-height: unset;
+    overflow: hidden;
+  }
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container,
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container .lck-block-parent,
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container .lck-block-parent .lck-block {

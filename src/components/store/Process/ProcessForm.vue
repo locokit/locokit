@@ -15,10 +15,9 @@
         classes
       }"
     >
-      <label for="label">
+      <label for="label" class="label-field-required">
         {{ $t('components.process.form.text.label') }}
       </label>
-      <span class="field-required">*</span>
       <p-input-text
         id="label"
         type="text"
@@ -38,10 +37,9 @@
         classes
       }"
     >
-      <label for="url">
+      <label for="url" class="label-field-required">
         {{ $t('components.process.form.url') }}
       </label>
-      <span class="field-required">*</span>
       <p-input-text
         id="url"
         type="text"
@@ -75,10 +73,9 @@
         classes
       }"
     >
-      <label for="table">
+      <label for="table" class="label-field-required">
         {{ $t('components.process.form.table.label') }}
       </label>
-      <span class="field-required">*</span>
       <lck-autocomplete
         id="table"
         :dropdown="true"
@@ -103,10 +100,9 @@
         classes
       }"
     >
-      <label for="trigger">
+      <label for="trigger" class="label-field-required">
         {{ $t('components.process.form.trigger') }}
       </label>
-      <span class="field-required">*</span>
       <p-dropdown
         id="trigger"
         :dropdown="true"

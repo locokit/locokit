@@ -11,18 +11,13 @@ exports[`storyshots views/modals/RelationBetweenTablesTypeColumn default 1`] = `
       class="p-field"
     >
       <label
+        class="label-field-required"
         for="relation-between-tables-id"
       >
         
     Relation table
   
       </label>
-       
-      <span
-        class="field-required"
-      >
-        *
-      </span>
        
       <div
         class="p-dropdown p-component p-inputwrapper"

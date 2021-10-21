@@ -3,10 +3,6 @@
     <header class="p-my-4 lck-color-title">
       {{ $t('pages.workspace.title') }}
     </header>
-    <template>
-      <p v-if="$can('create', 'workspace')"></p>
-      <p v-else>{{ $t('pages.workspace.noWorkspace') }}</p>
-    </template>
 
     <p-card v-if="loading">
       <template slot="content">
@@ -21,6 +17,9 @@
         ></p-skeleton>
       </template>
     </p-card>
+
+    <p v-if="!loading && groups.length === 0">{{ $t('pages.workspace.noWorkspace') }}</p>
+
     <p-card
       class="p-mb-4 p-col"
       v-for="group in groups"

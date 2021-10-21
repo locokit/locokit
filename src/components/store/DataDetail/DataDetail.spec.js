@@ -168,6 +168,105 @@ const mockTableView2Content = {
   ],
 }
 
+const definitionWithConditionalDisplay = {
+  text: 'Testing conditional display',
+  table_id: '0076b18b-5c85-4587-bff7-bba95f7361ca',
+  columns: [
+    {
+      text: 'Text',
+      id: 'e065323c-1151-447f-be0f-6d2728117b38',
+      table_id: '0076b18b-5c85-4587-bff7-bba95f7361ca',
+      column_type_id: COLUMN_TYPE.STRING,
+      order: null,
+      filter: null,
+      displayed: true,
+      editable: true,
+    },
+    {
+      text: 'Boolean / Checkbox',
+      id: 'e165323c-1151-447f-be0f-6d2728117b38',
+      table_id: '0076b18b-5c85-4587-bff7-bba95f7361ca',
+      column_type_id: COLUMN_TYPE.BOOLEAN,
+      order: null,
+      filter: null,
+      displayed: true,
+      editable: true,
+    },
+    {
+      text: 'Conditional text if previous boolean is checked',
+      id: '882326b8-b634-4ebb-aeb3-a2a2aa082c11',
+      table_id: '0076b18b-5c85-4587-bff7-bba95f7361ca',
+      column_type_id: COLUMN_TYPE.TEXT,
+      order: null,
+      filter: null,
+      displayed: true,
+      editable: true,
+      display_conditions: [{
+        field_id: 'e165323c-1151-447f-be0f-6d2728117b38',
+        operator: '$eq',
+        value: true,
+      }],
+    },
+    {
+      text: 'Conditional text if previous boolean is not checked',
+      id: 'cf1ad5b7-54d0-46a2-9bd2-8b1ecf059c42',
+      table_id: '0076b18b-5c85-4587-bff7-bba95f7361ca',
+      column_type_id: COLUMN_TYPE.TEXT,
+      order: null,
+      filter: null,
+      displayed: true,
+      editable: true,
+      display_conditions: [{
+        field_id: 'e165323c-1151-447f-be0f-6d2728117b38',
+        operator: '$ne', // here we use $ne, because if field is pristine, it could be null
+        value: true,
+      }],
+    },
+    {
+      text: 'Status',
+      id: 'b15bfe13-b18b-40ca-9637-1611c789b7c2',
+      settings: {
+        values: {
+          first: {
+            label: 'Done',
+          },
+          second: {
+            label: 'Out of order',
+
+          },
+          third: {
+            label: 'For other case (third), please specify in next field.',
+          },
+          fourth: {
+            label: 'For other case (fourth), please specify in next field.',
+          },
+        },
+      },
+      table_id: '0076b18b-5c85-4587-bff7-bba95f7361ca',
+      column_type_id: COLUMN_TYPE.SINGLE_SELECT,
+      order: null,
+      filter: null,
+      displayed: true,
+      editable: true,
+    },
+    {
+      text: 'Conditional text if previous single select is third / fourth value',
+      id: '87e6fd3e-d016-4509-bfe5-89796812cc17',
+      table_id: '0076b18b-5c85-4587-bff7-bba95f7361ca',
+      column_type_id: COLUMN_TYPE.TEXT,
+      order: null,
+      filter: null,
+      displayed: true,
+      editable: true,
+      display_conditions: [{
+        field_id: 'b15bfe13-b18b-40ca-9637-1611c789b7c2',
+        operator: '$in',
+        value: ['third', 'fourth'],
+      }],
+    },
+  ],
+}
+
 jest.mock('@/components/ui/ColumnType/Geometry/Map.vue', () => ({
   render: () => '<lck-stub-map />',
 }))
@@ -320,6 +419,73 @@ describe('DataDetail', () => {
           },
         })
       })
+    })
+  })
+
+  describe('Manage conditional fields ($eq, $ne, $in)', () => {
+    it('display / hide fields if an initial condition is respected', () => {
+      expect.assertions(4)
+      const wrapper = mount(DataDetail, {
+        propsData: {
+          workspaceId: '1',
+          definition: definitionWithConditionalDisplay,
+          row: {
+            data: {},
+          },
+        },
+        ...defaultWrapperParams,
+      })
+
+      expect(wrapper.html()).toMatchSnapshot()
+
+      const wrapperText = wrapper.text()
+
+      expect(wrapperText.indexOf('Conditional text if previous boolean is checked')).toBe(-1)
+      expect(wrapperText.indexOf('Conditional text if previous boolean is not checked') > -1).toBe(true)
+      expect(wrapperText.indexOf('Conditional text if previous single select is third / fourth value')).toBe(-1)
+    })
+    it('display / hide fields if a condition change in time', async () => {
+      expect.assertions(11)
+      const wrapper = mount(DataDetail, {
+        propsData: {
+          workspaceId: '1',
+        },
+        ...defaultWrapperParams,
+      })
+      await wrapper.setProps({
+        definition: definitionWithConditionalDisplay,
+        row: {
+          data: {},
+        },
+      })
+
+      let wrapperText = wrapper.text()
+
+      expect(wrapperText.indexOf('Conditional text if previous boolean is checked')).toBe(-1)
+      expect(wrapperText.indexOf('Conditional text if previous boolean is not checked') > -1).toBe(true)
+      expect(wrapperText.indexOf('Conditional text if previous single select is third / fourth value')).toBe(-1)
+
+      expect(wrapper.html()).toMatchSnapshot()
+
+      await wrapper.find('input[type=checkbox]').trigger('click')
+
+      expect(wrapper.vm.$props.row.data['e165323c-1151-447f-be0f-6d2728117b38']).toBe(true)
+
+      expect(wrapper.html()).toMatchSnapshot()
+
+      wrapperText = wrapper.text()
+
+      expect(wrapperText.indexOf('Conditional text if previous boolean is checked') > -1).toBe(true)
+      expect(wrapperText.indexOf('Conditional text if previous boolean is not checked')).toBe(-1)
+
+      await wrapper.find('.p-dropdown.p-component.p-inputwrapper.p-dropdown-clearable').trigger('click')
+      await wrapper.find('li:nth-of-type(3)').trigger('click')
+      expect(wrapper.vm.$props.row.data['b15bfe13-b18b-40ca-9637-1611c789b7c2']).toBe('third')
+
+      wrapperText = wrapper.text()
+      expect(wrapperText.indexOf('Conditional text if previous single select is third / fourth value') > -1).toBe(true)
+
+      expect(wrapper.html()).toMatchSnapshot()
     })
   })
 })

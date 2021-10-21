@@ -27,8 +27,7 @@
         classes
       }"
     >
-      <label for="blockTypeField">{{ $t('pages.workspace.block.type') }}</label>
-      <span class="field-required">*</span>
+      <label for="blockTypeField" class="label-field-required">{{ $t('pages.workspace.block.type') }}</label>
       <p-dropdown
         id="blockTypeField"
         v-model="blockCopy.type"

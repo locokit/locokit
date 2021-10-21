@@ -12,18 +12,13 @@ exports[`storyshots views/modals/LookedUpTypeColumn Create 1`] = `
         class="p-field"
       >
         <label
+          class="label-field-required"
           for="local-field-id"
         >
           
       Local field
     
         </label>
-         
-        <span
-          class="field-required"
-        >
-          *
-        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-disabled"
@@ -76,18 +71,13 @@ exports[`storyshots views/modals/LookedUpTypeColumn Create 1`] = `
         class="p-field"
       >
         <label
+          class="label-field-required"
           for="foreign-field-id"
         >
           
       Foreign field
     
         </label>
-         
-        <span
-          class="field-required"
-        >
-          *
-        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-disabled"
