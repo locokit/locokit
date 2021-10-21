@@ -146,13 +146,9 @@ export async function defineAbilityFor (
             table_id: tableId,
           },
         }
-      } else {
-
       }
       const aclsetsSimple = await services.aclset.find(aclsetParams) as LckAclSet[] || []
-      console.log(aclsetsSimple)
       aclsetsSimple.forEach(currentAclset => {
-        console.log('current acl', currentAclset)
         /**
          * if the user is a member of a gr oup managing the workspace,
          * he has access to all the workspace, so to all of the workspace > database > tables
