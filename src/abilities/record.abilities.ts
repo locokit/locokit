@@ -116,6 +116,20 @@ export async function defineAbilityFor (
 
       // find matching acl for the current user through aclset > group
       // maybe filter by table ?
+
+      /**
+       * Retrieve acls for the current user
+       * Beware, if we want to retrieve acls for a table,
+       * BUT the user is a manager of the workspace,
+       * we won't have any records for the table in acl_table
+       * because a manager can manage all tables.
+       *
+       * So, first, we need to retrieve the table > db
+       * to detect on which workspace we are.
+       *
+       * Then, if the user is not a manager,
+       * we'll try to find acl for the table_id
+       */
       const aclsetParams: Params & { query: Query } = {
         query: {
           $joinRelation: '[groupsacl.[users]]',
@@ -124,16 +138,21 @@ export async function defineAbilityFor (
         },
         paginate: false,
       }
+      console.log(tableId)
       if (tableId) {
-        aclsetParams.query.$joinRelation = '[groupsacl.[users], acltables]'
+        // aclsetParams.query.$joinRelation = '[groupsacl.[users], acltables]'
         aclsetParams.query.$modifyEager = {
           acltables: {
             table_id: tableId,
           },
         }
+      } else {
+
       }
       const aclsetsSimple = await services.aclset.find(aclsetParams) as LckAclSet[] || []
+      console.log(aclsetsSimple)
       aclsetsSimple.forEach(currentAclset => {
+        console.log('current acl', currentAclset)
         /**
          * if the user is a member of a gr oup managing the workspace,
          * he has access to all the workspace, so to all of the workspace > database > tables

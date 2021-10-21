@@ -88,7 +88,20 @@ describe('Records abilities', () => {
       expect(ability.can('manage', subject('row', { table_id: 'pouet' }))).toBe(false)
       expect(ability.can('manage', subject('row', { table_id: 'pouic' }))).toBe(false)
     })
+    it('can manage rows even if we ask for a specific table', async () => {
+      expect.assertions(8)
+      ability = await defineAbilityFor(setupData.user4, {}, app.services, setupData.table1Id)
+      expect(ability.can('create', 'row')).toBe(true)
+      expect(ability.can('read', 'row')).toBe(true)
+      expect(ability.can('update', 'row')).toBe(true)
+      expect(ability.can('delete', 'row')).toBe(true)
+      expect(ability.can('create', subject('row', { table_id: setupData.table1Id }))).toBe(true)
+      expect(ability.can('read', subject('row', { table_id: setupData.table1Id }))).toBe(true)
+      expect(ability.can('update', subject('row', { table_id: setupData.table1Id }))).toBe(true)
+      expect(ability.can('delete', subject('row', { table_id: setupData.table1Id }))).toBe(true)
+    })
   })
+
   describe('when user (user3, aclset2) is a simple USER (without manager acl)', () => {
     let acltable: LckAclTable | null = null
     it('can not crud rows by default', async () => {
