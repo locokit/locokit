@@ -1,18 +1,24 @@
 <template>
-  <div
-    class="generic-view-container p-mx-auto"
-  >
+  <div class="generic-view-container p-mx-auto">
     <header class="p-my-4 lck-color-title">
       {{ $t('pages.workspace.title') }}
     </header>
 
     <p-card v-if="loading">
       <template slot="content">
-        <p-skeleton width="10rem" class="p-mb-2"></p-skeleton>
+        <p-skeleton
+          width="10rem"
+          class="p-mb-2"
+        ></p-skeleton>
         <p-skeleton class="p-mb-2"></p-skeleton>
-        <p-skeleton width="10rem" height="2rem"></p-skeleton>
+        <p-skeleton
+          width="10rem"
+          height="2rem"
+        ></p-skeleton>
       </template>
     </p-card>
+
+    <p v-if="!loading && groups.length === 0">{{ $t('pages.workspace.noWorkspace') }}</p>
 
     <p-card
       class="p-mb-4 p-col"
@@ -110,7 +116,7 @@
           :autoResize="true"
           v-model="newWorkspace.documentation"
         />
-        <br/>
+        <br />
         <p-button
           icon="pi pi-plus-circle"
           :label="$t('pages.workspace.form.create')"

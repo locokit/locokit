@@ -39,7 +39,8 @@ export async function searchItems ({
   tableId,
   query,
   groupId,
-}: { columnTypeId: number; tableId: string; query: string; groupId: string }) {
+  filter = {},
+}: { columnTypeId: number; tableId: string; query: string; groupId: string; filter?: object }) {
   let items = null
   if (columnTypeId === COLUMN_TYPE.USER || columnTypeId === COLUMN_TYPE.MULTI_USER) {
     const result = await lckServices.user.find({
@@ -51,6 +52,7 @@ export async function searchItems ({
         $sort: {
           name: 1,
         },
+        ...filter,
       },
     }) as Paginated<LckUser>
     items = result.data.map(d => ({
@@ -66,6 +68,7 @@ export async function searchItems ({
         $sort: {
           name: 1,
         },
+        ...filter,
       },
     }) as Paginated<LckGroup>
     items = result.data.map(d => ({
@@ -85,6 +88,7 @@ export async function searchItems ({
         $sort: {
           text: 1,
         },
+        ...filter,
       },
     }) as Paginated<LckTableRow>
     items = result.data.map(d => ({

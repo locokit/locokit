@@ -2,24 +2,37 @@
   <div class="container">
     <p-toolbar class="p-d-flex p-flex-wrap">
       <template slot="left">
-          {{ $t('pages.databaseSchema.title') }}
+        {{ $t('pages.databaseSchema.title') }}
       </template>
       <template slot="right">
         <p-button
-          label="Table"
-          icon="pi pi-plus"
+          :label="$t('pages.databaseSchema.addTable')"
+          icon="bi bi-plus-lg"
           @click="onClickCreateTableModalButton"
         />
       </template>
     </p-toolbar>
+    <p
+      v-if="tables && tables.length === 0"
+      class="schema-info"
+    >
+      <i class="bi bi-info-circle"></i>
+      {{ $t('pages.databaseSchema.noTable') }}
+    </p>
     <div
-      v-if="!errorLoadTables"
+      v-else-if="!errorLoadTables"
       id="svg-container"
       v-html="nomnomlSVG"
       @click="onClickTable"
     >
     </div>
-    <div v-else>Erreur</div>
+    <p
+      v-else
+      class="schema-info"
+    >
+      <i class="bi bi-exclamation-circle"></i>
+      {{ $t('pages.databaseSchema.noSchema') }}
+    </p>
     <create-table-modal
       :visible="showCreateTableModal"
       :databaseId="databaseId"
@@ -31,27 +44,39 @@
       :currentTable="currentTable"
       @reload-tables="reloadTables"
       @close="onCloseUpdateTableSidebar"
+      @confirm="onConfirmationDeleteColumn($event)"
     />
+    <p-confirm-dialog />
   </div>
+
 </template>
-<script>
+
+<script lang="ts">
 import Vue from 'vue'
-import { lckServices } from '@/services/lck-api'
-import nomnoml from 'nomnoml'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+
+import { renderSvg } from 'nomnoml'
 import svgPanZoom from 'svg-pan-zoom'
-import Toolbar from 'primevue/toolbar'
+
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { lckServices } from '@/services/lck-api'
+import { LckTable, LckTableColumn } from '@/services/lck-api/definitions'
+import { objectFromArray } from '@/services/lck-utils/arrays'
+
 import Button from 'primevue/button'
-import CreateTableModal from '@/views/modals/CreateTableModal'
-import UpdateTableSidebar from '@/views/modals/UpdateTableSidebar'
+import ConfirmDialog from 'primevue/confirmdialog'
+import Toolbar from 'primevue/toolbar'
+
+import CreateTableModal from '@/views/modals/CreateTableModal.vue'
+import UpdateTableSidebar from '@/views/modals/UpdateTableSidebar.vue'
 
 export default {
   name: 'DatabaseSchema',
   components: {
+    'create-table-modal': CreateTableModal,
+    'update-table-sidebar': UpdateTableSidebar,
+    'p-confirm-dialog': Vue.extend(ConfirmDialog),
     'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button),
-    'create-table-modal': Vue.extend(CreateTableModal),
-    'update-table-sidebar': Vue.extend(UpdateTableSidebar),
   },
   props: {
     databaseId: String,
@@ -65,30 +90,35 @@ export default {
       showCreateTableModal: false,
       showUpdateTableSidebar: false,
       currentTable: null,
+    } as {
+      nomnomlSVG: string | null;
+      SVGPanZoom: typeof svgPanZoom | null;
+      tables: LckTable[] | null;
+      errorLoadTables: boolean;
+      showCreateTableModal: boolean;
+      showUpdateTableSidebar: boolean;
+      currentTable: LckTable | null;
     }
   },
   computed: {
-    tablesIndexedByText () {
-      if (!this.tables || this.tables.length < 1) return null
-      const result = {}
-      this.tables.forEach(t => {
-        result[t.text] = t
-      })
-      return result
+    tablesIndexedByText (): Record<string, LckTable> {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      if (!this.tables || this.tables!.length < 1) return {}
+      return objectFromArray<LckTable>(this.tables, 'text')
     },
   },
   methods: {
     onClickCreateTableModalButton () {
       this.showCreateTableModal = true
     },
-    onCloseCreateTableModal (shouldReloadTables) {
+    onCloseCreateTableModal (shouldReloadTables: boolean) {
       if (shouldReloadTables) {
         this.reloadTables()
       }
       this.showCreateTableModal = false
     },
-    onClickTable (e) {
-      const currentTableName = e.target.attributes['data-name']?.value
+    onClickTable (e: { target: SVGElement }) {
+      const currentTableName = e.target.attributes.getNamedItem('data-name')?.value
       if (currentTableName) {
         this.currentTable = this.tablesIndexedByText[currentTableName]
         this.showUpdateTableSidebar = true
@@ -98,7 +128,33 @@ export default {
       this.currentTable = null
       this.showUpdateTableSidebar = false
     },
-    createSource (tables) {
+    onConfirmationDeleteColumn (column: LckTableColumn) {
+      this.$confirm.require({
+        message: `${this.$t('form.specificDeleteConfirmation')} ${column.text}`,
+        header: this.$t('form.confirmation'),
+        icon: 'pi pi-exclamation-triangle',
+        accept: async () => {
+          try {
+            await lckServices.tableColumn.remove(column.id)
+            this.reloadTables()
+            this.$toast.add({
+              severity: 'success',
+              summary: this.$t('components.processPanel.SUCCESS'),
+              detail: this.$t('success.removed'),
+              life: 5000,
+            })
+          } catch (error) {
+            this.$toast.add({
+              severity: 'error',
+              summary: this.$t('components.processPanel.ERROR'),
+              detail: this.$t('components.processPanel.failedNewRun'),
+              life: 5000,
+            })
+          }
+        },
+      })
+    },
+    createSource (tables: LckTable[]) {
       const sourceStyle = [
         '#fill: #ffffff',
         '#lineWidth: 1',
@@ -107,17 +163,17 @@ export default {
         '#ranker: longest-path',
         '#title: ' + this.$t('pages.databaseSchema.title'),
       ]
-      const sourceTable = []
-      const sourceRelation = []
+      const sourceTable: string[] = []
+      const sourceRelation: string[] = []
       tables.forEach(table => {
         if (table && table.id && table.text) {
-          const columns = []
+          const columns: string[] = []
           if (table.columns && Array.isArray(table.columns)) {
             table.columns.forEach(column => {
               if (column) {
                 const hasRelation = (column.column_type_id === COLUMN_TYPE.RELATION_BETWEEN_TABLES) // && column.settings.tableId
                 if (column.text) {
-                  columns.push(`${column.text.replaceAll('[', '').replaceAll(']', '') + (column.column_type_id ? ': ' + column.column_type_id : '') + (hasRelation ? '🔑' : '')}`)
+                  columns.push(`${column.text.replaceAll('[', '').replaceAll(']', '') + (hasRelation ? '🔑' : '')}`)
                 }
                 if (hasRelation) {
                   const relationTable = tables.find(table => table.id === column.settings.tableId)
@@ -140,12 +196,13 @@ export default {
             // eslint-disable-next-line @typescript-eslint/camelcase
             database_id: this.databaseId,
             $eager: '[columns]',
-            $limit: 100,
+            $limit: -1,
           },
-        })
-        this.tables = tablesWithColumns?.data
+        }) as LckTable[]
+        this.tables = tablesWithColumns
         if (this.currentTable) {
-          this.currentTable = tablesWithColumns?.data.find((table) => table.id === this.currentTable.id)
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          this.currentTable = tablesWithColumns.find((table) => table.id === this.currentTable!.id) || null
         }
       } catch (errorLoadTables) {
         this.errorLoadTables = true
@@ -155,23 +212,19 @@ export default {
       this.resizenomnomlSVG()
     },
     resizenomnomlSVG () {
-      this.SVGPanZoom.resize()
-      this.SVGPanZoom.fit()
-      this.SVGPanZoom.center()
+      if (this.SVGPanZoom) {
+        this.SVGPanZoom.resize()
+        this.SVGPanZoom.center()
+      }
     },
-    reloadTables () {
-      this.loadTables()
+    async reloadTables () {
+      await this.loadTables()
       this.resizenomnomlSVG()
     },
   },
-  mounted () {
-    this.loadTables()
-  },
-  updated () {
-    if (this.nomnomlSVG && !this.errorLoadTables) {
-      this.SVGPanZoom = svgPanZoom('#svg-container > svg', { controlIconsEnabled: true })
-      window.addEventListener('resize', this.onResize)
-    }
+  async mounted () {
+    await this.loadTables()
+    window.addEventListener('resize', this.onResize)
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.onResize)
@@ -180,36 +233,61 @@ export default {
     tables () {
       if (this.tables && this.tables.length > 0) {
         const nomnomlSource = this.createSource(this.tables)
-        const nomnomlSVG = nomnoml.renderSvg(nomnomlSource)
+        const nomnomlSVG = renderSvg(nomnomlSource)
         this.nomnomlSVG = nomnomlSVG
+        // Wait the SVG is loaded
+        this.$nextTick(() => {
+          if (!this.errorLoadTables) {
+            // Manage the zoom level
+            this.SVGPanZoom = svgPanZoom('#svg-container > svg', { controlIconsEnabled: true, minZoom: 0.1 })
+            this.SVGPanZoom.zoomBy(1 / this.SVGPanZoom.getSizes().realZoom)
+          }
+        })
       }
     },
   },
 }
 </script>
+
 <style>
 .container {
   display: flex;
   flex-direction: column;
   max-width: 100vw;
-  max-height: 100%;
+  height: 100%;
 }
+
 #svg-container {
   max-width: 100vw;
-  max-height: 100%;
+  height: 100%;
   overflow: hidden;
 }
+
 #svg-container svg {
   width: 100vw;
   height: 100%;
   cursor: move;
   user-select: none;
 }
+
 rect[data-name]:hover {
   fill: #e5e5e5 !important;
   cursor: pointer;
 }
-text[data-name], path {
+
+text[data-name],
+path {
   pointer-events: none;
+}
+.schema-info {
+  color: var(--text-color);
+  font-style: italic;
+  margin: auto;
+  text-align: center;
+}
+.schema-info i {
+  display: block;
+  font-size: 3rem;
+  margin-bottom: 1rem;
 }
 </style>

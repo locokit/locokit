@@ -151,8 +151,6 @@ exports[`storyshots components/admin/database/SelectTypeColumn Create 1`] = `
         <!---->
       </div>
     </div>
-     
-    <span />
   </div>
 </div>
 `;
@@ -308,8 +306,6 @@ exports[`storyshots components/admin/database/SelectTypeColumn Update 1`] = `
         <!---->
       </div>
     </div>
-     
-    <span />
   </div>
 </div>
 `;

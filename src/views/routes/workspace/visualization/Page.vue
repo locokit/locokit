@@ -112,7 +112,7 @@
                 @export-view-xls="onExportViewXLS(block)"
                 @update-filters="onUpdateFilters(block, $event)"
                 @update-block="onBlockEditClick(container, block)"
-                @delete-block="onBlockDeleteClick(container, block)"
+                @confirm-delete-block="onBlockDeleteClick(container, block)"
                 @get-secondary-sources="getSecondarySources(block, $event)"
 
                 @download-attachment="onDownloadAttachment"
@@ -160,11 +160,11 @@
 
       @add-new-block="onBlockEditClickFromSidebar"
       @edit-block="onBlockEditClickFromSidebar"
-      @delete-block="onBlockDeleteClick(currentContainerToEdit, $event)"
+      @confirm-delete-block="onBlockDeleteClick(currentContainerToEdit, $event)"
 
       @add-new-container="onContainerEditClickFromSidebar"
       @edit-container="onContainerEditClickFromSidebar"
-      @delete-container="onContainerDeleteClick($event)"
+      @confirm-delete-container="onContainerDeleteClick($event)"
 
       @reset-current-block="onBlockEditClickFromSidebar"
       @reset-current-container="onContainerEditClickFromSidebar"
@@ -175,25 +175,7 @@
       @search-block-display-table-view="onSearchBlockDisplayTableView"
       @search-block-display-field="onSearchBlockDisplayField"
     />
-    <delete-confirmation-dialog
-      :submitting="submitting"
-      :visible="dialogVisibility.containerDelete"
-      :value="currentContainerToDelete"
-      :itemCategory="$t('pages.workspace.container.title')"
-      @close="onContainerDeleteClose"
-      @input="onContainerDeleteInput"
-    />
-    <delete-confirmation-dialog
-      :submitting="submitting"
-      :visible="dialogVisibility.blockDelete"
-      :value="currentBlockToDelete"
-      :itemCategory="$t('pages.workspace.block.title')"
-      fieldToDisplay="title"
-      @close="onBlockDeleteClose"
-      @input="onBlockDeleteInput"
-    />
   </div>
-
 </template>
 
 <script>
@@ -207,6 +189,8 @@ import {
   EXTERNAL_APP_URL_PART_TYPE,
 } from '@locokit/lck-glossary'
 
+import { ROUTES_NAMES } from '@/router/paths'
+import { PROCESS_RUN_STATUS } from '@/services/lck-api/definitions'
 import {
   lckHelpers,
   lckServices,
@@ -218,25 +202,22 @@ import {
 import {
   objectFromArray,
 } from '@/services/lck-utils/arrays'
-import Breadcrumb from 'primevue/breadcrumb'
-import Button from 'primevue/button'
 import {
   createProcessRun,
 } from '@/services/lck-helpers/process'
 
+import Breadcrumb from 'primevue/breadcrumb'
+import Button from 'primevue/button'
+
 import Block from '@/components/visualize/Block/Block.vue'
 import UpdateSidebar from '@/components/visualize/UpdateSidebar/UpdateSidebar.vue'
-import DeleteConfirmationDialog from '@/components/ui/DeleteConfirmationDialog/DeleteConfirmationDialog.vue'
 import NavAnchorLink from '@/components/ui/NavAnchorLink/NavAnchorLink.vue'
-import { ROUTES_NAMES } from '@/router/paths'
-import { PROCESS_RUN_STATUS } from '@/services/lck-api/definitions'
 
 export default {
   name: 'Page',
   components: {
     Block,
     'update-sidebar': UpdateSidebar,
-    'delete-confirmation-dialog': DeleteConfirmationDialog,
     'lck-nav-anchor-link': NavAnchorLink,
     'p-breadcrumb': Vue.extend(Breadcrumb),
     'p-button': Vue.extend(Button),
@@ -282,10 +263,6 @@ export default {
       currentBlockToEdit: {},
       currentBlockToDelete: {},
       submitting: false,
-      dialogVisibility: {
-        containerDelete: false,
-        blockDelete: false,
-      },
       editableSidebarWidth: '30rem',
       editableAutocompleteSuggestions: null,
       blockDisplayTableViewSuggestions: null,
@@ -668,12 +645,13 @@ export default {
       }
       this.$set(block, 'loading', false)
     },
-    async onUpdateSuggestions ({ columnTypeId, settings }, { query }) {
+    async onUpdateSuggestions ({ columnTypeId, settings, filter }, { query }) {
       this.autocompleteSuggestions = await this.searchItems({
         columnTypeId: columnTypeId,
         tableId: settings?.tableId,
         query,
         groupId: this.groupId,
+        filter,
       })
     },
     async onUpdateCell (block, {
@@ -1056,29 +1034,34 @@ export default {
     },
     onContainerDeleteClick (containerToDelete) {
       this.currentContainerToDelete = containerToDelete
-      this.dialogVisibility.containerDelete = true
+      this.$confirm.require({
+        message: `${this.$t('form.specificDeleteConfirmation')} ${containerToDelete.text}`,
+        header: this.$t('form.confirmation'),
+        icon: 'pi pi-exclamation-triangle',
+        accept: async () => {
+          try {
+            await this.onContainerDeleteInput(containerToDelete)
+            this.$toast.add({
+              severity: 'success',
+              summary: this.$t('components.processPanel.SUCCESS'),
+              detail: this.$t('success.removed'),
+              life: 5000,
+            })
+          } catch (error) {
+            this.displayToastOnError(`${this.$t('pages.workspace.container.title')} ${containerToDelete.text}`, error)
+          }
+        },
+      })
     },
     async onContainerDeleteInput (containerToDelete) {
-      try {
-        this.submitting = true
-        if (containerToDelete?.id) {
-          await lckServices.container.remove(containerToDelete.id)
-          const containerIndex = this.page.containers.findIndex(container => container.id === containerToDelete.id)
-          if (containerIndex >= 0) this.page.containers.splice(containerIndex, 1)
-        }
-        if (containerToDelete?.id === this.currentContainerToEdit.id) {
-          this.onCloseUpdateContainerSidebar()
-        }
-        this.onContainerDeleteClose()
-      } catch (error) {
-        this.displayToastOnError(`${this.$t('pages.workspace.container.title')} ${containerToDelete.text}`, error)
-      } finally {
-        this.submitting = false
+      if (containerToDelete?.id) {
+        await lckServices.container.remove(containerToDelete.id)
+        const containerIndex = this.page.containers.findIndex(container => container.id === containerToDelete.id)
+        if (containerIndex >= 0) this.page.containers.splice(containerIndex, 1)
       }
-    },
-    onContainerDeleteClose () {
-      this.currentContainerToDelete = {}
-      this.dialogVisibility.containerDelete = false
+      if (containerToDelete?.id === this.currentContainerToEdit.id) {
+        this.onCloseUpdateContainerSidebar()
+      }
     },
     async onContainerReorderClick ({ moved }) {
       if (moved) {
@@ -1156,29 +1139,33 @@ export default {
     onBlockDeleteClick (containerToEdit, blockToDelete) {
       this.currentContainerToDelete = containerToEdit
       this.currentBlockToDelete = blockToDelete
-      this.dialogVisibility.blockDelete = true
-    },
-    onBlockDeleteClose () {
-      this.currentContainerToDelete = {}
-      this.currentBlockToDelete = {}
-      this.dialogVisibility.blockDelete = false
+      this.$confirm.require({
+        message: `${this.$t('form.specificDeleteConfirmation')} ${blockToDelete.title}`,
+        header: this.$t('form.confirmation'),
+        icon: 'pi pi-exclamation-triangle',
+        accept: async () => {
+          try {
+            await this.onBlockDeleteInput(blockToDelete)
+            this.$toast.add({
+              severity: 'success',
+              summary: this.$t('components.processPanel.SUCCESS'),
+              detail: this.$t('success.removed'),
+              life: 5000,
+            })
+          } catch (error) {
+            this.displayToastOnError(`${this.$t('pages.workspace.block.title')} ${blockToDelete.title}`, error)
+          }
+        },
+      })
     },
     async onBlockDeleteInput (blockToDelete) {
-      try {
-        this.submitting = true
-        if (blockToDelete.id) {
-          await lckServices.block.remove(blockToDelete.id)
-          const blockToDeleteIndex = this.currentContainerToDelete.blocks.findIndex(block => block.id === blockToDelete.id)
-          if (blockToDeleteIndex >= 0) this.currentContainerToDelete.blocks.splice(blockToDeleteIndex, 1)
-          if (blockToDelete.id === this.currentBlockToEdit.id) {
-            this.currentBlockToEdit = {}
-          }
-          this.onBlockDeleteClose()
+      if (blockToDelete.id) {
+        await lckServices.block.remove(blockToDelete.id)
+        const blockToDeleteIndex = this.currentContainerToDelete.blocks.findIndex(block => block.id === blockToDelete.id)
+        if (blockToDeleteIndex >= 0) this.currentContainerToDelete.blocks.splice(blockToDeleteIndex, 1)
+        if (blockToDelete.id === this.currentBlockToEdit.id) {
+          this.currentBlockToEdit = {}
         }
-      } catch (error) {
-        this.displayToastOnError(`${this.$t('pages.workspace.block.title')} ${blockToDelete.title}`, error)
-      } finally {
-        this.submitting = false
       }
     },
     async onBlockReorderClick (container, { moved }) {
@@ -1537,7 +1524,12 @@ export default {
     min-height: 100%;
     overflow: hidden;
   }
-  .lck-layout-full .lck-page-content .lck-container-parent,
+  .lck-layout-full .lck-page-content .lck-container-parent {
+    height: calc(100% - 5rem);
+    max-height: calc(100% - 5rem);
+    min-height: unset;
+    overflow: hidden;
+  }
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container,
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container .lck-block-parent,
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container .lck-block-parent .lck-block {

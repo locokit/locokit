@@ -22,7 +22,5 @@ exports[`Page Create new records (blocks Set) match snapshot and display all blo
     <!---->
   </div>
   <update-sidebar-stub container="[object Object]" block="[object Object]" page="[object Object]" width="30rem" relatedchapterpages=""></update-sidebar-stub>
-  <delete-confirmation-dialog-stub itemcategory="pages.workspace.container.title" value="[object Object]" fieldtodisplay="text"></delete-confirmation-dialog-stub>
-  <delete-confirmation-dialog-stub itemcategory="pages.workspace.block.title" value="[object Object]" fieldtodisplay="title"></delete-confirmation-dialog-stub>
 </div>
 `;

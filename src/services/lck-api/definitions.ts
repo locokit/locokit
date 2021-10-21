@@ -32,6 +32,13 @@ export class LckAttachment {
   workspace_id!: string
 }
 
+export type LckTableColumnValidation = {
+  minDate?: {
+    fromDate: string;
+  };
+  required?: boolean;
+}
+
 /**
  * Database section
  */
@@ -102,11 +109,7 @@ export class LckTableColumn extends LckBaseModel {
     map_sources?: (MapSourceSettings & { excludeFromBounds: boolean })[];
   };
 
-  validation?: {
-    minDate?: {
-      fromDate: string;
-    };
-  }
+  validation?: LckTableColumnValidation;
 }
 
 export class LckTableViewColumn extends LckTableColumn {
@@ -120,6 +123,7 @@ export class LckTableViewColumn extends LckTableColumn {
    * Filters
    */
   filter?: object[]
+  foreign_filter?: object
   /**
    * Whether editable
    */
@@ -159,8 +163,14 @@ export class LckTableViewColumn extends LckTableColumn {
   sort!: SORT_COLUMN;
   /**
    * Is value required
+   * TODO: need to be removed, this field may be not used anymore
    */
   required!: boolean;
+  display_conditions?: Array<{
+    field_id: string;
+    operator: '$eq' | '$in' | '$ne';
+    value: string | number | string[] | number [];
+  }>
 }
 
 export enum SORT_COLUMN {

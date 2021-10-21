@@ -17,8 +17,7 @@
         classes
       }"
     >
-      <label for="pageTextField">{{ $t('pages.workspace.page.pageName') }}</label>
-      <span class="field-required">*</span>
+      <label for="pageTextField" class="label-field-required">{{ $t('pages.workspace.page.pageName') }}</label>
       <p-input-text
         id="pageTextField"
         v-model="pageTextCopy"

@@ -6,6 +6,7 @@ exports[`Workspace Create workspace button Hide if the user has a USER_PROFILE "
     pages.workspace.title
   </header>
   <!---->
+  <p>pages.workspace.noWorkspace</p>
   <!---->
   <!---->
 </div>
@@ -17,6 +18,7 @@ exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "A
     pages.workspace.title
   </header>
   <!---->
+  <p>pages.workspace.noWorkspace</p>
   <header class="p-my-4 lck-color-title">
     pages.workspace.form.create
   </header>
@@ -30,6 +32,7 @@ exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "C
     pages.workspace.title
   </header>
   <!---->
+  <p>pages.workspace.noWorkspace</p>
   <header class="p-my-4 lck-color-title">
     pages.workspace.form.create
   </header>
@@ -43,6 +46,7 @@ exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "S
     pages.workspace.title
   </header>
   <!---->
+  <p>pages.workspace.noWorkspace</p>
   <header class="p-my-4 lck-color-title">
     pages.workspace.form.create
   </header>

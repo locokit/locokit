@@ -11,7 +11,7 @@
     </h3>
     <div
       class="p-field"
-      v-for="column in definition.columns.filter(c => ( c.displayed === null || c.displayed === undefined || c.displayed === true) )"
+      v-for="column in definition.columns.filter(isColumnDisplayed)"
       :key="column.id"
     >
       <validation-provider
@@ -41,17 +41,11 @@
 
           <label
             class="lck-color-primary"
-            :class="classes"
+            :class="[classes, { 'label-field-required': column.validation && column.validation.required }]"
             :for="column.id"
           >
             {{ column.text }}
           </label>
-          <span
-            v-if="column.validation && column.validation.required"
-            class="field-required"
-          >
-            *
-          </span>
           <span
             v-if="getComponentEditorDetailForColumnType(column) === 'p-checkbox'"
             class="cell-state"
@@ -207,17 +201,11 @@
             :disabled="true"
           />
           <label
-            class="lck-color-primary"
+            :class="{ 'lck-color-primary': true, 'label-field-required': column.required }"
             :for="column.id"
           >
             {{ column.text }}
           </label>
-          <span
-            v-if="column.required"
-            class="field-required"
-          >
-            *
-          </span>
         </div>
         <template v-if="getComponentDisplayDetailForColumnType(column) === 'lck-map' && row.data[column.id]">
           <lck-map
@@ -255,6 +243,7 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable no-unused-expressions */
 import Vue, { PropOptions, PropType } from 'vue'
 
 import { Feature as GeoJSONFeature } from 'geojson'
@@ -473,13 +462,14 @@ export default {
       return getComponentDisplayDetailForColumnType(getColumnTypeId(column))
     },
     onComplete (
-      { column_type_id: columnTypeId, settings }: LckTableViewColumn,
+      { column_type_id: columnTypeId, settings, foreign_filter: filter }: LckTableViewColumn,
       { query }: { query: string },
     ) {
       this.$emit(
         'update-suggestions', {
           columnTypeId,
           settings,
+          filter,
         }, { query })
     },
     async onAutocompleteEdit (rowId: string, columnId: string, event: { value: { value: string } } | null = null) {
@@ -600,6 +590,55 @@ export default {
     },
     rulesExtended (column: LckTableColumn) {
       return getColumnValidationRules(column)
+    },
+    /**
+     * Check if a column / field is displayed
+     * * check its displayed property
+     * * check also conditions to display this field
+     */
+    isColumnDisplayed (column: LckTableViewColumn) {
+      let isDisplayed = column.displayed === null || column.displayed === undefined || column.displayed === true
+      // return early to avoid useless computation
+      if (!isDisplayed) return isDisplayed
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      column.display_conditions?.forEach(({ field_id, operator, value }) => {
+        if (this.columnsEnhanced[field_id]) {
+          let fieldValue: string | number | string[] | number[] = this.row.data[field_id]
+          switch (this.columnsEnhanced[field_id].column_type_id) {
+            case COLUMN_TYPE.USER:
+            case COLUMN_TYPE.GROUP:
+            case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+              fieldValue = this.row.data[field_id]?.reference
+              break
+            /*
+            case COLUMN_TYPE.BOOLEAN:
+            case COLUMN_TYPE.STRING:
+            case COLUMN_TYPE.NUMBER:
+            case COLUMN_TYPE.FLOAT:
+            case COLUMN_TYPE.DATE:
+            case COLUMN_TYPE.SINGLE_SELECT:
+            case COLUMN_TYPE.TEXT:
+            case COLUMN_TYPE.URL:
+            */
+            default:
+              break
+          }
+          switch (operator) {
+            case '$eq':
+              if (fieldValue !== value) isDisplayed = false
+              break
+            case '$ne':
+              if (fieldValue === value) isDisplayed = false
+              break
+            case '$in':
+              if (!(value as string[] | number[]).includes(fieldValue as never)) isDisplayed = false
+              break
+          }
+        } else {
+          isDisplayed = false
+        }
+      })
+      return isDisplayed
     },
   },
   watch: {
