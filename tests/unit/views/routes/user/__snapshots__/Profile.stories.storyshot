@@ -499,7 +499,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                 class="p-fluid"
               >
                 <div
-                  class="p-field p-grid"
+                  class="p-field p-grid p-mb-3"
                 >
                   <label
                     class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
@@ -544,16 +544,16 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                     class="p-col-12 p-md-8"
                   >
                     <div
-                      class="p-password p-component p-inputwrapper"
-                      id="password"
+                      class="p-password p-component p-inputwrapper p-input-icon-right"
                     >
                       <input
                         class="p-inputtext p-component p-password-input"
-                        id="password"
                         type="password"
                       />
                        
-                      <!---->
+                      <i
+                        class="pi pi-eye"
+                      />
                        
                       <!---->
                     </div>
@@ -564,12 +564,6 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                   >
                     
                   </span>
-                </div>
-                 
-                <div
-                  class="p-text-error"
-                >
-                  <!---->
                 </div>
                  
                 <div
@@ -645,7 +639,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                   class="p-field p-grid p-mb-3"
                 >
                   <label
-                    class="p-col p-md-3 label-field-required"
+                    class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
                     for="oldPassword"
                   >
                     
@@ -657,16 +651,18 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                     class="p-col-12 p-md-8"
                   >
                     <div
-                      class="p-password p-component p-inputwrapper"
-                      id="password"
+                      class="p-password p-component p-inputwrapper p-input-icon-right"
+                      id="oldPassword"
                     >
                       <input
                         class="p-inputtext p-component p-password-input"
-                        id="password"
+                        id="oldPassword"
                         type="password"
                       />
                        
-                      <!---->
+                      <i
+                        class="pi pi-eye"
+                      />
                        
                       <!---->
                     </div>
@@ -683,8 +679,8 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                   class="p-field p-grid p-mb-3"
                 >
                   <label
-                    class="p-col p-md-3 label-field-required"
-                    for="password"
+                    class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                    for="newPassword"
                   >
                     
               New password
@@ -696,43 +692,49 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                   >
                     <div
                       aria-describedby="password-rules"
-                      class="p-password p-component p-inputwrapper"
-                      id="password"
+                      class="p-password p-component p-inputwrapper p-input-icon-right"
+                      id="newPassword"
                     >
                       <input
                         aria-describedby="password-rules"
                         class="p-inputtext p-component p-password-input"
-                        id="password"
+                        id="newPassword"
                         type="password"
                       />
                        
-                      <!---->
+                      <i
+                        class="pi pi-eye"
+                      />
                        
                       <!---->
                     </div>
                   </div>
                    
-                  <small
-                    class="p-text-italic"
-                    id="password-rules"
+                  <div
+                    class="info-new-password"
                   >
-                    
-              Must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 digit and 1 special character.
-            
-                  </small>
-                   
-                  <span
-                    class="p-my-2 untouched pristine"
-                  >
-                    
-                  </span>
+                    <small
+                      class="p-text-italic"
+                      id="password-rules"
+                    >
+                      
+                Must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 digit and 1 special character.
+              
+                    </small>
+                     
+                    <span
+                      class="p-my-2 untouched pristine"
+                    >
+                      
+                    </span>
+                  </div>
                 </div>
                  
                 <div
-                  class="p-field p-grid"
+                  class="p-field p-grid p-mb-4 p-mt-2"
                 >
                   <label
-                    class="p-col p-md-3 label-field-required"
+                    class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
                     for="passwordCheck"
                   >
                     
@@ -743,11 +745,22 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                   <div
                     class="p-col-12 p-md-8"
                   >
-                    <input
-                      class="p-inputtext p-component"
+                    <div
+                      class="p-password p-component p-inputwrapper p-input-icon-right"
                       id="passwordCheck"
-                      type="password"
-                    />
+                    >
+                      <input
+                        class="p-inputtext p-component p-password-input"
+                        id="passwordCheck"
+                        type="password"
+                      />
+                       
+                      <i
+                        class="pi pi-eye"
+                      />
+                       
+                      <!---->
+                    </div>
                   </div>
                    
                   <span
@@ -755,16 +768,6 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                   >
                     
                   </span>
-                </div>
-                 
-                <div
-                  class="p-text-error"
-                >
-                  <!---->
-                   
-                  <!---->
-                   
-                  <!---->
                 </div>
                  
                 <div
