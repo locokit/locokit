@@ -59,7 +59,7 @@
   /* Sidebar text-color, sidebar active route background, used for paginator */
   --sidebar-text-color: var(--primary-color);
   /* Used */
-  --sidebar-text-color-active: #ddd;
+  --sidebar-text-color-active: var(--primary-color-darken);
 
   /* Internal nav background color */
   --popeyebar-background-color: rgba(255, 255, 255, 0.9);
