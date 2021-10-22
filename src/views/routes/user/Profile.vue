@@ -81,7 +81,7 @@
               vid="newEmail"
               tag="div"
               :name="$t('pages.account.edit.email.new')"
-              class="p-field p-grid"
+              class="p-field p-grid p-mb-3"
               rules="required|email"
               v-slot="{
                 errors,
@@ -102,10 +102,7 @@
                   v-model="emailEdit.newEmail"
                 />
               </div>
-              <span
-                :class="classes"
-                class="p-my-2"
-              >{{ errors[0] }}</span>
+              <span class="p-my-2" :class="classes">{{ errors[0] }}</span>
             </validation-provider>
             <validation-provider
               vid="password"
@@ -127,23 +124,12 @@
               <div class="p-col-12 p-md-8">
                 <p-password
                   :feedback="false"
-                  id="password"
+                  toggleMask
                   v-model="emailEdit.password"
                 />
               </div>
-              <span
-                :class="classes"
-                class="p-my-2"
-              >{{ errors[0] }}</span>
+              <span class="p-my-2" :class="classes">{{ errors[0] }}</span>
             </validation-provider>
-            <div class="p-text-error">
-              <p
-                class="p-invalid"
-                v-if="emailEdit.error"
-              >
-                {{ emailEdit.error }}
-              </p>
-            </div>
           </lck-form>
         </template>
         <template
@@ -168,7 +154,7 @@
           <lck-form
             :displayCancelButton="false"
             :submitting="loading"
-            @submit="submitEmail"
+            @submit="submitPassword"
           >
             <validation-provider
               vid="oldPassword"
@@ -182,15 +168,16 @@
               }"
             >
               <label
-                class="p-col p-md-3 label-field-required"
+                class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
                 for="oldPassword"
               >
                 {{ $t("pages.account.edit.oldPassword") }}
               </label>
               <div class="p-col-12 p-md-8">
                 <p-password
+                  id="oldPassword"
                   :feedback="false"
-                  id="password"
+                  toggleMask
                   v-model="password.oldPassword"
                 />
               </div>
@@ -205,21 +192,21 @@
               tag="div"
               :name="$t('pages.account.edit.newPassword')"
               class="p-field p-grid p-mb-3"
-              rules="required"
+              :rules="{ required: true, regex: regexPasswordRules}"
               v-slot="{
                 errors,
-                classes
+                classes,
               }"
             >
               <label
-                class="p-col p-md-3 label-field-required"
-                for="password"
+                class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                for="newPassword"
               >
                 {{ $t("pages.account.edit.newPassword") }}
               </label>
               <div class="p-col-12 p-md-8">
                 <p-password
-                  id="password"
+                  id="newPassword"
                   v-model="password.password"
                   :mediumRegex="`${regexPasswordRules}(?=.{8,})`"
                   :strongRegex="`${regexPasswordRules}(?=.{12,})`"
@@ -227,90 +214,61 @@
                   :mediumLabel="$t('pages.account.edit.passwordStrength.medium')"
                   :strongLabel="$t('pages.account.edit.passwordStrength.strong')"
                   :promptLabel="$t('pages.account.edit.prompt')"
-                  @blur="handleBlur"
+                  toggleMask
                   aria-describedby="password-rules"
                 />
               </div>
-              <small
-                class="p-text-italic"
-                id="password-rules"
-              >
-                {{ $t('pages.account.edit.passwordRules.rules') }}
-              </small>
-              <span
-                :class="classes"
-                class="p-my-2"
-              >{{ errors[0] }}</span>
+              <div class="info-new-password">
+                <small
+                  class="p-text-italic"
+                  id="password-rules"
+                >
+                  {{ $t('pages.account.edit.passwordRules.rules') }}
+                </small>
+                <span
+                  :class="classes"
+                  class="p-my-2"
+                >{{ errors[0] }}</span>
+              </div>
             </validation-provider>
 
             <validation-provider
               vid="passwordCheck"
               tag="div"
               :name="$t('pages.account.edit.passwordCheck')"
-              class="p-field p-grid"
-              rules="required"
+              class="p-field p-grid p-mb-4 p-mt-2"
+              rules="required|passwordConfirm:@newPassword"
               v-slot="{
                 errors,
                 classes
               }"
             >
               <label
-                class="p-col p-md-3 label-field-required"
+                class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
                 for="passwordCheck"
               >
                 {{ $t("pages.account.edit.passwordCheck") }}
               </label>
               <div class="p-col-12 p-md-8">
-                <p-input-text
+                <p-password
                   id="passwordCheck"
-                  type="password"
+                  :feedback="false"
+                  toggleMask
                   v-model="password.passwordCheck"
-                  @blur="handleBlur"
                 />
               </div>
 
-              <span
-                :class="classes"
-                class="p-my-2"
-              >{{ errors[0] }}</span>
+              <span :class="classes" class="p-my-2">{{ errors[0] }}</span>
             </validation-provider>
-
-            <div class="p-text-error">
-              <p
-                class="p-invalid"
-                v-if="displayErrorMismatch"
-              >
-                {{ $t('pages.account.edit.passwordMismatch') }}
-              </p>
-              <p
-                class="p-invalid"
-                v-if="incorrectPassword"
-              >
-                {{ $t('pages.account.edit.passwordIncorrect') }}
-              </p>
-              <div v-if="errorPasswordRules">
-                <p class="p-invalid">
-                  {{ $t('pages.account.edit.passwordRules.error') }}
-                </p>
-                <ul class="p-invalid">
-                  <li
-                    v-for="error in errorPasswordRules"
-                    :key="error"
-                  >
-                    {{ $t(`pages.account.edit.passwordRules.${error}`) }}
-                  </li>
-                </ul>
-              </div>
-            </div>
           </lck-form>
         </template>
+
         <template
           slot="content"
           v-else
         >
           {{ $t('pages.account.view.nodata') }}
         </template>
-
       </p-card>
     </section>
   </div>
@@ -320,7 +278,6 @@
 import Vue from 'vue'
 
 import Card from 'primevue/card'
-// import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
 import { ValidationProvider } from 'vee-validate'
@@ -357,7 +314,6 @@ export default {
   components: {
     'lck-form': LckForm,
     'p-card': Vue.extend(Card),
-    // 'p-button': Vue.extend(Button),
     'p-password': Vue.extend(Password),
     'p-input-text': Vue.extend(InputText),
     'validation-provider': Vue.extend(ValidationProvider),
@@ -381,12 +337,12 @@ export default {
           passwordCheck: null,
         }
       } catch (error) {
-        if (error.data && error.data.failedRules) {
-          this.errorPasswordRules = error.data.failedRules
-        }
-        if (error.errors && error.errors.oldPassword) {
-          this.incorrectPassword = true
-        }
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('error.impossibleOperation'),
+          detail: this.$t('error.basic'),
+          life: 5000,
+        })
       }
       this.loading = false
     },
@@ -423,17 +379,6 @@ export default {
       }
       this.loading = false
     },
-    // Check if mismatch between the password input
-    handleBlur () {
-      if (this.password.password && this.password.passwordCheck) {
-        this.displayErrorMismatch =
-          this.password.password !== this.password.passwordCheck
-      }
-
-      if (!this.password.password && !this.password.passwordCheck) {
-        this.displayErrorMismatch = false
-      }
-    },
     logout () {
       logout()
       this.$router.push(ROUTES_PATH.HOME)
@@ -456,5 +401,10 @@ export default {
 .icon-rounded i {
   color: #fff;
   font-size: 1.5rem !important;
+}
+
+.info-new-password {
+  display: flex;
+  flex-direction: column;
 }
 </style>
