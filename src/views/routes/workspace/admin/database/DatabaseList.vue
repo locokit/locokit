@@ -1,4 +1,4 @@
-q<template>
+<template>
   <div class="lck-layout-content">
     <p-accordion
         :multiple="true"
