@@ -782,7 +782,7 @@ export default {
       }
 
       if (this.$route.query.rowId) {
-        const columnTargetDetail = currentBlockDefinition.columns.find(column => column.default === '{rowId}' && column.displayed === false)
+        const columnTargetDetail = currentBlockDefinition.columns.find(column => column.default?.value === '{rowId}' && column.displayed === false)
         data[columnTargetDetail.id] = this.$route.query.rowId
       }
       this.$set(block, 'submitting', { inProgress: true })
