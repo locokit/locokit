@@ -239,7 +239,10 @@ export default {
           if (!this.errorLoadTables) {
             // Manage the zoom level
             this.SVGPanZoom = svgPanZoom('#svg-container > svg', { controlIconsEnabled: true, minZoom: 0.1 })
-            this.SVGPanZoom.zoomBy(1 / this.SVGPanZoom.getSizes().realZoom)
+            const realZoom = this.SVGPanZoom.getSizes().realZoom
+            if (realZoom > 1) {
+              this.SVGPanZoom.zoomBy(1 / realZoom)
+            }
           }
         })
       }
@@ -252,18 +255,18 @@ export default {
 .container {
   display: flex;
   flex-direction: column;
-  max-width: 100vw;
-  height: 100%;
+  height: calc(100vh - var(--header-height));
+  width: calc(100vw - var(--nav-width) - var(--sidebar-width))
 }
 
 #svg-container {
-  max-width: 100vw;
+  width: 100%;
   height: 100%;
   overflow: hidden;
 }
 
 #svg-container svg {
-  width: 100vw;
+  width: 100%;
   height: 100%;
   cursor: move;
   user-select: none;
