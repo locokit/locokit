@@ -38,7 +38,7 @@ export class LckAclSet extends BaseModel {
           format: 'uuid',
         },
         chapter_id: {
-          type: 'string',
+          type: ['string', 'null'],
           format: 'uuid',
         },
         manager: { type: 'boolean' },
