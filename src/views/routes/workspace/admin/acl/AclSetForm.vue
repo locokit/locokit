@@ -164,8 +164,7 @@
               >
                 <template #overlay-content>
                   <lck-json-field
-                    cols="30"
-                    rows="5"
+                    cols="75"
                     :value="slotProps.data[filter.label]"
                     @blur="setAclTable(slotProps.data, slotProps.index, { [filter.label]: $event })"
                     @error="onError"
