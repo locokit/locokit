@@ -711,7 +711,7 @@
         "USER": "Utilisateur",
         "GROUP": "Groupe",
         "RELATION_BETWEEN_TABLES": "Colonne relationnelle",
-        "LOOKED_UP_COLUMN": "Lien vers une table ",
+        "LOOKED_UP_COLUMN": "Lien vers une table",
         "VIRTUAL_LOOKED_UP_COLUMN": "Lien virtuel vers une table",
         "SINGLE_SELECT": "Sélection simple",
         "MULTI_SELECT": "Sélection multiple",
