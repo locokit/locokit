@@ -61,7 +61,7 @@ const mockColumns: Record<string, LckTableColumn> = {
     ...defaultParamsColumn,
     parents: [
       {
-        id: 'C21',
+        id: 'C22',
         text: 'Not supported column',
         createdAt: '2020-11-02T16:11:03.109Z',
         updatedAt: '2020-11-02T16:11:03.109Z',
@@ -99,6 +99,28 @@ const mockColumns: Record<string, LckTableColumn> = {
     column_type_id: COLUMN_TYPE.MULTI_USER,
     ...defaultParamsColumn,
   },
+  userLuc: {
+    id: 'C21',
+    text: 'User looked up column',
+    column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+    ...defaultParamsColumn,
+    parents: [
+      {
+        id: 'C23',
+        text: 'Other user column',
+        createdAt: '2020-11-02T16:11:03.109Z',
+        updatedAt: '2020-11-02T16:11:03.109Z',
+        settings: {},
+        table_id: 'T2',
+        column_type_id: COLUMN_TYPE.USER,
+        reference: false,
+        position: 0,
+        reference_position: 0,
+        locked: false,
+      },
+    ],
+  },
+
 }
 
 const mockAllColumns = [
@@ -650,7 +672,7 @@ describe('Filter utils', () => {
         action: ACTIONS.END_WITH,
         pattern: 'John',
       },
-      // Looked-up column
+      // Looked-up column - String
       {
         operator: '$and',
         column: {
@@ -734,6 +756,19 @@ describe('Filter utils', () => {
         action: ACTIONS.CONTAINS_LOGGED_USER,
         pattern: [1, '{userId}', 2],
       },
+      // Looked-up column - User
+      {
+        operator: '$and',
+        column: {
+          label: mockColumns.userLuc.text,
+          originalType: COLUMN_TYPE.USER,
+          type: mockColumns.userLuc.column_type_id,
+          value: mockColumns.userLuc.id,
+        },
+        action: ACTIONS.EQUAL,
+        pattern: 1,
+      },
+
     ], {
       '{userId}': 10,
       '{groupId}': 'group-1',
@@ -755,6 +790,7 @@ describe('Filter utils', () => {
       '$and[20][data][C19.reference][$eq]': '1',
       '$and[21][data][C19.reference][$eq]': 'group-1',
       '$and[22][data][C20.reference][$contains]': [1, 10, 2],
+      '$and[23][data][C21.reference][$eq]': 1,
       '$and[3][data][C11][$ne]': 'John',
       '$and[4][data][C11][$in]': 'John',
       '$and[5][data][C11][$nin]': [

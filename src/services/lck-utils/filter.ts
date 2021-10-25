@@ -378,11 +378,19 @@ export function getCurrentFilters (filters: Filter[], wildCards: Record<string, 
       // Operator
       `${filter.operator}[${index}]` +
       // Field
-      (columnType => {
+      ((columnType, originalType) => {
         switch (columnType) {
           case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-          case COLUMN_TYPE.LOOKED_UP_COLUMN:
             return `[data][${filter.column!.value}.value]`
+          case COLUMN_TYPE.LOOKED_UP_COLUMN:
+            switch (originalType) {
+              case COLUMN_TYPE.GROUP:
+              case COLUMN_TYPE.USER:
+              case COLUMN_TYPE.MULTI_USER:
+                return `[data][${filter.column!.value}.reference]`
+              default:
+                return `[data][${filter.column!.value}.value]`
+            }
           case COLUMN_TYPE.USER:
           case COLUMN_TYPE.GROUP:
           case COLUMN_TYPE.MULTI_USER:
@@ -390,7 +398,7 @@ export function getCurrentFilters (filters: Filter[], wildCards: Record<string, 
           default:
             return `[data][${filter.column!.value}]`
         }
-      })(filter.column!.type) +
+      })(filter.column!.type, filter.column!.originalType) +
       // Action
       `[${filter.action!.value}]`] = getFormattedPattern(
         filter.pattern,
