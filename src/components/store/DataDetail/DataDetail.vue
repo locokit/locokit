@@ -473,6 +473,8 @@ export default {
         }, { query })
     },
     async onAutocompleteEdit (rowId: string, columnId: string, event: { value: { value: string } } | null = null) {
+      // We pass as function parameters, the reference that we want to save (event.value.value) and
+      // the value retrieved by the input field (event.value) to check its validity (must be an object).
       if (event) await this.onEdit(rowId, columnId, event.value.value, event.value)
       else await this.onEdit(rowId, columnId, null)
     },
@@ -490,6 +492,13 @@ export default {
         transformFeatureToWKT(features[0], column.column_type_id),
       )
     },
+    /**
+     * Emit an 'update-row' event with the value to save if it is valid.
+     * @param rowId the id of the current row to update
+     * @param columnId the id of the column to update
+     * @param value the value that we want to save
+     * @param originalValue the value that we want to check (if not specified, the value to be saved is checked)
+     */
     async onEdit (rowId: string, columnId: string, value: string | string[] | number[] | Date | null, originalValue?: unknown) {
       const ref = `vp_${rowId}_${columnId}`
       let provider = this.$refs[ref]
