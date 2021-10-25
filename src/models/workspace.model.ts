@@ -36,6 +36,7 @@ export class Workspace extends BaseModel {
           type: 'object',
           properties: {
             color: { type: 'string' },
+            backgroundColor: { type: 'string' },
             icon: { type: 'string' },
           },
         },
