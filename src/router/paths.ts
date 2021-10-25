@@ -18,6 +18,7 @@ export const ROUTES_PATH = {
   DATABASE: '/database',
   DATABASESCHEMA: '/schema',
   PROCESS: '/process',
+  ACL: '/acl',
 
   /**
    * Admin paths
@@ -49,6 +50,7 @@ export const ROUTES_NAMES = {
   DATABASE: 'WorkspaceDatabase',
   DATABASESCHEMA: 'DatabaseSchema',
   PROCESS: 'ProcessListing',
+  ACL: 'WorkspaceACL',
 
   /**
    * Admin paths

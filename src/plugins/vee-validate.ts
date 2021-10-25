@@ -21,6 +21,12 @@ extend('dateValid', {
   },
 })
 
+extend('reference', {
+  validate (value: any) {
+    return typeof value === 'object'
+  },
+})
+
 configure({
   // this will be used to generate messages.
   defaultMessage: (_, values) => {

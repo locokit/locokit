@@ -16,10 +16,9 @@
         classes
       }"
     >
-      <label for="table-name">
+      <label for="table-name" class="label-field-required">
         {{ $t('pages.databaseSchema.createTableModal.tableName') }}
       </label>
-      <span class="field-required">*</span>
       <p-input-text
         id="table-name"
         :class="{ 'p-invalid': errorTableNameToCreate }"

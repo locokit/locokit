@@ -24,7 +24,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
         Global configuration
       </h2>
        
-      <span>
+      <div>
         <form
           class="p-fluid"
         >
@@ -32,16 +32,11 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
             class="p-field"
           >
             <label
+              class="label-field-required"
               for="columnTextField"
             >
               Column title
             </label>
-             
-            <span
-              class="field-required"
-            >
-              *
-            </span>
              
             <input
               class="p-inputtext p-component p-filled"
@@ -286,7 +281,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
             </button>
           </div>
         </form>
-      </span>
+      </div>
     </div>
      
     <div
@@ -298,7 +293,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
         Configuration for the visualization part
       </h2>
        
-      <span>
+      <div>
         <form
           class="p-fluid"
         >
@@ -306,16 +301,11 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
             class="p-field p-mb-2"
           >
             <label
+              class="label-field-required"
               for="columnDisplayedField"
             >
               Displayed column
             </label>
-             
-            <span
-              class="field-required"
-            >
-              *
-            </span>
              
             <div
               class="p-inputswitch p-component p-inputswitch-checked"
@@ -347,16 +337,11 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
             class="p-field p-mb-2"
           >
             <label
+              class="label-field-required"
               for="columnEditableField"
             >
               Editable column
             </label>
-             
-            <span
-              class="field-required"
-            >
-              *
-            </span>
              
             <div
               class="p-inputswitch p-component"
@@ -410,7 +395,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
             </button>
           </div>
         </form>
-      </span>
+      </div>
     </div>
   </div>
 </div>
@@ -440,7 +425,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
         Global configuration
       </h2>
        
-      <span>
+      <div>
         <form
           class="p-fluid"
         >
@@ -448,16 +433,11 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
             class="p-field"
           >
             <label
+              class="label-field-required"
               for="columnTextField"
             >
               Column title
             </label>
-             
-            <span
-              class="field-required"
-            >
-              *
-            </span>
              
             <input
               class="p-inputtext p-component p-filled"
@@ -548,7 +528,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
             </button>
           </div>
         </form>
-      </span>
+      </div>
     </div>
      
     <div
@@ -560,7 +540,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
         Configuration for the visualization part
       </h2>
        
-      <span>
+      <div>
         <form
           class="p-fluid"
         >
@@ -568,16 +548,11 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
             class="p-field p-mb-2"
           >
             <label
+              class="label-field-required"
               for="columnDisplayedField"
             >
               Displayed column
             </label>
-             
-            <span
-              class="field-required"
-            >
-              *
-            </span>
              
             <div
               class="p-inputswitch p-component p-inputswitch-checked"
@@ -609,16 +584,11 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
             class="p-field p-mb-2"
           >
             <label
+              class="label-field-required"
               for="columnEditableField"
             >
               Editable column
             </label>
-             
-            <span
-              class="field-required"
-            >
-              *
-            </span>
              
             <div
               class="p-inputswitch p-component"
@@ -672,7 +642,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
             </button>
           </div>
         </form>
-      </span>
+      </div>
     </div>
   </div>
 </div>
@@ -702,7 +672,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
         Global configuration
       </h2>
        
-      <span>
+      <div>
         <form
           class="p-fluid"
         >
@@ -710,16 +680,11 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
             class="p-field"
           >
             <label
+              class="label-field-required"
               for="columnTextField"
             >
               Column title
             </label>
-             
-            <span
-              class="field-required"
-            >
-              *
-            </span>
              
             <input
               class="p-inputtext p-component p-filled"
@@ -810,7 +775,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
             </button>
           </div>
         </form>
-      </span>
+      </div>
     </div>
      
     <div
@@ -822,7 +787,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
         Configuration for the visualization part
       </h2>
        
-      <span>
+      <div>
         <form
           class="p-fluid"
         >
@@ -830,16 +795,11 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
             class="p-field p-mb-2"
           >
             <label
+              class="label-field-required"
               for="columnDisplayedField"
             >
               Displayed column
             </label>
-             
-            <span
-              class="field-required"
-            >
-              *
-            </span>
              
             <div
               class="p-inputswitch p-component p-inputswitch-checked"
@@ -871,16 +831,11 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
             class="p-field p-mb-2"
           >
             <label
+              class="label-field-required"
               for="columnEditableField"
             >
               Editable column
             </label>
-             
-            <span
-              class="field-required"
-            >
-              *
-            </span>
              
             <div
               class="p-inputswitch p-component"
@@ -934,7 +889,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
             </button>
           </div>
         </form>
-      </span>
+      </div>
     </div>
   </div>
 </div>

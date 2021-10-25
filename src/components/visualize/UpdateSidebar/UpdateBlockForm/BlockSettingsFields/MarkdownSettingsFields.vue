@@ -11,8 +11,7 @@
         classes
       }"
     >
-      <label for="blockSettingsContent">{{ $t('pages.workspace.block.content') }}</label>
-      <span class="field-required">*</span>
+      <label for="blockSettingsContent" class="label-field-required">{{ $t('pages.workspace.block.content') }}</label>
       <p-textarea
         id="blockSettingsContent"
         :value="content"

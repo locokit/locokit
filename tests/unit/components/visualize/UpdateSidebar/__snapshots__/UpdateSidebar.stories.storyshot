@@ -165,7 +165,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
               style="display: none;"
             >
               <div>
-                <span
+                <div
                   class="lck-color-content p-text-bold"
                 >
                   <form
@@ -175,18 +175,13 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                       class="p-field"
                     >
                       <label
+                        class="label-field-required"
                         for="container-name"
                       >
                         
         Container title
       
                       </label>
-                       
-                      <span
-                        class="field-required"
-                      >
-                        *
-                      </span>
                        
                       <input
                         class="p-inputtext p-component p-filled"
@@ -338,7 +333,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                       </button>
                     </div>
                   </form>
-                </span>
+                </div>
                  
                 <div
                   class="container-blocks p-text-bold p-field p-mt-6"
@@ -461,7 +456,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
               class="p-tabview-panel"
               role="tabpanel"
             >
-              <span
+              <div
                 class="lck-update-block-form lck-color-content p-text-bold"
               >
                 <form
@@ -486,16 +481,11 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                     class="p-field"
                   >
                     <label
+                      class="label-field-required"
                       for="blockTypeField"
                     >
                       Block type
                     </label>
-                     
-                    <span
-                      class="field-required"
-                    >
-                      *
-                    </span>
                      
                     <div
                       class="p-dropdown p-component p-inputwrapper"
@@ -777,7 +767,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                     </button>
                   </div>
                 </form>
-              </span>
+              </div>
             </div>
           </div>
         </div>
@@ -1124,7 +1114,7 @@ exports[`storyshots components/visualize/UpdateSidebar when submitting an empty 
               role="tabpanel"
             >
               <div>
-                <span
+                <div
                   class="lck-color-content p-text-bold"
                 >
                   <form
@@ -1134,18 +1124,13 @@ exports[`storyshots components/visualize/UpdateSidebar when submitting an empty 
                       class="p-field"
                     >
                       <label
+                        class="label-field-required"
                         for="container-name"
                       >
                         
         Container title
       
                       </label>
-                       
-                      <span
-                        class="field-required"
-                      >
-                        *
-                      </span>
                        
                       <input
                         class="p-inputtext p-component p-filled"
@@ -1297,7 +1282,7 @@ exports[`storyshots components/visualize/UpdateSidebar when submitting an empty 
                       </button>
                     </div>
                   </form>
-                </span>
+                </div>
                  
                 <div
                   class="container-blocks p-text-bold p-field p-mt-6"
@@ -1576,7 +1561,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
               style="display: none;"
             >
               <div>
-                <span
+                <div
                   class="lck-color-content p-text-bold"
                 >
                   <form
@@ -1586,18 +1571,13 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                       class="p-field"
                     >
                       <label
+                        class="label-field-required"
                         for="container-name"
                       >
                         
         Container title
       
                       </label>
-                       
-                      <span
-                        class="field-required"
-                      >
-                        *
-                      </span>
                        
                       <input
                         class="p-inputtext p-component p-filled"
@@ -1749,7 +1729,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                       </button>
                     </div>
                   </form>
-                </span>
+                </div>
                  
                 <div
                   class="container-blocks p-text-bold p-field p-mt-6"
@@ -1872,7 +1852,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
               class="p-tabview-panel"
               role="tabpanel"
             >
-              <span
+              <div
                 class="lck-update-block-form lck-color-content p-text-bold"
               >
                 <form
@@ -1897,16 +1877,11 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                     class="p-field"
                   >
                     <label
+                      class="label-field-required"
                       for="blockTypeField"
                     >
                       Block type
                     </label>
-                     
-                    <span
-                      class="field-required"
-                    >
-                      *
-                    </span>
                      
                     <div
                       class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -2188,7 +2163,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                     </button>
                   </div>
                 </form>
-              </span>
+              </div>
             </div>
           </div>
         </div>
@@ -2362,7 +2337,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a not empty
               role="tabpanel"
             >
               <div>
-                <span
+                <div
                   class="lck-color-content p-text-bold"
                 >
                   <form
@@ -2372,18 +2347,13 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a not empty
                       class="p-field"
                     >
                       <label
+                        class="label-field-required"
                         for="container-name"
                       >
                         
         Container title
       
                       </label>
-                       
-                      <span
-                        class="field-required"
-                      >
-                        *
-                      </span>
                        
                       <input
                         class="p-inputtext p-component p-filled"
@@ -2535,7 +2505,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a not empty
                       </button>
                     </div>
                   </form>
-                </span>
+                </div>
                  
                 <div
                   class="container-blocks p-text-bold p-field p-mt-6"
@@ -2827,7 +2797,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating an empty co
               role="tabpanel"
             >
               <div>
-                <span
+                <div
                   class="lck-color-content p-text-bold"
                 >
                   <form
@@ -2837,18 +2807,13 @@ exports[`storyshots components/visualize/UpdateSidebar when updating an empty co
                       class="p-field"
                     >
                       <label
+                        class="label-field-required"
                         for="container-name"
                       >
                         
         Container title
       
                       </label>
-                       
-                      <span
-                        class="field-required"
-                      >
-                        *
-                      </span>
                        
                       <input
                         class="p-inputtext p-component p-filled"
@@ -3000,7 +2965,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating an empty co
                       </button>
                     </div>
                   </form>
-                </span>
+                </div>
                  
                 <div
                   class="container-blocks p-text-bold p-field p-mt-6"

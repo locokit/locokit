@@ -56,7 +56,7 @@ exports[`storyshots components/store/process/Process default 1`] = `
           class="p-tabview-panel"
           role="tabpanel"
         >
-          <span>
+          <div>
             <form
               class="p-fluid"
             >
@@ -64,18 +64,13 @@ exports[`storyshots components/store/process/Process default 1`] = `
                 class="p-field"
               >
                 <label
+                  class="label-field-required"
                   for="label"
                 >
                   
       Name
     
                 </label>
-                 
-                <span
-                  class="field-required"
-                >
-                  *
-                </span>
                  
                 <input
                   class="p-inputtext p-component p-filled"
@@ -95,18 +90,13 @@ exports[`storyshots components/store/process/Process default 1`] = `
                 class="p-field"
               >
                 <label
+                  class="label-field-required"
                   for="url"
                 >
                   
       URL
     
                 </label>
-                 
-                <span
-                  class="field-required"
-                >
-                  *
-                </span>
                  
                 <input
                   class="p-inputtext p-component p-filled"
@@ -158,18 +148,13 @@ exports[`storyshots components/store/process/Process default 1`] = `
                 class="p-field"
               >
                 <label
+                  class="label-field-required"
                   for="table"
                 >
                   
       Table
     
                 </label>
-                 
-                <span
-                  class="field-required"
-                >
-                  *
-                </span>
                  
                 <span
                   aria-haspopup="listbox"
@@ -229,18 +214,13 @@ exports[`storyshots components/store/process/Process default 1`] = `
                 class="p-field"
               >
                 <label
+                  class="label-field-required"
                   for="trigger"
                 >
                   
       Trigger
     
                 </label>
-                 
-                <span
-                  class="field-required"
-                >
-                  *
-                </span>
                  
                 <div
                   class="p-dropdown p-component p-inputwrapper"
@@ -363,7 +343,7 @@ exports[`storyshots components/store/process/Process default 1`] = `
                 </button>
               </div>
             </form>
-          </span>
+          </div>
         </div>
          
         <div

@@ -11,8 +11,7 @@
         classes
       }"
     >
-      <label for="blockSettingsDisplayMode">{{ $t('pages.workspace.block.displayMode') }}</label>
-      <span class="field-required">*</span>
+      <label for="blockSettingsDisplayMode" class="label-field-required">{{ $t('pages.workspace.block.displayMode') }}</label>
       <p-dropdown
         id="blockSettingsDisplayMode"
         :options="mediaTypes"
@@ -43,8 +42,7 @@
             classes
           }"
         >
-          <label :for="`blockSettingsMediaName${index}`">{{ $t('pages.workspace.block.mediaName') }}</label>
-          <span class="field-required">*</span>
+          <label :for="`blockSettingsMediaName${index}`" class="label-field-required">{{ $t('pages.workspace.block.mediaName') }}</label>
           <p-input-text
             :id="`blockSettingsMediaName${index}`"
             :value="media.name"
@@ -63,8 +61,7 @@
             classes
           }"
         >
-          <label :for="`blockSettingsMediaSrcURL${index}`">{{ $t('pages.workspace.block.mediaSrcURL') }}</label>
-          <span class="field-required">*</span>
+          <label :for="`blockSettingsMediaSrcURL${index}`" class="label-field-required">{{ $t('pages.workspace.block.mediaSrcURL') }}</label>
           <p-input-text
             :id="`blockSettingsMediaSrcURL${index}`"
             :value="media.srcURL"
@@ -83,8 +80,7 @@
             classes
           }"
         >
-          <label :for="`blockSettingsMediaName${index}`">{{ $t('pages.workspace.block.mediaType') }}</label>
-          <span class="field-required">*</span>
+          <label :for="`blockSettingsMediaName${index}`" class="label-field-required">{{ $t('pages.workspace.block.mediaType') }}</label>
           <p-dropdown
             :id="`blockSettingsMediaName${index}`"
             :options="basicMediaTypes"

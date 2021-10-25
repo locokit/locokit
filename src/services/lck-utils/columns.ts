@@ -150,6 +150,30 @@ export function getComponentDisplayDetailForColumnType (columnTypeId: number) {
   }
 }
 
+/**
+ * This function returns the validation rules to apply for a specific column.
+ * @param column column
+ * @returns An object containing the rules to enable
+ */
+export function getColumnValidationRules (column: LckTableColumn) {
+  switch (column.column_type_id) {
+    case COLUMN_TYPE.DATE:
+    case COLUMN_TYPE.DATETIME:
+      return {
+        ...column.validation,
+        dateValid: true,
+      }
+    case COLUMN_TYPE.USER:
+    case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
+      return {
+        ...column.validation,
+        reference: true,
+      }
+    default:
+      return column.validation
+  }
+}
+
 export const READ_ONLY_COLUMNS_TYPES = new Set([
   COLUMN_TYPE.LOOKED_UP_COLUMN,
   COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN,
@@ -425,6 +449,7 @@ export default {
   getDataFromTableViewColumn,
   getColumnClass,
   getColumnDisplayValue,
+  getColumnValidationRules,
   GEOGRAPHIC_COLUMN_TYPES,
   READ_ONLY_COLUMNS_TYPES,
 }

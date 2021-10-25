@@ -4,7 +4,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -29,16 +29,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
         class="p-field"
       >
         <label
+          class="label-field-required"
           for="blockTypeField"
         >
           Block type
         </label>
-         
-        <span
-          class="field-required"
-        >
-          *
-        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -359,16 +354,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
           class="p-field"
         >
           <label
+            class="label-field-required"
             for="action"
           >
             Button action
           </label>
-           
-          <span
-            class="field-required"
-          >
-            *
-          </span>
            
           <div
             class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -425,16 +415,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
             class="p-field"
           >
             <label
+              class="label-field-required"
               for="processId"
             >
               Action/Process name
             </label>
-             
-            <span
-              class="field-required"
-            >
-              *
-            </span>
              
             <input
               class="p-inputtext p-component"
@@ -802,7 +787,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;
 
@@ -810,7 +795,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -835,16 +820,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
         class="p-field"
       >
         <label
+          class="label-field-required"
           for="blockTypeField"
         >
           Block type
         </label>
-         
-        <span
-          class="field-required"
-        >
-          *
-        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -1083,16 +1063,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
         class="p-field"
       >
         <label
+          class="label-field-required"
           for="blockSettingsTableView"
         >
           View to display
         </label>
-         
-        <span
-          class="field-required"
-        >
-          *
-        </span>
          
         <span
           aria-haspopup="listbox"
@@ -1193,7 +1168,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;
 
@@ -1201,7 +1176,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -1226,16 +1201,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
         class="p-field"
       >
         <label
+          class="label-field-required"
           for="blockTypeField"
         >
           Block type
         </label>
-         
-        <span
-          class="field-required"
-        >
-          *
-        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -1517,7 +1487,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;
 
@@ -1525,7 +1495,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -1550,16 +1520,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
         class="p-field"
       >
         <label
+          class="label-field-required"
           for="blockTypeField"
         >
           Block type
         </label>
-         
-        <span
-          class="field-required"
-        >
-          *
-        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -2600,7 +2565,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;
 
@@ -2608,7 +2573,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -2633,16 +2598,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
         class="p-field"
       >
         <label
+          class="label-field-required"
           for="blockTypeField"
         >
           Block type
         </label>
-         
-        <span
-          class="field-required"
-        >
-          *
-        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -2882,16 +2842,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
           class="p-field"
         >
           <label
+            class="label-field-required"
             for="blockSettingsContent"
           >
             Content
           </label>
-           
-          <span
-            class="field-required"
-          >
-            *
-          </span>
            
           <textarea
             class="p-inputtextarea p-inputtext p-component p-filled p-inputtextarea-resizable "
@@ -3053,7 +3008,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;
 
@@ -3061,7 +3016,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -3086,16 +3041,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
         class="p-field"
       >
         <label
+          class="label-field-required"
           for="blockTypeField"
         >
           Block type
         </label>
-         
-        <span
-          class="field-required"
-        >
-          *
-        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -3337,16 +3287,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
           class="p-field"
         >
           <label
+            class="label-field-required"
             for="blockSettingsDisplayMode"
           >
             Display mode
           </label>
-           
-          <span
-            class="field-required"
-          >
-            *
-          </span>
            
           <div
             class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -3403,16 +3348,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
               class="p-field"
             >
               <label
+                class="label-field-required"
                 for="blockSettingsMediaName0"
               >
                 Media name
               </label>
-               
-              <span
-                class="field-required"
-              >
-                *
-              </span>
                
               <input
                 class="p-inputtext p-component p-filled"
@@ -3430,16 +3370,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
               class="p-field"
             >
               <label
+                class="label-field-required"
                 for="blockSettingsMediaSrcURL0"
               >
                 Media URL
               </label>
-               
-              <span
-                class="field-required"
-              >
-                *
-              </span>
                
               <input
                 class="p-inputtext p-component p-filled"
@@ -3457,16 +3392,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
               class="p-field"
             >
               <label
+                class="label-field-required"
                 for="blockSettingsMediaName0"
               >
                 Media type
               </label>
-               
-              <span
-                class="field-required"
-              >
-                *
-              </span>
                
               <div
                 class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -3542,16 +3472,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
               class="p-field"
             >
               <label
+                class="label-field-required"
                 for="blockSettingsMediaName1"
               >
                 Media name
               </label>
-               
-              <span
-                class="field-required"
-              >
-                *
-              </span>
                
               <input
                 class="p-inputtext p-component p-filled"
@@ -3569,16 +3494,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
               class="p-field"
             >
               <label
+                class="label-field-required"
                 for="blockSettingsMediaSrcURL1"
               >
                 Media URL
               </label>
-               
-              <span
-                class="field-required"
-              >
-                *
-              </span>
                
               <input
                 class="p-inputtext p-component p-filled"
@@ -3596,16 +3516,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
               class="p-field"
             >
               <label
+                class="label-field-required"
                 for="blockSettingsMediaName1"
               >
                 Media type
               </label>
-               
-              <span
-                class="field-required"
-              >
-                *
-              </span>
                
               <div
                 class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -3746,7 +3661,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;
 
@@ -3754,7 +3669,7 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -3779,16 +3694,11 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
         class="p-field"
       >
         <label
+          class="label-field-required"
           for="blockTypeField"
         >
           Block type
         </label>
-         
-        <span
-          class="field-required"
-        >
-          *
-        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper"
@@ -4070,7 +3980,7 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;
 
@@ -4078,7 +3988,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -4103,16 +4013,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
         class="p-field"
       >
         <label
+          class="label-field-required"
           for="blockTypeField"
         >
           Block type
         </label>
-         
-        <span
-          class="field-required"
-        >
-          *
-        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -4351,16 +4256,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
         class="p-field"
       >
         <label
+          class="label-field-required"
           for="blockSettingsContent"
         >
           Content
         </label>
-         
-        <span
-          class="field-required"
-        >
-          *
-        </span>
          
         <textarea
           class="p-inputtextarea p-inputtext p-component p-filled p-inputtextarea-resizable "
@@ -4419,7 +4319,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;
 
@@ -4427,7 +4327,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -4452,16 +4352,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
         class="p-field"
       >
         <label
+          class="label-field-required"
           for="blockTypeField"
         >
           Block type
         </label>
-         
-        <span
-          class="field-required"
-        >
-          *
-        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -4701,16 +4596,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
           class="p-field"
         >
           <label
+            class="label-field-required"
             for="blockSettingsTableView"
           >
             View to display
           </label>
-           
-          <span
-            class="field-required"
-          >
-            *
-          </span>
            
           <span
             aria-haspopup="listbox"
@@ -4969,7 +4859,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;
 
@@ -4977,7 +4867,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
 <div
   style="height: 100%;"
 >
-  <span
+  <div
     class="lck-update-block-form lck-color-content p-text-bold"
   >
     <form
@@ -5002,16 +4892,11 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
         class="p-field"
       >
         <label
+          class="label-field-required"
           for="blockTypeField"
         >
           Block type
         </label>
-         
-        <span
-          class="field-required"
-        >
-          *
-        </span>
          
         <div
           class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
@@ -5293,6 +5178,6 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
         </button>
       </div>
     </form>
-  </span>
+  </div>
 </div>
 `;

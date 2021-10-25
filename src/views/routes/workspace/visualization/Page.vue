@@ -788,7 +788,7 @@ export default {
       }
 
       if (this.$route.query.rowId) {
-        const columnTargetDetail = currentBlockDefinition.columns.find(column => column.default === '{rowId}' && column.displayed === false)
+        const columnTargetDetail = currentBlockDefinition.columns.find(column => column.default?.value === '{rowId}' && column.displayed === false)
         data[columnTargetDetail.id] = this.$route.query.rowId
       }
       this.$set(block, 'submitting', { inProgress: true })
@@ -1530,7 +1530,12 @@ export default {
     min-height: 100%;
     overflow: hidden;
   }
-  .lck-layout-full .lck-page-content .lck-container-parent,
+  .lck-layout-full .lck-page-content .lck-container-parent {
+    height: calc(100% - 5rem);
+    max-height: calc(100% - 5rem);
+    min-height: unset;
+    overflow: hidden;
+  }
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container,
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container .lck-block-parent,
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container .lck-block-parent .lck-block {

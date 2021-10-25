@@ -3,10 +3,6 @@
     <header class="p-my-4 lck-color-title">
       {{ $t('pages.workspace.title') }}
     </header>
-    <template>
-      <p v-if="$can('create', 'workspace')"></p>
-      <p v-else>{{ $t('pages.workspace.noWorkspace') }}</p>
-    </template>
 
     <p-card v-if="loading">
       <template slot="content">
@@ -21,6 +17,9 @@
         ></p-skeleton>
       </template>
     </p-card>
+
+    <p v-if="!loading && groups.length === 0">{{ $t('pages.workspace.noWorkspace') }}</p>
+
     <p-card
       class="p-mb-4 p-col"
       v-for="group in groups"
@@ -88,6 +87,15 @@
                 icon="bi bi-lightning"
               />
             </router-link>
+            <router-link
+              class="no-decoration-link p-mr-2"
+              :to="{ name: ROUTES_NAMES.ACL, params: { workspaceId: group.aclset.workspace.id } }"
+            >
+              <p-button
+                :label="$t('pages.workspace.buttonAcl')"
+                icon="pi pi-key"
+              />
+            </router-link>
           </template>
         </div>
       </template>
@@ -132,7 +140,7 @@
 <script>
 import Vue from 'vue'
 import { authState } from '@/store/auth'
-import { ROUTES_PATH } from '@/router/paths'
+import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
 
 import Card from 'primevue/card'
 import Button from 'primevue/button'
@@ -163,6 +171,7 @@ export default {
     return {
       loading: false,
       ROUTES_PATH,
+      ROUTES_NAMES,
       authState,
       WORKSPACE_ROLE,
       newWorkspace: {

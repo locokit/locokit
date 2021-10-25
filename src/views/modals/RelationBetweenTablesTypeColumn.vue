@@ -10,10 +10,9 @@
         classes
       }"
   >
-    <label for="relation-between-tables-id">
+    <label for="relation-between-tables-id" class="label-field-required">
       {{ $t('pages.databaseSchema.relationBetweenTablesType.relationTable') }}
     </label>
-    <span class="field-required">*</span>
     <p-dropdown
       id="relation-between-tables-id"
       appendTo="body"

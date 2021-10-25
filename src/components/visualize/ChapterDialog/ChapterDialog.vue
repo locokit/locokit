@@ -17,8 +17,7 @@
         classes
       }"
     >
-      <label for="chapterTextField">{{ $t('pages.workspace.chapterName') }}</label>
-      <span class="field-required">*</span>
+      <label for="chapterTextField" class="label-field-required">{{ $t('pages.workspace.chapterName') }}</label>
       <p-input-text
         id="chapterTextField"
         v-model="chapterTextCopy"

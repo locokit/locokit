@@ -494,7 +494,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
           <div
             class="p-card-content"
           >
-            <span>
+            <div>
               <form
                 class="p-fluid"
               >
@@ -599,7 +599,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                   </button>
                 </div>
               </form>
-            </span>
+            </div>
           </div>
            
           <!---->
@@ -641,7 +641,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
               class="p-field p-grid p-mb-3"
             >
               <label
-                class="p-col p-md-3"
+                class="p-col p-md-3 label-field-required"
                 for="oldPassword"
               >
                 
@@ -667,7 +667,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                 class="p-d-flex p-md-12"
               >
                 <label
-                  class="p-col p-md-3"
+                  class="p-col p-md-3 label-field-required"
                   for="password"
                 >
                   
@@ -711,7 +711,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
               class="p-field p-grid"
             >
               <label
-                class="p-col p-md-3"
+                class="p-col p-md-3 label-field-required"
                 for="passwordCheck"
               >
                 

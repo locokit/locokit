@@ -1,5 +1,5 @@
 <template>
-  <validation-observer v-slot="{ valid, reset, pristine }">
+  <validation-observer v-slot="{ valid, reset, pristine }" tag="div">
     <form
       class="p-fluid"
       @submit.prevent="$emit('submit')"

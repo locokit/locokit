@@ -107,10 +107,9 @@
             classes
           }"
         >
-          <label for="userName">
+          <label for="userName" class="label-field-required">
             {{ $t('pages.groupManagement.form.input.user') }}
           </label>
-          <span class="field-required">*</span>
           <lck-autocomplete
             id="userName"
             :dropdown="true"

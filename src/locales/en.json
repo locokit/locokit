@@ -150,6 +150,9 @@
     "datadetail": {
       "nodata": "No data to display"
     },
+    "jsonField": {
+      "placeholder": "Enter a JSON value."
+    },
     "detailview": {
       "goback": "Return to results"
     },
@@ -311,6 +314,38 @@
     "404": {
       "title": "Whooops ?!... sounds you're lost... Sorry. Really.",
       "link": "Please, please... come back home."
+    },
+    "acl": {
+      "common": {
+        "manager": "Manager role",
+        "noManager": "No manager role",
+        "title": "Roles and permissions"
+      },
+      "detail": {
+        "aclTables": "Tables",
+        "aclTableFilters": "Filters",
+        "aclTableName": "Table name",
+        "aclTableRecord": "Record",
+        "chapter": "Chapter",
+        "create_rows": "Record creation",
+        "delete_filter": "Filter used when deleting",
+        "delete_rows": "Record deletion",
+        "createTitle": "Create a new role",
+        "editTitle": "Update a role",
+        "filterError": "The specified filter does not match the expected format (JSON).",
+        "noAclTable": "No table",
+        "label": "Role name",
+        "properties": "Properties",
+        "read_rows": "Record reading",
+        "read_filter": "Filter used when reading",
+        "update_filter": "Filter used when updating",
+        "update_rows": "Record updating"
+        },
+      "listing": {
+        "aclSetError": "Impossible to retrieve the workspace roles.",
+        "noAclSet": "No role",
+        "title": "All roles"
+      }
     },
     "home": {
       "title": "Welcome",
@@ -904,7 +939,8 @@
       "required": "The '{_field_}' field is required.",
       "email": "The '{_field_}' field does not match the expected format (email).",
       "minDate": "The '{_field_}' field must be after {fromDate}.",
-      "dateValid": "The '{_field_}' field does not match the expected format."
+      "dateValid": "The '{_field_}' field does not match the expected format.",
+      "reference": "The '{_field_}' field value is invalid : please select an item from the list."
     }
   }
 }
