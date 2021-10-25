@@ -63,6 +63,7 @@
             :id="column.id"
             :placeholder="$t('components.datatable.placeholder')"
             field="label"
+            :forceSelection="false"
             :suggestions="autocompleteSuggestions"
             @search="onComplete(column, $event)"
             v-model="autocompleteInput[column.id]"
@@ -124,14 +125,14 @@
             :id="column.id"
             v-model="row.data[column.id]"
             :dateFormat="$t('date.dateFormatPrime')"
-            @hide="onDateEdit(row.id, column.id, row.data[column.id])"
+            @hide="onEdit(row.id, column.id, row.data[column.id])"
             appendTo="body"
           />
           <p-calendar
             v-else-if="getComponentEditorDetailForColumnType(column) === 'p-calendar-time'"
             v-model="row.data[column.id]"
             :dateFormat="$t('date.dateFormatPrime')"
-            @hide="onDateEdit(row.id, column.id, row.data[column.id])"
+            @hide="onEdit(row.id, column.id, row.data[column.id])"
             :showTime="true"
             appendTo="body"
           />
@@ -258,6 +259,7 @@ import {
   getComponentDisplayDetailForColumnType,
   isEditableColumn,
   getColumnDisplayValue,
+  getColumnValidationRules,
 } from '@/services/lck-utils/columns'
 
 import { zipArrays } from '@/services/lck-utils/arrays'
@@ -471,20 +473,16 @@ export default {
         }, { query })
     },
     async onAutocompleteEdit (rowId: string, columnId: string, event: { value: { value: string } } | null = null) {
-      await this.onEdit(rowId, columnId, event ? event.value.value : null)
+      // We pass as function parameters, the reference that we want to save (event.value.value) and
+      // the value retrieved by the input field (event.value) to check its validity (must be an object).
+      if (event) await this.onEdit(rowId, columnId, event.value.value, event.value)
+      else await this.onEdit(rowId, columnId, null)
     },
     async onMultipleAutocompleteEdit (rowId: string, columnId: string) {
       await this.onEdit(
         rowId,
         columnId,
         this.multipleAutocompleteInput[columnId].map((item: { value: number }) => item.value),
-      )
-    },
-    async onDateEdit (rowId: string, columnId: string, value: Date | null) {
-      await this.onEdit(
-        rowId,
-        columnId,
-        value,
       )
     },
     async onGeoDataEdit (rowId: string, column: LckTableViewColumn, features: GeoJSONFeature[]) {
@@ -494,17 +492,28 @@ export default {
         transformFeatureToWKT(features[0], column.column_type_id),
       )
     },
-    async onEdit (rowId: string, columnId: string, value: string | string[] | number[] | Date | null) {
+    /**
+     * Emit an 'update-row' event with the value to save if it is valid.
+     * @param rowId the id of the current row to update
+     * @param columnId the id of the column to update
+     * @param value the value that we want to save
+     * @param originalValue the value that we want to check (if not specified, the value to be saved is checked)
+     */
+    async onEdit (rowId: string, columnId: string, value: string | string[] | number[] | Date | null, originalValue?: unknown) {
       const ref = `vp_${rowId}_${columnId}`
       let provider = this.$refs[ref]
       if (Array.isArray(provider)) {
         provider = provider[0]
       }
-      (provider as InstanceType<typeof ValidationProvider>).validate(value)
-      this.$emit('update-row', {
-        rowId,
-        columnId,
-        newValue: value,
+      const valueToCheck = originalValue !== undefined ? originalValue : value;
+      (provider as InstanceType<typeof ValidationProvider>).validate(valueToCheck).then((validation) => {
+        if (validation.valid) {
+          this.$emit('update-row', {
+            rowId,
+            columnId,
+            newValue: value,
+          })
+        }
       })
     },
     /**
@@ -589,10 +598,7 @@ export default {
       return this.columnsEnhanced[columnId].dropdownOptions?.find(element => element.value === value)
     },
     rulesExtended (column: LckTableColumn) {
-      if ([COLUMN_TYPE.DATE, COLUMN_TYPE.DATETIME].includes(column.column_type_id)) {
-        return { ...column.validation, dateValid: true }
-      }
-      return column.validation
+      return getColumnValidationRules(column)
     },
     /**
      * Check if a column / field is displayed
@@ -667,7 +673,13 @@ export default {
                     this.$set(
                       this.autocompleteInput,
                       columnId,
-                      (newData[columnId] as LckTableRowDataComplex)?.value || null)
+                      newData[columnId]
+                        ? {
+                          value: (newData[columnId] as LckTableRowDataComplex)?.reference,
+                          label: (newData[columnId] as LckTableRowDataComplex)?.value,
+                        }
+                        : null,
+                    )
                     break
                   case COLUMN_TYPE.MULTI_USER:
                     this.$set(

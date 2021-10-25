@@ -591,7 +591,7 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
             id="bde4bbbd-2584-447f-acff-f434f53619da"
             placeholder="Select an option"
-            value="AMSTERDAMAIR"
+            value="[object Object]"
           >
             <input
               aria-autocomplete="list"
@@ -920,7 +920,7 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
             id="bde4bbbd-2584-447f-acff-f434f53619da"
             placeholder="Select an option"
-            value="AMSTERDAMAIR"
+            value="[object Object]"
           >
             <input
               aria-autocomplete="list"
@@ -1249,7 +1249,7 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
             id="bde4bbbd-2584-447f-acff-f434f53619da"
             placeholder="Select an option"
-            value="AMSTERDAMAIR"
+            value="[object Object]"
           >
             <input
               aria-autocomplete="list"
@@ -1578,7 +1578,7 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
             id="bde4bbbd-2584-447f-acff-f434f53619da"
             placeholder="Select an option"
-            value="AMSTERDAMAIR"
+            value="[object Object]"
           >
             <input
               aria-autocomplete="list"

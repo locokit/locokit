@@ -935,7 +935,8 @@
       "required": "The '{_field_}' field is required.",
       "email": "The '{_field_}' field does not match the expected format (email).",
       "minDate": "The '{_field_}' field must be after {fromDate}.",
-      "dateValid": "The '{_field_}' field does not match the expected format."
+      "dateValid": "The '{_field_}' field does not match the expected format.",
+      "reference": "The '{_field_}' field value is invalid : please select an item from the list."
     }
   }
 }

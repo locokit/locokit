@@ -2420,6 +2420,7 @@ describe('Page', () => {
           await dateInputs.at(1).vm.$emit('hide')
 
           // Submit the form
+          await flushAll()
           await lckMapSetWrapper.vm.handleSubmitCreateRow()
           await lckFormWrapper.vm.$emit('input')
         })
@@ -2683,6 +2684,7 @@ describe('Page', () => {
           await dateInputs.at(1).vm.$emit('hide')
 
           // Submit the form
+          await flushAll()
           await lckFormWrapper.vm.$emit('submit')
         })
 
@@ -2851,6 +2853,7 @@ describe('Page', () => {
           await input.vm.$emit('input', 'JOHN')
           // Simulate the end of the user input
           await input.vm.$emit('blur')
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -2872,6 +2875,7 @@ describe('Page', () => {
               },
             },
           )
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -2887,6 +2891,7 @@ describe('Page', () => {
           const input = lckDataDetailWrapper.findComponent({ name: 'LckAutoComplete' })
           // Change the value
           await input.vm.$emit('clear')
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -2902,6 +2907,7 @@ describe('Page', () => {
           const input = lckDataDetailWrapper.findComponent({ name: 'p-checkbox' })
           // Change the value
           await input.vm.$emit('input', false)
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -2919,6 +2925,7 @@ describe('Page', () => {
           await input.vm.$emit('input', 10)
           // Simulate the end of the user input
           await input.vm.$emit('blur')
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -2936,6 +2943,7 @@ describe('Page', () => {
           await input.vm.$emit('input', 10.5)
           // Simulate the end of the user input
           await input.vm.$emit('blur')
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -2953,6 +2961,7 @@ describe('Page', () => {
           await input.vm.$emit('input', new Date(2021, 9, 1))
           // Simulate the end of the user input
           await input.vm.$emit('hide')
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -2970,6 +2979,7 @@ describe('Page', () => {
           await input.vm.$emit('input', '')
           // Simulate the end of the user input
           await input.vm.$emit('hide')
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -2992,6 +3002,7 @@ describe('Page', () => {
               },
             },
           )
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -3014,6 +3025,7 @@ describe('Page', () => {
               },
             },
           )
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -3029,6 +3041,7 @@ describe('Page', () => {
           const input = lckDataDetailWrapper.findComponent({ name: 'p-dropdown' })
           // Change the value
           await input.vm.$emit('input', 'option1')
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -3044,6 +3057,7 @@ describe('Page', () => {
           const input = lckDataDetailWrapper.findComponent({ name: 'LckMultiSelect' })
           // Change the value
           await input.vm.$emit('input', ['option1', 'option2'])
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -3111,6 +3125,7 @@ describe('Page', () => {
             },
           ])
           await input.vm.$emit('item-select')
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -3132,6 +3147,7 @@ describe('Page', () => {
             },
           ])
           await input.vm.$emit('item-unselect')
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -3149,6 +3165,7 @@ describe('Page', () => {
           // Change the value
           await input.vm.$emit('input', newLongText)
           await input.vm.$emit('blur')
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -3169,6 +3186,7 @@ describe('Page', () => {
           // Change the value
           await input.vm.$emit('input', 'https://www.locokit.io/index.html')
           await input.vm.$emit('blur')
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -3199,6 +3217,7 @@ describe('Page', () => {
               },
             },
           ])
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -3229,6 +3248,7 @@ describe('Page', () => {
               },
             },
           ])
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -3245,6 +3265,7 @@ describe('Page', () => {
           // Change the value
           await input.vm.$emit('input', new Date(2021, 9, 1, 12, 0, 0))
           await input.vm.$emit('hide')
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -3261,6 +3282,7 @@ describe('Page', () => {
           // Change the value
           await input.vm.$emit('input', '')
           await input.vm.$emit('hide')
+          await flushAll()
           // Check the API call
           expect(lckServices.tableRow.patch).toHaveBeenLastCalledWith('row-1', expect.objectContaining({
             data: {
@@ -3960,9 +3982,11 @@ describe('Page', () => {
           await dateInputs.at(1).vm.$emit('input', new Date(2021, 9, 1, 12, 0, 0))
           await dateInputs.at(1).vm.$emit('hide')
 
+          await flushAll()
           // Submit the form
           await lckTableSetWrapper.vm.handleSubmitCreateRow()
           await lckFormWrapper.vm.$emit('input')
+          await flushAll()
         })
 
         it('Of a string column', () => {
