@@ -32,7 +32,6 @@ extend('dateValid', {
 configure({
   // this will be used to generate messages.
   defaultMessage: (_, values) => {
-    console.log(values)
     // values._field_ = i18n.t(`fields.${field}`)
     return i18n.t(`validations.messages.${values._rule_}`, values) as string
   },
