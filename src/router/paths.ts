@@ -51,7 +51,7 @@ export const ROUTES_NAMES = {
   VISUALIZATION: 'WorkspaceVisualization',
   PAGE: 'Page',
   PAGEDETAIL: 'PageDetail',
-  DATABASE: 'WorkspaceDatabase',
+  DATABASETABLE: 'DatabaseTable',
   DATABASESCHEMA: 'DatabaseSchema',
   PROCESS: 'ProcessListing',
   ACL: 'WorkspaceACL',

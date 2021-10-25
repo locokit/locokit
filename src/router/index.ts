@@ -112,7 +112,7 @@ const routes: Array<RouteConfig> = [
       needAuthentication: true,
     },
     children: [{
-      name: 'Database',
+      name: 'WorkspaceDatabase',
       path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE,
       props: true,
       component: DatabaseList,
@@ -121,7 +121,7 @@ const routes: Array<RouteConfig> = [
       },
       children: [
         {
-          name: 'DatabaseTable',
+          name: ROUTES_NAMES.DATABASETABLE,
           path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASETABLE + '/:tableId?',
           component: DatabaseTable,
           props: true,
@@ -130,7 +130,7 @@ const routes: Array<RouteConfig> = [
           },
         },
         {
-          name: 'DatabaseSchema',
+          name: ROUTES_NAMES.DATABASESCHEMA,
           path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASESCHEMA,
           component: DatabaseSchema,
           props: true,
@@ -171,6 +171,25 @@ const routes: Array<RouteConfig> = [
       meta: {
         needAuthentication: true,
       },
+    }, {
+      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.VISUALIZATION,
+      name: 'WorkspaceAdminVisualization',
+      component: Workspace,
+      props: true,
+      meta: {
+        needAuthentication: true,
+      },
+      children: [{
+        name: 'WorkspaceAdminPageDetail',
+        path: 'page/:pageId/detail/:pageDetailId',
+        props: true,
+        component: Page,
+      }, {
+        name: 'WorkspaceAdminPage',
+        path: 'page/:pageId',
+        props: true,
+        component: Page,
+      }],
     }],
   }, {
     path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION,
@@ -178,12 +197,12 @@ const routes: Array<RouteConfig> = [
     component: Workspace,
     props: true,
     children: [{
-      name: 'PageDetail',
+      name: 'WorkspacePageDetail',
       path: 'page/:pageId/detail/:pageDetailId',
       props: true,
       component: Page,
     }, {
-      name: 'Page',
+      name: 'WorkspacePage',
       path: 'page/:pageId',
       props: true,
       component: Page,

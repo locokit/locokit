@@ -291,7 +291,7 @@ export default {
       type: String,
       required: true,
     },
-    groupId: {
+    workspaceId: {
       type: String,
       required: true,
     },
@@ -304,7 +304,6 @@ export default {
     return {
       // eslint-disable-next-line no-undef
       PAGE_DATABASE_BACKGROUND_IMAGE_URL: LCK_THEME.PAGE_DATABASE_BACKGROUND_IMAGE_URL,
-      DATABASE_ROUTE: ROUTES_NAMES.DATABASE,
       database: {
         tables: [],
       },
@@ -426,10 +425,6 @@ export default {
     hasDataToDisplay () {
       return this.displayColumnsView.columns.length > 0 && this.block?.content?.total > 0
     },
-    workspaceId () {
-      if (!this.database) return null
-      return this.database.workspace_id
-    },
     columnsObject () {
       // Get an object containing the columns as values and their ids as keys
       if (!this.block.definition.columns) return {}
@@ -483,7 +478,7 @@ export default {
       }
       // Load the contents
       await Promise.all(tableViewIds.map(async tableViewId => {
-        newSecondarySources[tableViewId].content = await lckHelpers.retrieveViewData(tableViewId, this.groupId, 0, -1)
+        newSecondarySources[tableViewId].content = await lckHelpers.retrieveViewData(tableViewId, null, 0, -1)
       }))
       this.secondarySources = newSecondarySources
     },
@@ -537,7 +532,7 @@ export default {
       this.block.loading = true
       this.block.content = await retrieveTableRowsWithSkipAndLimit(
         this.currentTableId,
-        this.groupId,
+        null,
         {
           skip: this.currentPageIndex * this.currentDatatableRows,
           limit: this.currentDatatableRows,
@@ -629,7 +624,6 @@ export default {
         this.selectedViewId,
         this.getCurrentFilters(this.currentDatatableFilters),
         this.fileName = this.currentView.text,
-        this.groupId,
       )
       this.exporting = false
     },
@@ -640,7 +634,6 @@ export default {
         this.selectedViewId,
         this.getCurrentFilters(this.currentDatatableFilters),
         this.fileName = this.currentView.text,
-        this.groupId,
       )
       this.exporting = false
     },
@@ -989,7 +982,7 @@ export default {
         columnTypeId,
         tableId: settings?.tableId,
         query,
-        groupId: this.groupId,
+        groupId: null,
         filter,
       })
     },
@@ -998,7 +991,7 @@ export default {
         columnTypeId,
         tableId: settings?.tableId,
         query,
-        groupId: this.groupId,
+        groupId: null,
         filter,
       })
     },
@@ -1016,7 +1009,6 @@ export default {
       try {
         const res = await lckServices.tableRow.patch(currentRow.id, {
           data,
-          $lckGroupId: this.groupId,
         })
         this.cellState.isValid = true
         lckHelpers.convertDateInRecords(res, this.block.definition.columns)
@@ -1180,9 +1172,9 @@ export default {
     async goToSpecificTable (tableId) {
       // Go to another table page
       await this.$router.replace({
-        name: this.DATABASE_ROUTE,
+        name: ROUTES_NAMES.DATABASETABLE,
         params: {
-          groupId: this.groupId,
+          workspaceId: this.workspaceId,
           databaseId: this.databaseId,
           tableId: tableId,
         },

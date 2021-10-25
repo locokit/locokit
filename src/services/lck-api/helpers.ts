@@ -194,7 +194,7 @@ export async function searchBooleanColumnsFromTableView (query: string, tableVie
 /**
  * Get columns and rows from the current TableView
  */
-async function retrieveTableViewData (tableViewId: string, filters: object = {}, groupId: string): Promise<{
+async function retrieveTableViewData (tableViewId: string, filters: object = {}, groupId?: string): Promise<{
   viewData: LckTableRow[];
   viewColumns: LckTableViewColumn[];
 }> {
@@ -210,8 +210,10 @@ async function retrieveTableViewData (tableViewId: string, filters: object = {},
     $sort: {
       createdAt: 1,
     },
-    $lckGroupId: groupId,
     ...filters,
+  }
+  if (groupId) {
+    query.$lckGroupId = groupId
   }
   const viewData = await lckServices.tableRow.find({ query }) as LckTableRow[]
 
@@ -250,7 +252,7 @@ function getValueExport (currentColumn: LckTableViewColumn, currentRowValue: Lck
 /**
  * Export data in xls
  */
-export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}, fileName = 'Export', groupId: string) {
+export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}, fileName = 'Export', groupId?: string) {
   const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters, groupId)
   const exportXLS = viewData.map((currentRow) => {
     const formatedData: Record<string, string | undefined> = {}
@@ -277,7 +279,7 @@ export async function exportTableRowDataXLS (tableViewId: string, filters: objec
 /**
  * Export data in csv
  */
-export async function exportTableRowDataCSV (tableViewId: string, filters: object = {}, fileName: string, groupId: string) {
+export async function exportTableRowDataCSV (tableViewId: string, filters: object = {}, fileName: string, groupId?: string) {
   const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters, groupId)
   let exportCSV = '\ufeff' + viewColumns.map(c => '"' + c.text + '"').join(',') + '\n'
   exportCSV += viewData.map(currentRow =>
