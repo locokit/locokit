@@ -24,13 +24,36 @@
 
     <div class="p-grid">
       <div v-for="workspace in workspaces" :key="workspace.id" class="p-col-12 p-md-6 p-lg-3 workspaces-item">
-        <router-link
-          class="p-component p-button p-button-outlined workspaces-button p-mr-2"
-          :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}`"
+        <div
+          class="workspaces-button p-mr-2"
+          :style="{
+            backgroundColor: workspace.backgroundColor || 'inherit'
+          }"
         >
-          <p class="workspaces-button-title">{{ workspace.text }}</p>
-          is manager : {{ workspace.isManager }}
-        </router-link>
+          <router-link
+            class="workspaces-detail"
+            :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}`"
+            :style="{
+              color: workspace.color || 'inherit'
+            }"
+          >
+            <p class="workspaces-detail-title">{{ workspace.text }}</p>
+            {{ workspace.documentation }}
+          </router-link>
+
+          <router-link
+            v-if="workspace.isManager"
+            class="workspaces-admin"
+            :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.ADMIN}`"
+            :style="{
+              color: workspace.color || 'inherit'
+            }"
+          >
+            <i class="bi bi-sliders"></i>
+          </router-link>
+
+          <i v-if="workspace.icon" class="workspaces-icon bi" :class="workspace.icon" />
+        </div>
       </div>
 
       <div v-if="$can('create', 'workspace')" class="p-col-12 p-md-6 p-lg-3 workspaces-item">
@@ -124,7 +147,7 @@ export default {
     authState: AuthState;
     WORKSPACE_ROLE: typeof WORKSPACE_ROLE;
     newWorkspace: {text: string; documentation: string};
-    workspaces: {id: string; text: string; color?: string; icon?: string; isManager: boolean}[];
+    workspaces: {id: string; text: string; color?: string; backgroundColor?: string; icon?: string; isManager: boolean}[];
     } {
     return {
       loading: false,
@@ -187,6 +210,7 @@ export default {
           text: w.text,
           icon: w.settings?.icon,
           color: w.settings?.color,
+          backgroundColor: w.settings?.backgroundColor,
           isManager: false,
         }
         // eslint-disable-next-line no-unused-expressions
@@ -234,46 +258,55 @@ export default {
   }
 
   &-button {
+    position: relative;
+    overflow: hidden;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     background: #ffffff;
+    align-content: center;
+    text-align: center;
     min-height: 10rem;
     border-radius: var(--border-radius);
     width: 100%;
-    cursor: pointer;
-    border: solid 1px var(--primary-color);
     color: var(--text-color);
     box-shadow: 0 1px 3px 2px rgba(141, 27, 27, 0.04);
     transition: box-shadow .3s;
-    font-weight: var(--font-weight-regular);
+    font-weight: var(--font-weight-bold);
+  }
 
-    &,
-    p {
-      text-decoration: none;
-      color: var(--text-color);
-    }
+  &-detail {
+    position: relative;
+    z-index: 2;
+    padding: var(--spacing);
+    text-decoration: none;
+    cursor: pointer;
 
     &-title {
-      display: block;
-      font-weight: var(--font-weight-regular);
-      margin: 0;
-    }
-
-    &-group {
-      font-size: var(--font-size-md);
-      display: block;
-      margin-top: 0;
-      margin-bottom: .25rem;
+      font-size: 1.6rem;
+      word-wrap: break-word;
     }
 
     &:hover {
-      box-shadow: 0 0 0 0.1rem var(--primary-color);
-      background-color: var(--primary-color-very-lighten);
+      text-decoration: underline;
     }
+  }
 
-    &:focus {
-      box-shadow: 0 0 0 0.1rem var(--primary-color), 0 0 0 0.3rem var(--primary-color-lighten);
-    }
+  &-admin {
+    cursor: pointer;
+    position: absolute;
+    top: var(--spacing);
+    right: var(--spacing);
+    text-decoration: none;
+  }
+
+  &-icon {
+    position: absolute;
+    z-index: 1;
+    left: -.75rem;
+    bottom: -.75rem;
+    font-size: 8rem;
+    opacity: .1;
   }
 
   &-new {
