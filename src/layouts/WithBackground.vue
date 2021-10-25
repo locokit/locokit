@@ -2,7 +2,7 @@
   <div
     class="
       layout-with-background
-      p-grid
+      p-d-flex
       p-jc-center
       p-ai-center
     "
@@ -92,7 +92,7 @@ export default Vue.extend({
   color: var(--surface-d);
 }
 
-/deep/ .p-card .p-card-title {
+::v-deep .p-card .p-card-title {
   text-align: center;
 }
 
