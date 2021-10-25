@@ -81,7 +81,7 @@ export default {
     'p-toggle-button': Vue.extend(ToggleButton),
   },
   props: {
-    groupId: {
+    workspaceId: {
       type: String,
       required: true,
     },
@@ -108,7 +108,7 @@ export default {
           {
             id,
             label: text,
-            to: `${ROUTES_PATH.WORKSPACE}/${this.groupId}${ROUTES_PATH.VISUALIZATION}/page/${id}`,
+            to: `${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${id}`,
             hidden,
           }
         ))
@@ -124,10 +124,6 @@ export default {
     isAdmin () {
       return [USER_PROFILE.ADMIN, USER_PROFILE.SUPERADMIN].includes(authState.data.user?.profile)
     },
-    workspaceId () {
-      if (!this.workspaceContent) return null
-      return this.workspaceContent.id
-    },
     userId () {
       return authState.data.user?.id
     },
@@ -140,14 +136,14 @@ export default {
         this.workspaceContent.chapters[0].pages.length > 0
       ) {
         const pageNotHidden = this.workspaceContent.chapters[0].pages.find(page => page.hidden !== true)
-        pageNotHidden && await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.groupId}${ROUTES_PATH.VISUALIZATION}/page/${pageNotHidden.id}`)
+        pageNotHidden && await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${pageNotHidden.id}`)
       }
     },
     async goToSpecificPage (pageId) {
       await this.$router.replace({
         name: ROUTES_NAMES.PAGE,
         params: {
-          groupId: this.groupId,
+          workspaceId: this.workspaceId,
           pageId,
         },
       }).catch(error => {
@@ -158,7 +154,7 @@ export default {
     async goToDefaultRoute () {
       await this.$router.replace({
         name: ROUTES_NAMES.VISUALIZATION,
-        params: { groupId: this.groupId },
+        params: { workspaceId: this.workspaceId },
       }).catch(error => {
         if (error.from.path !== error.to.path) throw error
       })
@@ -356,7 +352,7 @@ export default {
     },
   },
   async mounted () {
-    this.workspaceContent = await lckHelpers.retrieveWorkspaceWithChaptersAndPages(this.groupId)
+    this.workspaceContent = await lckHelpers.retrieveWorkspaceWithChaptersAndPages(this.workspaceId)
     await this.goToFirstPage()
   },
 }

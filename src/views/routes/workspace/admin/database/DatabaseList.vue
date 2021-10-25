@@ -44,7 +44,7 @@ export default {
     'p-accordion-tab': Vue.extend(AccordionTab),
   },
   props: {
-    groupId: {
+    workspaceId: {
       type: String,
       required: true,
     },
@@ -74,13 +74,13 @@ export default {
             id: 'schema',
             label: this.$t('pages.workspace.menu.schema'),
             icon: 'bi-diagram-2',
-            to: `${ROUTES_PATH.WORKSPACE}/${this.groupId}${ROUTES_PATH.DATABASE}/${database.id}${ROUTES_PATH.DATABASESCHEMA}`,
+            to: `${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.ADMIN}${ROUTES_PATH.DATABASE}/${database.id}${ROUTES_PATH.DATABASESCHEMA}`,
           },
           ...database.tables.map(table => ({
             id: table.id,
             label: table.text,
             icon: 'bi-table',
-            to: `${ROUTES_PATH.WORKSPACE}/${this.groupId}${ROUTES_PATH.DATABASE}/${database.id}${ROUTES_PATH.DATABASETABLES}/${table.id}`,
+            to: `${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.ADMIN}${ROUTES_PATH.DATABASE}/${database.id}${ROUTES_PATH.DATABASETABLE}/${table.id}`,
           })),
         ],
       }))
@@ -89,7 +89,7 @@ export default {
   methods: {
     async getDatabaseList () {
       this.loading = true
-      this.workspace = await lckHelpers.retrieveWorkspaceWithDatabases(this.groupId)
+      this.workspace = await lckHelpers.retrieveWorkspaceWithDatabases(this.workspaceId)
       this.loading = false
     },
   },

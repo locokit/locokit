@@ -13,7 +13,7 @@ import WorkspaceList
   from '@/views/routes/workspace/visualization/WorkspaceList.vue'
 import Page from '@/views/routes/workspace/visualization/Page.vue'
 import DatabaseList from '@/views/routes/workspace/admin/database/DatabaseList.vue'
-import Database from '@/views/routes/workspace/admin/database/Database.vue'
+import DatabaseTable from '@/views/routes/workspace/admin/database/DatabaseTable.vue'
 import DatabaseSchema
   from '@/views/routes/workspace/admin/database/DatabaseSchema.vue'
 import ProcessListing
@@ -95,170 +95,104 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: ROUTES_PATH.WORKSPACE + '/:workspaceId',
-    // name: 'WorkspaceAdmin',
-    // component: WorkspaceAdmin,
+    name: 'Workspace',
+    props: true,
+    redirect: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION,
+    // component: Workspace,
+    meta: {
+      needAuthentication: true,
+    },
+  }, {
+    name: 'Admin',
+    path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN,
+    redirect: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE,
+    component: WorkspaceAdmin,
     props: true,
     meta: {
       needAuthentication: true,
     },
     children: [{
-      name: 'Admin',
-      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN,
+      name: 'Database',
+      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE,
+      props: true,
+      component: DatabaseList,
+      meta: {
+        needAuthentication: true,
+      },
+      children: [
+        {
+          name: 'DatabaseTable',
+          path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASETABLE + '/:tableId?',
+          component: DatabaseTable,
+          props: true,
+          meta: {
+            needAuthentication: true,
+          },
+        },
+        {
+          name: 'DatabaseSchema',
+          path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASESCHEMA,
+          component: DatabaseSchema,
+          props: true,
+          meta: {
+            needAuthentication: true,
+          },
+        },
+      ],
+    }, {
+      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.PROCESS,
+      name: 'WorkspaceProcess',
+      component: ProcessListing,
       props: true,
       meta: {
         needAuthentication: true,
       },
-      children: [{
-        name: 'Database',
-        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.DATABASE,
-        props: true,
-        component: DatabaseList,
-        meta: {
-          needAuthentication: true,
-        },
-        children: [
-          {
-            name: 'DatabaseTable',
-            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASETABLES + '/:tableId?',
-            component: Database,
-            props: true,
-            meta: {
-              needAuthentication: true,
-            },
-          },
-          {
-            name: 'DatabaseSchema',
-            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASESCHEMA,
-            component: DatabaseSchema,
-            props: true,
-            meta: {
-              needAuthentication: true,
-            },
-          },
-        ],
-      }, {
-        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.PROCESS,
-        name: 'WorkspaceProcess',
-        component: ProcessListing,
-        props: true,
-        meta: {
-          needAuthentication: true,
-        },
-      }, {
-        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ACL,
-        name: ROUTES_NAMES.ACL,
-        component: AclSetListing,
-        props: true,
-        meta: {
-          needAuthentication: true,
-        },
-      }, {
-        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.USERGROUPS,
-        name: 'WorkspaceUserGroups',
-        component: ProcessListing,
-        props: true,
-        meta: {
-          needAuthentication: true,
-        },
-      }, {
-        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.SETTINGS,
-        name: 'WorkspaceSettings',
-        component: ProcessListing,
-        props: true,
-        meta: {
-          needAuthentication: true,
-        },
-      }],
     }, {
-      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION,
-      name: 'WorkspaceVisualization',
-      component: Workspace,
+      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.ACLSET,
+      name: ROUTES_NAMES.ACL,
+      component: AclSetListing,
       props: true,
-      children: [{
-        name: 'PageDetail',
-        path: 'page/:pageId/detail/:pageDetailId',
-        props: true,
-        component: Page,
-      }, {
-        name: 'Page',
-        path: 'page/:pageId',
-        props: true,
-        component: Page,
-      }],
       meta: {
         needAuthentication: true,
-        hasBurgerMenu: true,
+      },
+    }, {
+      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP,
+      name: 'WorkspaceUserGroups',
+      component: ProcessListing,
+      props: true,
+      meta: {
+        needAuthentication: true,
+      },
+    }, {
+      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.SETTINGS,
+      name: 'WorkspaceSettings',
+      component: ProcessListing,
+      props: true,
+      meta: {
+        needAuthentication: true,
       },
     }],
+  }, {
+    path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION,
+    name: 'WorkspaceVisualization',
+    component: Workspace,
+    props: true,
+    children: [{
+      name: 'PageDetail',
+      path: 'page/:pageId/detail/:pageDetailId',
+      props: true,
+      component: Page,
+    }, {
+      name: 'Page',
+      path: 'page/:pageId',
+      props: true,
+      component: Page,
+    }],
+    meta: {
+      needAuthentication: true,
+      hasBurgerMenu: true,
+    },
   },
-  // {
-  //   path: ROUTES_PATH.WORKSPACE + '/:groupId',
-  //   name: 'WorkspaceAdmin',
-  //   component: WorkspaceAdmin,
-  //   props: true,
-  //   meta: {
-  //     needAuthentication: true,
-  //   },
-  //   children: [{
-  //     name: 'Database',
-  //     path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.DATABASE,
-  //     props: true,
-  //     component: DatabaseList,
-  //     meta: {
-  //       needAuthentication: true,
-  //     },
-  //     children: [
-  //       {
-  //         name: 'WorkspaceDatabase',
-  //         path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASETABLES + '/:tableId?',
-  //         component: Database,
-  //         props: true,
-  //         meta: {
-  //           needAuthentication: true,
-  //         },
-  //       },
-  //       {
-  //         name: 'Schema',
-  //         path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASESCHEMA,
-  //         component: DatabaseSchema,
-  //         props: true,
-  //         meta: {
-  //           needAuthentication: true,
-  //         },
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.VISUALIZATION,
-  //     name: 'WorkspaceVisualization',
-  //     component: Workspace,
-  //     props: true,
-  //     children: [{
-  //       name: 'PageDetail',
-  //       path: 'page/:pageId/detail/:pageDetailId',
-  //       props: true,
-  //       component: Page,
-  //     }, {
-  //       name: 'Page',
-  //       path: 'page/:pageId',
-  //       props: true,
-  //       component: Page,
-  //     }],
-  //     meta: {
-  //       needAuthentication: true,
-  //       hasBurgerMenu: true,
-  //     },
-  //   },
-  //   {
-  //     path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.PROCESS,
-  //     name: 'ProcessListing',
-  //     component: ProcessListing,
-  //     props: true,
-  //     meta: {
-  //       needAuthentication: true,
-  //     },
-  //   }],
-  // },
   {
     path: ROUTES_PATH.ADMIN,
     name: 'Administration',
@@ -339,6 +273,7 @@ router.beforeEach(function (to, from, next) {
   if (!checkPathAvailable(needAuthentication, needGuest, isAuthenticated)) {
     next({ path: isAuthenticated ? ROUTES_PATH.WORKSPACE : ROUTES_PATH.HOME })
   } else {
+    console.log('next', to)
     next()
   }
 })

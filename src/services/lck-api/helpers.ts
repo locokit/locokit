@@ -382,11 +382,8 @@ export async function getPageWithChapters (id: string) {
 /**
  * Get workspace with all chapters and pages
  */
-export async function retrieveWorkspaceWithChaptersAndPages (groupId: string) {
-  const group: LckGroup = await lckServices.group.get(groupId, {
-    query: { $eager: 'aclset' },
-  })
-  const workspace: LckWorkspace = await lckServices.workspace.get(group?.aclset?.workspace_id as string, {
+export async function retrieveWorkspaceWithChaptersAndPages (workspaceId: string) {
+  const workspace: LckWorkspace = await lckServices.workspace.get(workspaceId, {
     query: { $eager: '[chapters.[pages]]' },
   })
   return {
@@ -401,11 +398,8 @@ export async function retrieveWorkspaceWithChaptersAndPages (groupId: string) {
 /**
  * Get workspace with all databases
  */
-export async function retrieveWorkspaceWithDatabases (groupId: string): Promise<LckWorkspace> {
-  const group: LckGroup = await lckServices.group.get(groupId, {
-    query: { $eager: 'aclset' },
-  })
-  const workspace: LckWorkspace = await lckServices.workspace.get(group?.aclset?.workspace_id as string, {
+export async function retrieveWorkspaceWithDatabases (workspaceId: string): Promise<LckWorkspace> {
+  const workspace: LckWorkspace = await lckServices.workspace.get(workspaceId, {
     query: { $eager: '[databases.[tables]]' },
   })
   return workspace

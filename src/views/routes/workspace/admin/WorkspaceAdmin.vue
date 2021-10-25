@@ -20,7 +20,7 @@ import { LckWorkspace } from '@/services/lck-api/definitions'
 export default {
   name: 'WorkspaceAdmin',
   props: {
-    groupId: {
+    workspaceId: {
       type: String,
       required: true,
     },
@@ -43,17 +43,17 @@ export default {
         id: 0,
         label: this.$t('pages.workspace.menu.databases'),
         icon: 'bi-server',
-        to: `${ROUTES_PATH.WORKSPACE}/${this.groupId}${ROUTES_PATH.DATABASE}`,
+        to: `${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.ADMIN}${ROUTES_PATH.DATABASE}`,
       }, {
         id: 1,
         label: this.$t('pages.workspace.menu.visualization'),
         icon: 'bi-layout-text-window-reverse',
-        to: `${ROUTES_PATH.WORKSPACE}/${this.groupId}${ROUTES_PATH.VISUALIZATION}`,
+        to: `${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.ADMIN}${ROUTES_PATH.VISUALIZATION}`,
       }, {
         id: 3,
         label: this.$t('pages.workspace.menu.process'),
         icon: 'bi-ui-checks',
-        to: `${ROUTES_PATH.WORKSPACE}/${this.groupId}${ROUTES_PATH.PROCESS}`,
+        to: `${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.ADMIN}${ROUTES_PATH.PROCESS}`,
       }]
     },
   },

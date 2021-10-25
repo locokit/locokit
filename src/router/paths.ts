@@ -16,12 +16,13 @@ export const ROUTES_PATH = {
   WORKSPACE: '/workspace',
   VISUALIZATION: '/visualization',
   DATABASE: '/database',
-  DATABASETABLES: '/tables',
+  DATABASETABLE: '/table',
   DATABASESCHEMA: '/schema',
   PROCESS: '/process',
   ACL: '/acl',
   SETTINGS: '/settings',
   ACLSET: '/aclset',
+  GROUP: '/group',
 
   /**
    * Admin paths
