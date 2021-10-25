@@ -4,10 +4,13 @@
  */
 :root {
   /* Spacings */
-  --spacing-sm: .25rem;
-  --spacing: .5rem;
+  --spacing-xs: .25rem;
+  --spacing-sm: .5rem;
+  --spacing: .75rem;
   --spacing-lg: 1rem;
   --spacing-xl: 2rem;
+
+  --border-radius: 4px;
 
   /* Fonts */
 
@@ -87,7 +90,6 @@
   --secondary-color-light: #e4aa2f;
   --secondary-color-darken: #aa7709;
 
-  --border-radius: 2px;
   --accordion-header-link-padding: 10rem .5rem;
 
   /* Main Header */
