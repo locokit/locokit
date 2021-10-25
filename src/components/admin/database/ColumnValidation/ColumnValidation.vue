@@ -134,31 +134,4 @@ export default {
 .rule-enable label {
   flex: 1;
 }
-
-::v-deep .p-checkbox .p-checkbox-box {
-  border-color: var(--primary-color-lighten);
-}
-
-::v-deep .p-checkbox .p-checkbox-box.p-highlight {
-  border-color: var(--primary-color-lighten);
-  background: var(--primary-color-lighten);
-}
-
-::v-deep .p-checkbox .p-checkbox-box .p-checkbox-icon {
-  font-weight: bold;
-}
-
-::v-deep
-  .p-checkbox:not(.p-checkbox-disabled)
-  .p-checkbox-box.p-highlight:hover {
-  border-color: var(--primary-color-darken);
-  background: var(--primary-color-darken);
-}
-
-::v-deep
-  .p-checkbox:not(.p-checkbox-disabled)
-  .p-checkbox-box.p-highlight:hover
-  .p-checkbox-icon {
-  border-color: var(--primary-color-lighten) !important;
-}
 </style>
