@@ -116,448 +116,448 @@ const mockAllColumns = [
 ]
 
 describe('Filter utils', () => {
-  // describe('convertFiltersFromDatabase', () => {
-  //   it('Return an empty array if there is no column', () => {
-  //     const resultFilters = convertFiltersFromDatabase({
-  //       columns: [],
-  //       filter: {
-  //         operator: '$and',
-  //         values: [],
-  //       },
-  //     })
-  //     expect(resultFilters).toHaveLength(0)
-  //   })
-  //   it('Return an empty array if there is no filter', () => {
-  //     const resultFilters = convertFiltersFromDatabase({
-  //       columns: [mockColumns.firstName],
-  //       filter: null,
-  //     })
-  //     expect(resultFilters).toHaveLength(0)
-  //   })
-  //   it('Return an empty array if there is no filter value', () => {
-  //     const resultFilters = convertFiltersFromDatabase({
-  //       columns: [mockColumns.firstName],
-  //       filter: {
-  //         operator: '$and',
-  //         values: [],
-  //       },
-  //     })
-  //     expect(resultFilters).toHaveLength(0)
-  //   })
-  //   it('Return the desired filters from the API ones', () => {
-  //     const resultFilters = convertFiltersFromDatabase({
-  //       columns: mockAllColumns,
-  //       filter: {
-  //         operator: '$and',
-  //         values: [
-  //           // Valid string value
-  //           {
-  //             column: mockColumns.firstName.id,
-  //             action: ACTIONS.EQUAL.label,
-  //             dbAction: ACTIONS.EQUAL.value,
-  //             pattern: 'John',
-  //           },
-  //           // Valid string value with truthy predefined pattern
-  //           {
-  //             column: mockColumns.firstName.id,
-  //             action: ACTIONS.EMPTY.label,
-  //             dbAction: ACTIONS.EMPTY.value,
-  //             pattern: true,
-  //           },
-  //           // Valid boolean value with falsy predefined pattern
-  //           {
-  //             column: mockColumns.boolean.id,
-  //             action: ACTIONS.FALSE.label,
-  //             dbAction: ACTIONS.FALSE.value,
-  //             pattern: false,
-  //           },
-  //           // Valid number value
-  //           {
-  //             column: mockColumns.number.id,
-  //             action: ACTIONS.EQUAL.label,
-  //             dbAction: ACTIONS.EQUAL.value,
-  //             pattern: 100,
-  //           },
-  //           // Valid string value with pattern prefix
-  //           {
-  //             column: mockColumns.firstName.id,
-  //             action: ACTIONS.END_WITH.label,
-  //             dbAction: ACTIONS.END_WITH.value,
-  //             pattern: '%o',
-  //           },
-  //           // Valid string value with pattern suffix
-  //           {
-  //             column: mockColumns.firstName.id,
-  //             action: ACTIONS.START_WITH.label,
-  //             dbAction: ACTIONS.START_WITH.value,
-  //             pattern: 'o%',
-  //           },
-  //           // Valid string value with pattern prefix and suffix
-  //           {
-  //             column: mockColumns.firstName.id,
-  //             action: ACTIONS.MATCH.label,
-  //             dbAction: ACTIONS.MATCH.value,
-  //             pattern: '%o%',
-  //           },
-  //           // Valid date value
-  //           {
-  //             column: mockColumns.date.id,
-  //             action: ACTIONS.EQUAL.label,
-  //             dbAction: ACTIONS.EQUAL.value,
-  //             pattern: '2021-07-14',
-  //           },
-  //           // Valid date time value
-  //           {
-  //             column: mockColumns.datetime.id,
-  //             action: ACTIONS.EQUAL.label,
-  //             dbAction: ACTIONS.EQUAL.value,
-  //             pattern: '2021-07-14T10:00:00+02:00',
-  //           },
-  //           // Valid looked up column value
-  //           {
-  //             column: mockColumns.luc.id,
-  //             action: ACTIONS.EQUAL.label,
-  //             dbAction: ACTIONS.EQUAL.value,
-  //             pattern: 'ABC',
-  //           },
-  //           // Unknown action
-  //           {
-  //             column: mockColumns.firstName.id,
-  //             action: 'unknown action',
-  //             dbAction: '$ua',
-  //             pattern: 'John',
-  //           },
-  //           // Unknown column
-  //           {
-  //             column: 'unknownColumnId',
-  //             action: ACTIONS.EMPTY.label,
-  //             dbAction: ACTIONS.EMPTY.value,
-  //             pattern: 'Jane',
-  //           },
-  //         ],
-  //       },
-  //     })
-  //     expect(resultFilters).toHaveLength(10)
-  //     // Check string filter
-  //     expect(resultFilters[0]).toStrictEqual({
-  //       operator: '$and',
-  //       column: {
-  //         label: mockColumns.firstName.text,
-  //         originalType: mockColumns.firstName.column_type_id,
-  //         type: mockColumns.firstName.column_type_id,
-  //         value: mockColumns.firstName.id,
-  //       },
-  //       action: ACTIONS.EQUAL,
-  //       pattern: 'John',
-  //     })
-  //     // Check string filter with truthy predefined pattern
-  //     expect(resultFilters[1]).toStrictEqual({
-  //       operator: '$and',
-  //       column: {
-  //         label: mockColumns.firstName.text,
-  //         originalType: mockColumns.firstName.column_type_id,
-  //         type: mockColumns.firstName.column_type_id,
-  //         value: mockColumns.firstName.id,
-  //       },
-  //       action: ACTIONS.EMPTY,
-  //       pattern: true,
-  //     })
-  //     // Check boolean filter with falsy predefined pattern
-  //     expect(resultFilters[2]).toStrictEqual({
-  //       operator: '$and',
-  //       column: {
-  //         label: mockColumns.boolean.text,
-  //         originalType: mockColumns.boolean.column_type_id,
-  //         type: mockColumns.boolean.column_type_id,
-  //         value: mockColumns.boolean.id,
-  //       },
-  //       action: ACTIONS.FALSE,
-  //       pattern: false,
-  //     })
-  //     // Check number filter
-  //     expect(resultFilters[3]).toStrictEqual({
-  //       operator: '$and',
-  //       column: {
-  //         label: mockColumns.number.text,
-  //         originalType: mockColumns.number.column_type_id,
-  //         type: mockColumns.number.column_type_id,
-  //         value: mockColumns.number.id,
-  //       },
-  //       action: ACTIONS.EQUAL,
-  //       pattern: 100,
-  //     })
-  //     // Check string filter with pattern prefix
-  //     expect(resultFilters[4]).toStrictEqual({
-  //       operator: '$and',
-  //       column: {
-  //         label: mockColumns.firstName.text,
-  //         originalType: mockColumns.firstName.column_type_id,
-  //         type: mockColumns.firstName.column_type_id,
-  //         value: mockColumns.firstName.id,
-  //       },
-  //       action: ACTIONS.END_WITH,
-  //       pattern: 'o',
-  //     })
-  //     // Check string filter with pattern suffix
-  //     expect(resultFilters[5]).toStrictEqual({
-  //       operator: '$and',
-  //       column: {
-  //         label: mockColumns.firstName.text,
-  //         originalType: mockColumns.firstName.column_type_id,
-  //         type: mockColumns.firstName.column_type_id,
-  //         value: mockColumns.firstName.id,
-  //       },
-  //       action: ACTIONS.START_WITH,
-  //       pattern: 'o',
-  //     })
-  //     // Check string filter with pattern prefix and suffix
-  //     expect(resultFilters[6]).toStrictEqual({
-  //       operator: '$and',
-  //       column: {
-  //         label: mockColumns.firstName.text,
-  //         originalType: mockColumns.firstName.column_type_id,
-  //         type: mockColumns.firstName.column_type_id,
-  //         value: mockColumns.firstName.id,
-  //       },
-  //       action: ACTIONS.MATCH,
-  //       pattern: 'o',
-  //     })
-  //     // Check date filter
-  //     expect(resultFilters[7]).toStrictEqual({
-  //       operator: '$and',
-  //       column: {
-  //         label: mockColumns.date.text,
-  //         originalType: mockColumns.date.column_type_id,
-  //         type: mockColumns.date.column_type_id,
-  //         value: mockColumns.date.id,
-  //       },
-  //       action: ACTIONS.EQUAL,
-  //       pattern: parseISO('2021-07-14'),
-  //     })
-  //     // Check datetime filter
-  //     expect(resultFilters[8]).toStrictEqual({
-  //       operator: '$and',
-  //       column: {
-  //         label: mockColumns.datetime.text,
-  //         originalType: mockColumns.datetime.column_type_id,
-  //         type: mockColumns.datetime.column_type_id,
-  //         value: mockColumns.datetime.id,
-  //       },
-  //       action: ACTIONS.EQUAL,
-  //       pattern: parseISO('2021-07-14T10:00:00+02:00'),
-  //     })
-  //     // Check luc filter
-  //     expect(resultFilters[9]).toStrictEqual({
-  //       operator: '$and',
-  //       column: {
-  //         label: mockColumns.luc.text,
-  //         originalType: -1,
-  //         type: mockColumns.luc.column_type_id,
-  //         value: mockColumns.luc.id,
-  //       },
-  //       action: ACTIONS.EQUAL,
-  //       pattern: 'ABC',
-  //     })
-  //   })
-  // })
-  // describe('convertFiltersToDatatabase', () => {
-  //   it('Return null if there is no input filter', () => {
-  //     const resultFilters = convertFiltersToDatatabase([])
-  //     expect(resultFilters).toBeNull()
-  //   })
-  //   it('Return the desired output filters if the input one are valid', () => {
-  //     const resultFilters = convertFiltersToDatatabase([
-  //       // Valid value (string column)
-  //       {
-  //         operator: '$and',
-  //         column: {
-  //           label: mockColumns.firstName.text,
-  //           originalType: mockColumns.firstName.column_type_id,
-  //           type: mockColumns.firstName.column_type_id,
-  //           value: mockColumns.firstName.id,
-  //         },
-  //         action: ACTIONS.EQUAL,
-  //         pattern: 'John',
-  //       },
-  //       // Valid value (date column)
-  //       {
-  //         operator: '$and',
-  //         column: {
-  //           label: mockColumns.date.text,
-  //           originalType: mockColumns.date.column_type_id,
-  //           type: mockColumns.date.column_type_id,
-  //           value: mockColumns.date.id,
-  //         },
-  //         action: ACTIONS.EQUAL,
-  //         pattern: parseISO('2021-07-14'),
-  //       },
-  //       // Valid value (datetime column)
-  //       {
-  //         operator: '$and',
-  //         column: {
-  //           label: mockColumns.datetime.text,
-  //           originalType: mockColumns.datetime.column_type_id,
-  //           type: mockColumns.datetime.column_type_id,
-  //           value: mockColumns.datetime.id,
-  //         },
-  //         action: ACTIONS.EQUAL,
-  //         pattern: parseISO('2021-07-14T10:00:00Z'),
-  //       },
-  //       // Valid value (string column with pattern prefix)
-  //       {
-  //         operator: '$and',
-  //         column: {
-  //           label: mockColumns.firstName.text,
-  //           originalType: mockColumns.firstName.column_type_id,
-  //           type: mockColumns.firstName.column_type_id,
-  //           value: mockColumns.firstName.id,
-  //         },
-  //         action: ACTIONS.START_WITH,
-  //         pattern: 'John',
-  //       },
-  //       // Valid value (string column with pattern suffix)
-  //       {
-  //         operator: '$and',
-  //         column: {
-  //           label: mockColumns.firstName.text,
-  //           originalType: mockColumns.firstName.column_type_id,
-  //           type: mockColumns.firstName.column_type_id,
-  //           value: mockColumns.firstName.id,
-  //         },
-  //         action: ACTIONS.END_WITH,
-  //         pattern: 'John',
-  //       },
-  //       // Valid value (string column with pattern prefix and suffix)
-  //       {
-  //         operator: '$and',
-  //         column: {
-  //           label: mockColumns.firstName.text,
-  //           originalType: mockColumns.firstName.column_type_id,
-  //           type: mockColumns.firstName.column_type_id,
-  //           value: mockColumns.firstName.id,
-  //         },
-  //         action: ACTIONS.MATCH,
-  //         pattern: 'John',
-  //       },
-  //       // Valid value (string column with the use of a specific key in the pattern)
-  //       {
-  //         operator: '$and',
-  //         column: {
-  //           label: mockColumns.firstName.text,
-  //           originalType: mockColumns.firstName.column_type_id,
-  //           type: mockColumns.firstName.column_type_id,
-  //           value: mockColumns.firstName.id,
-  //         },
-  //         action: ACTIONS.EQUAL,
-  //         pattern: '{userId}',
-  //       },
-  //       // Valid value (multi user column with the use of a specific key in the pattern)
-  //       {
-  //         operator: '$and',
-  //         column: {
-  //           label: mockColumns.multiUser.text,
-  //           originalType: mockColumns.multiUser.column_type_id,
-  //           type: mockColumns.multiUser.column_type_id,
-  //           value: mockColumns.multiUser.id,
-  //         },
-  //         action: ACTIONS.EQUAL,
-  //         pattern: ['1', '{userId}', '2'],
-  //       },
-  //       // Invalid value (column is null)
-  //       {
-  //         operator: '$and',
-  //         column: null,
-  //         action: ACTIONS.EQUAL,
-  //         pattern: 'John',
-  //       },
-  //       // Invalid value (action is null)
-  //       {
-  //         operator: '$and',
-  //         column: {
-  //           label: mockColumns.firstName.text,
-  //           originalType: mockColumns.firstName.column_type_id,
-  //           type: mockColumns.firstName.column_type_id,
-  //           value: mockColumns.firstName.id,
-  //         },
-  //         action: null,
-  //         pattern: 'John',
-  //       },
-  //       // Invalid value (pattern is null)
-  //       {
-  //         operator: '$and',
-  //         column: {
-  //           label: mockColumns.firstName.text,
-  //           originalType: mockColumns.firstName.column_type_id,
-  //           type: mockColumns.firstName.column_type_id,
-  //           value: mockColumns.firstName.id,
-  //         },
-  //         action: ACTIONS.EQUAL,
-  //         pattern: null,
-  //       },
+  describe('convertFiltersFromDatabase', () => {
+    it('Return an empty array if there is no column', () => {
+      const resultFilters = convertFiltersFromDatabase({
+        columns: [],
+        filter: {
+          operator: '$and',
+          values: [],
+        },
+      })
+      expect(resultFilters).toHaveLength(0)
+    })
+    it('Return an empty array if there is no filter', () => {
+      const resultFilters = convertFiltersFromDatabase({
+        columns: [mockColumns.firstName],
+        filter: null,
+      })
+      expect(resultFilters).toHaveLength(0)
+    })
+    it('Return an empty array if there is no filter value', () => {
+      const resultFilters = convertFiltersFromDatabase({
+        columns: [mockColumns.firstName],
+        filter: {
+          operator: '$and',
+          values: [],
+        },
+      })
+      expect(resultFilters).toHaveLength(0)
+    })
+    it('Return the desired filters from the API ones', () => {
+      const resultFilters = convertFiltersFromDatabase({
+        columns: mockAllColumns,
+        filter: {
+          operator: '$and',
+          values: [
+            // Valid string value
+            {
+              column: mockColumns.firstName.id,
+              action: ACTIONS.EQUAL.label,
+              dbAction: ACTIONS.EQUAL.value,
+              pattern: 'John',
+            },
+            // Valid string value with truthy predefined pattern
+            {
+              column: mockColumns.firstName.id,
+              action: ACTIONS.EMPTY.label,
+              dbAction: ACTIONS.EMPTY.value,
+              pattern: true,
+            },
+            // Valid boolean value with falsy predefined pattern
+            {
+              column: mockColumns.boolean.id,
+              action: ACTIONS.FALSE.label,
+              dbAction: ACTIONS.FALSE.value,
+              pattern: false,
+            },
+            // Valid number value
+            {
+              column: mockColumns.number.id,
+              action: ACTIONS.EQUAL.label,
+              dbAction: ACTIONS.EQUAL.value,
+              pattern: 100,
+            },
+            // Valid string value with pattern prefix
+            {
+              column: mockColumns.firstName.id,
+              action: ACTIONS.END_WITH.label,
+              dbAction: ACTIONS.END_WITH.value,
+              pattern: '%o',
+            },
+            // Valid string value with pattern suffix
+            {
+              column: mockColumns.firstName.id,
+              action: ACTIONS.START_WITH.label,
+              dbAction: ACTIONS.START_WITH.value,
+              pattern: 'o%',
+            },
+            // Valid string value with pattern prefix and suffix
+            {
+              column: mockColumns.firstName.id,
+              action: ACTIONS.MATCH.label,
+              dbAction: ACTIONS.MATCH.value,
+              pattern: '%o%',
+            },
+            // Valid date value
+            {
+              column: mockColumns.date.id,
+              action: ACTIONS.EQUAL.label,
+              dbAction: ACTIONS.EQUAL.value,
+              pattern: '2021-07-14',
+            },
+            // Valid date time value
+            {
+              column: mockColumns.datetime.id,
+              action: ACTIONS.EQUAL.label,
+              dbAction: ACTIONS.EQUAL.value,
+              pattern: '2021-07-14T10:00:00+02:00',
+            },
+            // Valid looked up column value
+            {
+              column: mockColumns.luc.id,
+              action: ACTIONS.EQUAL.label,
+              dbAction: ACTIONS.EQUAL.value,
+              pattern: 'ABC',
+            },
+            // Unknown action
+            {
+              column: mockColumns.firstName.id,
+              action: 'unknown action',
+              dbAction: '$ua',
+              pattern: 'John',
+            },
+            // Unknown column
+            {
+              column: 'unknownColumnId',
+              action: ACTIONS.EMPTY.label,
+              dbAction: ACTIONS.EMPTY.value,
+              pattern: 'Jane',
+            },
+          ],
+        },
+      })
+      expect(resultFilters).toHaveLength(10)
+      // Check string filter
+      expect(resultFilters[0]).toStrictEqual({
+        operator: '$and',
+        column: {
+          label: mockColumns.firstName.text,
+          originalType: mockColumns.firstName.column_type_id,
+          type: mockColumns.firstName.column_type_id,
+          value: mockColumns.firstName.id,
+        },
+        action: ACTIONS.EQUAL,
+        pattern: 'John',
+      })
+      // Check string filter with truthy predefined pattern
+      expect(resultFilters[1]).toStrictEqual({
+        operator: '$and',
+        column: {
+          label: mockColumns.firstName.text,
+          originalType: mockColumns.firstName.column_type_id,
+          type: mockColumns.firstName.column_type_id,
+          value: mockColumns.firstName.id,
+        },
+        action: ACTIONS.EMPTY,
+        pattern: true,
+      })
+      // Check boolean filter with falsy predefined pattern
+      expect(resultFilters[2]).toStrictEqual({
+        operator: '$and',
+        column: {
+          label: mockColumns.boolean.text,
+          originalType: mockColumns.boolean.column_type_id,
+          type: mockColumns.boolean.column_type_id,
+          value: mockColumns.boolean.id,
+        },
+        action: ACTIONS.FALSE,
+        pattern: false,
+      })
+      // Check number filter
+      expect(resultFilters[3]).toStrictEqual({
+        operator: '$and',
+        column: {
+          label: mockColumns.number.text,
+          originalType: mockColumns.number.column_type_id,
+          type: mockColumns.number.column_type_id,
+          value: mockColumns.number.id,
+        },
+        action: ACTIONS.EQUAL,
+        pattern: 100,
+      })
+      // Check string filter with pattern prefix
+      expect(resultFilters[4]).toStrictEqual({
+        operator: '$and',
+        column: {
+          label: mockColumns.firstName.text,
+          originalType: mockColumns.firstName.column_type_id,
+          type: mockColumns.firstName.column_type_id,
+          value: mockColumns.firstName.id,
+        },
+        action: ACTIONS.END_WITH,
+        pattern: 'o',
+      })
+      // Check string filter with pattern suffix
+      expect(resultFilters[5]).toStrictEqual({
+        operator: '$and',
+        column: {
+          label: mockColumns.firstName.text,
+          originalType: mockColumns.firstName.column_type_id,
+          type: mockColumns.firstName.column_type_id,
+          value: mockColumns.firstName.id,
+        },
+        action: ACTIONS.START_WITH,
+        pattern: 'o',
+      })
+      // Check string filter with pattern prefix and suffix
+      expect(resultFilters[6]).toStrictEqual({
+        operator: '$and',
+        column: {
+          label: mockColumns.firstName.text,
+          originalType: mockColumns.firstName.column_type_id,
+          type: mockColumns.firstName.column_type_id,
+          value: mockColumns.firstName.id,
+        },
+        action: ACTIONS.MATCH,
+        pattern: 'o',
+      })
+      // Check date filter
+      expect(resultFilters[7]).toStrictEqual({
+        operator: '$and',
+        column: {
+          label: mockColumns.date.text,
+          originalType: mockColumns.date.column_type_id,
+          type: mockColumns.date.column_type_id,
+          value: mockColumns.date.id,
+        },
+        action: ACTIONS.EQUAL,
+        pattern: parseISO('2021-07-14'),
+      })
+      // Check datetime filter
+      expect(resultFilters[8]).toStrictEqual({
+        operator: '$and',
+        column: {
+          label: mockColumns.datetime.text,
+          originalType: mockColumns.datetime.column_type_id,
+          type: mockColumns.datetime.column_type_id,
+          value: mockColumns.datetime.id,
+        },
+        action: ACTIONS.EQUAL,
+        pattern: parseISO('2021-07-14T10:00:00+02:00'),
+      })
+      // Check luc filter
+      expect(resultFilters[9]).toStrictEqual({
+        operator: '$and',
+        column: {
+          label: mockColumns.luc.text,
+          originalType: -1,
+          type: mockColumns.luc.column_type_id,
+          value: mockColumns.luc.id,
+        },
+        action: ACTIONS.EQUAL,
+        pattern: 'ABC',
+      })
+    })
+  })
+  describe('convertFiltersToDatatabase', () => {
+    it('Return null if there is no input filter', () => {
+      const resultFilters = convertFiltersToDatatabase([])
+      expect(resultFilters).toBeNull()
+    })
+    it('Return the desired output filters if the input one are valid', () => {
+      const resultFilters = convertFiltersToDatatabase([
+        // Valid value (string column)
+        {
+          operator: '$and',
+          column: {
+            label: mockColumns.firstName.text,
+            originalType: mockColumns.firstName.column_type_id,
+            type: mockColumns.firstName.column_type_id,
+            value: mockColumns.firstName.id,
+          },
+          action: ACTIONS.EQUAL,
+          pattern: 'John',
+        },
+        // Valid value (date column)
+        {
+          operator: '$and',
+          column: {
+            label: mockColumns.date.text,
+            originalType: mockColumns.date.column_type_id,
+            type: mockColumns.date.column_type_id,
+            value: mockColumns.date.id,
+          },
+          action: ACTIONS.EQUAL,
+          pattern: parseISO('2021-07-14'),
+        },
+        // Valid value (datetime column)
+        {
+          operator: '$and',
+          column: {
+            label: mockColumns.datetime.text,
+            originalType: mockColumns.datetime.column_type_id,
+            type: mockColumns.datetime.column_type_id,
+            value: mockColumns.datetime.id,
+          },
+          action: ACTIONS.EQUAL,
+          pattern: parseISO('2021-07-14T10:00:00Z'),
+        },
+        // Valid value (string column with pattern prefix)
+        {
+          operator: '$and',
+          column: {
+            label: mockColumns.firstName.text,
+            originalType: mockColumns.firstName.column_type_id,
+            type: mockColumns.firstName.column_type_id,
+            value: mockColumns.firstName.id,
+          },
+          action: ACTIONS.START_WITH,
+          pattern: 'John',
+        },
+        // Valid value (string column with pattern suffix)
+        {
+          operator: '$and',
+          column: {
+            label: mockColumns.firstName.text,
+            originalType: mockColumns.firstName.column_type_id,
+            type: mockColumns.firstName.column_type_id,
+            value: mockColumns.firstName.id,
+          },
+          action: ACTIONS.END_WITH,
+          pattern: 'John',
+        },
+        // Valid value (string column with pattern prefix and suffix)
+        {
+          operator: '$and',
+          column: {
+            label: mockColumns.firstName.text,
+            originalType: mockColumns.firstName.column_type_id,
+            type: mockColumns.firstName.column_type_id,
+            value: mockColumns.firstName.id,
+          },
+          action: ACTIONS.MATCH,
+          pattern: 'John',
+        },
+        // Valid value (string column with the use of a specific key in the pattern)
+        {
+          operator: '$and',
+          column: {
+            label: mockColumns.firstName.text,
+            originalType: mockColumns.firstName.column_type_id,
+            type: mockColumns.firstName.column_type_id,
+            value: mockColumns.firstName.id,
+          },
+          action: ACTIONS.EQUAL,
+          pattern: '{userId}',
+        },
+        // Valid value (multi user column with the use of a specific key in the pattern)
+        {
+          operator: '$and',
+          column: {
+            label: mockColumns.multiUser.text,
+            originalType: mockColumns.multiUser.column_type_id,
+            type: mockColumns.multiUser.column_type_id,
+            value: mockColumns.multiUser.id,
+          },
+          action: ACTIONS.EQUAL,
+          pattern: ['1', '{userId}', '2'],
+        },
+        // Invalid value (column is null)
+        {
+          operator: '$and',
+          column: null,
+          action: ACTIONS.EQUAL,
+          pattern: 'John',
+        },
+        // Invalid value (action is null)
+        {
+          operator: '$and',
+          column: {
+            label: mockColumns.firstName.text,
+            originalType: mockColumns.firstName.column_type_id,
+            type: mockColumns.firstName.column_type_id,
+            value: mockColumns.firstName.id,
+          },
+          action: null,
+          pattern: 'John',
+        },
+        // Invalid value (pattern is null)
+        {
+          operator: '$and',
+          column: {
+            label: mockColumns.firstName.text,
+            originalType: mockColumns.firstName.column_type_id,
+            type: mockColumns.firstName.column_type_id,
+            value: mockColumns.firstName.id,
+          },
+          action: ACTIONS.EQUAL,
+          pattern: null,
+        },
 
-  //     ])
+      ])
 
-  //     expect(resultFilters).toBeDefined()
-  //     expect(resultFilters!.operator).toBe('$and')
-  //     expect(resultFilters!.values).toHaveLength(8)
-  //     // Valid value (string column)
-  //     expect(resultFilters!.values[0]).toEqual({
-  //       action: ACTIONS.EQUAL.label,
-  //       column: mockColumns.firstName.id,
-  //       dbAction: ACTIONS.EQUAL.value,
-  //       pattern: 'John',
-  //     })
-  //     // Valid value (date column)
-  //     expect(resultFilters!.values[1]).toEqual({
-  //       action: ACTIONS.EQUAL.label,
-  //       column: mockColumns.date.id,
-  //       dbAction: ACTIONS.EQUAL.value,
-  //       pattern: '2021-07-14',
-  //     })
-  //     // Valid value (datetime column)
-  //     expect(resultFilters!.values[2]).toEqual({
-  //       action: ACTIONS.EQUAL.label,
-  //       column: mockColumns.datetime.id,
-  //       dbAction: ACTIONS.EQUAL.value,
-  //       pattern: '2021-07-14T10:00:00Z',
-  //     })
-  //     // Valid value (string column with pattern prefix)
-  //     expect(resultFilters!.values[3]).toEqual({
-  //       action: ACTIONS.START_WITH.label,
-  //       column: mockColumns.firstName.id,
-  //       dbAction: ACTIONS.START_WITH.value,
-  //       pattern: 'John%',
-  //     })
-  //     // Valid value (string column with pattern suffix)
-  //     expect(resultFilters!.values[4]).toEqual({
-  //       action: ACTIONS.END_WITH.label,
-  //       column: mockColumns.firstName.id,
-  //       dbAction: ACTIONS.END_WITH.value,
-  //       pattern: '%John',
-  //     })
-  //     // Valid value (string column with pattern prefix and suffix)
-  //     expect(resultFilters!.values[5]).toEqual({
-  //       action: ACTIONS.MATCH.label,
-  //       column: mockColumns.firstName.id,
-  //       dbAction: ACTIONS.MATCH.value,
-  //       pattern: '%John%',
-  //     })
-  //     // Valid value (string column with the use of a specific key in the pattern)
-  //     expect(resultFilters!.values[6]).toEqual({
-  //       action: ACTIONS.EQUAL.label,
-  //       column: mockColumns.firstName.id,
-  //       dbAction: ACTIONS.EQUAL.value,
-  //       pattern: '{userId}',
-  //     })
-  //     // Valid value (multi user column with the use of a specific key in the pattern)
-  //     expect(resultFilters!.values[7]).toEqual({
-  //       action: ACTIONS.EQUAL.label,
-  //       column: mockColumns.multiUser.id,
-  //       dbAction: ACTIONS.EQUAL.value,
-  //       pattern: ['1', '{userId}', '2'],
-  //     })
-  //   })
-  // })
+      expect(resultFilters).toBeDefined()
+      expect(resultFilters!.operator).toBe('$and')
+      expect(resultFilters!.values).toHaveLength(8)
+      // Valid value (string column)
+      expect(resultFilters!.values[0]).toEqual({
+        action: ACTIONS.EQUAL.label,
+        column: mockColumns.firstName.id,
+        dbAction: ACTIONS.EQUAL.value,
+        pattern: 'John',
+      })
+      // Valid value (date column)
+      expect(resultFilters!.values[1]).toEqual({
+        action: ACTIONS.EQUAL.label,
+        column: mockColumns.date.id,
+        dbAction: ACTIONS.EQUAL.value,
+        pattern: '2021-07-14',
+      })
+      // Valid value (datetime column)
+      expect(resultFilters!.values[2]).toEqual({
+        action: ACTIONS.EQUAL.label,
+        column: mockColumns.datetime.id,
+        dbAction: ACTIONS.EQUAL.value,
+        pattern: '2021-07-14T10:00:00Z',
+      })
+      // Valid value (string column with pattern prefix)
+      expect(resultFilters!.values[3]).toEqual({
+        action: ACTIONS.START_WITH.label,
+        column: mockColumns.firstName.id,
+        dbAction: ACTIONS.START_WITH.value,
+        pattern: 'John%',
+      })
+      // Valid value (string column with pattern suffix)
+      expect(resultFilters!.values[4]).toEqual({
+        action: ACTIONS.END_WITH.label,
+        column: mockColumns.firstName.id,
+        dbAction: ACTIONS.END_WITH.value,
+        pattern: '%John',
+      })
+      // Valid value (string column with pattern prefix and suffix)
+      expect(resultFilters!.values[5]).toEqual({
+        action: ACTIONS.MATCH.label,
+        column: mockColumns.firstName.id,
+        dbAction: ACTIONS.MATCH.value,
+        pattern: '%John%',
+      })
+      // Valid value (string column with the use of a specific key in the pattern)
+      expect(resultFilters!.values[6]).toEqual({
+        action: ACTIONS.EQUAL.label,
+        column: mockColumns.firstName.id,
+        dbAction: ACTIONS.EQUAL.value,
+        pattern: '{userId}',
+      })
+      // Valid value (multi user column with the use of a specific key in the pattern)
+      expect(resultFilters!.values[7]).toEqual({
+        action: ACTIONS.EQUAL.label,
+        column: mockColumns.multiUser.id,
+        dbAction: ACTIONS.EQUAL.value,
+        pattern: ['1', '{userId}', '2'],
+      })
+    })
+  })
 
   it('getCurrentFilters', () => {
     const column = {
