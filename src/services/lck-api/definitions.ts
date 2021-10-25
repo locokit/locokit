@@ -20,6 +20,11 @@ export class LckWorkspace extends LckBaseModel {
   chapters?: LckChapter[];
   databases?: LckDatabase[];
   aclsets?: LckAclSet[];
+  documentation?: string;
+  settings?: {
+    color: string;
+    icon: string;
+  }
 }
 
 export class LckAttachment {

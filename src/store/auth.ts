@@ -1,30 +1,10 @@
 import lckAbilities from '@/services/lck-abilities'
 import { lckClient } from '@/services/lck-api'
+import { LckGroup } from '@/services/lck-api/definitions'
 import {
   USER_PROFILE,
-  GROUP_ROLE,
 } from '@locokit/lck-glossary'
 import { BaseState } from './state'
-
-enum WORKSPACE_ROLE {
-  OWNER = 'OWNER',
-  ADMIN = 'ADMIN',
-  MEMBER = 'MEMBER'
-}
-
-class Workspace {
-  id!: string;
-  text!: string;
-}
-
-class Group {
-  id!: string;
-  name!: string;
-  workspace?: Workspace;
-  workspace_id?: string;
-  workspace_role?: typeof WORKSPACE_ROLE;
-  uhg_role?: typeof GROUP_ROLE;
-}
 
 class User {
   id!: number;
@@ -33,7 +13,7 @@ class User {
   createdAt!: string;
   isVerified!: boolean
   profile!: typeof USER_PROFILE
-  groups?: Group[]
+  groups?: LckGroup[]
 }
 
 class AuthData {
@@ -48,7 +28,7 @@ export class AuthDTO {
   password = ''
 }
 
-class AuthState extends BaseState<AuthData> {}
+export class AuthState extends BaseState<AuthData> {}
 
 export const authState: AuthState = {
   loading: false,
@@ -98,7 +78,7 @@ export async function authenticate (data: AuthDTO) {
     await retrieveUserGroupsAndWorkspacesAndDatabases(result.user?.id)
   } catch (error) {
     authState.data.isAuthenticated = false
-    authState.error = error
+    authState.error = error as Error
   }
   authState.loading = false
 }

@@ -23,18 +23,13 @@
     <p v-if="!loading && groups.length === 0">{{ $t('pages.workspace.noWorkspace') }}</p>
 
     <div class="p-grid">
-      <div v-for="group in groups" :key="group.id" class="p-col-12 p-md-6 p-lg-3 workspaces-item">
+      <div v-for="workspace in workspaces" :key="workspace.id" class="p-col-12 p-md-6 p-lg-3 workspaces-item">
         <router-link
           class="p-component p-button p-button-outlined workspaces-button p-mr-2"
-          :to="`${ROUTES_PATH.WORKSPACE}/${group.id}`"
+          :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}`"
         >
-          <p class="workspaces-button-title">{{ group.aclset.workspace.text }}</p>
-          <p class="workspaces-button-group">
-            Group: {{ group.name }}
-          </p>
-          <p v-if="group.aclset.workspace.documentation">
-            {{ group.aclset.workspace.documentation }}
-          </p>
+          <p class="workspaces-button-title">{{ workspace.text }}</p>
+          is manager : {{ workspace.isManager }}
         </router-link>
       </div>
 
@@ -90,10 +85,10 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
-import { authState } from '@/store/auth'
 import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
+import { AuthState, authState } from '@/store/auth'
 
 import Card from 'primevue/card'
 import Button from 'primevue/button'
@@ -103,6 +98,7 @@ import Skeleton from 'primevue/skeleton'
 
 import { lckServices } from '@/services/lck-api'
 import Dialog from 'primevue/dialog/Dialog'
+import { LckDatabase, LckWorkspace } from '@/services/lck-api/definitions'
 
 const WORKSPACE_ROLE = {
   OWNER: 'OWNER',
@@ -120,7 +116,16 @@ export default {
     'p-textarea': Vue.extend(Textarea),
     'p-skeleton': Vue.extend(Skeleton),
   },
-  data () {
+  data (): {
+    loading: boolean;
+    dialogVisible: boolean;
+    ROUTES_PATH: typeof ROUTES_PATH;
+    ROUTES_NAMES: typeof ROUTES_NAMES;
+    authState: AuthState;
+    WORKSPACE_ROLE: typeof WORKSPACE_ROLE;
+    newWorkspace: {text: string; documentation: string};
+    workspaces: {text: string; color?: string; icon?: string; isManager: boolean}[];
+    } {
     return {
       loading: false,
       dialogVisible: false,
@@ -132,11 +137,11 @@ export default {
         text: '',
         documentation: '',
       },
-      groups: [],
+      workspaces: [],
     }
   },
   methods: {
-    transformDatabases (groupId, databases, schema = false) {
+    transformDatabases (groupId: string, databases: LckDatabase[], schema = false) {
       return databases.map(({ text, id }) => ({
         id,
         label: text,
@@ -157,7 +162,7 @@ export default {
           documentation: '',
         }
         this.fetchUserGroups()
-      } catch (error) {
+      } catch (error: any) {
         this.$toast.add({
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
@@ -168,14 +173,27 @@ export default {
     },
     async fetchUserGroups () {
       this.loading = true
-      this.groups = await lckServices.group.find({
+      const userWorkspaces = await lckServices.workspace.find({
         query: {
-          // eslint-disable-next-line @typescript-eslint/camelcase
-          $eager: '[aclset.[workspace.[databases]]]',
-          $joinRelation: 'users',
-          'users.id': authState.data.user.id,
+          $joinEager: '[aclsets.[groups.[users]]]',
+          'aclsets:groups:users.id': authState?.data?.user?.id,
           $limit: -1,
         },
+      }) as LckWorkspace[]
+      this.workspaces = userWorkspaces.map((w: LckWorkspace) => {
+        const currentWorkspace = {
+          text: w.text,
+          icon: w.settings?.icon,
+          color: w.settings?.color,
+          isManager: false,
+        }
+        // eslint-disable-next-line no-unused-expressions
+        w.aclsets?.forEach(function (aclset) {
+          if (aclset.manager) {
+            currentWorkspace.isManager = true
+          }
+        })
+        return currentWorkspace
       })
       this.loading = false
     },
@@ -192,8 +210,8 @@ export default {
     if (to.name !== 'WorkspaceList') next()
     const userWorkspacesAvailable = authState?.data?.user?.groups
     if (
-      !userWorkspacesAvailable.some(({ aclset }) => aclset.manager) &&
-      userWorkspacesAvailable.length === 1
+      !userWorkspacesAvailable?.some(({ aclset }) => aclset?.manager) &&
+      userWorkspacesAvailable?.length === 1
     ) {
       // only one workspace, user is not a member of a group-aclset manager
       // we redirect user on the visualization route
