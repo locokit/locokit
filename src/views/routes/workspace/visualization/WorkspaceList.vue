@@ -124,7 +124,7 @@ export default {
     authState: AuthState;
     WORKSPACE_ROLE: typeof WORKSPACE_ROLE;
     newWorkspace: {text: string; documentation: string};
-    workspaces: {text: string; color?: string; icon?: string; isManager: boolean}[];
+    workspaces: {id: string; text: string; color?: string; icon?: string; isManager: boolean}[];
     } {
     return {
       loading: false,
@@ -182,6 +182,7 @@ export default {
       }) as LckWorkspace[]
       this.workspaces = userWorkspaces.map((w: LckWorkspace) => {
         const currentWorkspace = {
+          id: w.id,
           text: w.text,
           icon: w.settings?.icon,
           color: w.settings?.color,

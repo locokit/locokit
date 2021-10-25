@@ -20,6 +20,8 @@ export const ROUTES_PATH = {
   DATABASESCHEMA: '/schema',
   PROCESS: '/process',
   ACL: '/acl',
+  SETTINGS: '/settings',
+  ACLSET: '/aclset',
 
   /**
    * Admin paths
