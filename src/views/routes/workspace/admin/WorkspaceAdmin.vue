@@ -16,6 +16,7 @@
 <script>
 import { ROUTES_PATH } from '@/router/paths'
 import { LckWorkspace } from '@/services/lck-api/definitions'
+import { lckServices } from '@/services/lck-api'
 
 export default {
   name: 'WorkspaceAdmin',
@@ -36,6 +37,11 @@ export default {
         default: null,
       },
     }
+  },
+  async mounted () {
+    this.loading = true
+    this.workspace = await lckServices.workspace.get(this.workspaceId)
+    this.loading = false
   },
   computed: {
     menuItems () {
