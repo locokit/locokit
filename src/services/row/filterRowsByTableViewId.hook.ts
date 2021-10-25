@@ -20,7 +20,7 @@ export default function filterRowsByTableViewId (): Hook {
       const { table_view_id } = context.params.query
       const tableView: TableView = await context.app.services.view.get(table_view_id, {
         query: {
-          $eager: 'columns',
+          $eager: '[columns.[parents]]',
         },
         paginate: false,
       })
@@ -107,15 +107,27 @@ export default function filterRowsByTableViewId (): Hook {
             // Format the column key in case of complex value for some column types
             let columnKey = column
 
+            const originalType = currentColumn.originalTypeId()
+
             switch (currentColumn.column_type_id) {
               case COLUMN_TYPE.GROUP:
               case COLUMN_TYPE.USER:
               case COLUMN_TYPE.MULTI_USER:
                 columnKey += '.reference'
                 break
-              case COLUMN_TYPE.LOOKED_UP_COLUMN:
               case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
                 columnKey += '.value'
+                break
+              case COLUMN_TYPE.LOOKED_UP_COLUMN:
+                switch (originalType) {
+                  case COLUMN_TYPE.GROUP:
+                  case COLUMN_TYPE.USER:
+                  case COLUMN_TYPE.MULTI_USER:
+                    columnKey += '.reference'
+                    break
+                  default:
+                    columnKey += '.value'
+                }
                 break
             }
 
