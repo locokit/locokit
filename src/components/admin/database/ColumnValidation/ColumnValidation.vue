@@ -2,7 +2,6 @@
   <div>
     <div
       v-for="rule in restrictedValidationRules"
-      class="rule-container"
       :key="rule.id"
     >
       <validation-provider
