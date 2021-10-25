@@ -5,7 +5,7 @@ exports[`storyshots components/visualize/UpdateContainerForm New Block Story 1`]
   style="height: 100%;"
 >
   <div>
-    <span
+    <div
       class="lck-color-content p-text-bold"
     >
       <form
@@ -173,7 +173,7 @@ exports[`storyshots components/visualize/UpdateContainerForm New Block Story 1`]
           </button>
         </div>
       </form>
-    </span>
+    </div>
      
     <!---->
   </div>

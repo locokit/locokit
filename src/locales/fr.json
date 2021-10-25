@@ -146,6 +146,9 @@
     "datadetail": {
       "nodata": "Aucune donnée à afficher"
     },
+    "jsonField": {
+      "placeholder": "Saisissez une valeur au format JSON."
+    },
     "detailview": {
       "goback": "Retourner aux résultats"
     },
@@ -308,6 +311,38 @@
       "title": "Oh oh ?!... on dirait que vous êtes perdu... Désolé. Vraiment.",
       "link": "Vous pouvez tenter de revenir sur la page d'accueil ?"
     },
+    "acl": {
+      "common": {
+        "manager": "Rôle manager",
+        "noManager": "Rôle non manager",
+        "title": "Rôles et permissions"
+      },
+      "detail": {
+        "aclTables": "Tables",
+        "aclTableFilters": "Filtres",
+        "aclTableName": "Nom de la table",
+        "aclTableRecord": "Enregistrement",
+        "chapter": "Chapitre",
+        "create_rows": "Création d'un enregistrement",
+        "delete_filter": "Filtre appliqué lors d'une suppression",
+        "delete_rows": "Suppression d'un enregistrement",
+        "createTitle": "Création d'un nouveau rôle",
+        "editTitle": "Édition d'un rôle",
+        "filterError": "Le filtre spécifié n'est pas au format souhaité (JSON).",
+        "noAclTable": "Aucune table",
+        "label": "Nom du rôle",
+        "properties": "Propriétés",
+        "read_rows": "Lecture d'un enregistrement",
+        "read_filter": "Filtre appliqué lors d'une lecture",
+        "update_filter": "Filtre appliqué lors d'une mise à jour",
+        "update_rows": "Mise à jour d'un enregistrement"
+        },
+      "listing": {
+        "aclSetError": "Impossible de récupérer les rôles associés au workspace courant.",
+        "noAclSet": "Aucun rôle créé",
+        "title": "Tous les rôles"
+      }
+    },
     "home": {
       "title": "Bienvenue",
       "subtitle": ""
@@ -398,6 +433,7 @@
       "buttonSchema": "Schéma",
       "buttonVisualization": "Visualisation",
       "buttonProcess": "Processus",
+      "buttonAcl": "Permissions",
       "createChapter": "Créer un nouveau chapitre",
       "editChapter": "Modifier un chapitre",
       "chapter": "Chapitre",
