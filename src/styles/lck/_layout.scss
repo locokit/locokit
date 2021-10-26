@@ -20,6 +20,8 @@
   &-content {
     display: grid;
     grid-template-columns: auto 1fr;
+    min-width: 0;
+    overflow: hidden;
   }
 }
 

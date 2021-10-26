@@ -19,7 +19,7 @@
         @confirm-delete-page="onConfirmationDeletePage($event)"
       />
     </div>
-    <div class="lck-content">
+    <div class="lck-page">
       <router-view
         :key="forceUpdateKey"
         :editMode="editMode"
@@ -386,5 +386,10 @@ export default {
   bottom: 1rem;
   right: 1rem;
   z-index: 15;
+}
+
+.lck-page {
+  overflow: auto;
+  padding-bottom: 3rem;
 }
 </style>

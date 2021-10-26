@@ -18,7 +18,6 @@
     </template>
   </layout-with-sidebar>
 </template>
-
 <script>
 import Vue from 'vue'
 
