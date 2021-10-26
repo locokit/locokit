@@ -17,7 +17,7 @@
   --border-radius: 4px;
 
   /* Fonts */
-  --font-family: Raleway, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  --font-family: 'Raleway', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 
   /* 12px */
   --font-size-sm: 0.75rem;
@@ -61,7 +61,7 @@
 
   /* Sidebar */
   --sidebar-width: 14rem;
-  --sidebar-background-color: var(--primary-color-light);
+  --sidebar-background-color: var(--primary-color-lighten);
   /* Sidebar link text-color */
   --sidebar-text-color: var(--primary-color-dark);
   --sidebar-text-color-active: var(--primary-color-dark);

@@ -55,6 +55,7 @@
   font-size: var(--font-size-md);
   transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
   border-radius: var(--border-radius);
+  font-family: var(--font-family);
 }
 
 .p-button:enabled:hover {
