@@ -499,7 +499,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                 class="p-fluid"
               >
                 <div
-                  class="p-field p-grid"
+                  class="p-field p-grid p-mb-3"
                 >
                   <label
                     class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
@@ -544,16 +544,16 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                     class="p-col-12 p-md-8"
                   >
                     <div
-                      class="p-password p-component p-inputwrapper"
-                      id="password"
+                      class="p-password p-component p-inputwrapper p-input-icon-right"
                     >
                       <input
                         class="p-inputtext p-component p-password-input"
-                        id="password"
                         type="password"
                       />
                        
-                      <!---->
+                      <i
+                        class="pi pi-eye"
+                      />
                        
                       <!---->
                     </div>
@@ -564,12 +564,6 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                   >
                     
                   </span>
-                </div>
-                 
-                <div
-                  class="p-text-error"
-                >
-                  <!---->
                 </div>
                  
                 <div
@@ -637,138 +631,176 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
           <div
             class="p-card-content"
           >
-            <div
-              class="p-field p-grid p-mb-3"
-            >
-              <label
-                class="p-col p-md-3 label-field-required"
-                for="oldPassword"
+            <span>
+              <form
+                class="p-fluid"
               >
-                
-            Old password
-          
-              </label>
-               
-              <div
-                class="p-col p-md-3"
-              >
-                <input
-                  class="p-inputtext p-component"
-                  id="oldPassword"
-                  type="password"
-                />
-              </div>
-            </div>
-             
-            <div
-              class="p-field p-grid p-mb-3"
-            >
-              <div
-                class="p-d-flex p-md-12"
-              >
-                <label
-                  class="p-col p-md-3 label-field-required"
-                  for="password"
+                <div
+                  class="p-field p-grid p-mb-3"
                 >
-                  
-              New password
+                  <label
+                    class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                    for="oldPassword"
+                  >
+                    
+              Old password
             
-                </label>
+                  </label>
+                   
+                  <div
+                    class="p-col-12 p-md-8"
+                  >
+                    <div
+                      class="p-password p-component p-inputwrapper p-input-icon-right"
+                      id="oldPassword"
+                    >
+                      <input
+                        class="p-inputtext p-component p-password-input"
+                        id="oldPassword"
+                        type="password"
+                      />
+                       
+                      <i
+                        class="pi pi-eye"
+                      />
+                       
+                      <!---->
+                    </div>
+                  </div>
+                   
+                  <span
+                    class="p-my-2 untouched pristine"
+                  >
+                    
+                  </span>
+                </div>
                  
                 <div
-                  class="p-col p-md-3"
+                  class="p-field p-grid p-mb-3"
                 >
-                  <div
-                    aria-describedby="password-rules"
-                    class="p-password p-component p-inputwrapper"
-                    id="password"
+                  <label
+                    class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                    for="newPassword"
                   >
-                    <input
+                    
+              New password
+            
+                  </label>
+                   
+                  <div
+                    class="p-col-12 p-md-8"
+                  >
+                    <div
                       aria-describedby="password-rules"
-                      class="p-inputtext p-component p-password-input"
-                      id="password"
-                      type="password"
-                    />
+                      class="p-password p-component p-inputwrapper p-input-icon-right"
+                      id="newPassword"
+                    >
+                      <input
+                        aria-describedby="password-rules"
+                        class="p-inputtext p-component p-password-input"
+                        id="newPassword"
+                        type="password"
+                      />
+                       
+                      <i
+                        class="pi pi-eye"
+                      />
+                       
+                      <!---->
+                    </div>
+                  </div>
+                   
+                  <div
+                    class="info-new-password"
+                  >
+                    <small
+                      class="p-text-italic"
+                      id="password-rules"
+                    >
+                      
+                Must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 digit and 1 special character.
+              
+                    </small>
                      
-                    <!---->
-                     
-                    <!---->
+                    <span
+                      class="p-my-2 untouched pristine"
+                    >
+                      
+                    </span>
                   </div>
                 </div>
-              </div>
-               
-              <small
-                class="p-text-italic"
-                id="password-rules"
-              >
-                
-            Must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 digit and 1 special character.
-          
-              </small>
-            </div>
-             
-            <div
-              class="p-field p-grid"
-            >
-              <label
-                class="p-col p-md-3 label-field-required"
-                for="passwordCheck"
-              >
-                
-            Password (check)
-          
-              </label>
-               
-              <div
-                class="p-col p-md-3"
-              >
-                <input
-                  class="p-inputtext p-component"
-                  id="passwordCheck"
-                  type="password"
-                />
-              </div>
-            </div>
-             
-            <div
-              class="p-text-error"
-            >
-              <!---->
-               
-              <!---->
-               
-              <!---->
-            </div>
+                 
+                <div
+                  class="p-field p-grid p-mb-4 p-mt-2"
+                >
+                  <label
+                    class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                    for="passwordCheck"
+                  >
+                    
+              Password (check)
+            
+                  </label>
+                   
+                  <div
+                    class="p-col-12 p-md-8"
+                  >
+                    <div
+                      class="p-password p-component p-inputwrapper p-input-icon-right"
+                      id="passwordCheck"
+                    >
+                      <input
+                        class="p-inputtext p-component p-password-input"
+                        id="passwordCheck"
+                        type="password"
+                      />
+                       
+                      <i
+                        class="pi pi-eye"
+                      />
+                       
+                      <!---->
+                    </div>
+                  </div>
+                   
+                  <span
+                    class="p-my-2 untouched pristine"
+                  >
+                    
+                  </span>
+                </div>
+                 
+                <div
+                  class="lck-form-footer"
+                >
+                  <!---->
+                   
+                  <button
+                    class="p-button p-component"
+                    disabled="disabled"
+                    type="submit"
+                  >
+                    <span
+                      class="pi pi-save p-button-icon p-button-icon-left"
+                    />
+                     
+                    <span
+                      class="p-button-label"
+                    >
+                      Save
+                    </span>
+                     
+                    <!---->
+                    <span
+                      class="p-ink"
+                    />
+                  </button>
+                </div>
+              </form>
+            </span>
           </div>
            
-          <div
-            class="p-card-footer"
-          >
-            <div
-              class="p-field p-grid p-jc-end"
-            >
-              <button
-                class="p-button p-component"
-                disabled="disabled"
-                type="button"
-              >
-                <span
-                  class="pi pi-save p-button-icon p-button-icon-left"
-                />
-                 
-                <span
-                  class="p-button-label"
-                >
-                  Save
-                </span>
-                 
-                <!---->
-                <span
-                  class="p-ink"
-                />
-              </button>
-            </div>
-          </div>
+          <!---->
         </div>
       </div>
     </section>
