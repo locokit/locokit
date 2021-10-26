@@ -946,6 +946,10 @@ export default {
   height: 1.5em;
 }
 
+::v-deep .p-datatable .LckCellFile .p-dialog-title {
+  white-space: normal;
+}
+
 </style>
 
 <style>
