@@ -88,6 +88,25 @@
           />
           <span :class="classes">{{ errors[0] }}</span>
         </validation-provider>
+        <validation-provider
+          vid="columnTransmittedField"
+          tag="div"
+          class="p-field p-mb-2"
+          :name="$t('components.datatable.column.transmitted')"
+          rules="required"
+          v-slot="{
+            errors,
+            classes
+          }"
+        >
+          <label for="columnTransmittedField" class="label-field-required">{{ $t('components.datatable.column.transmitted') }}</label>
+          <p-input-switch
+            id="columnTransmittedField"
+            v-model="columnCopy.transmitted"
+          />
+          <span :class="classes">{{ errors[0] }}</span>
+        </validation-provider>
+
       </lck-form>
     </div>
   </div>
@@ -188,6 +207,7 @@ export default {
       this.$emit('table-view-column-edit', {
         displayed: this.columnCopy.displayed,
         editable: this.columnCopy.editable,
+        transmitted: this.columnCopy.transmitted,
       })
     },
   },
