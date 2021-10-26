@@ -116,7 +116,7 @@ const content = {
 export const defaultStory = () => (
   {
     components: { TableSet },
-    template: '<TableSet />',
+    template: '<TableSet workspaceId="w1" :userId="1" groupId="g1" />',
   }
 )
 
@@ -130,7 +130,7 @@ export const withDefinitionStory = () => (
       }
     },
     components: { TableSet },
-    template: '<TableSet :definition="definition" />',
+    template: '<TableSet :definition="definition" workspaceId="w1" :userId="1" groupId="g1"  />',
   }
 )
 
@@ -145,7 +145,7 @@ export const withDefinitionAndContentStory = () => (
       }
     },
     components: { TableSet },
-    template: '<TableSet :definition="definition" :content="content" />',
+    template: '<TableSet :definition="definition" :content="content" workspaceId="w1" :userId="1" groupId="g1" />',
   }
 )
 
@@ -164,6 +164,9 @@ export const WithDefinitionAndToolbarButtonsStory = () => (
       addAllowed
       exportAllowed
       filterAllowed
+      groupId="g1" 
+      :userId="1"
+      workspaceId="w1"
       @update-suggestions="() => 1"
     />`,
   }
@@ -186,6 +189,9 @@ export const WithDefAndContentAndToolbarButtonsStory = () => (
       addAllowed
       exportAllowed
       filterAllowed
+      groupId="g1" 
+      :userId="1"
+      workspaceId="w1"
       @update-suggestions="() => 1"
     />`,
   }

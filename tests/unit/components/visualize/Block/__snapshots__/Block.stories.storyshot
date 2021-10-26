@@ -91,6 +91,7 @@ exports[`storyshots components/visualize/Block Edit a block 1`] = `
         class="lck-paragraph block-content"
         title="Titre"
         type="Paragraph"
+        workspaceid="1"
       >
         
   Je suis un texte.
@@ -121,6 +122,7 @@ exports[`storyshots components/visualize/Block Markdown 1`] = `
         class="block-content"
         title="Futur Markdown"
         type="Markdown"
+        workspaceid="1"
       >
         <p>
           This is the content.
@@ -153,6 +155,7 @@ exports[`storyshots components/visualize/Block Paragraph (Text) 1`] = `
         class="lck-paragraph block-content"
         title="Titre"
         type="Paragraph"
+        workspaceid="1"
       >
         
   Je suis un texte.
@@ -169,6 +172,8 @@ exports[`storyshots components/visualize/Block TableSet 1`] = `
 >
   <div
     class="lck-table-set"
+    groupid="g1"
+    userid="1"
   >
     <div
       class="block-container"

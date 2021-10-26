@@ -146,7 +146,7 @@ We can write in *italic*, **bold**, and ***both***.
 
 export const defaultStory = () => ({
   component: { Page },
-  template: '<Page />',
+  template: '<Page groupId="g1" :userId="1" workspaceId="w1" />',
 })
 
 defaultStory.storyName = 'default'
@@ -161,9 +161,10 @@ export const pageWithBlock = () => (
         workspaceId: 'uuid-workspace',
         groupId: 'uuid-group',
         pageId: 'pa1',
+        userId: 1,
       }
     },
-    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :editMode=true />',
+    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :editMode=true :userId="userId"/>',
   }
 )
 
@@ -188,11 +189,12 @@ export const pageWithBlockCentered = () => (
         chapters: chapterInfo,
         workspaceId: 'uuid-workspace',
         groupId: 'uuid-group',
+        userId: 1,
         pageId: 'pa1',
         layout: 'centered',
       }
     },
-    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :layout="layout"/>',
+    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :userId="userId" :layout="layout"/>',
   }
 )
 
@@ -218,10 +220,11 @@ export const pageWithBlockFlex = () => (
         workspaceId: 'uuid-workspace',
         groupId: 'uuid-group',
         pageId: 'pa1',
+        userId: 1,
         layout: 'flex',
       }
     },
-    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :layout="layout"/>',
+    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :userId="userId" :layout="layout"/>',
   }
 )
 

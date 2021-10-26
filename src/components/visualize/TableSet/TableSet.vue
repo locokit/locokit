@@ -149,6 +149,14 @@ export default {
       type: String,
       required: true,
     },
+    groupId: {
+      type: String,
+      required: true,
+    },
+    userId: {
+      type: Number,
+      required: true,
+    },
   },
   data () {
     return {
@@ -214,7 +222,12 @@ export default {
     },
   },
   methods: {
-    getCurrentFilters,
+    getCurrentFilters (filters) {
+      return getCurrentFilters(filters, {
+        '{userId}': this.userId,
+        '{groupId}': this.groupId,
+      })
+    },
     onClickAddButton () {
       this.newRow = {
         data: {},

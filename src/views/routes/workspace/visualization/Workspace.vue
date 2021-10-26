@@ -25,6 +25,7 @@
         :editMode="editMode"
         :chapters="Array.isArray(workspaceContent.chapters) ? workspaceContent.chapters : []"
         :workspaceId="workspaceId"
+        :userId="userId"
       />
       <p-toggle-button
         v-if="isAdmin"
@@ -126,6 +127,9 @@ export default {
     workspaceId () {
       if (!this.workspaceContent) return null
       return this.workspaceContent.id
+    },
+    userId () {
+      return authState.data.user?.id
     },
   },
   methods: {

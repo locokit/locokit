@@ -18,7 +18,7 @@ export default {
 export const defaultStory = () => (
   {
     components: { 'lck-data-detail': DataDetail },
-    template: '<lck-data-detail />',
+    template: '<lck-data-detail workspaceId="1" />',
   }
 )
 
@@ -223,6 +223,7 @@ export const withDefinitionAndRow = () => (
     <lck-data-detail
       :definition="definition"
       :row="row"
+      workspaceId="1"
     />
     `,
   }
@@ -243,6 +244,7 @@ export const withEditableColumnsAndRow = () => (
     <lck-data-detail
       :definition="definition"
       :row="row"
+      workspaceId="1"
     />
     `,
   }
@@ -270,6 +272,7 @@ export const withEditableColumnsAndRowStateSaving = () => (
       :definition="definition"
       :row="row"
       :cellState="cellState"
+      workspaceId="1"
     />
     `,
   }
@@ -297,6 +300,7 @@ export const withEditableColumnsAndRowStateOK = () => (
       :definition="definition"
       :row="row"
       :cellState="cellState"
+      workspaceId="1"
     />
     `,
   }
@@ -324,6 +328,7 @@ export const withEditableColumnsAndRowStateError = () => (
         :definition="definition"
         :row="row"
         :cellState="cellState"
+        workspaceId="1"
       />
     `,
   }

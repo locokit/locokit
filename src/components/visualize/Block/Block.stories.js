@@ -8,7 +8,7 @@ export default {
 export const defaultStory = () => (
   {
     components: { Block },
-    template: '<Block />',
+    template: '<Block workspaceId="1" />',
   }
 )
 
@@ -132,7 +132,7 @@ export const tableViewStory = () => (
         block: blockTableSet,
       }
     },
-    template: '<Block :block="block" />',
+    template: '<Block :block="block" workspaceId="w1" :userId="1" groupId="g1" />',
   }
 )
 
@@ -152,7 +152,7 @@ export const paragraphStory = () => (
         },
       }
     },
-    template: '<Block :block="block" />',
+    template: '<Block :block="block" workspaceId="1" />',
   }
 )
 
@@ -172,7 +172,7 @@ export const markownStory = () => (
         },
       }
     },
-    template: '<Block :block="block" />',
+    template: '<Block :block="block" workspaceId="1" />',
   }
 )
 
@@ -189,7 +189,7 @@ export const unknownTypeStory = () => (
         },
       }
     },
-    template: '<Block :block="block" />',
+    template: '<Block :block="block" workspaceId="1" />',
   }
 )
 
@@ -209,7 +209,7 @@ export const editStory = () => (
         },
       }
     },
-    template: '<Block :block="block" :editMode="true" />',
+    template: '<Block :block="block" :editMode="true" workspaceId="1"/>',
   }
 )
 
