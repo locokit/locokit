@@ -5,7 +5,7 @@
     </h3>
     <p-button
       class="p-button-sm p-button-danger"
-      icon="pi pi-trash"
+      icon="bi bi-trash"
       @click="$emit('delete', process.id)"
       style="position: absolute; top: .5rem; right: .5rem;width: auto;"
       :disabled="process.runs && process.runs.length > 0"

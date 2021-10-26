@@ -7,18 +7,18 @@
           <p-button
             :title="$t('pages.workspace.block.drag')"
             class="p-button-lg p-button-text handle-block"
-            icon="pi pi-ellipsis-v"
+            icon="bi bi-grip-vertical"
           />
           <p-button
             :title="$t('pages.workspace.block.edit')"
             class="p-button-lg p-button-text edit-block-button"
-            icon="pi pi-pencil"
+            icon="bi bi-pencil"
             @click="$emit('update-block')"
           />
           <p-button
             :title="$t('pages.workspace.block.delete')"
             class="p-button-lg p-button-text remove-block-button"
-            icon="pi pi-trash"
+            icon="bi bi-trash"
             @click="$emit('confirm-delete-block')"
           />
         </span>

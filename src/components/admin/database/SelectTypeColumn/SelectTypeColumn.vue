@@ -87,7 +87,7 @@
       >
         <template #body="props">
           <p-button
-            icon="pi pi-trash"
+            icon="bi bi-trash"
             class="p-button-rounded lck-color-content p-column-button-color"
             @click="onConfirmationDeleteSelectTypeValue(props.data)"
           />

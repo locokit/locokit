@@ -67,13 +67,13 @@
           <template #body="slotProps">
             <span class="p-buttonset">
               <p-button
-                icon="pi pi-pencil"
+                icon="bi bi-pencil"
                 class="p-button-rounded p-button-icon"
                 @click="editUserInGroup(slotProps.data, group)"
                 :title="$t('pages.userManagement.editUser')"
               />
               <p-button
-                icon="pi pi-trash"
+                icon="bi bi-trash"
                 class="p-button-rounded p-button-danger p-button-outlined p-button-icon"
                 @click="deleteUserInGroup(slotProps.data, group)"
                 :title="$t('pages.userManagement.disableUser.disable')"

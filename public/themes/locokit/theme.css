@@ -58,7 +58,7 @@
   /* Sidebar */
   --sidebar-background-color: #eee;
   /* Sidebar width */
-  --sidebar-width: 15rem;
+  --sidebar-width: 18rem;
   /* Sidebar text-color, sidebar active route background, used for paginator */
   --sidebar-text-color: var(--primary-color);
   /* Used */

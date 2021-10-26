@@ -162,13 +162,13 @@
             <span class="p-buttonset">
               <p-button
                 :title="$t('pages.workspace.block.edit')"
-                icon="pi pi-pencil"
+                icon="bi bi-pencil"
                 class="p-button-text p-mr-2 p-ml-auto p-button-lg"
                 @click="$emit('edit-block', slotProps.data)"
               />
               <p-button
                 :title="$t('pages.workspace.block.delete')"
-                icon="pi pi-trash"
+                icon="bi bi-trash"
                 class="p-button-text p-button-lg"
                 @click="$emit('delete-block', slotProps.data)"
               />

@@ -54,7 +54,7 @@
             <div class="p-d-flex p-flex-wrap">
               <p-button
                 :label="$t('form.add')"
-                icon="pi pi-plus-circle"
+                icon="bi bi-plus-circle"
                 class="p-mr-2 p-button-text p-button-primary"
                 @click="onClickAddButton"
               />

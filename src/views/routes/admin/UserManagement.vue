@@ -102,7 +102,7 @@
           <template #body="slotProps">
             <span class="p-buttonset">
               <p-button
-                icon="pi pi-pencil"
+                icon="bi bi-pencil"
                 @click="editUser(slotProps.data)"
                 :title="$t('pages.userManagement.editUser')"
               />

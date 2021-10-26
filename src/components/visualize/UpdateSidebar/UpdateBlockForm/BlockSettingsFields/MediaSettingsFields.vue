@@ -94,7 +94,7 @@
           <span :class="classes">{{ errors[0] }}</span>
         </validation-provider>
         <p-button
-          icon="pi pi-trash"
+          icon="bi bi-trash"
           class="p-button-text p-button-lg deleteMediaButton"
           @click="$emit('delete-media', index)"
         />

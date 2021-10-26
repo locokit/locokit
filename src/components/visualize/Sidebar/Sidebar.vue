@@ -16,11 +16,11 @@
         >
           <span
             @click.stop="$emit('edit-item', item.id)"
-            class="pi pi-pencil action-button"
+            class="bi bi-pencil action-button"
           />
           <span
             @click.stop="$emit('confirm-delete-chapter', { chapterId: item.id, chapterName: item.label })"
-            class="pi pi-trash action-button"
+            class="bi bi-trash action-button"
           />
         </span>
       </template>
@@ -41,7 +41,7 @@
         >
           <span
             v-if="displayEditActions"
-            class="pi pi-ellipsis-v handle"
+            class="bi bi-grip-vertical handle"
           />
           <span class="lck-sidebar-link-label">{{subitem.label}}</span>
           <span
@@ -50,7 +50,7 @@
           >
             <span
               @click.stop.prevent="$emit('edit-subitem', { item: item.id, subitem: subitem.id })"
-              class="pi pi-pencil action-button"
+              class="bi bi-pencil action-button"
             />
             <span
               @click.stop.prevent="$emit('confirm-delete-page', {
@@ -58,7 +58,7 @@
                 pageId: subitem.id,
                 pageName: subitem.label
               })"
-              class="pi pi-trash action-button"
+              class="bi bi-trash action-button"
             />
           </span>
         </router-link>

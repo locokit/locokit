@@ -31,7 +31,7 @@
           >
             <p-button
               v-show="value.length > 1"
-              icon="pi pi-trash"
+              icon="bi bi-trash"
               class="p-button-rounded p-button-danger p-button-text p-button-sm"
               @click.stop="removeFilter(filter)"
             />
@@ -138,7 +138,7 @@
         <p-button
           class="p-button-outlined p-mr-2"
           type="button"
-          icon="pi pi-plus-circle"
+          icon="bi bi-plus-circle"
           :label="$t('components.datatable.toolbar.filters.action.addFilter')"
           @click="addFilter"
         />

@@ -56,18 +56,18 @@
               <p-button
                 :title="$t('pages.workspace.container.drag')"
                 class="p-button-lg p-button-text handle "
-                icon="pi pi-ellipsis-v"
+                icon="bi bi-grip-vertical"
               />
               <p-button
                 :title="$t('pages.workspace.container.edit')"
                 class="p-button-lg p-button-text edit-container-button"
-                icon="pi pi-pencil"
+                icon="bi bi-pencil"
                 @click="onContainerEditClick(container)"
               />
               <p-button
                 :title="$t('pages.workspace.container.delete')"
                 class="p-button-lg p-button-text remove-container-button"
-                icon="pi pi-trash"
+                icon="bi bi-trash"
                 @click="onContainerDeleteClick(container)"
               />
             </span>

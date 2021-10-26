@@ -106,7 +106,7 @@
               />
               <lck-button-confirmation
                 v-if="deleteAllowed"
-                first-level-icon="pi pi-trash"
+                first-level-icon="bi bi-trash"
                 second-level-icon="pi pi-exclamation-circle"
 
                 first-level-class="p-button-rounded p-button-danger p-button-text"
@@ -159,7 +159,7 @@
                 :popup="true"
                 :model="[{
                   label: $t('components.datatable.actionColumn.edit'),
-                  icon: 'pi pi-pencil',
+                  icon: 'bi bi-pencil',
                   command: () => {
                     $emit('display-column-sidebar')
                   }
@@ -590,7 +590,7 @@ export default {
       return [
         {
           label: this.$t('components.datatable.column.edit'),
-          icon: 'pi pi-pencil',
+          icon: 'bi bi-pencil',
           command: () => {
             this.$emit('display-column-sidebar')
           },
