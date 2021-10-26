@@ -1,21 +1,32 @@
 <template>
-  <div class="lck-layout-content">
-    <slot name="sidebar" />
-    <div class="h-full o-auto h-max-full">
-      <slot></slot>
-    </div>
+  <div>
+    <lck-header
+      :logo-url="logoURL"
+      @menuButtonClick="toggleSidebar"
+      :logo-mobile-url="logoMobileUrl"
+      :is-super-admin="isSuperAdmin"
+      @logoutClick="onLogoutClick"
+      :has-burger-menu="appState.hasBurgerMenu"
+    />
+    <slot :sidebarActive="sidebarActive"></slot>
   </div>
 </template>
 
 <script lang="ts">
+import Header from '@/components/ui/Header/Header.vue'
 import { appState } from '@/store/app'
 import {
   authState,
+  logout,
 } from '@/store/auth'
 import { USER_PROFILE } from '@locokit/lck-glossary'
+import { ROUTES_PATH } from '@/router/paths'
 
 export default {
-  name: 'LayoutWithSidebar',
+  name: 'LayoutWithHeader',
+  components: {
+    'lck-header': Header,
+  },
   props: {
     chapters: {
       type: Array,
@@ -42,6 +53,10 @@ export default {
   methods: {
     toggleSidebar () {
       this.sidebarActive = !this.sidebarActive
+    },
+    onLogoutClick () {
+      logout()
+      this.$router.push(ROUTES_PATH.HOME)
     },
   },
 }

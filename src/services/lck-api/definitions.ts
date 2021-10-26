@@ -23,6 +23,7 @@ export class LckWorkspace extends LckBaseModel {
   documentation?: string;
   settings?: {
     color: string;
+    backgroundColor: string;
     icon: string;
   }
 }

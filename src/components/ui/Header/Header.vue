@@ -1,10 +1,8 @@
 <template>
   <header
-    :class="{'has-burger-menu' : hasBurgerMenu}"
     class="lck-header p-px-2 p-d-flex p-jc-between"
   >
     <a
-      v-if="hasBurgerMenu"
       class="menu-button p-my-auto"
       @click="onToggle"
     >
@@ -67,11 +65,6 @@ export default {
       required: true,
     },
     isSuperAdmin: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    hasBurgerMenu: {
       type: Boolean,
       required: false,
       default: false,

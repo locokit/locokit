@@ -1,111 +1,109 @@
 <template>
-  <div
-    class="generic-view-container p-mx-auto"
-  >
-    <h1 class="p-my-4 lck-color-title">
-      {{ $t('pages.workspace.title') }}
-    </h1>
+  <layout-with-header>
+    <div class="generic-view-container p-mx-auto">
+      <h1 class="p-my-4 lck-color-title">
+        {{ $t('pages.workspace.title') }}
+      </h1>
 
-    <p-card v-if="loading">
-      <template slot="content">
-        <p-skeleton
-          width="10rem"
-          class="p-mb-2"
-        ></p-skeleton>
-        <p-skeleton class="p-mb-2"></p-skeleton>
-        <p-skeleton
-          width="10rem"
-          height="2rem"
-        ></p-skeleton>
-      </template>
-    </p-card>
+      <div class="p-grid">
+        <div v-if="loading" class="p-col-12 p-md-4 p-lg-3 workspaces-item">
+          <div class="workspaces-button">
+            <div class="workspaces-detail">
+              <p-skeleton
+                class="workspaces-detail-title"
+                width="10rem"
+                height="2rem"
+              ></p-skeleton>
+            </div>
+          </div>
+        </div>
 
-    <p v-if="!loading && groups.length === 0">{{ $t('pages.workspace.noWorkspace') }}</p>
+        <p v-if="!loading && groups.length === 0">{{ $t('pages.workspace.noWorkspace') }}</p>
 
-    <div class="p-grid">
-      <div v-for="workspace in workspaces" :key="workspace.id" class="p-col-12 p-md-6 p-lg-3 workspaces-item">
-        <div
-          class="workspaces-button p-mr-2"
-          :style="{
-            backgroundColor: workspace.backgroundColor || 'inherit'
-          }"
-        >
-          <router-link
-            class="workspaces-detail"
-            :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}`"
+        <div v-for="workspace in workspaces" :key="workspace.id" class="p-col-12 p-md-4 p-lg-3 workspaces-item">
+          <div
+            class="workspaces-button p-mr-2"
             :style="{
-              color: workspace.color || 'inherit'
+              backgroundColor: workspace.backgroundColor || 'inherit'
             }"
           >
-            <p class="workspaces-detail-title">{{ workspace.text }}</p>
-            {{ workspace.documentation }}
-          </router-link>
+            <router-link
+              class="workspaces-detail"
+              :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}`"
+              :style="{
+                color: workspace.color || 'inherit'
+              }"
+            >
+              <p class="workspaces-detail-title">{{ workspace.text }}</p>
+              {{ workspace.documentation }}
+            </router-link>
 
-          <router-link
-            v-if="workspace.isManager"
-            class="workspaces-admin"
-            :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.ADMIN}`"
-            :style="{
-              color: workspace.color || 'inherit'
-            }"
-          >
-            <i class="bi bi-sliders"></i>
-          </router-link>
+            <router-link
+              v-if="workspace.isManager"
+              class="workspaces-admin"
+              :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.ADMIN}`"
+              :style="{
+                color: workspace.color || 'inherit',
+              }"
+            >
+              <i class="bi bi-sliders"></i>
+            </router-link>
 
-          <i v-if="workspace.icon" class="workspaces-icon bi" :class="workspace.icon" />
+            <i v-if="workspace.icon" class="workspaces-icon bi" :class="workspace.icon" />
+          </div>
+        </div>
+
+        <div v-if="$can('create', 'workspace')" class="p-col-12 p-md-4 p-lg-3 workspaces-item">
+          <button class="workspaces-new" @click="dialogVisible = true">
+            <i class="bi bi-file-plus workspaces-new-icon"></i>
+            <p class="p-button p-button-sm">{{ $t('pages.workspace.form.new') }}</p>
+          </button>
         </div>
       </div>
 
-      <div v-if="$can('create', 'workspace')" class="p-col-12 p-md-6 p-lg-3 workspaces-item">
-        <button class="workspaces-new" @click="dialogVisible = true">
-          <i class="bi bi-file-plus workspaces-new-icon"></i>
-          <p class="p-button p-button-sm">{{ $t('pages.workspace.form.new') }}</p>
-        </button>
-      </div>
+      <p-dialog
+        :header="$t('pages.workspace.form.create')"
+        :modal="true"
+        :visible="dialogVisible"
+        @update:visible="dialogVisible = false"
+      >
+
+        <form class="p-fluid">
+          <div class="p-field">
+            <p-input-text
+              :placeholder="$t('pages.workspace.form.textPlaceholder')"
+              v-model="newWorkspace.text"
+            />
+          </div>
+
+          <div class="p-field">
+            <label>{{ $t('pages.workspace.form.docLabel') }}</label>
+            <p-textarea
+              :placeholder="$t('pages.workspace.form.docPlaceholder')"
+              class="p-mb-2"
+              :autoResize="true"
+              v-model="newWorkspace.documentation"
+            />
+          </div>
+        </form>
+
+        <template #footer>
+          <p-button
+            :label="$t('sw.cancel')"
+            icon="pi pi-times"
+            class="p-button-text"
+            @click="dialogVisible = false"
+          />
+          <p-button
+            :label="$t('form.save')"
+            icon="pi pi-check"
+            @click="createWorkspace"
+            autofocus
+          />
+        </template>
+      </p-dialog>
     </div>
-
-    <p-dialog
-      :header="$t('pages.workspace.form.create')"
-      :modal="true"
-      :visible="dialogVisible"
-      @update:visible="dialogVisible = false"
-    >
-
-      <form class="p-fluid">
-        <div class="p-field">
-          <p-input-text
-            :placeholder="$t('pages.workspace.form.textPlaceholder')"
-            v-model="newWorkspace.text"
-          />
-        </div>
-
-        <div class="p-field">
-          <label>{{ $t('pages.workspace.form.docLabel') }}</label>
-          <p-textarea
-            :placeholder="$t('pages.workspace.form.docPlaceholder')"
-            class="p-mb-2"
-            :autoResize="true"
-            v-model="newWorkspace.documentation"
-          />
-        </div>
-      </form>
-
-      <template #footer>
-        <p-button
-          :label="$t('sw.cancel')"
-          icon="pi pi-times"
-          class="p-button-text"
-          @click="dialogVisible = false"
-        />
-        <p-button
-          :label="$t('form.save')"
-          icon="pi pi-check"
-          @click="createWorkspace"
-          autofocus
-        />
-      </template>
-    </p-dialog>
-  </div>
+  </layout-with-header>
 </template>
 
 <script lang="ts">
@@ -113,7 +111,6 @@ import Vue from 'vue'
 import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
 import { AuthState, authState } from '@/store/auth'
 
-import Card from 'primevue/card'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
@@ -122,6 +119,7 @@ import Skeleton from 'primevue/skeleton'
 import { lckServices } from '@/services/lck-api'
 import Dialog from 'primevue/dialog/Dialog'
 import { LckDatabase, LckWorkspace } from '@/services/lck-api/definitions'
+import WithHeader from '@/layouts/WithHeader.vue'
 
 const WORKSPACE_ROLE = {
   OWNER: 'OWNER',
@@ -132,7 +130,7 @@ const WORKSPACE_ROLE = {
 export default {
   name: 'WorkspaceList',
   components: {
-    'p-card': Vue.extend(Card),
+    'layout-with-header': Vue.extend(WithHeader),
     'p-button': Vue.extend(Button),
     'p-dialog': Vue.extend(Dialog),
     'p-input-text': Vue.extend(InputText),
@@ -263,12 +261,13 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: #ffffff;
+    padding: var(--spacing);
+    min-height: 10rem;
+    box-sizing: border-box;
+    background: var(--surface-w);
     align-content: center;
     text-align: center;
-    min-height: 10rem;
     border-radius: var(--border-radius);
-    width: 100%;
     color: var(--text-color);
     box-shadow: 0 1px 3px 2px rgba(141, 27, 27, 0.04);
     transition: box-shadow .3s;
@@ -278,11 +277,11 @@ export default {
   &-detail {
     position: relative;
     z-index: 2;
-    padding: var(--spacing);
     text-decoration: none;
     cursor: pointer;
 
     &-title {
+      margin: 0 auto;
       font-size: 1.6rem;
       word-wrap: break-word;
     }
@@ -293,11 +292,32 @@ export default {
   }
 
   &-admin {
-    cursor: pointer;
     position: absolute;
+    z-index: 3;
     top: var(--spacing);
     right: var(--spacing);
+    cursor: pointer;
     text-decoration: none;
+
+    &:before {
+        position: absolute;
+        content: '';
+        display: block;
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 3rem;
+        padding: 2rem;
+        opacity: 0.1;
+        bottom: -1.125rem;
+        right: -3.25rem;
+        transition: ease background-color .2s;
+      }
+
+    &:hover {
+      &:before {
+        background: currentColor;
+      }
+    }
   }
 
   &-icon {
@@ -310,8 +330,10 @@ export default {
   }
 
   &-new {
+    padding: var(--spacing);
     width: 100%;
     min-height: 10rem;
+    width: 100%;
     border-radius: var(--border-radius);
     border: dashed 2px var(--secondary-color-lighten);
     cursor: pointer;

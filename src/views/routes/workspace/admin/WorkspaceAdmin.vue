@@ -1,25 +1,35 @@
 <template>
-  <div class="lck-layout">
-    <nav class="lck-nav">
-      <ul class="lck-nav-list">
-        <li v-for="item in menuItems" :key="item.id" :aria-label="item.label" class="lck-nav-item">
-          <router-link :to="item.to" class="lck-nav-item-link">
-            <i class="bi" :class="item.icon" />
-          </router-link>
-        </li>
-      </ul>
-    </nav>
-    <router-view />
-  </div>
+  <layout-with-header>
+    <template v-slot:default="slotProps">
+      <div class="lck-layout">
+        <nav class="lck-nav" :class="{'lck-nav--active': slotProps.sidebarActive}">
+          <ul class="lck-nav-list">
+            <li v-for="item in menuItems" :key="item.id" :aria-label="item.label" class="lck-nav-item">
+              <router-link :to="item.to" class="lck-nav-item-link">
+                <i class="bi" :class="item.icon" />
+              </router-link>
+            </li>
+          </ul>
+        </nav>
+        <router-view :sidebarActive="slotProps.sidebarActive" />
+      </div>
+    </template>
+  </layout-with-header>
 </template>
 
 <script>
 import { ROUTES_PATH } from '@/router/paths'
 import { LckWorkspace } from '@/services/lck-api/definitions'
 import { lckServices } from '@/services/lck-api'
+import LayoutWithHeader from '@/layouts/WithHeader.vue'
+
+import Vue from 'vue'
 
 export default {
   name: 'WorkspaceAdmin',
+  components: {
+    'layout-with-header': Vue.extend(LayoutWithHeader),
+  },
   props: {
     workspaceId: {
       type: String,

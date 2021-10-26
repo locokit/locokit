@@ -3,6 +3,8 @@
   width: var(--sidebar-width);
   font-weight: var(--font-weight-medium);
   font-size: var(--font-size-md);
+  height: calc(100vh - var(--header-height));
+  overflow: auto;
 
   // Accordion header
   .p-accordion-header-link {
@@ -62,6 +64,14 @@
       &::before {
         background-color: var(--sidebar-background-color-active);
       }
+    }
+  }
+
+  @media screen and (max-width: 900px) {
+    display: none;
+
+    &--active {
+      display: block;
     }
   }
 }

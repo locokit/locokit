@@ -207,7 +207,6 @@ const routes: Array<RouteConfig> = [
     }],
     meta: {
       needAuthentication: true,
-      hasBurgerMenu: true,
     },
   },
   {
@@ -232,7 +231,6 @@ const routes: Array<RouteConfig> = [
     }],
     meta: {
       needAuthentication: true,
-      hasBurgerMenu: true,
     },
   },
   {

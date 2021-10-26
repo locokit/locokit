@@ -4,6 +4,7 @@
       <p-accordion
         :multiple="true"
         class="lck-bg-sidebar lck-sidebar"
+        :class="{'lck-sidebar--active': sidebarActive}"
         :activeIndex="[0]"
       >
         <p-accordion-tab
@@ -52,6 +53,9 @@ export default {
     workspaceId: {
       type: String,
       required: true,
+    },
+    sidebarActive: {
+      type: Boolean,
     },
   },
   data () {

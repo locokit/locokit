@@ -12,7 +12,7 @@ class User {
   name!: string;
   createdAt!: string;
   isVerified!: boolean
-  profile!: typeof USER_PROFILE
+  profile!: USER_PROFILE
   groups?: LckGroup[]
 }
 
