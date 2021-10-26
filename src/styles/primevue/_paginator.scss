@@ -4,7 +4,7 @@
   border: solid #e9ecef;
   border-width: 0;
   padding: 0.5rem 1rem;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
 }
 
 .p-paginator .p-paginator-first,
@@ -18,7 +18,7 @@
   height: 2.357rem;
   margin: 0.143rem;
   transition: box-shadow 0.2s;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
 }
 
 .p-paginator .p-paginator-first:not(.p-disabled):not(.p-highlight):hover,
@@ -27,7 +27,7 @@
 .p-paginator .p-paginator-last:not(.p-disabled):not(.p-highlight):hover {
   background: #e9ecef;
   border-color: transparent;
-  color: #495057;
+  color: var(--text-color);
 }
 
 .p-paginator .p-paginator-first {
@@ -68,17 +68,17 @@
   height: 2.357rem;
   margin: 0.143rem;
   transition: box-shadow 0.2s;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
 }
 
 .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
-  background: #E3F2FD;
-  border-color: #E3F2FD;
-  color: #495057;
+  background: var(--primary-color-lighten);
+  border-color: var(--primary-color-lighten);
+  color: var(--text-color);
 }
 
 .p-paginator .p-paginator-pages .p-paginator-page:not(.p-highlight):hover {
   background: #e9ecef;
   border-color: transparent;
-  color: #495057;
+  color: var(--text-color);
 }

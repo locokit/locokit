@@ -143,7 +143,7 @@ export default {
 }
 
 .menu-button:hover {
-  background-color: var(--surface-c);
+  color: var(--primary-color-dark);
 }
 
 .menu-button i {

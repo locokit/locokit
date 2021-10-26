@@ -82,14 +82,14 @@ export default Vue.extend({
   background-repeat: no-repeat;
   background-position: center;
   height: 100%;
-  background-color: var(--surface-a);
+  background-color: var(--primary-color);
 }
 
 .version-block {
   position: absolute;
   right: 0;
   bottom: 0;
-  color: var(--surface-d);
+  color: var(--color-white);
 }
 
 ::v-deep .p-card .p-card-title {

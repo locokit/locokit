@@ -10,9 +10,14 @@
   --spacing-lg: 1rem;
   --spacing-xl: 2rem;
 
+  /* Borders */
+  --border-color: #ced4da;
+  --table-border-color: #e9ecef;
+  --border: 1px solid var(--border-color);
   --border-radius: 4px;
 
   /* Fonts */
+  --font-family: Raleway, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 
   /* 12px */
   --font-size-sm: 0.75rem;
@@ -28,9 +33,8 @@
   --font-weight-medium: 500;
   --font-weight-bold: 700;
 
-  --font-family: Raleway, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
-
   /* Colors */
+  --color-white: #fff;
   --color-warning: rgb(255, 169, 0);
   --color-warning-light: rgba(196, 144, 44, .8);
   --color-error: #f44336;
@@ -38,76 +42,32 @@
   --color-success: rgb(48, 150, 48);
   --color-success-light: rgba(48, 150, 48, .8);
 
-  /* Boutons background, active tab-background, default background of the login page */
-  --surface-a: var(--primary-color);
-  /* Buttons:hover border and background-color */
-  --surface-b: var(--primary-color-light);
-  /* Popover border, burger-menu button background (responsive). This item use a transparency */
-  --surface-c: rgba(255, 255, 255, 0.04);
-  /* Table bottom border color*/
-  --surface-d: #3f4b5b;
-  /* no utilisation yet */
-  --surface-e: #2a323d;
-  --surface-f: #2a323d;
-  /* Sidebar right background */
-  --surface-w: #f8f9fa;
-  --surface-lck-1: var(--primary-color);
-  /* Couleur du texte sur les boutons, */
-  --surface-lck-2: #ffffff;
+  --primary-color: #005666;
+  --primary-color-lighten: #dfebee;
+  --primary-color-light: #b8e0e7;
+  --primary-color-dark: #0B373F;
+
+  --secondary-color: #585858;
+  --secondary-color-lighten: #f5f5f5;
+  --secondary-color-light: #e0e0de;
+  --secondary-color-dark: #313131;
+
+
+  /* Background color, main content */
+  --background-color: #fafafa;
+
+  /* Text Color */
+  --text-color: #495057;
 
   /* Sidebar */
   --sidebar-width: 14rem;
-  --sidebar-background-color: var(--primary-color-very-lighten);
+  --sidebar-background-color: var(--primary-color-light);
   /* Sidebar link text-color */
-  --sidebar-text-color: var(--primary-color-darken);
-  /* Sidebar active/hover link color */
-  --sidebar-background-color-active: var(--primary-color-lighten);
-  --sidebar-text-color-active: var(--primary-color-darken);
-
-  /* Internal nav background color */
-  --popeyebar-background-color: rgba(255, 255, 255, 0.9);
-  /* Internal nav link color */
-  --popeyebar-text-color: var(--primary-color);
-  /* Internal nav link color active */
-  --popeyebar-text-color-active: var(--primary-color-darken);
-  /* If nav is dark, add background to icon, leave empty if background is light */
-  --popeyebar-icon-background: unset;
-
-  /* Paginator/Tab text-color active */
-  --paginator-text-color-active: #fff;
-  --text-color-secondary: #fff;
-
-  --primary-color: #005666;
-  --primary-color-very-lighten: #dfebee;
-  --primary-color-lighten: #b8e0e7;
-  --primary-color-light: #5198a5;
-  --primary-color-darken: #0B373F;
-  --primary-color-text: #33384A;
-
-  --secondary-color: #d49307;
-  --secondary-color-very-lighten: #f8f4ec;
-  --secondary-color-lighten: #f5d693;
-  --secondary-color-light: #e4aa2f;
-  --secondary-color-darken: #aa7709;
-
-  --accordion-header-link-padding: 10rem .5rem;
+  --sidebar-text-color: var(--primary-color-dark);
+  --sidebar-text-color-active: var(--primary-color-dark);
 
   /* Main Header */
   --header-height: 4rem;
   --header-background-color: #FAF9F9;
   --header-border-bottom-color: #cccccc;
-
-  /* Toolbar over table */
-  --toolbar-background-color: rgba(255, 255, 255, 1);
-  --toolbar-border-bottom-color: #eeeeee;
-
-  /* Background color, main content */
-  --background-color: #fafafa;
-
-  /* Use on markdown */
-  --background-color-light: #ffffff;
-
-  /* Todo: Gift for hga */
-  /* Text Color (Markdown, Title, Paragraph */
-  --text-color: #495057;
 }

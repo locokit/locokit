@@ -890,7 +890,7 @@ export default Vue.extend({
 
 ::v-deep .mapboxgl-popup-content p {
   font-size: var(--font-size-sm);
-  color: var(--primary-color-text);
+  color: var(--primary-color-dark);
   margin-bottom: 0;
 }
 

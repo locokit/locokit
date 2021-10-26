@@ -1,6 +1,6 @@
 .p-toolbar {
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
+  background: var(--background-color);
+  border: 1px solid var(--secondary-color-lighten);
   padding: var(--spacing-sm);
   border-radius: var(--border-radius);
 }

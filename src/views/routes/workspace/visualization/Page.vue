@@ -18,7 +18,7 @@
         />
       </div>
 
-      <div class="lck-color-primary p-my-4">
+      <div class="lck-color-title p-my-4">
         <h1>{{ page.text }}</h1>
       </div>
 
@@ -1373,7 +1373,7 @@ export default {
 
 .editable-container {
   margin-bottom: 1rem;
-  border: 2px solid var(--surface-lck-2);
+  border: 2px solid var(--color-white);
   background-color: #ffffff;
   border-radius: var(--border-radius);
   box-shadow: 0px 0px 6px 0px rgba(194, 194, 194, 0.7);
@@ -1401,7 +1401,7 @@ export default {
 }
 
 .p-button.new-block-button {
-  color: var(--primary-color-darken);
+  color: var(--primary-color-dark);
   width: 100%;
   height: 3rem;
 }

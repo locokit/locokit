@@ -337,7 +337,7 @@ export default {
     padding: var(--spacing);
     min-height: 10rem;
     box-sizing: border-box;
-    background: var(--surface-w);
+    background: var(--color-white);
     align-content: center;
     text-align: center;
     border-radius: var(--border-radius);
@@ -408,7 +408,7 @@ export default {
     min-height: 10rem;
     width: 100%;
     border-radius: var(--border-radius);
-    border: dashed 2px var(--secondary-color-lighten);
+    border: dashed 2px var(--secondary-color-light);
     cursor: pointer;
     background-color: transparent;
     color: var(--primary-color);
@@ -420,16 +420,16 @@ export default {
     }
 
     &:hover {
-      border-color: var(--surface-a);
-      background-color: var(--primary-color-very-lighten);
+      border-color: var(--primary-color);
+      background-color: var(--primary-color-lighten);
     }
 
     &:focus {
       outline: none;
-      background-color: var(--primary-color-very-lighten);
+      background-color: var(--primary-color-lighten);
 
       .p-button {
-        background-color: var(--primary-color-darken);
+        background-color: var(--primary-color-dark);
       }
     }
   }

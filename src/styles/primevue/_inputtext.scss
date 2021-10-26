@@ -65,10 +65,10 @@
 
 .p-inputtext {
   font-size: var(--font-size-lg);
-  color: #495057;
+  color: var(--text-color);
   background: #ffffff;
   padding: 0.5rem 0.5rem;
-  border: 1px solid #ced4da;
+  border: var(--border);
   transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
   appearance: none;
   border-radius: var(--border-radius);
@@ -81,7 +81,7 @@
 .p-inputtext:enabled:focus {
   outline: 0 none;
   outline-offset: 0;
-  box-shadow: 0 0 0 0.2rem var(--primary-color-very-lighten);
+  box-shadow: 0 0 0 0.2rem var(--primary-color-lighten);
   border-color: var(--primary-color);
 }
 
@@ -144,11 +144,11 @@
 }
 
 .p-input-filled .p-inputtext {
-  background-color: #f8f9fa;
+  background-color: var(--background-color);
 }
 
 .p-input-filled .p-inputtext:enabled:hover {
-  background-color: #f8f9fa;
+  background-color: var(--background-color);
 }
 
 .p-input-filled .p-inputtext:enabled:focus {

@@ -26,11 +26,11 @@
 .p-inputswitch.p-focus .p-inputswitch-slider {
   outline: 0 none;
   outline-offset: 0;
-  box-shadow: 0 0 0 0.2rem var(--primary-color-lighten);
+  box-shadow: 0 0 0 0.2rem var(--primary-color-light);
 }
 
 .p-inputswitch:not(.p-disabled):hover .p-inputswitch-slider {
-  background: var(--primary-color-lighten);
+  background: var(--primary-color-light);
 }
 
 .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
@@ -42,7 +42,7 @@
 }
 
 .p-inputswitch.p-inputswitch-checked:not(.p-disabled):hover .p-inputswitch-slider {
-  background: var(--primary-color-darken);
+  background: var(--primary-color-dark);
 }
 
 .p-inputswitch.p-invalid {

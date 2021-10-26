@@ -23,8 +23,8 @@
     background-color: transparent;
 
     &:hover {
-      color: #ffffff;
-      background-color: var(--primary-color-darken);
+      color: var(--color-white);
+      background-color: var(--primary-color-dark);
     }
   }
 }

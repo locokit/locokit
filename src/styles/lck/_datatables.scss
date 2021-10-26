@@ -101,11 +101,6 @@
   }
 }
 
-.p-datatable.p-datatable-gridlines .p-datatable-thead>tr>td,
-.p-datatable.p-datatable-gridlines .p-datatable-thead>tr>th {
-  border-width: 0 0 0 0;
-}
-
 .p-datatable .p-column-resizer {
   width: .25rem;
   height: calc(100% - .4rem);
@@ -125,18 +120,6 @@
 
 .p-datatable .p-column-resizer:hover {
   background-color: var(--primary-color);
-}
-
-.p-datatable-wrapper,
-.p-datatable-scrollable-wrapper {
-  .p-datatable-thead {
-    >tr>th {
-      font-weight: var(--font-weight-regular);
-      align-items: center;
-      color: var(--primary-color-text);
-      background-color: #ededed;
-    }
-  }
 }
 
 .p-datatable.p-datatable-sm .p-datatable-thead>tr>th {
@@ -210,11 +193,6 @@ td.sticky-column-cells {
 
 .p-datatable {
   &.p-datatable-striped {
-    .p-datatable-tbody>tr:nth-child(1n) {
-      color: var(--primary-color-text);
-      background-color: rgba(255, 255, 255, 0.8);
-    }
-
     &.editable-cell-table {
       .p-datatable-wrapper {
         overflow: visible; // this property unleash the power of the select or datepicker
@@ -222,7 +200,7 @@ td.sticky-column-cells {
     }
 
     .p-datatable-tbody>tr:nth-child(2n) {
-      color: var(--primary-color-text);
+      color: var(--primary-color-dark);
       background-color: #ededed;
     }
   }
@@ -253,7 +231,7 @@ td.sticky-column-cells {
       z-index: 1;
       right: 5px;
       padding: 0.1rem;
-      color: var(--primary-color-darken);
+      color: var(--primary-color-dark);
 
       &.pi::before {
         font-size: var(--font-size-md) !important;
@@ -261,18 +239,18 @@ td.sticky-column-cells {
     }
 
     &.p-highlight {
-      color: var(--primary-color-darken);
+      color: var(--primary-color-dark);
 
       .p-sortable-column-icon {
-        color: var(--primary-color-darken);
+        color: var(--primary-color-dark);
         background-color: transparent;
       }
 
       &:hover {
-        color: var(--primary-color-darken);
+        color: var(--primary-color-dark);
 
         .p-sortable-column-icon {
-          color: var(--primary-color-darken);
+          color: var(--primary-color-dark);
           background-color: #ebebeb;
         }
       }
@@ -330,10 +308,6 @@ td.sticky-column-cells {
           min-width: 40%;
           margin: -.4em 1em -.4em -.4rem;
           padding: .4rem;
-        }
-
-        &:last-child {
-          border-bottom: 1px solid var(--surface-d);
         }
       }
     }

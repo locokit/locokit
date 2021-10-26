@@ -1,7 +1,7 @@
 .p-togglebutton.p-button {
   background: #ffffff;
-  border: 1px solid #ced4da;
-  color: #495057;
+  border: var(--border);
+  color: var(--text-color);
   transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -13,7 +13,7 @@
 .p-togglebutton.p-button:not(.p-disabled):not(.p-highlight):hover {
   background: #e9ecef;
   border-color: #ced4da;
-  color: #495057;
+  color: var(--text-color);
 }
 
 .p-togglebutton.p-button:not(.p-disabled):not(.p-highlight):hover .p-button-icon-left,
@@ -33,8 +33,8 @@
 }
 
 .p-togglebutton.p-button.p-highlight:hover {
-  background: var(--primary-color-darken);
-  border-color: var(--primary-color-darken);
+  background: var(--primary-color-dark);
+  border-color: var(--primary-color-dark);
   color: #ffffff;
 }
 

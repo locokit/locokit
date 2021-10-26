@@ -1219,8 +1219,8 @@ export default {
 }
 
 .lck-database-toolbar {
-  border-bottom: 1px solid var(--toolbar-border-bottom-color);
-  background-color: var(--toolbar-background-color);
+  border-bottom: 1px solid var(--secondary-lighten);
+  background-color: var(--color-white);
 }
 
 .lck-database-panel .lck-toolbar {

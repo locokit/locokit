@@ -45,19 +45,19 @@
 .p-toast .p-toast-message .p-toast-icon-close:focus {
   outline: 0 none;
   outline-offset: 0;
-  box-shadow: 0 0 0 0.2rem var(--primary-color-lighten);
+  box-shadow: 0 0 0 0.2rem var(--primary-color-light);
 }
 
 .p-toast .p-toast-message.p-toast-message-info {
   background: #B3E5FC;
   border: solid var(--primary-color);
   border-width: 0 0 0 6px;
-  color: var(--primary-color-darken);
+  color: var(--primary-color-dark);
 }
 
 .p-toast .p-toast-message.p-toast-message-info .p-toast-message-icon,
 .p-toast .p-toast-message.p-toast-message-info .p-toast-icon-close {
-  color: var(--primary-color-darken);
+  color: var(--primary-color-dark);
 }
 
 .p-toast .p-toast-message.p-toast-message-success {

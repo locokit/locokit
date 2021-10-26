@@ -15,7 +15,7 @@ defaultStory.storyName = 'default'
 
 export const BadgeWithContent = () => ({
   components: { Badge },
-  template: '<Badge label="This is a badge" color="#ffffff" backgroundColor="var(--surface-a)" />',
+  template: '<Badge label="This is a badge" color="#ffffff" backgroundColor="var(--primary-color)" />',
   methods: { },
 })
 BadgeWithContent.storyName = 'Badge With Content'
@@ -24,7 +24,7 @@ export const MultipleBadgesWithContent = () => ({
   components: { Badge },
   template: `
     <div>
-      <Badge label="This is a badge" color="#ffffff" backgroundColor="var(--surface-a)" />
+      <Badge label="This is a badge" color="#ffffff" backgroundColor="var(--primary-color)" />
       <Badge label="This is a badge" color="#ffffff" backgroundColor="var(--surface-b)" />
       <Badge label="This is a badge" color="#ffffff" backgroundColor="var(--surface-d)" />    
     </div>

@@ -112,7 +112,7 @@ export default Vue.extend({
   left: 0;
   right: 0;
   z-index: 500;
-  background-color: var(--popeyebar-background-color);
+  background-color: rgba(255, 255, 255, 0.9);
   margin: 1rem 0;
   display: flex;
   justify-content: space-between;
@@ -152,7 +152,7 @@ export default Vue.extend({
 .page-nav-item > a > i {
   border-radius: 4px;
   margin-right: 0.5rem;
-  background-color: var(--popeyebar-icon-background);
+  background-color: unset;
 }
 .page-nav-item > a > i.danger {
 color: var(--color-error);
@@ -184,7 +184,7 @@ color: var(--color-error);
   bottom: 0;
   left: 0;
   right: 0;
-  border-bottom: 2px solid var(--primary-color-darken);
+  border-bottom: 2px solid var(--primary-color-dark);
   width: 100%;
 }
 

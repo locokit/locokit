@@ -23,7 +23,7 @@
 
     &-link {
       width: 100%;
-      color: var(--primary-color-very-lighten);
+      color: var(--primary-color-lighten);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -34,11 +34,11 @@
 
 
       &:hover {
-        background: var(--primary-color-darken);
+        background: var(--primary-color-dark);
       }
 
       &:focus {
-        background: var(--primary-color-darken);
+        background: var(--primary-color-dark);
         outline: none;
         box-shadow: none;
       }
@@ -60,7 +60,8 @@
           left: 0;
           border-radius: var(--border-radius);
           margin: var(--spacing-sm);
-          background: var(--sidebar-background-color-active);
+          background: var(--primary-color);
+          opacity: .15;
         }
 
         .bi {

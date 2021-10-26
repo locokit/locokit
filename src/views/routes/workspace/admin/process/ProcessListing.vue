@@ -363,12 +363,12 @@ export default Vue.extend({
 }
 
 ::v-deep .lck-process-listing-tab.p-tabview .p-tabview-nav li .p-tabview-nav-link:hover {
-  border-color: var(--primary-color-darken);
-  color: var(--primary-color-darken);
+  border-color: var(--primary-color-dark);
+  color: var(--primary-color-dark);
 }
 
 .p-button.p-button-info.p-button-text {
-  color: var(--primary-color-text);
+  color: var(--primary-color-dark);
 }
 
 .p-button.p-button-info.p-button-text:hover {
@@ -388,7 +388,7 @@ export default Vue.extend({
 }
 
 .lck-process-item:hover {
-  background-color: var(--primary-color-darken);
+  background-color: var(--primary-color-dark);
 }
 
 .o-ellipsis {
@@ -418,8 +418,8 @@ export default Vue.extend({
 }
 
 .p-tag {
-  border: 1px solid var(--surface-w);
-  color: var(--surface-w);
+  border: 1px solid var(--color-white);
+  color: var(--color-white);
   background: transparent;
 }
 

@@ -44,9 +44,9 @@ export const surfaces = () => ({
   template: `
   <div>
     surface-a
-    <p style="background-color: var(--surface-a); color: var(--primary-color-text); padding: 1rem;" />
+    <p style="background-color: var(--primary-color); color: var(--primary-color-text); padding: 1rem;" />
     surface-b
-    <p style="background-color: var(--surface-b); color: var(--primary-color-text); padding: 1rem;" />
+    <p style="background-color: var(--primary-color); color: var(--primary-color-text); padding: 1rem;" />
     surface-c
     <p style="background-color: var(--surface-c); color: var(--primary-color-text); padding: 1rem;" />
     surface-d

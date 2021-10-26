@@ -8,7 +8,7 @@
   background: #ffffff;
   width: 20px;
   height: 20px;
-  color: #495057;
+  color: var(--text-color);
   border-radius: 50%;
   transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
@@ -20,7 +20,7 @@
 .p-radiobutton .p-radiobutton-box:not(.p-disabled).p-focus {
   outline: 0 none;
   outline-offset: 0;
-  box-shadow: 0 0 0 0.2rem var(--primary-color-lighten);
+  box-shadow: 0 0 0 0.2rem var(--primary-color-light);
   border-color: var(--primary-color);
 }
 
@@ -37,8 +37,8 @@
 }
 
 .p-radiobutton .p-radiobutton-box.p-highlight:not(.p-disabled):hover {
-  border-color: var(--primary-color-darken);
-  background: var(--primary-color-darken);
+  border-color: var(--primary-color-dark);
+  background: var(--primary-color-dark);
   color: #ffffff;
 }
 

@@ -202,7 +202,7 @@ export default Vue.extend({
 
 .edit-block-line .p-button {
   height: 100%;
-  color: var(--primary-color-darken);
+  color: var(--primary-color-dark);
 }
 
 .edit-block-line .p-buttonset {

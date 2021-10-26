@@ -118,7 +118,7 @@ export default {
 <style scoped>
 .rule-container {
   align-items: center;
-  border: 1px solid #ced4da;
+  border: var(--border);
   display: flex;
   height: 2.5em;
   justify-content: space-between;

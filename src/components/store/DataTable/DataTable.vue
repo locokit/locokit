@@ -890,30 +890,30 @@ export default {
 }
 
 ::v-deep td .p-checkbox .p-checkbox-box {
-  border-color: var(--primary-color-lighten);
+  border-color: var(--primary-color-light);
 }
 
 ::v-deep td .p-checkbox .p-checkbox-box.p-highlight {
-  border-color: var(--primary-color-lighten);
-  background: var(--primary-color-lighten);
+  border-color: var(--primary-color-light);
+  background: var(--primary-color-light);
 }
 
 ::v-deep td .p-checkbox .p-checkbox-box .p-checkbox-icon {
-  color: var(--primary-color-darken) !important;
+  color: var(--primary-color-dark) !important;
   font-weight: var(--font-weight-bold);;
 }
 
 ::v-deep td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
-  border-color: var(--primary-color-darken);
-  background: var(--primary-color-darken);
+  border-color: var(--primary-color-dark);
+  background: var(--primary-color-dark);
 }
 
 ::v-deep td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover .p-checkbox-icon {
-  color: var(--primary-color-lighten) !important;
+  color: var(--primary-color-light) !important;
 }
 
 ::v-deep td .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-focus {
-  box-shadow: 0 0 0 0.2rem var(--primary-color-lighten);
+  box-shadow: 0 0 0 0.2rem var(--primary-color-light);
   border-color: var(--primary-color) !important;
 }
 
@@ -991,8 +991,8 @@ tr.p-datatable-emptymessage {
 }
 
 .p-datatable .p-datatable-tbody > tr.p-highlight-contextmenu {
-  background-color: var(--primary-color-lighten);
-  color: var(--text-color-secondary);
+  background-color: var(--primary-color-light);
+  color: var(--primary-color);
 }
 
 .p-datatable th:hover .p-sortable-column-icon {

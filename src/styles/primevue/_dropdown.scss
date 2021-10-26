@@ -1,8 +1,8 @@
 .p-dropdown {
   background: #ffffff;
-  border: 1px solid #ced4da;
+  border: var(--border);
   transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
 }
 
 .p-dropdown:not(.p-disabled):hover {
@@ -12,7 +12,7 @@
 .p-dropdown:not(.p-disabled).p-focus {
   outline: 0 none;
   outline-offset: 0;
-  box-shadow: 0 0 0 0.2rem var(--primary-color-lighten);
+  box-shadow: 0 0 0 0.2rem var(--primary-color-light);
   border-color: var(--primary-color);
 }
 
@@ -54,17 +54,17 @@
 
 .p-dropdown-panel {
   background: #ffffff;
-  color: #495057;
+  color: var(--text-color);
   border: 0 none;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
 .p-dropdown-panel .p-dropdown-header {
   padding: 0.5rem 1rem;
   border-bottom: 0 none;
-  color: #495057;
-  background: #f8f9fa;
+  color: var(--text-color);
+  background: var(--background-color);
   margin: 0;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
@@ -87,42 +87,42 @@
   margin: 0;
   padding: 0.5rem 1rem;
   border: 0 none;
-  color: #495057;
+  color: var(--text-color);
   background: transparent;
   transition: box-shadow 0.2s;
   border-radius: 0;
 }
 
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
-  color: #495057;
-  background: #E3F2FD;
+  color: var(--text-color);
+  background: var(--primary-color-lighten);
 }
 
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item:not(.p-highlight):not(.p-disabled):hover {
-  color: #495057;
+  color: var(--text-color);
   background: #e9ecef;
 }
 
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item-group {
   margin: 0;
   padding: 0.75rem 1rem;
-  color: #495057;
+  color: var(--text-color);
   background: #ffffff;
   font-weight: var(--font-weight-bold);
 }
 
 .p-dropdown-panel .p-dropdown-items .p-dropdown-empty-message {
   padding: 0.5rem 1rem;
-  color: #495057;
+  color: var(--text-color);
   background: transparent;
 }
 
 .p-input-filled .p-dropdown {
-  background: #f8f9fa;
+  background: var(--background-color);
 }
 
 .p-input-filled .p-dropdown:not(.p-disabled):hover {
-  background-color: #f8f9fa;
+  background-color: var(--background-color);
 }
 
 .p-input-filled .p-dropdown:not(.p-disabled).p-focus {

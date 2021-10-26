@@ -20,6 +20,7 @@ html {
 
 body {
   font-size: var(--font-size-md);
+  font-family: var(--font-family);
 }
 
 html,
@@ -126,11 +127,11 @@ a.no-decoration-link {
 }
 
 .lck-color-content {
-  color: var(--surface-lck-1);
+  color: var(--primary-color);
 }
 
 .lck-color-title {
-  color: var(--surface-lck-1);
+  color: var(--primary-color-dark);
 }
 
 .lck-color-primary {
@@ -158,7 +159,7 @@ a.no-decoration-link {
 
 .lck-elevation {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-color: var(--background-color-light);
+  background-color: var(--color-white);
 }
 
 /**

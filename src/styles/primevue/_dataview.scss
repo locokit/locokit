@@ -9,8 +9,8 @@
 }
 
 .p-dataview .p-dataview-header {
-  background: #f8f9fa;
-  color: #495057;
+  background: var(--background-color);
+  color: var(--text-color);
   border: 1px solid #e9ecef;
   border-width: 1px 0 1px 0;
   padding: 1rem 1rem;
@@ -19,7 +19,7 @@
 
 .p-dataview .p-dataview-content {
   background: #ffffff;
-  color: #495057;
+  color: var(--text-color);
   border: 0 none;
   padding: 0;
 }
@@ -30,8 +30,8 @@
 }
 
 .p-dataview .p-dataview-footer {
-  background: #f8f9fa;
-  color: #495057;
+  background: var(--background-color);
+  color: var(--text-color);
   border: 1px solid #e9ecef;
   border-width: 0 0 1px 0;
   padding: 1rem 1rem;
