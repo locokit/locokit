@@ -12,6 +12,7 @@ import { LckAclSet } from './aclset.model'
 export class Workspace extends BaseModel {
   text!: string
   documentation?: string
+  settings?: object
   chapters?: Chapter[]
   databases?: Database[]
   attachments?: LckAttachment[]
@@ -31,6 +32,14 @@ export class Workspace extends BaseModel {
       properties: {
         text: { type: 'string' },
         documentation: { type: 'string' },
+        settings: {
+          type: 'object',
+          properties: {
+            color: { type: 'string' },
+            backgroundColor: { type: 'string' },
+            icon: { type: 'string' },
+          },
+        },
       },
     }
   }
