@@ -9,7 +9,7 @@
     <template>
       <router-view
         :key="forceUpdateKey"
-        :chapters="Array.isArray(workspaceContent.chapters) ? workspaceContent.chapters : []"
+        :chapters="Array.isArray(workspaceUserGroups) ? workspaceUserGroups : []"
         :workspaceId="workspaceId"
         :userId="userId"
       />
@@ -30,6 +30,8 @@ import { authState } from '@/store/auth'
 import ConfirmDialog from 'primevue/confirmdialog'
 
 import Sidebar from '@/components/visualize/Sidebar/Sidebar.vue'
+import { authState } from '@/store/auth'
+import { LckChapter } from '@/services/lck-api/definitions'
 
 export default {
   name: 'Workspace',
@@ -47,25 +49,24 @@ export default {
   data () {
     return {
       forceUpdateKey: true,
-      workspaceContent: null,
+      workspaceUserGroups: [],
     }
   },
   computed: {
     sidebarItems () {
-      if (!this.workspaceContent?.chapters) return []
-      return this.workspaceContent.chapters.map(({ id, text, pages = [] }) => {
-        const subitems = pages.map(({ text, id, hidden }) => (
+      return this.workspaceUserGroups.map(({ id: groupId, name: groupName, chapter }) => {
+        const subitems = chapter.pages.map(({ text: pageText, id: pageId, hidden }) => (
           {
-            id,
-            label: text,
-            to: `${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${id}`,
+            id: pageId,
+            label: pageText,
+            to: `${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.VISUALIZATION}/${groupId}/page/${pageId}`,
             hidden,
           }
         ))
         return (
           {
-            id,
-            label: text,
+            id: groupId,
+            label: groupName,
             subitems,
           }
         )
@@ -79,18 +80,18 @@ export default {
     async goToFirstPage () {
       if (
         !this.$route.path.includes('page') &&
-        this.workspaceContent.chapters.length > 0 &&
-        this.workspaceContent.chapters[0].pages.length > 0
+        this.workspaceUserGroups.length > 0 &&
+        this.workspaceUserGroups[0].chapter.pages.length > 0
       ) {
-        const pageNotHidden = this.workspaceContent.chapters[0].pages.find(page => page.hidden !== true)
+        const pageNotHidden = this.workspaceUserGroups[0].chapter.pages.find(page => page.hidden !== true)
         if (pageNotHidden) {
-          await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${pageNotHidden.id}`)
+          await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.VISUALIZATION}/${this.workspaceUserGroups[0].id}/page/${pageNotHidden.id}`)
         }
       }
     },
   },
   async mounted () {
-    this.workspaceContent = await lckHelpers.retrieveWorkspaceWithChaptersAndPages(this.workspaceId)
+    this.workspaceUserGroups = await lckHelpers.retrieveWorkspaceUserGroupsWithChaptersAndPages(this.workspaceId, authState.data.user.id)
     await this.goToFirstPage()
   },
 }

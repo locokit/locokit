@@ -10,16 +10,13 @@ import Profile from '@/views/routes/user/Profile.vue'
 import WorkspaceAdmin from '@/views/routes/workspace/admin/WorkspaceAdmin.vue'
 import CMSConfig from '@/views/routes/workspace/admin/cms/CMSConfig.vue'
 import Workspace from '@/views/routes/workspace/visualization/Workspace.vue'
-import WorkspaceList
-  from '@/views/routes/workspace/visualization/WorkspaceList.vue'
+import WorkspaceList from '@/views/routes/workspace/visualization/WorkspaceList.vue'
 import Page from '@/views/routes/workspace/visualization/Page.vue'
 import DatabaseList from '@/views/routes/workspace/admin/database/DatabaseList.vue'
 import DatabaseTable from '@/views/routes/workspace/admin/database/DatabaseTable.vue'
-import DatabaseSchema
-  from '@/views/routes/workspace/admin/database/DatabaseSchema.vue'
-import ProcessListing
-  from '@/views/routes/workspace/admin/process/ProcessListing.vue'
 import AclSetListing from '@/views/routes/workspace/admin/acl/AclSetListing.vue'
+import DatabaseSchema from '@/views/routes/workspace/admin/database/DatabaseSchema.vue'
+import ProcessListing from '@/views/routes/workspace/admin/process/ProcessListing.vue'
 
 import Admin from '@/views/routes/admin/Admin.vue'
 import UserManagement from '@/views/routes/admin/UserManagement.vue'

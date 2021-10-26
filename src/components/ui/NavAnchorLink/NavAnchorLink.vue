@@ -8,9 +8,9 @@
     >
       <!-- Navbar with no Anchor Link -->
       <div v-if="editMode && containersToDisplayed.length === 0">
-        Empty nav bar for container. Empty, for the moment.
-        No container navigation defined.
-        Please configure it first if useful for your page.
+        {{ $t('pages.workspace.page.navigationSubject') }}
+        <br/>
+        {{ $t('pages.workspace.page.navigationExplain') }}
       </div>
       <!-- Navbar with Anchor Link -->
       <ul

@@ -20,6 +20,8 @@ import {
   LckTableRowDataComplex,
   LckPage,
   LCKTableRowMultiDataComplex,
+  LckAclSet,
+  LckChapter,
 } from './definitions'
 import { lckServices } from './services'
 import { lckClient } from './client'
@@ -398,6 +400,42 @@ export async function retrieveWorkspaceWithChaptersAndPages (workspaceId: string
 }
 
 /**
+ * Get all user's groups related to the workspace,
+ * with at least a chapter configured.
+ * Fetch also pages related to these chapters.
+ *
+ * @param workspaceId
+ * Id of the workspace
+ *
+ * @returns All user groups related to this workspace with a chapter configured
+ */
+export async function retrieveWorkspaceUserGroupsWithChaptersAndPages (workspaceId: string, userId: string) {
+  const aclsets = await lckServices.aclset.find({
+    query: {
+      $eager: '[groups, chapter.[pages]]',
+      $joinRelation: '[groups.[users], workspace]',
+      'workspace.id': workspaceId,
+      'groups:users.id': userId,
+    },
+  }) as Paginated<LckAclSet>
+  return aclsets.data.reduce((accumulator: {
+    id: string;
+    name: string;
+    chapter: LckChapter;
+  }[], currentAclSet: LckAclSet) => {
+    // eslint-disable-next-line no-unused-expressions
+    currentAclSet.groups?.forEach(function (currentGroup) {
+      accumulator.push({
+        id: currentGroup.id,
+        name: currentGroup.name,
+        chapter: currentAclSet.chapter as LckChapter,
+      })
+    })
+    return accumulator
+  }, [])
+}
+
+/**
  * Get workspace with all databases
  */
 export async function retrieveWorkspaceWithDatabases (workspaceId: string): Promise<LckWorkspace> {
@@ -604,6 +642,7 @@ export default {
   retrieveViewData,
   retrieveViewDefinition,
   retrievePageWithContainersAndBlocks,
+  retrieveWorkspaceUserGroupsWithChaptersAndPages,
   convertDateInRecords,
   formatRowData,
 }

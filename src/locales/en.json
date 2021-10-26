@@ -466,6 +466,7 @@
         "pageConfiguration": "Page configuration",
         "list": "Containers list",
         "noContainers": "No container found",
+        "navigationSubject": "This is the nav bar for container. It allows the user to navigate through the container's page.",
         "navigationExplain": "To configure the page navigation, you must edit each desired container."
       },
       "container": {
