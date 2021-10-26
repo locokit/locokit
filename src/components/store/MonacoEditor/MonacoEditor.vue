@@ -261,6 +261,28 @@ export default {
       this.editor = editor.create(
         this.$refs.monacoEditor as HTMLElement,
         fullOptions,
+        {
+          storageService: {
+            get () { return '' },
+            getBoolean (key: string) {
+              // Allow to expand the suggestions by default
+              return key === 'expandSuggestionDocs'
+            },
+            getNumber () { return 0 },
+            remove () {
+              //
+            },
+            store () {
+              //
+            },
+            onWillSaveState () {
+              //
+            },
+            onDidChangeStorage () {
+              //
+            },
+          },
+        },
       )
 
       // Add events
