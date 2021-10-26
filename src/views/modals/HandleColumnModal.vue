@@ -262,10 +262,6 @@ export default {
   data () {
     return {
       COLUMN_TYPE,
-      columnTypes: Object.keys(COLUMN_TYPE).filter((key) => isNaN(key)).map((key) => ({
-        id: COLUMN_TYPE[key],
-        name: key,
-      })),
       columnNameToHandle: null,
       columnDocumentation: null,
       columnValidation: {},
@@ -278,6 +274,12 @@ export default {
   computed: {
     isSelectColumnType () {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.SINGLE_SELECT || this.selectedColumnTypeIdToHandle === COLUMN_TYPE.MULTI_SELECT
+    },
+    columnTypes () {
+      return Object.keys(COLUMN_TYPE).filter((key) => isNaN(key)).map((key) => ({
+        id: COLUMN_TYPE[key],
+        name: this.$t(`pages.databaseSchema.columnType.${key}`),
+      }))
     },
     isRelationBetweenTablesType () {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.RELATION_BETWEEN_TABLES
