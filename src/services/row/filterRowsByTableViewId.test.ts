@@ -25,8 +25,10 @@ describe('filterRowsByTableViewId hook', () => {
   let columnTable1Geom: TableColumn
   let columnTable1Number: TableColumn
   let columnTable1RelationBetweenTables: TableColumn
-  let columnTable1LookedUpColumn: TableColumn
+  let columnTable1LookedUpColumnRef: TableColumn
+  let columnTable1LookedUpColumnUser: TableColumn
   let columnTable2Ref: TableColumn
+  let columnTable2User: TableColumn
   let user1: User
   let user2: User
   let user3: User
@@ -62,6 +64,11 @@ describe('filterRowsByTableViewId hook', () => {
     columnTable2Ref = await app.service('column').create({
       text: 'Ref',
       column_type_id: COLUMN_TYPE.STRING,
+      table_id: table2.id,
+    })
+    columnTable2User = await app.service('column').create({
+      text: 'User',
+      column_type_id: COLUMN_TYPE.USER,
       table_id: table2.id,
     })
     columnTable1Ref = await app.service('column').create({
@@ -112,8 +119,8 @@ describe('filterRowsByTableViewId hook', () => {
         tableId: table2.id,
       },
     })
-    columnTable1LookedUpColumn = await app.service('column').create({
-      text: 'Looked up column',
+    columnTable1LookedUpColumnRef = await app.service('column').create({
+      text: 'Looked up column ref',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
       table_id: table1.id,
       reference: false,
@@ -121,6 +128,17 @@ describe('filterRowsByTableViewId hook', () => {
       settings: {
         localField: columnTable1RelationBetweenTables.id,
         foreignField: columnTable2Ref.id,
+      },
+    })
+    columnTable1LookedUpColumnUser = await app.service('column').create({
+      text: 'Looked up column user',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      table_id: table1.id,
+      reference: false,
+      reference_position: 0,
+      settings: {
+        localField: columnTable1RelationBetweenTables.id,
+        foreignField: columnTable2User.id,
       },
     })
     columnTable1Group = await app.service('column').create({
@@ -162,6 +180,7 @@ describe('filterRowsByTableViewId hook', () => {
       text: 'table 2 ref 1',
       data: {
         [columnTable2Ref.id]: 'this is the first table 2 row',
+        [columnTable2User.id]: user1.id,
       },
     })
     table2Row2 = await app.service('row').create({
@@ -169,6 +188,7 @@ describe('filterRowsByTableViewId hook', () => {
       text: 'table 2 ref 2',
       data: {
         [columnTable2Ref.id]: 'this is the second table 2 row',
+        [columnTable2User.id]: user2.id,
       },
     })
     table1Row1 = await app.service('row').create({
@@ -482,6 +502,9 @@ describe('filterRowsByTableViewId hook', () => {
           query: {
             table_view_id: tableView.id,
             $lckGroupId: group1.id,
+            $sort: {
+              text: 1,
+            },
           },
         }) as Paginated<TableRow>
         // Check that we only retrieve the specified rows
@@ -524,6 +547,9 @@ describe('filterRowsByTableViewId hook', () => {
         const rows = await app.service('row').find({
           query: {
             table_view_id: tableView.id,
+            $sort: {
+              text: 1,
+            },
           },
           user: user2,
         }) as Paginated<TableRow>
@@ -570,7 +596,7 @@ describe('filterRowsByTableViewId hook', () => {
         // Clean database
         await app.service('view').remove(tableView.id)
       })
-      it('With looked up column', async () => {
+      it('With string looked up column', async () => {
         // Create the table view with default filter
         const tableView = await app.service('view').create({
           text: 'My view',
@@ -580,7 +606,7 @@ describe('filterRowsByTableViewId hook', () => {
             values: [
               {
                 action: 'match',
-                column: columnTable1LookedUpColumn.id,
+                column: columnTable1LookedUpColumnRef.id,
                 dbAction: '$ilike',
                 pattern: '%first%',
               },
@@ -590,7 +616,7 @@ describe('filterRowsByTableViewId hook', () => {
         // Add the column to the table view
         await app.service('table-view-has-table-column').create({
           table_view_id: tableView.id,
-          table_column_id: columnTable1LookedUpColumn.id,
+          table_column_id: columnTable1LookedUpColumnRef.id,
         })
         // Get rows from this table view
         const rows = await app.service('row').find({
@@ -602,6 +628,41 @@ describe('filterRowsByTableViewId hook', () => {
         expect.assertions(2)
         expect(rows.total).toBe(1)
         expect(rows.data[0].id).toBe(table1Row1.id)
+        // Clean database
+        await app.service('view').remove(tableView.id)
+      })
+      it('With user looked up column', async () => {
+        // Create the table view with default filter
+        const tableView = await app.service('view').create({
+          text: 'My view',
+          table_id: table1.id,
+          filter: {
+            operator: '$or',
+            values: [
+              {
+                action: 'isEqualTo',
+                column: columnTable1LookedUpColumnUser.id,
+                dbAction: '$eq',
+                pattern: user2.id,
+              },
+            ],
+          },
+        }) as TableView
+        // Add the column to the table view
+        await app.service('table-view-has-table-column').create({
+          table_view_id: tableView.id,
+          table_column_id: columnTable1LookedUpColumnUser.id,
+        })
+        // Get rows from this table view
+        const rows = await app.service('row').find({
+          query: {
+            table_view_id: tableView.id,
+          },
+        }) as Paginated<TableRow>
+        // Check that we only retrieve the specified rows
+        expect.assertions(2)
+        expect(rows.total).toBe(1)
+        expect(rows.data[0].id).toBe(table1Row2.id)
         // Clean database
         await app.service('view').remove(tableView.id)
       })
@@ -1033,8 +1094,10 @@ describe('filterRowsByTableViewId hook', () => {
     await app.service('column').remove(columnTable1RelationBetweenTables.id)
     await app.service('column').remove(columnTable1MultiUser.id)
     await app.service('column').remove(columnTable1Group.id)
-    await app.service('column').remove(columnTable1LookedUpColumn.id)
+    await app.service('column').remove(columnTable1LookedUpColumnRef.id)
+    await app.service('column').remove(columnTable1LookedUpColumnUser.id)
     await app.service('column').remove(columnTable2Ref.id)
+    await app.service('column').remove(columnTable2User.id)
     await app.service('table').remove(table1.id)
     await app.service('table').remove(table2.id)
     await app.service('database').remove(database.id)
