@@ -425,7 +425,12 @@
         "textPlaceholder": "Workspace's name",
         "textLabel": "Name",
         "docPlaceholder": "Add a description of your workspace, a documentation, ...",
-        "docLabel": "Documentation"
+        "docLabel": "Documentation",
+        "colorLabel": "Color",
+        "colorPlaceholder": "Select a color",
+        "iconLabel": "Icon",
+        "iconPlaceholder": "bi-cart",
+        "iconHelp": "Fill with icon id, list is available on "
       },
       "menu": {
         "databases": "Databases",

@@ -15,17 +15,19 @@ export class LckBaseModel {
   updatedAt?: string;
 }
 
+export interface LckWorkspaceSettings {
+  color?: string;
+  backgroundColor?: string;
+  icon?: string;
+}
+
 export class LckWorkspace extends LckBaseModel {
   text!: string;
   chapters?: LckChapter[];
   databases?: LckDatabase[];
   aclsets?: LckAclSet[];
   documentation?: string;
-  settings?: {
-    color: string;
-    backgroundColor: string;
-    icon: string;
-  }
+  settings?: LckWorkspaceSettings;
 }
 
 export class LckAttachment {

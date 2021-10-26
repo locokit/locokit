@@ -425,7 +425,12 @@
         "textPlaceholder": "Nom de l'espace de travail",
         "textLabel": "Nom",
         "docPlaceholder": "Ajoutez une description de votre espace de travail, une documentation...",
-        "docLabel": "Documentation"
+        "docLabel": "Documentation",
+        "colorLabel": "Couleur",
+        "colorPlaceholder": "Sélectionnez une couleur dans la liste",
+        "iconLabel": "Icon",
+        "iconPlaceholder": "bi-cart",
+        "iconHelp": "Renseignez l'identifiant de l'icon souhaitée, liste disponible sur "
       },
       "menu": {
         "databases": "Bases de données",

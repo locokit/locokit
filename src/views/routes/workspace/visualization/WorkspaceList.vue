@@ -70,20 +70,63 @@
 
         <form class="p-fluid">
           <div class="p-field">
+            <label for="new-workspace-text">{{$t('pages.workspace.form.textLabel')}}</label>
             <p-input-text
+              id="new-workspace-text"
               :placeholder="$t('pages.workspace.form.textPlaceholder')"
               v-model="newWorkspace.text"
             />
           </div>
 
           <div class="p-field">
-            <label>{{ $t('pages.workspace.form.docLabel') }}</label>
+            <label for="new-workspace-documentation">{{ $t('pages.workspace.form.docLabel') }}</label>
             <p-textarea
+              id="new-workspace-documentation"
               :placeholder="$t('pages.workspace.form.docPlaceholder')"
               class="p-mb-2"
               :autoResize="true"
               v-model="newWorkspace.documentation"
             />
+          </div>
+
+          <div class="p-field">
+            <label for="new-workspace-color">{{ $t('pages.workspace.form.colorLabel') }}</label>
+            <p-dropdown
+              id="new-workspace-color"
+              :options="colorScheme"
+              dataKey="backgroundColor"
+              appendTo="body"
+              :showClear="true"
+              :placeholder="$t('pages.workspace.form.colorPlaceholder')"
+              :value="newWorkspaceColorScheme"
+              @change="onColorSelect($event)"
+            >
+              <template #value="slotProps">
+                <lck-badge
+                  v-if="slotProps.value"
+                  :label="$t('pages.workspace.form.colorLabel') + ' ' + slotProps.value.backgroundColor"
+                  :color="slotProps.value.color"
+                  :backgroundColor="slotProps.value.backgroundColor"
+                />
+              </template>
+              <template #option="slotProps">
+                <lck-badge
+                  :label="$t('pages.workspace.form.colorLabel') + ' ' + slotProps.option.backgroundColor"
+                  :color="slotProps.option.color"
+                  :backgroundColor="slotProps.option.backgroundColor"
+                />
+              </template>
+            </p-dropdown>
+          </div>
+
+          <div class="p-field">
+            <label for="new-workspace-icon">{{ $t('pages.workspace.form.iconLabel') }}</label>
+            <p-input-text
+              id="new-workspace-icon"
+              :placeholder="$t('pages.workspace.form.iconPlaceholder')"
+              v-model="newWorkspace.settings.icon"
+            />
+            <small id="new-workspace-icon">{{ $t('pages.workspace.form.iconHelp') }} <a href="https://icons.getbootstrap.com/" target="_blank" ref="noopener">Bootstrap Icon</a>.</small>
           </div>
         </form>
 
@@ -110,11 +153,15 @@
 import Vue from 'vue'
 import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
 import { AuthState, authState } from '@/store/auth'
+import { ColorScheme, COLOR_SCHEME } from '@/services/lck-utils/color'
 
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
 import Skeleton from 'primevue/skeleton'
+import Dropdown from 'primevue/dropdown'
+
+import Badge from '@/components/ui/Badge/Badge.vue'
 
 import { lckServices } from '@/services/lck-api'
 import Dialog from 'primevue/dialog/Dialog'
@@ -131,8 +178,10 @@ export default {
   name: 'WorkspaceList',
   components: {
     'layout-with-header': Vue.extend(WithHeader),
+    'lck-badge': Vue.extend(Badge),
     'p-button': Vue.extend(Button),
     'p-dialog': Vue.extend(Dialog),
+    'p-dropdown': Vue.extend(Dropdown),
     'p-input-text': Vue.extend(InputText),
     'p-textarea': Vue.extend(Textarea),
     'p-skeleton': Vue.extend(Skeleton),
@@ -143,9 +192,18 @@ export default {
     ROUTES_PATH: typeof ROUTES_PATH;
     ROUTES_NAMES: typeof ROUTES_NAMES;
     authState: AuthState;
+    colorScheme: ColorScheme[];
     WORKSPACE_ROLE: typeof WORKSPACE_ROLE;
-    newWorkspace: {text: string; documentation: string};
-    workspaces: {id: string; text: string; color?: string; backgroundColor?: string; icon?: string; isManager: boolean}[];
+    newWorkspace: Partial<LckWorkspace>;
+    newWorkspaceColorScheme: ColorScheme | null;
+    workspaces: {
+      id: string;
+      text: string;
+      color?: string;
+      backgroundColor?: string;
+      icon?: string;
+      isManager: boolean;
+    }[];
     } {
     return {
       loading: false,
@@ -154,10 +212,13 @@ export default {
       ROUTES_NAMES,
       authState,
       WORKSPACE_ROLE,
+      colorScheme: COLOR_SCHEME,
       newWorkspace: {
         text: '',
         documentation: '',
+        settings: {},
       },
+      newWorkspaceColorScheme: null,
       workspaces: [],
     }
   },
@@ -168,6 +229,16 @@ export default {
         label: text,
         to: `${ROUTES_PATH.WORKSPACE}/${groupId}${ROUTES_PATH.DATABASE}/${id}${schema ? ROUTES_PATH.DATABASESCHEMA : ''}`,
       }))
+    },
+    onColorSelect (event: { value: ColorScheme | null}) {
+      this.newWorkspaceColorScheme = event.value
+      if (event.value) {
+        if (!this.newWorkspace.settings) {
+          this.newWorkspace.settings = {}
+        }
+        this.newWorkspace.settings.color = event.value.color
+        this.newWorkspace.settings.backgroundColor = event.value.backgroundColor
+      }
     },
     async createWorkspace () {
       try {
@@ -181,7 +252,9 @@ export default {
         this.newWorkspace = {
           text: '',
           documentation: '',
+          settings: {},
         }
+        this.newWorkspaceColorScheme = null
         this.fetchUserGroups()
       } catch (error: any) {
         this.$toast.add({

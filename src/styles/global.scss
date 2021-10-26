@@ -82,10 +82,12 @@ p {
   font-size: var(--font-size-md);
 }
 
+a {
+  color: var(--primary-color);
+}
+
 /* Default links */
 a.no-decoration-link {
-  color: var(--primary-color);
-
   &:hover {
     text-decoration: underline;
   }

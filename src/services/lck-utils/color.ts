@@ -1,4 +1,10 @@
-export const COLOR_SCHEME = [
+export interface ColorScheme {
+  name: string;
+  color: string;
+  backgroundColor: string;
+}
+
+export const COLOR_SCHEME: ColorScheme[] = [
   { name: '24', color: '#484848', backgroundColor: '#cdcdcd' },
   { name: '1', color: '#484848', backgroundColor: '#fffbc2' },
   { name: '2', color: '#484848', backgroundColor: '#ffedc3' },
