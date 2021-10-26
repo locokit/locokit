@@ -1,7 +1,7 @@
 {
   "name": "lck-api",
   "description": "Low-Code Kit (locokit) API",
-  "version": "0.5.4",
+  "version": "0.5.8",
   "homepage": "",
   "private": true,
   "main": "lib/index.js",
@@ -82,7 +82,7 @@
     "@locokit/lck-glossary": "^0.3.7",
     "@sentry/node": "^6.4.1",
     "@sentry/tracing": "^6.4.1",
-    "@types/sharp": "^0.28.1",
+    "@types/sharp": "^0.29.2",
     "abstract-blob-store": "^3.3.5",
     "axios": "^0.21.1",
     "compression": "^1.7.4",
@@ -109,7 +109,7 @@
     "pg": "^8.6.0",
     "s3-blob-store": "^4.1.1",
     "serve-favicon": "^2.5.0",
-    "sharp": "^0.28.2",
+    "sharp": "^0.29.2",
     "validator": "^13.6.0",
     "winston": "^3.3.3"
   },
