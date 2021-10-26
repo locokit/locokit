@@ -1,29 +1,28 @@
 <template>
-  <div
-    class="lck-layout-content"
-    v-if="workspaceContent"
-  >
-    <div class="lck-sidebar">
+  <layout-with-sidebar>
+    <template #sidebar>
       <lck-sidebar
         :items="sidebarItems"
         v-on="$listeners"
       />
-    </div>
-    <div class="lck-content">
+    </template>
+    <template>
       <router-view
         :key="forceUpdateKey"
         :chapters="Array.isArray(workspaceContent.chapters) ? workspaceContent.chapters : []"
         :workspaceId="workspaceId"
         :userId="userId"
       />
-    </div>
-    <p-confirm-dialog />
-  </div>
+
+      <p-confirm-dialog />
+    </template>
+  </layout-with-sidebar>
 </template>
 
 <script>
 import Vue from 'vue'
 
+import LayoutWithSidebar from '@/layouts/WithSidebar.vue'
 import { ROUTES_PATH } from '@/router/paths'
 import { lckHelpers } from '@/services/lck-api'
 import { authState } from '@/store/auth'
@@ -35,6 +34,7 @@ import Sidebar from '@/components/visualize/Sidebar/Sidebar.vue'
 export default {
   name: 'Workspace',
   components: {
+    'layout-with-sidebar': Vue.extend(LayoutWithSidebar),
     'lck-sidebar': Sidebar,
     'p-confirm-dialog': Vue.extend(ConfirmDialog),
   },

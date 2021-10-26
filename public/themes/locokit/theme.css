@@ -56,12 +56,12 @@
   --surface-lck-2: #ffffff;
 
   /* Sidebar */
-  --sidebar-background-color: #eee;
-  /* Sidebar width */
-  --sidebar-width: 18rem;
-  /* Sidebar text-color, sidebar active route background, used for paginator */
-  --sidebar-text-color: var(--primary-color);
-  /* Used */
+  --sidebar-width: 14rem;
+  --sidebar-background-color: var(--primary-color-very-lighten);
+  /* Sidebar link text-color */
+  --sidebar-text-color: var(--primary-color-darken);
+  /* Sidebar active/hover link color */
+  --sidebar-background-color-active: var(--primary-color-lighten);
   --sidebar-text-color-active: var(--primary-color-darken);
 
   /* Internal nav background color */

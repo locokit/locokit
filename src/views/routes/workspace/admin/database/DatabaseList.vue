@@ -1,32 +1,35 @@
 <template>
-  <div class="lck-layout-content">
-    <p-accordion
+  <layout-with-sidebar>
+    <template #sidebar>
+      <p-accordion
         :multiple="true"
         class="lck-bg-sidebar lck-sidebar"
         :activeIndex="[0]"
       >
-      <p-accordion-tab
-        v-for="item in menuItems"
-        :key="item.id"
-      >
-        <template #header>
-          <span>{{item.label}}</span>
-        </template>
-
-        <router-link
-          v-for="subitem in item.items"
-          :key="subitem.id"
-          :to="subitem.to"
-          class="lck-sidebar-link"
+        <p-accordion-tab
+          v-for="item in menuItems"
+          :key="item.id"
         >
-          <i class="bi lck-sidebar-link-icon" :class="subitem.icon" /> <span>{{subitem.label}}</span>
-        </router-link>
-      </p-accordion-tab>
-    </p-accordion>
-    <div class="h-full o-auto h-max-full">
+          <template #header>
+            <span>{{item.label}}</span>
+          </template>
+
+          <router-link
+            v-for="subitem in item.items"
+            :key="subitem.id"
+            :to="subitem.to"
+            class="lck-sidebar-link"
+          >
+            <i class="bi lck-sidebar-link-icon" :class="subitem.icon" /> <span>{{subitem.label}}</span>
+          </router-link>
+        </p-accordion-tab>
+      </p-accordion>
+    </template>
+
+    <template>
       <router-view />
-    </div>
-  </div>
+    </template>
+  </layout-with-sidebar>
 </template>
 
 <script>
@@ -36,10 +39,12 @@ import { LckWorkspace } from '@/services/lck-api/definitions'
 import Vue from 'vue'
 import Accordion from 'primevue/accordion'
 import AccordionTab from 'primevue/accordiontab'
+import LayoutWithSidebar from '@/layouts/WithSidebar.vue'
 
 export default {
   name: 'DatabaseList',
   components: {
+    'layout-with-sidebar': Vue.extend(LayoutWithSidebar),
     'p-accordion': Vue.extend(Accordion),
     'p-accordion-tab': Vue.extend(AccordionTab),
   },
