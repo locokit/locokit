@@ -23,6 +23,7 @@ export const ROUTES_PATH = {
   SETTINGS: '/settings',
   ACLSET: '/aclset',
   GROUP: '/group',
+  CMS: '/cms',
 
   /**
    * Admin paths

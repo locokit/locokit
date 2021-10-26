@@ -8,6 +8,7 @@ import Home from '@/views/routes/Home.vue'
 import Profile from '@/views/routes/user/Profile.vue'
 
 import WorkspaceAdmin from '@/views/routes/workspace/admin/WorkspaceAdmin.vue'
+import CMSConfig from '@/views/routes/workspace/admin/cms/CMSConfig.vue'
 import Workspace from '@/views/routes/workspace/visualization/Workspace.vue'
 import WorkspaceList
   from '@/views/routes/workspace/visualization/WorkspaceList.vue'
@@ -172,20 +173,20 @@ const routes: Array<RouteConfig> = [
         needAuthentication: true,
       },
     }, {
-      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.VISUALIZATION,
-      name: 'WorkspaceAdminVisualization',
-      component: Workspace,
+      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.CMS,
+      name: 'WorkspaceAdminCMS',
+      component: CMSConfig,
       props: true,
       meta: {
         needAuthentication: true,
       },
       children: [{
-        name: 'WorkspaceAdminPageDetail',
+        name: 'WorkspaceAdminCMSPageDetail',
         path: 'page/:pageId/detail/:pageDetailId',
         props: true,
         component: Page,
       }, {
-        name: 'WorkspaceAdminPage',
+        name: 'WorkspaceAdminCMSPage',
         path: 'page/:pageId',
         props: true,
         component: Page,
@@ -198,12 +199,12 @@ const routes: Array<RouteConfig> = [
     props: true,
     children: [{
       name: 'WorkspacePageDetail',
-      path: 'page/:pageId/detail/:pageDetailId',
+      path: ':groupId/page/:pageId/detail/:pageDetailId',
       props: true,
       component: Page,
     }, {
       name: 'WorkspacePage',
-      path: 'page/:pageId',
+      path: ':groupId/page/:pageId',
       props: true,
       component: Page,
     }],

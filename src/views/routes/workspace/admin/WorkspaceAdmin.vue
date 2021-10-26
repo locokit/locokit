@@ -54,7 +54,7 @@ export default {
         id: 1,
         label: this.$t('pages.workspace.menu.visualization'),
         icon: 'bi-layout-text-window-reverse',
-        to: `${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.ADMIN}${ROUTES_PATH.VISUALIZATION}`,
+        to: `${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.ADMIN}${ROUTES_PATH.CMS}`,
       }, {
         id: 3,
         label: this.$t('pages.workspace.menu.process'),
