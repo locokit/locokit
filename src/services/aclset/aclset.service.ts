@@ -37,7 +37,7 @@ export default function (app: Application): void {
       '$joinRelation',
       '$modifyEager',
     ],
-    allowedEager: '[groups.[users], groupsacl.[users], acltables, workspace.[databases.[tables]], chapter]',
+    allowedEager: '[groups.[users], groupsacl.[users], acltables, workspace.[databases.[tables]], chapter.[pages]]',
     paginate: app.get('paginate'),
   }
 
