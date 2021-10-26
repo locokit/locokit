@@ -387,9 +387,4 @@ export default {
   right: 1rem;
   z-index: 15;
 }
-
-.lck-page {
-  overflow: auto;
-  padding-bottom: 3rem;
-}
 </style>

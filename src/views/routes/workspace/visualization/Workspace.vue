@@ -1,27 +1,28 @@
 <template>
-  <layout-with-sidebar>
-    <template #sidebar>
-      <lck-sidebar
-        :items="sidebarItems"
-        v-on="$listeners"
-      />
+  <layout-with-header>
+    <template v-slot:default="slotProps">
+      <div class="lck-layout-content">
+        <lck-sidebar
+          :items="sidebarItems"
+          v-on="$listeners"
+          :sidebarActive="slotProps.sidebarActive"
+        />
+        <div class="lck-page">
+          <router-view
+            :key="forceUpdateKey"
+            :chapters="Array.isArray(workspaceUserGroups) ? workspaceUserGroups : []"
+            :workspaceId="workspaceId"
+          />
+          <p-confirm-dialog />
+        </div>
+      </div>
     </template>
-    <template>
-      <router-view
-        :key="forceUpdateKey"
-        :chapters="Array.isArray(workspaceUserGroups) ? workspaceUserGroups : []"
-        :workspaceId="workspaceId"
-        :userId="userId"
-      />
-
-      <p-confirm-dialog />
-    </template>
-  </layout-with-sidebar>
+  </layout-with-header>
 </template>
 <script>
 import Vue from 'vue'
 
-import LayoutWithSidebar from '@/layouts/WithSidebar.vue'
+import LayoutWithHeader from '@/layouts/WithHeader.vue'
 import { ROUTES_PATH } from '@/router/paths'
 import { lckHelpers } from '@/services/lck-api'
 import { authState } from '@/store/auth'
@@ -29,13 +30,11 @@ import { authState } from '@/store/auth'
 import ConfirmDialog from 'primevue/confirmdialog'
 
 import Sidebar from '@/components/visualize/Sidebar/Sidebar.vue'
-import { authState } from '@/store/auth'
-import { LckChapter } from '@/services/lck-api/definitions'
 
 export default {
   name: 'Workspace',
   components: {
-    'layout-with-sidebar': Vue.extend(LayoutWithSidebar),
+    'layout-with-header': Vue.extend(LayoutWithHeader),
     'lck-sidebar': Sidebar,
     'p-confirm-dialog': Vue.extend(ConfirmDialog),
   },

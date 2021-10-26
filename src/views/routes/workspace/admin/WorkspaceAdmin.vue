@@ -1,7 +1,7 @@
 <template>
   <layout-with-header>
     <template v-slot:default="slotProps">
-      <div class="lck-layout">
+      <div class="lck-layout lck-layout--with-nav">
         <nav class="lck-nav" :class="{'lck-nav--active': slotProps.sidebarActive}">
           <ul class="lck-nav-list">
             <li v-for="item in menuItems" :key="item.id" :aria-label="item.label" class="lck-nav-item">

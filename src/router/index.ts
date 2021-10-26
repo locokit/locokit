@@ -89,6 +89,7 @@ const routes: Array<RouteConfig> = [
     component: WorkspaceList,
     meta: {
       needAuthentication: true,
+      hasBurgerMenu: false,
     },
   },
   {
@@ -99,6 +100,7 @@ const routes: Array<RouteConfig> = [
     // component: Workspace,
     meta: {
       needAuthentication: true,
+      hasBurgerMenu: true,
     },
   }, {
     name: 'Admin',
@@ -108,6 +110,7 @@ const routes: Array<RouteConfig> = [
     props: true,
     meta: {
       needAuthentication: true,
+      hasBurgerMenu: true,
     },
     children: [{
       name: 'WorkspaceDatabase',
@@ -116,6 +119,7 @@ const routes: Array<RouteConfig> = [
       component: DatabaseList,
       meta: {
         needAuthentication: true,
+        hasBurgerMenu: true,
       },
       children: [
         {
@@ -125,6 +129,7 @@ const routes: Array<RouteConfig> = [
           props: true,
           meta: {
             needAuthentication: true,
+            hasBurgerMenu: true,
           },
         },
         {
@@ -134,6 +139,7 @@ const routes: Array<RouteConfig> = [
           props: true,
           meta: {
             needAuthentication: true,
+            hasBurgerMenu: true,
           },
         },
       ],
@@ -144,6 +150,7 @@ const routes: Array<RouteConfig> = [
       props: true,
       meta: {
         needAuthentication: true,
+        hasBurgerMenu: true,
       },
     }, {
       path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.ACLSET,
@@ -152,6 +159,7 @@ const routes: Array<RouteConfig> = [
       props: true,
       meta: {
         needAuthentication: true,
+        hasBurgerMenu: true,
       },
     }, {
       path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP,
@@ -160,6 +168,7 @@ const routes: Array<RouteConfig> = [
       props: true,
       meta: {
         needAuthentication: true,
+        hasBurgerMenu: true,
       },
     }, {
       path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.SETTINGS,
@@ -168,6 +177,7 @@ const routes: Array<RouteConfig> = [
       props: true,
       meta: {
         needAuthentication: true,
+        hasBurgerMenu: true,
       },
     }, {
       path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.CMS,
@@ -176,6 +186,7 @@ const routes: Array<RouteConfig> = [
       props: true,
       meta: {
         needAuthentication: true,
+        hasBurgerMenu: true,
       },
       children: [{
         name: 'WorkspaceAdminCMSPageDetail',
@@ -207,6 +218,7 @@ const routes: Array<RouteConfig> = [
     }],
     meta: {
       needAuthentication: true,
+      hasBurgerMenu: true,
     },
   },
   {

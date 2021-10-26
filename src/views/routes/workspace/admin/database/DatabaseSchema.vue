@@ -255,8 +255,6 @@ export default {
 .container {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - var(--header-height));
-  width: calc(100vw - var(--nav-width) - var(--sidebar-width))
 }
 
 #svg-container {

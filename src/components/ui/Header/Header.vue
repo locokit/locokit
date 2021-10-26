@@ -3,6 +3,7 @@
     class="lck-header p-px-2 p-d-flex p-jc-between"
   >
     <a
+      v-if="hasBurgerMenu"
       class="menu-button p-my-auto"
       @click="onToggle"
     >
@@ -69,6 +70,11 @@ export default {
       required: false,
       default: false,
     },
+    hasBurgerMenu: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data () {
     return {
@@ -125,16 +131,9 @@ export default {
 </script>
 
 <style scoped>
-.lck-header {
-  height: var(--header-height) !important;
-  border-bottom: 1px solid var(--header-border-bottom-color);
-  background-color: var(--header-background-color);
-  z-index: 1000;
-}
-
 .menu-button {
   line-height: var(--header-height);
-  display: none;
+  display: block;
   width: var(--header-height);
   height: var(--header-height);
   cursor: pointer;
@@ -152,9 +151,9 @@ export default {
   line-height: inherit;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (min-width: 900px) {
   .menu-button {
-    display: block;
+    display: none;
   }
 }
 </style>

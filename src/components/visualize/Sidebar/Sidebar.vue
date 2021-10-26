@@ -2,6 +2,7 @@
   <p-accordion
     :multiple="true"
     class="lck-sidebar"
+    :class="{'lck-sidebar--active': sidebarActive}"
     :activeIndex="[0]"
   >
     <p-accordion-tab
@@ -117,6 +118,10 @@ export default {
     createSubItemLabel: {
       type: String,
       default () { return this.$t('pages.workspace.createElement') },
+    },
+    sidebarActive: {
+      type: Boolean,
+      default: true,
     },
   },
   components: {
