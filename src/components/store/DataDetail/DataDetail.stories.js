@@ -821,7 +821,7 @@ const rowLookedUpColumn = {
     },
     'e125323c-1151-447f-be0f-6d2728117b38': {
       reference: ['u015323c-1151-447f-be0f-6d2728117b38', 'u115323c-1151-447f-be0f-6d2728117b38'],
-      value: ['User 1', 'User 2'],
+      value: 'User 1, User 2',
     },
     'e135323c-1151-447f-be0f-6d2728117b38': {
       reference: 'a015323c-1151-447f-be0f-6d2728117b38',
