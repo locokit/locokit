@@ -70,7 +70,7 @@
   --text-color: #495057;
 
   /* Sidebar */
-  --sidebar-width: 14rem;
+  --sidebar-width: 18rem;
   --sidebar-background-color: var(--primary-color-lighten);
   /* Sidebar link text-color */
   --sidebar-text-color: var(--primary-color-dark);
