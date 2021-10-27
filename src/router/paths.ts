@@ -52,10 +52,16 @@ export const ROUTES_NAMES = {
   VISUALIZATION: 'WorkspaceVisualization',
   PAGE: 'Page',
   PAGEDETAIL: 'PageDetail',
-  DATABASETABLE: 'DatabaseTable',
-  DATABASESCHEMA: 'DatabaseSchema',
-  PROCESS: 'ProcessListing',
-  ACL: 'WorkspaceACL',
+  WORKSPACE_ADMIN: {
+    DATABASE: 'WorkspaceDatabase',
+    DATABASETABLE: 'WorkspaceDatabaseTable',
+    DATABASESCHEMA: 'WorkspaceDatabaseSchema',
+    PROCESS: 'WorkspaceProcess',
+    ACL: 'WorkspaceACL',
+    CMS: 'WorkspaceCMS',
+    SETTINGS: 'WorkspaceSettings',
+    GROUPS: 'WorkspaceGroups',
+  },
 
   /**
    * Admin paths

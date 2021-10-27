@@ -4,7 +4,13 @@
       <div class="lck-layout lck-layout--with-nav">
         <nav class="lck-nav" :class="{'lck-nav--active': slotProps.sidebarActive}">
           <ul class="lck-nav-list">
-            <li v-for="item in menuItems" :key="item.id" :aria-label="item.label" class="lck-nav-item">
+            <li
+              v-for="item in menuItems"
+              :key="item.label"
+              :aria-label="item.label"
+              :title="item.label"
+              class="lck-nav-item"
+            >
               <router-link :to="item.to" class="lck-nav-item-link">
                 <i class="bi" :class="item.icon" />
               </router-link>
@@ -18,7 +24,7 @@
 </template>
 
 <script>
-import { ROUTES_PATH } from '@/router/paths'
+import { ROUTES_NAMES, ROUTES_PATH } from '@/router/paths'
 import { LckWorkspace } from '@/services/lck-api/definitions'
 import { lckServices } from '@/services/lck-api'
 import LayoutWithHeader from '@/layouts/WithHeader.vue'
@@ -56,20 +62,59 @@ export default {
   computed: {
     menuItems () {
       return [{
-        id: 0,
         label: this.$t('pages.workspace.menu.databases'),
         icon: 'bi-server',
-        to: `${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.ADMIN}${ROUTES_PATH.DATABASE}`,
+        to: {
+          name: ROUTES_NAMES.WORKSPACE_ADMIN.DATABASE,
+          params: {
+            workspaceId: this.workspaceId,
+          },
+        },
       }, {
-        id: 1,
-        label: this.$t('pages.workspace.menu.visualization'),
+        label: this.$t('pages.workspace.menu.cms'),
         icon: 'bi-layout-text-window-reverse',
-        to: `${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.ADMIN}${ROUTES_PATH.CMS}`,
+        to: {
+          name: ROUTES_NAMES.WORKSPACE_ADMIN.CMS,
+          params: {
+            workspaceId: this.workspaceId,
+          },
+        },
       }, {
-        id: 3,
         label: this.$t('pages.workspace.menu.process'),
-        icon: 'bi-ui-checks',
-        to: `${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.ADMIN}${ROUTES_PATH.PROCESS}`,
+        icon: 'bi-lightning',
+        to: {
+          name: ROUTES_NAMES.WORKSPACE_ADMIN.PROCESS,
+          params: {
+            workspaceId: this.workspaceId,
+          },
+        },
+      }, {
+        label: this.$t('pages.workspace.menu.acl'),
+        icon: 'bi-shield-lock',
+        to: {
+          name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL,
+          params: {
+            workspaceId: this.workspaceId,
+          },
+        },
+      }, {
+        label: this.$t('pages.workspace.menu.groups'),
+        icon: 'bi-people',
+        to: {
+          name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUPS,
+          params: {
+            workspaceId: this.workspaceId,
+          },
+        },
+      }, {
+        label: this.$t('pages.workspace.menu.settings'),
+        icon: 'bi-gear',
+        to: {
+          name: ROUTES_NAMES.WORKSPACE_ADMIN.SETTINGS,
+          params: {
+            workspaceId: this.workspaceId,
+          },
+        },
       }]
     },
   },

@@ -123,7 +123,7 @@ const routes: Array<RouteConfig> = [
       },
       children: [
         {
-          name: ROUTES_NAMES.DATABASETABLE,
+          name: ROUTES_NAMES.WORKSPACE_ADMIN.DATABASETABLE,
           path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASETABLE + '/:tableId?',
           component: DatabaseTable,
           props: true,
@@ -133,7 +133,7 @@ const routes: Array<RouteConfig> = [
           },
         },
         {
-          name: ROUTES_NAMES.DATABASESCHEMA,
+          name: ROUTES_NAMES.WORKSPACE_ADMIN.DATABASESCHEMA,
           path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASESCHEMA,
           component: DatabaseSchema,
           props: true,
@@ -145,7 +145,7 @@ const routes: Array<RouteConfig> = [
       ],
     }, {
       path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.PROCESS,
-      name: 'WorkspaceProcess',
+      name: ROUTES_NAMES.WORKSPACE_ADMIN.PROCESS,
       component: ProcessListing,
       props: true,
       meta: {
@@ -154,7 +154,7 @@ const routes: Array<RouteConfig> = [
       },
     }, {
       path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.ACLSET,
-      name: ROUTES_NAMES.ACL,
+      name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL,
       component: AclSetListing,
       props: true,
       meta: {
@@ -163,7 +163,7 @@ const routes: Array<RouteConfig> = [
       },
     }, {
       path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP,
-      name: 'WorkspaceUserGroups',
+      name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUPS,
       component: ProcessListing,
       props: true,
       meta: {
@@ -172,7 +172,7 @@ const routes: Array<RouteConfig> = [
       },
     }, {
       path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.SETTINGS,
-      name: 'WorkspaceSettings',
+      name: ROUTES_NAMES.WORKSPACE_ADMIN.SETTINGS,
       component: ProcessListing,
       props: true,
       meta: {
@@ -181,7 +181,7 @@ const routes: Array<RouteConfig> = [
       },
     }, {
       path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.CMS,
-      name: 'WorkspaceAdminCMS',
+      name: ROUTES_NAMES.WORKSPACE_ADMIN.CMS,
       component: CMSConfig,
       props: true,
       meta: {
@@ -300,7 +300,6 @@ router.beforeEach(function (to, from, next) {
   if (!checkPathAvailable(needAuthentication, needGuest, isAuthenticated)) {
     next({ path: isAuthenticated ? ROUTES_PATH.WORKSPACE : ROUTES_PATH.HOME })
   } else {
-    console.log('next', to)
     next()
   }
 })

@@ -435,9 +435,13 @@
       "menu": {
         "databases": "Bases de données",
         "tables": "Tables",
-        "schema": "Schema",
+        "schema": "Schéma",
         "visualization": "Visualization",
-        "process": "Processus"
+        "process": "Processus",
+        "cms": "CMS",
+        "acl": "Permissions",
+        "groups": "Groupes d'utilisateurs",
+        "settings": "Paramètres"
       },
       "title": "Espaces de travail",
       "noWorkspace": "Aucun espace de travail à afficher",

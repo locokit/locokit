@@ -437,7 +437,11 @@
         "tables": "Tables",
         "schema": "Schema",
         "visualization": "Visualization",
-        "process": "Processes"
+        "process": "Processes",
+        "cms": "CMS, Content Management System",
+        "acl": "ACL, Access Control List",
+        "groups": "User groups",
+        "settings": "Settings"
       },
       "title": "Workspaces",
       "noWorkspace": "No workspace to display",
