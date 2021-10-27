@@ -13,7 +13,7 @@ import {
 import { ACTIONS } from '@/services/lck-utils/filter'
 import { lckServices, lckHelpers } from '@/services/lck-api'
 
-import Database from './Database.vue'
+import DatabaseList from './DatabaseList.vue'
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 import DataTable from '@/components/store/DataTable/DataTable.vue'
 import ColumnForm from '@/components/store/ColumnForm/ColumnForm.vue'
@@ -263,7 +263,7 @@ const mockRoutes = [
   {
     path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.DATABASE + '/:databaseId' + '/table/:tableId?',
     name: 'WorkspaceDatabase',
-    component: Database,
+    component: DatabaseList,
     props: true,
   },
 ]
@@ -298,7 +298,7 @@ describe('Database', () => {
     let columnFormWrapper
 
     beforeEach(async () => {
-      wrapper = await shallowMount(Database, globalComponentParams())
+      wrapper = await shallowMount(DatabaseList, globalComponentParams())
       await Vue.nextTick()
       lckDatatableWrapper = wrapper.findComponent(DataTable)
     })
@@ -396,7 +396,7 @@ describe('Database', () => {
     describe('Navigation', () => {
       it('By default, display the first table if no table id is specified in the props', async () => {
         expect.assertions(2)
-        const wrapper = await shallowMount(Database, globalComponentParams())
+        const wrapper = await shallowMount(DatabaseList, globalComponentParams())
         await Vue.nextTick()
         // Check the data is related to the first table
         expect(wrapper.vm.currentTableId).toBe(mockTables[0].id)
@@ -413,7 +413,7 @@ describe('Database', () => {
 
       it('Display the table whose id is in the props', async () => {
         expect.assertions(2)
-        const wrapper = await shallowMount(Database, globalComponentParams('D1', 'W1', 'G1', mockTables[1].id))
+        const wrapper = await shallowMount(DatabaseList, globalComponentParams('D1', 'W1', 'G1', mockTables[1].id))
         await Vue.nextTick()
         // Check the data is related to the specified table
         expect(wrapper.vm.currentTableId).toBe(mockTables[1].id)
@@ -516,7 +516,7 @@ describe('Database', () => {
       it('If some filters are specified on loading', async () => {
         retrieveTableRowsWithSkipAndLimit.mockClear()
         // Load the component
-        wrapper = await shallowMount(Database, {
+        wrapper = await shallowMount(DatabaseList, {
           ...globalComponentParams(),
         })
         await Vue.nextTick()
@@ -533,7 +533,7 @@ describe('Database', () => {
       it('If some filters are specified in the current view', async () => {
         retrieveTableRowsWithSkipAndLimit.mockClear()
         // Load the component
-        wrapper = await shallowMount(Database, {
+        wrapper = await shallowMount(DatabaseList, {
           ...globalComponentParams(),
         })
         await Vue.nextTick()
@@ -553,7 +553,7 @@ describe('Database', () => {
     it('Get all rows from the API if the previous selected table view has filter and the current one has not got any one', async () => {
       retrieveTableRowsWithSkipAndLimit.mockClear()
       // Load the component
-      wrapper = await shallowMount(Database, {
+      wrapper = await shallowMount(DatabaseList, {
         ...globalComponentParams(),
       })
       await Vue.nextTick()
@@ -573,7 +573,7 @@ describe('Database', () => {
 
     it('Do not get rows from the API if the current table view has not got any filter and we do not have it before', async () => {
       // Load the component
-      wrapper = await shallowMount(Database, {
+      wrapper = await shallowMount(DatabaseList, {
         ...globalComponentParams(),
       })
       await Vue.nextTick()
@@ -595,7 +595,7 @@ describe('Database', () => {
     describe('Save the filters', () => {
       let spyOnToast
       beforeAll(async () => {
-        wrapper = await shallowMount(Database, {
+        wrapper = await shallowMount(DatabaseList, {
           ...globalComponentParams(),
         })
         await Vue.nextTick()
@@ -679,7 +679,7 @@ describe('Database', () => {
   describe('Manage secondary sources', () => {
     let wrapper
     beforeEach(async () => {
-      wrapper = await shallowMount(Database, {
+      wrapper = await shallowMount(DatabaseList, {
         ...globalComponentParams(),
         data: () => ({
           displayNewDialog: true,
@@ -774,7 +774,7 @@ describe('Database', () => {
     let wrapper
 
     beforeAll(async () => {
-      wrapper = await shallowMount(Database, globalComponentParams())
+      wrapper = await shallowMount(DatabaseList, globalComponentParams())
       await Vue.nextTick()
       lckServices.tableViewColumn.patch.mockClear()
       lckServices.tableViewColumn.create.mockClear()
@@ -808,7 +808,7 @@ describe('Database', () => {
   describe('Row duplication', () => {
     beforeAll(async () => {
       // Mount the wrapper
-      const wrapper = await mount(Database, globalComponentParams())
+      const wrapper = await mount(DatabaseList, globalComponentParams())
       jest.useFakeTimers()
       await flushAll()
       const lckDatatableWrapper = wrapper.findComponent(DataTable)
@@ -950,7 +950,7 @@ describe('Database', () => {
   describe('Row creation from the data detail form', () => {
     beforeAll(async () => {
       // Mount the wrapper
-      const wrapper = await mount(Database, globalComponentParams())
+      const wrapper = await mount(DatabaseList, globalComponentParams())
       jest.useFakeTimers()
       await flushAll()
 
@@ -1206,7 +1206,7 @@ describe('Database', () => {
     let lckDataDetailWrapper
 
     beforeAll(async () => {
-      const wrapper = await mount(Database, globalComponentParams())
+      const wrapper = await mount(DatabaseList, globalComponentParams())
       jest.useFakeTimers()
       await flushAll()
 
@@ -1692,7 +1692,7 @@ describe('Database', () => {
     }
 
     beforeAll(async () => {
-      const wrapper = await mount(Database, globalComponentParams())
+      const wrapper = await mount(DatabaseList, globalComponentParams())
       jest.useFakeTimers()
       await flushAll()
 
