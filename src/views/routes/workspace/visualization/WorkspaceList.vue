@@ -254,6 +254,7 @@ export default {
           documentation: '',
           settings: {},
         }
+        this.dialogVisible = false
         this.newWorkspaceColorScheme = null
         this.fetchUserGroups()
       } catch (error: any) {
