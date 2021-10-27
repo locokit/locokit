@@ -57,13 +57,13 @@
           tag="div"
           class="p-field p-mb-2"
           :name="$t('components.datatable.column.displayed')"
-          rules="required"
+          rules=""
           v-slot="{
             errors,
             classes
           }"
         >
-          <label for="columnDisplayedField" class="label-field-required">{{ $t('components.datatable.column.displayed') }}</label>
+          <label for="columnDisplayedField">{{ $t('components.datatable.column.displayed') }}</label>
           <p-input-switch
             id="columnDisplayedField"
             v-model="columnCopy.displayed"
@@ -75,13 +75,13 @@
           tag="div"
           class="p-field p-mb-2"
           :name="$t('components.datatable.column.editable')"
-          rules="required"
+          rules=""
           v-slot="{
             errors,
             classes
           }"
         >
-          <label for="columnEditableField" class="label-field-required">{{ $t('components.datatable.column.editable') }}</label>
+          <label for="columnEditableField">{{ $t('components.datatable.column.editable') }}</label>
           <p-input-switch
             id="columnEditableField"
             v-model="columnCopy.editable"
@@ -93,13 +93,13 @@
           tag="div"
           class="p-field p-mb-2"
           :name="$t('components.datatable.column.transmitted')"
-          rules="required"
+          rules=""
           v-slot="{
             errors,
             classes
           }"
         >
-          <label for="columnTransmittedField" class="label-field-required">{{ $t('components.datatable.column.transmitted') }}</label>
+          <label for="columnTransmittedField">{{ $t('components.datatable.column.transmitted') }}</label>
           <p-input-switch
             id="columnTransmittedField"
             v-model="columnCopy.transmitted"
