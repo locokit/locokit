@@ -1,19 +1,27 @@
 <template>
-  <div class="lck-layout">
-    <lck-sidebar :items="sidebarItems" v-on="$listeners" />
-    <div class="h-full o-auto h-max-full">
-      <router-view />
-    </div>
-  </div>
+  <layout-with-header>
+    <template v-slot:default="slotProps">
+      <div class="lck-layout-content">
+        <lck-sidebar :sidebarActive="slotProps.sidebarActive" :items="sidebarItems" v-on="$listeners" />
+        <div class="lck-page">
+          <router-view />
+        </div>
+      </div>
+    </template>
+  </layout-with-header>
 </template>
 
 <script>
+import Vue from 'vue'
+
 import Sidebar from '@/components/visualize/Sidebar/Sidebar'
 import { ROUTES_PATH } from '@/router/paths'
+import LayoutWithHeader from '@/layouts/WithHeader.vue'
 
 export default {
   name: 'Admin',
   components: {
+    'layout-with-header': Vue.extend(LayoutWithHeader),
     'lck-sidebar': Sidebar,
   },
   computed: {
