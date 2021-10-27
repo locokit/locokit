@@ -631,7 +631,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
           <div
             class="p-card-content"
           >
-            <span>
+            <div>
               <form
                 class="p-fluid"
               >
@@ -797,7 +797,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                   </button>
                 </div>
               </form>
-            </span>
+            </div>
           </div>
            
           <!---->

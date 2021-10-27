@@ -304,8 +304,6 @@ export function getColumnDisplayValue (
           COLUMN_TYPE.MULTI_SELECT,
         ].includes(originalColumn.column_type_id)) {
           return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex).value, onlyBaseValue, i18nOptions)
-        } else if (originalColumn.column_type_id === COLUMN_TYPE.MULTI_USER) {
-          return getColumnDisplayValue(originalColumn, (data as LckTableRowDataComplex), onlyBaseValue, i18nOptions)
         } else {
           return (data as LckTableRowDataComplex).value as string
         }
