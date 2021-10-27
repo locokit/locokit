@@ -1,75 +1,46 @@
 <template>
-  <layout-with-toolbar
-    class="lck-process-listing p-d-flex p-flex-column o-auto"
-  >
-    <template #toolbar>
-      <span class="p-pl-1">
-        <span class="pi pi-th-large"/>
-        {{ $t('pages.process.titleButton') }}
-      </span>
-
-      <div class="p-d-flex p-flex-wrap">
-        <p-button
-          :label="$t('form.add')"
-          icon="bi bi-plus-circle"
-          class="p-button-text p-button-primary"
-          @click="onClickCreateProcess"
+  <div class="lck-layout-content">
+    <div
+      class="lck-bg-sidebar lck-sidebar"
+      :class="{'lck-sidebar--active': sidebarActive}"
+    >
+      <h2 class="p-pl-3 lck-color-title">
+        {{ $t('pages.process.title') }}
+      </h2>
+      <router-link
+        v-for="process in processResult"
+        class="lck-sidebar-link"
+        :key="process.id"
+        :to="{
+          name: routeNameProcessDetail,
+          params: {
+            ...$route.params,
+            processId: process.id
+          }
+        }"
+      >
+        <i class="bi lck-sidebar-link-icon bi-lightning" />
+        <span>{{process.text}}</span>
+        <span
+          class="status-mark"
+          :class="process.enabled ? 'status-mark-enabled' : ''"
         />
-      </div>
-    </template>
+      </router-link>
 
-    <div class="lck-process-listing p-m-1" v-show="!displayDetailProcess">
-      <div class="process-listing" v-if="processResult.length > 0">
-        <div
-          class="lck-process-item p-d-flex p-jc-between p-ai-center p-m-1 p-p-1"
-          v-for="process in processResult"
-          :key="process.id"
-          @click="onClickProcessItem(process)"
-        >
-          <div
-            class="o-hidden o-ellipsis"
-          >
-            <p class="p-mt-0 p-mb-1">
-              <span class="process-text">{{ process.text }}</span>
-              <span
-                v-if="process.runs && process.runs.length > 0"
-              >
-                  ({{ process.runs.length }})
-                </span>
-            </p>
-            <span
-              class="p-tag"
-            >
-                {{ $t('pages.process.eventTrigger.' + process.trigger) }}
-              </span>
-            <div
-              class="status-mark"
-              :class="process.enabled ? 'status-mark-enabled' : ''"
-            />
-          </div>
-          <div class="p-ml-auto">
-            <p-button
-              class="p-button-sm p-button-text p-button-rounded p-button-info"
-              icon="pi pi-chevron-right"
-              @click="$emit('update', process)"
-            />
-          </div>
-        </div>
-      </div>
-      <p v-else class="p-p-1">
+      <div v-if="processResult.length === 0 && !loading" class="p-p-3">
         {{ $t('pages.process.noProcess') }}
-      </p>
-    </div>
-    <div class="lck-process-detail p-m-2" v-if="displayDetailProcess">
-
+      </div>
       <p-button
-        :label="$t('pages.process.allProcessesHeader')"
-        icon="pi pi-chevron-left"
-        class="p-button-text p-button-primary"
-        @click="backToProcessList"
+        :label="$t('form.add')"
+        icon="bi bi-plus-circle"
+        class="p-button-primary p-mx-3"
+        @click="onClickCreateProcess"
       />
+    </div>
 
+    <div class="lck-page">
       <lck-process
+        v-if="currentProcess"
         :process="currentProcess"
         @input="onInputProcess"
         @delete="onDeleteProcess"
@@ -79,11 +50,10 @@
         :suggestionsTable="suggestionsTable"
         :suggestionsColumn="suggestionsColumn"
         @refresh-runs="onRefreshRuns"
-        @cancel="backToProcessList"
+        @cancel="resetCurrentProcess"
       />
     </div>
-
-  </layout-with-toolbar>
+  </div>
 </template>
 
 <script lang="ts">
@@ -95,41 +65,41 @@ import Button from 'primevue/button'
 import { lckServices } from '@/services/lck-api'
 import { LckProcess, LckProcessRun, LckTable, LckTableColumn, PROCESS_TRIGGER } from '@/services/lck-api/definitions'
 
-import WithToolbar from '@/layouts/WithToolbar.vue'
 import Process from '@/components/store/Process/Process.vue'
+import { ROUTES_NAMES } from '@/router/paths'
 
 export default Vue.extend({
   name: 'ProcessListing',
   components: {
-    'layout-with-toolbar': WithToolbar,
     'p-button': Vue.extend(Button),
     'lck-process': Process,
   },
   props: {
     workspaceId: {
       type: String,
-      required: false,
+      required: true,
     },
-    tableId: {
+    processId: {
       type: String,
       required: false,
+    },
+    sidebarActive: {
+      type: Boolean,
+      default: true,
     },
   },
   data () {
     return {
       loading: false,
       submitting: false,
+      routeNameProcessDetail: ROUTES_NAMES.WORKSPACE_ADMIN.PROCESS_DETAIL,
       processResult: [] as LckProcess[],
-      displayDetailProcess: false,
-      currentProcess: new LckProcess() as LckProcess,
+      currentProcess: null as LckProcess | null,
       suggestionsTable: [] as { text: string; value: string }[],
       suggestionsColumn: [] as { text: string; value: string }[],
     }
   },
   methods: {
-    backToProcessList () {
-      this.displayDetailProcess = false
-    },
     async onInputProcess (data: Partial<LckProcess>) {
       this.submitting = true
       try {
@@ -198,8 +168,7 @@ export default Vue.extend({
           this.processResult.push(this.currentProcess)
         }
         // Go back to display processes list
-        this.displayDetailProcess = false
-      } catch (error) {
+      } catch (error: any) {
         this.$toast.add({
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
@@ -211,61 +180,29 @@ export default Vue.extend({
     },
     async onDeleteProcess (processId: string) {
       await lckServices.process.remove(processId)
-      this.displayDetailProcess = false
       this.processResult = this.processResult.filter(p => p.id !== processId)
     },
     async loadProcesses () {
       this.loading = true
       try {
-        if (!this.tableId) {
-          const processByWorkspace = await lckServices.process.find({
-            query: {
-              'table:database.workspace_id': this.workspaceId,
-              $limit: 50,
-              $eager: '[table, runs]',
-              $joinRelation: 'table.[database]',
-              $sort: {
-                createdAt: 1,
-              },
+        const processByWorkspace = await lckServices.process.find({
+          query: {
+            'table:database.workspace_id': this.workspaceId,
+            $limit: 50,
+            $joinRelation: 'table.[database]',
+            $sort: {
+              createdAt: 1,
             },
-          }) as Paginated<LckProcess>
-          this.processResult = processByWorkspace.data
-        } else {
-          const processByWorkspaceAndTable = await lckServices.process.find({
-            query: {
-              $limit: 50,
-              $eager: '[table, runs]',
-              table_id: this.tableId,
-              $joinRelation: 'runs',
-              $sort: {
-                createdAt: 1,
-              },
-            },
-          }) as Paginated<LckProcess>
-          this.processResult = processByWorkspaceAndTable.data
-        }
+          },
+        }) as Paginated<LckProcess>
+        this.processResult = processByWorkspace.data
       } catch (error) {
         console.error(error)
       }
       this.loading = false
     },
     onClickCreateProcess () {
-      this.displayDetailProcess = true
       this.currentProcess = new LckProcess()
-      this.currentProcess.table_id = this.tableId
-    },
-    async onClickProcessItem (process: LckProcess) {
-      this.displayDetailProcess = true
-      /**
-       * Load the column if the process is with settings
-       */
-      if (
-        process.trigger === PROCESS_TRIGGER.UPDATE_ROW_DATA &&
-        process.settings?.column_id
-      ) {
-        this.$set(process.settings, 'column', await lckServices.tableColumn.get(process.settings.column_id))
-      }
-      this.currentProcess = process
     },
     async onSearchTable ({ query }: { query: string }) {
       const tableResult = await lckServices.table.find({
@@ -306,18 +243,35 @@ export default Vue.extend({
           },
         },
       }) as Paginated<LckProcessRun>
-      process.runs = processRunResult.data
+      this.$set(process, 'runs', processRunResult.data)
+    },
+    async loadProcess (processId: string) {
+      /**
+       * Load the column if the process is with settings
+       */
+      this.currentProcess = await lckServices.process.get(processId)
+      if (
+        this.currentProcess.trigger === PROCESS_TRIGGER.UPDATE_ROW_DATA &&
+        this.currentProcess.settings?.column_id
+      ) {
+        this.$set(this.currentProcess.settings, 'column', await lckServices.tableColumn.get(process.settings.column_id))
+      }
+      this.onRefreshRuns(this.currentProcess)
+    },
+    resetCurrentProcess () {
+      this.currentProcess = null
     },
   },
   mounted () {
     this.loadProcesses()
+    if (this.processId) this.loadProcess(this.processId)
   },
   watch: {
-    tableId () {
-      this.loadProcesses()
-    },
     workspaceId () {
       this.loadProcesses()
+    },
+    processId () {
+      this.loadProcess(this.processId)
     },
   },
 })
@@ -391,19 +345,10 @@ export default Vue.extend({
   background-color: var(--primary-color-dark);
 }
 
-.o-ellipsis {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100%;
-  position: relative;
-  padding: 1rem;
-
-}
-
 .status-mark {
   border-radius: 50%;
-  width: 1rem;
-  height: 1rem;
+  width: 0.8rem;
+  height: 0.8rem;
   margin-left: auto;
   background-color: transparent;
   position: absolute;
@@ -414,13 +359,6 @@ export default Vue.extend({
 
 .status-mark-enabled {
   background-color: var(--color-success);
-  border: 1px solid var(--primary-color);
+  border: unset;
 }
-
-.p-tag {
-  border: 1px solid var(--color-white);
-  color: var(--color-white);
-  background: transparent;
-}
-
 </style>

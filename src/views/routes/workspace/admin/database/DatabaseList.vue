@@ -1,29 +1,35 @@
 <template>
   <div class="lck-layout-content">
-    <p-accordion
-      :multiple="true"
+    <div
       class="lck-bg-sidebar lck-sidebar"
       :class="{'lck-sidebar--active': sidebarActive}"
-      :activeIndex="[0]"
     >
-      <p-accordion-tab
-        v-for="item in menuItems"
-        :key="item.id"
+      <h2 class="p-pl-3 lck-color-title">
+        {{ $t('pages.database.title') }}
+      </h2>
+      <p-accordion
+        :multiple="true"
+        :activeIndex="[0]"
       >
-        <template #header>
-          <span>{{item.label}}</span>
-        </template>
-
-        <router-link
-          v-for="subitem in item.items"
-          :key="subitem.id"
-          :to="subitem.to"
-          class="lck-sidebar-link"
+        <p-accordion-tab
+          v-for="item in menuItems"
+          :key="item.id"
         >
-          <i class="bi lck-sidebar-link-icon" :class="subitem.icon" /> <span>{{subitem.label}}</span>
-        </router-link>
-      </p-accordion-tab>
-    </p-accordion>
+          <template #header>
+            <span>{{item.label}}</span>
+          </template>
+
+          <router-link
+            v-for="subitem in item.items"
+            :key="subitem.id"
+            :to="subitem.to"
+            class="lck-sidebar-link"
+          >
+            <i class="bi lck-sidebar-link-icon" :class="subitem.icon" /> <span>{{subitem.label}}</span>
+          </router-link>
+        </p-accordion-tab>
+      </p-accordion>
+    </div>
 
     <div class="lck-page">
       <router-view />

@@ -152,6 +152,16 @@ const routes: Array<RouteConfig> = [
         needAuthentication: true,
         hasBurgerMenu: true,
       },
+      children: [{
+        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.PROCESS + '/:processId',
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.PROCESS_DETAIL,
+        component: ProcessListing,
+        props: true,
+        meta: {
+          needAuthentication: true,
+          hasBurgerMenu: true,
+        },
+      }],
     }, {
       path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.ACLSET,
       name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL,
@@ -163,7 +173,7 @@ const routes: Array<RouteConfig> = [
       },
     }, {
       path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP,
-      name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUPS,
+      name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUP,
       component: ProcessListing,
       props: true,
       meta: {

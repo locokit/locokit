@@ -57,10 +57,13 @@ export const ROUTES_NAMES = {
     DATABASETABLE: 'WorkspaceDatabaseTable',
     DATABASESCHEMA: 'WorkspaceDatabaseSchema',
     PROCESS: 'WorkspaceProcess',
+    PROCESS_DETAIL: 'WorkspaceProcessDetail',
     ACL: 'WorkspaceACL',
+    ACL_DETAIL: 'WorkspaceACLDetail',
     CMS: 'WorkspaceCMS',
     SETTINGS: 'WorkspaceSettings',
-    GROUPS: 'WorkspaceGroups',
+    GROUP: 'WorkspaceGroup',
+    GROUP_DETAIL: 'WorkspaceGroupDetail',
   },
 
   /**

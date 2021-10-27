@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { ROUTES_NAMES, ROUTES_PATH } from '@/router/paths'
+import { ROUTES_NAMES } from '@/router/paths'
 import { LckWorkspace } from '@/services/lck-api/definitions'
 import { lckServices } from '@/services/lck-api'
 import LayoutWithHeader from '@/layouts/WithHeader.vue'
@@ -101,7 +101,7 @@ export default {
         label: this.$t('pages.workspace.menu.groups'),
         icon: 'bi-people',
         to: {
-          name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUPS,
+          name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUP,
           params: {
             workspaceId: this.workspaceId,
           },

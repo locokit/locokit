@@ -3,7 +3,14 @@
     class="lck-layout-content"
     v-if="workspaceContent"
   >
-    <div class="lck-sidebar">
+    <div
+      class="lck-sidebar"
+      :class="{'lck-sidebar--active': sidebarActive}"
+    >
+      <h2 class="p-pl-3 lck-color-title">
+        {{ $t('pages.cms.title') }}
+      </h2>
+
       <lck-sidebar
         :items="sidebarItems"
         :displayEditActions="editMode"

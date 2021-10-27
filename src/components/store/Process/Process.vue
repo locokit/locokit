@@ -1,76 +1,67 @@
 <template>
-  <div class="p-fluid p-d-flex p-flex-column" style="position: relative;">
+  <div class="p-fluid p-d-flex p-flex-column p-px-3" style="position: relative;">
     <h3>
-      {{ process.text }}
+      {{ process.text || "Création d'un nouveau processus" }}
     </h3>
-    <p-button
-      class="p-button-sm p-button-danger"
-      icon="bi bi-trash"
-      @click="$emit('delete', process.id)"
-      style="position: absolute; top: .5rem; right: .5rem;width: auto;"
-      :disabled="process.runs && process.runs.length > 0"
+    <lck-process-form
+      :process="process"
+      :submitting="submitting"
+      @input="$emit('input', $event)"
+      @cancel="$emit('cancel')"
+      :table-id="tableId"
+      :tables="suggestionsTable"
+      :columns="suggestionsColumn"
+      @search-table="$emit('search-table', $event)"
+      @search-column="$emit('search-column', $event)"
     />
-    <p-tab-view class="lck-process-tab">
-      <p-tab-panel
-        :header="$t('components.process.headerProperties')"
+    <div class="p-mx-auto">
+      <p-button
+        class="p-button-sm p-button-danger"
+        icon="bi bi-trash"
+        @click="$emit('delete', process.id)"
+        :disabled="process.runs && process.runs.length > 0"
+        :label="$t('components.process.removeButtonLabel')"
+      />
+    </div>
+    <div v-if="process.runs && process.runs.length > 0">
+      <h4 class="p-tabview-title">
+        {{ $t('components.process.headerRuns') }}
+        <span class="p-ml-1">
+          ({{ process.runs.length }})
+        </span>
+      </h4>
+      <p-button
+        icon="pi pi-refresh"
+        @click="$emit('refresh-runs', process)"
+        class="p-button-sm"
+        style="width: auto"
+        :label="$t('components.process.refreshButtonLabel')"
+      />
+      <p-accordion
+        :multiple="true"
+        v-if="process.runs && process.runs.length > 0"
       >
-        <lck-process-form
-          :process="process"
-          :submitting="submitting"
-          @input="$emit('input', $event)"
-          @cancel="$emit('cancel')"
-          :table-id="tableId"
-          :tables="suggestionsTable"
-          :columns="suggestionsColumn"
-          @search-table="$emit('search-table', $event)"
-          @search-column="$emit('search-column', $event)"
-        />
-      </p-tab-panel>
-      <p-tab-panel v-if="process.id">
-        <template #header>
-          <span class="p-tabview-title">
-            {{ $t('components.process.headerRuns') }}
-          </span>
-          <span
-            v-if="process.runs && process.runs.length > 0"
-            class="p-ml-1"
-          >
-            ({{ process.runs.length }})
-          </span>
-          <p-button
-            icon="pi pi-refresh"
-            @click="$emit('refresh-runs', process)"
-            class="p-button-sm p-button-text p-p-0"
-          />
-        </template>
-        <p-accordion
-          :multiple="true"
-          v-if="process.runs && process.runs.length > 0"
+        <p-accordion-tab
+          v-for="run in process.runs"
+          :key="run.id"
         >
-          <p-accordion-tab
-            v-for="run in process.runs"
-            :key="run.id"
-          >
-            <template #header>
-              {{ run.createdAt }} -
-              {{ run.status }} -
-              {{ run.duration }}
-            </template>
-            <pre>{{ run.log }}</pre>
-          </p-accordion-tab>
-        </p-accordion>
-        <p v-else class="p-p-1">
-          {{ $t('components.process.noRun') }}
-        </p>
-      </p-tab-panel>
-    </p-tab-view>
+          <template #header>
+            {{ run.createdAt }} -
+            {{ run.status }} -
+            {{ run.duration }}
+          </template>
+          <pre>{{ run.log }}</pre>
+        </p-accordion-tab>
+      </p-accordion>
+    </div>
+    <p v-else class="p-p-1">
+      {{ $t('components.process.noRun') }}
+    </p>
   </div>
 </template>
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import TabView from 'primevue/tabview'
-import TabPanel from 'primevue/tabpanel'
 import Button from 'primevue/button'
 import Accordion from 'primevue/accordion'
 import AccordionTab from 'primevue/accordiontab'
@@ -107,8 +98,6 @@ export default {
   },
   components: {
     'p-button': Vue.extend(Button),
-    'p-tab-view': Vue.extend(TabView),
-    'p-tab-panel': Vue.extend(TabPanel),
     'p-accordion': Vue.extend(Accordion),
     'p-accordion-tab': Vue.extend(AccordionTab),
     'lck-process-form': ProcessForm,

@@ -209,10 +209,11 @@
         "maximumNumberSuccessLabel": "Nombre de succès maximum (0 si infini)"
       },
       "removeButtonLabel": "Supprimer",
+      "refreshButtonLabel": "Rafraîchir",
       "duplicateButtonLabel": "Dupliquer",
       "noRun": "Pas encore d'exécution pour ce processus.",
       "headerProperties": "Propriétés",
-      "headerRuns": "Exécutions",
+      "headerRuns": "50 dernières exécutions",
       "chooseTableFirst": "Merci de sélectionner une table."
     },
     "synthesis": {
@@ -779,7 +780,7 @@
       }
     },
     "process": {
-      "titleButton": "Processus",
+      "title": "Processus",
       "allProcessesHeader": "Tous les processus",
       "oneProcessHeader": "Détail d'un processus",
       "noProcess": "Aucun processus créé pour l'instant. Vous pouvez en créer un en cliquant sur le bouton \"Ajouter\" ci-dessus.",
@@ -791,6 +792,9 @@
         "MANUAL": "Manuel",
         "CRON": "Cron"
       }
+    },
+    "cms": {
+      "title": "CMS / Application"
     }
   },
   "media": {
