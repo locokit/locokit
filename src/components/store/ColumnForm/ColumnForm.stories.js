@@ -18,6 +18,7 @@ const columns = [
     order: null,
     filter: null,
     displayed: true,
+    transmitted: true,
     type: {
       text: 'String',
       id: 3,
@@ -52,6 +53,7 @@ const columns = [
     order: null,
     filter: null,
     displayed: true,
+    transmitted: false,
     type: {
       text: 'Single select',
       id: 9,

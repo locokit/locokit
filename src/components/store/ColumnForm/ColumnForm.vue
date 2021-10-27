@@ -57,13 +57,13 @@
           tag="div"
           class="p-field p-mb-2"
           :name="$t('components.datatable.column.displayed')"
-          rules="required"
+          rules=""
           v-slot="{
             errors,
             classes
           }"
         >
-          <label for="columnDisplayedField" class="label-field-required">{{ $t('components.datatable.column.displayed') }}</label>
+          <label for="columnDisplayedField">{{ $t('components.datatable.column.displayed') }}</label>
           <p-input-switch
             id="columnDisplayedField"
             v-model="columnCopy.displayed"
@@ -75,19 +75,38 @@
           tag="div"
           class="p-field p-mb-2"
           :name="$t('components.datatable.column.editable')"
-          rules="required"
+          rules=""
           v-slot="{
             errors,
             classes
           }"
         >
-          <label for="columnEditableField" class="label-field-required">{{ $t('components.datatable.column.editable') }}</label>
+          <label for="columnEditableField">{{ $t('components.datatable.column.editable') }}</label>
           <p-input-switch
             id="columnEditableField"
             v-model="columnCopy.editable"
           />
           <span :class="classes">{{ errors[0] }}</span>
         </validation-provider>
+        <validation-provider
+          vid="columnTransmittedField"
+          tag="div"
+          class="p-field p-mb-2"
+          :name="$t('components.datatable.column.transmitted')"
+          rules=""
+          v-slot="{
+            errors,
+            classes
+          }"
+        >
+          <label for="columnTransmittedField">{{ $t('components.datatable.column.transmitted') }}</label>
+          <p-input-switch
+            id="columnTransmittedField"
+            v-model="columnCopy.transmitted"
+          />
+          <span :class="classes">{{ errors[0] }}</span>
+        </validation-provider>
+
       </lck-form>
     </div>
   </div>
@@ -188,6 +207,7 @@ export default {
       this.$emit('table-view-column-edit', {
         displayed: this.columnCopy.displayed,
         editable: this.columnCopy.editable,
+        transmitted: this.columnCopy.transmitted,
       })
     },
   },

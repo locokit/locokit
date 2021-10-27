@@ -138,7 +138,8 @@
         "values": "Column values",
         "displayed": "Displayed column",
         "editable": "Editable column",
-        "required": "Required column"
+        "required": "Required column",
+        "transmitted": "Transmitted column"
       }
     },
     "overlayPanel": {
