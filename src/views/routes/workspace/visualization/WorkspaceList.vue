@@ -18,7 +18,7 @@
           </div>
         </div>
 
-        <p v-if="!loading && groups.length === 0">{{ $t('pages.workspace.noWorkspace') }}</p>
+        <p v-if="!loading && workspaces.length === 0">{{ $t('pages.workspace.noWorkspace') }}</p>
 
         <div v-for="workspace in workspaces" :key="workspace.id" class="p-col-12 p-md-4 p-lg-3 workspaces-item">
           <div
