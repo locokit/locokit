@@ -92,7 +92,7 @@ export default {
       required: true,
     },
     sidebarActive: {
-      type: String,
+      type: Boolean,
       required: true,
     },
   },
@@ -136,30 +136,6 @@ export default {
     },
   },
   methods: {
-    async goToFirstPage () {
-      if (
-        !this.$route.path.includes('page') &&
-        this.workspaceContent.chapters.length > 0 &&
-        this.workspaceContent.chapters[0].pages.length > 0
-      ) {
-        const pageNotHidden = this.workspaceContent.chapters[0].pages.find(page => page.hidden !== true)
-        if (pageNotHidden) {
-          const currentRoute = this.$route
-          console.log(currentRoute)
-          // await this.$router.replace({
-          //   name: ROUTES_NAMES.DATABASETABLE,
-          //   params: {
-          //     workspaceId: this.workspaceId,
-          //     databaseId: this.databaseId,
-          //     pageId: pageNotHidden.id,
-          //   },
-          // }).catch(error => {
-          //   if (error.from.path !== error.to.path) throw error
-          // })
-        }
-        // await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.VISUALIZATION}/page/${pageNotHidden.id}`)
-      }
-    },
     async goToSpecificPage (pageId) {
       await this.$router.replace({
         name: ROUTES_NAMES.PAGE,
@@ -374,7 +350,6 @@ export default {
   },
   async mounted () {
     this.workspaceContent = await lckHelpers.retrieveWorkspaceWithChaptersAndPages(this.workspaceId)
-    await this.goToFirstPage()
   },
 }
 </script>

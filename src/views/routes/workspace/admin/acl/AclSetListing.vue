@@ -92,6 +92,10 @@ export default {
       type: String,
       required: false,
     },
+    sidebarActive: {
+      type: Boolean,
+      required: false,
+    },
   },
   data (): {
     chapterSuggestions: LckChapter[];
