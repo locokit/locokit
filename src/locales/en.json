@@ -702,31 +702,106 @@
         "validation": "Validation rules"
       },
       "columnType": {
-        "BOOLEAN": "Boolean",
-        "STRING": "Single line text",
-        "TEXT": "Long text",
-        "NUMBER": "Integer",
-        "FLOAT": "Float",
-        "DATE": "Date",
-        "DATETIME": "Datetime",
-        "USER": "User",
-        "GROUP": "Group",
-        "MULTI_USER": "Multi User",
-        "MULTI_GROUP": "Multi Group",
-        "RELATION_BETWEEN_TABLES": "Relation Between Tables",
-        "LOOKED_UP_COLUMN": "Looked Up Column",
-        "VIRTUAL_LOOKED_UP_COLUMN": "Virtual Looked Up Column",
-        "SINGLE_SELECT": "Single Select",
-        "MULTI_SELECT": "Multi Select",
-        "FORMULA": "Formula",
-        "FILE": "File",
-        "URL": "URL",
-        "GEOMETRY_POINT": "Geometry Point",
-        "GEOMETRY_POLYGON": "Geometry Polygon",
-        "GEOMETRY_LINESTRING": "Geometry Linestring",
-        "GEOMETRY_MULTIPOINT": "Geometry MultiPoint",
-        "GEOMETRY_MULTIPOLYGON": "Geometry MultiPolygon",
-        "GEOMETRY_MULTILINESTRING": "Geometry MultiLinestring"
+        "BOOLEAN": {
+          "name": "Boolean",
+          "description": "Checkbox field useful for true/false values"
+        },
+        "STRING": {
+          "name": "Single line text",
+          "description": "Useful for short text such as a name"
+        },
+        "TEXT": {
+          "name": "Long text",
+          "description": "Allows you to enter multiple lines of text in a cell"
+        },
+        "NUMBER": {
+          "name": "Integer",
+          "description": "Designed to hold integer numerical values"
+        },
+        "FLOAT": {
+          "name": "Float",
+          "description": "Designed to hold float numerical values"
+        },
+        "DATE": {
+          "name": "Date",
+          "description": "Allows you to easily select a specific date into a cell with a calendar widget"
+        },
+        "DATETIME": {
+          "name": "Date and time",
+          "description": "Allows you to easily select a specific date and optionally a time into a cell with a calendar widget"
+        },
+        "USER": {
+          "name": "User",
+          "description": "Allows you to select select one predetermined user from a list"
+        },
+        "GROUP": {
+          "name": "User group",
+          "description": "Allows you to select select one predetermined group of users from a list"
+        },
+        "MULTI_USER": {
+          "name": "Multi-user",
+          "description": "Allows you to select select several predetermined users from a list"
+        },
+        "MULTI_GROUP": {
+          "name": "Multi user-group",
+          "description": "Allows you to select select several predetermined groups of users from a list"
+        },
+        "RELATION_BETWEEN_TABLES": {
+          "name": "Relation between tables",
+          "description": "Allows you create connections between different records from two tables"
+        },
+        "LOOKED_UP_COLUMN": {
+          "name": "Lookup column",
+          "description": "Allows you to look up a specific field in a linked record"
+        },
+        "VIRTUAL_LOOKED_UP_COLUMN": {
+          "name": "Virtual lookup column",
+          "description": "Allows you to look up a specific virtual field in a linked record"
+        },
+        "SINGLE_SELECT": {
+          "name": "Single select",
+          "description": "Allows you to select one single option from a preset list of options."
+        },
+        "MULTI_SELECT": {
+          "name": "Multi-select",
+          "description": "Allows you to select several options from a preset list of options."
+        },
+        "FORMULA": {
+          "name": "Formula",
+          "description": "Allows you to compute a value in each cell"
+        },
+        "FILE": {
+          "name": "File",
+          "description": "Allows you to attach one or more files to a cell"
+        },
+        "URL": {
+          "name": "URL",
+          "description": "Designed to store a single URL in each cell"
+        },
+        "GEOMETRY_POINT": {
+          "name": "Point geometry",
+          "description": "Designed to store a WKT point geometry"
+        },
+        "GEOMETRY_POLYGON": {
+          "name": "Polygon geometry",
+          "description": "Designed to store a WKT polygon geometry"
+        },
+        "GEOMETRY_LINESTRING": {
+          "name": "Linestring geometry",
+          "description": "Designed to store a WKT linestring geometry"
+        },
+        "GEOMETRY_MULTIPOINT": {
+          "name": "Multi-point geometry",
+          "description": "Designed to store a WKT multi-point geometry"
+        },
+        "GEOMETRY_MULTIPOLYGON": {
+          "name": "Multi-polygon geometry",
+          "description": "Designed to store a WKT multi-polygon geometry"
+        },
+        "GEOMETRY_MULTILINESTRING": {
+          "name": "Multi-linestring geometry",
+          "description": "Designed to store a WKT multi-linestring geometry"
+        }
       },
       "selectType": {
         "addValue": "Add value",

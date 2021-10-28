@@ -278,7 +278,7 @@ export default {
     columnTypes () {
       return Object.keys(COLUMN_TYPE).filter((key) => isNaN(key)).map((key) => ({
         id: COLUMN_TYPE[key],
-        name: this.$t(`pages.databaseSchema.columnType.${key}`),
+        name: this.$t(`pages.databaseSchema.columnType.${key}.name`),
       }))
     },
     isRelationBetweenTablesType () {
