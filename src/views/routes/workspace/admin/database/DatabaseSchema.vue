@@ -1,32 +1,28 @@
 <template>
   <div class="container">
-    <header class="p-m-3 p-d-flex p-ai-center p-jc-between">
-      <div class="">
-        {{ $t('pages.databaseSchema.title') }}
-      </div>
-      <div>
-        <p-button
-          :label="$t('pages.databaseSchema.addTable')"
-          icon="bi bi-plus-lg"
-          @click="onClickCreateTableModalButton"
-        />
-        <p
-          v-if="tables && tables.length === 0"
-          class="schema-info"
-        >
-          <i class="bi bi-info-circle"></i>
-          {{ $t('pages.databaseSchema.noTable') }}
-        </p>
-      </div>
-    </header>
+    <h2 class="p-pl-3 lck-color-title">
+      {{ $t('pages.databaseSchema.title') }}
+    </h2>
+    <p-button
+      :label="$t('pages.databaseSchema.addTable')"
+      icon="bi bi-plus-lg"
+      style="position: absolute; right: 1rem; top: 1rem;"
+      @click="onClickCreateTableModalButton"
+    />
 
     <div
-      v-if="!errorLoadTables"
+      v-if="tables && tables.length === 0"
+      class="schema-info"
+    >
+      <i class="bi bi-info-circle"></i>
+      {{ $t('pages.databaseSchema.noTable') }}
+    </div>
+    <div
+      v-else-if="!errorLoadTables"
       id="svg-container"
       v-html="nomnomlSVG"
       @click="onClickTable"
-    >
-    </div>
+    />
     <p
       v-else
       class="schema-info"
@@ -253,6 +249,8 @@ export default {
 
 <style>
 .container {
+  height: 100%;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
 }
