@@ -254,7 +254,7 @@ export default Vue.extend({
         this.currentProcess.trigger === PROCESS_TRIGGER.UPDATE_ROW_DATA &&
         this.currentProcess.settings?.column_id
       ) {
-        this.$set(this.currentProcess.settings, 'column', await lckServices.tableColumn.get(process.settings.column_id))
+        this.$set(this.currentProcess.settings, 'column', await lckServices.tableColumn.get(this.currentProcess.settings.column_id))
       }
       this.onRefreshRuns(this.currentProcess)
     },

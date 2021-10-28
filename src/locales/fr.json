@@ -319,8 +319,6 @@
     },
     "acl": {
       "common": {
-        "manager": "Rôle manager",
-        "noManager": "Rôle non manager",
         "title": "Rôles et permissions"
       },
       "detail": {

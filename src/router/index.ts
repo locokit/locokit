@@ -171,6 +171,16 @@ const routes: Array<RouteConfig> = [
         needAuthentication: true,
         hasBurgerMenu: true,
       },
+      children: [{
+        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.ACLSET + '/:aclSetId',
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL_DETAIL,
+        component: AclSetListing,
+        props: true,
+        meta: {
+          needAuthentication: true,
+          hasBurgerMenu: true,
+        },
+      }],
     }, {
       path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP,
       name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUP,
