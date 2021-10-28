@@ -91,6 +91,10 @@ export default {
       type: String,
       required: true,
     },
+    sidebarActive: {
+      type: String,
+      required: true,
+    },
   },
   data () {
     return {

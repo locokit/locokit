@@ -2,7 +2,6 @@
   <div
     id="app"
     class="p-d-flex p-flex-column"
-    :class="sidebarActive ? 'sidebar-is-open' : 'sidebar-is-closed'"
   >
     <lck-popup-reload
       v-if="displayPopupReload"
@@ -55,11 +54,6 @@ export default {
   },
   data () {
     return {
-      // eslint-disable-next-line no-undef
-      logoURL: LCK_THEME.LOGO_BG_WHITE_URL,
-      // eslint-disable-next-line no-undef
-      logoMobileUrl: LCK_THEME.LOGO_MOBILE_URL,
-      sidebarActive: false,
       // keep it here in the data to make it reactive
       authState,
       displayPopupReload: false,

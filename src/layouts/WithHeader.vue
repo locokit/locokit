@@ -2,7 +2,7 @@
   <div>
     <lck-header
       :logo-url="logoURL"
-      @menuButtonClick="toggleSidebar"
+      @menu-button-click="toggleSidebar"
       :logo-mobile-url="logoMobileUrl"
       :is-super-admin="isSuperAdmin"
       @logoutClick="onLogoutClick"
@@ -37,6 +37,8 @@ export default {
     return {
       // eslint-disable-next-line no-undef
       logoURL: LCK_THEME.LOGO_BG_WHITE_URL,
+      // eslint-disable-next-line no-undef
+      logoMobileUrl: LCK_THEME.LOGO_MOBILE_URL,
       sidebarActive: false,
       // keep it here in the data to make it reactive
       authState,
