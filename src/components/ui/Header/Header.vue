@@ -11,18 +11,13 @@
     </a>
     <router-link
       :to="ROUTES_PATH.WORKSPACE"
-      class="p-my-auto p-m-auto"
+      class="logo"
       @click.native="setToggle"
     >
       <img
-        class="mobile-hide"
-        alt="logo"
+        alt="logo-svg"
+        class="logo"
         :src="logoUrl"
-      />
-      <img
-        class="mobile-show mobile-logo"
-        alt="logo mobile"
-        :src="logoMobileUrl"
       />
     </router-link>
 
@@ -58,10 +53,6 @@ export default {
   },
   props: {
     logoUrl: {
-      type: String,
-      required: true,
-    },
-    logoMobileUrl: {
       type: String,
       required: true,
     },

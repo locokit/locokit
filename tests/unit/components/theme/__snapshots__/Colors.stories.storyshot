@@ -121,6 +121,89 @@ exports[`storyshots theme/Colors semaphore 1`] = `
 </div>
 `;
 
+exports[`storyshots theme/Colors states 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div>
+    
+    color-warning
+    
+    <p
+      style="padding: 1rem;"
+    />
+    
+    color-warning-light
+    
+    <p
+      style="padding: 1rem;"
+    />
+    
+    color-warning-lighten
+    
+    <p
+      style="padding: 1rem;"
+    />
+    
+    color-warning-dark
+    
+    <p
+      style="padding: 1rem;"
+    />
+    
+
+    color-error
+    
+    <p
+      style="padding: 1rem;"
+    />
+    
+    color-error-light
+    
+    <p
+      style="padding: 1rem;"
+    />
+    
+    color-error-lighten
+    
+    <p
+      style="padding: 1rem;"
+    />
+    
+    color-error-dark
+    
+    <p
+      style="padding: 1rem;"
+    />
+    
+
+    color-success
+    
+    <p
+      style="padding: 1rem;"
+    />
+    
+    color-success-light
+    
+    <p
+      style="padding: 1rem;"
+    />
+    
+    color-success-lighten
+    
+    <p
+      style="padding: 1rem;"
+    />
+    
+    color-success-dark
+    
+    <p
+      style="padding: 1rem;"
+    />
+  </div>
+</div>
+`;
+
 exports[`storyshots theme/Colors surfaces 1`] = `
 <div
   style="height: 100%;"

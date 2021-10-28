@@ -52,15 +52,15 @@
   --color-success-light: #c0e0c0;
   --color-success-dark: #1a6d1a;
 
-  --primary-color: #005666;
-  --primary-color-lighten: #dfebee;
-  --primary-color-light: #b8e0e7;
-  --primary-color-dark: #0B373F;
+  --primary-color: #29264F;
+  --primary-color-lighten: #f0f0fa;
+  --primary-color-light: #9997b4;
+  --primary-color-dark: #121031;
 
-  --secondary-color: #585858;
-  --secondary-color-lighten: #eeeeee;
-  --secondary-color-light: #d8d8d8;
-  --secondary-color-dark: #313131;
+  --secondary-color: #4b9c6d;
+  --secondary-color-lighten: #eaf7ef;
+  --secondary-color-light: #ccddd3;
+  --secondary-color-dark: #243029;
 
 
   /* Background color, main content */

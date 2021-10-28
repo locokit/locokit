@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots views/routes/DatabaseList default 1`] = `
+<div
+  style="height: 100%;"
+>
+  <!---->
+</div>
+`;

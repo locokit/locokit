@@ -44,14 +44,19 @@
   padding-bottom: 3rem;
 }
 
-.mobile-logo {
-  display: block;
-  height: 50px;
-  //margin-left: 20px;
-  margin-right: -2.357rem;
+.logo {
+  display: flex;
+  align-items: center;
+  width: 10rem;
+  margin: auto;
+
+  &-svg {
+    width: 100%;
+    height: auto;
+  }
 }
 
-.has-burger-menu .mobile-logo {
+.has-burger-menu .logo {
   margin-left: -55px;
 }
 
@@ -63,4 +68,10 @@
 .centered-content-view {
   max-width: 800px;
   margin: auto;
+}
+
+@media screen and (min-width: 900px) {
+  .logo {
+    margin: 0;
+  }
 }
