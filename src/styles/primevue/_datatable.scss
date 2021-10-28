@@ -9,7 +9,7 @@
 }
 
 .p-datatable .p-datatable-header {
-  background: var(--secondary-color-lighten);
+  background: var(--color-grey-light);
   color: var(--primary-color-dark);
   border: var(--border);
   border-width: 1px 0 1px 0;
@@ -18,7 +18,7 @@
 }
 
 .p-datatable .p-datatable-footer {
-  background: var(--secondary-color-lighten);
+  background: var(--color-grey-light);
   color: var(--text-color);
   border: var(--border);
   border-width: 0 0 1px 0;
@@ -32,7 +32,7 @@
   border-width: 0;
   font-weight: var(--font-weight-medium);
   color: var(--primary-color-dark);
-  background: var(--secondary-color-lighten);
+  background: var(--color-grey-light);
   transition: box-shadow 0.2s;
 }
 
@@ -43,7 +43,7 @@
   border-width: 0 0 1px 0;
   font-weight: var(--font-weight-bold);
   color: var(--text-color);
-  background: var(--secondary-color-lighten);
+  background: var(--color-grey-light);
 }
 
 .p-datatable .p-sortable-column .p-sortable-column-icon {
@@ -71,7 +71,7 @@
 }
 
 .p-datatable .p-sortable-column.p-highlight {
-  background: var(--secondary-color-lighten);
+  background: var(--color-grey-light);
   color: var(--primary-color);
 }
 
@@ -170,7 +170,7 @@
 
 .p-datatable .p-datatable-scrollable-header,
 .p-datatable .p-datatable-scrollable-footer {
-  background: var(--secondary-color-lighten);
+  background: var(--color-grey-light);
 }
 
 .p-datatable .p-datatable-loading-icon {
