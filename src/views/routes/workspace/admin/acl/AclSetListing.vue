@@ -5,7 +5,7 @@
       :class="{'lck-sidebar--active': sidebarActive}"
     >
       <h2 class="p-pl-3 lck-color-title">
-        {{ $t('pages.acl.common.title') }}
+        {{ $t('pages.workspaceAdmin.acl.common.title') }}
       </h2>
 
       <div v-if="workspace && workspace.aclsets">
@@ -31,7 +31,7 @@
       </div>
 
       <div v-else-if="!loading" class="p-p-3">
-        {{ $t('pages.acl.listing.noAclSet') }}
+        {{ $t('pages.workspaceAdmin.acl.listing.noAclSet') }}
       </div>
 
       <p-button
@@ -44,6 +44,7 @@
 
     <div class="lck-page">
       <lck-aclset-form
+        class="p-col-12 p-md-10 p-xl-8 p-mx-auto p-mt-2"
         v-if="selectedAclSet"
         :aclSet="selectedAclSet"
         :chapterSuggestions="chapterSuggestions"

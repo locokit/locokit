@@ -154,12 +154,12 @@ export default {
     return {
       EXTENDED_NAMED_CLASSES,
       TEXT_ALIGN_CLASS,
-      tableView: null,
+      tableView: null as { value: string; text: string } | null,
     }
   },
   methods: {
     onChangeTableView () {
-      this.$emit('update:id', this.tableView.value)
+      this.$emit('update:id', this.tableView?.value)
       this.$emit('component-refresh-required', true)
     },
   },

@@ -40,6 +40,7 @@
 
     <div class="lck-page">
       <lck-process
+        class="p-col-12 p-md-10 p-xl-8 p-mx-auto p-mt-2"
         v-if="currentProcess"
         :process="currentProcess"
         @input="onInputProcess"
