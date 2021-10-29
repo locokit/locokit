@@ -45,7 +45,12 @@
         :userSuggestions="userSuggestions"
         :submitting="submitting"
         @cancel="cancelEdit"
-        @delete="deleteGroup"
+
+        @create-usergroup="deleteUserGroup"
+        @update-usergroup="deleteUserGroup"
+        @delete-usergroup="deleteUserGroup"
+
+        @input="saveGroup"
         @search-aclset="onSearchAclset"
         @search-user="onSearchUser"
       />
@@ -159,12 +164,23 @@ export default {
     /**
      * Delete the group from database
      */
-    async deleteGroup (groupId: string) {
+    async saveGroup (group: LckGroup) {
+      this.submitting = true
       try {
-        await lckServices.group.remove(groupId)
+        const response = await lckServices.group.patch(group.id, {
+          ...group,
+        }, {
+          query: {
+            $eager: '[aclset.[workspace, chapter]]',
+          },
+        })
+        this.selectedGroup!.name = response.name
+        this.selectedGroup!.aclset_id = response.aclset_id
+        this.selectedGroup!.aclset = response.aclset
       } catch (error: any) {
         this.displayToastOnError(error)
       }
+      this.submitting = false
     },
     /**
      * Fetch the workspace's groups.
