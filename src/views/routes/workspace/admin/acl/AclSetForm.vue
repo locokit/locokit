@@ -83,7 +83,7 @@
       </h3>
 
       <p-datatable
-        class="acltables p-mx-auto"
+        class="p-mx-auto"
         dataKey="id"
         :value="aclSet.acltables"
       >
@@ -368,12 +368,6 @@ export default {
 
   textarea {
     resize: horizontal;
-  }
-
-  .sticky-column {
-    left: 0;
-    position: sticky;
-    z-index: 15;
   }
 
   .p-datatable-tbody > tr > td {

@@ -100,6 +100,7 @@ export default {
   data (): {
     chapterSuggestions: LckChapter[];
     selectedAclSet: LckAclSet | null;
+    loading: boolean;
     submitting: {
       aclSet: boolean;
     };
@@ -110,6 +111,7 @@ export default {
     return {
       chapterSuggestions: [],
       selectedAclSet: null,
+      loading: false,
       submitting: {
         aclSet: false,
       },
@@ -177,6 +179,7 @@ export default {
      * set some default data and display the form.
      */
     async fetchAclSet (aclSetId: string) {
+      this.loading = true
       try {
         this.selectedAclSet = await lckServices.aclset.get(aclSetId, {
           query: {
@@ -189,6 +192,7 @@ export default {
       } catch (error: any) {
         this.displayToastOnError(error)
       }
+      this.loading = false
     },
     /**
      * Fetch the workspace.
