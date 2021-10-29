@@ -138,7 +138,6 @@ export async function defineAbilityFor (
         },
         paginate: false,
       }
-      console.log(tableId)
       if (tableId) {
         // aclsetParams.query.$joinRelation = '[groupsacl.[users], acltables]'
         aclsetParams.query.$modifyEager = {

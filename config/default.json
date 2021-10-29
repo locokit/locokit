@@ -41,7 +41,8 @@
       "lowercase": true,
       "digits": true,
       "symbols": true
-    }
+    },
+    "allowSignUp": "ALLOW_SIGNUP"
   },
   "postgres": {
     "client": "pg",

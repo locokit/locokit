@@ -1,0 +1,1 @@
+process.env.ALLOW_SIGNUP = 'true'
