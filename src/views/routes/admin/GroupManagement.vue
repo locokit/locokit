@@ -1,366 +1,302 @@
 <template>
-  <div class="p-mx-auto p-px-2">
-    <div class="lck-color-primary p-my-4">
-      <h1>{{ $t('pages.groupManagement.title') }}</h1>
-    </div>
-
+  <div class="lck-layout-content">
     <div
-      class="p-d-flex p-flex-row p-flex-wrap p-jc-start"
-      v-for="group in groups"
-      :key="group.id"
+      class="lck-bg-sidebar lck-sidebar"
+      :class="{'lck-sidebar--active': sidebarActive}"
     >
-      <p-toolbar class="w-full p-my-4">
-        <template slot="left">
-          <h2>{{ group.name }}</h2>
-          <span class="p-pl-1">
-            (
-            {{ $t('pages.groupManagement.form.text.workspace') }}<strong> {{ group.aclset.workspace.text }}</strong>
-            <span v-if="group.aclset.chapter">,
-              {{ $t('pages.groupManagement.form.text.chapter') }} <strong>{{ group.aclset.chapter.text }}</strong>
-            </span>
-            )
-          </span>
-        </template>
+      <h2 class="p-pl-3 lck-color-title">
+        {{ $t('pages.workspaceAdmin.group.common.title') }}
+      </h2>
 
-        <template slot="right">
-          <p-button
-            :label="$t('pages.groupManagement.form.action.addNewUserInGroup')"
-            icon="pi pi-plus"
-            class="p-mr-2"
-            @click="addNewUserInGroup(group.id, group.name)"
-          />
-        </template>
-      </p-toolbar>
-
-      <p-datatable
-        :value="group.users"
-        :lazy="true"
-        class="p-datatable-sm p-datatable-striped p-datatable-responsive editable-cell-table"
-        :resizableColumns="true"
-        columnResizeMode="fit"
+      <router-link
+        v-for="group in groups"
+        class="lck-sidebar-link"
+        :key="group.id"
+        :to="{
+          name: routeNameGroupDetail,
+          params: {
+            ...$route.params,
+            groupId: group.id
+          }
+        }"
       >
-        <p-column
-          field="name"
-          :header="$t('pages.groupManagement.form.input.user')"
-        />
-        <p-column
-          field="uhg_role"
-          :header="$t('pages.groupManagement.form.input.role')"
-        />
-        <p-column
-          field="isVerified"
-          :header="$t('pages.userManagement.isVerified')"
-          sortField="isVerified"
-        >
-          <template #body="slotProps">
-            <p-checkbox
-              :binary="true"
-              :modelValue="slotProps.data.isVerified"
-              :disabled="true"
-            />
-          </template>
-        </p-column>
-        <p-column
-          headerClass="p-col-1"
-          bodyClass="p-text-center"
-        >
-          <template #body="slotProps">
-            <span class="p-buttonset">
-              <p-button
-                icon="bi bi-pencil"
-                class="p-button-rounded p-button-icon"
-                @click="editUserInGroup(slotProps.data, group)"
-                :title="$t('pages.userManagement.editUser')"
-              />
-              <p-button
-                icon="bi bi-trash"
-                class="p-button-rounded p-button-danger p-button-outlined p-button-icon"
-                @click="deleteUserInGroup(slotProps.data, group)"
-                :title="$t('pages.userManagement.disableUser.disable')"
-              />
-            </span>
-          </template>
-        </p-column>
-      </p-datatable>
+        <i class="bi lck-sidebar-link-icon bi-people" />
+        <span>{{group.name}}</span>
+      </router-link>
+
+      <div v-if="!loading && groups.length === 0" class="p-p-3">
+        {{ $t('pages.workspaceAdmin.group.listing.noGroup') }}
+      </div>
+
+      <p-button
+        class="p-button-primary p-mx-3"
+        icon="pi pi-plus-circle"
+        :label="$t('form.add')"
+        @click="createGroup"
+      />
     </div>
 
-    <lck-dialog-form
-      :visible.sync="openDialog"
-      :header="isEditingUser ? $t('pages.groupManagement.form.text.editUserInGroup', {groupName: usergroup.groupName, userName: usergroup.userName }) : $t('pages.groupManagement.form.text.addNewUserInGroup', {groupName: usergroup.groupName })
-    "
-      @close="hideDialog"
-      :submitting="submitting"
-      :contentStyle="{ 'overflow-y': 'visible' }"
-      @input="submitUser"
-      class="p-fluid"
-    >
-      <template>
-        <validation-provider
-          v-if="!isEditingUser"
-          vid="userName"
-          tag="div"
-          :name="$t('pages.groupManagement.form.input.user')"
-          class="p-field"
-          rules="required"
-          v-slot="{
-            errors,
-            classes
-          }"
-        >
-          <label for="userName" class="label-field-required">
-            {{ $t('pages.groupManagement.form.input.user') }}
-          </label>
-          <lck-autocomplete
-            id="userName"
-            :dropdown="true"
-            :placeholder="$t('pages.groupManagement.form.text.selectUser')"
-            v-model="usergroup.userName"
-            field="label"
-            :suggestions="autocompleteUserSuggestions"
-            @complete="updateUserSuggestions"
-            @item-select="usergroup.userId = $event.value.value"
-            @clear="usergroup.userId = null"
-          />
-          <span :class="classes">{{ errors[0] }}</span>
-        </validation-provider>
-        <validation-provider
-          vid="role"
-          tag="div"
-          class="p-field"
-        >
-          <label for="role">
-            {{ $t('pages.groupManagement.form.input.role') }}
-          </label>
-          <p-dropdown
-            id="role"
-            v-model="usergroup.role"
-            :options="allRoles"
-            optionLabel="label"
-            optionValue="value"
-            :class="{'p-invalid': submitting && !usergroup.role}"
-            :placeholder="$t('pages.groupManagement.form.text.selectUser')"
-          >
-            <template #option="slotProps">
-              <span>{{slotProps.option.label}}</span>
-            </template>
-          </p-dropdown>
-        </validation-provider>
-        <validation-provider
-          v-if="isEditingUser"
-          vid="isVerified"
-          tag="div"
-          class="p-field"
-        >
-          <label for="isVerified">
-            {{ $t("pages.userManagement.isVerified") }}
-          </label>
-          <p-checkbox
-            class="p-field-checkbox"
-            id="isVerified"
-            :binary="true"
-            v-model="usergroup.userIsVerified"
-            :disabled="true"
-          />
-        </validation-provider>
-        <div v-if="hasSubmitError">
-          <p class="p-invalid">{{ $t('error.basic') }}</p>
-        </div>
-      </template>
-    </lck-dialog-form>
+    <div class="lck-page">
+      <lck-usergroup-form
+        class="p-col-12 p-md-10 p-xl-8 p-mx-auto p-mt-2"
+        v-if="selectedGroup"
+        :group="selectedGroup"
+        :aclSetSuggestions="aclSetSuggestions"
+        :userSuggestions="userSuggestions"
+        :submitting="submitting"
 
-    <p-dialog
-      :header="$t('form.confirmation')"
-      :visible.sync="openConfirmation"
-      :style="{width: '450px'}"
-      :modal="true"
-    >
-      <div class="confirmation-content">
-        <i
-          class="pi pi-exclamation-triangle p-mr-3"
-          style="font-size: 2rem"
-        />
-        <span>{{ $t('pages.groupManagement.form.text.confirmationDeleteUser', { userName: usergroup.userName, groupName: usergroup.groupName }) }}</span>
-      </div>
-      <template #footer>
-        <div v-if="hasSubmitError">
-          <p class="p-invalid">{{ $t('error.basic') }}</p>
-        </div>
-        <p-button
-          :label="$t('form.no')"
-          icon="pi pi-times"
-          @click="hideConfirmation"
-          class="p-button-text"
-        />
-        <p-button
-          :label="$t('form.yes')"
-          icon="pi pi-check"
-          @click="confirmDeleteUserInGroup"
-          class="p-button-text"
-          autofocus
-        />
-      </template>
-    </p-dialog>
+        @create-usergroup="addUserInGroup"
+        @update-usergroup="editUserInGroup"
+        @delete-usergroup="deleteUserInGroup"
+
+        @input="saveGroup"
+        @cancel="cancelEdit"
+
+        @search-aclset="onSearchAclset"
+        @search-user="onSearchUser"
+      />
+    </div>
+    <p-confirm-dialog />
   </div>
 </template>
 
-<script>
+<script lang="ts">
 /* eslint-disable @typescript-eslint/camelcase */
-import Vue from 'vue'
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 
-import { ValidationProvider } from 'vee-validate'
+import Vue from 'vue'
+import { Paginated } from '@feathersjs/feathers'
+
+import { lckServices } from '@/services/lck-api'
+import { LckAclSet, LckGroup, LckUser } from '@/services/lck-api/definitions'
+
+import Button from 'primevue/button'
+import ConfirmDialog from 'primevue/confirmdialog'
+
+import UserGroupForm from '@/components/admin/group/UserGroupForm.vue'
+import { ROUTES_NAMES } from '@/router/paths'
 import { GROUP_ROLE } from '@locokit/lck-glossary'
 
-import { lckClient } from '@/services/lck-api'
-
-import DataTable from 'primevue/datatable'
-import Column from 'primevue/column'
-import Toolbar from 'primevue/toolbar'
-import Dropdown from 'primevue/dropdown'
-import Button from 'primevue/button'
-import Dialog from 'primevue/dialog'
-import Checkbox from 'primevue/checkbox'
-
-import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
-import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
-
-const defaultUsergroup = {
-  userId: null,
-  groupId: null,
-  role: GROUP_ROLE.MEMBER,
-}
-
 export default {
-  name: 'GroupManagement',
+  name: 'WorkspaceGroupListing',
   components: {
-    'lck-autocomplete': AutoComplete,
-    'lck-dialog-form': DialogForm,
-    'p-toolbar': Vue.extend(Toolbar),
-    'p-datatable': Vue.extend(DataTable),
-    'p-column': Vue.extend(Column),
     'p-button': Vue.extend(Button),
-    'p-checkbox': Vue.extend(Checkbox),
-    'p-dropdown': Vue.extend(Dropdown),
-    'p-dialog': Vue.extend(Dialog),
-    'validation-provider': Vue.extend(ValidationProvider),
+    'p-confirm-dialog': Vue.extend(ConfirmDialog),
+    'lck-usergroup-form': UserGroupForm,
   },
-  data: function () {
+  props: {
+    groupId: {
+      type: String,
+      required: false,
+    },
+    sidebarActive: {
+      type: Boolean,
+      required: false,
+    },
+  },
+  data (): {
+    aclSetSuggestions: { label: string; value: string }[];
+    userSuggestions: { label: string; value: number }[];
+    selectedGroup: LckGroup | null;
+    groups: LckGroup[];
+    submitting: boolean;
+    loading: boolean;
+    routeNameGroupDetail: string;
+    } {
     return {
+      aclSetSuggestions: [],
+      userSuggestions: [],
+      selectedGroup: null,
       groups: [],
-      openDialog: false,
-      openConfirmation: false,
-      isEditingUser: null,
-      usergroup: {
-        ...defaultUsergroup,
-      },
-      allRoles: Object.keys(GROUP_ROLE).map(key => ({ label: key, value: key })),
-      allUsers: [],
       submitting: false,
-      hasSubmitError: false,
-      autocompleteUserSuggestions: [],
+      loading: false,
+      routeNameGroupDetail: ROUTES_NAMES.ADMIN.GROUP_DETAIL,
+    }
+  },
+  async mounted () {
+    await this.fetchWorkspaceGroups()
+    if (this.groupId) {
+      this.fetchGroup(this.groupId)
     }
   },
   methods: {
-    hideDialog () {
-      this.openDialog = false
-      this.submitting = false
-      this.hasSubmitError = false
+    /**
+     * Hide the update form and reset the selected aclSet.
+     */
+    cancelEdit () {
+      this.selectedGroup = null
     },
-    hideConfirmation () {
-      this.openConfirmation = false
-      this.hasSubmitError = false
+    /**
+     * Set some default data for the new aclset and display the form.
+     */
+    createGroup () {
+      this.selectedGroup = new LckGroup()
     },
-    addNewUserInGroup (groupId, groupName) {
-      this.isEditingUser = false
-      this.openDialog = true
-      this.usergroup = {
-        ...defaultUsergroup,
-        groupId,
-        groupName,
-      }
-    },
-    editUserInGroup (data, group) {
-      this.isEditingUser = true
-      this.openDialog = true
-      this.usergroup = {
-        ...defaultUsergroup,
-        userId: data.id,
-        userName: data.name,
-        userIsVerified: data.isVerified,
-        groupId: group.id,
-        groupName: group.name,
-        role: data.uhg_role,
-      }
-    },
-    deleteUserInGroup (data, group) {
-      this.openConfirmation = true
-      this.usergroup = {
-        ...defaultUsergroup,
-        userId: data.id,
-        userName: data.name,
-        groupId: group.id,
-        groupName: group.name,
-        role: data.uhg_role,
-      }
-    },
-    async confirmDeleteUserInGroup () {
-      try {
-        await lckClient.service('usergroup').remove(
-          `${this.usergroup.userId},${this.usergroup.groupId}`,
-        )
-      } catch ({ code, name }) {
-        this.hasSubmitError = true
-        return { code, name }
-      }
-      this.hideConfirmation()
-      await this.loadCurrentGroupsWithUser()
-    },
-    async submitUser () {
-      this.submitting = true
-      try {
-        if (this.isEditingUser) {
-          await lckClient.service('usergroup').patch(
-            `${this.usergroup.userId},${this.usergroup.groupId}`,
-            { uhg_role: this.usergroup.role },
-          )
-        } else {
-          await lckClient.service('usergroup').create({
-            user_id: this.usergroup.userId,
-            group_id: this.usergroup.groupId,
-            uhg_role: this.usergroup.role,
-          })
-        }
-      } catch ({ code, name }) {
-        this.hasSubmitError = true
-        return { code, name }
-      }
-      this.hideDialog()
-      await this.loadCurrentGroupsWithUser()
-    },
-    async loadCurrentGroupsWithUser () {
-      this.groups = await lckClient.service('group').find({
-        query: {
-          $eager: '[users,aclset.[workspace, chapter]]',
-          $limit: -1,
-        },
+    /**
+     * Display an error toast whose the content is based on the error code.
+     */
+    displayToastOnError (error: Error & { code: number }) {
+      this.$toast.add({
+        severity: 'error',
+        summary: this.$t('error.basic'),
+        detail: this.$t('error.http.' + error.code),
+        life: 5000,
       })
     },
-    async updateUserSuggestions ({ query }) {
-      const usersMatched = await lckClient.service('user').find({
+    /**
+     * Fetch more information about the aclset that we want to update
+     * set some default data and display the form.
+     */
+    async fetchGroup (groupId: string) {
+      try {
+        this.selectedGroup = await lckServices.group.get(groupId, {
+          query: {
+            $eager: '[users, aclset.[workspace, chapter]]',
+          },
+        })
+      } catch (error: any) {
+        this.displayToastOnError(error)
+      }
+    },
+    /**
+     * Delete the group from database
+     */
+    async saveGroup (group: LckGroup) {
+      this.submitting = true
+      try {
+        const response = await lckServices.group.patch(group.id, {
+          ...group,
+        }, {
+          query: {
+            $eager: '[aclset.[workspace, chapter]]',
+          },
+        })
+        this.selectedGroup!.name = response.name
+        this.selectedGroup!.aclset_id = response.aclset_id
+        this.selectedGroup!.aclset = response.aclset
+      } catch (error: any) {
+        this.displayToastOnError(error)
+      }
+      this.submitting = false
+    },
+    /**
+     * Fetch the workspace's groups.
+     */
+    async fetchWorkspaceGroups () {
+      this.loading = true
+      try {
+        const responseGroups = await lckServices.group.find({
+          query: {
+            $limit: 100,
+          },
+        }) as Paginated<LckGroup>
+        this.groups = responseGroups.data
+      } catch (error: any) {
+        this.displayToastOnError(error)
+      }
+      this.loading = false
+    },
+    /**
+     * Add a new user in a group
+     */
+    async addUserInGroup (userId: number, groupId: string, role: GROUP_ROLE) {
+      this.submitting = true
+      try {
+        await lckServices.usergroup.create({
+          user_id: userId,
+          group_id: groupId,
+          uhg_role: role,
+        })
+      } catch (error: any) {
+        this.displayToastOnError(error)
+      }
+      await this.fetchGroup(this.groupId)
+      this.submitting = false
+    },
+    /**
+     * Edit the user in a group
+     */
+    async editUserInGroup (userId: number, groupId: string, role: GROUP_ROLE) {
+      this.submitting = true
+      try {
+        await lckServices.usergroup.patch(
+          `${userId},${groupId}`,
+          { uhg_role: role },
+        )
+      } catch (error: any) {
+        this.displayToastOnError(error)
+      }
+      this.fetchGroup(this.groupId)
+      await this.fetchGroup(this.groupId)
+      this.submitting = false
+    },
+    /**
+     * Delete a user in a group
+     */
+    async deleteUserInGroup (userId: number, groupId: string) {
+      this.submitting = true
+      try {
+        await lckServices.usergroup.remove(
+          `${userId},${groupId}`,
+        )
+      } catch (error: any) {
+        this.displayToastOnError(error)
+      }
+      await this.fetchGroup(this.groupId)
+      this.submitting = false
+    },
+    async onSearchAclset ({ query }: { query: string }) {
+      const aclSetsMatched = await lckServices.aclset.find({
+        query: {
+          label: {
+            $ilike: `%${query}%`,
+          },
+        },
+      }) as Paginated<LckAclSet>
+      this.aclSetSuggestions = aclSetsMatched.data.map(d => ({
+        label: d.label,
+        value: d.id,
+      }))
+    },
+    async onSearchUser ({ query }: { query: string }) {
+      const usersMatched = await lckServices.user.find({
         query: {
           blocked: false,
           name: {
             $ilike: `%${query}%`,
           },
         },
-      })
-      this.autocompleteUserSuggestions = usersMatched.data.map(d => ({
+      }) as Paginated<LckUser>
+      this.userSuggestions = usersMatched.data.map(d => ({
         label: d.name,
         value: d.id,
       }))
     },
   },
-  async mounted () {
-    await this.loadCurrentGroupsWithUser()
+  watch: {
+    groupId () {
+      this.fetchGroup(this.groupId)
+    },
   },
 }
 </script>
+
+<style scoped lang="scss">
+
+.status-mark {
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  line-height: 1rem;
+  margin-left: auto;
+  position: absolute;
+  top: calc(50% - .5rem);
+  right: .5rem;
+  font-size: 0.7rem;
+  vertical-align: middle;
+  text-align: center;
+  color: var(--secondary-color-lighten);
+  background-color: var(--primary-color);
+}
+
+</style>

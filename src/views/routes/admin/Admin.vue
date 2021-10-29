@@ -38,15 +38,15 @@ export default {
     menuItems () {
       return [{
         label: this.$t('pages.userManagement.title'),
-        icon: 'bi-people',
+        icon: 'bi-person',
         to: {
-          name: ROUTES_NAMES.ADMIN.USERMANAGEMENT,
+          name: ROUTES_NAMES.ADMIN.USER,
         },
       }, {
         label: this.$t('pages.groupManagement.title'),
-        icon: 'bi-person',
+        icon: 'bi-people',
         to: {
-          name: ROUTES_NAMES.ADMIN.GROUPMANAGEMENT,
+          name: ROUTES_NAMES.ADMIN.GROUP,
         },
       }]
     },

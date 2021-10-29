@@ -22,15 +22,14 @@ export const ROUTES_PATH = {
   ACL: '/acl',
   SETTINGS: '/settings',
   ACLSET: '/aclset',
-  GROUP: '/group',
+  GROUP: '/group', // used in workspace admin AND admin
   CMS: '/cms',
 
   /**
    * Admin paths
    */
   ADMIN: '/admin',
-  USERMANAGEMENT: '/usermanagement',
-  GROUPMANAGEMENT: '/groupmanagement',
+  USER: '/user',
 }
 
 export const ROUTES_NAMES = {
@@ -70,8 +69,9 @@ export const ROUTES_NAMES = {
    * Admin paths
    */
   ADMIN: {
-    USERMANAGEMENT: 'UserManagement',
-    GROUPMANAGEMENT: 'GroupManagement',
+    USER: 'AdminUser',
+    GROUP: 'AdminGroup',
+    GROUP_DETAIL: 'AdminGroupDetail',
   },
 
   /**

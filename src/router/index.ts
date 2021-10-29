@@ -257,21 +257,32 @@ const routes: Array<RouteConfig> = [
     path: ROUTES_PATH.ADMIN,
     name: 'Administration',
     component: Admin,
-    redirect: ROUTES_PATH.ADMIN + ROUTES_PATH.USERMANAGEMENT,
+    redirect: ROUTES_PATH.ADMIN + ROUTES_PATH.USER,
+    props: true,
     children: [{
-      name: ROUTES_NAMES.ADMIN.USERMANAGEMENT,
-      path: ROUTES_PATH.ADMIN + ROUTES_PATH.USERMANAGEMENT,
+      name: ROUTES_NAMES.ADMIN.USER,
+      path: ROUTES_PATH.ADMIN + ROUTES_PATH.USER,
       component: UserManagement,
       meta: {
         needAuthentication: true,
       },
     }, {
-      name: ROUTES_NAMES.ADMIN.GROUPMANAGEMENT,
-      path: ROUTES_PATH.ADMIN + ROUTES_PATH.GROUPMANAGEMENT,
+      name: ROUTES_NAMES.ADMIN.GROUP,
+      path: ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP,
       component: GroupManagement,
+      props: true,
       meta: {
         needAuthentication: true,
       },
+      children: [{
+        name: ROUTES_NAMES.ADMIN.GROUP_DETAIL,
+        path: ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP + '/:groupId',
+        component: GroupManagement,
+        props: true,
+        meta: {
+          needAuthentication: true,
+        },
+      }],
     }],
     meta: {
       needAuthentication: true,
