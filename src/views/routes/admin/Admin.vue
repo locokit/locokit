@@ -1,11 +1,23 @@
 <template>
   <layout-with-header>
     <template v-slot:default="slotProps">
-      <div class="lck-layout-content">
-        <lck-sidebar :sidebarActive="slotProps.sidebarActive" :items="sidebarItems" v-on="$listeners" />
-        <div class="lck-page">
-          <router-view />
-        </div>
+      <div class="lck-layout lck-layout--with-nav">
+        <nav class="lck-nav" :class="{'lck-nav--active': slotProps.sidebarActive}">
+          <ul class="lck-nav-list">
+            <li
+              v-for="item in menuItems"
+              :key="item.label"
+              :aria-label="item.label"
+              :title="item.label"
+              class="lck-nav-item"
+            >
+              <router-link :to="item.to" class="lck-nav-item-link">
+                <i class="bi" :class="item.icon" />
+              </router-link>
+            </li>
+          </ul>
+        </nav>
+        <router-view :sidebarActive="slotProps.sidebarActive" />
       </div>
     </template>
   </layout-with-header>
@@ -14,30 +26,28 @@
 <script>
 import Vue from 'vue'
 
-import Sidebar from '@/components/visualize/Sidebar/Sidebar'
-import { ROUTES_PATH } from '@/router/paths'
+import { ROUTES_NAMES } from '@/router/paths'
 import LayoutWithHeader from '@/layouts/WithHeader.vue'
 
 export default {
   name: 'Admin',
   components: {
     'layout-with-header': Vue.extend(LayoutWithHeader),
-    'lck-sidebar': Sidebar,
   },
   computed: {
-    sidebarItems () {
+    menuItems () {
       return [{
-        id: 0,
-        label: this.$t('pages.admin.sidebar.usersAndGroups'),
-        subitems: [{
-          id: 0,
-          label: this.$t('pages.userManagement.title'),
-          to: `${ROUTES_PATH.ADMIN}${ROUTES_PATH.USERMANAGEMENT}`,
-        }, {
-          id: 1,
-          label: this.$t('pages.groupManagement.title'),
-          to: `${ROUTES_PATH.ADMIN}${ROUTES_PATH.GROUPMANAGEMENT}`,
-        }],
+        label: this.$t('pages.userManagement.title'),
+        icon: 'bi-people',
+        to: {
+          name: ROUTES_NAMES.ADMIN.USERMANAGEMENT,
+        },
+      }, {
+        label: this.$t('pages.groupManagement.title'),
+        icon: 'bi-person',
+        to: {
+          name: ROUTES_NAMES.ADMIN.GROUPMANAGEMENT,
+        },
       }]
     },
   },

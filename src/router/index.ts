@@ -105,7 +105,7 @@ const routes: Array<RouteConfig> = [
       hasBurgerMenu: true,
     },
   }, {
-    name: 'Admin',
+    name: 'WorkspaceAdmin',
     path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN,
     redirect: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE,
     component: WorkspaceAdmin,
@@ -259,14 +259,14 @@ const routes: Array<RouteConfig> = [
     component: Admin,
     redirect: ROUTES_PATH.ADMIN + ROUTES_PATH.USERMANAGEMENT,
     children: [{
-      name: 'UserManagement',
+      name: ROUTES_NAMES.ADMIN.USERMANAGEMENT,
       path: ROUTES_PATH.ADMIN + ROUTES_PATH.USERMANAGEMENT,
       component: UserManagement,
       meta: {
         needAuthentication: true,
       },
     }, {
-      name: 'GroupManagement',
+      name: ROUTES_NAMES.ADMIN.GROUPMANAGEMENT,
       path: ROUTES_PATH.ADMIN + ROUTES_PATH.GROUPMANAGEMENT,
       component: GroupManagement,
       meta: {

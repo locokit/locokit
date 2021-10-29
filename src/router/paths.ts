@@ -69,9 +69,10 @@ export const ROUTES_NAMES = {
   /**
    * Admin paths
    */
-  ADMIN: 'Administration',
-  USERMANAGEMENT: 'UserManagement',
-  GROUPMANAGEMENT: 'GroupManagement',
+  ADMIN: {
+    USERMANAGEMENT: 'UserManagement',
+    GROUPMANAGEMENT: 'GroupManagement',
+  },
 
   /**
    * Other paths

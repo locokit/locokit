@@ -43,7 +43,7 @@
               <template slot="content">
                 <router-link
                   class="no-decoration-link"
-                  :to="`${ROUTES_PATH.WORKSPACE}/${group.id}`"
+                  :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}`"
                 >
                   {{ group.aclset.workspace.text }}
                 </router-link>

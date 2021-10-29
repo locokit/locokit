@@ -747,6 +747,7 @@
       "name": "Nom",
       "email": "E-mail",
       "isVerified": "Vérifié",
+      "blocked": "Bloqué",
       "password": "Mot de passe",
       "profile": "Profil",
       "selectProfile": "Sélectionnez un profil",

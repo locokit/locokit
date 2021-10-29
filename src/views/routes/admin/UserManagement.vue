@@ -47,6 +47,7 @@
           field="id"
           headerClass="p-text-center p-col-1"
           bodyClass="p-text-center"
+          headerStyle="width: 2rem;"
           :header="$t('pages.userManagement.id')"
           sortable
         >
@@ -67,6 +68,7 @@
         <p-column
           field="isVerified"
           :header="$t('pages.userManagement.isVerified')"
+          headerStyle="width: 4rem;"
           sortField="isVerified"
           sortable
         >
@@ -80,18 +82,46 @@
         </p-column>
 
         <p-column
-          field="createdAt"
-          :header="$t('pages.userManagement.createdAt')"
+          field="blocked"
+          :header="$t('pages.userManagement.blocked')"
+          headerStyle="width: 4rem;"
+          sortField="blocked"
           sortable
-        />
+        >
+          <template #body="slotProps">
+            <p-checkbox
+              :binary="true"
+              :modelValue="slotProps.data.blocked"
+              :disabled="true"
+            />
+          </template>
+        </p-column>
+
         <p-column
           field="profile"
           headerClass="p-col-1"
+          headerStyle="width: 8rem;"
           :header="$t('pages.userManagement.profile')"
           sortable
         >
           <template #body="slotProps">
             {{ slotProps.data["profile"] }}
+          </template>
+        </p-column>
+        <p-column
+          field="createdAt"
+          :header="$t('pages.userManagement.createdAt')"
+          headerStyle="width: 8rem;"
+          sortable
+        >
+          <template #body="slotProps">
+            <span :title="slotProps.data['createdAt']">
+              {{
+                slotProps.data["createdAt"]
+                ? slotProps.data["createdAt"].substring(0, 10)
+                : ""
+              }}
+            </span>
           </template>
         </p-column>
         <p-column
@@ -103,20 +133,20 @@
             <span class="p-buttonset">
               <p-button
                 icon="bi bi-pencil"
-                @click="editUser(slotProps.data)"
                 :title="$t('pages.userManagement.editUser')"
+                @click="editUser(slotProps.data)"
               />
               <lck-state-button
                 :disabled="slotProps.data.isVerified"
                 :error="resendVerifySignupUsers[slotProps.data.id] && resendVerifySignupUsers[slotProps.data.id].error"
-                icon="pi pi-envelope"
+                :icon="slotProps.data.isVerified ? 'bi bi-envelope-open' : 'bi bi-envelope'"
                 :loading="resendVerifySignupUsers[slotProps.data.id] && resendVerifySignupUsers[slotProps.data.id].loading"
                 :title="$t('pages.userManagement.resendVerifySignup')"
                 @click="resendVerifySignup(slotProps.data)"
               />
               <lck-state-button
                 :error="disableUsers[slotProps.data.id] && disableUsers[slotProps.data.id].error"
-                :icon="slotProps.data.blocked ? 'pi pi-ban' : 'pi pi-eye'"
+                :icon="slotProps.data.blocked ? 'bi bi-unlock' : 'bi bi-lock'"
                 :loading="disableUsers[slotProps.data.id] && disableUsers[slotProps.data.id].loading"
                 :title="slotProps.data.blocked
                   ? $t('pages.userManagement.enableUser.enable')
