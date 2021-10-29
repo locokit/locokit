@@ -5,7 +5,7 @@
       @menu-button-click="toggleSidebar"
       :logo-mobile-url="logoMobileUrl"
       :is-super-admin="isSuperAdmin"
-      @logoutClick="onLogoutClick"
+      @logout-click="onLogoutClick"
       :has-burger-menu="appState.hasBurgerMenu"
     />
     <slot :sidebarActive="sidebarActive"></slot>
