@@ -4,7 +4,7 @@ exports[`Page Create new records (blocks Set) match snapshot and display all blo
 <div class="p-mx-2 lck-layout-classic">
   <div class="lck-page-content" style="margin-right: 0px;">
     <!---->
-    <div class="lck-color-primary p-my-4">
+    <div class="lck-color-title p-my-4">
       <h1>Page 6</h1>
     </div>
     <!---->
