@@ -430,13 +430,14 @@ describe('Database', () => {
     })
 
     describe('On table view column edit', () => {
-      const updatedTableColumnData = { displayed: true }
+      const updatedTableColumnData = { displayed: true, transmitted: false }
 
       beforeEach(() => {
         lckServices.tableViewColumn.patch.mockClear()
       })
 
       it('From the sidebar', async () => {
+        expect.assertions(3)
         // Select a column
         await lckDatatableWrapper.vm.$emit('column-select', wrapper.vm.displayColumnsView.columns[0])
         // Edit the column
@@ -449,9 +450,11 @@ describe('Database', () => {
         )
         // Update local data
         expect(wrapper.vm.views[0].columns[0].displayed).toBe(updatedTableColumnData.displayed)
+        expect(wrapper.vm.views[0].columns[0].transmitted).toBe(updatedTableColumnData.transmitted)
       })
 
       it('From the datatable', async () => {
+        expect.assertions(3)
         // Select a column
         await lckDatatableWrapper.vm.$emit('column-select', wrapper.vm.displayColumnsView.columns[0])
         // Edit the column
@@ -463,6 +466,7 @@ describe('Database', () => {
         )
         // Update local data
         expect(wrapper.vm.views[0].columns[0].displayed).toBe(updatedTableColumnData.displayed)
+        expect(wrapper.vm.views[0].columns[0].transmitted).toBe(updatedTableColumnData.transmitted)
       })
 
       it('Don\'t update the data if no column is selected', async () => {
