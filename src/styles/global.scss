@@ -11,6 +11,10 @@ html {
   -webkit-font-smoothing: antialiased;
 }
 
+textarea {
+  font-family: var(--font-family);
+}
+
 
 @media screen and (min-device-width: 1400px) {
   html {
