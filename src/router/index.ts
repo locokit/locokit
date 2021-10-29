@@ -17,6 +17,8 @@ import DatabaseTable from '@/views/routes/workspace/admin/database/DatabaseTable
 import AclSetListing from '@/views/routes/workspace/admin/acl/AclSetListing.vue'
 import DatabaseSchema from '@/views/routes/workspace/admin/database/DatabaseSchema.vue'
 import ProcessListing from '@/views/routes/workspace/admin/process/ProcessListing.vue'
+import WorkspaceGroupListing from '@/views/routes/workspace/admin/group/WorkspaceGroupListing.vue'
+import WorkspaceSettings from '@/views/routes/workspace/admin/settings/WorkspaceSettings.vue'
 
 import Admin from '@/views/routes/admin/Admin.vue'
 import UserManagement from '@/views/routes/admin/UserManagement.vue'
@@ -184,16 +186,26 @@ const routes: Array<RouteConfig> = [
     }, {
       path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP,
       name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUP,
-      component: ProcessListing,
+      component: WorkspaceGroupListing,
       props: true,
       meta: {
         needAuthentication: true,
         hasBurgerMenu: true,
       },
+      children: [{
+        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP + '/:groupId',
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUP_DETAIL,
+        component: WorkspaceGroupListing,
+        props: true,
+        meta: {
+          needAuthentication: true,
+          hasBurgerMenu: true,
+        },
+      }],
     }, {
       path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.SETTINGS,
       name: ROUTES_NAMES.WORKSPACE_ADMIN.SETTINGS,
-      component: ProcessListing,
+      component: WorkspaceSettings,
       props: true,
       meta: {
         needAuthentication: true,

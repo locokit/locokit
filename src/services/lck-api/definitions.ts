@@ -16,9 +16,9 @@ export class LckBaseModel {
 }
 
 export interface LckWorkspaceSettings {
-  color?: string;
-  backgroundColor?: string;
-  icon?: string;
+  color?: string | null;
+  backgroundColor?: string | null;
+  icon?: string | null;
 }
 
 export class LckWorkspace extends LckBaseModel {
@@ -28,6 +28,11 @@ export class LckWorkspace extends LckBaseModel {
   aclsets?: LckAclSet[];
   documentation?: string;
   settings?: LckWorkspaceSettings;
+
+  constructor () {
+    super()
+    this.settings = {}
+  }
 }
 
 export class LckAttachment {

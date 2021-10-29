@@ -310,6 +310,30 @@
           "UPPER": "Retourne le texte spécifié en majuscules."
         }
       }
+    },
+    "userGroupForm": {
+      "fields": {
+        "name": "Nom",
+        "namePlaceholder": "Exemple: Le groupe d'utilisateur client",
+        "aclSet": "Rôle",
+        "aclSetPlaceholder": "Assignez un rôle de votre espace de travail",
+        "chapter": "Chapitre",
+        "chapterPlaceholder": "Ce groupe d'utilisateur pourra accéder à votre application à travers ce chapitre"
+      }
+    },
+    "workspaceForm": {
+      "fields": {
+        "textPlaceholder": "Nom de l'espace de travail",
+        "textLabel": "Nom",
+        "docPlaceholder": "Ajoutez une description de votre espace de travail, une documentation...",
+        "docLabel": "Documentation",
+        "colorLabel": "Couleur",
+        "colorPlaceholder": "Sélectionnez une couleur dans la liste",
+        "colorHelp": "Cette couleur sera utilisée en fond sur la page d'accueil des espaces de travail",
+        "iconLabel": "Icône",
+        "iconPlaceholder": "bi-cart",
+        "iconHelp": "Renseignez l'identifiant de l'icône souhaitée, liste disponible sur "
+      }
     }
   },
   "pages": {
@@ -317,34 +341,51 @@
       "title": "Oh oh ?!... on dirait que vous êtes perdu... Désolé. Vraiment.",
       "link": "Vous pouvez tenter de revenir sur la page d'accueil ?"
     },
-    "acl": {
-      "common": {
-        "title": "Rôles et permissions"
-      },
-      "detail": {
-        "aclTables": "Tables",
-        "aclTableFilters": "Filtres",
-        "aclTableName": "Nom de la table",
-        "aclTableRecord": "Enregistrement",
-        "chapter": "Chapitre",
-        "create_rows": "Création d'un enregistrement",
-        "delete_filter": "Filtre appliqué lors d'une suppression",
-        "delete_rows": "Suppression d'un enregistrement",
-        "createTitle": "Création d'un nouveau rôle",
-        "editTitle": "Édition d'un rôle",
-        "filterError": "Le filtre spécifié n'est pas au format souhaité (JSON).",
-        "noAclTable": "Aucune table",
-        "label": "Nom du rôle",
-        "properties": "Propriétés",
-        "read_rows": "Lecture d'un enregistrement",
-        "read_filter": "Filtre appliqué lors d'une lecture",
-        "update_filter": "Filtre appliqué lors d'une mise à jour",
-        "update_rows": "Mise à jour d'un enregistrement"
+    "workspaceAdmin": {
+      "acl": {
+        "common": {
+          "title": "Rôles et permissions",
+          "manager": "Est manager du workspace"
         },
-      "listing": {
-        "aclSetError": "Impossible de récupérer les rôles associés au workspace courant.",
-        "noAclSet": "Aucun rôle créé",
-        "title": "Tous les rôles"
+        "detail": {
+          "aclTablesExplanation": "Permissions sur les tables",
+          "aclTableFilters": "Filtres",
+          "aclTableName": "Nom de la table",
+          "aclTableRecord": "Enregistrement",
+          "chapter": "Chapitre",
+          "create_rows": "Création d'un enregistrement",
+          "delete_filter": "Filtre appliqué lors d'une suppression",
+          "delete_rows": "Suppression d'un enregistrement",
+          "createTitle": "Création d'un nouveau rôle",
+          "editTitle": "Édition d'un rôle",
+          "filterError": "Le filtre spécifié n'est pas au format souhaité (JSON).",
+          "noAclTable": "Aucune table",
+          "label": "Nom du rôle",
+          "properties": "Propriétés",
+          "read_rows": "Lecture d'un enregistrement",
+          "read_filter": "Filtre appliqué lors d'une lecture",
+          "update_filter": "Filtre appliqué lors d'une mise à jour",
+          "update_rows": "Mise à jour d'un enregistrement"
+          },
+        "listing": {
+          "aclSetError": "Impossible de récupérer les rôles associés à l'espace de travail courant.",
+          "noAclSet": "Aucun rôle créé",
+          "title": "Tous les rôles"
+        }
+      },
+      "group": {
+        "common": {
+          "title": "Groupes"
+        },
+        "detail": {
+        },
+        "listing": {
+          "groupError": "Impossible de récupérer les groupes associés à l'espace de travail courant.",
+          "noGroup": "Aucun groupe créé"
+        }
+      },
+      "settings": {
+        "title": "Paramètres"
       }
     },
     "home": {
@@ -420,16 +461,7 @@
         "create": "Créer un nouvel espace de travail",
         "new": "Nouvel espace de travail",
         "createdSummary": "Votre espace de travail a été créé !",
-        "createdDetail": "Votre espace de travail a été créé, vous pouvez désormais le configurer.",
-        "textPlaceholder": "Nom de l'espace de travail",
-        "textLabel": "Nom",
-        "docPlaceholder": "Ajoutez une description de votre espace de travail, une documentation...",
-        "docLabel": "Documentation",
-        "colorLabel": "Couleur",
-        "colorPlaceholder": "Sélectionnez une couleur dans la liste",
-        "iconLabel": "Icon",
-        "iconPlaceholder": "bi-cart",
-        "iconHelp": "Renseignez l'identifiant de l'icon souhaitée, liste disponible sur "
+        "createdDetail": "Votre espace de travail a été créé, vous pouvez désormais le configurer."
       },
       "menu": {
         "databases": "Bases de données",
@@ -767,7 +799,8 @@
           "role": "Rôle"
         },
         "text": {
-          "chapter": "chapitre",
+          "aclset": "Rôle",
+          "chapter": "Chapitre",
           "selectUser": "Sélectionnez un utilisateur",
           "selectRole": "Sélectionnez un rôle",
           "addNewUserInGroup": "Ajouter un utilisateur dans {groupName}",

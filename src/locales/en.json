@@ -310,6 +310,30 @@
           "UPPER": "Returns an uppercase copy of the text."
         }
       }
+    },
+    "userGroupForm": {
+      "fields": {
+        "name": "Name",
+        "namePlaceholder": "Example: The customer user group",
+        "aclSet": "Role",
+        "aclSetPlaceholder": "Assign a workspace's role",
+        "chapter": "Chapter",
+        "chapterPlaceholder": "This user group will access your app through this chapter"
+      }
+    },
+    "workspaceForm": {
+      "fields": {
+        "textPlaceholder": "Workspace's name",
+        "textLabel": "Name",
+        "docPlaceholder": "Add a description of your workspace, a documentation, ...",
+        "docLabel": "Documentation",
+        "colorLabel": "Color",
+        "colorPlaceholder": "Select a color",
+        "colorHelp": "This color will be used as background in the workspace listing page",
+        "iconLabel": "Icon",
+        "iconPlaceholder": "bi-cart",
+        "iconHelp": "Fill with icon id, list is available on "
+      }
     }
   },
   "pages": {
@@ -317,34 +341,43 @@
       "title": "Whooops ?!... sounds you're lost... Sorry. Really.",
       "link": "Please, please... come back home."
     },
-    "acl": {
-      "common": {
-        "title": "Roles and permissions"
-      },
-      "detail": {
-        "aclTables": "Tables",
-        "aclTableFilters": "Filters",
-        "aclTableName": "Table name",
-        "aclTableRecord": "Record",
-        "chapter": "Chapter",
-        "create_rows": "Record creation",
-        "delete_filter": "Filter used when deleting",
-        "delete_rows": "Record deletion",
-        "createTitle": "Create a new role",
-        "editTitle": "Update a role",
-        "filterError": "The specified filter does not match the expected format (JSON).",
-        "noAclTable": "No table",
-        "label": "Role name",
-        "properties": "Properties",
-        "read_rows": "Record reading",
-        "read_filter": "Filter used when reading",
-        "update_filter": "Filter used when updating",
-        "update_rows": "Record updating"
+    "workspaceAdmin": {
+      "acl": {
+        "common": {
+          "title": "Roles and permissions",
+          "manager": "Is a workspace's manager"
         },
-      "listing": {
-        "aclSetError": "Impossible to retrieve the workspace roles.",
-        "noAclSet": "No role",
-        "title": "All roles"
+        "detail": {
+          "aclTablesExplanation": "Tables' permissions",
+          "aclTableFilters": "Filters",
+          "aclTableName": "Table name",
+          "aclTableRecord": "Record",
+          "chapter": "Chapter",
+          "create_rows": "Record creation",
+          "delete_filter": "Filter used when deleting",
+          "delete_rows": "Record deletion",
+          "createTitle": "Create a new role",
+          "editTitle": "Update a role",
+          "filterError": "The specified filter does not match the expected format (JSON).",
+          "noAclTable": "No table",
+          "label": "Role name",
+          "properties": "Properties",
+          "read_rows": "Record reading",
+          "read_filter": "Filter used when reading",
+          "update_filter": "Filter used when updating",
+          "update_rows": "Record updating"
+          },
+        "listing": {
+          "aclSetError": "Impossible to retrieve the workspace roles.",
+          "noAclSet": "No role",
+          "title": "All roles"
+        }
+      },
+      "group": {
+        "title": "Groups"
+      },
+      "settings": {
+        "title": "Settings"
       }
     },
     "home": {
@@ -420,16 +453,7 @@
         "create": "Create a new workspace",
         "new": "New workspace",
         "createdSummary": "Your workspace have been created !",
-        "createdDetail": "Your workspace have been created, you can configure it now.",
-        "textPlaceholder": "Workspace's name",
-        "textLabel": "Name",
-        "docPlaceholder": "Add a description of your workspace, a documentation, ...",
-        "docLabel": "Documentation",
-        "colorLabel": "Color",
-        "colorPlaceholder": "Select a color",
-        "iconLabel": "Icon",
-        "iconPlaceholder": "bi-cart",
-        "iconHelp": "Fill with icon id, list is available on "
+        "createdDetail": "Your workspace have been created, you can configure it now."
       },
       "menu": {
         "databases": "Databases",
@@ -762,7 +786,8 @@
           "role": "Role"
         },
         "text": {
-          "chapter": "chapter",
+          "aclset": "Role",
+          "chapter": "Chapter",
           "selectUser": "Select an user",
           "selectRole": "Select a role",
           "addNewUserInGroup": "Add an user in {groupName}",

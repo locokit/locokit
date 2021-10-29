@@ -68,82 +68,13 @@
         @update:visible="dialogVisible = false"
       >
 
-        <form class="p-fluid">
-          <div class="p-field">
-            <label for="new-workspace-text">{{$t('pages.workspace.form.textLabel')}}</label>
-            <p-input-text
-              id="new-workspace-text"
-              :placeholder="$t('pages.workspace.form.textPlaceholder')"
-              v-model="newWorkspace.text"
-            />
-          </div>
+        <lck-workspace-form
+          :workspace="workspace"
+          :submitting="submitting"
+          @cancel="dialogVisible = false"
+          @input="createWorkspace"
+        />
 
-          <div class="p-field">
-            <label for="new-workspace-documentation">{{ $t('pages.workspace.form.docLabel') }}</label>
-            <p-textarea
-              id="new-workspace-documentation"
-              :placeholder="$t('pages.workspace.form.docPlaceholder')"
-              class="p-mb-2"
-              :autoResize="true"
-              v-model="newWorkspace.documentation"
-            />
-          </div>
-
-          <div class="p-field">
-            <label for="new-workspace-color">{{ $t('pages.workspace.form.colorLabel') }}</label>
-            <p-dropdown
-              id="new-workspace-color"
-              :options="colorScheme"
-              dataKey="backgroundColor"
-              appendTo="body"
-              :showClear="true"
-              :placeholder="$t('pages.workspace.form.colorPlaceholder')"
-              :value="newWorkspaceColorScheme"
-              @change="onColorSelect($event)"
-            >
-              <template #value="slotProps">
-                <lck-badge
-                  v-if="slotProps.value"
-                  :label="$t('pages.workspace.form.colorLabel') + ' ' + slotProps.value.backgroundColor"
-                  :color="slotProps.value.color"
-                  :backgroundColor="slotProps.value.backgroundColor"
-                />
-              </template>
-              <template #option="slotProps">
-                <lck-badge
-                  :label="$t('pages.workspace.form.colorLabel') + ' ' + slotProps.option.backgroundColor"
-                  :color="slotProps.option.color"
-                  :backgroundColor="slotProps.option.backgroundColor"
-                />
-              </template>
-            </p-dropdown>
-          </div>
-
-          <div class="p-field">
-            <label for="new-workspace-icon">{{ $t('pages.workspace.form.iconLabel') }}</label>
-            <p-input-text
-              id="new-workspace-icon"
-              :placeholder="$t('pages.workspace.form.iconPlaceholder')"
-              v-model="newWorkspace.settings.icon"
-            />
-            <small id="new-workspace-icon">{{ $t('pages.workspace.form.iconHelp') }} <a href="https://icons.getbootstrap.com/" target="_blank" ref="noopener">Bootstrap Icon</a>.</small>
-          </div>
-        </form>
-
-        <template #footer>
-          <p-button
-            :label="$t('sw.cancel')"
-            icon="pi pi-times"
-            class="p-button-text"
-            @click="dialogVisible = false"
-          />
-          <p-button
-            :label="$t('form.save')"
-            icon="pi pi-check"
-            @click="createWorkspace"
-            autofocus
-          />
-        </template>
       </p-dialog>
     </div>
   </layout-with-header>
@@ -155,13 +86,9 @@ import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
 import { AuthState, authState } from '@/store/auth'
 import { ColorScheme, COLOR_SCHEME } from '@/services/lck-utils/color'
 
-import Button from 'primevue/button'
-import InputText from 'primevue/inputtext'
-import Textarea from 'primevue/textarea'
 import Skeleton from 'primevue/skeleton'
-import Dropdown from 'primevue/dropdown'
 
-import Badge from '@/components/ui/Badge/Badge.vue'
+import WorkspaceForm from '@/components/visualize/WorkspaceForm/WorkspaceForm.vue'
 
 import { lckServices } from '@/services/lck-api'
 import Dialog from 'primevue/dialog/Dialog'
@@ -178,12 +105,8 @@ export default {
   name: 'WorkspaceList',
   components: {
     'layout-with-header': Vue.extend(WithHeader),
-    'lck-badge': Vue.extend(Badge),
-    'p-button': Vue.extend(Button),
+    'lck-workspace-form': Vue.extend(WorkspaceForm),
     'p-dialog': Vue.extend(Dialog),
-    'p-dropdown': Vue.extend(Dropdown),
-    'p-input-text': Vue.extend(InputText),
-    'p-textarea': Vue.extend(Textarea),
     'p-skeleton': Vue.extend(Skeleton),
   },
   data (): {
@@ -240,22 +163,16 @@ export default {
         this.newWorkspace.settings.backgroundColor = event.value.backgroundColor
       }
     },
-    async createWorkspace () {
+    async createWorkspace (newWorkspace: LckWorkspace) {
       try {
-        await lckServices.workspace.create(this.newWorkspace)
+        await lckServices.workspace.create(newWorkspace)
         this.$toast.add({
           severity: 'success',
           summary: this.$t('pages.workspace.form.createdSummary'),
           detail: this.$t('pages.workspace.form.createdDetail'),
           life: 5000,
         })
-        this.newWorkspace = {
-          text: '',
-          documentation: '',
-          settings: {},
-        }
         this.dialogVisible = false
-        this.newWorkspaceColorScheme = null
         this.fetchUserGroups()
       } catch (error: any) {
         this.$toast.add({
