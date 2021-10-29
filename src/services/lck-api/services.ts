@@ -21,6 +21,7 @@ import {
   LckTableAction,
   LckAclSet,
   LckAclTable,
+  LckUserGroup,
 } from './definitions'
 
 interface ServiceUpload {
@@ -74,4 +75,5 @@ export const lckServices = {
    */
   user: lckClient.service('user') as Service<LckUser>,
   group: lckClient.service('group') as Service<LckGroup>,
+  usergroup: lckClient.service('usergroup') as Service<LckUserGroup>,
 }
