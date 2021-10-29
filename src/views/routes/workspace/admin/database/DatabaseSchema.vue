@@ -14,7 +14,7 @@
       v-if="tables && tables.length === 0"
       class="schema-info"
     >
-      <i class="bi bi-info-circle"></i>
+      <big><div class="bi bi-info-circle p-m-4"></div></big>
       {{ $t('pages.databaseSchema.noTable') }}
     </div>
     <div
@@ -23,11 +23,8 @@
       v-html="nomnomlSVG"
       @click="onClickTable"
     />
-    <p
-      v-else
-      class="schema-info"
-    >
-      <i class="bi bi-exclamation-circle"></i>
+    <p v-else class="schema-info">
+      <big><div class="bi bi-exclamation-circle p-m-4"></div></big>
       {{ $t('pages.databaseSchema.noSchema') }}
     </p>
     <create-table-modal
@@ -279,13 +276,8 @@ path {
 }
 .schema-info {
   color: var(--text-color);
-  font-style: italic;
   margin: auto;
   text-align: center;
-}
-.schema-info i {
-  display: block;
-  font-size: 3rem;
-  margin-bottom: 1rem;
+  font-size: 1.5rem;
 }
 </style>
