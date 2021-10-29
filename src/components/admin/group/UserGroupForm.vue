@@ -131,8 +131,7 @@
 
       <lck-dialog-form
         :visible.sync="openDialog"
-        :header="isEditingUser ? $t('pages.groupManagement.form.text.editUserInGroup', {groupName: usergroup.groupName, userName: usergroup.userName }) : $t('pages.groupManagement.form.text.addNewUserInGroup', {groupName: usergroup.groupName })
-      "
+        :header="isEditingUser ? $t('pages.groupManagement.form.text.editUserInGroup', {groupName: usergroup.groupName, userName: usergroup.userName }) : $t('pages.groupManagement.form.text.addNewUserInGroup', {groupName: usergroup.groupName })"
         @close="hideDialog"
         :submitting="submitting"
         :contentStyle="{ 'overflow-y': 'visible' }"
@@ -189,23 +188,6 @@
                 <span>{{slotProps.option.label}}</span>
               </template>
             </p-dropdown>
-          </validation-provider>
-          <validation-provider
-            v-if="isEditingUser"
-            vid="isVerified"
-            tag="div"
-            class="p-field"
-          >
-            <label for="isVerified">
-              {{ $t("pages.userManagement.isVerified") }}
-            </label>
-            <p-checkbox
-              class="p-field-checkbox"
-              id="isVerified"
-              :binary="true"
-              v-model="usergroup.userIsVerified"
-              :disabled="true"
-            />
           </validation-provider>
         </template>
       </lck-dialog-form>

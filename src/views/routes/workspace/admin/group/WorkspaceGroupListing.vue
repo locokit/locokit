@@ -44,13 +44,14 @@
         :aclSetSuggestions="aclSetSuggestions"
         :userSuggestions="userSuggestions"
         :submitting="submitting"
-        @cancel="cancelEdit"
 
-        @create-usergroup="deleteUserGroup"
-        @update-usergroup="deleteUserGroup"
-        @delete-usergroup="deleteUserGroup"
+        @create-usergroup="addUserInGroup"
+        @update-usergroup="editUserInGroup"
+        @delete-usergroup="deleteUserInGroup"
 
         @input="saveGroup"
+        @cancel="cancelEdit"
+
         @search-aclset="onSearchAclset"
         @search-user="onSearchUser"
       />
@@ -204,7 +205,7 @@ export default {
     /**
      * Add a new user in a group
      */
-    async addNewUserInGroup (userId: number, groupId: string, role: GROUP_ROLE) {
+    async addUserInGroup (userId: number, groupId: string, role: GROUP_ROLE) {
       this.submitting = true
       try {
         await lckServices.usergroup.create({
@@ -221,7 +222,7 @@ export default {
     /**
      * Edit the user in a group
      */
-    async editUserRoleInGroup (userId: number, groupId: string, role: GROUP_ROLE) {
+    async editUserInGroup (userId: number, groupId: string, role: GROUP_ROLE) {
       this.submitting = true
       try {
         await lckServices.usergroup.patch(
