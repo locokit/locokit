@@ -29,18 +29,23 @@
       {{ error.message }}
     </div>
 
-    <div class="p-d-flex p-flex-column">
-      <p-button
-        type="submit"
-        :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
-        :label="logInAgain ? $t('components.login.signinAgain') : $t('components.login.signin')"
-        :disabled="loading"
-        class="p-mb-4"
-      />
+    <p-button
+      type="submit"
+      :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
+      :label="logInAgain ? $t('components.login.signinAgain') : $t('components.login.signin')"
+      :disabled="loading"
+      class="p-mb-4"
+    />
+
+    <div v-if="!logInAgain" class="footer-links">
       <router-link
-        v-if="!logInAgain"
-        to="/lost-password"
-        class="p-d-block p-text-center"
+        v-if="displaySignUpLink"
+        :to="{ name: ROUTES_PATH.SIGNUP }"
+      >
+        {{ $t('components.login.signup') }}
+      </router-link>
+      <router-link
+        :to="{ name: ROUTES_PATH.LOSTPASSWORD }"
       >
         {{ $t('components.login.lostpassword') }}
       </router-link>
@@ -50,6 +55,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
+
+import { ROUTES_PATH } from '@/router/paths'
+
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 
@@ -68,9 +76,14 @@ export default Vue.extend({
       type: Boolean,
       default: false,
     },
+    displaySignUpLink: {
+      type: Boolean,
+      default: false,
+    },
   },
   data () {
     return {
+      ROUTES_PATH,
       form: {
         email: '',
         password: '',
@@ -92,5 +105,12 @@ export default Vue.extend({
 <style scoped>
 form {
   text-align: left;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  justify-content: space-around;
 }
 </style>

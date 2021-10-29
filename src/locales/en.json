@@ -10,7 +10,8 @@
       "signin": "Sign in",
       "signinAgain": "Sign in again",
       "passwordHelper": "Please choose a password",
-      "lostpassword": "Forgot your password ?"
+      "lostpassword": "Forgot your password ?",
+      "signup": "Sign up"
     },
     "lostpassword": {
       "email": "email",
@@ -26,6 +27,11 @@
       "resetSubmit": "Reset the password",
       "setSubmit": "Set the password",
       "passwordMismatch": "Passwords mismatch"
+    },
+    "signup": {
+      "email": "E-mail",
+      "name": "Name",
+      "signup": "Sign up"
     },
     "paginator": {
       "currentPageReportTemplate": "Showing {first} to {last} of {totalRecords} entries",
@@ -361,6 +367,13 @@
       "subtitle": "You can reset your password.",
       "resetOK": "Password reset. You can use this new password.",
       "homelink": "Return to home page"
+    },
+    "signup": {
+      "forbid": "It's not possible to sign up.",
+      "homelink": "Return to home page",
+      "signUpOk": "Your registration request has been taken into account. You will receive an email with instructions on how to finalize it.",
+      "subtitle": "Complete this form to initiate your registration.",
+      "title": "Sign up"
     },
     "verifysignup": {
       "title": "Email verification and password update",
@@ -794,8 +807,10 @@
       "401": "Access not granted",
       "403": "Access forbidden",
       "404": "Not found",
+      "405": "Not allowed",
       "406": "Not acceptable",
       "409": "Data Conflict",
+      "429": "Maximum number of requests exceeded",
       "500": "An error occured…"
     },
     "lck": {

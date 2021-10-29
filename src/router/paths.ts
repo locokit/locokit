@@ -9,6 +9,7 @@ export const ROUTES_PATH = {
   RESETPASSWORD: '/reset-password',
   PROFILE: '/profile',
   UPDATEEMAIL: '/update-email',
+  SIGNUP: '/signup',
 
   /**
    * Workspace paths
@@ -39,6 +40,7 @@ export const ROUTES_NAMES = {
   RESETPASSWORD: 'ResetPassword',
   PROFILE: 'Profile',
   UPDATEEMAIL: 'UpdateEmail',
+  SIGNUP: 'SignUp',
 
   /**
    * Workspace paths

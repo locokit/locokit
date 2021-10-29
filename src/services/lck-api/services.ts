@@ -21,6 +21,8 @@ import {
   LckTableAction,
   LckAclSet,
   LckAclTable,
+  LckSettings,
+  LckSignUp,
 } from './definitions'
 
 interface ServiceUpload {
@@ -30,6 +32,14 @@ interface ServiceUpload {
     ext: FileExtension;
     mime: MimeType;
   }>, params?: Params): Promise<LckAttachment>;
+}
+
+interface SettingsService {
+  find: () => Promise<LckSettings>;
+}
+
+interface SignUpService {
+  create: (credentials: LckSignUp) => Promise<LckSignUp>;
 }
 
 export const lckServices = {
@@ -74,4 +84,12 @@ export const lckServices = {
    */
   user: lckClient.service('user') as Service<LckUser>,
   group: lckClient.service('group') as Service<LckGroup>,
+  /**
+   * Settings
+   */
+  settings: lckClient.service('settings') as SettingsService,
+  /**
+   * Signup
+   */
+  signup: lckClient.service('signup') as SignUpService,
 }

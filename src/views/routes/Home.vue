@@ -11,6 +11,7 @@
       @submit="authenticate"
       :loading="authState.loading"
       :error="authState.error"
+      :displaySignUpLink="appState.allowSignUp"
     />
   </layout-with-background>
 </template>
@@ -21,6 +22,7 @@ import Vue from 'vue'
 import Login from '@/components/auth/Login/Login.vue'
 
 import { AuthDTO, authenticate, authState } from '@/store/auth'
+import { appState } from '@/store/app'
 import { ROUTES_PATH } from '@/router/paths'
 import LayoutWithBackground from '@/layouts/WithBackground.vue'
 
@@ -33,6 +35,7 @@ export default {
   data () {
     return {
       authState,
+      appState,
       // eslint-disable-next-line no-undef
       backgroundImage: LCK_THEME.HOME_BACKGROUND_IMAGE_URL,
       // eslint-disable-next-line no-undef

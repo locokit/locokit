@@ -365,7 +365,7 @@ export class LckUser {
   updatedAt!: string;
   email!: string;
   name!: string;
-  // password!: string;
+  password?: string;
   profile!: string;
   blocked!: boolean;
   isVerified!: boolean;
@@ -414,6 +414,15 @@ export class LckAclTable extends LckBaseModel {
       this.table_id = table.id
     }
   }
+}
+
+export class LckSettings {
+  allow_signup!: boolean;
+}
+
+export class LckSignUp {
+  email!: string
+  name!: string
 }
 
 export class LckAclSet extends LckBaseModel {
