@@ -238,13 +238,13 @@ const routes: Array<RouteConfig> = [
     component: Workspace,
     props: true,
     children: [{
-      name: 'WorkspacePageDetail',
-      path: ':groupId/page/:pageId/detail/:pageDetailId',
+      name: ROUTES_NAMES.WORKSPACE_VISUALIZATION.PAGE_DETAIL,
+      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION + '/:groupId/page/:pageId/detail/:pageDetailId',
       props: true,
       component: Page,
     }, {
-      name: 'WorkspacePage',
-      path: ':groupId/page/:pageId',
+      name: ROUTES_NAMES.WORKSPACE_VISUALIZATION.PAGE,
+      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION + '/:groupId/page/:pageId',
       props: true,
       component: Page,
     }],

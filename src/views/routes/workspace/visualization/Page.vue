@@ -279,7 +279,7 @@ export default {
   },
   computed: {
     breadcrumb () {
-      const parent = this.$parent.sidebarItems.reduce((acc, chapter) => {
+      const parent = this.$parent.$parent.sidebarItems.reduce((acc, chapter) => {
         chapter.subitems.find(page => {
           if (page.id === this.$route.params.pageId) acc = page
         })
@@ -767,8 +767,16 @@ export default {
     },
 
     async onPageDetail (block, { rowId, pageDetailId }) {
+      console.log({
+        name: ROUTES_NAMES.WORKSPACE_VISUALIZATION.PAGE_DETAIL,
+        params: {
+          pageId: this.$route.params.pageId,
+          pageDetailId: pageDetailId || block.settings.pageDetailId,
+        },
+        query: { rowId },
+      })
       await this.$router.push({
-        name: ROUTES_NAMES.PAGEDETAIL,
+        name: ROUTES_NAMES.WORKSPACE_VISUALIZATION.PAGE_DETAIL,
         params: {
           pageId: this.$route.params.pageId,
           pageDetailId: pageDetailId || block.settings.pageDetailId,

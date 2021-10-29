@@ -222,7 +222,7 @@ export default {
    * => we check before executing we are on the "good" component...
    */
   async beforeRouteEnter (to, from, next) {
-    if (to.name !== 'WorkspaceList') next()
+    if (to.name !== ROUTES_NAMES.WORKSPACELIST) next()
     const userWorkspacesAvailable = authState?.data?.user?.groups
     if (
       !userWorkspacesAvailable?.some(({ aclset }) => aclset?.manager) &&
@@ -232,7 +232,11 @@ export default {
       // we redirect user on the visualization route
       authState.data.currentGroupId = userWorkspacesAvailable[0].id
       next({
-        path: `${ROUTES_PATH.WORKSPACE}/${authState.data.currentGroupId}${ROUTES_PATH.VISUALIZATION}`,
+        name: ROUTES_NAMES.WORKSPACE,
+        params: {
+          workspaceId: userWorkspacesAvailable[0].aclset?.workspace_id as string,
+          groupId: authState.data.currentGroupId,
+        },
       })
     } else {
       next()

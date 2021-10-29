@@ -12,6 +12,7 @@
             :key="forceUpdateKey"
             :chapters="Array.isArray(workspaceUserGroups) ? workspaceUserGroups : []"
             :workspaceId="workspaceId"
+            :userId="userId"
           />
           <p-confirm-dialog />
         </div>
@@ -23,7 +24,7 @@
 import Vue from 'vue'
 
 import LayoutWithHeader from '@/layouts/WithHeader.vue'
-import { ROUTES_PATH } from '@/router/paths'
+import { ROUTES_NAMES, ROUTES_PATH } from '@/router/paths'
 import { lckHelpers } from '@/services/lck-api'
 import { authState } from '@/store/auth'
 
@@ -83,7 +84,14 @@ export default {
       ) {
         const pageNotHidden = this.workspaceUserGroups[0].chapter.pages.find(page => page.hidden !== true)
         if (pageNotHidden) {
-          await this.$router.replace(`${ROUTES_PATH.WORKSPACE}/${this.workspaceId}${ROUTES_PATH.VISUALIZATION}/${this.workspaceUserGroups[0].id}/page/${pageNotHidden.id}`)
+          await this.$router.replace({
+            name: ROUTES_NAMES.WORKSPACE_VISUALIZATION.PAGE,
+            params: {
+              workspaceId: this.workspaceId,
+              groupId: this.workspaceUserGroups[0].id,
+              pageId: pageNotHidden.id,
+            },
+          })
         }
       }
     },

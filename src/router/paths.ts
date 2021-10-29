@@ -47,7 +47,8 @@ export const ROUTES_NAMES = {
   /**
    * Workspace paths
    */
-  WORKSPACE: 'WorkspaceList',
+  WORKSPACELIST: 'WorkspaceList',
+  WORKSPACE: 'Workspace',
   VISUALIZATION: 'WorkspaceVisualization',
   PAGE: 'Page',
   PAGEDETAIL: 'PageDetail',
@@ -63,6 +64,11 @@ export const ROUTES_NAMES = {
     SETTINGS: 'WorkspaceSettings',
     GROUP: 'WorkspaceGroup',
     GROUP_DETAIL: 'WorkspaceGroupDetail',
+  },
+
+  WORKSPACE_VISUALIZATION: {
+    PAGE: 'WorkspaceVisualizationPage',
+    PAGE_DETAIL: 'WorkspaceVisualizationPageDetail',
   },
 
   /**
