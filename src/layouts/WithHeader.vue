@@ -2,11 +2,12 @@
   <div>
     <lck-header
       :logo-url="logoURL"
-      @menu-button-click="toggleSidebar"
       :logo-mobile-url="logoMobileUrl"
       :is-super-admin="isSuperAdmin"
-      @logout-click="onLogoutClick"
       :has-burger-menu="appState.hasBurgerMenu"
+
+      @menu-button-click="toggleSidebar"
+      @logout-click="onLogoutClick"
     />
     <slot :sidebarActive="sidebarActive"></slot>
   </div>

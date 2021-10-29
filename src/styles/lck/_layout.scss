@@ -46,22 +46,6 @@
   min-height: 100%;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  width: 10rem;
-  margin: auto;
-
-  &-svg {
-    width: 100%;
-    height: auto;
-  }
-}
-
-.has-burger-menu .logo {
-  margin-left: -55px;
-}
-
 .main-container {
   margin-left: var(--nav-width);
   transition: all 0.4s cubic-bezier(0.4, 0, 0, 1);
@@ -70,10 +54,4 @@
 .centered-content-view {
   max-width: 800px;
   margin: auto;
-}
-
-@media screen and (min-width: 900px) {
-  .logo {
-    margin: 0;
-  }
 }

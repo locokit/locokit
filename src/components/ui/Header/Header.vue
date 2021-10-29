@@ -11,13 +11,16 @@
     </a>
     <router-link
       :to="ROUTES_PATH.WORKSPACE"
-      class="logo"
+      class="logo-link"
       @click.native="setToggle"
     >
       <img
-        alt="logo-svg"
-        class="logo"
+        class="logo-img"
         :src="logoUrl"
+      />
+      <img
+        class="logo-img mobile"
+        :src="logoMobileUrl"
       />
     </router-link>
 
@@ -53,6 +56,10 @@ export default {
   },
   props: {
     logoUrl: {
+      type: String,
+      required: true,
+    },
+    logoMobileUrl: {
       type: String,
       required: true,
     },
@@ -121,7 +128,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .menu-button {
   line-height: var(--header-height);
   display: block;
@@ -142,9 +149,36 @@ export default {
   line-height: inherit;
 }
 
+.logo-link {
+  display: flex;
+  align-items: center;
+  width: 10rem;
+  margin: auto;
+}
+
+.logo-img {
+  &.mobile {
+    display: block;
+  }
+  width: 100%;
+  height: calc(var(--header-height) - 0.5rem);
+  display: none;
+}
+
+.has-burger-menu .logo-link {
+  margin-left: -55px;
+}
+
 @media screen and (min-width: 900px) {
   .menu-button {
     display: none;
+  }
+  .logo-img {
+    margin: 0;
+    display: block;
+    &.mobile {
+      display: none;
+    }
   }
 }
 </style>
