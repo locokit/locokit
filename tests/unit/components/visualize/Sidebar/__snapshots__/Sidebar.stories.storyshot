@@ -5,7 +5,7 @@ exports[`storyshots components/visualize/Sidebar default 1`] = `
   style="height: 100%;"
 >
   <div
-    class="p-accordion p-component lck-sidebar"
+    class="p-accordion p-component lck-sidebar lck-sidebar--active"
   >
     <div
       class="p-accordion-tab p-accordion-tab-active"
@@ -72,7 +72,7 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
   style="height: 100%;"
 >
   <div
-    class="p-accordion p-component lck-sidebar"
+    class="p-accordion p-component lck-sidebar lck-sidebar--active"
   >
     <div
       class="p-accordion-tab p-accordion-tab-active"
@@ -104,11 +104,11 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
             class="action-set"
           >
             <span
-              class="pi pi-pencil action-button"
+              class="bi bi-pencil action-button"
             />
              
             <span
-              class="pi pi-trash action-button"
+              class="bi bi-trash action-button"
             />
           </span>
         </a>
@@ -129,7 +129,7 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
               class="mock-link lck-sidebar-link"
             >
               <span
-                class="pi pi-ellipsis-v handle"
+                class="bi bi-grip-vertical handle"
               />
                
               <span
@@ -142,11 +142,11 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
                 class="action-subset"
               >
                 <span
-                  class="pi pi-pencil action-button"
+                  class="bi bi-pencil action-button"
                 />
                  
                 <span
-                  class="pi pi-trash action-button"
+                  class="bi bi-trash action-button"
                 />
               </span>
             </a>
@@ -154,7 +154,7 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
               class="mock-link lck-sidebar-link"
             >
               <span
-                class="pi pi-ellipsis-v handle"
+                class="bi bi-grip-vertical handle"
               />
                
               <span
@@ -167,11 +167,11 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
                 class="action-subset"
               >
                 <span
-                  class="pi pi-pencil action-button"
+                  class="bi bi-pencil action-button"
                 />
                  
                 <span
-                  class="pi pi-trash action-button"
+                  class="bi bi-trash action-button"
                 />
               </span>
             </a>
@@ -232,11 +232,11 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
             class="action-set"
           >
             <span
-              class="pi pi-pencil action-button"
+              class="bi bi-pencil action-button"
             />
              
             <span
-              class="pi pi-trash action-button"
+              class="bi bi-trash action-button"
             />
           </span>
         </a>
@@ -258,7 +258,7 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
               class="mock-link lck-sidebar-link"
             >
               <span
-                class="pi pi-ellipsis-v handle"
+                class="bi bi-grip-vertical handle"
               />
                
               <span
@@ -271,11 +271,11 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
                 class="action-subset"
               >
                 <span
-                  class="pi pi-pencil action-button"
+                  class="bi bi-pencil action-button"
                 />
                  
                 <span
-                  class="pi pi-trash action-button"
+                  class="bi bi-trash action-button"
                 />
               </span>
             </a>
@@ -283,7 +283,7 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
               class="mock-link lck-sidebar-link"
             >
               <span
-                class="pi pi-ellipsis-v handle"
+                class="bi bi-grip-vertical handle"
               />
                
               <span
@@ -296,11 +296,11 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
                 class="action-subset"
               >
                 <span
-                  class="pi pi-pencil action-button"
+                  class="bi bi-pencil action-button"
                 />
                  
                 <span
-                  class="pi pi-trash action-button"
+                  class="bi bi-trash action-button"
                 />
               </span>
             </a>
@@ -365,7 +365,7 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
   style="height: 100%;"
 >
   <div
-    class="p-accordion p-component lck-sidebar"
+    class="p-accordion p-component lck-sidebar lck-sidebar--active"
   >
     <div
       class="p-accordion-tab p-accordion-tab-active"
@@ -536,7 +536,7 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
   style="height: 100%;"
 >
   <div
-    class="p-accordion p-component lck-sidebar"
+    class="p-accordion p-component lck-sidebar lck-sidebar--active"
   >
     <div
       class="p-accordion-tab p-accordion-tab-active"

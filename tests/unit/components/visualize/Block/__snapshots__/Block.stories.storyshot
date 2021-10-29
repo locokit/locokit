@@ -28,7 +28,7 @@ exports[`storyshots components/visualize/Block Edit a block 1`] = `
             type="button"
           >
             <span
-              class="pi pi-ellipsis-v p-button-icon"
+              class="bi bi-grip-vertical p-button-icon"
             />
              
             <span
@@ -49,7 +49,7 @@ exports[`storyshots components/visualize/Block Edit a block 1`] = `
             type="button"
           >
             <span
-              class="pi pi-pencil p-button-icon"
+              class="bi bi-pencil p-button-icon"
             />
              
             <span
@@ -70,7 +70,7 @@ exports[`storyshots components/visualize/Block Edit a block 1`] = `
             type="button"
           >
             <span
-              class="pi pi-trash p-button-icon"
+              class="bi bi-trash p-button-icon"
             />
              
             <span
