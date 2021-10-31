@@ -99,7 +99,6 @@ const routes: Array<RouteConfig> = [
     name: 'Workspace',
     props: true,
     redirect: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION,
-    // component: Workspace,
     meta: {
       needAuthentication: true,
       hasBurgerMenu: true,
@@ -265,6 +264,7 @@ const routes: Array<RouteConfig> = [
       component: UserManagement,
       meta: {
         needAuthentication: true,
+        hasBurgerMenu: true,
       },
     }, {
       name: ROUTES_NAMES.ADMIN.GROUP,
@@ -273,6 +273,7 @@ const routes: Array<RouteConfig> = [
       props: true,
       meta: {
         needAuthentication: true,
+        hasBurgerMenu: true,
       },
       children: [{
         name: ROUTES_NAMES.ADMIN.GROUP_DETAIL,
@@ -281,6 +282,7 @@ const routes: Array<RouteConfig> = [
         props: true,
         meta: {
           needAuthentication: true,
+          hasBurgerMenu: true,
         },
       }],
     }],
