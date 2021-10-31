@@ -21,6 +21,7 @@
       <p-input-text
         id="text"
         :placeholder="$t('components.workspaceForm.fields.textPlaceholder')"
+        autofocus
         v-model="newWorkspace.text"
       />
       <span :class="classes">{{ errors[0] }}</span>
