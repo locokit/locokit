@@ -344,6 +344,7 @@ export default {
     },
     async confirmDeleteUserInGroup () {
       this.$emit('delete-usergroup', this.usergroup.userId, this.usergroup.groupId)
+      this.hideConfirmation()
     },
     async submitUser () {
       if (this.isEditingUser) {
