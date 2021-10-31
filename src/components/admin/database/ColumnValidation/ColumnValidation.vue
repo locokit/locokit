@@ -116,15 +116,6 @@ export default {
 </script>
 
 <style scoped>
-.rule-container {
-  align-items: center;
-  border: var(--border);
-  display: flex;
-  height: 2.5em;
-  justify-content: space-between;
-  padding: 0 0.5em;
-}
-
 .rule-enable {
   display: flex;
   width: 100%;
