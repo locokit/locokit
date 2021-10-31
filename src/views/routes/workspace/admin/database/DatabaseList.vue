@@ -7,7 +7,15 @@
       <h2 class="p-pl-3 lck-color-title">
         {{ $t('pages.database.title') }}
       </h2>
+      <div v-if="loading">
+        <p-skeleton height="2rem" width="95%" class="p-m-2" />
+        <p-skeleton height="2rem" width="95%" class="p-m-2" />
+        <p-skeleton height="2rem" width="95%" class="p-m-2" />
+        <p-skeleton height="2rem" width="95%" class="p-m-2" />
+        <p-skeleton height="2rem" width="95%" class="p-m-2" />
+      </div>
       <p-accordion
+        v-else
         :multiple="true"
         :activeIndex="[0]"
       >
@@ -44,12 +52,14 @@ import { LckWorkspace } from '@/services/lck-api/definitions'
 import Vue from 'vue'
 import Accordion from 'primevue/accordion'
 import AccordionTab from 'primevue/accordiontab'
+import Skeleton from 'primevue/skeleton'
 
 export default {
   name: 'DatabaseList',
   components: {
     'p-accordion': Vue.extend(Accordion),
     'p-accordion-tab': Vue.extend(AccordionTab),
+    'p-skeleton': Vue.extend(Skeleton),
   },
   props: {
     workspaceId: {
@@ -102,7 +112,7 @@ export default {
     async getDatabaseList () {
       this.loading = true
       this.workspace = await lckHelpers.retrieveWorkspaceWithDatabases(this.workspaceId)
-      this.loading = false
+      // this.loading = false
     },
   },
 }
