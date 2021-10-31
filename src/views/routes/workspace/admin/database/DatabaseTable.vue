@@ -104,16 +104,6 @@
           />
         </layout-with-toolbar>
 
-        <div
-          class="lck-database-panel"
-          v-if="displayPanel"
-        >
-          <lck-process-listing
-            :workspaceId="workspaceId"
-            :tableId="currentTableId"
-            display-mode="BY_TABLE"
-          />
-        </div>
       </div>
 
       <lck-dialog-form
@@ -365,7 +355,6 @@ export default {
       viewDialogData: {},
       displayRowDialog: false,
       row: {},
-      displayPanel: false,
       secondarySources: {},
       // Column part
       currentColumnToEdit: null,
