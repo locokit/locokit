@@ -1,5 +1,5 @@
 <template>
-  <div class="p-mx-auto p-px-2">
+  <div class="p-mx-auto p-px-2 lck-page">
     <div class="lck-color-primary p-my-4">
       <h1>{{ $t("pages.userManagement.title") }}</h1>
     </div>
