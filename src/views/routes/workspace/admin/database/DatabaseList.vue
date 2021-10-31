@@ -112,7 +112,7 @@ export default {
     async getDatabaseList () {
       this.loading = true
       this.workspace = await lckHelpers.retrieveWorkspaceWithDatabases(this.workspaceId)
-      // this.loading = false
+      this.loading = false
     },
   },
 }
