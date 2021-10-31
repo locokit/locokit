@@ -249,8 +249,6 @@ import DropdownButton from '@/components/ui/DropdownButton/DropdownButton.vue'
 
 import WithToolbar from '@/layouts/WithToolbar.vue'
 
-import ProcessListing from '@/views/routes/workspace/admin/process/ProcessListing.vue'
-
 const defaultDatatableSort = {
   createdAt: 1,
 }
@@ -266,7 +264,6 @@ export default {
     'lck-view-column-button': ViewColumnButton,
     'lck-data-detail': DataDetail,
     'lck-process-panel': ProcessPanel,
-    'lck-process-listing': ProcessListing,
     'lck-dropdown-button': DropdownButton,
     'lck-dialog': Dialog,
     'lck-dialog-form': DialogForm,
