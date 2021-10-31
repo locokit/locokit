@@ -124,10 +124,10 @@
       },
       "actionColumn": {
         "title": "Action",
-        "edit": "Éditer l'action"
+        "edit": "Modifier l'action"
       },
       "column": {
-        "edit": "Éditer la colonne",
+        "edit": "Modifier la colonne",
         "hide": "Cacher la colonne",
         "display": "Afficher la colonne",
         "ascOrder": "Ordre croissant",
@@ -135,9 +135,11 @@
         "globalConfiguration": "Configuration globale",
         "visualizationConfiguration": "Configuration pour la partie visualisation",
         "title": "Titre de la colonne",
+        "id": "UUID de la colonne (non modifiable)",
+        "doc": "Documentation",
         "values": "Valeurs de la colonne",
         "displayed": "Colonne affichée",
-        "editable": "Colonne éditable",
+        "editable": "Colonne modifiable",
         "required": "Colonne requise",
         "transmitted": "Colonne transmise"
       }
@@ -512,7 +514,7 @@
         "list": "Liste des conteneurs",
         "noContainers": "Aucun conteneur trouvé",
         "navigationSubject": "Ceci est la barre de navigation des conteneurs. Cela permet à l'utilisateur de naviguer à travers les conteneurs de la page.",
-        "navigationExplain": "Pour configurer la navigation de la page, vous devez éditer chaque conteneur souhaité."
+        "navigationExplain": "Pour configurer la navigation de la page, vous devez modifier chaque conteneur souhaité."
       },
       "container": {
         "title": "Conteneur",
@@ -754,7 +756,7 @@
       "createdAt": "Date création",
       "userDetails": "Compte utilisateur",
       "createUserDetails": "Créer un utilisateur",
-      "editUserDetails": "Éditer un utilisateur",
+      "editUserDetails": "Modifier un utilisateur",
       "isRequired": "Ce champ est requis",
       "editUser": "Modifier l'utilisateur",
       "enableUser": {
@@ -788,10 +790,10 @@
       "form": {
         "action": {
           "addNewGroup": "Créer un groupe",
-          "editGroup": "Éditer un groupe",
+          "editGroup": "Modifier un groupe",
           "deleteGroup": "Supprimer un groupe",
           "addNewUserInGroup": "Ajouter un utilisateur",
-          "editUserInGroup": "Éditer un utilisateur",
+          "editUserInGroup": "Modifier un utilisateur",
           "deleteUserInGroup": "Supprimer un utilisateur"
         },
         "input": {

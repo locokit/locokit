@@ -135,6 +135,8 @@
         "globalConfiguration": "Global configuration",
         "visualizationConfiguration": "Configuration for the visualization part",
         "title": "Column title",
+        "id": "Column UUID (read only)",
+        "doc": "Documentation",
         "values": "Column values",
         "displayed": "Displayed column",
         "editable": "Editable column",

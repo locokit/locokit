@@ -1,50 +1,69 @@
 <template>
   <div>
-    <h1 class="lck-color-primary">{{ $t('components.datatable.column.edit') }}</h1>
-    <p>{{columnCopy.documentation}}</p>
-    <div class="column-form-container lck-color-content">
-      <h2 class="lck-color-title">{{ $t('components.datatable.column.globalConfiguration') }}</h2>
-      <lck-form
-        :displayCancelButton="false"
-        :submitting="submitting"
-        @submit="submitColumnData"
+    <h1 class="lck-color-primary">
+      {{ $t('components.datatable.column.edit') }}
+    </h1>
+    <lck-form
+      :displayCancelButton="false"
+      :submitting="submitting"
+      @submit="submitColumnData"
+    >
+      <validation-provider
+        vid="columnTextField"
+        tag="div"
+        class="p-field"
+        :name="$t('components.datatable.column.title')"
+        rules="required"
+        v-slot="{
+          errors,
+          classes
+        }"
       >
-        <validation-provider
-          vid="columnTextField"
-          tag="div"
-          class="p-field"
-          :name="$t('components.datatable.column.title')"
-          rules="required"
-          v-slot="{
-            errors,
-            classes
-          }"
-        >
-          <label for="columnTextField" class="label-field-required">{{ $t('components.datatable.column.title') }}</label>
-          <p-input-text
-            id="columnTextField"
-            v-model="columnCopy.text"
-          />
-          <span :class="classes">{{ errors[0] }}</span>
-        </validation-provider>
-        <div>
-          {{ $t('pages.databaseSchema.handleColumnModal.validation') }}
-          <lck-column-validation
-            :columnType="columnCopy.column_type_id"
-            :columnValidation="columnCopy.validation"
-            class="p-my-2"
-          />
-        </div>
-        <div class="p-mb-3" v-if="isSelectColumnType">
-          <p>{{ $t('components.datatable.column.values') }}</p>
-          <lck-select-type-column
-            :columnToHandle="columnCopy"
-            @select-type-values-change="selectTypeValuesChange"
-            @default-select-type-value-id-change="defaultSelectTypeValueIdChange"
-          />
-        </div>
-      </lck-form>
-    </div>
+        <label for="columnTextField" class="label-field-required">{{ $t('components.datatable.column.title') }}</label>
+        <p-input-text
+          id="columnTextField"
+          v-model="columnCopy.text"
+        />
+        <span :class="classes">{{ errors[0] }}</span>
+      </validation-provider>
+      <validation-provider
+        vid="columnDocField"
+        tag="div"
+        class="p-field"
+        :name="$t('components.datatable.column.doc')"
+        v-slot="{
+          errors,
+          classes
+        }"
+      >
+        <label for="columnDocField">{{ $t('components.datatable.column.doc') }}</label>
+        <p-textarea
+          id="columnDocField"
+          v-model="columnCopy.documentation"
+        />
+        <span :class="classes">{{ errors[0] }}</span>
+      </validation-provider>
+      <label for="columnUUID">
+        {{ $t('components.datatable.column.id') }}
+      </label>
+      <p>{{ columnCopy.id }}</p>
+      <div>
+        {{ $t('pages.databaseSchema.handleColumnModal.validation') }}
+        <lck-column-validation
+          :columnType="columnCopy.column_type_id"
+          :columnValidation="columnCopy.validation"
+          class="p-my-2"
+        />
+      </div>
+      <div class="p-mb-3" v-if="isSelectColumnType">
+        <p>{{ $t('components.datatable.column.values') }}</p>
+        <lck-select-type-column
+          :columnToHandle="columnCopy"
+          @select-type-values-change="selectTypeValuesChange"
+          @default-select-type-value-id-change="defaultSelectTypeValueIdChange"
+        />
+      </div>
+    </lck-form>
     <div class="column-form-container lck-color-content">
       <h2 class="lck-color-title">{{ $t('components.datatable.column.visualizationConfiguration') }}</h2>
       <lck-form
@@ -53,45 +72,9 @@
         @submit="submitTableViewColumnData"
       >
         <validation-provider
-          vid="columnDisplayedField"
-          tag="div"
-          class="p-field p-mb-2"
-          :name="$t('components.datatable.column.displayed')"
-          rules=""
-          v-slot="{
-            errors,
-            classes
-          }"
-        >
-          <label for="columnDisplayedField">{{ $t('components.datatable.column.displayed') }}</label>
-          <p-input-switch
-            id="columnDisplayedField"
-            v-model="columnCopy.displayed"
-          />
-          <span :class="classes">{{ errors[0] }}</span>
-        </validation-provider>
-        <validation-provider
-          vid="columnEditableField"
-          tag="div"
-          class="p-field p-mb-2"
-          :name="$t('components.datatable.column.editable')"
-          rules=""
-          v-slot="{
-            errors,
-            classes
-          }"
-        >
-          <label for="columnEditableField">{{ $t('components.datatable.column.editable') }}</label>
-          <p-input-switch
-            id="columnEditableField"
-            v-model="columnCopy.editable"
-          />
-          <span :class="classes">{{ errors[0] }}</span>
-        </validation-provider>
-        <validation-provider
           vid="columnTransmittedField"
           tag="div"
-          class="p-field p-mb-2"
+          class="p-field p-mb-2 p-d-flex"
           :name="$t('components.datatable.column.transmitted')"
           rules=""
           v-slot="{
@@ -99,11 +82,53 @@
             classes
           }"
         >
-          <label for="columnTransmittedField">{{ $t('components.datatable.column.transmitted') }}</label>
-          <p-input-switch
+          <p-checkbox
+            :binary="true"
+            class="p-mr-2"
             id="columnTransmittedField"
             v-model="columnCopy.transmitted"
           />
+          <label for="columnTransmittedField">{{ $t('components.datatable.column.transmitted') }}</label>
+          <span :class="classes">{{ errors[0] }}</span>
+        </validation-provider>
+        <validation-provider
+          vid="columnDisplayedField"
+          tag="div"
+          class="p-field p-mb-2 p-d-flex"
+          :name="$t('components.datatable.column.displayed')"
+          rules=""
+          v-slot="{
+            errors,
+            classes
+          }"
+        >
+          <p-checkbox
+            :binary="true"
+            class="p-mr-2"
+            id="columnDisplayedField"
+            v-model="columnCopy.displayed"
+          />
+          <label for="columnDisplayedField">{{ $t('components.datatable.column.displayed') }}</label>
+          <span :class="classes">{{ errors[0] }}</span>
+        </validation-provider>
+        <validation-provider
+          vid="columnEditableField"
+          tag="div"
+          class="p-field p-mb-2 p-d-flex"
+          :name="$t('components.datatable.column.editable')"
+          rules=""
+          v-slot="{
+            errors,
+            classes
+          }"
+        >
+          <p-checkbox
+            :binary="true"
+            class="p-mr-2"
+            id="columnEditableField"
+            v-model="columnCopy.editable"
+          />
+          <label for="columnEditableField">{{ $t('components.datatable.column.editable') }}</label>
           <span :class="classes">{{ errors[0] }}</span>
         </validation-provider>
 
@@ -125,8 +150,9 @@ import {
   SelectValueWithId,
 } from '@/services/lck-api/definitions'
 
+import Checkbox from 'primevue/checkbox'
 import InputText from 'primevue/inputtext'
-import InputSwitch from 'primevue/inputswitch'
+import Textarea from 'primevue/textarea'
 
 import LckForm from '@/components/ui/Form/Form.vue'
 import ColumnValidation from '@/components/admin/database/ColumnValidation/ColumnValidation.vue'
@@ -138,7 +164,8 @@ export default {
     'lck-form': LckForm,
     'lck-select-type-column': SelectTypeColumn,
     'p-input-text': Vue.extend(InputText),
-    'p-input-switch': Vue.extend(InputSwitch),
+    'p-checkbox': Vue.extend(Checkbox),
+    'p-textarea': Vue.extend(Textarea),
     'lck-column-validation': ColumnValidation,
     'validation-provider': Vue.extend(ValidationProvider),
   },
@@ -194,9 +221,10 @@ export default {
       this.columnCopy.settings.default = defaultValue
     },
     submitColumnData () {
-      const editedColumn: { text: string; settings?: object; validation?: object} = {
+      const editedColumn: { text: string; settings?: object; validation?: object; documentation: string | undefined} = {
         text: this.columnCopy.text,
         validation: this.columnCopy.validation,
+        documentation: this.columnCopy.documentation,
       }
       if (this.isSelectColumnType) {
         editedColumn.settings = this.columnCopy.settings
