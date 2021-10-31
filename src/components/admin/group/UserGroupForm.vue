@@ -273,9 +273,9 @@ export default {
   },
   props: {
     group: {
-      type: LckGroup,
+      type: Object,
       required: true,
-    },
+    } as Vue.PropOptions<LckGroup>,
     submitting: {
       type: Boolean,
     },
