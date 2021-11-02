@@ -129,7 +129,14 @@ export default {
     /**
      * Set some default data for the new aclset and display the form.
      */
-    createGroup () {
+    async createGroup () {
+      await this.$router.push({
+        name: ROUTES_NAMES.ADMIN.GROUP,
+        params: {
+          ...this.$route.params,
+          groupId: '',
+        },
+      })
       this.selectedGroup = new LckGroup()
     },
     /**
