@@ -819,7 +819,7 @@
       "title": "Processus",
       "allProcessesHeader": "Tous les processus",
       "oneProcessHeader": "Détail d'un processus",
-      "noProcess": "Aucun processus créé pour l'instant. Vous pouvez en créer un en cliquant sur le bouton \"Ajouter\" ci-dessus.",
+      "noProcess": "Aucun processus créé pour l'instant. Vous pouvez en créer un en cliquant sur le bouton \"Ajouter\".",
       "defaultTriggerName": "Nom du déclencheur par défaut",
       "eventTrigger": {
         "UPDATE_ROW_DATA": "Mise à jour d'une donnée",

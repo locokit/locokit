@@ -806,7 +806,7 @@
       "title": "Processes",
       "allProcessesHeader": "All processes",
       "oneProcessHeader": "Detail of the process",
-      "noProcess": "No process created yet. You can create one by clicking the \"Add\" button above.",
+      "noProcess": "No process created yet. You can create one by clicking the \"Add\" button.",
       "defaultTriggerName": "Default trigger name",
       "eventTrigger": {
         "UPDATE_ROW_DATA": "Update on data",
