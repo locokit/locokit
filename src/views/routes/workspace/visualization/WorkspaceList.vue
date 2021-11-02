@@ -69,7 +69,6 @@
       >
 
         <lck-workspace-form
-          :workspace="workspace"
           :submitting="submitting"
           @cancel="dialogVisible = false"
           @input="createWorkspace"
@@ -111,6 +110,7 @@ export default {
   },
   data (): {
     loading: boolean;
+    submitting: boolean;
     dialogVisible: boolean;
     ROUTES_PATH: typeof ROUTES_PATH;
     ROUTES_NAMES: typeof ROUTES_NAMES;
@@ -122,14 +122,15 @@ export default {
     workspaces: {
       id: string;
       text: string;
-      color?: string;
-      backgroundColor?: string;
-      icon?: string;
+      color?: string | null;
+      backgroundColor?: string | null;
+      icon?: string | null;
       isManager: boolean;
     }[];
     } {
     return {
       loading: false,
+      submitting: false,
       dialogVisible: false,
       ROUTES_PATH,
       ROUTES_NAMES,
@@ -164,6 +165,7 @@ export default {
       }
     },
     async createWorkspace (newWorkspace: LckWorkspace) {
+      this.submitting = true
       try {
         await lckServices.workspace.create(newWorkspace)
         this.$toast.add({
@@ -182,6 +184,7 @@ export default {
           life: 5000,
         })
       }
+      this.submitting = false
     },
     async fetchUserGroups () {
       this.loading = true
