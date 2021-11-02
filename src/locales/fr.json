@@ -322,7 +322,7 @@
         "aclSet": "Rôle",
         "aclSetPlaceholder": "Assignez un rôle de votre espace de travail",
         "chapter": "Chapitre",
-        "chapterPlaceholder": "Ce groupe d'utilisateur pourra accéder à votre application à travers ce chapitre"
+        "chapterPlaceholder": "Ce groupe d'utilisateurs pourra accéder à votre application à travers ce chapitre"
       }
     },
     "workspaceForm": {
