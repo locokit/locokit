@@ -503,7 +503,8 @@
         "list": "Containers list",
         "noContainers": "No container found",
         "navigationSubject": "This is the nav bar for container. It allows the user to navigate through the container's page.",
-        "navigationExplain": "To configure the page navigation, you must edit each desired container."
+        "navigationExplain": "To configure the page navigation, you must edit each desired container.",
+        "navigationEditButton": "Modifier la barre de navigation"
       },
       "container": {
         "title": "container",

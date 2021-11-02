@@ -516,7 +516,8 @@
         "list": "Liste des conteneurs",
         "noContainers": "Aucun conteneur trouvé",
         "navigationSubject": "Ceci est la barre de navigation des conteneurs. Cela permet à l'utilisateur de naviguer à travers les conteneurs de la page.",
-        "navigationExplain": "Pour configurer la navigation de la page, vous devez modifier chaque conteneur souhaité."
+        "navigationExplain": "Pour configurer la navigation de la page, vous devez modifier chaque conteneur souhaité.",
+        "navigationEditButton": "Modifier la barre de navigation"
       },
       "container": {
         "title": "Conteneur",

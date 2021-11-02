@@ -44,7 +44,7 @@
     <span class="edit-mode-toggle">
     <p-button
       v-if="editMode"
-      :title="$t('pages.workspace.container.edit')"
+      :title="$t('pages.workspace.page.navigationEditButton')"
       class="p-button-lg p-button-text edit-container-button"
       icon="bi bi-pencil"
       @click="$emit('edit-nav')"
