@@ -122,9 +122,6 @@ export default {
   },
   async mounted () {
     await this.fetchWorkspace()
-    if (this.aclSetId) {
-      this.fetchAclSet(this.aclSetId)
-    }
   },
   methods: {
     /**
@@ -137,6 +134,12 @@ export default {
      * Set some default data for the new aclset and display the form.
      */
     createAclSet () {
+      this.$router.push({
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL,
+        params: {
+          workspaceId: this.workspaceId,
+        },
+      })
       this.selectedAclSet = new LckAclSet('', this.workspaceId)
     },
     /**
@@ -309,8 +312,12 @@ export default {
     },
   },
   watch: {
-    aclSetId () {
-      this.fetchAclSet(this.aclSetId)
+    aclSetId: {
+      handler (newValue) {
+        if (!newValue) return
+        this.fetchAclSet(newValue)
+      },
+      immediate: true,
     },
   },
 }
