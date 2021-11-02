@@ -370,7 +370,7 @@
           "read_filter": "Filter used when reading",
           "update_filter": "Filter used when updating",
           "update_rows": "Record updating"
-          },
+        },
         "listing": {
           "aclSetError": "Impossible to retrieve the workspace roles.",
           "noAclSet": "No role",
@@ -747,16 +747,16 @@
           "description": "Allows you to select select several predetermined groups of users from a list"
         },
         "RELATION_BETWEEN_TABLES": {
-          "name": "Relation between tables",
-          "description": "Allows you create connections between different records from two tables"
+          "name": "Link to another table",
+          "description": "Allows you create a linked record field between two tables"
         },
         "LOOKED_UP_COLUMN": {
           "name": "Lookup column",
-          "description": "Allows you to look up a specific field in a linked record"
+          "description": "Allows you to look up a specific field in a linked table"
         },
         "VIRTUAL_LOOKED_UP_COLUMN": {
           "name": "Virtual lookup column",
-          "description": "Allows you to look up a specific virtual field in a linked record"
+          "description": "Allows you to look up a specific virtual field in a linked table"
         },
         "SINGLE_SELECT": {
           "name": "Single select",
@@ -817,7 +817,7 @@
         "defaultValuePlaceholder": "Select default value"
       },
       "validation": {
-        "required":"Required column"
+        "required": "Required column"
       },
       "relationBetweenTablesType": {
         "relationTable": "Relation table",
