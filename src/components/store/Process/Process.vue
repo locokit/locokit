@@ -1,7 +1,7 @@
 <template>
   <p-card >
     <template #title>
-      {{ process.text || "Création d'un nouveau processus" }}
+      {{ process.text || $t('components.process.createTitle') }}
     </template>
     <template #content>
       <lck-process-form
@@ -15,7 +15,7 @@
         @search-table="$emit('search-table', $event)"
         @search-column="$emit('search-column', $event)"
       />
-      <div class="p-mx-auto">
+      <div class="p-mx-auto" v-if="process.id">
         <p-button
           class="p-button-sm p-button-danger"
           icon="bi bi-trash"
@@ -23,41 +23,41 @@
           :disabled="process.runs && process.runs.length > 0"
           :label="$t('components.process.removeButtonLabel')"
         />
-      </div>
-      <div v-if="process.runs && process.runs.length > 0">
-        <h4 class="p-tabview-title">
-          {{ $t('components.process.headerRuns') }}
-          <span class="p-ml-1">
-            ({{ process.runs.length }})
-          </span>
-        </h4>
-        <p-button
-          icon="pi pi-refresh"
-          @click="$emit('refresh-runs', process)"
-          class="p-button-sm"
-          style="width: auto"
-          :label="$t('components.process.refreshButtonLabel')"
-        />
-        <p-accordion
-          :multiple="true"
-          v-if="process.runs && process.runs.length > 0"
-        >
-          <p-accordion-tab
-            v-for="run in process.runs"
-            :key="run.id"
+        <div v-if="process.runs && process.runs.length > 0">
+          <h4 class="p-tabview-title">
+            {{ $t('components.process.headerRuns') }}
+            <span class="p-ml-1">
+              ({{ process.runs.length }})
+            </span>
+          </h4>
+          <p-button
+            icon="pi pi-refresh"
+            @click="$emit('refresh-runs', process)"
+            class="p-button-sm"
+            style="width: auto"
+            :label="$t('components.process.refreshButtonLabel')"
+          />
+          <p-accordion
+            :multiple="true"
+            v-if="process.runs && process.runs.length > 0"
           >
-            <template #header>
-              {{ run.createdAt }} -
-              {{ run.status }} -
-              {{ run.duration }}
-            </template>
-            <pre>{{ run.log }}</pre>
-          </p-accordion-tab>
-        </p-accordion>
+            <p-accordion-tab
+              v-for="run in process.runs"
+              :key="run.id"
+            >
+              <template #header>
+                {{ run.createdAt }} -
+                {{ run.status }} -
+                {{ run.duration }}
+              </template>
+              <pre>{{ run.log }}</pre>
+            </p-accordion-tab>
+          </p-accordion>
+        </div>
+        <p v-else class="p-p-1">
+          {{ $t('components.process.noRun') }}
+        </p>
       </div>
-      <p v-else class="p-p-1">
-        {{ $t('components.process.noRun') }}
-      </p>
     </template>
   </p-card>
 </template>

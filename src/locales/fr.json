@@ -216,7 +216,8 @@
       "noRun": "Pas encore d'exécution pour ce processus.",
       "headerProperties": "Propriétés",
       "headerRuns": "50 dernières exécutions",
-      "chooseTableFirst": "Merci de sélectionner une table."
+      "chooseTableFirst": "Merci de sélectionner une table.",
+      "createTitle": "Nouveau processus"
     },
     "synthesis": {
       "title": "Métriques utilisation du vélo",

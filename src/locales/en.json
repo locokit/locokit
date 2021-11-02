@@ -216,7 +216,8 @@
       "noRun": "No run for this process yet.",
       "headerProperties": "Properties",
       "headerRuns": "50 latest runs",
-      "chooseTableFirst": "Please choose a table first."
+      "chooseTableFirst": "Please choose a table first.",
+      "createTitle": "Create a new process"
     },
     "synthesis": {
       "title": "Use of bike",
