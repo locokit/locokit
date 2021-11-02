@@ -381,8 +381,6 @@
         "common": {
           "title": "Groupes"
         },
-        "detail": {
-        },
         "listing": {
           "groupError": "Impossible de récupérer les groupes associés à l'espace de travail courant.",
           "noGroup": "Aucun groupe créé"
