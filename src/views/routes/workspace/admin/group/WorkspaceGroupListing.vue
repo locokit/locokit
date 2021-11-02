@@ -168,16 +168,35 @@ export default {
     async saveGroup (group: LckGroup) {
       this.submitting = true
       try {
-        const response = await lckServices.group.patch(group.id, {
-          ...group,
-        }, {
-          query: {
-            $eager: '[aclset.[workspace, chapter]]',
-          },
-        })
-        this.selectedGroup!.name = response.name
-        this.selectedGroup!.aclset_id = response.aclset_id
-        this.selectedGroup!.aclset = response.aclset
+        if (!group.id) {
+          const response = await lckServices.group.create({
+            name: group.name,
+            aclset_id: group.aclset_id,
+          }, {
+            query: {
+              $eager: '[aclset.[workspace, chapter]]',
+            },
+          })
+          this.selectedGroup!.name = response.name
+          this.selectedGroup!.aclset_id = response.aclset_id
+          this.selectedGroup!.aclset = response.aclset
+        } else {
+          const response = await lckServices.group.patch(group.id, {
+            name: group.name,
+            aclset_id: group.aclset_id,
+          }, {
+            query: {
+              $eager: '[aclset.[workspace, chapter]]',
+            },
+          })
+          this.selectedGroup!.name = response.name
+          this.selectedGroup!.aclset_id = response.aclset_id
+          this.selectedGroup!.aclset = response.aclset
+        }
+        /**
+         * Refresh the listing with the new group / updated group
+         */
+        this.fetchWorkspaceGroups()
       } catch (error: any) {
         this.displayToastOnError(error)
       }

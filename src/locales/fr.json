@@ -314,6 +314,7 @@
       }
     },
     "userGroupForm": {
+      "createTitle": "Nouveau groupe",
       "fields": {
         "name": "Nom",
         "namePlaceholder": "Exemple: Le groupe d'utilisateur client",

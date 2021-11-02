@@ -1,16 +1,18 @@
 <template>
   <p-card >
     <template #title>
-      {{ group.name }}
+      {{ group.name || $t('components.userGroupForm.createTitle') }}
     </template>
     <template #content>
 
-      {{ $t('pages.groupManagement.form.text.workspace') }}<strong> {{ group.aclset.workspace.text }}</strong>
-      <span v-if="group.aclset">,
-        {{ $t('pages.groupManagement.form.text.aclset') }} <strong>{{ group.aclset.label }}</strong>
-      </span>
-      <span v-if="group.aclset.chapter">,
-        {{ $t('pages.groupManagement.form.text.chapter') }} <strong>{{ group.aclset.chapter.text }}</strong>
+      <span v-if="group.aclset">
+        {{ $t('pages.groupManagement.form.text.workspace') }}<strong> {{ group.aclset.workspace.text }}</strong>
+        <span>,
+          {{ $t('pages.groupManagement.form.text.aclset') }} <strong>{{ group.aclset.label }}</strong>
+        </span>
+        <span v-if="group.aclset.chapter">,
+          {{ $t('pages.groupManagement.form.text.chapter') }} <strong>{{ group.aclset.chapter.text }}</strong>
+        </span>
       </span>
 
       <lck-form
@@ -74,6 +76,7 @@
         icon="pi pi-plus"
         class="p-my-2"
         @click="addNewUserInGroup(group.id, group.name)"
+        v-if="group.id"
       />
 
       <p-datatable
@@ -82,6 +85,7 @@
         class="p-mx-auto"
         :resizableColumns="true"
         columnResizeMode="fit"
+        v-if="group.id"
       >
         <p-column
           field="name"
@@ -227,7 +231,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { LckAclSet, LckGroup, LckUser, LckUserGroup } from '@/services/lck-api/definitions'
+import { LckGroup, LckUser, LckUserGroup } from '@/services/lck-api/definitions'
 import { ValidationProvider } from 'vee-validate'
 import { GROUP_ROLE } from '@locokit/lck-glossary'
 
@@ -365,9 +369,10 @@ export default {
           name: newValue.name,
           // eslint-disable-next-line @typescript-eslint/camelcase
           aclset_id: newValue.aclset_id,
-          aclset: {
-            ...newValue.aclset as LckAclSet,
-          },
+          aclset: undefined,
+        }
+        if (newValue.aclset) {
+          this.groupCloned.aclset = { ...newValue.aclset }
         }
       },
       immediate: true,
