@@ -7,8 +7,8 @@ jest.mock('@/views/routes/Home.vue', () => ({
   render: h => h('section'),
 }))
 
-jest.mock('@/views/routes/workspace/admin/database/Database.vue', () => ({
-  name: 'Database',
+jest.mock('@/views/routes/workspace/admin/database/DatabaseList.vue', () => ({
+  name: 'DatabaseList',
   render: h => h('section'),
 }))
 
