@@ -129,7 +129,7 @@
         class="p-field"
       >
 
-        {{ onSelectedColumnTypeDisplayDescription (selectedColumnTypeIdToHandle)}}
+        {{ getSelectedColumnTypeDisplayDescription (selectedColumnTypeIdToHandle)}}
 
       </span>
 
@@ -387,7 +387,7 @@ export default {
       this.settings = {}
     },
 
-    onSelectedColumnTypeDisplayDescription (selectedColumnTypeIdToHandle) {
+    getSelectedColumnTypeDisplayDescription (selectedColumnTypeIdToHandle) {
       return this.columnTypes.find((columnType) => columnType.id === selectedColumnTypeIdToHandle).description
     },
 
