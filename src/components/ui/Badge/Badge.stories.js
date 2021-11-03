@@ -24,9 +24,9 @@ export const MultipleBadgesWithContent = () => ({
   components: { Badge },
   template: `
     <div>
+      <Badge label="This is a badge" color="#ffffff" backgroundColor="var(--primary-color-light)" />
       <Badge label="This is a badge" color="#ffffff" backgroundColor="var(--primary-color)" />
-      <Badge label="This is a badge" color="#ffffff" backgroundColor="var(--surface-b)" />
-      <Badge label="This is a badge" color="#ffffff" backgroundColor="var(--surface-d)" />    
+      <Badge label="This is a badge" color="#ffffff" backgroundColor="var(--primary-color-dark)" />
     </div>
     `,
   methods: { },

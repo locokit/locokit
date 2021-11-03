@@ -6,6 +6,7 @@ exports[`storyshots views/routes/404 default 1`] = `
 >
   <div
     class="p-d-flex p-flex-column p-jc-center p-ai-center h-full"
+    style="background-image: url(/themes/locokit/img/logo.svg); position: relative;"
   >
     <h1>
       Whooops ?!... sounds you're lost... Sorry. Really.

@@ -166,12 +166,12 @@
                 }"
               >
                 <label
-                  class="p-col p-md-3 label-field-required"
+                  class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
                   for="oldPassword"
                 >
                   {{ $t("pages.account.edit.oldPassword") }}
                 </label>
-                <div class="p-col p-md-3">
+                <div class="p-col-12 p-md-8">
                   <p-password
                     id="oldPassword"
                     :feedback="false"
@@ -197,12 +197,12 @@
                 }"
               >
                 <label
-                  class="p-col p-md-3 label-field-required"
+                  class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
                   for="newPassword"
                 >
                   {{ $t("pages.account.edit.newPassword") }}
                 </label>
-                <div class="p-col p-md-3">
+                <div class="p-col-12 p-md-8">
                   <p-password
                     id="newPassword"
                     v-model="password.password"
@@ -216,7 +216,9 @@
                     aria-describedby="password-rules"
                   />
                 </div>
-                <div class="info-new-password">
+                <div
+                  class="info-new-password p-col-12 p-mb-0"
+                >
                   <small
                     class="p-text-italic"
                     id="password-rules"
@@ -242,12 +244,12 @@
                 }"
               >
                 <label
-                  class="p-col p-md-3 label-field-required"
+                  class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
                   for="passwordCheck"
                 >
                   {{ $t("pages.account.edit.passwordCheck") }}
                 </label>
-                <div class="p-col p-md-3">
+                <div class="p-col-12 p-md-8">
                   <p-password
                     id="passwordCheck"
                     :feedback="false"

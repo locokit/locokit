@@ -69,12 +69,12 @@ const tableViewData = {
             2: {
               color: '#fff',
               label: 'En utilisation',
-              backgroundColor: 'var(--primary-color-lighten)',
+              backgroundColor: 'var(--secondary-color)',
             },
             3: {
               color: '#fff',
               label: 'Stocké',
-              backgroundColor: 'var(--surface-c)',
+              backgroundColor: 'var(--primary-color-dark)',
             },
           },
         },

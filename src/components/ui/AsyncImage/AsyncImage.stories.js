@@ -20,7 +20,7 @@ export const defaultStory = () => (
     },
     template: `
     <div style="width: 200px; height: 50px; max-height: 50px; display: flex; justify-content: center; color: var(--primary-color)">
-      <lck-async-image src="/themes/locokit/img/logo.svg" />
+      <lck-async-image src="/themes/locokit/img/logo.png" />
     </div>`,
   }
 )

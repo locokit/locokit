@@ -790,7 +790,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                     class="p-field p-grid p-mb-3"
                   >
                     <label
-                      class="p-col p-md-3 label-field-required"
+                      class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
                       for="oldPassword"
                     >
                       
@@ -799,7 +799,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                     </label>
                      
                     <div
-                      class="p-col p-md-3"
+                      class="p-col-12 p-md-8"
                     >
                       <div
                         class="p-password p-component p-inputwrapper p-input-icon-right"
@@ -830,7 +830,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                     class="p-field p-grid p-mb-3"
                   >
                     <label
-                      class="p-col p-md-3 label-field-required"
+                      class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
                       for="newPassword"
                     >
                       
@@ -839,7 +839,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                     </label>
                      
                     <div
-                      class="p-col p-md-3"
+                      class="p-col-12 p-md-8"
                     >
                       <div
                         aria-describedby="password-rules"
@@ -862,7 +862,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                     </div>
                      
                     <div
-                      class="info-new-password"
+                      class="info-new-password p-col-12 p-mb-0"
                     >
                       <small
                         class="p-text-italic"
@@ -885,7 +885,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                     class="p-field p-grid"
                   >
                     <label
-                      class="p-col p-md-3 label-field-required"
+                      class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
                       for="passwordCheck"
                     >
                       
@@ -894,7 +894,7 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                     </label>
                      
                     <div
-                      class="p-col p-md-3"
+                      class="p-col-12 p-md-8"
                     >
                       <div
                         class="p-password p-component p-inputwrapper p-input-icon-right"

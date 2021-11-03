@@ -8,18 +8,17 @@
   >
     <template #overlay-content="overlaySlotProps">
       <p-button
-        v-if="crudMode"
         class="p-button-text p-button-rounded save-filter-button"
         :disabled="!canSaveFilters"
         :icon="`pi ${ value.length === 0 || hasChanged ? 'pi-star-o' : 'pi-star'}`"
-        @click="saveFilters()"
+        @click="saveFilters(r)"
       />
       <div
         class="p-mb-2 filters-listing"
         v-if="value.length > 0"
       >
         <div
-          class="p-md-12 p-formgroup-inline p-mb-1"
+          class="p-formgroup-inline p-mb-1"
           v-for="(filter, index) in value"
           :key="`filter-${index}`"
         >
@@ -43,7 +42,6 @@
             }"
           >
             <p-dropdown
-              class="p-mb-1"
               id="operator"
               :options="operators"
               optionLabel="label"
@@ -61,7 +59,7 @@
               </template>
             </p-dropdown>
           </div>
-          <div class="p-col-12 p-md-3 p-mr-2 p-mb-1">
+          <div class="p-col-3 p-p-0 p-mr-2">
             <label for="column" v-if="index === 0">
               {{ $t('components.datatable.toolbar.filters.form.column') }}
             </label>
@@ -75,9 +73,7 @@
               v-model="filter.column"
             />
           </div>
-          <div
-            class="p-col-12 p-md-3 p-mr-2 p-mb-1"
-          >
+          <div class="p-col-3 p-p-0 p-mr-2">
             <label for="action" v-if="index === 0">
               {{ $t('components.datatable.toolbar.filters.form.action') }}
             </label>
@@ -100,7 +96,7 @@
             </p-dropdown>
           </div>
           <div
-            class="p-col-12 p-md-3 p-mb-1"
+            class="p-col-3 p-p-0"
             v-if="filter.action && filter.action.predefinedPattern === undefined"
           >
             <label for="pattern" v-if="index === 0">
@@ -119,15 +115,12 @@
               :options="columnsDropdownOptions[filter.column.value]"
               v-bind="columnFiltersConfig[filter.column.originalType].patternComponentOptions || {}"
               v-model="filter.pattern"
-              style="width: 100%"
             />
             <p-input-text
               id="pattern"
               v-else
               v-model="filter.pattern"
-              style="width: 100%"
             />
-
           </div>
         </div>
       </div>
@@ -215,10 +208,6 @@ export default {
       default: () => ([]),
     } as PropOptions<Filter[]>,
     disabled: {
-      type: Boolean,
-      default: false,
-    },
-    crudMode: {
       type: Boolean,
       default: false,
     },
@@ -336,19 +325,15 @@ export default {
 </script>
 
 <style scoped>
-label,
-.input,
-.p-inputwrapper {
-  font-family: 'Raleway', sans-serif;
-}
 
 label {
   display: block;
   font-size: var(--font-size-sm);
 }
 
-.input,
+input,
 .p-inputwrapper {
+  font-size: var(--font-size-md);
   max-width: 100%;
   width: 100%;
   line-height: normal;
@@ -359,6 +344,7 @@ label {
 }
 
 ::v-deep .p-dropdown-label.p-inputtext {
+  font-size: var(--font-size-md);
   line-height: normal;
 }
 
@@ -374,7 +360,7 @@ label {
 .save-filter-button {
   position: absolute;
   top: 0;
-  right: 0.5em;
+  right: 0.5rem;
 }
 
 </style>
