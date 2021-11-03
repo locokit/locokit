@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import logo from '../../../../public/themes/locokit/img/thumbnail_logokit-grayscale.png'
+import logo from '../../../../public/themes/locokit/img/logo.png'
 import { lckServices } from './services'
 
 export const searchItems = () => '456'
