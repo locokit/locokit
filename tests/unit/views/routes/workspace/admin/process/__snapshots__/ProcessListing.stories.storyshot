@@ -22,7 +22,7 @@ exports[`storyshots views/routes/workspace/admin/ProcessListing default 1`] = `
         class="p-p-3"
       >
         
-      No process created yet. You can create one by clicking the "Add" button above.
+      No process created yet. You can create one by clicking the "Add" button.
     
       </div>
        
@@ -78,7 +78,7 @@ exports[`storyshots views/routes/workspace/admin/ProcessListing with detail proc
         class="p-p-3"
       >
         
-      No process created yet. You can create one by clicking the "Add" button above.
+      No process created yet. You can create one by clicking the "Add" button.
     
       </div>
        
@@ -134,7 +134,7 @@ exports[`storyshots views/routes/workspace/admin/ProcessListing with processes t
         class="p-p-3"
       >
         
-      No process created yet. You can create one by clicking the "Add" button above.
+      No process created yet. You can create one by clicking the "Add" button.
     
       </div>
        

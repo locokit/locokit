@@ -336,87 +336,86 @@ exports[`storyshots components/store/process/Process default 1`] = `
               class="p-ink"
             />
           </button>
-        </div>
-         
-        <div>
-          <h4
-            class="p-tabview-title"
-          >
-            
-        50 latest runs
-        
-            <span
-              class="p-ml-1"
+           
+          <div>
+            <h4
+              class="p-tabview-title"
             >
               
-          (3)
-        
-            </span>
-          </h4>
-           
-          <button
-            class="p-button-sm p-button p-component"
-            style="width: auto;"
-            type="button"
-          >
-            <span
-              class="pi pi-refresh p-button-icon p-button-icon-left"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-              Refresh
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-           
-          <div
-            class="p-accordion p-component"
-          >
-            <div
-              class="p-accordion-tab"
-            >
-              <div
-                class="p-accordion-header"
-              >
-                <a
-                  aria-controls="pv_id_6_content"
-                  class="p-accordion-header-link"
-                  id="pv_id_6_header"
-                  role="tab"
-                  tabindex="0"
-                >
-                  <span
-                    class="p-accordion-toggle-icon pi pi-chevron-right"
-                  />
-                   
-                  <!---->
-                   
-             -
-            SUCCESS -
-            100
+          50 latest runs
           
-                </a>
-              </div>
+              <span
+                class="p-ml-1"
+              >
+                
+            (3)
+          
+              </span>
+            </h4>
+             
+            <button
+              class="p-button-sm p-button p-component"
+              style="width: auto;"
+              type="button"
+            >
+              <span
+                class="pi pi-refresh p-button-icon p-button-icon-left"
+              />
                
+              <span
+                class="p-button-label"
+              >
+                Refresh
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+             
+            <div
+              class="p-accordion p-component"
+            >
               <div
-                aria-labelledby="pv_id_6_header"
-                class="p-toggleable-content"
-                id="pv_id_6_content"
-                role="region"
-                style="display: none;"
+                class="p-accordion-tab"
               >
                 <div
-                  class="p-accordion-content"
+                  class="p-accordion-header"
                 >
-                   
-                  <pre>
-                    
+                  <a
+                    aria-controls="pv_id_6_content"
+                    class="p-accordion-header-link"
+                    id="pv_id_6_header"
+                    role="tab"
+                    tabindex="0"
+                  >
+                    <span
+                      class="p-accordion-toggle-icon pi pi-chevron-right"
+                    />
+                     
+                    <!---->
+                     
+               -
+              SUCCESS -
+              100
+            
+                  </a>
+                </div>
+                 
+                <div
+                  aria-labelledby="pv_id_6_header"
+                  class="p-toggleable-content"
+                  id="pv_id_6_content"
+                  role="region"
+                  style="display: none;"
+                >
+                  <div
+                    class="p-accordion-content"
+                  >
+                     
+                    <pre>
+                      
 This is the log
 
 And it is big.
@@ -446,93 +445,94 @@ Game
 ...
 
 Over.
-                  </pre>
+                    </pre>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="p-accordion-tab"
-            >
               <div
-                class="p-accordion-header"
-              >
-                <a
-                  aria-controls="pv_id_7_content"
-                  class="p-accordion-header-link"
-                  id="pv_id_7_header"
-                  role="tab"
-                  tabindex="0"
-                >
-                  <span
-                    class="p-accordion-toggle-icon pi pi-chevron-right"
-                  />
-                   
-                  <!---->
-                   
-             -
-            SUCCESS -
-            250
-          
-                </a>
-              </div>
-               
-              <div
-                aria-labelledby="pv_id_7_header"
-                class="p-toggleable-content"
-                id="pv_id_7_content"
-                role="region"
-                style="display: none;"
+                class="p-accordion-tab"
               >
                 <div
-                  class="p-accordion-content"
+                  class="p-accordion-header"
                 >
-                   
-                  <pre>
-                    This is the log
-                  </pre>
+                  <a
+                    aria-controls="pv_id_7_content"
+                    class="p-accordion-header-link"
+                    id="pv_id_7_header"
+                    role="tab"
+                    tabindex="0"
+                  >
+                    <span
+                      class="p-accordion-toggle-icon pi pi-chevron-right"
+                    />
+                     
+                    <!---->
+                     
+               -
+              SUCCESS -
+              250
+            
+                  </a>
+                </div>
+                 
+                <div
+                  aria-labelledby="pv_id_7_header"
+                  class="p-toggleable-content"
+                  id="pv_id_7_content"
+                  role="region"
+                  style="display: none;"
+                >
+                  <div
+                    class="p-accordion-content"
+                  >
+                     
+                    <pre>
+                      This is the log
+                    </pre>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="p-accordion-tab"
-            >
               <div
-                class="p-accordion-header"
-              >
-                <a
-                  aria-controls="pv_id_8_content"
-                  class="p-accordion-header-link"
-                  id="pv_id_8_header"
-                  role="tab"
-                  tabindex="0"
-                >
-                  <span
-                    class="p-accordion-toggle-icon pi pi-chevron-right"
-                  />
-                   
-                  <!---->
-                   
-             -
-            SUCCESS -
-            5365
-          
-                </a>
-              </div>
-               
-              <div
-                aria-labelledby="pv_id_8_header"
-                class="p-toggleable-content"
-                id="pv_id_8_content"
-                role="region"
-                style="display: none;"
+                class="p-accordion-tab"
               >
                 <div
-                  class="p-accordion-content"
+                  class="p-accordion-header"
                 >
-                   
-                  <pre>
-                    This is the log
-                  </pre>
+                  <a
+                    aria-controls="pv_id_8_content"
+                    class="p-accordion-header-link"
+                    id="pv_id_8_header"
+                    role="tab"
+                    tabindex="0"
+                  >
+                    <span
+                      class="p-accordion-toggle-icon pi pi-chevron-right"
+                    />
+                     
+                    <!---->
+                     
+               -
+              SUCCESS -
+              5365
+            
+                  </a>
+                </div>
+                 
+                <div
+                  aria-labelledby="pv_id_8_header"
+                  class="p-toggleable-content"
+                  id="pv_id_8_content"
+                  role="region"
+                  style="display: none;"
+                >
+                  <div
+                    class="p-accordion-content"
+                  >
+                     
+                    <pre>
+                      This is the log
+                    </pre>
+                  </div>
                 </div>
               </div>
             </div>

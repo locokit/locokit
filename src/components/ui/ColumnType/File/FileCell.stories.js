@@ -72,8 +72,8 @@ afterClickOnItDisabled.args = {
 const attachments = [{
   id: 4,
   filepath: '',
-  filename: 'logo.svg',
-  mime: 'image/svg',
+  filename: 'logo.png',
+  mime: 'image/png',
   thumbnail: true,
   workspace_id: '',
 }, {
