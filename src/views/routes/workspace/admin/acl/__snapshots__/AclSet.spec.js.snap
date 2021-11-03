@@ -1,851 +1,1089 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AclSetListing add a new acltable to an aclset 1`] = `
-<div class="aclset-listing">
-  <div class="
-      p-p-1
-      p-d-flex
-      p-jc-between
-      p-ai-center
-      lck-toolbar
-    "><span class="p-pl-1"><span class="pi pi-th-large"></span>
-    pages.acl.common.title
-    </span>
-    <div class="p-d-flex p-flex-wrap"><button type="button" class="p-button-text p-button-primary add-aclset-button p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
-        <!----></button></div>
+<div class="lck-layout-content">
+  <div class="lck-bg-sidebar lck-sidebar">
+    <h2 class="p-pl-3 lck-color-title">
+      pages.workspaceAdmin.acl.common.title
+    </h2>
+    <div><a href="#/aclset/aclset1_id" aria-current="page" class="lck-sidebar-link router-link-exact-active router-link-active"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 1</span> <span class="status-mark">M</span></a><a href="#/aclset/aclset2_id" class="lck-sidebar-link"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 2</span>
+        <!----></a></div> <button type="button" class="p-button-primary p-mx-3 p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
+      <!----></button>
   </div>
-  <div class="
-      lck-toolbar-content
-      p-d-flex
-      p-flex-column
-      d-flex-1
-      o-auto
-    ">
-    <div class="p-m-2"><button type="button" class="p-button-text p-button-primary aclset-listing-button p-button p-component"><span class="pi pi-chevron-left p-button-icon p-button-icon-left"></span> <span class="p-button-label">pages.acl.listing.title</span>
-        <!----></button>
-      <div class="aclset-form-container">
-        <h3>AclSet 2</h3> <button type="button" class="delete-aclset-button p-button-sm p-button-danger p-button p-component p-button-icon-only"><span class="pi pi-trash p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-          <!----></button>
-        <div class="p-tabview p-component lck-aclset-tab">
-          <ul role="tablist" class="p-tabview-nav">
-            <li role="presentation" class=""><a role="tab" tabindex="0" aria-selected="1" class="p-tabview-nav-link"><span class="p-tabview-title">pages.acl.detail.properties</span>
-                <!----></a></li>
-            <li role="presentation" class="p-highlight"><a role="tab" tabindex="0" aria-selected="1" class="p-tabview-nav-link">
-                <!----> <span class="p-tabview-title">
-          pages.acl.detail.aclTables
-        </span></a></li>
-            <li class="p-tabview-ink-bar" style="left: 0px;"></li>
-          </ul>
-          <div class="p-tabview-panels">
-            <div role="tabpanel" class="p-tabview-panel" style="display: none;">
+  <div class="lck-page">
+    <div class="p-card p-component p-col-12 p-md-10 p-xl-8 p-mx-auto p-mt-2">
+      <!---->
+      <div class="p-card-body">
+        <div class="p-card-title">
+          <div style="position: relative;">
+            AclSet 1
+
+            <button type="button" class="delete-aclset-button p-button-sm p-button-danger p-button p-component p-button-icon-only"><span class="pi pi-trash p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+              <!----></button></div>
+        </div>
+        <!---->
+        <div class="p-card-content">
+          <div>
+            <form class="p-fluid">
+              <div class="p-field"><label for="label" class="label-field-required">
+                  pages.workspaceAdmin.acl.detail.label
+                </label> <input class="p-inputtext p-component p-filled" id="label"> <span class="p-my-2 untouched pristine required"></span></div>
+              <div class="p-field"><label for="manager" class="label-field-required">
+                  pages.workspaceAdmin.acl.common.manager
+                </label>
+                <div class="p-inputswitch p-component p-inputswitch-checked" id="manager">
+                  <div class="p-hidden-accessible"><input type="checkbox" role="switch" aria-checked="true"></div> <span class="p-inputswitch-slider"></span>
+                </div> <span class="p-my-2 untouched pristine required"></span>
+              </div>
+              <div class="p-field"><label for="chapter">
+                  pages.workspaceAdmin.acl.detail.chapter
+                </label> <span aria-haspopup="listbox" aria-owns="pv_id_4_list" class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled" id="chapter" suggestions="" value="[object Object]"><input type="text" autocomplete="off" role="searchbox" aria-autocomplete="list" aria-controls="pv_id_4_list" placeholder="components.datatable.placeholder" id="chapter" class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"> <!----> <!----> <button type="button" class="p-autocomplete-dropdown p-button p-component p-button-icon-only"><span class="pi pi-chevron-down p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                <!----></button>
+                <transition-stub name="p-connected-overlay">
+                  <!---->
+                </transition-stub>
+                </span> <span class="p-my-2 untouched pristine"></span>
+              </div>
+              <div class="lck-form-footer"><button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
+                  <!----></button> <button type="submit" class="p-button p-component" disabled="disabled"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
+                  <!----></button></div>
+            </form>
+          </div>
+          <h3>
+            pages.workspaceAdmin.acl.detail.aclTablesExplanation
+          </h3>
+          <div class="p-mx-auto p-datatable p-component">
+            <div>
               <div>
-                <form class="p-fluid">
-                  <div class="p-field"><label for="label" class="label-field-required">
-                      pages.acl.detail.label
-                    </label> <input class="p-inputtext p-component p-filled" id="label"> <span class="p-my-2 untouched pristine required"></span></div>
-                  <div class="p-field"><label for="manager" class="label-field-required">
-                      pages.acl.common.manager
-                    </label>
-                    <div class="p-inputswitch p-component" id="manager">
-                      <div class="p-hidden-accessible"><input type="checkbox" role="switch"></div> <span class="p-inputswitch-slider"></span>
-                    </div> <span class="p-my-2 untouched pristine required"></span>
-                  </div>
-                  <div class="p-field"><label for="chapter">
-                      pages.acl.detail.chapter
-                    </label> <span aria-haspopup="listbox" aria-owns="pv_id_4_list" class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd" id="chapter" placeholder="components.datatable.placeholder" suggestions=""><input type="text" autocomplete="off" role="searchbox" aria-autocomplete="list" aria-controls="pv_id_4_list" placeholder="components.datatable.autoCompletePlaceholder" id="chapter" class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"> <!----> <!----> <button type="button" class="p-autocomplete-dropdown p-button p-component p-button-icon-only"><span class="pi pi-chevron-down p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                    <!----></button>
-                    <transition-stub name="p-connected-overlay">
-                      <!---->
-                    </transition-stub>
-                    </span> <span class="p-my-2 untouched pristine"></span>
-                  </div>
-                  <div class="lck-form-footer"><button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
-                      <!----></button> <button type="submit" class="p-button p-component" disabled="disabled"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
-                      <!----></button></div>
-                </form>
+                <!---->
+                <!---->
+                <!---->
               </div>
-            </div>
-            <div role="tabpanel" class="p-tabview-panel" style="">
-              <div class="acltables p-datatable p-component">
-                <div>
-                  <div>
-                    <!---->
-                    <!---->
-                    <!---->
-                  </div>
-                  <div>
-                    <!---->
-                    <!---->
-                    <!---->
-                    <!---->
-                    <!---->
-                    <!---->
-                    <!---->
-                  </div>
-                </div>
+              <div>
                 <!---->
                 <!---->
                 <!---->
                 <!---->
                 <!---->
                 <!---->
-                <!---->
-                <!---->
-                <!---->
-                <!---->
-                <!---->
-                <div class="p-datatable-wrapper">
-                  <table role="grid">
-                    <thead class="p-datatable-thead">
-                      <tr>
-                        <th rowspan="2" class="sticky-column" style="width: 250px; border-right-width: 1px;">
-                          <!----> <span class="p-column-title">pages.acl.detail.aclTableName</span>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th colspan="4" class="" style="width: 250px; border-width: 0px 1px 1px 0px;">
-                          <!----> <span class="p-column-title">pages.acl.detail.aclTableRecord</span>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th colspan="3" class="" style="width: 200px; border-bottom-width: 1px;">
-                          <!----> <span class="p-column-title">pages.acl.detail.aclTableFilters</span>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                      </tr>
-                      <tr>
-                        <th class=""><i title="pages.acl.detail.create_rows" class="pi pi-plus"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th class=""><i title="pages.acl.detail.read_rows" class="pi pi-eye"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th class=""><i title="pages.acl.detail.update_rows" class="pi pi-pencil"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th class="" style="border-right-width: 1px;"><i title="pages.acl.detail.delete_rows" class="pi pi-trash"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th class=""><i title="pages.acl.detail.read_filter" class="pi pi-eye"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th class=""><i title="pages.acl.detail.update_filter" class="pi pi-pencil"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th class=""><i title="pages.acl.detail.delete_filter" class="pi pi-trash"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody class="p-datatable-tbody">
-                      <!---->
-                      <tr class="">
-                        <td class="sticky-column" style="border-right-width: 1px; background-color: white;">Table 1</td>
-                        <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: green;"><span class="pi pi-check p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class="">
-                          <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="pi pi-ellipsis-h p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                              <!----></button>
-                            <transition-stub name="p-overlaypanel">
-                              <!---->
-                            </transition-stub>
-                          </div>
-                        </td>
-                        <td class="">
-                          <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="pi pi-ellipsis-h p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                              <!----></button>
-                            <transition-stub name="p-overlaypanel">
-                              <!---->
-                            </transition-stub>
-                          </div>
-                        </td>
-                        <td class="">
-                          <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="pi pi-ellipsis-h p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                              <!----></button>
-                            <transition-stub name="p-overlaypanel">
-                              <!---->
-                            </transition-stub>
-                          </div>
-                        </td>
-                      </tr>
-                      <!---->
-                      <!---->
-                      <!---->
-                      <tr class="">
-                        <td class="sticky-column" style="border-right-width: 1px; background-color: white;">Table 2</td>
-                        <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class="">
-                          <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="pi pi-ellipsis-h p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                              <!----></button>
-                            <transition-stub name="p-overlaypanel">
-                              <!---->
-                            </transition-stub>
-                          </div>
-                        </td>
-                        <td class="">
-                          <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="pi pi-ellipsis-h p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                              <!----></button>
-                            <transition-stub name="p-overlaypanel">
-                              <!---->
-                            </transition-stub>
-                          </div>
-                        </td>
-                        <td class="">
-                          <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="pi pi-ellipsis-h p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                              <!----></button>
-                            <transition-stub name="p-overlaypanel">
-                              <!---->
-                            </transition-stub>
-                          </div>
-                        </td>
-                      </tr>
-                      <!---->
-                      <!---->
-                    </tbody>
-                    <!---->
-                  </table>
-                </div>
-                <!---->
-                <!---->
-                <div class="p-column-resizer-helper" style="display: none;"></div>
                 <!---->
                 <!---->
               </div>
             </div>
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <div class="p-datatable-wrapper">
+              <table role="grid">
+                <thead class="p-datatable-thead">
+                  <tr>
+                    <th class="" style="width: 10rem; border-right-width: 1px;">
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th colspan="4" class="" style="width: 16rem; border-width: 0px 1px 1px 0px;">
+                      <!----> <span class="p-column-title">pages.workspaceAdmin.acl.detail.aclTableRecord</span>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th colspan="3" class="" style="width: 12rem; border-bottom-width: 1px;">
+                      <!----> <span class="p-column-title">pages.workspaceAdmin.acl.detail.aclTableFilters</span>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                  </tr>
+                  <tr>
+                    <th class="" style="width: 10rem; border-right-width: 1px;">
+                      <!----> <span class="p-column-title">pages.workspaceAdmin.acl.detail.aclTableName</span>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.create_rows" class="pi pi-plus"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.read_rows" class="pi pi-eye"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.update_rows" class="pi pi-pencil"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class="" style="border-right-width: 1px;"><i title="pages.acl.detail.delete_rows" class="pi pi-trash"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.read_filter" class="pi pi-eye"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.update_filter" class="pi pi-pencil"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.delete_filter" class="pi pi-trash"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="p-datatable-tbody">
+                  <!---->
+                  <tr class="">
+                    <td class="" style="border-right-width: 1px; background-color: white;"></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: green;"><span class="pi pi-check p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                  </tr>
+                  <!---->
+                  <!---->
+                  <!---->
+                  <tr class="">
+                    <td class="" style="border-right-width: 1px; background-color: white;"></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                  </tr>
+                  <!---->
+                  <!---->
+                </tbody>
+                <!---->
+              </table>
+            </div>
+            <!---->
+            <!---->
+            <div class="p-column-resizer-helper" style="display: none;"></div>
+            <!---->
+            <!---->
           </div>
         </div>
+        <!---->
       </div>
     </div>
-    <!---->
   </div>
+  <!---->
+</div>
+`;
+
+exports[`AclSetListing create a new aclset 1`] = `
+<div class="lck-layout-content">
+  <div class="lck-bg-sidebar lck-sidebar">
+    <h2 class="p-pl-3 lck-color-title">
+      pages.workspaceAdmin.acl.common.title
+    </h2>
+    <div><a href="#/aclset/aclset1_id" class="lck-sidebar-link"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 1</span> <span class="status-mark">M</span></a><a href="#/aclset/aclset2_id" class="lck-sidebar-link"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 2</span>
+        <!----></a><a href="#/aclset/aclset3_id," class="lck-sidebar-link"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>New aclset</span> <span class="status-mark">M</span></a></div> <button type="button" class="p-button-primary p-mx-3 p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
+      <!----></button>
+  </div>
+  <div class="lck-page">
+    <div class="p-card p-component p-col-12 p-md-10 p-xl-8 p-mx-auto p-mt-2">
+      <!---->
+      <div class="p-card-body">
+        <div class="p-card-title">
+          <div style="position: relative;">
+            New aclset
+
+            <button type="button" class="delete-aclset-button p-button-sm p-button-danger p-button p-component p-button-icon-only"><span class="pi pi-trash p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+              <!----></button></div>
+        </div>
+        <!---->
+        <div class="p-card-content">
+          <div>
+            <form class="p-fluid">
+              <div class="p-field"><label for="label" class="label-field-required">
+                  pages.workspaceAdmin.acl.detail.label
+                </label> <input class="p-inputtext p-component p-filled" id="label"> <span class="p-my-2 untouched dirty valid validated required changed passed"></span></div>
+              <div class="p-field"><label for="manager" class="label-field-required">
+                  pages.workspaceAdmin.acl.common.manager
+                </label>
+                <div class="p-inputswitch p-component p-inputswitch-checked p-focus" id="manager">
+                  <div class="p-hidden-accessible"><input type="checkbox" role="switch" aria-checked="true"></div> <span class="p-inputswitch-slider"></span>
+                </div> <span class="p-my-2 untouched dirty valid validated required changed passed"></span>
+              </div>
+              <div class="p-field"><label for="chapter">
+                  pages.workspaceAdmin.acl.detail.chapter
+                </label> <span aria-haspopup="listbox" aria-owns="pv_id_1_list" class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd" id="chapter" suggestions=""><input type="text" autocomplete="off" role="searchbox" aria-autocomplete="list" aria-controls="pv_id_1_list" placeholder="components.datatable.placeholder" id="chapter" class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"> <!----> <!----> <button type="button" class="p-autocomplete-dropdown p-button p-component p-button-icon-only"><span class="pi pi-chevron-down p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                <!----></button>
+                <transition-stub name="p-connected-overlay">
+                  <!---->
+                </transition-stub>
+                </span> <span class="p-my-2 untouched pristine"></span>
+              </div>
+              <div class="lck-form-footer"><button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
+                  <!----></button> <button class="p-button p-component" type="submit"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
+                  <!----></button></div>
+            </form>
+          </div>
+          <h3>
+            pages.workspaceAdmin.acl.detail.aclTablesExplanation
+          </h3>
+          <div class="p-mx-auto p-datatable p-component">
+            <div>
+              <div>
+                <!---->
+                <!---->
+                <!---->
+              </div>
+              <div>
+                <!---->
+                <!---->
+                <!---->
+                <!---->
+                <!---->
+                <!---->
+                <!---->
+                <!---->
+              </div>
+            </div>
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <div class="p-datatable-wrapper">
+              <table role="grid">
+                <thead class="p-datatable-thead">
+                  <tr>
+                    <th class="" style="width: 10rem; border-right-width: 1px;">
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th colspan="4" class="" style="width: 16rem; border-width: 0px 1px 1px 0px;">
+                      <!----> <span class="p-column-title">pages.workspaceAdmin.acl.detail.aclTableRecord</span>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th colspan="3" class="" style="width: 12rem; border-bottom-width: 1px;">
+                      <!----> <span class="p-column-title">pages.workspaceAdmin.acl.detail.aclTableFilters</span>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                  </tr>
+                  <tr>
+                    <th class="" style="width: 10rem; border-right-width: 1px;">
+                      <!----> <span class="p-column-title">pages.workspaceAdmin.acl.detail.aclTableName</span>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.create_rows" class="pi pi-plus"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.read_rows" class="pi pi-eye"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.update_rows" class="pi pi-pencil"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class="" style="border-right-width: 1px;"><i title="pages.acl.detail.delete_rows" class="pi pi-trash"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.read_filter" class="pi pi-eye"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.update_filter" class="pi pi-pencil"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.delete_filter" class="pi pi-trash"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="p-datatable-tbody">
+                  <!---->
+                  <tr class="">
+                    <td class="" style="border-right-width: 1px; background-color: white;">Table 1</td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                  </tr>
+                  <!---->
+                  <!---->
+                  <!---->
+                  <tr class="">
+                    <td class="" style="border-right-width: 1px; background-color: white;">Table 2</td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                  </tr>
+                  <!---->
+                  <!---->
+                </tbody>
+                <!---->
+              </table>
+            </div>
+            <!---->
+            <!---->
+            <div class="p-column-resizer-helper" style="display: none;"></div>
+            <!---->
+            <!---->
+          </div>
+        </div>
+        <!---->
+      </div>
+    </div>
+  </div>
+  <!---->
 </div>
 `;
 
 exports[`AclSetListing display a list of aclsets if there are ones 1`] = `
-<layout-with-toolbar-stub class="aclset-listing">
-  <div>
-    <div>
-      <div class="lck-aclset-item p-d-flex p-jc-between p-ai-center p-m-1 p-p-1">
-        <div class="o-hidden o-ellipsis">
-          <p class="aclset-text">
-            AclSet 1
-          </p> <span class="p-tag">
-            pages.acl.common.manager
-          </span>
-        </div>
-        <div class="p-ml-auto">
-          <p-button-stub icon="pi pi-chevron-right" iconpos="left" class="p-button-sm p-button-text p-button-rounded p-button-info"></p-button-stub>
-        </div>
-      </div>
-      <div class="lck-aclset-item p-d-flex p-jc-between p-ai-center p-m-1 p-p-1">
-        <div class="o-hidden o-ellipsis">
-          <p class="aclset-text">
-            AclSet 2
-          </p> <span class="p-tag">
-            pages.acl.common.noManager
-          </span>
-        </div>
-        <div class="p-ml-auto">
-          <p-button-stub icon="pi pi-chevron-right" iconpos="left" class="p-button-sm p-button-text p-button-rounded p-button-info"></p-button-stub>
-        </div>
-      </div>
-    </div>
+<div class="lck-layout-content">
+  <div class="lck-bg-sidebar lck-sidebar">
+    <h2 class="p-pl-3 lck-color-title">
+      pages.workspaceAdmin.acl.common.title
+    </h2>
+    <div><a href="#/aclset/aclset1_id" class="lck-sidebar-link"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 1</span> <span class="status-mark">M</span></a><a href="#/aclset/aclset2_id" class="lck-sidebar-link"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 2</span>
+        <!----></a></div> <button type="button" class="p-button-primary p-mx-3 p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
+      <!----></button>
   </div>
-  <p-confirm-dialog-stub></p-confirm-dialog-stub>
-</layout-with-toolbar-stub>
+  <div class="lck-page">
+    <!---->
+  </div>
+  <!---->
+</div>
 `;
 
 exports[`AclSetListing display a message if there is no aclsets 1`] = `
-<layout-with-toolbar-stub class="aclset-listing">
-  <div>
-    <p class="p-p-1">pages.acl.listing.noAclSet</p>
+<div class="lck-layout-content">
+  <div class="lck-bg-sidebar lck-sidebar">
+    <h2 class="p-pl-3 lck-color-title">
+      pages.workspaceAdmin.acl.common.title
+    </h2>
+    <div class="p-p-3">
+      pages.workspaceAdmin.acl.listing.noAclSet
+    </div> <button type="button" class="p-button-primary p-mx-3 p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
+      <!----></button>
   </div>
-  <p-confirm-dialog-stub></p-confirm-dialog-stub>
-</layout-with-toolbar-stub>
+  <div class="lck-page">
+    <!---->
+  </div>
+  <!---->
+</div>
 `;
 
 exports[`AclSetListing patch an acltable of an aclset 1`] = `
-<div class="aclset-listing">
-  <div class="
-      p-p-1
-      p-d-flex
-      p-jc-between
-      p-ai-center
-      lck-toolbar
-    "><span class="p-pl-1"><span class="pi pi-th-large"></span>
-    pages.acl.common.title
-    </span>
-    <div class="p-d-flex p-flex-wrap"><button type="button" class="p-button-text p-button-primary add-aclset-button p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
-        <!----></button></div>
+<div class="lck-layout-content">
+  <div class="lck-bg-sidebar lck-sidebar">
+    <h2 class="p-pl-3 lck-color-title">
+      pages.workspaceAdmin.acl.common.title
+    </h2>
+    <div><a href="#/aclset/aclset1_id" aria-current="page" class="lck-sidebar-link router-link-exact-active router-link-active"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 1</span> <span class="status-mark">M</span></a><a href="#/aclset/aclset2_id" class="lck-sidebar-link"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 2</span>
+        <!----></a></div> <button type="button" class="p-button-primary p-mx-3 p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
+      <!----></button>
   </div>
-  <div class="
-      lck-toolbar-content
-      p-d-flex
-      p-flex-column
-      d-flex-1
-      o-auto
-    ">
-    <div class="p-m-2"><button type="button" class="p-button-text p-button-primary aclset-listing-button p-button p-component"><span class="pi pi-chevron-left p-button-icon p-button-icon-left"></span> <span class="p-button-label">pages.acl.listing.title</span>
-        <!----></button>
-      <div class="aclset-form-container">
-        <h3>AclSet 1</h3> <button type="button" class="delete-aclset-button p-button-sm p-button-danger p-button p-component p-button-icon-only"><span class="pi pi-trash p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-          <!----></button>
-        <div class="p-tabview p-component lck-aclset-tab">
-          <ul role="tablist" class="p-tabview-nav">
-            <li role="presentation" class=""><a role="tab" tabindex="0" aria-selected="1" class="p-tabview-nav-link"><span class="p-tabview-title">pages.acl.detail.properties</span>
-                <!----></a></li>
-            <li role="presentation" class="p-highlight"><a role="tab" tabindex="0" aria-selected="1" class="p-tabview-nav-link">
-                <!----> <span class="p-tabview-title">
-          pages.acl.detail.aclTables
-        </span></a></li>
-            <li class="p-tabview-ink-bar" style="left: 0px;"></li>
-          </ul>
-          <div class="p-tabview-panels">
-            <div role="tabpanel" class="p-tabview-panel" style="display: none;">
+  <div class="lck-page">
+    <div class="p-card p-component p-col-12 p-md-10 p-xl-8 p-mx-auto p-mt-2">
+      <!---->
+      <div class="p-card-body">
+        <div class="p-card-title">
+          <div style="position: relative;">
+            AclSet 1
+
+            <button type="button" class="delete-aclset-button p-button-sm p-button-danger p-button p-component p-button-icon-only"><span class="pi pi-trash p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+              <!----></button></div>
+        </div>
+        <!---->
+        <div class="p-card-content">
+          <div>
+            <form class="p-fluid">
+              <div class="p-field"><label for="label" class="label-field-required">
+                  pages.workspaceAdmin.acl.detail.label
+                </label> <input class="p-inputtext p-component p-filled" id="label"> <span class="p-my-2 untouched pristine required"></span></div>
+              <div class="p-field"><label for="manager" class="label-field-required">
+                  pages.workspaceAdmin.acl.common.manager
+                </label>
+                <div class="p-inputswitch p-component p-inputswitch-checked" id="manager">
+                  <div class="p-hidden-accessible"><input type="checkbox" role="switch" aria-checked="true"></div> <span class="p-inputswitch-slider"></span>
+                </div> <span class="p-my-2 untouched pristine required"></span>
+              </div>
+              <div class="p-field"><label for="chapter">
+                  pages.workspaceAdmin.acl.detail.chapter
+                </label> <span aria-haspopup="listbox" aria-owns="pv_id_5_list" class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled" id="chapter" suggestions="" value="[object Object]"><input type="text" autocomplete="off" role="searchbox" aria-autocomplete="list" aria-controls="pv_id_5_list" placeholder="components.datatable.placeholder" id="chapter" class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"> <!----> <!----> <button type="button" class="p-autocomplete-dropdown p-button p-component p-button-icon-only"><span class="pi pi-chevron-down p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                <!----></button>
+                <transition-stub name="p-connected-overlay">
+                  <!---->
+                </transition-stub>
+                </span> <span class="p-my-2 untouched pristine"></span>
+              </div>
+              <div class="lck-form-footer"><button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
+                  <!----></button> <button type="submit" class="p-button p-component" disabled="disabled"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
+                  <!----></button></div>
+            </form>
+          </div>
+          <h3>
+            pages.workspaceAdmin.acl.detail.aclTablesExplanation
+          </h3>
+          <div class="p-mx-auto p-datatable p-component">
+            <div>
               <div>
-                <form class="p-fluid">
-                  <div class="p-field"><label for="label" class="label-field-required">
-                      pages.acl.detail.label
-                    </label> <input class="p-inputtext p-component p-filled" id="label"> <span class="p-my-2 untouched pristine required"></span></div>
-                  <div class="p-field"><label for="manager" class="label-field-required">
-                      pages.acl.common.manager
-                    </label>
-                    <div class="p-inputswitch p-component p-inputswitch-checked" id="manager">
-                      <div class="p-hidden-accessible"><input type="checkbox" role="switch" aria-checked="true"></div> <span class="p-inputswitch-slider"></span>
-                    </div> <span class="p-my-2 untouched pristine required"></span>
-                  </div>
-                  <div class="p-field"><label for="chapter">
-                      pages.acl.detail.chapter
-                    </label> <span aria-haspopup="listbox" aria-owns="pv_id_5_list" class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled" id="chapter" placeholder="components.datatable.placeholder" suggestions="" value="[object Object]"><input type="text" autocomplete="off" role="searchbox" aria-autocomplete="list" aria-controls="pv_id_5_list" placeholder="components.datatable.autoCompletePlaceholder" id="chapter" class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"> <!----> <!----> <button type="button" class="p-autocomplete-dropdown p-button p-component p-button-icon-only"><span class="pi pi-chevron-down p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                    <!----></button>
-                    <transition-stub name="p-connected-overlay">
-                      <!---->
-                    </transition-stub>
-                    </span> <span class="p-my-2 untouched pristine"></span>
-                  </div>
-                  <div class="lck-form-footer"><button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
-                      <!----></button> <button type="submit" class="p-button p-component" disabled="disabled"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
-                      <!----></button></div>
-                </form>
+                <!---->
+                <!---->
+                <!---->
               </div>
-            </div>
-            <div role="tabpanel" class="p-tabview-panel" style="">
-              <div class="acltables p-datatable p-component">
-                <div>
-                  <div>
-                    <!---->
-                    <!---->
-                    <!---->
-                  </div>
-                  <div>
-                    <!---->
-                    <!---->
-                    <!---->
-                    <!---->
-                    <!---->
-                    <!---->
-                    <!---->
-                  </div>
-                </div>
+              <div>
                 <!---->
                 <!---->
                 <!---->
                 <!---->
                 <!---->
                 <!---->
-                <!---->
-                <!---->
-                <!---->
-                <!---->
-                <!---->
-                <div class="p-datatable-wrapper">
-                  <table role="grid">
-                    <thead class="p-datatable-thead">
-                      <tr>
-                        <th rowspan="2" class="sticky-column" style="width: 250px; border-right-width: 1px;">
-                          <!----> <span class="p-column-title">pages.acl.detail.aclTableName</span>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th colspan="4" class="" style="width: 250px; border-width: 0px 1px 1px 0px;">
-                          <!----> <span class="p-column-title">pages.acl.detail.aclTableRecord</span>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th colspan="3" class="" style="width: 200px; border-bottom-width: 1px;">
-                          <!----> <span class="p-column-title">pages.acl.detail.aclTableFilters</span>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                      </tr>
-                      <tr>
-                        <th class=""><i title="pages.acl.detail.create_rows" class="pi pi-plus"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th class=""><i title="pages.acl.detail.read_rows" class="pi pi-eye"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th class=""><i title="pages.acl.detail.update_rows" class="pi pi-pencil"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th class="" style="border-right-width: 1px;"><i title="pages.acl.detail.delete_rows" class="pi pi-trash"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th class=""><i title="pages.acl.detail.read_filter" class="pi pi-eye"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th class=""><i title="pages.acl.detail.update_filter" class="pi pi-pencil"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th class=""><i title="pages.acl.detail.delete_filter" class="pi pi-trash"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody class="p-datatable-tbody">
-                      <!---->
-                      <tr class="">
-                        <td class="sticky-column" style="border-right-width: 1px; background-color: white;">Table 1</td>
-                        <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: green;"><span class="pi pi-check p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class="">
-                          <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="pi pi-ellipsis-h p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                              <!----></button>
-                            <transition-stub name="p-overlaypanel">
-                              <!---->
-                            </transition-stub>
-                          </div>
-                        </td>
-                        <td class="">
-                          <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="pi pi-ellipsis-h p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                              <!----></button>
-                            <transition-stub name="p-overlaypanel">
-                              <!---->
-                            </transition-stub>
-                          </div>
-                        </td>
-                        <td class="">
-                          <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="pi pi-ellipsis-h p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                              <!----></button>
-                            <transition-stub name="p-overlaypanel">
-                              <!---->
-                            </transition-stub>
-                          </div>
-                        </td>
-                      </tr>
-                      <!---->
-                      <!---->
-                      <!---->
-                      <tr class="">
-                        <td class="sticky-column" style="border-right-width: 1px; background-color: white;">Table 2</td>
-                        <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class="">
-                          <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="pi pi-ellipsis-h p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                              <!----></button>
-                            <transition-stub name="p-overlaypanel">
-                              <!---->
-                            </transition-stub>
-                          </div>
-                        </td>
-                        <td class="">
-                          <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="pi pi-ellipsis-h p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                              <!----></button>
-                            <transition-stub name="p-overlaypanel">
-                              <!---->
-                            </transition-stub>
-                          </div>
-                        </td>
-                        <td class="">
-                          <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="pi pi-ellipsis-h p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                              <!----></button>
-                            <transition-stub name="p-overlaypanel">
-                              <!---->
-                            </transition-stub>
-                          </div>
-                        </td>
-                      </tr>
-                      <!---->
-                      <!---->
-                    </tbody>
-                    <!---->
-                  </table>
-                </div>
-                <!---->
-                <!---->
-                <div class="p-column-resizer-helper" style="display: none;"></div>
                 <!---->
                 <!---->
               </div>
             </div>
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <div class="p-datatable-wrapper">
+              <table role="grid">
+                <thead class="p-datatable-thead">
+                  <tr>
+                    <th class="" style="width: 10rem; border-right-width: 1px;">
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th colspan="4" class="" style="width: 16rem; border-width: 0px 1px 1px 0px;">
+                      <!----> <span class="p-column-title">pages.workspaceAdmin.acl.detail.aclTableRecord</span>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th colspan="3" class="" style="width: 12rem; border-bottom-width: 1px;">
+                      <!----> <span class="p-column-title">pages.workspaceAdmin.acl.detail.aclTableFilters</span>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                  </tr>
+                  <tr>
+                    <th class="" style="width: 10rem; border-right-width: 1px;">
+                      <!----> <span class="p-column-title">pages.workspaceAdmin.acl.detail.aclTableName</span>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.create_rows" class="pi pi-plus"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.read_rows" class="pi pi-eye"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.update_rows" class="pi pi-pencil"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class="" style="border-right-width: 1px;"><i title="pages.acl.detail.delete_rows" class="pi pi-trash"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.read_filter" class="pi pi-eye"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.update_filter" class="pi pi-pencil"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.delete_filter" class="pi pi-trash"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="p-datatable-tbody">
+                  <!---->
+                  <tr class="">
+                    <td class="" style="border-right-width: 1px; background-color: white;"></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                  </tr>
+                  <!---->
+                  <!---->
+                  <!---->
+                  <tr class="">
+                    <td class="" style="border-right-width: 1px; background-color: white;"></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: green;"><span class="pi pi-check p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                  </tr>
+                  <!---->
+                  <!---->
+                </tbody>
+                <!---->
+              </table>
+            </div>
+            <!---->
+            <!---->
+            <div class="p-column-resizer-helper" style="display: none;"></div>
+            <!---->
+            <!---->
           </div>
         </div>
+        <!---->
       </div>
     </div>
-    <!---->
   </div>
+  <!---->
 </div>
 `;
 
 exports[`AclSetListing update an aclset 1`] = `
-<div class="aclset-listing">
-  <div class="
-      p-p-1
-      p-d-flex
-      p-jc-between
-      p-ai-center
-      lck-toolbar
-    "><span class="p-pl-1"><span class="pi pi-th-large"></span>
-    pages.acl.common.title
-    </span>
-    <div class="p-d-flex p-flex-wrap"><button type="button" class="p-button-text p-button-primary add-aclset-button p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
-        <!----></button></div>
+<div class="lck-layout-content">
+  <div class="lck-bg-sidebar lck-sidebar">
+    <h2 class="p-pl-3 lck-color-title">
+      pages.workspaceAdmin.acl.common.title
+    </h2>
+    <div><a href="#/aclset/aclset1_id" aria-current="page" class="lck-sidebar-link router-link-exact-active router-link-active"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 1 updated</span>
+        <!----></a><a href="#/aclset/aclset2_id" class="lck-sidebar-link"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 2</span>
+        <!----></a></div> <button type="button" class="p-button-primary p-mx-3 p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
+      <!----></button>
   </div>
-  <div class="
-      lck-toolbar-content
-      p-d-flex
-      p-flex-column
-      d-flex-1
-      o-auto
-    ">
-    <div class="p-m-2"><button type="button" class="p-button-text p-button-primary aclset-listing-button p-button p-component"><span class="pi pi-chevron-left p-button-icon p-button-icon-left"></span> <span class="p-button-label">pages.acl.listing.title</span>
-        <!----></button>
-      <div class="aclset-form-container">
-        <h3>AclSet 1 updated</h3> <button type="button" class="delete-aclset-button p-button-sm p-button-danger p-button p-component p-button-icon-only"><span class="pi pi-trash p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-          <!----></button>
-        <div class="p-tabview p-component lck-aclset-tab">
-          <ul role="tablist" class="p-tabview-nav">
-            <li role="presentation" class="p-highlight"><a role="tab" tabindex="0" aria-selected="0" class="p-tabview-nav-link"><span class="p-tabview-title">pages.acl.detail.properties</span>
-                <!----></a></li>
-            <li role="presentation" class=""><a role="tab" tabindex="0" aria-selected="0" class="p-tabview-nav-link">
-                <!----> <span class="p-tabview-title">
-          pages.acl.detail.aclTables
-        </span></a></li>
-            <li class="p-tabview-ink-bar" style="left: 0px;"></li>
-          </ul>
-          <div class="p-tabview-panels">
-            <div role="tabpanel" class="p-tabview-panel">
+  <div class="lck-page">
+    <div class="p-card p-component p-col-12 p-md-10 p-xl-8 p-mx-auto p-mt-2">
+      <!---->
+      <div class="p-card-body">
+        <div class="p-card-title">
+          <div style="position: relative;">
+            AclSet 1 updated
+
+            <button type="button" class="delete-aclset-button p-button-sm p-button-danger p-button p-component p-button-icon-only"><span class="pi pi-trash p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+              <!----></button></div>
+        </div>
+        <!---->
+        <div class="p-card-content">
+          <div>
+            <form class="p-fluid">
+              <div class="p-field"><label for="label" class="label-field-required">
+                  pages.workspaceAdmin.acl.detail.label
+                </label> <input class="p-inputtext p-component p-filled" id="label"> <span class="p-my-2 untouched dirty valid validated required changed passed"></span></div>
+              <div class="p-field"><label for="manager" class="label-field-required">
+                  pages.workspaceAdmin.acl.common.manager
+                </label>
+                <div class="p-inputswitch p-component p-focus" id="manager">
+                  <div class="p-hidden-accessible"><input type="checkbox" role="switch"></div> <span class="p-inputswitch-slider"></span>
+                </div> <span class="p-my-2 untouched dirty valid validated required changed passed"></span>
+              </div>
+              <div class="p-field"><label for="chapter">
+                  pages.workspaceAdmin.acl.detail.chapter
+                </label> <span aria-haspopup="listbox" aria-owns="pv_id_3_list" class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled" id="chapter" suggestions="" value="[object Object]"><input type="text" autocomplete="off" role="searchbox" aria-autocomplete="list" aria-controls="pv_id_3_list" placeholder="components.datatable.placeholder" id="chapter" class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"> <!----> <!----> <button type="button" class="p-autocomplete-dropdown p-button p-component p-button-icon-only"><span class="pi pi-chevron-down p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                <!----></button>
+                <transition-stub name="p-connected-overlay">
+                  <!---->
+                </transition-stub>
+                </span> <span class="p-my-2 untouched pristine"></span>
+              </div>
+              <div class="lck-form-footer"><button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
+                  <!----></button> <button class="p-button p-component" type="submit"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
+                  <!----></button></div>
+            </form>
+          </div>
+          <h3>
+            pages.workspaceAdmin.acl.detail.aclTablesExplanation
+          </h3>
+          <div class="p-mx-auto p-datatable p-component">
+            <div>
               <div>
-                <form class="p-fluid">
-                  <div class="p-field"><label for="label" class="label-field-required">
-                      pages.acl.detail.label
-                    </label> <input class="p-inputtext p-component p-filled" id="label"> <span class="p-my-2 untouched dirty valid validated required changed passed"></span></div>
-                  <div class="p-field"><label for="manager" class="label-field-required">
-                      pages.acl.common.manager
-                    </label>
-                    <div class="p-inputswitch p-component p-focus" id="manager">
-                      <div class="p-hidden-accessible"><input type="checkbox" role="switch"></div> <span class="p-inputswitch-slider"></span>
-                    </div> <span class="p-my-2 untouched dirty valid validated required changed passed"></span>
-                  </div>
-                  <div class="p-field"><label for="chapter">
-                      pages.acl.detail.chapter
-                    </label> <span aria-haspopup="listbox" aria-owns="pv_id_3_list" class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled" id="chapter" placeholder="components.datatable.placeholder" suggestions="" value="[object Object]"><input type="text" autocomplete="off" role="searchbox" aria-autocomplete="list" aria-controls="pv_id_3_list" placeholder="components.datatable.autoCompletePlaceholder" id="chapter" class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"> <!----> <!----> <button type="button" class="p-autocomplete-dropdown p-button p-component p-button-icon-only"><span class="pi pi-chevron-down p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                    <!----></button>
-                    <transition-stub name="p-connected-overlay">
-                      <!---->
-                    </transition-stub>
-                    </span> <span class="p-my-2 untouched pristine"></span>
-                  </div>
-                  <div class="lck-form-footer"><button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
-                      <!----></button> <button class="p-button p-component" type="submit"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
-                      <!----></button></div>
-                </form>
+                <!---->
+                <!---->
+                <!---->
               </div>
-            </div>
-            <div role="tabpanel" class="p-tabview-panel" style="display: none;">
-              <div class="acltables p-datatable p-component">
-                <div>
-                  <div>
-                    <!---->
-                    <!---->
-                    <!---->
-                  </div>
-                  <div>
-                    <!---->
-                    <!---->
-                    <!---->
-                    <!---->
-                    <!---->
-                    <!---->
-                    <!---->
-                  </div>
-                </div>
+              <div>
                 <!---->
                 <!---->
                 <!---->
                 <!---->
                 <!---->
                 <!---->
-                <!---->
-                <!---->
-                <!---->
-                <!---->
-                <!---->
-                <div class="p-datatable-wrapper">
-                  <table role="grid">
-                    <thead class="p-datatable-thead">
-                      <tr>
-                        <th rowspan="2" class="sticky-column" style="width: 250px; border-right-width: 1px;">
-                          <!----> <span class="p-column-title">pages.acl.detail.aclTableName</span>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th colspan="4" class="" style="width: 250px; border-width: 0px 1px 1px 0px;">
-                          <!----> <span class="p-column-title">pages.acl.detail.aclTableRecord</span>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th colspan="3" class="" style="width: 200px; border-bottom-width: 1px;">
-                          <!----> <span class="p-column-title">pages.acl.detail.aclTableFilters</span>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                      </tr>
-                      <tr>
-                        <th class=""><i title="pages.acl.detail.create_rows" class="pi pi-plus"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th class=""><i title="pages.acl.detail.read_rows" class="pi pi-eye"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th class=""><i title="pages.acl.detail.update_rows" class="pi pi-pencil"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th class="" style="border-right-width: 1px;"><i title="pages.acl.detail.delete_rows" class="pi pi-trash"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th class=""><i title="pages.acl.detail.read_filter" class="pi pi-eye"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th class=""><i title="pages.acl.detail.update_filter" class="pi pi-pencil"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                        <th class=""><i title="pages.acl.detail.delete_filter" class="pi pi-trash"></i>
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody class="p-datatable-tbody">
-                      <!---->
-                      <tr class="">
-                        <td class="sticky-column" style="border-right-width: 1px; background-color: white;">Table 1</td>
-                        <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class="">
-                          <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="pi pi-ellipsis-h p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                              <!----></button>
-                            <transition-stub name="p-overlaypanel">
-                              <!---->
-                            </transition-stub>
-                          </div>
-                        </td>
-                        <td class="">
-                          <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="pi pi-ellipsis-h p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                              <!----></button>
-                            <transition-stub name="p-overlaypanel">
-                              <!---->
-                            </transition-stub>
-                          </div>
-                        </td>
-                        <td class="">
-                          <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="pi pi-ellipsis-h p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                              <!----></button>
-                            <transition-stub name="p-overlaypanel">
-                              <!---->
-                            </transition-stub>
-                          </div>
-                        </td>
-                      </tr>
-                      <!---->
-                      <!---->
-                      <!---->
-                      <tr class="">
-                        <td class="sticky-column" style="border-right-width: 1px; background-color: white;">Table 2</td>
-                        <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                            <!----></button></td>
-                        <td class="">
-                          <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="pi pi-ellipsis-h p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                              <!----></button>
-                            <transition-stub name="p-overlaypanel">
-                              <!---->
-                            </transition-stub>
-                          </div>
-                        </td>
-                        <td class="">
-                          <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="pi pi-ellipsis-h p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                              <!----></button>
-                            <transition-stub name="p-overlaypanel">
-                              <!---->
-                            </transition-stub>
-                          </div>
-                        </td>
-                        <td class="">
-                          <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="pi pi-ellipsis-h p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                              <!----></button>
-                            <transition-stub name="p-overlaypanel">
-                              <!---->
-                            </transition-stub>
-                          </div>
-                        </td>
-                      </tr>
-                      <!---->
-                      <!---->
-                    </tbody>
-                    <!---->
-                  </table>
-                </div>
-                <!---->
-                <!---->
-                <div class="p-column-resizer-helper" style="display: none;"></div>
                 <!---->
                 <!---->
               </div>
             </div>
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <!---->
+            <div class="p-datatable-wrapper">
+              <table role="grid">
+                <thead class="p-datatable-thead">
+                  <tr>
+                    <th class="" style="width: 10rem; border-right-width: 1px;">
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th colspan="4" class="" style="width: 16rem; border-width: 0px 1px 1px 0px;">
+                      <!----> <span class="p-column-title">pages.workspaceAdmin.acl.detail.aclTableRecord</span>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th colspan="3" class="" style="width: 12rem; border-bottom-width: 1px;">
+                      <!----> <span class="p-column-title">pages.workspaceAdmin.acl.detail.aclTableFilters</span>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                  </tr>
+                  <tr>
+                    <th class="" style="width: 10rem; border-right-width: 1px;">
+                      <!----> <span class="p-column-title">pages.workspaceAdmin.acl.detail.aclTableName</span>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.create_rows" class="pi pi-plus"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.read_rows" class="pi pi-eye"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.update_rows" class="pi pi-pencil"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class="" style="border-right-width: 1px;"><i title="pages.acl.detail.delete_rows" class="pi pi-trash"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.read_filter" class="pi pi-eye"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.update_filter" class="pi pi-pencil"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                    <th class=""><i title="pages.acl.detail.delete_filter" class="pi pi-trash"></i>
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                      <!---->
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="p-datatable-tbody">
+                  <!---->
+                  <tr class="">
+                    <td class="" style="border-right-width: 1px; background-color: white;"></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                  </tr>
+                  <!---->
+                  <!---->
+                  <!---->
+                  <tr class="">
+                    <td class="" style="border-right-width: 1px; background-color: white;"></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                        <!----></button></td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                    <td class="">
+                      <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
+                          <!----></button>
+                        <transition-stub name="p-overlaypanel">
+                          <!---->
+                        </transition-stub>
+                      </div>
+                    </td>
+                  </tr>
+                  <!---->
+                  <!---->
+                </tbody>
+                <!---->
+              </table>
+            </div>
+            <!---->
+            <!---->
+            <div class="p-column-resizer-helper" style="display: none;"></div>
+            <!---->
+            <!---->
           </div>
         </div>
+        <!---->
       </div>
     </div>
-    <!---->
   </div>
+  <!---->
 </div>
 `;

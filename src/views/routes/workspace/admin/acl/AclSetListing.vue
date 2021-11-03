@@ -7,7 +7,6 @@
       <h2 class="p-pl-3 lck-color-title">
         {{ $t('pages.workspaceAdmin.acl.common.title') }}
       </h2>
-
       <div v-if="workspace && workspace.aclsets">
         <router-link
           v-for="aclSet in workspace.aclsets"

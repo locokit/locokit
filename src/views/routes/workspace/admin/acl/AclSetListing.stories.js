@@ -1,11 +1,15 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import AclSetListing from './AclSetListing.vue'
+import StoryRouter from 'storybook-vue-router'
 
 import { LckAclTable, LckAclSet } from '@/services/lck-api/definitions'
 
 export default {
   title: 'views/routes/workspace/admin/AclSetListing',
   component: AclSetListing,
+  decorators: [
+    StoryRouter(),
+  ],
 }
 
 const mockChapters = [
@@ -146,6 +150,19 @@ const mockMethods = {
     },
   },
 }
+
+export const defaultStory = () => {
+  return {
+    components: { AclSetListing },
+    template: `
+      <AclSetListing
+        workspaceId="workspace1_id"
+      />
+    `,
+  }
+}
+
+defaultStory.storyName = 'default'
 
 export const withAclSetsToDisplay = () => {
   return {

@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import ProcessListing from './ProcessListing'
+import StoryRouter from 'storybook-vue-router'
 
 export default {
   title: 'views/routes/workspace/admin/ProcessListing',
   component: ProcessListing,
+  decorators: [
+    StoryRouter(),
+  ],
 }
 
 const mockProcessData = {
@@ -80,6 +84,7 @@ export const withDetailProcessDisplayed = () => {
       <ProcessListing
         ref="pl"
         workspaceId="this-is-a-id"
+        processId="${mockProcessData.data[0].id}"
       />
     `,
     async mounted () {
@@ -101,6 +106,11 @@ withDetailProcessDisplayed.parameters = {
       find () {
         return new Promise(resolve => {
           resolve(mockProcessData)
+        })
+      },
+      get () {
+        return new Promise(resolve => {
+          resolve(mockProcessData.data[0])
         })
       },
     },
