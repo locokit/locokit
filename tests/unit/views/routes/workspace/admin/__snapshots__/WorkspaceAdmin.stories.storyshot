@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots views/routes/WorkspaceAdmin default 1`] = `
+exports[`storyshots views/routes/workspace/admin/WorkspaceAdmin default 1`] = `
 <div
   style="height: 100%;"
 >

@@ -1,6 +1,64 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots views/routes/workspace/acl/AclSetListing with acl sets to display 1`] = `
+exports[`storyshots views/routes/workspace/admin/AclSetListing default 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="lck-layout-content"
+  >
+    <div
+      class="lck-bg-sidebar lck-sidebar"
+    >
+      <h2
+        class="p-pl-3 lck-color-title"
+      >
+        
+      Roles and permissions
+    
+      </h2>
+       
+      <div
+        class="p-p-3"
+      >
+        
+      No role
+    
+      </div>
+       
+      <button
+        class="p-button-primary p-mx-3 p-button p-component"
+        type="button"
+      >
+        <span
+          class="pi pi-plus-circle p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Add
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+    </div>
+     
+    <div
+      class="lck-page"
+    >
+      <!---->
+    </div>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`storyshots views/routes/workspace/admin/AclSetListing with acl sets to display 1`] = `
 <div
   style="height: 100%;"
 >
