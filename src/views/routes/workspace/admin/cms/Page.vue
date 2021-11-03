@@ -220,7 +220,7 @@ export default Vue.extend({
       required: false,
     },
     userId: {
-      type: String,
+      type: Number,
       required: false,
     },
     editMode: {
@@ -287,7 +287,7 @@ export default Vue.extend({
      * Edition part
      */
     onContainerEditClick (containerToEdit: LckContainer) {
-      this.currentContainerToEdit = containerToEdit.id ? containerToEdit : null
+      this.currentContainerToEdit = containerToEdit?.id ? containerToEdit : null
       this.currentBlockToEdit = null
       this.showUpdateSidebar = true
     },

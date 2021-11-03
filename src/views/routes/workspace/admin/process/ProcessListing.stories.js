@@ -44,7 +44,7 @@ const mockProcessData = {
 }
 export const defaultStory = () => ({
   components: { ProcessListing },
-  template: '<ProcessListing />',
+  template: '<ProcessListing workspaceId="this-is-a-id" />',
 })
 
 defaultStory.storyName = 'default'

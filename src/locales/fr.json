@@ -849,6 +849,7 @@
   "error": {
     "basic": "Une erreur est survenue.",
     "http": {
+      "undefined": "Erreur inconnue",
       "400": "Requête incorrecte",
       "401": "Accès non authentifié",
       "403": "Accès interdit",

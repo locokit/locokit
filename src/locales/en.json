@@ -849,6 +849,7 @@
   "error": {
     "basic": "An error has occurred.",
     "http": {
+      "undefined": "Unknown error",
       "400": "Bad request",
       "401": "Access not granted",
       "403": "Access forbidden",

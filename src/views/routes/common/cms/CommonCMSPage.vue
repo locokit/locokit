@@ -145,7 +145,7 @@ export default {
     chapters: {
       type: Array,
       default: () => ([]),
-      required: true,
+      required: false,
     } as PropOptions<LckChapter[]>,
     workspaceId: {
       type: String,
@@ -213,6 +213,12 @@ export default {
   },
   computed: {
     breadcrumb () {
+      if (!this.sidebarItems || this.sidebarItems.length === 0) {
+        return [{
+          label: this.page?.text,
+          disabled: true,
+        }]
+      }
       const parent: {
         id?: string;
         label?: string;
@@ -224,6 +230,7 @@ export default {
         })
         return acc
       }, {})
+
       return [
         {
           label: parent.label,

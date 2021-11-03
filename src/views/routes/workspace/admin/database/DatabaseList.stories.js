@@ -3,13 +3,13 @@
 import DatabaseList from './DatabaseList.vue'
 
 export default {
-  title: 'views/routes/DatabaseList',
+  title: 'views/routes/workspace/admin/DatabaseList',
   component: DatabaseList,
 }
 
 export const defaultStory = () => ({
   components: { DatabaseList },
-  template: '<DatabaseList databaseId="1" groupId="your-group-id" />',
+  template: '<DatabaseList workspaceId="1" />',
 })
 
 defaultStory.storyName = 'default'

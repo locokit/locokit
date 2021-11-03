@@ -1,0 +1,238 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots views/routes/workspace/admin/WorkspaceSettings default 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="lck-page"
+  >
+    <div
+      class="p-card p-component p-col-12 p-md-8 p-xl-6 p-mt-2 p-mx-auto"
+    >
+      <!---->
+       
+      <div
+        class="p-card-body"
+      >
+        <div
+          class="p-card-title"
+        >
+          
+      Settings
+    
+        </div>
+         
+        <!---->
+         
+        <div
+          class="p-card-content"
+        >
+          <div>
+            <form
+              class="p-fluid"
+            >
+              <div
+                class="p-field"
+              >
+                <label
+                  class="label-field-required"
+                  for="text"
+                >
+                  
+      Name
+    
+                </label>
+                 
+                <input
+                  autofocus="autofocus"
+                  class="p-inputtext p-component"
+                  id="text"
+                  placeholder="Workspace's name"
+                />
+                 
+                <span
+                  class="untouched pristine"
+                >
+                  
+                </span>
+              </div>
+               
+              <div
+                class="p-field"
+              >
+                <label
+                  for="documentation"
+                >
+                  
+      Documentation
+    
+                </label>
+                 
+                <textarea
+                  class="p-mb-2 p-inputtextarea p-inputtext p-component p-inputtextarea-resizable "
+                  id="documentation"
+                  placeholder="Add a description of your workspace, a documentation, ..."
+                />
+                 
+                <span
+                  class="untouched pristine"
+                >
+                  
+                </span>
+              </div>
+               
+              <div
+                class="p-field"
+              >
+                <label
+                  for="color"
+                >
+                  
+      Color
+    
+                </label>
+                 
+                <div
+                  class="p-dropdown p-component p-inputwrapper p-dropdown-clearable"
+                  id="color"
+                >
+                  <div
+                    class="p-hidden-accessible"
+                  >
+                    <input
+                      aria-haspopup="listbox"
+                      readonly="readonly"
+                      type="text"
+                    />
+                  </div>
+                   
+                  <!---->
+                   
+                  <span
+                    class="p-dropdown-label p-inputtext p-placeholder"
+                  >
+                    
+            Select a color
+        
+                  </span>
+                   
+                  <!---->
+                   
+                  <div
+                    aria-haspopup="listbox"
+                    class="p-dropdown-trigger"
+                    role="button"
+                  >
+                    <span
+                      class="p-dropdown-trigger-icon pi pi-chevron-down"
+                    />
+                  </div>
+                   
+                  <!---->
+                </div>
+                 
+                <small
+                  id="color"
+                >
+                  This color will be used as background in the workspace listing page
+                </small>
+                 
+                <span
+                  class="untouched pristine"
+                >
+                  
+                </span>
+              </div>
+               
+              <div
+                class="p-field"
+              >
+                <label
+                  for="icon"
+                >
+                  
+      Icon
+    
+                </label>
+                 
+                <input
+                  class="p-inputtext p-component"
+                  id="icon"
+                  placeholder="bi-cart"
+                />
+                 
+                <small
+                  id="icon"
+                >
+                  Fill with icon id, list is available on  
+                  <a
+                    href="https://icons.getbootstrap.com/"
+                    target="_blank"
+                  >
+                    Bootstrap Icon
+                  </a>
+                  .
+                </small>
+                 
+                <span
+                  class="untouched pristine"
+                >
+                  
+                </span>
+              </div>
+               
+              <div
+                class="lck-form-footer"
+              >
+                <button
+                  class="p-button-text p-button-secondary p-button p-component"
+                  type="button"
+                >
+                  <span
+                    class="pi pi-times p-button-icon p-button-icon-left"
+                  />
+                   
+                  <span
+                    class="p-button-label"
+                  >
+                    Cancel
+                  </span>
+                   
+                  <!---->
+                  <span
+                    class="p-ink"
+                  />
+                </button>
+                 
+                <button
+                  class="p-button p-component"
+                  disabled="disabled"
+                  type="submit"
+                >
+                  <span
+                    class="pi pi-save p-button-icon p-button-icon-left"
+                  />
+                   
+                  <span
+                    class="p-button-label"
+                  >
+                    Save
+                  </span>
+                   
+                  <!---->
+                  <span
+                    class="p-ink"
+                  />
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+         
+        <!---->
+      </div>
+    </div>
+  </div>
+</div>
+`;

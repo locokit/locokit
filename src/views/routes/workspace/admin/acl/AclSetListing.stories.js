@@ -4,7 +4,7 @@ import AclSetListing from './AclSetListing.vue'
 import { LckAclTable, LckAclSet } from '@/services/lck-api/definitions'
 
 export default {
-  title: 'views/routes/workspace/acl/AclSetListing',
+  title: 'views/routes/workspace/admin/AclSetListing',
   component: AclSetListing,
 }
 
