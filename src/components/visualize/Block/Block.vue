@@ -194,6 +194,7 @@ export default Vue.extend({
 .edit-block-line {
   display: flex;
   align-items: center;
+  padding-left: 0.5rem;
 }
 
 .handle-block {
@@ -218,6 +219,7 @@ export default Vue.extend({
 .editable-block .block-content {
   pointer-events: none;
   margin-bottom: 0.5rem;
+  padding: 0.5rem;
 }
 
 </style>

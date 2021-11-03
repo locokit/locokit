@@ -15,6 +15,8 @@ export const ROUTES_PATH = {
    */
   WORKSPACE: '/workspace',
   VISUALIZATION: '/visualization',
+  VISUALIZATION_PAGE: '/page',
+  VISUALIZATION_PAGE_DETAIL: '/detail',
   DATABASE: '/database',
   DATABASETABLE: '/table',
   DATABASESCHEMA: '/schema',
@@ -24,6 +26,8 @@ export const ROUTES_PATH = {
   ACLSET: '/aclset',
   GROUP: '/group', // used in workspace admin AND admin
   CMS: '/cms',
+  CMS_PAGE: '/page',
+  CMS_PAGE_DETAIL: '/detail',
 
   /**
    * Admin paths
@@ -49,9 +53,6 @@ export const ROUTES_NAMES = {
    */
   WORKSPACELIST: 'WorkspaceList',
   WORKSPACE: 'Workspace',
-  VISUALIZATION: 'WorkspaceVisualization',
-  PAGE: 'Page',
-  PAGEDETAIL: 'PageDetail',
   WORKSPACE_ADMIN: {
     DATABASE: 'WorkspaceDatabase',
     DATABASETABLE: 'WorkspaceDatabaseTable',
@@ -61,11 +62,14 @@ export const ROUTES_NAMES = {
     ACL: 'WorkspaceACL',
     ACL_DETAIL: 'WorkspaceACLDetail',
     CMS: 'WorkspaceCMS',
+    CMS_PAGE: 'WorkspaceCMSPage',
+    CMS_PAGE_DETAIL: 'WorkspaceCMSPageDetail',
     SETTINGS: 'WorkspaceSettings',
     GROUP: 'WorkspaceGroup',
     GROUP_DETAIL: 'WorkspaceGroupDetail',
   },
 
+  VISUALIZATION: 'WorkspaceVisualization',
   WORKSPACE_VISUALIZATION: {
     PAGE: 'WorkspaceVisualizationPage',
     PAGE_DETAIL: 'WorkspaceVisualizationPageDetail',

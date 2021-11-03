@@ -51,7 +51,7 @@ export const lckServices = {
   tableColumn: lckClient.service('column') as Service<LckTableColumn>,
   tableView: lckClient.service('view') as Service<LckTableView>,
   tableAction: lckClient.service('action') as Service<LckTableAction>,
-  tableRow: lckClient.service('row') as Service<LckTableRow>,
+  tableRow: lckClient.service('row') as Service<LckTableRow & { $lckGroupId: string }>,
   tableViewColumn: lckClient.service('table-view-has-table-column') as Service<LckTableViewColumn>,
   /**
    * Visualization

@@ -30,6 +30,7 @@
       <router-view
         :key="forceUpdateKey"
         :editMode="editMode"
+        :sidebarItems="sidebarItems"
         :chapters="Array.isArray(workspaceContent.chapters) ? workspaceContent.chapters : []"
         :workspaceId="workspaceId"
       />
@@ -137,8 +138,8 @@ export default {
   },
   methods: {
     async goToSpecificPage (pageId) {
-      await this.$router.replace({
-        name: ROUTES_NAMES.PAGE,
+      await this.$router.push({
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.CMS_PAGE,
         params: {
           workspaceId: this.workspaceId,
           pageId,
@@ -149,8 +150,8 @@ export default {
       })
     },
     async goToDefaultRoute () {
-      await this.$router.replace({
-        name: ROUTES_NAMES.VISUALIZATION,
+      await this.$router.push({
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.CMS,
         params: { workspaceId: this.workspaceId },
       }).catch(error => {
         if (error.from.path !== error.to.path) throw error

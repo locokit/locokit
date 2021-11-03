@@ -151,11 +151,11 @@ export default {
     },
     groupId: {
       type: String,
-      required: true,
+      required: false,
     },
     userId: {
       type: Number,
-      required: true,
+      required: false,
     },
   },
   data () {

@@ -1,4 +1,5 @@
-import { COLUMN_TYPE, GROUP_ROLE, MapSourceSettings, MEDIA_TYPE } from '@locokit/lck-glossary'
+import { Paginated } from '@feathersjs/feathers'
+import { BLOCK_TYPE, COLUMN_TYPE, EXTERNAL_APP_URL_PART_TYPE, GROUP_ROLE, MapSourceSettings, MEDIA_TYPE } from '@locokit/lck-glossary'
 
 export class LckBaseModel {
   /**
@@ -274,6 +275,7 @@ export class LckPage extends LckBaseModel {
   position!: number;
   layout!: string;
   chapter?: LckChapter;
+  containers: LckContainer[] = [];
 }
 
 export enum AnchorClass {
@@ -283,25 +285,43 @@ export enum AnchorClass {
 
 export class LckContainer extends LckBaseModel {
   text!: string;
+  page_id!: string;
   display_title!: boolean;
   displayed_in_navbar!: boolean;
   elevation!: boolean;
   anchor_label?: string;
   anchor_icon?: string;
   anchor_icon_class?: AnchorClass;
-  blocks?: LckBlockExtended[];
+  blocks: LckBlockExtended[] = [];
+  position!: number;
 }
 
 export class LckBlock extends LckBaseModel {
   text!: string;
+  position!: number;
 }
 
 export class LckBlockExtended extends LckBaseModel {
   container_id!: string;
-  type!: string;
+  type!: BLOCK_TYPE;
   title?: string;
-  position?: number;
-  settings?: object;
+  position!: number;
+  settings: {
+    id?: string;
+    addSourceId?: string;
+    sources: LckBlockSource[];
+    pagination?: number;
+    parts: {
+      type: EXTERNAL_APP_URL_PART_TYPE;
+      id: string;
+    }[];
+    pageDetailId?: string;
+    redirectPageId?: string;
+  } = {
+    sources: [],
+    parts: [],
+  };
+
   elevation?: boolean;
   conditionalDisplayTableViewId?: string;
   conditionalDisplayFieldId?: string;
@@ -313,6 +333,29 @@ export class LckBlockExtended extends LckBaseModel {
   loading?: boolean
   definition?: LckTableView
   pageLoaded?: boolean;
+}
+
+export type LckBlockSecondarySource = Record<string, {
+  definition?: LckTableView;
+  content?: LckTableRow[];
+}>
+
+export type LckBlockGeoSource = Record<string, {
+  definition?: Record<string, LckTableView>;
+}>
+
+export type LckBlockSource = {
+  id: string;
+  definition?: LckTableView;
+  content?: LckTableRow[] | Paginated<LckTableRow>;
+  multi: boolean;
+  blocks: string[];
+  options: {
+    sort: Record<string, unknown>;
+    page: number;
+    itemsPerPage: number;
+    filters: Record<string, unknown>;
+  };
 }
 
 export class MediaConfiguration {

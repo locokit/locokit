@@ -13,6 +13,7 @@
             :chapters="Array.isArray(workspaceUserGroups) ? workspaceUserGroups : []"
             :workspaceId="workspaceId"
             :userId="userId"
+            :sidebarItems="sidebarItems"
           />
           <p-confirm-dialog />
         </div>

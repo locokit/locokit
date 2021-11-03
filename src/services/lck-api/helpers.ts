@@ -43,7 +43,7 @@ export async function searchItems ({
   groupId,
   filter = {},
 }: { columnTypeId: number; tableId: string; query: string; groupId: string; filter?: object }) {
-  let items = null
+  let items: { label: string; value: string | number }[] = []
   if (columnTypeId === COLUMN_TYPE.USER || columnTypeId === COLUMN_TYPE.MULTI_USER) {
     const result = await lckServices.user.find({
       query: {
@@ -457,7 +457,7 @@ export async function retrievePageWithContainersAndBlocks (id: string) {
 /**
  * Find specific view with columns, column's parents and action
  */
-export async function retrieveViewDefinition (ids: number[], skip = 0) {
+export async function retrieveViewDefinition (ids: string[], skip = 0) {
   if (ids.length === 0) return []
   const result = await lckServices.tableView.find({
     query: {
@@ -498,7 +498,7 @@ export async function retrieveViewData (
   group_id: string,
   skip = 0,
   limit = 20,
-  sort = {
+  sort: Record<string, unknown> = {
     createdAt: 1,
   },
   filters = {},
