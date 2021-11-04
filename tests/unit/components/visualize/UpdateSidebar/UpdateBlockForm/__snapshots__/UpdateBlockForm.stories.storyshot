@@ -3707,7 +3707,7 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
             class="p-dropdown-label p-inputtext p-placeholder"
           >
             
-            Select an option
+            Start typing for suggestions
         
           </span>
            
@@ -4905,7 +4905,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
             class="p-dropdown-label p-inputtext p-placeholder"
           >
             
-            Select an option
+            Start typing for suggestions
         
           </span>
            

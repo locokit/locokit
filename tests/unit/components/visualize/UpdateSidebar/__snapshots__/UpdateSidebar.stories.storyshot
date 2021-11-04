@@ -507,7 +507,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                         class="p-dropdown-label p-inputtext p-placeholder"
                       >
                         
-            Select an option
+            Start typing for suggestions
         
                       </span>
                        
@@ -1903,7 +1903,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                         class="p-dropdown-label p-inputtext p-placeholder"
                       >
                         
-            Select an option
+            Start typing for suggestions
         
                       </span>
                        
