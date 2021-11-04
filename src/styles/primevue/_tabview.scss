@@ -1,0 +1,50 @@
+.p-tabview .p-tabview-nav {
+  background: #ffffff;
+  border: 1px solid var(--secondary-color-lighten);
+  border-width: 0 0 2px 0;
+}
+
+.p-tabview .p-tabview-nav li {
+  margin-right: 0;
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  border: solid var(--secondary-color-lighten);
+  border-width: 0 0 2px 0;
+  border-color: transparent transparent var(--secondary-color-lighten) transparent;
+  background: #ffffff;
+  color: #6c757d;
+  padding: 1rem;
+  font-weight: var(--font-weight-medium);
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  transition: box-shadow 0.2s;
+  margin: 0 0 -2px 0;
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.2rem var(--primary-color-light);
+}
+
+.p-tabview .p-tabview-nav li:not(.p-highlight):not(.p-disabled):hover .p-tabview-nav-link {
+  background: #ffffff;
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  background: #ffffff;
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.p-tabview .p-tabview-panels {
+  background: #ffffff;
+  padding: 1rem;
+  border: 0 none;
+  color: var(--text-color);
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}

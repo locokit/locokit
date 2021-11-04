@@ -889,14 +889,14 @@ export default Vue.extend({
 }
 
 ::v-deep .mapboxgl-popup-content p {
-  font-size: 0.8rem;
-  color: var(--primary-color-text);
+  font-size: var(--font-size-sm);
+  color: var(--primary-color-dark);
   margin-bottom: 0;
 }
 
 ::v-deep .mapboxgl-popup-content p button{
-  font-size: 0.8rem;
-  font-weight: 400;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
   margin-bottom: 0.2rem;
 }
 
@@ -905,8 +905,8 @@ export default Vue.extend({
 }
 
 ::v-deep .mapboxgl-popup-content p.popup-row-title {
-  font-size: 0.9rem;
-  font-weight: bold;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
   text-align: center;
   color: var(--primary-color);
   margin-left: -10px;
@@ -915,7 +915,7 @@ export default Vue.extend({
 }
 
 ::v-deep .mapboxgl-popup-content .popup-field-label {
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 ::v-deep .mapboxgl-popup-content .popup-row-toolbox {

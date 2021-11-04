@@ -37,13 +37,13 @@
           <span class="p-buttonset">
             <p-button
               :title="$t('pages.workspace.container.edit')"
-              icon="pi pi-pencil"
+              icon="bi bi-pencil"
               class="p-button-text p-mr-2 p-ml-auto p-button-lg"
               @click="$emit('edit-container', slotProps.data)"
             />
             <p-button
               :title="$t('pages.workspace.container.delete')"
-              icon="pi pi-trash"
+              icon="bi bi-trash"
               class="p-button-text p-button-lg"
               @click="$emit('confirm-delete-container', slotProps.data)"
             />

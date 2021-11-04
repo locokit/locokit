@@ -5,9 +5,7 @@ exports[`storyshots components/admin/database/ColumnValidation Not required colu
   style="height: 100%;"
 >
   <div>
-    <div
-      class="rule-container"
-    >
+    <div>
       <div
         class="rule-enable"
       >
@@ -51,9 +49,7 @@ exports[`storyshots components/admin/database/ColumnValidation Required column v
   style="height: 100%;"
 >
   <div>
-    <div
-      class="rule-container"
-    >
+    <div>
       <div
         class="rule-enable"
       >

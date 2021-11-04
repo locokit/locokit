@@ -24,7 +24,7 @@
         <p-button
           v-if="addAllowed"
           :label="$t('form.add')"
-          icon="pi pi-plus-circle"
+          icon="bi bi-plus-circle"
           class="p-mr-2"
           @click="onClickAddButton"
         />
@@ -151,11 +151,11 @@ export default {
     },
     groupId: {
       type: String,
-      required: true,
+      required: false,
     },
     userId: {
       type: Number,
-      required: true,
+      required: false,
     },
   },
   data () {

@@ -20,6 +20,8 @@ import {
   LckTableRowDataComplex,
   LckPage,
   LCKTableRowMultiDataComplex,
+  LckAclSet,
+  LckChapter,
 } from './definitions'
 import { lckServices } from './services'
 import { lckClient } from './client'
@@ -41,7 +43,7 @@ export async function searchItems ({
   groupId,
   filter = {},
 }: { columnTypeId: number; tableId: string; query: string; groupId: string; filter?: object }) {
-  let items = null
+  let items: { label: string; value: string | number }[] = []
   if (columnTypeId === COLUMN_TYPE.USER || columnTypeId === COLUMN_TYPE.MULTI_USER) {
     const result = await lckServices.user.find({
       query: {
@@ -194,7 +196,7 @@ export async function searchBooleanColumnsFromTableView (query: string, tableVie
 /**
  * Get columns and rows from the current TableView
  */
-async function retrieveTableViewData (tableViewId: string, filters: object = {}, groupId: string): Promise<{
+async function retrieveTableViewData (tableViewId: string, filters: object = {}, groupId?: string): Promise<{
   viewData: LckTableRow[];
   viewColumns: LckTableViewColumn[];
 }> {
@@ -210,8 +212,10 @@ async function retrieveTableViewData (tableViewId: string, filters: object = {},
     $sort: {
       createdAt: 1,
     },
-    $lckGroupId: groupId,
     ...filters,
+  }
+  if (groupId) {
+    query.$lckGroupId = groupId
   }
   const viewData = await lckServices.tableRow.find({ query }) as LckTableRow[]
 
@@ -250,7 +254,7 @@ function getValueExport (currentColumn: LckTableViewColumn, currentRowValue: Lck
 /**
  * Export data in xls
  */
-export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}, fileName = 'Export', groupId: string) {
+export async function exportTableRowDataXLS (tableViewId: string, filters: object = {}, fileName = 'Export', groupId?: string) {
   const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters, groupId)
   const exportXLS = viewData.map((currentRow) => {
     const formatedData: Record<string, string | undefined> = {}
@@ -277,7 +281,7 @@ export async function exportTableRowDataXLS (tableViewId: string, filters: objec
 /**
  * Export data in csv
  */
-export async function exportTableRowDataCSV (tableViewId: string, filters: object = {}, fileName: string, groupId: string) {
+export async function exportTableRowDataCSV (tableViewId: string, filters: object = {}, fileName: string, groupId?: string) {
   const { viewData, viewColumns } = await retrieveTableViewData(tableViewId, filters, groupId)
   let exportCSV = '\ufeff' + viewColumns.map(c => '"' + c.text + '"').join(',') + '\n'
   exportCSV += viewData.map(currentRow =>
@@ -382,11 +386,8 @@ export async function getPageWithChapters (id: string) {
 /**
  * Get workspace with all chapters and pages
  */
-export async function retrieveWorkspaceWithChaptersAndPages (groupId: string) {
-  const group: LckGroup = await lckServices.group.get(groupId, {
-    query: { $eager: 'aclset' },
-  })
-  const workspace: LckWorkspace = await lckServices.workspace.get(group?.aclset?.workspace_id as string, {
+export async function retrieveWorkspaceWithChaptersAndPages (workspaceId: string) {
+  const workspace: LckWorkspace = await lckServices.workspace.get(workspaceId, {
     query: { $eager: '[chapters.[pages]]' },
   })
   return {
@@ -396,6 +397,52 @@ export async function retrieveWorkspaceWithChaptersAndPages (groupId: string) {
       pages: c.pages?.sort((a, b) => a.position - b.position),
     })),
   }
+}
+
+/**
+ * Get all user's groups related to the workspace,
+ * with at least a chapter configured.
+ * Fetch also pages related to these chapters.
+ *
+ * @param workspaceId
+ * Id of the workspace
+ *
+ * @returns All user groups related to this workspace with a chapter configured
+ */
+export async function retrieveWorkspaceUserGroupsWithChaptersAndPages (workspaceId: string, userId: string) {
+  const aclsets = await lckServices.aclset.find({
+    query: {
+      $eager: '[groups, chapter.[pages]]',
+      $joinRelation: '[groups.[users], workspace]',
+      'workspace.id': workspaceId,
+      'groups:users.id': userId,
+    },
+  }) as Paginated<LckAclSet>
+  return aclsets.data.reduce((accumulator: {
+    id: string;
+    name: string;
+    chapter: LckChapter;
+  }[], currentAclSet: LckAclSet) => {
+    // eslint-disable-next-line no-unused-expressions
+    currentAclSet.groups?.forEach(function (currentGroup) {
+      accumulator.push({
+        id: currentGroup.id,
+        name: currentGroup.name,
+        chapter: currentAclSet.chapter as LckChapter,
+      })
+    })
+    return accumulator
+  }, [])
+}
+
+/**
+ * Get workspace with all databases
+ */
+export async function retrieveWorkspaceWithDatabases (workspaceId: string): Promise<LckWorkspace> {
+  const workspace: LckWorkspace = await lckServices.workspace.get(workspaceId, {
+    query: { $eager: '[databases.[tables]]' },
+  })
+  return workspace
 }
 
 /**
@@ -410,7 +457,7 @@ export async function retrievePageWithContainersAndBlocks (id: string) {
 /**
  * Find specific view with columns, column's parents and action
  */
-export async function retrieveViewDefinition (ids: number[], skip = 0) {
+export async function retrieveViewDefinition (ids: string[], skip = 0) {
   if (ids.length === 0) return []
   const result = await lckServices.tableView.find({
     query: {
@@ -451,7 +498,7 @@ export async function retrieveViewData (
   group_id: string,
   skip = 0,
   limit = 20,
-  sort = {
+  sort: Record<string, unknown> = {
     createdAt: 1,
   },
   filters = {},
@@ -590,10 +637,12 @@ export default {
   getPageWithChapters,
   uploadMultipleFiles,
   retrieveWorkspaceWithChaptersAndPages,
+  retrieveWorkspaceWithDatabases,
   retrieveTableViewData,
   retrieveViewData,
   retrieveViewDefinition,
   retrievePageWithContainersAndBlocks,
+  retrieveWorkspaceUserGroupsWithChaptersAndPages,
   convertDateInRecords,
   formatRowData,
 }

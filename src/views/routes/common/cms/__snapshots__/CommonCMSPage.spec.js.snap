@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Page Create new records (blocks Set) match snapshot and display all blocks 1`] = `
+<div class="lck-layout-classic">
+  <div class="lck-page-content" style="margin-right: 0px;">
+    <!---->
+    <div class="lck-color-title p-m-4">
+      <h1>Page 6</h1>
+    </div>
+    <div class="lck-container-parent p-mx-2">
+      <div id="16" class="lck-container">
+        <!---->
+        <div class="lck-block-parent">
+          <lck-block-stub block="[object Object]" workspaceid="toto" content="[object Object]" definition="[object Object]" groupid="this-is-a-group" userid="1" autocompletesuggestions="" cellstate="[object Object]" secondarysources="[object Object]" class="lck-block"></lck-block-stub>
+          <lck-block-stub block="[object Object]" workspaceid="toto" groupid="this-is-a-group" userid="1" autocompletesuggestions="" cellstate="[object Object]" secondarysources="[object Object]" class="lck-block" definition="[object Object]" content="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"></lck-block-stub>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

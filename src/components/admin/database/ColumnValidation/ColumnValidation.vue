@@ -2,7 +2,6 @@
   <div>
     <div
       v-for="rule in restrictedValidationRules"
-      class="rule-container"
       :key="rule.id"
     >
       <validation-provider
@@ -117,15 +116,6 @@ export default {
 </script>
 
 <style scoped>
-.rule-container {
-  align-items: center;
-  border: 1px solid #ced4da;
-  display: flex;
-  height: 2.5em;
-  justify-content: space-between;
-  padding: 0 0.5em;
-}
-
 .rule-enable {
   display: flex;
   width: 100%;
@@ -133,32 +123,5 @@ export default {
 
 .rule-enable label {
   flex: 1;
-}
-
-::v-deep .p-checkbox .p-checkbox-box {
-  border-color: var(--primary-color-lighten);
-}
-
-::v-deep .p-checkbox .p-checkbox-box.p-highlight {
-  border-color: var(--primary-color-lighten);
-  background: var(--primary-color-lighten);
-}
-
-::v-deep .p-checkbox .p-checkbox-box .p-checkbox-icon {
-  font-weight: bold;
-}
-
-::v-deep
-  .p-checkbox:not(.p-checkbox-disabled)
-  .p-checkbox-box.p-highlight:hover {
-  border-color: var(--primary-color-darken);
-  background: var(--primary-color-darken);
-}
-
-::v-deep
-  .p-checkbox:not(.p-checkbox-disabled)
-  .p-checkbox-box.p-highlight:hover
-  .p-checkbox-icon {
-  border-color: var(--primary-color-lighten) !important;
 }
 </style>

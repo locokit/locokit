@@ -83,24 +83,22 @@
     }
   }
 }
+
 @-webkit-keyframes saving {
   0% {
     left: -35%;
     right: 100%;
   }
+
   60% {
     left: 100%;
     right: -30%;
   }
+
   100% {
     left: 100%;
     right: -100%;
   }
-}
-
-.p-datatable.p-datatable-gridlines .p-datatable-thead > tr > td,
-.p-datatable.p-datatable-gridlines .p-datatable-thead > tr > th {
-  border-width: 0 0 0 0;
 }
 
 .p-datatable .p-column-resizer {
@@ -124,34 +122,22 @@
   background-color: var(--primary-color);
 }
 
-.p-datatable-wrapper,
-.p-datatable-scrollable-wrapper {
-  .p-datatable-thead {
-    > tr > th {
-      font-weight: normal;
-      align-items: center;
-      color: var(--primary-color-text);
-      background-color: #ededed;
-    }
-  }
-}
-
-.p-datatable.p-datatable-sm .p-datatable-thead > tr > th {
+.p-datatable.p-datatable-sm .p-datatable-thead>tr>th {
   padding: 0.5rem 0rem 0.25rem 0.5rem;
 }
 
-.p-datatable.p-datatable-sm .p-datatable-thead > tr > th.p-sortable-column {
+.p-datatable.p-datatable-sm .p-datatable-thead>tr>th.p-sortable-column {
   margin-right: 1.75rem;
   padding: 0.5rem 1.75rem 0.25rem 0.5rem;
 }
 
-.p-datatable.p-datatable-sm .p-datatable-thead > tr > th div.th-container {
+.p-datatable.p-datatable-sm .p-datatable-thead>tr>th div.th-container {
   position: relative;
   display: inline-block;
   width: 100%;
 }
 
-.p-datatable.p-datatable-sm .p-datatable-thead > tr > th div.th-container span.th-text {
+.p-datatable.p-datatable-sm .p-datatable-thead>tr>th div.th-container span.th-text {
   display: inline-block;
   overflow: hidden;
   width: calc(100% - 1rem);
@@ -198,8 +184,8 @@ td.sticky-column-cells {
   }
 }
 
-.p-datatable .p-datatable-thead > tr > th,
-.p-datatable .p-datatable-thead > tr > td {
+.p-datatable .p-datatable-thead>tr>th,
+.p-datatable .p-datatable-thead>tr>td {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -207,19 +193,14 @@ td.sticky-column-cells {
 
 .p-datatable {
   &.p-datatable-striped {
-    .p-datatable-tbody > tr:nth-child(1n) {
-      color: var(--primary-color-text);
-      background-color: rgba(255, 255, 255, 0.8);
-    }
-
     &.editable-cell-table {
       .p-datatable-wrapper {
         overflow: visible; // this property unleash the power of the select or datepicker
       }
     }
 
-    .p-datatable-tbody > tr:nth-child(2n) {
-      color: var(--primary-color-text);
+    .p-datatable-tbody>tr:nth-child(2n) {
+      color: var(--primary-color-dark);
       background-color: #ededed;
     }
   }
@@ -228,14 +209,14 @@ td.sticky-column-cells {
     background-color: rgba(255, 255, 255, 0.8);
   }
 
-  .p-datatable-tbody > tr > td {
+  .p-datatable-tbody>tr>td {
     overflow: hidden;
     // overflow-y: visible; // Commented to prevent the datatable scrollbar being too large (https://gitlab.makina-corpus.net/lck/lck-front/-/issues/351)
     white-space: nowrap;
     text-overflow: ellipsis;
   }
 
-  .p-datatable-tbody > tr > td.p-editable-column.p-cell-editing {
+  .p-datatable-tbody>tr>td.p-editable-column.p-cell-editing {
     overflow: visible;
     border: unset;
   }
@@ -250,25 +231,26 @@ td.sticky-column-cells {
       z-index: 1;
       right: 5px;
       padding: 0.1rem;
-      color: var(--primary-color-darken);
+      color: var(--primary-color-dark);
 
       &.pi::before {
-        font-size: 0.8rem !important;
+        font-size: var(--font-size-md) !important;
       }
     }
 
     &.p-highlight {
-      color: var(--primary-color-darken);
+      color: var(--primary-color-dark);
 
       .p-sortable-column-icon {
-        color: var(--primary-color-darken);
+        color: var(--primary-color-dark);
         background-color: transparent;
       }
 
       &:hover {
-        color: var(--primary-color-darken);
+        color: var(--primary-color-dark);
+
         .p-sortable-column-icon {
-          color: var(--primary-color-darken);
+          color: var(--primary-color-dark);
           background-color: #ebebeb;
         }
       }
@@ -295,7 +277,7 @@ td.sticky-column-cells {
 
 // Datatables responsive
 
-.p-datatable-responsive .p-datatable-tbody > tr > td .p-column-title {
+.p-datatable-responsive .p-datatable-tbody>tr>td .p-column-title {
   display: none;
 }
 
@@ -306,12 +288,12 @@ td.sticky-column-cells {
         overflow-y: visible;
       }
 
-      .p-datatable-thead > tr > th,
-      .p-datatable-tfoot > tr > td {
+      .p-datatable-thead>tr>th,
+      .p-datatable-tfoot>tr>td {
         display: none !important;
       }
 
-      .p-datatable-tbody > tr > td {
+      .p-datatable-tbody>tr>td {
         display: block;
         float: left;
         clear: left;
@@ -320,16 +302,12 @@ td.sticky-column-cells {
         border: 0 none;
 
         .p-column-title {
-          font-weight: bold;
+          font-weight: var(--font-weight-bold);
           display: inline-block;
 
           min-width: 40%;
           margin: -.4em 1em -.4em -.4rem;
           padding: .4rem;
-        }
-
-        &:last-child {
-          border-bottom: 1px solid var(--surface-d);
         }
       }
     }

@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import ProcessListing from './ProcessListing'
+import StoryRouter from 'storybook-vue-router'
 
 export default {
   title: 'views/routes/workspace/admin/ProcessListing',
   component: ProcessListing,
+  decorators: [
+    StoryRouter(),
+  ],
 }
 
 const mockProcessData = {
@@ -44,7 +48,7 @@ const mockProcessData = {
 }
 export const defaultStory = () => ({
   components: { ProcessListing },
-  template: '<ProcessListing />',
+  template: '<ProcessListing workspaceId="this-is-a-id" />',
 })
 
 defaultStory.storyName = 'default'
@@ -80,6 +84,7 @@ export const withDetailProcessDisplayed = () => {
       <ProcessListing
         ref="pl"
         workspaceId="this-is-a-id"
+        processId="${mockProcessData.data[0].id}"
       />
     `,
     async mounted () {
@@ -92,15 +97,17 @@ export const withDetailProcessDisplayed = () => {
 }
 
 withDetailProcessDisplayed.storyName = 'with detail process displayed'
-withDetailProcessDisplayed.args = {
-  waitForSelector: '.lck-process-detail',
-}
 withDetailProcessDisplayed.parameters = {
   lckServices: {
     process: {
       find () {
         return new Promise(resolve => {
           resolve(mockProcessData)
+        })
+      },
+      get () {
+        return new Promise(resolve => {
+          resolve(mockProcessData.data[0])
         })
       },
     },

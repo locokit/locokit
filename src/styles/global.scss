@@ -1,0 +1,248 @@
+html {
+  font-family: var(--font-family);
+  font-size: 80%;
+  font-size: var(--font-size-md);
+  line-height: 1.4rem;
+  box-sizing: border-box;
+  background-color: var(--background-color);
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
+textarea {
+  font-family: var(--font-family);
+}
+
+
+@media screen and (min-device-width: 1400px) {
+  html {
+    font-size: 100%;
+  }
+}
+
+body {
+  font-size: var(--font-size-md);
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
+// Typos
+
+.lck-color-title {
+  color: var(--primary-color);
+}
+
+.lck-block-title {
+  padding: 0.5rem 0;
+  color: var(--primary-color);
+
+  &:after {
+    display: block;
+    width: 30px;
+    height: 4px;
+    content: '';
+    background-color: var(--primary-color);
+  }
+}
+
+h1 {
+  font-size: 1.6rem;
+}
+
+h2 {
+  font-size: 1.35rem;
+}
+
+h3 {
+  font-size: 1.20rem;
+}
+
+h4 {
+  font-size: 1.15rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: var(--font-weight-medium);
+}
+
+ul,
+ol,
+li,
+p {
+  font-size: var(--font-size-md);
+}
+
+a {
+  color: var(--primary-color);
+}
+
+/* Default links */
+a.no-decoration-link {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+
+/* fast-helper */
+.h-full {
+  height: 100%;
+  max-height: 100%;
+}
+
+.h-max-full {
+  max-height: 100%;
+}
+
+.w-full {
+  width: 100%;
+  max-width: 100%;
+}
+
+.d-flex-1 {
+  flex: 1;
+}
+
+.o-auto {
+  overflow: auto;
+}
+
+.o-hidden {
+  overflow: hidden;
+}
+
+.no-decoration-link {
+  text-decoration: none;
+}
+
+.lck-color-content {
+  color: var(--primary-color);
+}
+
+.lck-color-title {
+  color: var(--primary-color-dark);
+}
+
+.lck-color-primary {
+  color: var(--primary-color);
+}
+
+.generic-view-container {
+  max-width: min(960px, 96vw);
+  width: 960px;
+  padding-left: var(--content-padding);
+  padding-right: var(--content-padding);
+}
+
+.lck-bg-primary {
+  background-color: var(--primary-color);
+}
+
+.lck-bg-sidebar {
+  background-color: var(--sidebar-background-color);
+}
+
+.lck-primary {
+  color: var(--primary-color);
+}
+
+.lck-elevation {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-white);
+}
+
+/**
+ * Colors
+ */
+.p-text-error {
+  color: var(--color-error);
+}
+
+.p-text-warning {
+  color: var(--color-warning);
+}
+
+.p-text-success {
+  color: var(--color-success);
+}
+
+.p-border-error {
+  border: 1px solid var(--color-error);
+}
+
+.p-border-warning {
+  border: 1px solid var(--color-warning);
+}
+
+.p-border-success {
+  border: 1px solid var(--color-success);
+}
+
+.p-bg-error {
+  background-color: var(--color-error-light);
+}
+
+.p-bg-warning {
+  background-color: var(--color-warning-light);
+}
+
+.p-bg-success {
+  background-color: var(--color-success-light);
+}
+
+/**
+ * Preformatted text
+ */
+.pre {
+  white-space: pre-wrap;
+  font-family: monospace;
+}
+
+/*
+ * Custom icon
+ */
+.specific-icon {
+  width: 1.2em;
+  height: 1.2em;
+
+  &:after {
+    width: 1.2em;
+    height: 1.2em;
+    content: '';
+    display: inline-block;
+    background-color: var(--primary-color);
+  }
+}
+
+/*
+  Field required
+*/
+.field-required {
+  font-size: 1.6rem;
+  color: var(--color-error);
+}
+
+.label-field-required:after {
+  content: "*";
+  color: var(--color-error);
+  font-size: 1.5rem;
+}
+
+span .failed {
+  color: var(--color-error);
+  font-weight: 500;
+}

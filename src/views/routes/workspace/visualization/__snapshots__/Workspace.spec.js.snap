@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Workspace sidebarItems Return an empty array if the workspace content is not defined 1`] = `
+<layout-with-header-stub chapters="" groupid="0">
+  <div class="lck-layout-content">
+    <lck-sidebar-stub items="" createitemlabel="pages.workspace.createElement" createsubitemlabel="pages.workspace.createElement" sidebaractive="true"></lck-sidebar-stub>
+    <div class="lck-page">
+      <router-view-stub name="default" chapters="" workspaceid="an-id" sidebaritems=""></router-view-stub>
+      <p-confirm-dialog-stub></p-confirm-dialog-stub>
+    </div>
+  </div>
+</layout-with-header-stub>
+`;

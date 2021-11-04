@@ -5,314 +5,161 @@ exports[`storyshots components/store/process/Process default 1`] = `
   style="height: 100%;"
 >
   <div
-    class="p-fluid p-d-flex p-flex-column"
-    style="position: relative;"
+    class="p-card p-component"
   >
-    <h3>
-      
-    process's title
-  
-    </h3>
-     
-    <button
-      class="p-button-sm p-button-danger p-button p-component p-button-icon-only"
-      disabled="disabled"
-      style="position: absolute; top: .5rem; right: .5rem; width: auto;"
-      type="button"
-    >
-      <span
-        class="pi pi-trash p-button-icon"
-      />
-       
-      <span
-        class="p-button-label"
-      >
-         
-      </span>
-       
-      <!---->
-      <span
-        class="p-ink"
-      />
-    </button>
+    <!---->
      
     <div
-      class="p-tabview p-component lck-process-tab"
+      class="p-card-body"
     >
-      <ul
-        class="p-tabview-nav"
-        role="tablist"
+      <div
+        class="p-card-title"
       >
-         
-        <li
-          class="p-tabview-ink-bar"
-        />
-      </ul>
+        
+    process's title
+  
+      </div>
+       
+      <!---->
        
       <div
-        class="p-tabview-panels"
+        class="p-card-content"
       >
-        <div
-          class="p-tabview-panel"
-          role="tabpanel"
-        >
-          <div>
-            <form
-              class="p-fluid"
+        <div>
+          <form
+            class="p-fluid"
+          >
+            <div
+              class="p-field"
             >
-              <div
-                class="p-field"
+              <label
+                class="label-field-required"
+                for="label"
               >
-                <label
-                  class="label-field-required"
-                  for="label"
-                >
-                  
+                
       Name
     
-                </label>
-                 
-                <input
-                  class="p-inputtext p-component p-filled"
-                  id="label"
-                  placeholder="Enter a trigger name"
-                  type="text"
-                />
-                 
-                <span
-                  class="untouched pristine"
-                >
-                  
-                </span>
-              </div>
+              </label>
                
-              <div
-                class="p-field"
+              <input
+                class="p-inputtext p-component p-filled"
+                id="label"
+                placeholder="Enter a trigger name"
+                type="text"
+              />
+               
+              <span
+                class="untouched pristine"
               >
-                <label
-                  class="label-field-required"
-                  for="url"
-                >
-                  
+                
+              </span>
+            </div>
+             
+            <div
+              class="p-field"
+            >
+              <label
+                class="label-field-required"
+                for="url"
+              >
+                
       URL
     
-                </label>
+              </label>
+               
+              <input
+                class="p-inputtext p-component p-filled"
+                id="url"
+                placeholder="URL"
+                type="text"
+              />
+               
+              <span
+                class="untouched pristine"
+              >
+                
+              </span>
+            </div>
+             
+            <div
+              class="p-field"
+            >
+              <label
+                for="enabled"
+              >
+                
+      Enabled
+    
+              </label>
+               
+              <br />
+               
+              <div
+                class="p-inputswitch p-component"
+                id="enabled"
+              >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    role="switch"
+                    type="checkbox"
+                  />
+                </div>
                  
+                <span
+                  class="p-inputswitch-slider"
+                />
+              </div>
+            </div>
+             
+            <div
+              class="p-field"
+            >
+              <label
+                class="label-field-required"
+                for="table"
+              >
+                
+      Table
+    
+              </label>
+               
+              <span
+                aria-haspopup="listbox"
+                aria-owns="pv_id_5_list"
+                class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+                dropdown="true"
+                id="table"
+                suggestions=""
+              >
                 <input
-                  class="p-inputtext p-component p-filled"
-                  id="url"
-                  placeholder="URL"
+                  aria-autocomplete="list"
+                  aria-controls="pv_id_5_list"
+                  autocomplete="off"
+                  class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+                  id="table"
+                  placeholder="Choose a table"
+                  role="searchbox"
                   type="text"
                 />
                  
-                <span
-                  class="untouched pristine"
-                >
-                  
-                </span>
-              </div>
-               
-              <div
-                class="p-field"
-              >
-                <label
-                  for="enabled"
-                >
-                  
-      Enabled
-    
-                </label>
+                <!---->
                  
-                <br />
+                <!---->
                  
-                <div
-                  class="p-inputswitch p-component"
-                  id="enabled"
-                >
-                  <div
-                    class="p-hidden-accessible"
-                  >
-                    <input
-                      role="switch"
-                      type="checkbox"
-                    />
-                  </div>
-                   
-                  <span
-                    class="p-inputswitch-slider"
-                  />
-                </div>
-              </div>
-               
-              <div
-                class="p-field"
-              >
-                <label
-                  class="label-field-required"
-                  for="table"
-                >
-                  
-      Table
-    
-                </label>
-                 
-                <span
-                  aria-haspopup="listbox"
-                  aria-owns="pv_id_5_list"
-                  class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
-                  dropdown="true"
-                  id="table"
-                  placeholder="Choose a table"
-                  suggestions=""
-                >
-                  <input
-                    aria-autocomplete="list"
-                    aria-controls="pv_id_5_list"
-                    autocomplete="off"
-                    class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-                    id="table"
-                    placeholder="Start typing for suggestions"
-                    role="searchbox"
-                    type="text"
-                  />
-                   
-                  <!---->
-                   
-                  <!---->
-                   
-                  <button
-                    class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
-                    type="button"
-                  >
-                    <span
-                      class="pi pi-chevron-down p-button-icon"
-                    />
-                     
-                    <span
-                      class="p-button-label"
-                    >
-                       
-                    </span>
-                     
-                    <!---->
-                    <span
-                      class="p-ink"
-                    />
-                  </button>
-                   
-                  <!---->
-                </span>
-                 
-                <span
-                  class="untouched pristine"
-                >
-                  
-                </span>
-              </div>
-               
-              <div
-                class="p-field"
-              >
-                <label
-                  class="label-field-required"
-                  for="trigger"
-                >
-                  
-      Trigger
-    
-                </label>
-                 
-                <div
-                  class="p-dropdown p-component p-inputwrapper"
-                  dropdown="true"
-                  id="trigger"
-                >
-                  <div
-                    class="p-hidden-accessible"
-                  >
-                    <input
-                      aria-haspopup="listbox"
-                      readonly="readonly"
-                      type="text"
-                    />
-                  </div>
-                   
-                  <!---->
-                   
-                  <span
-                    class="p-dropdown-label p-inputtext p-dropdown-label-empty"
-                  >
-                    
-            p-emptylabel
-        
-                  </span>
-                   
-                  <!---->
-                   
-                  <div
-                    aria-haspopup="listbox"
-                    class="p-dropdown-trigger"
-                    role="button"
-                  >
-                    <span
-                      class="p-dropdown-trigger-icon pi pi-chevron-down"
-                    />
-                  </div>
-                   
-                  <!---->
-                </div>
-                 
-                <span
-                  class="untouched pristine"
-                >
-                  
-                </span>
-              </div>
-               
-              <!---->
-               
-              <div
-                class="p-field"
-              >
-                <label
-                  for="maximumNumberSuccess"
-                >
-                  
-      Maximum number of success (0 if no limit)
-    
-                </label>
-                 
-                <span
-                  class="p-inputnumber p-component p-inputwrapper-filled"
-                >
-                  <input
-                    class="p-inputtext p-component p-filled p-inputnumber-input"
-                    id="maximumNumberSuccess"
-                  />
-                   
-                  <!---->
-                   
-                  <!---->
-                   
-                  <!---->
-                </span>
-              </div>
-               
-              <div
-                class="lck-form-footer"
-              >
                 <button
-                  class="p-button-text p-button-secondary p-button p-component"
+                  class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
                   type="button"
                 >
                   <span
-                    class="pi pi-times p-button-icon p-button-icon-left"
+                    class="pi pi-chevron-down p-button-icon"
                   />
                    
                   <span
                     class="p-button-label"
                   >
-                    Cancel
+                     
                   </span>
                    
                   <!---->
@@ -321,79 +168,254 @@ exports[`storyshots components/store/process/Process default 1`] = `
                   />
                 </button>
                  
-                <button
-                  class="p-button p-component"
-                  disabled="disabled"
-                  type="submit"
+                <!---->
+              </span>
+               
+              <span
+                class="untouched pristine"
+              >
+                
+              </span>
+            </div>
+             
+            <div
+              class="p-field"
+            >
+              <label
+                class="label-field-required"
+                for="trigger"
+              >
+                
+      Trigger
+    
+              </label>
+               
+              <div
+                class="p-dropdown p-component p-inputwrapper"
+                dropdown="true"
+                id="trigger"
+              >
+                <div
+                  class="p-hidden-accessible"
+                >
+                  <input
+                    aria-haspopup="listbox"
+                    readonly="readonly"
+                    type="text"
+                  />
+                </div>
+                 
+                <!---->
+                 
+                <span
+                  class="p-dropdown-label p-inputtext p-dropdown-label-empty"
+                >
+                  
+            p-emptylabel
+        
+                </span>
+                 
+                <!---->
+                 
+                <div
+                  aria-haspopup="listbox"
+                  class="p-dropdown-trigger"
+                  role="button"
                 >
                   <span
-                    class="pi pi-save p-button-icon p-button-icon-left"
+                    class="p-dropdown-trigger-icon pi pi-chevron-down"
                   />
-                   
-                  <span
-                    class="p-button-label"
-                  >
-                    Save
-                  </span>
-                   
-                  <!---->
-                  <span
-                    class="p-ink"
-                  />
-                </button>
+                </div>
+                 
+                <!---->
               </div>
-            </form>
-          </div>
+               
+              <span
+                class="untouched pristine"
+              >
+                
+              </span>
+            </div>
+             
+            <!---->
+             
+            <div
+              class="p-field"
+            >
+              <label
+                for="maximumNumberSuccess"
+              >
+                
+      Maximum number of success (0 if no limit)
+    
+              </label>
+               
+              <span
+                class="p-inputnumber p-component p-inputwrapper-filled"
+              >
+                <input
+                  class="p-inputtext p-component p-filled p-inputnumber-input"
+                  id="maximumNumberSuccess"
+                />
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <!---->
+              </span>
+            </div>
+             
+            <div
+              class="lck-form-footer"
+            >
+              <button
+                class="p-button-text p-button-secondary p-button p-component"
+                type="button"
+              >
+                <span
+                  class="pi pi-times p-button-icon p-button-icon-left"
+                />
+                 
+                <span
+                  class="p-button-label"
+                >
+                  Cancel
+                </span>
+                 
+                <!---->
+                <span
+                  class="p-ink"
+                />
+              </button>
+               
+              <button
+                class="p-button p-component"
+                disabled="disabled"
+                type="submit"
+              >
+                <span
+                  class="pi pi-save p-button-icon p-button-icon-left"
+                />
+                 
+                <span
+                  class="p-button-label"
+                >
+                  Save
+                </span>
+                 
+                <!---->
+                <span
+                  class="p-ink"
+                />
+              </button>
+            </div>
+          </form>
         </div>
          
         <div
-          class="p-tabview-panel"
-          role="tabpanel"
-          style="display: none;"
+          class="p-mx-auto"
         >
-           
-          <div
-            class="p-accordion p-component"
+          <button
+            class="p-button-sm p-button-danger p-button p-component"
+            disabled="disabled"
+            type="button"
           >
+            <span
+              class="bi bi-trash p-button-icon p-button-icon-left"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+              Remove
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
+           
+          <div>
+            <h4
+              class="p-tabview-title"
+            >
+              
+          50 latest runs
+          
+              <span
+                class="p-ml-1"
+              >
+                
+            (3)
+          
+              </span>
+            </h4>
+             
+            <button
+              class="p-button-sm p-button p-component"
+              style="width: auto;"
+              type="button"
+            >
+              <span
+                class="pi pi-refresh p-button-icon p-button-icon-left"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                Refresh
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+             
             <div
-              class="p-accordion-tab"
+              class="p-accordion p-component"
             >
               <div
-                class="p-accordion-header"
-              >
-                <a
-                  aria-controls="pv_id_6_content"
-                  class="p-accordion-header-link"
-                  id="pv_id_6_header"
-                  role="tab"
-                  tabindex="0"
-                >
-                  <span
-                    class="p-accordion-toggle-icon pi pi-chevron-right"
-                  />
-                   
-                  <!---->
-                   
-             -
-            SUCCESS -
-            100
-          
-                </a>
-              </div>
-               
-              <div
-                aria-labelledby="pv_id_6_header"
-                class="p-toggleable-content"
-                id="pv_id_6_content"
-                role="region"
-                style="display: none;"
+                class="p-accordion-tab"
               >
                 <div
-                  class="p-accordion-content"
+                  class="p-accordion-header"
                 >
-                   
-                  <pre>
-                    
+                  <a
+                    aria-controls="pv_id_6_content"
+                    class="p-accordion-header-link"
+                    id="pv_id_6_header"
+                    role="tab"
+                    tabindex="0"
+                  >
+                    <span
+                      class="p-accordion-toggle-icon pi pi-chevron-right"
+                    />
+                     
+                    <!---->
+                     
+               -
+              SUCCESS -
+              100
+            
+                  </a>
+                </div>
+                 
+                <div
+                  aria-labelledby="pv_id_6_header"
+                  class="p-toggleable-content"
+                  id="pv_id_6_content"
+                  role="region"
+                  style="display: none;"
+                >
+                  <div
+                    class="p-accordion-content"
+                  >
+                     
+                    <pre>
+                      
 This is the log
 
 And it is big.
@@ -423,99 +445,102 @@ Game
 ...
 
 Over.
-                  </pre>
+                    </pre>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="p-accordion-tab"
-            >
               <div
-                class="p-accordion-header"
-              >
-                <a
-                  aria-controls="pv_id_7_content"
-                  class="p-accordion-header-link"
-                  id="pv_id_7_header"
-                  role="tab"
-                  tabindex="0"
-                >
-                  <span
-                    class="p-accordion-toggle-icon pi pi-chevron-right"
-                  />
-                   
-                  <!---->
-                   
-             -
-            SUCCESS -
-            250
-          
-                </a>
-              </div>
-               
-              <div
-                aria-labelledby="pv_id_7_header"
-                class="p-toggleable-content"
-                id="pv_id_7_content"
-                role="region"
-                style="display: none;"
+                class="p-accordion-tab"
               >
                 <div
-                  class="p-accordion-content"
+                  class="p-accordion-header"
                 >
-                   
-                  <pre>
-                    This is the log
-                  </pre>
+                  <a
+                    aria-controls="pv_id_7_content"
+                    class="p-accordion-header-link"
+                    id="pv_id_7_header"
+                    role="tab"
+                    tabindex="0"
+                  >
+                    <span
+                      class="p-accordion-toggle-icon pi pi-chevron-right"
+                    />
+                     
+                    <!---->
+                     
+               -
+              SUCCESS -
+              250
+            
+                  </a>
+                </div>
+                 
+                <div
+                  aria-labelledby="pv_id_7_header"
+                  class="p-toggleable-content"
+                  id="pv_id_7_content"
+                  role="region"
+                  style="display: none;"
+                >
+                  <div
+                    class="p-accordion-content"
+                  >
+                     
+                    <pre>
+                      This is the log
+                    </pre>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="p-accordion-tab"
-            >
               <div
-                class="p-accordion-header"
-              >
-                <a
-                  aria-controls="pv_id_8_content"
-                  class="p-accordion-header-link"
-                  id="pv_id_8_header"
-                  role="tab"
-                  tabindex="0"
-                >
-                  <span
-                    class="p-accordion-toggle-icon pi pi-chevron-right"
-                  />
-                   
-                  <!---->
-                   
-             -
-            SUCCESS -
-            5365
-          
-                </a>
-              </div>
-               
-              <div
-                aria-labelledby="pv_id_8_header"
-                class="p-toggleable-content"
-                id="pv_id_8_content"
-                role="region"
-                style="display: none;"
+                class="p-accordion-tab"
               >
                 <div
-                  class="p-accordion-content"
+                  class="p-accordion-header"
                 >
-                   
-                  <pre>
-                    This is the log
-                  </pre>
+                  <a
+                    aria-controls="pv_id_8_content"
+                    class="p-accordion-header-link"
+                    id="pv_id_8_header"
+                    role="tab"
+                    tabindex="0"
+                  >
+                    <span
+                      class="p-accordion-toggle-icon pi pi-chevron-right"
+                    />
+                     
+                    <!---->
+                     
+               -
+              SUCCESS -
+              5365
+            
+                  </a>
+                </div>
+                 
+                <div
+                  aria-labelledby="pv_id_8_header"
+                  class="p-toggleable-content"
+                  id="pv_id_8_content"
+                  role="region"
+                  style="display: none;"
+                >
+                  <div
+                    class="p-accordion-content"
+                  >
+                     
+                    <pre>
+                      This is the log
+                    </pre>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+       
+      <!---->
     </div>
   </div>
 </div>

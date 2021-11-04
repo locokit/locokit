@@ -552,7 +552,7 @@ exports[`storyshots components/visualize/TableSet with definition and content an
           type="button"
         >
           <span
-            class="pi pi-plus-circle p-button-icon p-button-icon-left"
+            class="bi bi-plus-circle p-button-icon p-button-icon-left"
           />
            
           <span
@@ -881,7 +881,7 @@ exports[`storyshots components/visualize/TableSet with definition and toolbar bu
           type="button"
         >
           <span
-            class="pi pi-plus-circle p-button-icon p-button-icon-left"
+            class="bi bi-plus-circle p-button-icon p-button-icon-left"
           />
            
           <span

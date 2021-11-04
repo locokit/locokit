@@ -102,7 +102,7 @@ export default Vue.extend({
 .action-button.secondary {
   background-color: var(--secondary-color);
   &:hover {
-    background-color: var(--secondary-color-lighten);
+    background-color: var(--secondary-color-light);
   }
 }
 .action-button.danger {

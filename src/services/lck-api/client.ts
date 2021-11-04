@@ -12,7 +12,13 @@ const restClient = rest(LCK_SETTINGS.API_URL)
 // Configure an AJAX library (see below) with that client
 lckClient.configure(
   restClient.fetch(
-    process.env.NODE_ENV === 'test' ? {} : window.fetch,
+    process.env.NODE_ENV === 'test'
+      ? function () {
+        return new Promise(resolve => {
+          resolve()
+        })
+      }
+      : window.fetch,
   ),
 )
 lckClient.configure(auth({

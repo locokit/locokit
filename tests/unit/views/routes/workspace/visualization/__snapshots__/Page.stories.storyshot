@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots views/visualize/Page with some blocks, centered layout 1`] = `
+exports[`storyshots views/routes/workspace/visualization/Page with some blocks, centered layout 1`] = `
 <div
   style="height: 100%;"
 >
   <div
-    class="p-mx-2 lck-layout-classic"
+    class="lck-layout-classic"
     layout="centered"
   >
     <div
@@ -15,33 +15,28 @@ exports[`storyshots views/visualize/Page with some blocks, centered layout 1`] =
       <!---->
        
       <div
-        class="lck-color-primary p-my-4"
+        class="lck-color-title p-m-4"
       >
         <h1>
           
         </h1>
       </div>
        
-      <!---->
-       
       <div
-        class="lck-container-parent"
+        class="lck-container-parent p-mx-2"
       />
-       
-      <!---->
     </div>
-     
-    <!---->
   </div>
 </div>
 `;
 
-exports[`storyshots views/visualize/Page with some blocks, default layout 1`] = `
+exports[`storyshots views/routes/workspace/visualization/Page with some blocks, default layout 1`] = `
 <div
   style="height: 100%;"
 >
   <div
-    class="p-mx-2 lck-layout-classic"
+    class="lck-layout-classic"
+    editmode="true"
   >
     <div
       class="lck-page-content"
@@ -50,52 +45,27 @@ exports[`storyshots views/visualize/Page with some blocks, default layout 1`] = 
       <!---->
        
       <div
-        class="lck-color-primary p-my-4"
+        class="lck-color-title p-m-4"
       >
         <h1>
           
         </h1>
       </div>
        
-      <!---->
-       
       <div
-        class="lck-container-parent editable-container-parent"
+        class="lck-container-parent p-mx-2"
       />
-       
-      <button
-        class="new-container-button p-button-text p-button p-component p-button-icon-only"
-        title="Create a new container"
-        type="button"
-      >
-        <span
-          class="pi pi-plus p-button-icon"
-        />
-         
-        <span
-          class="p-button-label"
-        >
-           
-        </span>
-         
-        <!---->
-        <span
-          class="p-ink"
-        />
-      </button>
     </div>
-     
-    <!---->
   </div>
 </div>
 `;
 
-exports[`storyshots views/visualize/Page with some blocks, flex layout 1`] = `
+exports[`storyshots views/routes/workspace/visualization/Page with some blocks, flex layout 1`] = `
 <div
   style="height: 100%;"
 >
   <div
-    class="p-mx-2 lck-layout-classic"
+    class="lck-layout-classic"
     layout="flex"
   >
     <div
@@ -105,23 +75,17 @@ exports[`storyshots views/visualize/Page with some blocks, flex layout 1`] = `
       <!---->
        
       <div
-        class="lck-color-primary p-my-4"
+        class="lck-color-title p-m-4"
       >
         <h1>
           
         </h1>
       </div>
        
-      <!---->
-       
       <div
-        class="lck-container-parent"
+        class="lck-container-parent p-mx-2"
       />
-       
-      <!---->
     </div>
-     
-    <!---->
   </div>
 </div>
 `;

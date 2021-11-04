@@ -68,7 +68,7 @@ exports[`storyshots components/ui/ColumnType/File/Cell after click with attachme
       </div>
       <span
         class="cell-file bi bi-file-image"
-        title="(2/5) ./themes/locokit/img/logo-white.svg"
+        title="(2/5) /themes/locokit/img/logo-dark.svg"
       />
       <span
         class="cell-file pi pi-file-pdf"
@@ -123,7 +123,7 @@ exports[`storyshots components/ui/ColumnType/File/Cell after click with attachme
       </div>
       <span
         class="cell-file bi bi-file-image"
-        title="(2/5) ./themes/locokit/img/logo-white.svg"
+        title="(2/5) /themes/locokit/img/logo-dark.svg"
       />
       <span
         class="cell-file pi pi-file-pdf"
@@ -195,7 +195,7 @@ exports[`storyshots components/ui/ColumnType/File/Cell with attachments 1`] = `
       </div>
       <span
         class="cell-file bi bi-file-image"
-        title="(2/5) ./themes/locokit/img/logo-white.svg"
+        title="(2/5) /themes/locokit/img/logo-dark.svg"
       />
       <span
         class="cell-file pi pi-file-pdf"
@@ -250,7 +250,7 @@ exports[`storyshots components/ui/ColumnType/File/Cell with attachments and over
       </div>
       <span
         class="cell-file bi bi-file-image"
-        title="(2/5) ./themes/locokit/img/logo-white.svg"
+        title="(2/5) /themes/locokit/img/logo-dark.svg"
       />
       <span
         class="cell-file pi pi-file-pdf"

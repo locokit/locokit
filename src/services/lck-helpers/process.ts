@@ -54,7 +54,11 @@ export async function retrieveProcessesByRow (tableId: string, rowId: string) {
   }
 }
 
-export async function createProcessRun (formData: { process_id: string; table_row_id: string; waitForOutput: false }) {
+export async function createProcessRun (formData: {
+  process_id: string;
+  table_row_id: string;
+  waitForOutput: boolean;
+}) {
   try {
     return await lckServices.processRun.create(formData)
   } catch ({ code, name }) {

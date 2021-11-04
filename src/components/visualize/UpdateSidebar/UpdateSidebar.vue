@@ -125,10 +125,10 @@ export default {
   computed: {
     activePanel (): boolean[] {
       // [Page, Container, Block]
-      if (this.block.id) {
+      if (this.block?.id) {
         return [false, false, true]
       } else {
-        if (this.container.id) return [false, true, false]
+        if (this.container?.id) return [false, true, false]
         return [true, false, false]
       }
     },

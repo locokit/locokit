@@ -4,7 +4,7 @@
       <p-button
         v-if="addAllowed"
         :label="addButtonTitle"
-        icon="pi pi-plus-circle"
+        icon="bi bi-plus-circle"
         class="p-m-2"
         @click="onClickAddButton"
       />

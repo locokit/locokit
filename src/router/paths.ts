@@ -15,17 +15,25 @@ export const ROUTES_PATH = {
    */
   WORKSPACE: '/workspace',
   VISUALIZATION: '/visualization',
+  VISUALIZATION_PAGE: '/page',
+  VISUALIZATION_PAGE_DETAIL: '/detail',
   DATABASE: '/database',
+  DATABASETABLE: '/table',
   DATABASESCHEMA: '/schema',
   PROCESS: '/process',
   ACL: '/acl',
+  SETTINGS: '/settings',
+  ACLSET: '/aclset',
+  GROUP: '/group', // used in workspace admin AND admin
+  CMS: '/cms',
+  CMS_PAGE: '/page',
+  CMS_PAGE_DETAIL: '/detail',
 
   /**
    * Admin paths
    */
   ADMIN: '/admin',
-  USERMANAGEMENT: '/usermanagement',
-  GROUPMANAGEMENT: '/groupmanagement',
+  USER: '/user',
 }
 
 export const ROUTES_NAMES = {
@@ -43,21 +51,38 @@ export const ROUTES_NAMES = {
   /**
    * Workspace paths
    */
-  WORKSPACE: 'WorkspaceList',
+  WORKSPACELIST: 'WorkspaceList',
+  WORKSPACE: 'Workspace',
+  WORKSPACE_ADMIN: {
+    DATABASE: 'WorkspaceDatabase',
+    DATABASETABLE: 'WorkspaceDatabaseTable',
+    DATABASESCHEMA: 'WorkspaceDatabaseSchema',
+    PROCESS: 'WorkspaceProcess',
+    PROCESS_DETAIL: 'WorkspaceProcessDetail',
+    ACL: 'WorkspaceACL',
+    ACL_DETAIL: 'WorkspaceACLDetail',
+    CMS: 'WorkspaceCMS',
+    CMS_PAGE: 'WorkspaceCMSPage',
+    CMS_PAGE_DETAIL: 'WorkspaceCMSPageDetail',
+    SETTINGS: 'WorkspaceSettings',
+    GROUP: 'WorkspaceGroup',
+    GROUP_DETAIL: 'WorkspaceGroupDetail',
+  },
+
   VISUALIZATION: 'WorkspaceVisualization',
-  PAGE: 'Page',
-  PAGEDETAIL: 'PageDetail',
-  DATABASE: 'WorkspaceDatabase',
-  DATABASESCHEMA: 'DatabaseSchema',
-  PROCESS: 'ProcessListing',
-  ACL: 'WorkspaceACL',
+  WORKSPACE_VISUALIZATION: {
+    PAGE: 'WorkspaceVisualizationPage',
+    PAGE_DETAIL: 'WorkspaceVisualizationPageDetail',
+  },
 
   /**
    * Admin paths
    */
-  ADMIN: 'Administration',
-  USERMANAGEMENT: 'UserManagement',
-  GROUPMANAGEMENT: 'GroupManagement',
+  ADMIN: {
+    USER: 'AdminUser',
+    GROUP: 'AdminGroup',
+    GROUP_DETAIL: 'AdminGroupDetail',
+  },
 
   /**
    * Other paths

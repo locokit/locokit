@@ -111,7 +111,6 @@ exports[`storyshots components/store/process/ProcessForm default 1`] = `
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
           dropdown="true"
           id="table"
-          placeholder="Choose a table"
           suggestions=""
           value="[object Object]"
         >
@@ -121,7 +120,7 @@ exports[`storyshots components/store/process/ProcessForm default 1`] = `
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="table"
-            placeholder="Start typing for suggestions"
+            placeholder="Choose a table"
             role="searchbox"
             type="text"
           />
@@ -407,7 +406,6 @@ exports[`storyshots components/store/process/ProcessForm submitting 1`] = `
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
           dropdown="true"
           id="table"
-          placeholder="Choose a table"
           suggestions=""
           value="[object Object]"
         >
@@ -417,7 +415,7 @@ exports[`storyshots components/store/process/ProcessForm submitting 1`] = `
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="table"
-            placeholder="Start typing for suggestions"
+            placeholder="Choose a table"
             role="searchbox"
             type="text"
           />

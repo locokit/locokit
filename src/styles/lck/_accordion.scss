@@ -5,8 +5,8 @@
 .p-accordion {
   .p-accordion-header {
     .p-accordion-header-link {
-      font-weight: 500;
-      padding: var(--accordion-header-link-padding);
+      font-weight: var(--font-weight-medium);
+      padding: var(--spacing-sm) var(--spacing-lg);
       border-radius: var(--border-radius);
     }
 
@@ -24,43 +24,4 @@
       }
     }
   }
-
-  .p-accordion-tab {
-    margin-bottom: 0;
-
-    .p-accordion-header {
-      .p-accordion-header-link {
-        border-radius: unset;
-      }
-    }
-
-    &:first-child {
-      .p-accordion-header {
-        .p-accordion-header-link {
-          border-radius: unset;
-        }
-      }
-    }
-
-    &:last-child {
-      .p-accordion-header,
-      .p-accordion-header:not(.p-highlight) {
-        .p-accordion-header-link {
-          border-radius: unset;
-        }
-      }
-      .p-accordion-content {
-        border-radius: unset;
-      }
-    }
-  }
-}
-
-
-.p-accordion .p-accordion-header .p-accordion-header-link {
-  padding: 1rem .5rem;
-}
-
-.p-accordion .p-accordion-header .p-accordion-header-link .p-accordion-toggle-icon {
-  margin-right: 0.5rem;
 }

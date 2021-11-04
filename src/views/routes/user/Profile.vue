@@ -1,277 +1,278 @@
 <template>
-  <div class="generic-view-container  p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto">
-    <div class="lck-color-primary p-my-4">
-      <h1>{{ $t('pages.account.title') }}</h1>
-    </div>
-    <section class="p-mb-4">
-      <p-card>
-        <template slot="title">
-          <span class="icon-rounded"><i class="pi pi-user"></i></span> {{ $t('pages.account.view.profile') }}
-        </template>
-        <template
-          slot="content"
-          v-if="authState.data.user"
-        >
-          <h4>{{ authState.data.user.name }}</h4>
-          <strong>{{ $t('pages.account.view.email') }}&nbsp;</strong>{{ authState.data.user.email }}
-          <br>
-          <strong>{{ $t('pages.account.view.role') }}&nbsp;</strong>{{ authState.data.user.profile }}
-        </template>
-        <template
-          slot="content"
-          v-else
-        >
-          {{ $t('pages.account.view.nodata') }}
-        </template>
-      </p-card>
-    </section>
-
-    <section class="p-mb-4">
-      <p-card>
-        <template slot="title">
-          <span class="icon-rounded"><i class="pi pi-users"></i></span> {{ $t('pages.account.view.groups') }}
-        </template>
-        <template
-          slot="content"
-          v-if="authState.data.user && authState.data.user.groups"
-        >
-          <p-card
-            v-for="group in authState.data.user.groups"
-            :key="group.id"
+  <layout-with-header>
+    <div class="generic-view-container  p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto">
+      <div class="lck-color-primary p-my-4">
+        <h1>{{ $t('pages.account.title') }}</h1>
+      </div>
+      <section class="p-mb-4">
+        <p-card>
+          <template slot="title">
+            <span class="icon-rounded"><i class="pi pi-user"></i></span> {{ $t('pages.account.view.profile') }}
+          </template>
+          <template
+            slot="content"
+            v-if="authState.data.user"
           >
-            <template slot="title">
-              {{ group.name }} ({{ group.uhg_role }})
-            </template>
-            <template slot="content">
-              <router-link
-                class="no-decoration-link"
-                :to="`${ROUTES_PATH.WORKSPACE}/${group.id}`"
-              >
-                {{ group.aclset.workspace.text }}
-              </router-link>
-              <span v-if="group.aclset.manager">(manager)</span>
-            </template>
-          </p-card>
-        </template>
-        <template
-          slot="content"
-          v-else
-        >
-          {{ $t('pages.account.view.nodata') }}
-        </template>
-      </p-card>
-    </section>
-
-    <section class="p-mb-4">
-      <p-card>
-        <template slot="title">
-          <span class="icon-rounded"><i class="pi pi-envelope"></i></span> {{ $t('pages.account.edit.email.title') }}
-        </template>
-
-        <template
-          slot="content"
-          v-if="authState.data.user && authState.data.user.email"
-        >
-          <lck-form
-            :displayCancelButton="false"
-            :submitting="loading"
-            @submit="submitEmail"
+            <h4>{{ authState.data.user.name }}</h4>
+            <strong>{{ $t('pages.account.view.email') }}&nbsp;</strong>{{ authState.data.user.email }}
+            <br>
+            <strong>{{ $t('pages.account.view.role') }}&nbsp;</strong>{{ authState.data.user.profile }}
+          </template>
+          <template
+            slot="content"
+            v-else
           >
-            <validation-provider
-              vid="newEmail"
-              tag="div"
-              :name="$t('pages.account.edit.email.new')"
-              class="p-field p-grid p-mb-3"
-              rules="required|email"
-              v-slot="{
-                errors,
-                classes
-              }"
-            >
-              <label
-                class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
-                for="newEmail"
-              >
-                {{ $t("pages.account.edit.email.new") }}
-              </label>
-              <div class="p-col-12 p-md-8">
-                <p-input-text
-                  id="newEmail"
-                  :placeholder="$t('pages.account.edit.email.email')"
-                  type="email"
-                  v-model="emailEdit.newEmail"
-                />
-              </div>
-              <span class="p-my-2" :class="classes">{{ errors[0] }}</span>
-            </validation-provider>
-            <validation-provider
-              vid="password"
-              tag="div"
-              :name="$t('pages.account.edit.email.currentPassword')"
-              class="p-field p-grid p-mb-4 p-mt-2"
-              rules="required"
-              v-slot="{
-                errors,
-                classes
-              }"
-            >
-              <label
-                class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
-                for="password"
-              >
-                {{ $t("pages.account.edit.email.currentPassword") }}
-              </label>
-              <div class="p-col-12 p-md-8">
-                <p-password
-                  :feedback="false"
-                  toggleMask
-                  v-model="emailEdit.password"
-                />
-              </div>
-              <span class="p-my-2" :class="classes">{{ errors[0] }}</span>
-            </validation-provider>
-          </lck-form>
-        </template>
-        <template
-          slot="content"
-          v-else
-        >
-          {{ $t('pages.account.view.nodata') }}
-        </template>
-      </p-card>
-    </section>
+            {{ $t('pages.account.view.nodata') }}
+          </template>
+        </p-card>
+      </section>
 
-    <section class="p-mb-4">
-      <p-card>
-        <template slot="title">
-          <span class="icon-rounded"><i class="pi pi-lock"></i></span> {{ $t('pages.account.edit.title') }}
-        </template>
-
-        <template
-          slot="content"
-          v-if="authState.data.user && authState.data.user.email"
-        >
-          <lck-form
-            :displayCancelButton="false"
-            :submitting="loading"
-            @submit="submitPassword"
+      <section class="p-mb-4">
+        <p-card>
+          <template slot="title">
+            <span class="icon-rounded"><i class="pi pi-users"></i></span> {{ $t('pages.account.view.groups') }}
+          </template>
+          <template
+            slot="content"
+            v-if="authState.data.user && authState.data.user.groups"
           >
-            <validation-provider
-              vid="oldPassword"
-              tag="div"
-              :name="$t('pages.account.edit.oldPassword')"
-              class="p-field p-grid p-mb-3"
-              rules="required"
-              v-slot="{
-                errors,
-                classes
-              }"
-            >
-              <label
-                class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
-                for="oldPassword"
-              >
-                {{ $t("pages.account.edit.oldPassword") }}
-              </label>
-              <div class="p-col-12 p-md-8">
-                <p-password
-                  id="oldPassword"
-                  :feedback="false"
-                  toggleMask
-                  v-model="password.oldPassword"
-                />
-              </div>
-              <span
-                :class="classes"
-                class="p-my-2"
-              >{{ errors[0] }}</span>
-            </validation-provider>
-
-            <validation-provider
-              vid="newPassword"
-              tag="div"
-              :name="$t('pages.account.edit.newPassword')"
-              class="p-field p-grid p-mb-3"
-              :rules="{ required: true, regex: regexPasswordRules}"
-              v-slot="{
-                errors,
-                classes,
-              }"
-            >
-              <label
-                class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
-                for="newPassword"
-              >
-                {{ $t("pages.account.edit.newPassword") }}
-              </label>
-              <div class="p-col-12 p-md-8">
-                <p-password
-                  id="newPassword"
-                  v-model="password.password"
-                  :mediumRegex="`${regexPasswordRules}(?=.{8,})`"
-                  :strongRegex="`${regexPasswordRules}(?=.{12,})`"
-                  :weakLabel="$t('pages.account.edit.passwordStrength.weak')"
-                  :mediumLabel="$t('pages.account.edit.passwordStrength.medium')"
-                  :strongLabel="$t('pages.account.edit.passwordStrength.strong')"
-                  :promptLabel="$t('pages.account.edit.prompt')"
-                  toggleMask
-                  aria-describedby="password-rules"
-                />
-              </div>
-              <div class="info-new-password">
-                <small
-                  class="p-text-italic"
-                  id="password-rules"
+            <p-card v-for="group in authState.data.user.groups" :key="group.id">
+              <template slot="title">
+                {{ group.name }} ({{ group.uhg_role }})
+              </template>
+              <template slot="content">
+                <router-link
+                  class="no-decoration-link"
+                  :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}`"
                 >
-                  {{ $t('pages.account.edit.passwordRules.rules') }}
-                </small>
+                  {{ group.aclset.workspace.text }}
+                </router-link>
+                <span v-if="group.aclset.manager">(manager)</span>
+              </template>
+            </p-card>
+          </template>
+          <template
+            slot="content"
+            v-else
+          >
+            {{ $t('pages.account.view.nodata') }}
+          </template>
+        </p-card>
+      </section>
+
+      <section class="p-mb-4">
+        <p-card>
+          <template slot="title">
+            <span class="icon-rounded"><i class="pi pi-envelope"></i></span> {{ $t('pages.account.edit.email.title') }}
+          </template>
+
+          <template
+            slot="content"
+            v-if="authState.data.user && authState.data.user.email"
+          >
+            <lck-form
+              :displayCancelButton="false"
+              :submitting="loading"
+              @submit="submitEmail"
+            >
+              <validation-provider
+                vid="newEmail"
+                tag="div"
+                :name="$t('pages.account.edit.email.new')"
+                  class="p-field p-grid p-mb-3"
+                  rules="required|email"
+                  v-slot="{
+                    errors,
+                    classes
+                  }"
+                >
+                <label
+                  class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                  for="newEmail"
+                >
+                  {{ $t("pages.account.edit.email.new") }}
+                </label>
+                <div class="p-col-12 p-md-8">
+                  <p-input-text
+                    id="newEmail"
+                    :placeholder="$t('pages.account.edit.email.email')"
+                    type="email"
+                    v-model="emailEdit.newEmail"
+                  />
+                </div>
+                <span :class="classes" class="p-my-2">{{ errors[0] }}</span>
+              </validation-provider>
+              <validation-provider
+                vid="password"
+                tag="div"
+                :name="$t('pages.account.edit.email.currentPassword')"
+                class="p-field p-grid p-mb-4 p-mt-2"
+                rules="required"
+                v-slot="{
+                  errors,
+                  classes
+                }"
+              >
+                <label
+                  class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                  for="password"
+                >
+                  {{ $t("pages.account.edit.email.currentPassword") }}
+                </label>
+                <div class="p-col-12 p-md-8">
+                  <p-password
+                    :feedback="false"
+                    id="password"
+                    toggleMask
+                    v-model="emailEdit.password"
+                  />
+                </div>
+                <span :class="classes" class="p-my-2">{{ errors[0] }}</span>
+              </validation-provider>
+            </lck-form>
+          </template>
+          <template
+            slot="content"
+            v-else
+          >
+            {{ $t('pages.account.view.nodata') }}
+          </template>
+        </p-card>
+      </section>
+
+      <section class="p-mb-4">
+        <p-card>
+          <template slot="title">
+            <span class="icon-rounded"><i class="pi pi-lock"></i></span> {{ $t('pages.account.edit.title') }}
+          </template>
+          <template
+            slot="content"
+            v-if="authState.data.user && authState.data.user.email"
+          >
+            <lck-form
+              :displayCancelButton="false"
+              :submitting="loading"
+              @submit="submitPassword"
+            >
+              <validation-provider
+                vid="oldPassword"
+                tag="div"
+                :name="$t('pages.account.edit.oldPassword')"
+                class="p-field p-grid p-mb-3"
+                rules="required"
+                v-slot="{
+                  errors,
+                  classes
+                }"
+              >
+                <label
+                  class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                  for="oldPassword"
+                >
+                  {{ $t("pages.account.edit.oldPassword") }}
+                </label>
+                <div class="p-col-12 p-md-8">
+                  <p-password
+                    id="oldPassword"
+                    :feedback="false"
+                    toggleMask
+                    v-model="password.oldPassword"
+                  />
+                </div>
                 <span
                   :class="classes"
                   class="p-my-2"
                 >{{ errors[0] }}</span>
-              </div>
-            </validation-provider>
+              </validation-provider>
 
-            <validation-provider
-              vid="passwordCheck"
-              tag="div"
-              :name="$t('pages.account.edit.passwordCheck')"
-              class="p-field p-grid p-mb-4 p-mt-2"
-              rules="required|passwordConfirm:@newPassword"
-              v-slot="{
-                errors,
-                classes
-              }"
-            >
-              <label
-                class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
-                for="passwordCheck"
+              <validation-provider
+                vid="newPassword"
+                tag="div"
+                :name="$t('pages.account.edit.newPassword')"
+                class="p-field p-grid p-mb-3"
+                :rules="{ required: true, regex: regexPasswordRules}"
+                v-slot="{
+                  errors,
+                  classes,
+                }"
               >
-                {{ $t("pages.account.edit.passwordCheck") }}
-              </label>
-              <div class="p-col-12 p-md-8">
-                <p-password
-                  id="passwordCheck"
-                  :feedback="false"
-                  toggleMask
-                  v-model="password.passwordCheck"
-                />
-              </div>
+                <label
+                  class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                  for="newPassword"
+                >
+                  {{ $t("pages.account.edit.newPassword") }}
+                </label>
+                <div class="p-col-12 p-md-8">
+                  <p-password
+                    id="newPassword"
+                    v-model="password.password"
+                    :mediumRegex="`${regexPasswordRules}(?=.{8,})`"
+                    :strongRegex="`${regexPasswordRules}(?=.{12,})`"
+                    :weakLabel="$t('pages.account.edit.passwordStrength.weak')"
+                    :mediumLabel="$t('pages.account.edit.passwordStrength.medium')"
+                    :strongLabel="$t('pages.account.edit.passwordStrength.strong')"
+                    :promptLabel="$t('pages.account.edit.prompt')"
+                    toggleMask
+                    aria-describedby="password-rules"
+                  />
+                </div>
+                <div
+                  class="info-new-password p-col-12 p-mb-0"
+                >
+                  <small
+                    class="p-text-italic"
+                    id="password-rules"
+                  >
+                    {{ $t('pages.account.edit.passwordRules.rules') }}
+                  </small>
+                  <span
+                    :class="classes"
+                    class="p-my-2"
+                  >{{ errors[0] }}</span>
+                </div>
+              </validation-provider>
 
-              <span :class="classes" class="p-my-2">{{ errors[0] }}</span>
-            </validation-provider>
-          </lck-form>
-        </template>
+              <validation-provider
+                vid="passwordCheck"
+                tag="div"
+                :name="$t('pages.account.edit.passwordCheck')"
+                class="p-field p-grid"
+                rules="required|passwordConfirm:@newPassword"
+                v-slot="{
+                  errors,
+                  classes
+                }"
+              >
+                <label
+                  class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                  for="passwordCheck"
+                >
+                  {{ $t("pages.account.edit.passwordCheck") }}
+                </label>
+                <div class="p-col-12 p-md-8">
+                  <p-password
+                    id="passwordCheck"
+                    :feedback="false"
+                    toggleMask
+                    v-model="password.passwordCheck"
+                  />
+                </div>
 
-        <template
-          slot="content"
-          v-else
-        >
-          {{ $t('pages.account.view.nodata') }}
-        </template>
-      </p-card>
-    </section>
-  </div>
+                <span :class="classes" class="p-my-2">{{ errors[0] }}</span>
+              </validation-provider>
+            </lck-form>
+          </template>
+
+          <template
+            slot="content"
+            v-else
+          >
+            {{ $t('pages.account.view.nodata') }}
+          </template>
+        </p-card>
+      </section>
+    </div>
+  </layout-with-header>
 </template>
 
 <script lang="ts">
@@ -288,6 +289,7 @@ import { lckClient } from '@/services/lck-api'
 import { authState, logout } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
 import { regexPasswordRules } from '@/services/lck-utils/regex'
+import LayoutWithHeader from '@/layouts/WithHeader.vue'
 
 export default {
   name: 'Profile',
@@ -312,6 +314,7 @@ export default {
     }
   },
   components: {
+    'layout-with-header': Vue.extend(LayoutWithHeader),
     'lck-form': LckForm,
     'p-card': Vue.extend(Card),
     'p-password': Vue.extend(Password),
@@ -367,7 +370,7 @@ export default {
           detail: this.$t('pages.account.edit.email.success'),
           life: 5000,
         })
-      } catch (error) {
+      } catch (error: any) {
         this.$toast.add({
           severity: 'error',
           summary: this.$t('error.impossibleOperation'),

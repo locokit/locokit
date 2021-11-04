@@ -5,75 +5,51 @@ exports[`storyshots views/routes/workspace/admin/ProcessListing default 1`] = `
   style="height: 100%;"
 >
   <div
-    class="lck-process-listing p-d-flex p-flex-column o-auto"
+    class="lck-layout-content"
   >
     <div
-      class="
-      p-p-1
-      p-d-flex
-      p-jc-between
-      p-ai-center
-      lck-toolbar
-    "
+      class="lck-bg-sidebar lck-sidebar lck-sidebar--active"
     >
-      <span
-        class="p-pl-1"
+      <h2
+        class="p-pl-3 lck-color-title"
       >
-        <span
-          class="pi pi-th-large"
-        />
         
       Processes
     
-      </span>
-       
+      </h2>
+        
       <div
-        class="p-d-flex p-flex-wrap"
+        class="p-p-3"
       >
-        <button
-          class="p-button-text p-button-primary p-button p-component"
-          type="button"
-        >
-          <span
-            class="pi pi-plus-circle p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
-          >
-            Add
-          </span>
-           
-          <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
+        
+      No process created yet. You can create one by clicking the "Add" button.
+    
       </div>
+       
+      <button
+        class="p-button-primary p-mx-3 p-button p-component"
+        type="button"
+      >
+        <span
+          class="bi bi-plus-circle p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Add
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
     </div>
      
     <div
-      class="
-      lck-toolbar-content
-      p-d-flex
-      p-flex-column
-      d-flex-1
-      o-auto
-    "
+      class="lck-page"
     >
-       
-      <div
-        class="lck-process-listing p-m-1"
-      >
-        <p
-          class="p-p-1"
-        >
-          
-      No process created yet. You can create one by clicking the "Add" button above.
-    
-        </p>
-      </div>
-       
       <!---->
     </div>
   </div>
@@ -85,75 +61,51 @@ exports[`storyshots views/routes/workspace/admin/ProcessListing with detail proc
   style="height: 100%;"
 >
   <div
-    class="lck-process-listing p-d-flex p-flex-column o-auto"
+    class="lck-layout-content"
   >
     <div
-      class="
-      p-p-1
-      p-d-flex
-      p-jc-between
-      p-ai-center
-      lck-toolbar
-    "
+      class="lck-bg-sidebar lck-sidebar lck-sidebar--active"
     >
-      <span
-        class="p-pl-1"
+      <h2
+        class="p-pl-3 lck-color-title"
       >
-        <span
-          class="pi pi-th-large"
-        />
         
       Processes
     
-      </span>
-       
+      </h2>
+        
       <div
-        class="p-d-flex p-flex-wrap"
+        class="p-p-3"
       >
-        <button
-          class="p-button-text p-button-primary p-button p-component"
-          type="button"
-        >
-          <span
-            class="pi pi-plus-circle p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
-          >
-            Add
-          </span>
-           
-          <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
+        
+      No process created yet. You can create one by clicking the "Add" button.
+    
       </div>
+       
+      <button
+        class="p-button-primary p-mx-3 p-button p-component"
+        type="button"
+      >
+        <span
+          class="bi bi-plus-circle p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Add
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
     </div>
      
     <div
-      class="
-      lck-toolbar-content
-      p-d-flex
-      p-flex-column
-      d-flex-1
-      o-auto
-    "
+      class="lck-page"
     >
-       
-      <div
-        class="lck-process-listing p-m-1"
-      >
-        <p
-          class="p-p-1"
-        >
-          
-      No process created yet. You can create one by clicking the "Add" button above.
-    
-        </p>
-      </div>
-       
       <!---->
     </div>
   </div>
@@ -165,75 +117,51 @@ exports[`storyshots views/routes/workspace/admin/ProcessListing with processes t
   style="height: 100%;"
 >
   <div
-    class="lck-process-listing p-d-flex p-flex-column o-auto"
+    class="lck-layout-content"
   >
     <div
-      class="
-      p-p-1
-      p-d-flex
-      p-jc-between
-      p-ai-center
-      lck-toolbar
-    "
+      class="lck-bg-sidebar lck-sidebar lck-sidebar--active"
     >
-      <span
-        class="p-pl-1"
+      <h2
+        class="p-pl-3 lck-color-title"
       >
-        <span
-          class="pi pi-th-large"
-        />
         
       Processes
     
-      </span>
-       
+      </h2>
+        
       <div
-        class="p-d-flex p-flex-wrap"
+        class="p-p-3"
       >
-        <button
-          class="p-button-text p-button-primary p-button p-component"
-          type="button"
-        >
-          <span
-            class="pi pi-plus-circle p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
-          >
-            Add
-          </span>
-           
-          <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
+        
+      No process created yet. You can create one by clicking the "Add" button.
+    
       </div>
+       
+      <button
+        class="p-button-primary p-mx-3 p-button p-component"
+        type="button"
+      >
+        <span
+          class="bi bi-plus-circle p-button-icon p-button-icon-left"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+          Add
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
     </div>
      
     <div
-      class="
-      lck-toolbar-content
-      p-d-flex
-      p-flex-column
-      d-flex-1
-      o-auto
-    "
+      class="lck-page"
     >
-       
-      <div
-        class="lck-process-listing p-m-1"
-      >
-        <p
-          class="p-p-1"
-        >
-          
-      No process created yet. You can create one by clicking the "Add" button above.
-    
-        </p>
-      </div>
-       
       <!---->
     </div>
   </div>

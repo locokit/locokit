@@ -135,6 +135,8 @@
         "globalConfiguration": "Global configuration",
         "visualizationConfiguration": "Configuration for the visualization part",
         "title": "Column title",
+        "id": "Column UUID (read only)",
+        "doc": "Documentation",
         "values": "Column values",
         "displayed": "Displayed column",
         "editable": "Editable column",
@@ -209,11 +211,13 @@
         "maximumNumberSuccessLabel": "Maximum number of success (0 if no limit)"
       },
       "removeButtonLabel": "Remove",
+      "refreshButtonLabel": "Refresh",
       "duplicateButtonLabel": "Duplicate",
       "noRun": "No run for this process yet.",
       "headerProperties": "Properties",
-      "headerRuns": "Runs",
-      "chooseTableFirst": "Please choose a table first."
+      "headerRuns": "50 latest runs",
+      "chooseTableFirst": "Please choose a table first.",
+      "createTitle": "Create a new process"
     },
     "synthesis": {
       "title": "Use of bike",
@@ -309,6 +313,31 @@
           "UPPER": "Returns an uppercase copy of the text."
         }
       }
+    },
+    "userGroupForm": {
+      "createTitle": "New group",
+      "fields": {
+        "name": "Name",
+        "namePlaceholder": "Example: The customer user group",
+        "aclSet": "Role",
+        "aclSetPlaceholder": "Assign a workspace's role",
+        "chapter": "Chapter",
+        "chapterPlaceholder": "This user group will access your app through this chapter"
+      }
+    },
+    "workspaceForm": {
+      "fields": {
+        "textPlaceholder": "Workspace's name",
+        "textLabel": "Name",
+        "docPlaceholder": "Add a description of your workspace, a documentation, ...",
+        "docLabel": "Documentation",
+        "colorLabel": "Color",
+        "colorPlaceholder": "Select a color",
+        "colorHelp": "This color will be used as background in the workspace listing page",
+        "iconLabel": "Icon",
+        "iconPlaceholder": "bi-cart",
+        "iconHelp": "Fill with icon id, list is available on "
+      }
     }
   },
   "pages": {
@@ -316,36 +345,49 @@
       "title": "Whooops ?!... sounds you're lost... Sorry. Really.",
       "link": "Please, please... come back home."
     },
-    "acl": {
-      "common": {
-        "manager": "Manager role",
-        "noManager": "No manager role",
-        "title": "Roles and permissions"
-      },
-      "detail": {
-        "aclTables": "Tables",
-        "aclTableFilters": "Filters",
-        "aclTableName": "Table name",
-        "aclTableRecord": "Record",
-        "chapter": "Chapter",
-        "create_rows": "Record creation",
-        "delete_filter": "Filter used when deleting",
-        "delete_rows": "Record deletion",
-        "createTitle": "Create a new role",
-        "editTitle": "Update a role",
-        "filterError": "The specified filter does not match the expected format (JSON).",
-        "noAclTable": "No table",
-        "label": "Role name",
-        "properties": "Properties",
-        "read_rows": "Record reading",
-        "read_filter": "Filter used when reading",
-        "update_filter": "Filter used when updating",
-        "update_rows": "Record updating"
+    "workspaceAdmin": {
+      "acl": {
+        "common": {
+          "title": "Roles and permissions",
+          "manager": "Is a workspace's manager"
         },
-      "listing": {
-        "aclSetError": "Impossible to retrieve the workspace roles.",
-        "noAclSet": "No role",
-        "title": "All roles"
+        "detail": {
+          "aclTablesExplanation": "Tables' permissions",
+          "aclTableFilters": "Filters",
+          "aclTableName": "Table name",
+          "aclTableRecord": "Record",
+          "chapter": "Chapter",
+          "create_rows": "Record creation",
+          "delete_filter": "Filter used when deleting",
+          "delete_rows": "Record deletion",
+          "createTitle": "Create a new role",
+          "editTitle": "Update a role",
+          "filterError": "The specified filter does not match the expected format (JSON).",
+          "noAclTable": "No table",
+          "label": "Role name",
+          "properties": "Properties",
+          "read_rows": "Record reading",
+          "read_filter": "Filter used when reading",
+          "update_filter": "Filter used when updating",
+          "update_rows": "Record updating"
+          },
+        "listing": {
+          "aclSetError": "Impossible to retrieve the workspace roles.",
+          "noAclSet": "No role",
+          "title": "All roles"
+        }
+      },
+      "group": {
+        "common": {
+          "title": "Groups"
+        },
+        "listing": {
+          "groupError": "Impossible de retrieve workspace groups.",
+          "noGroup": "No group"
+        }
+      },
+      "settings": {
+        "title": "Settings"
       }
     },
     "home": {
@@ -419,12 +461,20 @@
     "workspace": {
       "form": {
         "create": "Create a new workspace",
+        "new": "New workspace",
         "createdSummary": "Your workspace have been created !",
-        "createdDetail": "Your workspace have been created, you can configure it now.",
-        "textPlaceholder": "Workspace's name",
-        "textLabel": "Name",
-        "docPlaceholder": "Add a description of your workspace, a documentation, ...",
-        "docLabel": "Documentation"
+        "createdDetail": "Your workspace have been created, you can configure it now."
+      },
+      "menu": {
+        "databases": "Databases",
+        "tables": "Tables",
+        "schema": "Schema",
+        "visualization": "Visualization",
+        "process": "Processes",
+        "cms": "CMS, Content Management System",
+        "acl": "ACL, Access Control List",
+        "groups": "User groups",
+        "settings": "Settings"
       },
       "title": "Workspaces",
       "noWorkspace": "No workspace to display",
@@ -436,8 +486,9 @@
       "errorUnknownTypeBlock": "The block type does not exist.",
       "buttonDatabase": "Database",
       "buttonSchema": "Schema",
-      "buttonVisualization": "Visualization",
-      "buttonProcess": "Processes",
+      "buttonVisualization": "Visualisation",
+      "buttonProcess": "Process",
+      "buttonAcl": "Permissions",
       "createChapter": "Create a new chapter",
       "editChapter": "Edit a chapter",
       "chapter": "Chapter",
@@ -462,7 +513,9 @@
         "pageConfiguration": "Page configuration",
         "list": "Containers list",
         "noContainers": "No container found",
-        "navigationExplain": "To configure the page navigation, you must edit each desired container."
+        "navigationSubject": "This is the nav bar for container. It allows the user to navigate through the container's page.",
+        "navigationExplain": "To configure the page navigation, you must edit each desired container.",
+        "navigationEditButton": "Modifier la barre de navigation"
       },
       "container": {
         "title": "container",
@@ -618,7 +671,7 @@
     "databaseSchema": {
       "title": "Database schema",
       "noSchema": "No schema to display. Please create one database.",
-      "noTable": "The database has no table.",
+      "noTable": "The database has no table. Please create your first table.",
       "addTable": "Add table",
       "createTableModal": {
         "createTable": "Create table",
@@ -697,6 +750,7 @@
       "name": "Name",
       "email": "E-mail",
       "isVerified": "Verified",
+      "blocked": "Blocked",
       "password": "Password",
       "profile": "Profile",
       "selectProfile": "Choose a profile",
@@ -749,7 +803,8 @@
           "role": "Role"
         },
         "text": {
-          "chapter": "chapter",
+          "aclset": "Role",
+          "chapter": "Chapter",
           "selectUser": "Select an user",
           "selectRole": "Select a role",
           "addNewUserInGroup": "Add an user in {groupName}",
@@ -760,10 +815,10 @@
       }
     },
     "process": {
-      "titleButton": "Processes",
+      "title": "Processes",
       "allProcessesHeader": "All processes",
       "oneProcessHeader": "Detail of the process",
-      "noProcess": "No process created yet. You can create one by clicking the \"Add\" button above.",
+      "noProcess": "No process created yet. You can create one by clicking the \"Add\" button.",
       "defaultTriggerName": "Default trigger name",
       "eventTrigger": {
         "UPDATE_ROW_DATA": "Update on data",
@@ -772,6 +827,9 @@
         "MANUAL": "Manual",
         "CRON": "Cron"
       }
+    },
+    "cms": {
+      "title": "CMS / Application"
     }
   },
   "media": {
@@ -791,6 +849,7 @@
   "error": {
     "basic": "An error has occurred.",
     "http": {
+      "undefined": "Unknown error",
       "400": "Bad request",
       "401": "Access not granted",
       "403": "Access forbidden",

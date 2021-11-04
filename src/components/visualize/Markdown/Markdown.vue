@@ -72,7 +72,7 @@ export default Vue.extend({
 // We need to use ::v-deep with v-html and scoped
 ::v-deep {
   padding: 1rem;
-  background-color: var(--background-color-light);
+  background-color: var(--color-white);
 
   h2 {
     padding: 0.5rem 0;
@@ -88,7 +88,7 @@ export default Vue.extend({
   }
 
   table th {
-    color: var(--primary-color-text);;
+    color: var(--primary-color-dark);
     background-color: #ededed;
   }
 
@@ -120,7 +120,7 @@ export default Vue.extend({
     }
 
     h2, h4, h6 {
-      color: var(--surface-lck-1);
+      color: var(--primary-color);
     }
 
     h2 {

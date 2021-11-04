@@ -394,13 +394,13 @@
     <div ref="resizeHelper" class="p-column-resizer-helper" style="display: none"></div>
     <span
       ref="reorderIndicatorUp"
-      class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+      class="bi bi-arrow-down p-datatable-reorder-indicator-up"
       style="position: absolute; display: none"
       v-if="reorderableColumns"
     />
     <span
       ref="reorderIndicatorDown"
-      class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+      class="bi bi-arrow-up p-datatable-reorder-indicator-down"
       style="position: absolute; display: none"
       v-if="reorderableColumns"
     />

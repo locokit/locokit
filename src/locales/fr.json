@@ -124,10 +124,10 @@
       },
       "actionColumn": {
         "title": "Action",
-        "edit": "Éditer l'action"
+        "edit": "Modifier l'action"
       },
       "column": {
-        "edit": "Éditer la colonne",
+        "edit": "Modifier la colonne",
         "hide": "Cacher la colonne",
         "display": "Afficher la colonne",
         "ascOrder": "Ordre croissant",
@@ -135,9 +135,11 @@
         "globalConfiguration": "Configuration globale",
         "visualizationConfiguration": "Configuration pour la partie visualisation",
         "title": "Titre de la colonne",
+        "id": "UUID de la colonne (non modifiable)",
+        "doc": "Documentation",
         "values": "Valeurs de la colonne",
         "displayed": "Colonne affichée",
-        "editable": "Colonne éditable",
+        "editable": "Colonne modifiable",
         "required": "Colonne requise",
         "transmitted": "Colonne transmise"
       }
@@ -209,11 +211,13 @@
         "maximumNumberSuccessLabel": "Nombre de succès maximum (0 si infini)"
       },
       "removeButtonLabel": "Supprimer",
+      "refreshButtonLabel": "Rafraîchir",
       "duplicateButtonLabel": "Dupliquer",
       "noRun": "Pas encore d'exécution pour ce processus.",
       "headerProperties": "Propriétés",
-      "headerRuns": "Exécutions",
-      "chooseTableFirst": "Merci de sélectionner une table."
+      "headerRuns": "50 dernières exécutions",
+      "chooseTableFirst": "Merci de sélectionner une table.",
+      "createTitle": "Nouveau processus"
     },
     "synthesis": {
       "title": "Métriques utilisation du vélo",
@@ -309,6 +313,31 @@
           "UPPER": "Retourne le texte spécifié en majuscules."
         }
       }
+    },
+    "userGroupForm": {
+      "createTitle": "Nouveau groupe",
+      "fields": {
+        "name": "Nom",
+        "namePlaceholder": "Exemple: Le groupe d'utilisateur client",
+        "aclSet": "Rôle",
+        "aclSetPlaceholder": "Assignez un rôle de votre espace de travail",
+        "chapter": "Chapitre",
+        "chapterPlaceholder": "Ce groupe d'utilisateurs pourra accéder à votre application à travers ce chapitre"
+      }
+    },
+    "workspaceForm": {
+      "fields": {
+        "textPlaceholder": "Nom de l'espace de travail",
+        "textLabel": "Nom",
+        "docPlaceholder": "Ajoutez une description de votre espace de travail, une documentation...",
+        "docLabel": "Documentation",
+        "colorLabel": "Couleur",
+        "colorPlaceholder": "Sélectionnez une couleur dans la liste",
+        "colorHelp": "Cette couleur sera utilisée en fond sur la page d'accueil des espaces de travail",
+        "iconLabel": "Icône",
+        "iconPlaceholder": "bi-cart",
+        "iconHelp": "Renseignez l'identifiant de l'icône souhaitée, liste disponible sur "
+      }
     }
   },
   "pages": {
@@ -316,36 +345,49 @@
       "title": "Oh oh ?!... on dirait que vous êtes perdu... Désolé. Vraiment.",
       "link": "Vous pouvez tenter de revenir sur la page d'accueil ?"
     },
-    "acl": {
-      "common": {
-        "manager": "Rôle manager",
-        "noManager": "Rôle non manager",
-        "title": "Rôles et permissions"
-      },
-      "detail": {
-        "aclTables": "Tables",
-        "aclTableFilters": "Filtres",
-        "aclTableName": "Nom de la table",
-        "aclTableRecord": "Enregistrement",
-        "chapter": "Chapitre",
-        "create_rows": "Création d'un enregistrement",
-        "delete_filter": "Filtre appliqué lors d'une suppression",
-        "delete_rows": "Suppression d'un enregistrement",
-        "createTitle": "Création d'un nouveau rôle",
-        "editTitle": "Édition d'un rôle",
-        "filterError": "Le filtre spécifié n'est pas au format souhaité (JSON).",
-        "noAclTable": "Aucune table",
-        "label": "Nom du rôle",
-        "properties": "Propriétés",
-        "read_rows": "Lecture d'un enregistrement",
-        "read_filter": "Filtre appliqué lors d'une lecture",
-        "update_filter": "Filtre appliqué lors d'une mise à jour",
-        "update_rows": "Mise à jour d'un enregistrement"
+    "workspaceAdmin": {
+      "acl": {
+        "common": {
+          "title": "Rôles et permissions",
+          "manager": "Est manager du workspace"
         },
-      "listing": {
-        "aclSetError": "Impossible de récupérer les rôles associés au workspace courant.",
-        "noAclSet": "Aucun rôle créé",
-        "title": "Tous les rôles"
+        "detail": {
+          "aclTablesExplanation": "Permissions sur les tables",
+          "aclTableFilters": "Filtres",
+          "aclTableName": "Nom de la table",
+          "aclTableRecord": "Enregistrement",
+          "chapter": "Chapitre",
+          "create_rows": "Création d'un enregistrement",
+          "delete_filter": "Filtre appliqué lors d'une suppression",
+          "delete_rows": "Suppression d'un enregistrement",
+          "createTitle": "Création d'un nouveau rôle",
+          "editTitle": "Édition d'un rôle",
+          "filterError": "Le filtre spécifié n'est pas au format souhaité (JSON).",
+          "noAclTable": "Aucune table",
+          "label": "Nom du rôle",
+          "properties": "Propriétés",
+          "read_rows": "Lecture d'un enregistrement",
+          "read_filter": "Filtre appliqué lors d'une lecture",
+          "update_filter": "Filtre appliqué lors d'une mise à jour",
+          "update_rows": "Mise à jour d'un enregistrement"
+          },
+        "listing": {
+          "aclSetError": "Impossible de récupérer les rôles associés à l'espace de travail courant.",
+          "noAclSet": "Aucun rôle créé",
+          "title": "Tous les rôles"
+        }
+      },
+      "group": {
+        "common": {
+          "title": "Groupes"
+        },
+        "listing": {
+          "groupError": "Impossible de récupérer les groupes associés à l'espace de travail courant.",
+          "noGroup": "Aucun groupe créé"
+        }
+      },
+      "settings": {
+        "title": "Paramètres"
       }
     },
     "home": {
@@ -419,12 +461,20 @@
     "workspace": {
       "form": {
         "create": "Créer un nouvel espace de travail",
+        "new": "Nouvel espace de travail",
         "createdSummary": "Votre espace de travail a été créé !",
-        "createdDetail": "Votre espace de travail a été créé, vous pouvez désormais le configurer.",
-        "textPlaceholder": "Nom de l'espace de travail",
-        "textLabel": "Nom",
-        "docPlaceholder": "Ajoutez une description de votre espace de travail, une documentation...",
-        "docLabel": "Documentation"
+        "createdDetail": "Votre espace de travail a été créé, vous pouvez désormais le configurer."
+      },
+      "menu": {
+        "databases": "Bases de données",
+        "tables": "Tables",
+        "schema": "Schéma",
+        "visualization": "Visualization",
+        "process": "Processus",
+        "cms": "CMS",
+        "acl": "Permissions",
+        "groups": "Groupes d'utilisateurs",
+        "settings": "Paramètres"
       },
       "title": "Espaces de travail",
       "noWorkspace": "Aucun espace de travail à afficher",
@@ -463,7 +513,9 @@
         "pageConfiguration": "Configuration de la page",
         "list": "Liste des conteneurs",
         "noContainers": "Aucun conteneur trouvé",
-        "navigationExplain": "Pour configurer la navigation de la page, vous devez éditer chaque conteneur souhaité."
+        "navigationSubject": "Ceci est la barre de navigation des conteneurs. Cela permet à l'utilisateur de naviguer à travers les conteneurs de la page.",
+        "navigationExplain": "Pour configurer la navigation de la page, vous devez modifier chaque conteneur souhaité.",
+        "navigationEditButton": "Modifier la barre de navigation"
       },
       "container": {
         "title": "Conteneur",
@@ -619,7 +671,7 @@
     "databaseSchema": {
       "title": "Schéma de la base de données",
       "noSchema": "Aucun schéma à afficher. Veuillez créer une base de données.",
-      "noTable": "La base de données ne contient aucune table.",
+      "noTable": "La base de données ne contient aucune table. Veuillez créer une première table.",
       "addTable": "Ajouter une table",
       "createTableModal": {
         "createTable": "Créer une table",
@@ -698,13 +750,14 @@
       "name": "Nom",
       "email": "E-mail",
       "isVerified": "Vérifié",
+      "blocked": "Bloqué",
       "password": "Mot de passe",
       "profile": "Profil",
       "selectProfile": "Sélectionnez un profil",
       "createdAt": "Date création",
       "userDetails": "Compte utilisateur",
       "createUserDetails": "Créer un utilisateur",
-      "editUserDetails": "Éditer un utilisateur",
+      "editUserDetails": "Modifier un utilisateur",
       "isRequired": "Ce champ est requis",
       "editUser": "Modifier l'utilisateur",
       "enableUser": {
@@ -738,10 +791,10 @@
       "form": {
         "action": {
           "addNewGroup": "Créer un groupe",
-          "editGroup": "Éditer un groupe",
+          "editGroup": "Modifier un groupe",
           "deleteGroup": "Supprimer un groupe",
           "addNewUserInGroup": "Ajouter un utilisateur",
-          "editUserInGroup": "Éditer un utilisateur",
+          "editUserInGroup": "Modifier un utilisateur",
           "deleteUserInGroup": "Supprimer un utilisateur"
         },
         "input": {
@@ -750,7 +803,8 @@
           "role": "Rôle"
         },
         "text": {
-          "chapter": "chapitre",
+          "aclset": "Rôle",
+          "chapter": "Chapitre",
           "selectUser": "Sélectionnez un utilisateur",
           "selectRole": "Sélectionnez un rôle",
           "addNewUserInGroup": "Ajouter un utilisateur dans {groupName}",
@@ -761,10 +815,10 @@
       }
     },
     "process": {
-      "titleButton": "Processus",
+      "title": "Processus",
       "allProcessesHeader": "Tous les processus",
       "oneProcessHeader": "Détail d'un processus",
-      "noProcess": "Aucun processus créé pour l'instant. Vous pouvez en créer un en cliquant sur le bouton \"Ajouter\" ci-dessus.",
+      "noProcess": "Aucun processus créé pour l'instant. Vous pouvez en créer un en cliquant sur le bouton \"Ajouter\".",
       "defaultTriggerName": "Nom du déclencheur par défaut",
       "eventTrigger": {
         "UPDATE_ROW_DATA": "Mise à jour d'une donnée",
@@ -773,6 +827,9 @@
         "MANUAL": "Manuel",
         "CRON": "Cron"
       }
+    },
+    "cms": {
+      "title": "CMS / Application"
     }
   },
   "media": {
@@ -792,6 +849,7 @@
   "error": {
     "basic": "Une erreur est survenue.",
     "http": {
+      "undefined": "Erreur inconnue",
       "400": "Requête incorrecte",
       "401": "Accès non authentifié",
       "403": "Accès interdit",

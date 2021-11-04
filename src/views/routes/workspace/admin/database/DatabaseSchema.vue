@@ -1,36 +1,30 @@
 <template>
   <div class="container">
-    <p-toolbar class="p-d-flex p-flex-wrap">
-      <template slot="left">
-        {{ $t('pages.databaseSchema.title') }}
-      </template>
-      <template slot="right">
-        <p-button
-          :label="$t('pages.databaseSchema.addTable')"
-          icon="bi bi-plus-lg"
-          @click="onClickCreateTableModalButton"
-        />
-      </template>
-    </p-toolbar>
-    <p
+    <h2 class="p-pl-3 lck-color-title">
+      {{ $t('pages.databaseSchema.title') }}
+    </h2>
+    <p-button
+      :label="$t('pages.databaseSchema.addTable')"
+      icon="bi bi-plus-lg"
+      style="position: absolute; right: 1rem; top: 1rem;"
+      @click="onClickCreateTableModalButton"
+    />
+
+    <div
       v-if="tables && tables.length === 0"
       class="schema-info"
     >
-      <i class="bi bi-info-circle"></i>
+      <big><div class="bi bi-info-circle p-m-4"></div></big>
       {{ $t('pages.databaseSchema.noTable') }}
-    </p>
+    </div>
     <div
       v-else-if="!errorLoadTables"
       id="svg-container"
       v-html="nomnomlSVG"
       @click="onClickTable"
-    >
-    </div>
-    <p
-      v-else
-      class="schema-info"
-    >
-      <i class="bi bi-exclamation-circle"></i>
+    />
+    <p v-else class="schema-info">
+      <big><div class="bi bi-exclamation-circle p-m-4"></div></big>
       {{ $t('pages.databaseSchema.noSchema') }}
     </p>
     <create-table-modal
@@ -64,7 +58,6 @@ import { objectFromArray } from '@/services/lck-utils/arrays'
 
 import Button from 'primevue/button'
 import ConfirmDialog from 'primevue/confirmdialog'
-import Toolbar from 'primevue/toolbar'
 
 import CreateTableModal from '@/views/modals/CreateTableModal.vue'
 import UpdateTableSidebar from '@/views/modals/UpdateTableSidebar.vue'
@@ -75,7 +68,6 @@ export default {
     'create-table-modal': CreateTableModal,
     'update-table-sidebar': UpdateTableSidebar,
     'p-confirm-dialog': Vue.extend(ConfirmDialog),
-    'p-toolbar': Vue.extend(Toolbar),
     'p-button': Vue.extend(Button),
   },
   props: {
@@ -240,7 +232,10 @@ export default {
           if (!this.errorLoadTables) {
             // Manage the zoom level
             this.SVGPanZoom = svgPanZoom('#svg-container > svg', { controlIconsEnabled: true, minZoom: 0.1 })
-            this.SVGPanZoom.zoomBy(1 / this.SVGPanZoom.getSizes().realZoom)
+            const realZoom = this.SVGPanZoom.getSizes().realZoom
+            if (realZoom > 1) {
+              this.SVGPanZoom.zoomBy(1 / realZoom)
+            }
           }
         })
       }
@@ -251,20 +246,20 @@ export default {
 
 <style>
 .container {
+  height: 100%;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
-  max-width: 100vw;
-  height: 100%;
 }
 
 #svg-container {
-  max-width: 100vw;
+  width: 100%;
   height: 100%;
   overflow: hidden;
 }
 
 #svg-container svg {
-  width: 100vw;
+  width: 100%;
   height: 100%;
   cursor: move;
   user-select: none;
@@ -281,13 +276,8 @@ path {
 }
 .schema-info {
   color: var(--text-color);
-  font-style: italic;
   margin: auto;
   text-align: center;
-}
-.schema-info i {
-  display: block;
-  font-size: 3rem;
-  margin-bottom: 1rem;
+  font-size: 1.5rem;
 }
 </style>

@@ -7,7 +7,7 @@ exports[`storyshots views/routes/user/VerifySignup default 1`] = `
   <div
     class="
     layout-with-background
-    p-grid
+    p-d-flex
     p-jc-center
     p-ai-center
    p-text-left p-fluid"
@@ -23,7 +23,7 @@ exports[`storyshots views/routes/user/VerifySignup default 1`] = `
         <img
           alt="logo"
           class="p-mb-4 p-mx-auto"
-          src="./themes/locokit/img/logo-white.svg"
+          src="/themes/locokit/img/logo-dark.svg"
         />
       </a>
        

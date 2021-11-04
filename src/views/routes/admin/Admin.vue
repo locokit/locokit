@@ -1,37 +1,53 @@
 <template>
-  <div class="p-grid h-full">
-    <div class="sidebar-menu-container lck-bg-primary o-auto h-max-full">
-      <lck-sidebar :items="sidebarItems" v-on="$listeners" />
-    </div>
-    <div class="main-container h-full p-col o-auto h-max-full">
-      <router-view />
-    </div>
-  </div>
+  <layout-with-header>
+    <template v-slot:default="slotProps">
+      <div class="lck-layout lck-layout--with-nav">
+        <nav class="lck-nav" :class="{'lck-nav--active': slotProps.sidebarActive}">
+          <ul class="lck-nav-list">
+            <li
+              v-for="item in menuItems"
+              :key="item.label"
+              :aria-label="item.label"
+              :title="item.label"
+              class="lck-nav-item"
+            >
+              <router-link :to="item.to" class="lck-nav-item-link">
+                <i class="bi" :class="item.icon" />
+              </router-link>
+            </li>
+          </ul>
+        </nav>
+        <router-view :sidebarActive="slotProps.sidebarActive" />
+      </div>
+    </template>
+  </layout-with-header>
 </template>
 
 <script>
-import Sidebar from '@/components/visualize/Sidebar/Sidebar'
-import { ROUTES_PATH } from '@/router/paths'
+import Vue from 'vue'
+
+import { ROUTES_NAMES } from '@/router/paths'
+import LayoutWithHeader from '@/layouts/WithHeader.vue'
 
 export default {
   name: 'Admin',
   components: {
-    'lck-sidebar': Sidebar,
+    'layout-with-header': Vue.extend(LayoutWithHeader),
   },
   computed: {
-    sidebarItems () {
+    menuItems () {
       return [{
-        id: 0,
-        label: this.$t('pages.admin.sidebar.usersAndGroups'),
-        subitems: [{
-          id: 0,
-          label: this.$t('pages.userManagement.title'),
-          to: `${ROUTES_PATH.ADMIN}${ROUTES_PATH.USERMANAGEMENT}`,
-        }, {
-          id: 1,
-          label: this.$t('pages.groupManagement.title'),
-          to: `${ROUTES_PATH.ADMIN}${ROUTES_PATH.GROUPMANAGEMENT}`,
-        }],
+        label: this.$t('pages.userManagement.title'),
+        icon: 'bi-person',
+        to: {
+          name: ROUTES_NAMES.ADMIN.USER,
+        },
+      }, {
+        label: this.$t('pages.groupManagement.title'),
+        icon: 'bi-people',
+        to: {
+          name: ROUTES_NAMES.ADMIN.GROUP,
+        },
       }]
     },
   },

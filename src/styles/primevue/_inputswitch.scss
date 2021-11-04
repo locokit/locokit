@@ -1,0 +1,50 @@
+.p-inputswitch {
+  width: 3rem;
+  height: 1.75rem;
+}
+
+.p-inputswitch .p-inputswitch-slider {
+  background: #ced4da;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  border-radius: 30px;
+}
+
+.p-inputswitch .p-inputswitch-slider:before {
+  background: #ffffff;
+  width: 1.25rem;
+  height: 1.25rem;
+  left: 0.25rem;
+  margin-top: -0.625rem;
+  border-radius: 50%;
+  transition-duration: 0.2s;
+}
+
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider:before {
+  transform: translateX(1.25rem);
+}
+
+.p-inputswitch.p-focus .p-inputswitch-slider {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.2rem var(--primary-color-light);
+}
+
+.p-inputswitch:not(.p-disabled):hover .p-inputswitch-slider {
+  background: var(--primary-color-light);
+}
+
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+  background: var(--primary-color);
+}
+
+.p-inputswitch.p-inputswitch-checked .p-inputswitch-slider:before {
+  background: #ffffff;
+}
+
+.p-inputswitch.p-inputswitch-checked:not(.p-disabled):hover .p-inputswitch-slider {
+  background: var(--primary-color-dark);
+}
+
+.p-inputswitch.p-invalid {
+  border-color: var(--color-error);
+}

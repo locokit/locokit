@@ -31,7 +31,7 @@
       <p-dropdown
         id="blockTypeField"
         v-model="blockCopy.type"
-        :placeholder="$t('components.datatable.placeholder')"
+        :placeholder="$t('components.datatable.autoCompletePlaceholder')"
         :options="blockTypesValues"
         @input="resetBlockSettings"
       />

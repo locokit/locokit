@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots views/routes/workspace/admin/DatabaseList default 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="lck-layout-content"
+  >
+    <div
+      class="lck-bg-sidebar lck-sidebar lck-sidebar--active"
+    >
+      <h2
+        class="p-pl-3 lck-color-title"
+      >
+        
+      Database
+    
+      </h2>
+       
+      <div>
+        <div
+          class="p-m-2 p-skeleton p-component"
+          style="width: 95%; height: 2rem;"
+        />
+         
+        <div
+          class="p-m-2 p-skeleton p-component"
+          style="width: 95%; height: 2rem;"
+        />
+         
+        <div
+          class="p-m-2 p-skeleton p-component"
+          style="width: 95%; height: 2rem;"
+        />
+         
+        <div
+          class="p-m-2 p-skeleton p-component"
+          style="width: 95%; height: 2rem;"
+        />
+         
+        <div
+          class="p-m-2 p-skeleton p-component"
+          style="width: 95%; height: 2rem;"
+        />
+      </div>
+    </div>
+     
+    <div
+      class="lck-page"
+    >
+      <!---->
+    </div>
+  </div>
+</div>
+`;

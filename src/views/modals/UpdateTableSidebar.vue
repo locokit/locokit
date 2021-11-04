@@ -71,12 +71,12 @@
         <p-column>
           <template #body="props">
             <p-button
-              icon="pi pi-pencil"
+              icon="bi bi-pencil"
               class="p-button-rounded lck-color-content p-column-button-color p-mr-2"
               @click="updateColumn(props.data)"
             />
             <p-button
-              icon="pi pi-trash"
+              icon="bi bi-trash"
               class="p-button-rounded lck-color-content p-column-button-color"
               @click="$emit('confirm', props.data)"
             />

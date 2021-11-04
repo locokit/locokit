@@ -3,7 +3,7 @@
 <template>
   <p-autocomplete
     :dropdown="true"
-    :placeholder="$t('components.datatable.autoCompletePlaceholder')"
+    :placeholder="placeholder"
     :field="field"
     :forceSelection="forceSelection"
     :appendTo="appendTo"
@@ -33,6 +33,11 @@ export default {
     forceSelection: {
       type: Boolean,
       default: true,
+    },
+    placeholder: {
+      type: String,
+      required: false,
+      default () { return this.$t('components.datatable.autoCompletePlaceholder') },
     },
   },
   components: {

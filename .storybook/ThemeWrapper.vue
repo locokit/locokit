@@ -1,15 +1,15 @@
 <template>
   <div style="height: 100%">
-    <slot/>
+    <slot />
   </div>
 </template>
 
 <script>
-import '../src/plugins/primevue'
+import "../src/plugins/primevue";
 
 export default {
-  name: 'StorybookThemeWrapper'
-}
+  name: "StorybookThemeWrapper",
+};
 </script>
 
 <style src="../public/themes/locokit/theme.css"></style>
@@ -23,7 +23,7 @@ body {
   margin: unset !important;
 }
 </style>
-<style lang="scss" src="@/styles/main.scss"></style>
+<style lang="scss" src="@/styles/global.scss"></style>
 
 <style lang="scss" scoped>
 header {
