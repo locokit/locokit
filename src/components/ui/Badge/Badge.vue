@@ -26,7 +26,7 @@ export default Vue.extend({
   padding: 0 0.5rem;
   margin-left: 0.5rem;
   display: inline-flex;
-  font-size: 0.8rem;
+  font-size: var(--font-size-sm);
   min-width: 0;
   max-width: 100%;
   /* for default purpose */

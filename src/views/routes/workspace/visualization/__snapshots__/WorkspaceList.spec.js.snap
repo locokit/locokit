@@ -1,55 +1,103 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Workspace Create workspace button Hide if the user has a USER_PROFILE "USER" 1`] = `
-<div class="generic-view-container p-mx-auto" groupid="0">
-  <header class="p-my-4 lck-color-title">
-    pages.workspace.title
-  </header>
-  <!---->
-  <p>pages.workspace.noWorkspace</p>
-  <!---->
-  <!---->
-</div>
+<layout-with-header-stub chapters="" groupid="0">
+  <div class="generic-view-container p-mx-auto">
+    <h1 class="p-my-4 lck-color-title">
+      pages.workspace.title
+    </h1>
+    <div class="p-grid">
+      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item">
+        <div class="workspaces-button">
+          <div class="workspaces-detail">
+            <p-skeleton-stub shape="rectangle" width="10rem" height="2rem" animation="wave" class="workspaces-detail-title"></p-skeleton-stub>
+          </div>
+        </div>
+      </div>
+      <!---->
+      <!---->
+    </div>
+    <p-dialog-stub header="pages.workspace.form.create" modal="true" closable="true" closeonescape="true" showheader="true" basezindex="0" autozindex="true" ariacloselabel="close" position="center">
+      <lck-workspace-form-stub></lck-workspace-form-stub>
+    </p-dialog-stub>
+  </div>
+</layout-with-header-stub>
 `;
 
 exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "ADMIN" 1`] = `
-<div class="generic-view-container p-mx-auto" groupid="0">
-  <header class="p-my-4 lck-color-title">
-    pages.workspace.title
-  </header>
-  <!---->
-  <p>pages.workspace.noWorkspace</p>
-  <header class="p-my-4 lck-color-title">
-    pages.workspace.form.create
-  </header>
-  <p-card-stub class="p-mb-4 p-col p-fluid"><template></template> <template></template></p-card-stub>
-</div>
+<layout-with-header-stub chapters="" groupid="0">
+  <div class="generic-view-container p-mx-auto">
+    <h1 class="p-my-4 lck-color-title">
+      pages.workspace.title
+    </h1>
+    <div class="p-grid">
+      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item">
+        <div class="workspaces-button">
+          <div class="workspaces-detail">
+            <p-skeleton-stub shape="rectangle" width="10rem" height="2rem" animation="wave" class="workspaces-detail-title"></p-skeleton-stub>
+          </div>
+        </div>
+      </div>
+      <!---->
+      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item"><button class="workspaces-new"><i class="bi bi-file-plus workspaces-new-icon"></i>
+          <p class="p-button p-button-sm">pages.workspace.form.new</p>
+        </button></div>
+    </div>
+    <p-dialog-stub header="pages.workspace.form.create" modal="true" closable="true" closeonescape="true" showheader="true" basezindex="0" autozindex="true" ariacloselabel="close" position="center">
+      <lck-workspace-form-stub></lck-workspace-form-stub>
+    </p-dialog-stub>
+  </div>
+</layout-with-header-stub>
 `;
 
 exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "CREATOR" 1`] = `
-<div class="generic-view-container p-mx-auto" groupid="0">
-  <header class="p-my-4 lck-color-title">
-    pages.workspace.title
-  </header>
-  <!---->
-  <p>pages.workspace.noWorkspace</p>
-  <header class="p-my-4 lck-color-title">
-    pages.workspace.form.create
-  </header>
-  <p-card-stub class="p-mb-4 p-col p-fluid"><template></template> <template></template></p-card-stub>
-</div>
+<layout-with-header-stub chapters="" groupid="0">
+  <div class="generic-view-container p-mx-auto">
+    <h1 class="p-my-4 lck-color-title">
+      pages.workspace.title
+    </h1>
+    <div class="p-grid">
+      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item">
+        <div class="workspaces-button">
+          <div class="workspaces-detail">
+            <p-skeleton-stub shape="rectangle" width="10rem" height="2rem" animation="wave" class="workspaces-detail-title"></p-skeleton-stub>
+          </div>
+        </div>
+      </div>
+      <!---->
+      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item"><button class="workspaces-new"><i class="bi bi-file-plus workspaces-new-icon"></i>
+          <p class="p-button p-button-sm">pages.workspace.form.new</p>
+        </button></div>
+    </div>
+    <p-dialog-stub header="pages.workspace.form.create" modal="true" closable="true" closeonescape="true" showheader="true" basezindex="0" autozindex="true" ariacloselabel="close" position="center">
+      <lck-workspace-form-stub></lck-workspace-form-stub>
+    </p-dialog-stub>
+  </div>
+</layout-with-header-stub>
 `;
 
 exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "SUPERADMIN" 1`] = `
-<div class="generic-view-container p-mx-auto" groupid="0">
-  <header class="p-my-4 lck-color-title">
-    pages.workspace.title
-  </header>
-  <!---->
-  <p>pages.workspace.noWorkspace</p>
-  <header class="p-my-4 lck-color-title">
-    pages.workspace.form.create
-  </header>
-  <p-card-stub class="p-mb-4 p-col p-fluid"><template></template> <template></template></p-card-stub>
-</div>
+<layout-with-header-stub chapters="" groupid="0">
+  <div class="generic-view-container p-mx-auto">
+    <h1 class="p-my-4 lck-color-title">
+      pages.workspace.title
+    </h1>
+    <div class="p-grid">
+      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item">
+        <div class="workspaces-button">
+          <div class="workspaces-detail">
+            <p-skeleton-stub shape="rectangle" width="10rem" height="2rem" animation="wave" class="workspaces-detail-title"></p-skeleton-stub>
+          </div>
+        </div>
+      </div>
+      <!---->
+      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item"><button class="workspaces-new"><i class="bi bi-file-plus workspaces-new-icon"></i>
+          <p class="p-button p-button-sm">pages.workspace.form.new</p>
+        </button></div>
+    </div>
+    <p-dialog-stub header="pages.workspace.form.create" modal="true" closable="true" closeonescape="true" showheader="true" basezindex="0" autozindex="true" ariacloselabel="close" position="center">
+      <lck-workspace-form-stub></lck-workspace-form-stub>
+    </p-dialog-stub>
+  </div>
+</layout-with-header-stub>
 `;

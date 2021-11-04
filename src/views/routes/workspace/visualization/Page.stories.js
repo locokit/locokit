@@ -2,7 +2,7 @@
 import Page from './Page'
 
 export default {
-  title: 'views/visualize/Page',
+  title: 'views/routes/workspace/visualization/Page',
   component: Page,
 }
 
@@ -114,7 +114,7 @@ We can write in *italic*, **bold**, and ***both***.
               {
                 name: 'Page en construction',
                 type: 'image',
-                srcURL: './themes/locokit/img/logokit-grayscale.png',
+                srcURL: './themes/locokit/img/logo.svg',
               },
             ],
             displayMode: 'image',

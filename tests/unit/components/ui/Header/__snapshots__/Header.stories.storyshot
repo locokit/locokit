@@ -10,18 +10,16 @@ exports[`storyshots components/ui/Header Header with logo (required) 1`] = `
     <!---->
      
     <a
-      class="mock-link p-my-auto p-m-auto"
+      class="mock-link logo-link"
     >
       <img
-        alt="logo"
-        class="mobile-hide"
-        src="./themes/locokit/img/logo.svg"
+        class="logo-img"
+        src="/themes/locokit/img/logo.svg"
       />
        
       <img
-        alt="logo mobile"
-        class="mobile-show mobile-logo"
-        src="./themes/locokit/img/logo-mobile.svg"
+        class="logo-img mobile"
+        src="/themes/locokit/img/logo-mobile.svg"
       />
     </a>
      

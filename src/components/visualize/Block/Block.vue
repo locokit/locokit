@@ -7,18 +7,18 @@
           <p-button
             :title="$t('pages.workspace.block.drag')"
             class="p-button-lg p-button-text handle-block"
-            icon="pi pi-ellipsis-v"
+            icon="bi bi-grip-vertical"
           />
           <p-button
             :title="$t('pages.workspace.block.edit')"
             class="p-button-lg p-button-text edit-block-button"
-            icon="pi pi-pencil"
+            icon="bi bi-pencil"
             @click="$emit('update-block')"
           />
           <p-button
             :title="$t('pages.workspace.block.delete')"
             class="p-button-lg p-button-text remove-block-button"
-            icon="pi pi-trash"
+            icon="bi bi-trash"
             @click="$emit('confirm-delete-block')"
           />
         </span>
@@ -194,6 +194,7 @@ export default Vue.extend({
 .edit-block-line {
   display: flex;
   align-items: center;
+  padding-left: 0.5rem;
 }
 
 .handle-block {
@@ -202,7 +203,7 @@ export default Vue.extend({
 
 .edit-block-line .p-button {
   height: 100%;
-  color: var(--primary-color-darken);
+  color: var(--primary-color-dark);
 }
 
 .edit-block-line .p-buttonset {
@@ -218,6 +219,7 @@ export default Vue.extend({
 .editable-block .block-content {
   pointer-events: none;
   margin-bottom: 0.5rem;
+  padding: 0.5rem;
 }
 
 </style>

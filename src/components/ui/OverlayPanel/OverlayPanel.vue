@@ -72,12 +72,7 @@ export default {
 </script>
 
 <style scoped>
-/* /deep/ .p-button .p-button-icon {
-  line-height: 0.85rem;
-  font-size: 0.85rem;
-} */
-
-/deep/ .p-button {
+::v-deep .p-button {
   width: auto;
 }
 </style>

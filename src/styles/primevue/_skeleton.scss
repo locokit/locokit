@@ -1,0 +1,8 @@
+.p-skeleton {
+  background-color: #e9ecef;
+  border-radius: var(--border-radius);
+}
+
+.p-skeleton:after {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0));
+}

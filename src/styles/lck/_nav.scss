@@ -1,0 +1,78 @@
+// Left navbar for workspace admin view
+
+.lck-nav {
+  position: absolute;
+  z-index: 101;
+  width: var(--nav-width);
+  height: calc(100vh - var(--header-height));
+  background: var(--primary-color);
+  display: none;
+
+  &--active {
+    display: block;
+  }
+
+  &-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+
+  &-item {
+    text-align: center;
+
+    &-link {
+      width: 100%;
+      color: var(--primary-color-lighten);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-size-lg);
+      border-radius: 0;
+      width: 100%;
+      height: 3rem;
+
+
+      &:hover {
+        background: var(--primary-color-dark);
+      }
+
+      &:focus {
+        background: var(--primary-color-dark);
+        outline: none;
+        box-shadow: none;
+      }
+    }
+
+    .router-link-active {
+      position: relative;
+      color: var(--sidebar-text-color-active);
+      background: var(--sidebar-background-color);
+
+      &:focus-visible {
+        &::before {
+          content: '';
+          position: absolute;
+          z-index: 1;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          border-radius: var(--border-radius);
+          margin: var(--spacing-sm);
+          background: var(--primary-color);
+          opacity: .15;
+        }
+
+        .bi {
+          z-index: 2;
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 900px) {
+    position: relative;
+    display: block;
+  }
+}

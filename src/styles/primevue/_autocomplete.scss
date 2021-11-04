@@ -1,0 +1,90 @@
+.p-autocomplete .p-autocomplete-loader {
+  right: 0.5rem;
+}
+
+.p-autocomplete.p-autocomplete-dd .p-autocomplete-loader {
+  right: 2.857rem;
+}
+
+.p-autocomplete .p-autocomplete-multiple-container {
+  padding: 0.25rem 0.5rem;
+}
+
+.p-autocomplete .p-autocomplete-multiple-container:not(.p-disabled):hover {
+  border-color: var(--primary-color);
+}
+
+.p-autocomplete .p-autocomplete-multiple-container:not(.p-disabled).p-focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.2rem var(--primary-color-light);
+  border-color: var(--primary-color);
+}
+
+.p-autocomplete .p-autocomplete-multiple-container .p-autocomplete-input-token {
+  padding: 0.25rem 0;
+}
+
+.p-autocomplete .p-autocomplete-multiple-container .p-autocomplete-input-token input {
+  font-family: var(--font-family);
+  font-size: var(--font-size-lg);
+  color: var(--text-color);
+  padding: 0;
+  margin: 0;
+}
+
+.p-autocomplete .p-autocomplete-multiple-container .p-autocomplete-token {
+  padding: 0.25rem 0.5rem;
+  margin-right: 0.5rem;
+  background: var(--secondary-color-lighten);
+  color: var(--text-color);
+  border-radius: 16px;
+}
+
+.p-autocomplete .p-autocomplete-multiple-container .p-autocomplete-token .p-autocomplete-token-icon {
+  margin-left: 0.5rem;
+}
+
+.p-autocomplete.p-invalid.p-component>.p-inputtext {
+  border-color: var(--color-error);
+}
+
+.p-autocomplete-panel {
+  background: var(--color-white);
+  color: var(--text-color);
+  border: 0 none;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.p-autocomplete-panel .p-autocomplete-items {
+  padding: 0.5rem 0;
+}
+
+.p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  border: 0 none;
+  color: var(--text-color);
+  background: transparent;
+  transition: box-shadow 0.2s;
+  border-radius: 0;
+}
+
+.p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item:hover {
+  color: var(--text-color);
+  background: #e9ecef;
+}
+
+.p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item.p-highlight {
+  color: var(--text-color);
+  background: var(--primary-color-lighten);
+}
+
+.p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item-group {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  color: var(--text-color);
+  background: var(--color-white);
+  font-weight: var(--font-weight-medium);
+}

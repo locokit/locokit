@@ -72,7 +72,7 @@ afterClickOnItDisabled.args = {
 const attachments = [{
   id: 4,
   filepath: '',
-  filename: 'logokit-grayscale.png',
+  filename: 'logo.png',
   mime: 'image/png',
   thumbnail: true,
   workspace_id: '',

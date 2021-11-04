@@ -78,7 +78,7 @@
           {{ $t('pages.workspace.block.map.source') }} {{ index + 1 }}
           <p-button
             class="p-button-text delete-button"
-            icon="pi pi-trash"
+            icon="bi bi-trash"
             :title="$t('pages.workspace.block.map.deleteSource')"
             @click="$emit('delete-source', index)"
           />
@@ -318,7 +318,7 @@
               {{ $t('pages.workspace.block.map.popupField') }} {{ popupIndex + 1 }}
               <p-button
                 class="p-button-text delete-button"
-                icon="pi pi-trash"
+                icon="bi bi-trash"
                 :title="$t('pages.workspace.block.map.deletePopupField')"
                 @click="onPopupFieldDelete(source.popupSettings.contentFields, index, popupIndex)"
               />

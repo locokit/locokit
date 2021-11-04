@@ -42,6 +42,6 @@ export default Vue.extend({
   font-size: 1.5em;
   margin-block-start: 0.83em;
   margin-block-end: 0.83em;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 </style>

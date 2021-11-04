@@ -590,7 +590,6 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
             aria-owns="pv_id_4_list"
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
             id="bde4bbbd-2584-447f-acff-f434f53619da"
-            placeholder="Select an option"
             value="[object Object]"
           >
             <input
@@ -599,7 +598,7 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
               autocomplete="off"
               class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
               id="bde4bbbd-2584-447f-acff-f434f53619da"
-              placeholder="Start typing for suggestions"
+              placeholder="Select an option"
               role="searchbox"
               type="text"
             />
@@ -919,7 +918,6 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
             aria-owns="pv_id_3_list"
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
             id="bde4bbbd-2584-447f-acff-f434f53619da"
-            placeholder="Select an option"
             value="[object Object]"
           >
             <input
@@ -928,7 +926,7 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
               autocomplete="off"
               class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
               id="bde4bbbd-2584-447f-acff-f434f53619da"
-              placeholder="Start typing for suggestions"
+              placeholder="Select an option"
               role="searchbox"
               type="text"
             />
@@ -1248,7 +1246,6 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
             aria-owns="pv_id_2_list"
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
             id="bde4bbbd-2584-447f-acff-f434f53619da"
-            placeholder="Select an option"
             value="[object Object]"
           >
             <input
@@ -1257,7 +1254,7 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
               autocomplete="off"
               class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
               id="bde4bbbd-2584-447f-acff-f434f53619da"
-              placeholder="Start typing for suggestions"
+              placeholder="Select an option"
               role="searchbox"
               type="text"
             />
@@ -1577,7 +1574,6 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
             aria-owns="pv_id_1_list"
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
             id="bde4bbbd-2584-447f-acff-f434f53619da"
-            placeholder="Select an option"
             value="[object Object]"
           >
             <input
@@ -1586,7 +1582,7 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
               autocomplete="off"
               class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
               id="bde4bbbd-2584-447f-acff-f434f53619da"
-              placeholder="Start typing for suggestions"
+              placeholder="Select an option"
               role="searchbox"
               type="text"
             />

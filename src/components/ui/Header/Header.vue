@@ -1,6 +1,5 @@
 <template>
   <header
-    :class="{'has-burger-menu' : hasBurgerMenu}"
     class="lck-header p-px-2 p-d-flex p-jc-between"
   >
     <a
@@ -12,17 +11,15 @@
     </a>
     <router-link
       :to="ROUTES_PATH.WORKSPACE"
-      class="p-my-auto p-m-auto"
+      class="logo-link"
       @click.native="setToggle"
     >
       <img
-        class="mobile-hide"
-        alt="logo"
+        class="logo-img"
         :src="logoUrl"
       />
       <img
-        class="mobile-show mobile-logo"
-        alt="logo mobile"
+        class="logo-img mobile"
         :src="logoMobileUrl"
       />
     </router-link>
@@ -131,17 +128,10 @@ export default {
 }
 </script>
 
-<style scoped>
-.lck-header {
-  height: var(--header-height) !important;
-  border-bottom: 1px solid var(--header-border-bottom-color);
-  background-color: var(--header-background-color);
-  z-index: 1000;
-}
-
+<style lang="scss" scoped>
 .menu-button {
   line-height: var(--header-height);
-  display: none;
+  display: block;
   width: var(--header-height);
   height: var(--header-height);
   cursor: pointer;
@@ -151,17 +141,44 @@ export default {
 }
 
 .menu-button:hover {
-  background-color: var(--surface-c);
+  color: var(--primary-color-dark);
 }
 
 .menu-button i {
-  font-size: 24px;
+  font-size: 1.5rem;
   line-height: inherit;
 }
 
-@media screen and (max-width: 900px) {
-  .menu-button {
+.logo-link {
+  display: flex;
+  align-items: center;
+  width: 10rem;
+  margin: auto;
+}
+
+.logo-img {
+  &.mobile {
     display: block;
+  }
+  width: 100%;
+  height: calc(var(--header-height) - 0.5rem);
+  display: none;
+}
+
+.has-burger-menu .logo-link {
+  margin-left: -55px;
+}
+
+@media screen and (min-width: 900px) {
+  .menu-button {
+    display: none;
+  }
+  .logo-img {
+    margin: 0;
+    display: block;
+    &.mobile {
+      display: none;
+    }
   }
 }
 </style>

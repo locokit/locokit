@@ -6,39 +6,12 @@
     <div
       class="internal-nav-content"
     >
-      <!-- Demo Navbar with Anchor Link -->
-      <ul
-        v-if="editMode && containersToDisplayed.length === 0"
-        class="page-nav"
-      >
-        <li
-          class="page-nav-item anchor-link-container"
-        >
-          <a href="#">
-            <span>{{ $t('pages.workspace.container.title') }} 1</span>
-          </a>
-        </li>
-        <li
-          class="page-nav-item anchor-link-container"
-        >
-          <a href="#">
-            <i
-              class="p-mr-1 visible bi bi-exclamation-triangle warning"
-            />
-            <span>{{ $t('pages.workspace.container.title') }} 2</span>
-          </a>
-        </li>
-        <li
-          class="page-nav-item anchor-link-container"
-        >
-          <a href="#">
-            <i
-              class="p-mr-1 visible bi bi-info-circle primary"
-            />
-            <span>{{ $t('pages.workspace.container.title') }} 3</span>
-          </a>
-        </li>
-      </ul>
+      <!-- Navbar with no Anchor Link -->
+      <div v-if="editMode && containersToDisplayed.length === 0">
+        {{ $t('pages.workspace.page.navigationSubject') }}
+        <br/>
+        {{ $t('pages.workspace.page.navigationExplain') }}
+      </div>
       <!-- Navbar with Anchor Link -->
       <ul
         v-else
@@ -71,9 +44,9 @@
     <span class="edit-mode-toggle">
     <p-button
       v-if="editMode"
-      :title="$t('pages.workspace.container.edit')"
+      :title="$t('pages.workspace.page.navigationEditButton')"
       class="p-button-lg p-button-text edit-container-button"
-      icon="pi pi-pencil"
+      icon="bi bi-pencil"
       @click="$emit('edit-nav')"
     />
   </span>
@@ -139,7 +112,7 @@ export default Vue.extend({
   left: 0;
   right: 0;
   z-index: 500;
-  background-color: var(--popeyebar-background-color);
+  background-color: rgba(255, 255, 255, 0.9);
   margin: 1rem 0;
   display: flex;
   justify-content: space-between;
@@ -179,7 +152,7 @@ export default Vue.extend({
 .page-nav-item > a > i {
   border-radius: 4px;
   margin-right: 0.5rem;
-  background-color: var(--popeyebar-icon-background);
+  background-color: unset;
 }
 .page-nav-item > a > i.danger {
 color: var(--color-error);
@@ -211,7 +184,7 @@ color: var(--color-error);
   bottom: 0;
   left: 0;
   right: 0;
-  border-bottom: 2px solid var(--primary-color-darken);
+  border-bottom: 2px solid var(--primary-color-dark);
   width: 100%;
 }
 

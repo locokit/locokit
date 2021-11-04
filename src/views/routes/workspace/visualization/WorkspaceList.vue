@@ -1,155 +1,98 @@
 <template>
-  <div class="generic-view-container p-mx-auto">
-    <header class="p-my-4 lck-color-title">
-      {{ $t('pages.workspace.title') }}
-    </header>
+  <layout-with-header>
+    <div class="generic-view-container p-mx-auto">
+      <h1 class="p-my-4 lck-color-title">
+        {{ $t('pages.workspace.title') }}
+      </h1>
 
-    <p-card v-if="loading">
-      <template slot="content">
-        <p-skeleton
-          width="10rem"
-          class="p-mb-2"
-        ></p-skeleton>
-        <p-skeleton class="p-mb-2"></p-skeleton>
-        <p-skeleton
-          width="10rem"
-          height="2rem"
-        ></p-skeleton>
-      </template>
-    </p-card>
-
-    <p v-if="!loading && groups.length === 0">{{ $t('pages.workspace.noWorkspace') }}</p>
-
-    <p-card
-      class="p-mb-4 p-col"
-      v-for="group in groups"
-      :key="group.id"
-    >
-      <template slot="title">
-        {{ group.aclset.workspace.text }}
-      </template>
-      <template slot="content">
-        <p>
-          Group: {{ group.name }}
-        </p>
-        <p>
-          {{ group.aclset.workspace.documentation }}
-        </p>
-        <div class="action-button-content p-d-flex">
-          <router-link
-            class="no-decoration-link p-mr-2"
-            :to="`${ROUTES_PATH.WORKSPACE}/${group.id}${ROUTES_PATH.VISUALIZATION}`"
-          >
-            <p-button
-              :label="$t('pages.workspace.buttonVisualization')"
-              icon="bi bi-eye"
-            />
-          </router-link>
-          <template v-if="group.aclset.workspace.databases.length > 0 && group.aclset.manager">
-            <router-link
-              v-if="group.aclset.workspace.databases.length === 1"
-              class="no-decoration-link p-mr-2"
-              :to="`${ROUTES_PATH.WORKSPACE}/${group.id}${ROUTES_PATH.DATABASE}/${group.aclset.workspace.databases[0].id}`"
-            >
-              <p-button
-                :label="$t('pages.workspace.buttonDatabase')"
-                icon="bi bi-server"
-              />
-            </router-link>
-            <lck-dropdown-button
-              v-else
-              class="no-decoration-link p-mr-2"
-              :label="$t('pages.workspace.buttonDatabase')"
-              :model="transformDatabases(group.id, group.aclset.workspace.databases)"
-            />
-            <router-link
-              v-if="group.aclset.workspace.databases.length === 1"
-              class="no-decoration-link p-mr-2"
-              :to="`${ROUTES_PATH.WORKSPACE}/${group.id}${ROUTES_PATH.DATABASE}/${group.aclset.workspace.databases[0].id}${ROUTES_PATH.DATABASESCHEMA}`"
-            >
-              <p-button
-                :label="$t('pages.workspace.buttonSchema')"
-                icon="bi bi-diagram-3"
-              />
-            </router-link>
-            <lck-dropdown-button
-              v-else
-              class="no-decoration-link p-mr-2"
-              :label="$t('pages.workspace.buttonSchema')"
-              :model="transformDatabases(group.id, group.aclset.workspace.databases, true)"
-            />
-            <router-link
-              class="no-decoration-link p-mr-2"
-              :to="`${ROUTES_PATH.WORKSPACE}/${group.id}${ROUTES_PATH.PROCESS}`"
-            >
-              <p-button
-                :label="$t('pages.workspace.buttonProcess')"
-                icon="bi bi-lightning"
-              />
-            </router-link>
-            <router-link
-              class="no-decoration-link p-mr-2"
-              :to="{ name: ROUTES_NAMES.ACL, params: { workspaceId: group.aclset.workspace.id } }"
-            >
-              <p-button
-                :label="$t('pages.workspace.buttonAcl')"
-                icon="pi pi-key"
-              />
-            </router-link>
-          </template>
+      <div class="p-grid">
+        <div v-if="loading" class="p-col-12 p-md-4 p-lg-3 workspaces-item">
+          <div class="workspaces-button">
+            <div class="workspaces-detail">
+              <p-skeleton
+                class="workspaces-detail-title"
+                width="10rem"
+                height="2rem"
+              ></p-skeleton>
+            </div>
+          </div>
         </div>
-      </template>
-    </p-card>
 
-    <header
-      class="p-my-4 lck-color-title"
-      v-if="$can('create', 'workspace')"
-    >
-      {{ $t('pages.workspace.form.create') }}
-    </header>
-    <p-card
-      class="p-mb-4 p-col p-fluid"
-      v-if="$can('create', 'workspace')"
-    >
-      <template slot="title">
-        <p-input-text
-          :placeholder="$t('pages.workspace.form.textPlaceholder')"
-          v-model="newWorkspace.text"
-        />
-      </template>
-      <template slot="content">
-        <label>{{ $t('pages.workspace.form.docLabel') }}</label>
-        <p-textarea
-          :placeholder="$t('pages.workspace.form.docPlaceholder')"
-          class="p-mb-2"
-          :autoResize="true"
-          v-model="newWorkspace.documentation"
-        />
-        <br />
-        <p-button
-          icon="pi pi-plus-circle"
-          :label="$t('pages.workspace.form.create')"
-          @click="createWorkspace"
-        />
-      </template>
-    </p-card>
+        <p v-if="!loading && workspaces.length === 0">{{ $t('pages.workspace.noWorkspace') }}</p>
 
-  </div>
+        <div v-for="workspace in workspaces" :key="workspace.id" class="p-col-12 p-md-4 p-lg-3 workspaces-item">
+          <div
+            class="workspaces-button p-mr-2"
+            :style="{
+              backgroundColor: workspace.backgroundColor || 'inherit'
+            }"
+          >
+            <router-link
+              class="workspaces-detail"
+              :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}`"
+              :style="{
+                color: workspace.color || 'inherit'
+              }"
+            >
+              <p class="workspaces-detail-title">{{ workspace.text }}</p>
+              {{ workspace.documentation }}
+            </router-link>
+
+            <router-link
+              v-if="workspace.isManager"
+              class="workspaces-admin"
+              :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.ADMIN}`"
+              :style="{
+                color: workspace.color || 'inherit',
+              }"
+            >
+              <i class="bi bi-sliders"></i>
+            </router-link>
+
+            <i v-if="workspace.icon" class="workspaces-icon bi" :class="workspace.icon" />
+          </div>
+        </div>
+
+        <div v-if="$can('create', 'workspace')" class="p-col-12 p-md-4 p-lg-3 workspaces-item">
+          <button class="workspaces-new" @click="dialogVisible = true">
+            <i class="bi bi-file-plus workspaces-new-icon"></i>
+            <p class="p-button p-button-sm">{{ $t('pages.workspace.form.new') }}</p>
+          </button>
+        </div>
+      </div>
+
+      <p-dialog
+        :header="$t('pages.workspace.form.create')"
+        :modal="true"
+        :visible="dialogVisible"
+        @update:visible="dialogVisible = false"
+      >
+
+        <lck-workspace-form
+          :submitting="submitting"
+          @cancel="dialogVisible = false"
+          @input="createWorkspace"
+        />
+
+      </p-dialog>
+    </div>
+  </layout-with-header>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
-import { authState } from '@/store/auth'
 import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
+import { AuthState, authState } from '@/store/auth'
+import { ColorScheme, COLOR_SCHEME } from '@/services/lck-utils/color'
 
-import Card from 'primevue/card'
-import Button from 'primevue/button'
-import InputText from 'primevue/inputtext'
-import Textarea from 'primevue/textarea'
 import Skeleton from 'primevue/skeleton'
 
-import DropdownButton from '@/components/ui/DropdownButton/DropdownButton'
+import WorkspaceForm from '@/components/visualize/WorkspaceForm/WorkspaceForm.vue'
+
 import { lckServices } from '@/services/lck-api'
+import Dialog from 'primevue/dialog/Dialog'
+import { LckDatabase, LckWorkspace } from '@/services/lck-api/definitions'
+import WithHeader from '@/layouts/WithHeader.vue'
 
 const WORKSPACE_ROLE = {
   OWNER: 'OWNER',
@@ -160,50 +103,80 @@ const WORKSPACE_ROLE = {
 export default {
   name: 'WorkspaceList',
   components: {
-    'p-card': Vue.extend(Card),
-    'p-button': Vue.extend(Button),
-    'p-input-text': Vue.extend(InputText),
-    'p-textarea': Vue.extend(Textarea),
+    'layout-with-header': Vue.extend(WithHeader),
+    'lck-workspace-form': Vue.extend(WorkspaceForm),
+    'p-dialog': Vue.extend(Dialog),
     'p-skeleton': Vue.extend(Skeleton),
-    'lck-dropdown-button': Vue.extend(DropdownButton),
   },
-  data () {
+  data (): {
+    loading: boolean;
+    submitting: boolean;
+    dialogVisible: boolean;
+    ROUTES_PATH: typeof ROUTES_PATH;
+    ROUTES_NAMES: typeof ROUTES_NAMES;
+    authState: AuthState;
+    colorScheme: ColorScheme[];
+    WORKSPACE_ROLE: typeof WORKSPACE_ROLE;
+    newWorkspace: Partial<LckWorkspace>;
+    newWorkspaceColorScheme: ColorScheme | null;
+    workspaces: {
+      id: string;
+      text: string;
+      color?: string | null;
+      backgroundColor?: string | null;
+      icon?: string | null;
+      isManager: boolean;
+    }[];
+    } {
     return {
       loading: false,
+      submitting: false,
+      dialogVisible: false,
       ROUTES_PATH,
       ROUTES_NAMES,
       authState,
       WORKSPACE_ROLE,
+      colorScheme: COLOR_SCHEME,
       newWorkspace: {
         text: '',
         documentation: '',
+        settings: {},
       },
-      groups: [],
+      newWorkspaceColorScheme: null,
+      workspaces: [],
     }
   },
   methods: {
-    transformDatabases (groupId, databases, schema = false) {
+    transformDatabases (groupId: string, databases: LckDatabase[], schema = false) {
       return databases.map(({ text, id }) => ({
         id,
         label: text,
         to: `${ROUTES_PATH.WORKSPACE}/${groupId}${ROUTES_PATH.DATABASE}/${id}${schema ? ROUTES_PATH.DATABASESCHEMA : ''}`,
       }))
     },
-    async createWorkspace () {
+    onColorSelect (event: { value: ColorScheme | null}) {
+      this.newWorkspaceColorScheme = event.value
+      if (event.value) {
+        if (!this.newWorkspace.settings) {
+          this.newWorkspace.settings = {}
+        }
+        this.newWorkspace.settings.color = event.value.color
+        this.newWorkspace.settings.backgroundColor = event.value.backgroundColor
+      }
+    },
+    async createWorkspace (newWorkspace: LckWorkspace) {
+      this.submitting = true
       try {
-        await lckServices.workspace.create(this.newWorkspace)
+        await lckServices.workspace.create(newWorkspace)
         this.$toast.add({
           severity: 'success',
           summary: this.$t('pages.workspace.form.createdSummary'),
           detail: this.$t('pages.workspace.form.createdDetail'),
           life: 5000,
         })
-        this.newWorkspace = {
-          text: '',
-          documentation: '',
-        }
+        this.dialogVisible = false
         this.fetchUserGroups()
-      } catch (error) {
+      } catch (error: any) {
         this.$toast.add({
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
@@ -211,17 +184,34 @@ export default {
           life: 5000,
         })
       }
+      this.submitting = false
     },
     async fetchUserGroups () {
       this.loading = true
-      this.groups = await lckServices.group.find({
+      const userWorkspaces = await lckServices.workspace.find({
         query: {
-          // eslint-disable-next-line @typescript-eslint/camelcase
-          $eager: '[aclset.[workspace.[databases]]]',
-          $joinRelation: 'users',
-          'users.id': authState.data.user.id,
+          $eager: '[aclsets]',
+          $joinRelation: '[aclsets.[groups.[users]]]',
+          'aclsets:groups:users.id': authState?.data?.user?.id,
           $limit: -1,
         },
+      }) as LckWorkspace[]
+      this.workspaces = userWorkspaces.map((w: LckWorkspace) => {
+        const currentWorkspace = {
+          id: w.id,
+          text: w.text,
+          icon: w.settings?.icon,
+          color: w.settings?.color,
+          backgroundColor: w.settings?.backgroundColor,
+          isManager: false,
+        }
+        // eslint-disable-next-line no-unused-expressions
+        w.aclsets?.forEach(function (aclset) {
+          if (aclset.manager) {
+            currentWorkspace.isManager = true
+          }
+        })
+        return currentWorkspace
       })
       this.loading = false
     },
@@ -235,17 +225,21 @@ export default {
    * => we check before executing we are on the "good" component...
    */
   async beforeRouteEnter (to, from, next) {
-    if (to.name !== 'WorkspaceList') next()
+    if (to.name !== ROUTES_NAMES.WORKSPACELIST) next()
     const userWorkspacesAvailable = authState?.data?.user?.groups
     if (
-      !userWorkspacesAvailable.some(({ aclset }) => aclset.manager) &&
-      userWorkspacesAvailable.length === 1
+      !userWorkspacesAvailable?.some(({ aclset }) => aclset?.manager) &&
+      userWorkspacesAvailable?.length === 1
     ) {
       // only one workspace, user is not a member of a group-aclset manager
       // we redirect user on the visualization route
       authState.data.currentGroupId = userWorkspacesAvailable[0].id
       next({
-        path: `${ROUTES_PATH.WORKSPACE}/${authState.data.currentGroupId}${ROUTES_PATH.VISUALIZATION}`,
+        name: ROUTES_NAMES.WORKSPACE,
+        params: {
+          workspaceId: userWorkspacesAvailable[0].aclset?.workspace_id as string,
+          groupId: authState.data.currentGroupId,
+        },
       })
     } else {
       next()
@@ -253,3 +247,116 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+.workspaces {
+  &-item {
+    padding: .75rem;
+  }
+
+  &-button {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--spacing);
+    min-height: 10rem;
+    box-sizing: border-box;
+    background: var(--color-white);
+    align-content: center;
+    text-align: center;
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    box-shadow: 0 1px 3px 2px rgba(141, 27, 27, 0.04);
+    transition: box-shadow .3s;
+    font-weight: var(--font-weight-bold);
+  }
+
+  &-detail {
+    position: relative;
+    z-index: 2;
+    text-decoration: none;
+    cursor: pointer;
+
+    &-title {
+      margin: 0 auto;
+      font-size: 1.6rem;
+      word-wrap: break-word;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &-admin {
+    position: absolute;
+    z-index: 3;
+    top: var(--spacing);
+    right: var(--spacing);
+    cursor: pointer;
+    text-decoration: none;
+
+    &:before {
+        position: absolute;
+        content: '';
+        display: block;
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 3rem;
+        padding: 2rem;
+        opacity: 0.1;
+        bottom: -1.125rem;
+        right: -3.25rem;
+        transition: ease background-color .2s;
+      }
+
+    &:hover {
+      &:before {
+        background: currentColor;
+      }
+    }
+  }
+
+  &-icon {
+    position: absolute;
+    z-index: 1;
+    left: -.75rem;
+    bottom: -.75rem;
+    font-size: 8rem;
+    opacity: .1;
+  }
+
+  &-new {
+    padding: var(--spacing);
+    width: 100%;
+    min-height: 10rem;
+    width: 100%;
+    border-radius: var(--border-radius);
+    border: dashed 2px var(--secondary-color-light);
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--primary-color);
+
+    &-icon {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    &:hover {
+      border-color: var(--primary-color);
+      background-color: var(--primary-color-lighten);
+    }
+
+    &:focus {
+      outline: none;
+      background-color: var(--primary-color-lighten);
+
+      .p-button {
+        background-color: var(--primary-color-dark);
+      }
+    }
+  }
+}
+</style>

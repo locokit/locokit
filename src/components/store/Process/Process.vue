@@ -1,81 +1,75 @@
 <template>
-  <div class="p-fluid p-d-flex p-flex-column" style="position: relative;">
-    <h3>
-      {{ process.text }}
-    </h3>
-    <p-button
-      class="p-button-sm p-button-danger"
-      icon="pi pi-trash"
-      @click="$emit('delete', process.id)"
-      style="position: absolute; top: .5rem; right: .5rem;width: auto;"
-      :disabled="process.runs && process.runs.length > 0"
-    />
-    <p-tab-view class="lck-process-tab">
-      <p-tab-panel
-        :header="$t('components.process.headerProperties')"
-      >
-        <lck-process-form
-          :process="process"
-          :submitting="submitting"
-          @input="$emit('input', $event)"
-          @cancel="$emit('cancel')"
-          :table-id="tableId"
-          :tables="suggestionsTable"
-          :columns="suggestionsColumn"
-          @search-table="$emit('search-table', $event)"
-          @search-column="$emit('search-column', $event)"
+  <p-card >
+    <template #title>
+      {{ process.text || $t('components.process.createTitle') }}
+    </template>
+    <template #content>
+      <lck-process-form
+        :process="process"
+        :submitting="submitting"
+        @input="$emit('input', $event)"
+        @cancel="$emit('cancel')"
+        :table-id="tableId"
+        :tables="suggestionsTable"
+        :columns="suggestionsColumn"
+        @search-table="$emit('search-table', $event)"
+        @search-column="$emit('search-column', $event)"
+      />
+      <div class="p-mx-auto" v-if="process.id">
+        <p-button
+          class="p-button-sm p-button-danger"
+          icon="bi bi-trash"
+          @click="$emit('delete', process.id)"
+          :disabled="process.runs && process.runs.length > 0"
+          :label="$t('components.process.removeButtonLabel')"
         />
-      </p-tab-panel>
-      <p-tab-panel v-if="process.id">
-        <template #header>
-          <span class="p-tabview-title">
+        <div v-if="process.runs && process.runs.length > 0">
+          <h4 class="p-tabview-title">
             {{ $t('components.process.headerRuns') }}
-          </span>
-          <span
-            v-if="process.runs && process.runs.length > 0"
-            class="p-ml-1"
-          >
-            ({{ process.runs.length }})
-          </span>
+            <span class="p-ml-1">
+              ({{ process.runs.length }})
+            </span>
+          </h4>
           <p-button
             icon="pi pi-refresh"
             @click="$emit('refresh-runs', process)"
-            class="p-button-sm p-button-text p-p-0"
+            class="p-button-sm"
+            style="width: auto"
+            :label="$t('components.process.refreshButtonLabel')"
           />
-        </template>
-        <p-accordion
-          :multiple="true"
-          v-if="process.runs && process.runs.length > 0"
-        >
-          <p-accordion-tab
-            v-for="run in process.runs"
-            :key="run.id"
+          <p-accordion
+            :multiple="true"
+            v-if="process.runs && process.runs.length > 0"
           >
-            <template #header>
-              {{ run.createdAt }} -
-              {{ run.status }} -
-              {{ run.duration }}
-            </template>
-            <pre>{{ run.log }}</pre>
-          </p-accordion-tab>
-        </p-accordion>
+            <p-accordion-tab
+              v-for="run in process.runs"
+              :key="run.id"
+            >
+              <template #header>
+                {{ run.createdAt }} -
+                {{ run.status }} -
+                {{ run.duration }}
+              </template>
+              <pre>{{ run.log }}</pre>
+            </p-accordion-tab>
+          </p-accordion>
+        </div>
         <p v-else class="p-p-1">
           {{ $t('components.process.noRun') }}
         </p>
-      </p-tab-panel>
-    </p-tab-view>
-  </div>
+      </div>
+    </template>
+  </p-card>
 </template>
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import TabView from 'primevue/tabview'
-import TabPanel from 'primevue/tabpanel'
 import Button from 'primevue/button'
 import Accordion from 'primevue/accordion'
 import AccordionTab from 'primevue/accordiontab'
 import ProcessForm from './ProcessForm.vue'
 import { LckProcess } from '@/services/lck-api/definitions'
+import Card from 'primevue/card'
 
 export default {
   name: 'LckProcess',
@@ -107,8 +101,7 @@ export default {
   },
   components: {
     'p-button': Vue.extend(Button),
-    'p-tab-view': Vue.extend(TabView),
-    'p-tab-panel': Vue.extend(TabPanel),
+    'p-card': Vue.extend(Card),
     'p-accordion': Vue.extend(Accordion),
     'p-accordion-tab': Vue.extend(AccordionTab),
     'lck-process-form': ProcessForm,
@@ -122,19 +115,19 @@ pre {
   overflow: auto;
 }
 
-/deep/ .lck-process-tab.p-tabview .p-tabview-nav {
+::v-deep .lck-process-tab.p-tabview .p-tabview-nav {
   background-color: transparent;
   overflow: auto;
   border: unset;
   flex-wrap: unset;
 }
 
-/deep/ .lck-process-tab.p-tabview .p-tabview-nav .p-tabview-title{
+::v-deep .lck-process-tab.p-tabview .p-tabview-nav .p-tabview-title{
   line-height: inherit;
   color: var(--primary-color)
 }
 
-/deep/ .lck-process-tab.p-tabview .p-tabview-panels {
+::v-deep .lck-process-tab.p-tabview .p-tabview-panels {
   padding: 0.5rem;
   flex: 1;
   display: flex;
@@ -142,25 +135,25 @@ pre {
   background-color: unset;
 }
 
-/deep/ .lck-process-tab.p-tabview .p-tabview-panels .p-tabview-panel {
+::v-deep .lck-process-tab.p-tabview .p-tabview-panels .p-tabview-panel {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-/deep/ .lck-process-tab.p-tabview .p-tabview-nav li {
+::v-deep .lck-process-tab.p-tabview .p-tabview-nav li {
   white-space: nowrap;
 }
 
-/deep/ .lck-process-tab.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+::v-deep .lck-process-tab.p-tabview .p-tabview-nav li .p-tabview-nav-link {
   padding: 0.25rem;
-  font-weight: normal;
+  font-weight: var(--font-weight-regular);
   margin: 0.25rem;
 }
 
 pre {
-  font-size: .8rem;
+  font-size: var(--font-size-sm);
   line-height: 1rem;
 }
 </style>

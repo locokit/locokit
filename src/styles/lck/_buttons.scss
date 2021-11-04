@@ -1,65 +1,4 @@
 // buttons
-
-.p-button {
-  border-color: var(--surface-a);
-  background-color: var(--surface-a);
-
-  &:enabled {
-    &:hover {
-      border-color: var(--primary-color-darken);
-      background-color: var(--primary-color-darken);
-    }
-  }
-
-  &.p-button-outlined {
-    color: var(--primary-color);
-
-    &:enabled {
-      &:hover {
-        color: var(--surface-lck-2);
-        background-color: var(--primary-color);
-      }
-
-      &.p-disabled {
-        &:hover {
-          color: var(--primary-color);
-          background-color: transparent;
-        }
-      }
-    }
-  }
-
-  &.p-button-text {
-    color: var(--primary-color);
-
-    &:enabled {
-      &:hover {
-        color: var(--primary-color);
-      }
-    }
-  }
-
-  &.p-togglebutton {
-    &.p-highlight {
-      border-color: var(--primary-color);
-      background-color: var(--primary-color);
-
-      &:hover {
-        border-color: var(--primary-color-darken);
-        background-color: var(--primary-color-darken);
-      }
-    }
-  }
-}
-
-.p-button {
-  &.p-disabled {
-    &:hover {
-      background-color: none;
-    }
-  }
-}
-
 .p-fluid {
   .p-buttonset {
     display: flex;
@@ -84,23 +23,8 @@
     background-color: transparent;
 
     &:hover {
-      color: #ffffff;
-      background-color: var(--primary-color-darken);
+      color: var(--color-white);
+      background-color: var(--primary-color-dark);
     }
   }
 }
-
-.p-button {
-  &.p-button-secondary {
-    border-color: var(--secondary-color);
-    background-color: var(--secondary-color);
-
-    &:enabled {
-      &:hover {
-        border-color: var(--secondary-color-darken);
-        background-color: var(--secondary-color-darken);
-      }
-    }
-  }
-}
-

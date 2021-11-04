@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { mount, shallowMount } from '@vue/test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import { flushAll } from '@/../tests/unit/local-test-utils'
+import VueRouter from 'vue-router'
+import { ROUTES_NAMES, ROUTES_PATH } from '@/router/paths'
 
 import { LckAclTable as MockLckAclTable, LckAclSet as MockLckAclSet } from '@/services/lck-api/definitions'
 import { lckServices } from '@/services/lck-api'
@@ -33,7 +35,7 @@ const mockTables = [
 ]
 
 const mockAclTables = [
-  { id: 'acltable1_id', ...new MockLckAclTable('aclset1_id', mockTables[0]) },
+  { ...new MockLckAclTable('aclset1_id', mockTables[0]) },
   { id: 'acltable2_id', ...new MockLckAclTable('aclset1_id', mockTables[1]) },
 ]
 
@@ -72,21 +74,56 @@ const mockWorkspaces = [
   },
 ]
 
-const globalComponentParams = (workspaceId) => ({
-  propsData: {
-    workspaceId,
-  },
-  mocks: {
-    $confirm: {
-      require: ({ accept }) => accept(), // We simulate that the user confirm
+const mockRoutes = [
+  {
+    path: ROUTES_PATH.ACLSET,
+    name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL,
+    component: AclSetListing,
+    props: true,
+    meta: {
+      needAuthentication: true,
+      hasBurgerMenu: true,
     },
-    t: key => key,
-    $t: key => key,
-    $toast: {
-      add: jest.fn(),
-    },
+    children: [{
+      path: ROUTES_PATH.ACLSET + '/:aclSetId',
+      name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL_DETAIL,
+      component: AclSetListing,
+      props: true,
+      meta: {
+        needAuthentication: true,
+        hasBurgerMenu: true,
+      },
+    }],
   },
-})
+]
+
+const globalComponentParams = (workspaceId, aclSetId = null) => {
+  const localVue = createLocalVue()
+  const router = new VueRouter({ routes: mockRoutes })
+  localVue.use(VueRouter)
+
+  return {
+    localVue,
+    router,
+    propsData: {
+      workspaceId,
+      aclSetId,
+    },
+    mocks: {
+      $confirm: {
+        require: ({ accept }) => accept(), // We simulate that the user confirm
+      },
+      t: key => key,
+      $t: key => key,
+      $toast: {
+        add: jest.fn(),
+      },
+      $route: {
+        params: {},
+      },
+    },
+  }
+}
 
 // Method to make an object deep copy
 function mockDeepCloneObject (object, defaultValue = {}) {
@@ -140,28 +177,28 @@ describe('AclSetListing', () => {
 
   it('display a message if there is no aclsets', async () => {
     expect.assertions(1)
-    const wrapper = await shallowMount(AclSetListing, globalComponentParams('unknown_workspace'))
+    const wrapper = await mount(AclSetListing, globalComponentParams('unknown_workspace'))
     await flushAll()
     expect(wrapper).toMatchSnapshot()
   })
 
   it('display a list of aclsets if there are ones', async () => {
     expect.assertions(1)
-    const wrapper = await shallowMount(AclSetListing, globalComponentParams(mockWorkspaces[0].id))
+    const wrapper = await mount(AclSetListing, globalComponentParams(mockWorkspaces[0].id))
     await flushAll()
     expect(wrapper).toMatchSnapshot()
   })
 
   it('create a new aclset', async () => {
-    expect.assertions(5)
+    expect.assertions(6)
     const wrapper = await mount(AclSetListing, globalComponentParams(mockWorkspaces[0].id))
     await flushAll()
     // The aclset form is not displayed by default
     expect(wrapper.findComponent(AclSetForm).exists()).toBe(false)
     // But the list of the created aclsets is displayed
-    expect(wrapper.findAll('.lck-aclset-item').length).toBe(2)
+    expect(wrapper.findAll('.lck-sidebar-link').length).toBe(2)
     // Display the aclset form on button click
-    const buttonToAdd = wrapper.find('.add-aclset-button')
+    const buttonToAdd = wrapper.find('.p-button.p-button-primary')
     await buttonToAdd.trigger('click')
     const formWrapper = wrapper.findComponent(AclSetForm)
     expect(formWrapper.exists()).toBe(true)
@@ -177,20 +214,22 @@ describe('AclSetListing', () => {
       manager: true,
       workspace_id: mockWorkspaces[0].id,
     })
+    await flushAll()
     // Come back to the list of the created aclsets that contains now the new aclset
-    await wrapper.find('.aclset-listing-button').trigger('click')
-    expect(wrapper.findAll('.lck-aclset-item').length).toBe(3)
+    expect(wrapper.findAll('.lck-sidebar-link').length).toBe(3)
+    expect(wrapper).toMatchSnapshot()
   })
 
   it('remove an aclset', async () => {
     expect.assertions(4)
-    const wrapper = await mount(AclSetListing, globalComponentParams(mockWorkspaces[0].id))
+    const wrapper = await mount(AclSetListing, globalComponentParams(mockWorkspaces[0].id, mockAclSets[0].id))
     await flushAll()
     // But the list of the created aclsets is displayed
-    const items = wrapper.findAll('.lck-aclset-item')
+    const items = wrapper.findAll('.lck-sidebar-link')
     expect(items.length).toBe(2)
     await items.at(0).trigger('click')
     // Display the aclset form on button click
+    await flushAll()
     const formWrapper = wrapper.findComponent(AclSetForm)
     expect(formWrapper.exists()).toBe(true)
     // After clicking on the deletion button, use the api to remove the aclset
@@ -198,16 +237,16 @@ describe('AclSetListing', () => {
     await flushAll()
     expect(lckServices.aclset.remove).toHaveBeenLastCalledWith(mockWorkspaces[0].aclsets[0].id)
     // We come back to the list of the created aclsets that no contains anymore the deleted aclset
-    expect(wrapper.findAll('.lck-aclset-item').length).toBe(1)
+    expect(wrapper.findAll('.lck-sidebar-link').length).toBe(1)
   })
 
   it('update an aclset', async () => {
     expect.assertions(3)
     const currentAclset = mockWorkspaces[0].aclsets[0]
-    const wrapper = await mount(AclSetListing, globalComponentParams(mockWorkspaces[0].id))
+    const wrapper = await mount(AclSetListing, globalComponentParams(mockWorkspaces[0].id, mockAclSets[0].id))
     await flushAll()
     // Display the aclset form on button click
-    await wrapper.find('.lck-aclset-item').trigger('click')
+    await wrapper.find('.lck-sidebar-link').trigger('click')
     const formWrapper = wrapper.findComponent(AclSetForm)
     expect(formWrapper.exists()).toBe(true)
     // Edit the form
@@ -227,13 +266,13 @@ describe('AclSetListing', () => {
 
   it('add a new acltable to an aclset', async () => {
     expect.assertions(2)
-    const currentAclset = mockWorkspaces[0].aclsets[1]
-    const wrapper = await mount(AclSetListing, globalComponentParams(mockWorkspaces[0].id))
+    const currentAclset = mockWorkspaces[0].aclsets[0]
+    const wrapper = await mount(AclSetListing, globalComponentParams(mockWorkspaces[0].id, mockAclSets[0].id))
     await flushAll()
     // Display the aclset form on button click
-    await wrapper.findAll('.lck-aclset-item').at(1).trigger('click')
+    // await wrapper.findAll('.lck-sidebar-link').at(1).trigger('click')
     // Go to the acltable configuration tab
-    await wrapper.findAll('.p-tabview-nav-link').at(1).trigger('click')
+    // await wrapper.findAll('.p-tabview-nav-link').at(1).trigger('click')
     // After editing a value in the table, use the api to create a new acltable
     await wrapper.find('.p-datatable-tbody button').trigger('click')
     expect(lckServices.acltable.create).toHaveBeenCalledWith({
@@ -247,15 +286,15 @@ describe('AclSetListing', () => {
 
   it('patch an acltable of an aclset', async () => {
     expect.assertions(2)
-    const wrapper = await mount(AclSetListing, globalComponentParams(mockWorkspaces[0].id))
+    const wrapper = await mount(AclSetListing, globalComponentParams(mockWorkspaces[0].id, mockAclSets[0].id))
     await flushAll()
     // Display the aclset form on button click
-    await wrapper.find('.lck-aclset-item').trigger('click')
+    // await wrapper.find('.lck-sidebar-link').trigger('click')
     // Go to the acltable configuration tab
-    await wrapper.findAll('.p-tabview-nav-link').at(1).trigger('click')
+    // await wrapper.findAll('.p-tabview-nav-link').at(1).trigger('click')
     // After editing a value in the table, use the api to patch the existing acltable
-    await wrapper.find('.p-datatable-tbody button').trigger('click')
-    expect(lckServices.acltable.patch).toHaveBeenCalledWith(mockAclTables[0].id, {
+    await wrapper.find('.p-datatable-tbody tr:nth-child(2) button').trigger('click')
+    expect(lckServices.acltable.patch).toHaveBeenCalledWith(mockAclTables[1].id, {
       create_rows: true,
     })
     await flushAll()

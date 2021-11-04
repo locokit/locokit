@@ -384,7 +384,7 @@ describe('Update block form', () => {
         const sourcePopupInput = sourceConfigurationFieldSet.find('#source-popup-0')
         // We can't select a field as the source as not be chosen
         expect(sourceFieldInput.attributes('disabled')).toBeTruthy()
-        expect(sourceFieldInput.attributes('placeholder')).toBe('pages.workspace.block.map.noSelectedView')
+        expect(sourceFieldInput.find('input#source-field-0').attributes('placeholder')).toBe('pages.workspace.block.map.noSelectedView')
 
         // By default, the pop-up fields are not displayed
         expect(sourceConfigurationFieldSet.find('.popup-configuration').exists()).toBe(false)
@@ -393,7 +393,7 @@ describe('Update block form', () => {
         await sourceIdInput.vm.$emit('item-select', { value: { value: 'myFirstSourceId', text: 'myFirstSourceName' } })
         // > Choose a table field to display
         expect(sourceFieldInput.attributes('disabled')).toBeFalsy()
-        expect(sourceFieldInput.attributes('placeholder')).toBe('components.datatable.autoCompletePlaceholder')
+        expect(sourceFieldInput.find('input#source-field-0').attributes('placeholder')).toBe('components.datatable.autoCompletePlaceholder')
         await sourceFieldInput.vm.$emit('item-select', { value: { value: 'myFirstFieldId', text: 'myFirstFieldName' } })
         // > Make the source selectable
         await sourceSelectableInput.vm.$emit('input', true)

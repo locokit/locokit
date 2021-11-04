@@ -743,26 +743,26 @@ export default {
 }
 
 ::v-deep .p-checkbox .p-checkbox-box {
-  border-color: var(--primary-color-lighten);
+  border-color: var(--primary-color-light);
 }
 
 ::v-deep .p-checkbox .p-checkbox-box.p-highlight {
-  border-color: var(--primary-color-lighten);
-  background: var(--primary-color-lighten);
+  border-color: var(--primary-color-light);
+  background: var(--primary-color-light);
 }
 
 ::v-deep .p-checkbox .p-checkbox-box .p-checkbox-icon {
-  color: var(--primary-color-darken) !important;
-  font-weight: bold;
+  color: var(--primary-color-dark) !important;
+  font-weight: var(--font-weight-bold);
 }
 
 ::v-deep .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
-  border-color: var(--primary-color-darken);
-  background: var(--primary-color-darken);
+  border-color: var(--primary-color-dark);
+  background: var(--primary-color-dark);
 }
 
 ::v-deep .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover .p-checkbox-icon {
-  color: var(--primary-color-lighten) !important;
+  color: var(--primary-color-light) !important;
 }
 
 .non-editable-field {

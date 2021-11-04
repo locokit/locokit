@@ -20,7 +20,7 @@
         <p-column
           bodyClass="handle"
           :rowReorder="true"
-          rowReorderIcon="pi pi-ellipsis-v"
+          rowReorderIcon="bi bi-grip-vertical"
         />
         <p-column>
           <template #body="slotProps">
@@ -39,13 +39,13 @@
             <span class="p-buttonset">
               <p-button
                 class="p-button-sm p-button-text p-button-rounded p-button-info"
-                icon="pi pi-pencil"
+                icon="bi bi-pencil"
                 @click="emitEvent('update', overlaySlotProps.toggleOverlayPanel, slotProps.data)"
               />
               <p-button
                 v-if="!slotProps.data.locked"
                 class="p-button-sm p-button-text p-button-rounded p-button-danger"
-                icon="pi pi-trash"
+                icon="bi bi-trash"
                 @click="emitEvent('confirm', overlaySlotProps.toggleOverlayPanel, slotProps.data)"
               />
             </span>
@@ -55,7 +55,7 @@
       <p-button
         :label="$t('components.datatable.toolbar.views.createLabel')"
         class="create-view-button"
-        icon="pi pi-plus-circle"
+        icon="bi bi-plus-circle"
         @click="emitEvent('create', overlaySlotProps.toggleOverlayPanel)"
       />
     </template>

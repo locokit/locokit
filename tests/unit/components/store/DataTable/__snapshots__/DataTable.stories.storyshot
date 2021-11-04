@@ -104,12 +104,12 @@ exports[`storyshots components/store/DataTable CRUD mode with calendar opened an
         />
          
         <span
-          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          class="bi bi-arrow-down p-datatable-reorder-indicator-up"
           style="position: absolute; display: none;"
         />
          
         <span
-          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          class="bi bi-arrow-up p-datatable-reorder-indicator-down"
           style="position: absolute; display: none;"
         />
       </div>
@@ -353,12 +353,12 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props 1`]
         />
          
         <span
-          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          class="bi bi-arrow-down p-datatable-reorder-indicator-up"
           style="position: absolute; display: none;"
         />
          
         <span
-          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          class="bi bi-arrow-up p-datatable-reorder-indicator-down"
           style="position: absolute; display: none;"
         />
       </div>
@@ -602,12 +602,12 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props to 
         />
          
         <span
-          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          class="bi bi-arrow-down p-datatable-reorder-indicator-up"
           style="position: absolute; display: none;"
         />
          
         <span
-          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          class="bi bi-arrow-up p-datatable-reorder-indicator-down"
           style="position: absolute; display: none;"
         />
       </div>
@@ -851,12 +851,12 @@ exports[`storyshots components/store/DataTable CRUD mode with expected props to 
         />
          
         <span
-          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          class="bi bi-arrow-down p-datatable-reorder-indicator-up"
           style="position: absolute; display: none;"
         />
          
         <span
-          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          class="bi bi-arrow-up p-datatable-reorder-indicator-down"
           style="position: absolute; display: none;"
         />
       </div>
@@ -1100,12 +1100,12 @@ exports[`storyshots components/store/DataTable CRUD mode with textarea opened 1`
         />
          
         <span
-          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          class="bi bi-arrow-down p-datatable-reorder-indicator-up"
           style="position: absolute; display: none;"
         />
          
         <span
-          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          class="bi bi-arrow-up p-datatable-reorder-indicator-down"
           style="position: absolute; display: none;"
         />
       </div>
@@ -1349,12 +1349,12 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved er
         />
          
         <span
-          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          class="bi bi-arrow-down p-datatable-reorder-indicator-up"
           style="position: absolute; display: none;"
         />
          
         <span
-          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          class="bi bi-arrow-up p-datatable-reorder-indicator-down"
           style="position: absolute; display: none;"
         />
       </div>
@@ -1598,12 +1598,12 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saved ok
         />
          
         <span
-          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          class="bi bi-arrow-down p-datatable-reorder-indicator-up"
           style="position: absolute; display: none;"
         />
          
         <span
-          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          class="bi bi-arrow-up p-datatable-reorder-indicator-down"
           style="position: absolute; display: none;"
         />
       </div>
@@ -1847,12 +1847,12 @@ exports[`storyshots components/store/DataTable CRUD mode, edition state saving 1
         />
          
         <span
-          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          class="bi bi-arrow-down p-datatable-reorder-indicator-up"
           style="position: absolute; display: none;"
         />
          
         <span
-          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          class="bi bi-arrow-up p-datatable-reorder-indicator-down"
           style="position: absolute; display: none;"
         />
       </div>
@@ -2426,12 +2426,12 @@ exports[`storyshots components/store/DataTable Expected props with detail and pr
         />
          
         <span
-          class="pi pi-arrow-down p-datatable-reorder-indicator-up"
+          class="bi bi-arrow-down p-datatable-reorder-indicator-up"
           style="position: absolute; display: none;"
         />
          
         <span
-          class="pi pi-arrow-up p-datatable-reorder-indicator-down"
+          class="bi bi-arrow-up p-datatable-reorder-indicator-down"
           style="position: absolute; display: none;"
         />
       </div>

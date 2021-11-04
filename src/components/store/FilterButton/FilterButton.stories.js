@@ -99,11 +99,11 @@ export const selectedColumnAndActionOverlayOpenedStory = () => (
       // Open the panel
       await this.$refs.fb.$el.querySelector('button').click()
       // Add a new filter
-      await this.$refs.fb.$el.querySelector('.pi.pi-plus-circle').parentElement.click()
-      await this.$refs.fb.$el.querySelector('#column .p-dropdown-trigger').click()
-      await this.$refs.fb.$el.querySelector('#column .p-dropdown-item').click()
-      await this.$refs.fb.$el.querySelector('#action .p-dropdown-trigger').click()
-      await this.$refs.fb.$el.querySelector('#action .p-dropdown-item').click()
+      await document.body.querySelector('button > .bi.bi-plus-circle').click()
+      await document.body.querySelector('#column .p-dropdown-trigger').click()
+      await document.body.querySelector('#column .p-dropdown-item').click()
+      await document.body.querySelector('#action .p-dropdown-trigger').click()
+      await document.body.querySelector('#action .p-dropdown-item').click()
     },
   }
 )
@@ -119,8 +119,8 @@ export const overlayOpenedStory = () => (
     template: '<FilterButton ref="fb" />',
     async mounted () {
       await this.$refs.fb.$el.querySelector('button').click()
-      await this.$refs.fb.$el.querySelector('.pi.pi-plus-circle').parentElement.click()
-      await this.$refs.fb.$el.querySelector('.pi.pi-plus-circle').parentElement.click()
+      await document.body.querySelector('button > .bi.bi-plus-circle').click()
+      await document.body.querySelector('button > .bi.bi-plus-circle').click()
     },
   }
 )

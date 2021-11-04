@@ -1,55 +1,50 @@
 <template>
-  <layout-with-toolbar class="aclset-listing">
-    <template #toolbar>
-      <span class="p-pl-1">
-        <span class="pi pi-th-large"/>
-        {{ $t('pages.acl.common.title') }}
-      </span>
-
-      <div class="p-d-flex p-flex-wrap">
-        <p-button
-          class="p-button-text p-button-primary add-aclset-button"
-          icon="pi pi-plus-circle"
-          :label="$t('form.add')"
-          @click="createAclSet"
-        />
-      </div>
-    </template>
-
-    <div v-if="!displayEditForm">
+  <div class="lck-layout-content">
+    <div
+      class="lck-bg-sidebar lck-sidebar"
+      :class="{'lck-sidebar--active': sidebarActive}"
+    >
+      <h2 class="p-pl-3 lck-color-title">
+        {{ $t('pages.workspaceAdmin.acl.common.title') }}
+      </h2>
       <div v-if="workspace && workspace.aclsets">
-        <div
+        <router-link
           v-for="aclSet in workspace.aclsets"
-          class="lck-aclset-item p-d-flex p-jc-between p-ai-center p-m-1 p-p-1"
+          class="lck-sidebar-link"
           :key="aclSet.id"
-          @click="fetchAclSet(aclSet)"
+          :to="{
+            name: routeNameAclDetail,
+            params: {
+              ...$route.params,
+              aclSetId: aclSet.id
+            }
+          }"
         >
-          <div class="o-hidden o-ellipsis">
-            <p class="aclset-text">
-              {{ aclSet.label }}
-            </p>
-            <span class="p-tag">
-              {{ aclSet.manager ? $t('pages.acl.common.manager') : $t('pages.acl.common.noManager') }}
-            </span>
-          </div>
-          <div class="p-ml-auto">
-            <p-button
-              class="p-button-sm p-button-text p-button-rounded p-button-info"
-              icon="pi pi-chevron-right"
-            />
-          </div>
-        </div>
+          <i class="bi lck-sidebar-link-icon bi-shield-lock" />
+          <span>{{aclSet.label}}</span>
+          <span
+            class="status-mark"
+            v-if="aclSet.manager"
+          >M</span>
+        </router-link>
       </div>
-      <p v-else class="p-p-1">{{ $t('pages.acl.listing.noAclSet') }}</p>
-    </div>
-    <div class="p-m-2" v-else>
+
+      <div v-else-if="!loading" class="p-p-3">
+        {{ $t('pages.workspaceAdmin.acl.listing.noAclSet') }}
+      </div>
+
       <p-button
-        class="p-button-text p-button-primary aclset-listing-button"
-        icon="pi pi-chevron-left"
-        :label="$t('pages.acl.listing.title')"
-        @click="cancelEdit"
+        class="p-button-primary p-mx-3"
+        icon="pi pi-plus-circle"
+        :label="$t('form.add')"
+        @click="createAclSet"
       />
+    </div>
+
+    <div class="lck-page">
       <lck-aclset-form
+        class="p-col-12 p-md-10 p-xl-8 p-mx-auto p-mt-2"
+        v-if="selectedAclSet"
         :aclSet="selectedAclSet"
         :chapterSuggestions="chapterSuggestions"
         :submitting="submitting"
@@ -61,7 +56,7 @@
       />
     </div>
     <p-confirm-dialog />
-  </layout-with-toolbar>
+  </div>
 </template>
 
 <script lang="ts">
@@ -78,14 +73,13 @@ import Button from 'primevue/button'
 import ConfirmDialog from 'primevue/confirmdialog'
 
 import AclSetForm from './AclSetForm.vue'
-import WithToolbar from '@/layouts/WithToolbar.vue'
+import { ROUTES_NAMES } from '@/router/paths'
 
 export default {
   name: 'AclSetListing',
   components: {
     'p-button': Vue.extend(Button),
     'p-confirm-dialog': Vue.extend(ConfirmDialog),
-    'layout-with-toolbar': WithToolbar,
     'lck-aclset-form': AclSetForm,
   },
   props: {
@@ -93,26 +87,36 @@ export default {
       type: String,
       required: true,
     },
+    aclSetId: {
+      type: String,
+      required: false,
+    },
+    sidebarActive: {
+      type: Boolean,
+      required: false,
+    },
   },
   data (): {
     chapterSuggestions: LckChapter[];
-    displayEditForm: boolean;
     selectedAclSet: LckAclSet | null;
+    loading: boolean;
     submitting: {
       aclSet: boolean;
     };
     tables: Record<string, LckTable>;
     workspace: LckWorkspace | null;
+    routeNameAclDetail: string;
     } {
     return {
       chapterSuggestions: [],
-      displayEditForm: false,
       selectedAclSet: null,
+      loading: false,
       submitting: {
         aclSet: false,
       },
       tables: {},
       workspace: null,
+      routeNameAclDetail: ROUTES_NAMES.WORKSPACE_ADMIN.ACL_DETAIL,
     }
   },
   async mounted () {
@@ -123,15 +127,19 @@ export default {
      * Hide the update form and reset the selected aclSet.
      */
     cancelEdit () {
-      this.displayEditForm = false
       this.selectedAclSet = null
     },
     /**
      * Set some default data for the new aclset and display the form.
      */
     createAclSet () {
+      this.$router.push({
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL,
+        params: {
+          workspaceId: this.workspaceId,
+        },
+      })
       this.selectedAclSet = new LckAclSet('', this.workspaceId)
-      this.displayEditForm = true
     },
     /**
      * Display an error toast whose the content is based on the error code.
@@ -160,7 +168,7 @@ export default {
             const indexOfAclSet = this.workspace.aclsets.findIndex(aclSet => aclSet.id === aclSetToDelete.id)
             this.workspace.aclsets.splice(indexOfAclSet, 1)
             this.cancelEdit()
-          } catch (error) {
+          } catch (error: any) {
             this.displayToastOnError(error)
           } finally {
             this.submitting.aclSet = false
@@ -169,22 +177,24 @@ export default {
       })
     },
     /**
-     * Fetch more information about the aclset that we want to update, set some default data and display the form.
+     * Fetch more information about the aclset that we want to update
+     * set some default data and display the form.
      */
-    async fetchAclSet (aclSet: LckAclSet) {
+    async fetchAclSet (aclSetId: string) {
+      this.loading = true
       try {
-        this.selectedAclSet = await lckServices.aclset.get(aclSet.id, {
+        this.selectedAclSet = await lckServices.aclset.get(aclSetId, {
           query: {
             $eager: '[chapter, acltables]',
           },
         })
         if (this.selectedAclSet) {
           this.setDefaultAclTables(this.selectedAclSet)
-          this.displayEditForm = true
         }
-      } catch (error) {
+      } catch (error: any) {
         this.displayToastOnError(error)
       }
+      this.loading = false
     },
     /**
      * Fetch the workspace.
@@ -203,7 +213,7 @@ export default {
           })
           return tables
         }, {})
-      } catch (error) {
+      } catch (error: any) {
         this.displayToastOnError(error)
       }
     },
@@ -253,7 +263,7 @@ export default {
           this.setDefaultAclTables(this.selectedAclSet)
           this.workspace.aclsets.push(this.selectedAclSet)
         }
-      } catch (error) {
+      } catch (error: any) {
         this.displayToastOnError(error)
       } finally {
         this.submitting.aclSet = false
@@ -274,7 +284,7 @@ export default {
           })
         updatedAclTable.table = aclTable.table
         this.selectedAclSet.acltables!.splice(index, 1, updatedAclTable)
-      } catch (error) {
+      } catch (error: any) {
         this.displayToastOnError(error)
       }
     },
@@ -300,55 +310,34 @@ export default {
       this.$set(aclSet, 'acltables', aclTables)
     },
   },
+  watch: {
+    aclSetId: {
+      handler (newValue) {
+        if (!newValue) return
+        this.fetchAclSet(newValue)
+      },
+      immediate: true,
+    },
+  },
 }
 </script>
 
 <style scoped lang="scss">
 
-.aclset-listing {
-  background-color: white;
-  height: 100%;
-}
-
-.aclset-listing-button {
-  padding: 0.5em;
-}
-
-.lck-aclset-item {
+.status-mark {
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  line-height: 1rem;
+  margin-left: auto;
+  position: absolute;
+  top: calc(50% - .5rem);
+  right: .5rem;
+  font-size: 0.7rem;
+  vertical-align: middle;
+  text-align: center;
+  color: var(--secondary-color-lighten);
   background-color: var(--primary-color);
-  border-radius: var(--border-radius);
-  color: #fff;
-  cursor: pointer;
-
-  & .aclset-text {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-
-  &:hover {
-    background-color: var(--primary-color-darken);
-  }
-}
-
-.p-button.p-button-info.p-button-text {
-  color: var(--primary-color-text);
-}
-
-.p-button.p-button-info.p-button-text:hover {
-  color: #fff;
-}
-
-.o-ellipsis {
-  padding: 0 1rem 1rem 1rem;
-  position: relative;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100%;
-}
-
-.p-tag {
-  border: 1px solid var(--surface-w);
-  color: var(--surface-w);
 }
 
 </style>

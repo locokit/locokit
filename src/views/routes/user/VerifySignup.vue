@@ -69,22 +69,3 @@ export default Vue.extend({
 })
 
 </script>
-
-<style scoped>
-.home {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 100vh;
-}
-.login-block {
-  text-align: center;
-  margin-top: -45px;
-}
-.version-block {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  color: var(--surface-d);
-}
-</style>

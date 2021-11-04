@@ -62,7 +62,7 @@ export default {
 
 <style scoped>
 .p-error {
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   position: relative;
   transition: opacity 0.5s ease-in-out;
   color: var(--color-error);

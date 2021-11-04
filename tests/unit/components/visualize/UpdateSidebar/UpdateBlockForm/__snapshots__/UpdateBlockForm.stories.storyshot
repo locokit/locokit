@@ -446,22 +446,19 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
               class="p-field-radiobutton"
             >
               <div
-                class="p-radiobutton p-component p-radiobutton-checked"
+                class="p-radiobutton p-component"
               >
                 <div
                   class="p-hidden-accessible"
                 >
                   <input
-                    id="Page"
-                    name="Page"
                     type="radio"
-                    value="Page"
+                    value=""
                   />
                 </div>
                  
                 <div
-                  aria-checked="true"
-                  class="p-radiobutton-box p-highlight"
+                  class="p-radiobutton-box"
                   role="radio"
                 >
                   <div
@@ -470,9 +467,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
                 </div>
               </div>
                
-              <label
-                for="Page"
-              >
+              <label>
                 Visible page
               </label>
             </div>
@@ -487,10 +482,8 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
                   class="p-hidden-accessible"
                 >
                   <input
-                    id="PageDetail"
-                    name="PageDetail"
                     type="radio"
-                    value="PageDetail"
+                    value=""
                   />
                 </div>
                  
@@ -504,9 +497,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
                 </div>
               </div>
                
-              <label
-                for="PageDetail"
-              >
+              <label>
                 Hidden page
               </label>
             </div>
@@ -1810,7 +1801,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                 type="button"
               >
                 <span
-                  class="pi pi-trash p-button-icon"
+                  class="bi bi-trash p-button-icon"
                 />
                  
                 <span
@@ -1909,7 +1900,6 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                 class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                 dropdown="true"
                 id="source-aggregation-field-0"
-                placeholder="Start typing for suggestions"
                 suggestions=""
               >
                 <input
@@ -1968,7 +1958,6 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                 class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                 dropdown="true"
                 id="source-field-0"
-                placeholder="Start typing for suggestions"
                 suggestions=""
               >
                 <input
@@ -2155,7 +2144,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                 type="button"
               >
                 <span
-                  class="pi pi-trash p-button-icon"
+                  class="bi bi-trash p-button-icon"
                 />
                  
                 <span
@@ -2254,7 +2243,6 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                 disabled="disabled"
                 dropdown="true"
                 id="source-aggregation-field-1"
-                placeholder="No view has been selected"
                 suggestions=""
               >
                 <input
@@ -2264,7 +2252,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                   class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
                   disabled="disabled"
                   id="source-aggregation-field-1"
-                  placeholder="Start typing for suggestions"
+                  placeholder="No view has been selected"
                   role="searchbox"
                   type="text"
                 />
@@ -2316,7 +2304,6 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                 disabled="disabled"
                 dropdown="true"
                 id="source-field-1"
-                placeholder="No view has been selected"
                 suggestions=""
               >
                 <input
@@ -2326,7 +2313,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                   class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
                   disabled="disabled"
                   id="source-field-1"
-                  placeholder="Start typing for suggestions"
+                  placeholder="No view has been selected"
                   role="searchbox"
                   type="text"
                 />
@@ -3450,7 +3437,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
               type="button"
             >
               <span
-                class="pi pi-trash p-button-icon"
+                class="bi bi-trash p-button-icon"
               />
                
               <span
@@ -3574,7 +3561,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
               type="button"
             >
               <span
-                class="pi pi-trash p-button-icon"
+                class="bi bi-trash p-button-icon"
               />
                
               <span
@@ -3720,7 +3707,7 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
             class="p-dropdown-label p-inputtext p-placeholder"
           >
             
-            Select an option
+            Start typing for suggestions
         
           </span>
            
@@ -4918,7 +4905,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Stor
             class="p-dropdown-label p-inputtext p-placeholder"
           >
             
-            Select an option
+            Start typing for suggestions
         
           </span>
            

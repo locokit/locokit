@@ -1,11 +1,10 @@
 import Vue from 'vue'
 
-import 'primevue/resources/themes/saga-blue/theme.css' // core css
 import 'primevue/resources/primevue.min.css' // core css
 import 'primeicons/primeicons.css' // icons
 import 'primeflex/primeflex.css'
 import Tooltip from 'primevue/tooltip'
-import '@/styles/override.scss'
+import '@/styles/index.scss'
 import ConfirmationService from 'primevue/confirmationservice'
 
 import PrimeVue from 'primevue/config'
