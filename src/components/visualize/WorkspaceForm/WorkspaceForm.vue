@@ -118,7 +118,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropOptions } from 'vue'
 
 import { LckWorkspace } from '@/services/lck-api/definitions'
 import Form from '@/components/ui/Form/Form.vue'
@@ -146,9 +146,9 @@ export default {
       default: false,
     },
     workspace: {
-      type: LckWorkspace,
+      type: Object,
       required: false,
-    },
+    } as PropOptions<LckWorkspace>,
   },
   data () {
     return {
