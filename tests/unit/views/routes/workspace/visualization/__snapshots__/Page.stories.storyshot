@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storyshots views/visualize/Page with some blocks, centered layout 1`] = `
+exports[`storyshots views/routes/workspace/visualization/Page with some blocks, centered layout 1`] = `
 <div
   style="height: 100%;"
 >
@@ -30,7 +30,7 @@ exports[`storyshots views/visualize/Page with some blocks, centered layout 1`] =
 </div>
 `;
 
-exports[`storyshots views/visualize/Page with some blocks, default layout 1`] = `
+exports[`storyshots views/routes/workspace/visualization/Page with some blocks, default layout 1`] = `
 <div
   style="height: 100%;"
 >
@@ -60,7 +60,7 @@ exports[`storyshots views/visualize/Page with some blocks, default layout 1`] = 
 </div>
 `;
 
-exports[`storyshots views/visualize/Page with some blocks, flex layout 1`] = `
+exports[`storyshots views/routes/workspace/visualization/Page with some blocks, flex layout 1`] = `
 <div
   style="height: 100%;"
 >
