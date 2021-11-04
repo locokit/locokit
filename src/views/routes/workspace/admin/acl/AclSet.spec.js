@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import { flushAll } from '@/../tests/unit/local-test-utils'
 import VueRouter from 'vue-router'
 import { ROUTES_NAMES, ROUTES_PATH } from '@/router/paths'

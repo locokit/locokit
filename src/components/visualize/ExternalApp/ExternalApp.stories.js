@@ -36,7 +36,7 @@ const blockExternalApp = {
   },
   content: {
     'first-source': {
-      id: '',
+      id: 'demo.',
     },
     'second-source': {
       data: {

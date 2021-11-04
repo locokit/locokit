@@ -14,7 +14,7 @@ exports[`storyshots components/visualize/ExternalApp with parts in settings 1`] 
 >
   <iframe
     id="1"
-    src="https://locokit.io"
+    src="https://demo.locokit.io"
     title="My ExternalApp's block"
     type="ExternalApp"
   />
