@@ -2,7 +2,7 @@
 import Page from './Page'
 
 export default {
-  title: 'views/visualize/Page',
+  title: 'views/routes/workspace/visualization/Page',
   component: Page,
 }
 
