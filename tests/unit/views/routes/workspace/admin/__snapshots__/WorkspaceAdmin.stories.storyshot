@@ -4,6 +4,147 @@ exports[`storyshots views/routes/workspace/admin/WorkspaceAdmin default 1`] = `
 <div
   style="height: 100%;"
 >
-  <!---->
+  <div>
+    <header
+      class="lck-header p-px-2 p-d-flex p-jc-between"
+    >
+      <!---->
+       
+      <a
+        class="mock-link logo-link"
+      >
+        <img
+          class="logo-img"
+          src="/themes/locokit/img/logo.svg"
+        />
+         
+        <img
+          class="logo-img mobile"
+          src="/themes/locokit/img/logo-mobile.svg"
+        />
+      </a>
+       
+      <div
+        class="p-my-auto"
+      >
+        <button
+          aria-controls="overlay_menu"
+          aria-haspopup="true"
+          class="p-button-rounded p-button p-component p-button-icon-only"
+          type="button"
+        >
+          <span
+            class="pi pi-user p-button-icon"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+             
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <!---->
+      </div>
+    </header>
+     
+    <div
+      class="lck-layout lck-layout--with-nav"
+    >
+      <nav
+        class="lck-nav"
+      >
+        <ul
+          class="lck-nav-list"
+        >
+          <li
+            aria-label="Databases"
+            class="lck-nav-item"
+            title="Databases"
+          >
+            <a
+              class="mock-link lck-nav-item-link"
+            >
+              <i
+                class="bi bi-server"
+              />
+            </a>
+          </li>
+          <li
+            aria-label="CMS, Content Management System"
+            class="lck-nav-item"
+            title="CMS, Content Management System"
+          >
+            <a
+              class="mock-link lck-nav-item-link"
+            >
+              <i
+                class="bi bi-layout-text-window-reverse"
+              />
+            </a>
+          </li>
+          <li
+            aria-label="Processes"
+            class="lck-nav-item"
+            title="Processes"
+          >
+            <a
+              class="mock-link lck-nav-item-link"
+            >
+              <i
+                class="bi bi-lightning"
+              />
+            </a>
+          </li>
+          <li
+            aria-label="ACL, Access Control List"
+            class="lck-nav-item"
+            title="ACL, Access Control List"
+          >
+            <a
+              class="mock-link lck-nav-item-link"
+            >
+              <i
+                class="bi bi-shield-lock"
+              />
+            </a>
+          </li>
+          <li
+            aria-label="User groups"
+            class="lck-nav-item"
+            title="User groups"
+          >
+            <a
+              class="mock-link lck-nav-item-link"
+            >
+              <i
+                class="bi bi-people"
+              />
+            </a>
+          </li>
+          <li
+            aria-label="Settings"
+            class="lck-nav-item"
+            title="Settings"
+          >
+            <a
+              class="mock-link lck-nav-item-link"
+            >
+              <i
+                class="bi bi-gear"
+              />
+            </a>
+          </li>
+        </ul>
+      </nav>
+       
+      <!---->
+    </div>
+  </div>
 </div>
 `;

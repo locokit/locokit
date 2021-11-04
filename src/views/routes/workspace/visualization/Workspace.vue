@@ -5,7 +5,7 @@
         <lck-sidebar
           :items="sidebarItems"
           v-on="$listeners"
-          :sidebarActive="slotProps.sidebarActive"
+          :sidebarActive="slotProps && slotProps.sidebarActive"
         />
         <div class="lck-page">
           <router-view
@@ -55,7 +55,7 @@ export default {
   computed: {
     sidebarItems () {
       return this.workspaceUserGroups.map(({ id: groupId, name: groupName, chapter }) => {
-        const subitems = chapter.pages.map(({ text: pageText, id: pageId, hidden }) => (
+        const subitems = chapter?.pages?.map(({ text: pageText, id: pageId, hidden }) => (
           {
             id: pageId,
             label: pageText,

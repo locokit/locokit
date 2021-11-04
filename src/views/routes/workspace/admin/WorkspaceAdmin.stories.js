@@ -1,15 +1,19 @@
 // import { action } from '@storybook/addon-actions'
 
 import WorkspaceAdmin from './WorkspaceAdmin.vue'
+import StoryRouter from 'storybook-vue-router'
 
 export default {
   title: 'views/routes/workspace/admin/WorkspaceAdmin',
   component: WorkspaceAdmin,
+  decorators: [
+    StoryRouter(),
+  ],
 }
 
 export const defaultStory = () => ({
   components: { WorkspaceAdmin },
-  template: '<WorkspaceAdmin :workspaceId="1" />',
+  template: '<WorkspaceAdmin workspaceId="1" />',
 })
 
 defaultStory.storyName = 'default'
