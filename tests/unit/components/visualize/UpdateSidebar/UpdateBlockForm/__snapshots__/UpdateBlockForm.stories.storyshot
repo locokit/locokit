@@ -446,22 +446,19 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
               class="p-field-radiobutton"
             >
               <div
-                class="p-radiobutton p-component p-radiobutton-checked"
+                class="p-radiobutton p-component"
               >
                 <div
                   class="p-hidden-accessible"
                 >
                   <input
-                    id="Page"
-                    name="Page"
                     type="radio"
-                    value="Page"
+                    value=""
                   />
                 </div>
                  
                 <div
-                  aria-checked="true"
-                  class="p-radiobutton-box p-highlight"
+                  class="p-radiobutton-box"
                   role="radio"
                 >
                   <div
@@ -470,9 +467,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
                 </div>
               </div>
                
-              <label
-                for="Page"
-              >
+              <label>
                 Visible page
               </label>
             </div>
@@ -487,10 +482,8 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
                   class="p-hidden-accessible"
                 >
                   <input
-                    id="PageDetail"
-                    name="PageDetail"
                     type="radio"
-                    value="PageDetail"
+                    value=""
                   />
                 </div>
                  
@@ -504,9 +497,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
                 </div>
               </div>
                
-              <label
-                for="PageDetail"
-              >
+              <label>
                 Hidden page
               </label>
             </div>

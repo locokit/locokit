@@ -195,49 +195,49 @@ describe('CMSConfig', () => {
     },
   }
 
-  // describe('Edit button', () => {
-  //   it('Hide it by default', async () => {
-  //     const wrapper = await shallowMount(CMSConfig, globalComponentParams)
-  //     await Vue.nextTick()
-  //     expect(wrapper.findComponent(ToggleButton).exists()).toBe(false)
-  //   })
+  describe('Edit button', () => {
+    it('Hide it by default', async () => {
+      const wrapper = await shallowMount(CMSConfig, globalComponentParams)
+      await Vue.nextTick()
+      expect(wrapper.findComponent(ToggleButton).exists()).toBe(false)
+    })
 
-  //   it('Hide it if the user can not edit the workspace', async () => {
-  //     authState.data.user.profile = USER_PROFILE.USER
-  //     const wrapper = await shallowMount(CMSConfig, globalComponentParams)
-  //     await Vue.nextTick()
-  //     expect(wrapper.findComponent(ToggleButton).exists()).toBe(false)
-  //     authState.data.user.profile = ''
-  //   })
+    it('Hide it if the user can not edit the workspace', async () => {
+      authState.data.user.profile = USER_PROFILE.USER
+      const wrapper = await shallowMount(CMSConfig, globalComponentParams)
+      await Vue.nextTick()
+      expect(wrapper.findComponent(ToggleButton).exists()).toBe(false)
+      authState.data.user.profile = ''
+    })
 
-  //   it('Display it if the user can edit the workspace', async () => {
-  //     authState.data.user.profile = USER_PROFILE.SUPERADMIN
-  //     const wrapper = await shallowMount(CMSConfig, globalComponentParams)
-  //     await Vue.nextTick()
-  //     expect(wrapper.findComponent(ToggleButton).exists()).toBe(true)
-  //     authState.data.user.profile = ''
-  //   })
+    it('Display it if the user can edit the workspace', async () => {
+      authState.data.user.profile = USER_PROFILE.SUPERADMIN
+      const wrapper = await shallowMount(CMSConfig, globalComponentParams)
+      await Vue.nextTick()
+      expect(wrapper.findComponent(ToggleButton).exists()).toBe(true)
+      authState.data.user.profile = ''
+    })
 
-  //   it('Update the edit mode when the user clicks on it', async () => {
-  //     authState.data.user.profile = USER_PROFILE.SUPERADMIN
-  //     const wrapper = await shallowMount(CMSConfig, globalComponentParams)
-  //     await Vue.nextTick()
-  //     expect(wrapper.vm.editMode).toBe(false)
-  //     wrapper.findComponent(ToggleButton).vm.$emit('input', true)
-  //     expect(wrapper.vm.editMode).toBe(true)
-  //     authState.data.user.profile = ''
-  //   })
+    it('Update the edit mode when the user clicks on it', async () => {
+      authState.data.user.profile = USER_PROFILE.SUPERADMIN
+      const wrapper = await shallowMount(CMSConfig, globalComponentParams)
+      await Vue.nextTick()
+      expect(wrapper.vm.editMode).toBe(false)
+      wrapper.findComponent(ToggleButton).vm.$emit('input', true)
+      expect(wrapper.vm.editMode).toBe(true)
+      authState.data.user.profile = ''
+    })
 
-  //   it('The edit mode is passed in Sidebar props', async () => {
-  //     authState.data.user.profile = USER_PROFILE.SUPERADMIN
-  //     const wrapper = await shallowMount(CMSConfig, globalComponentParams)
-  //     await Vue.nextTick()
-  //     expect(wrapper.findComponent(Sidebar).props('displayEditActions')).toBe(false)
-  //     await wrapper.setData({ editMode: true })
-  //     expect(wrapper.findComponent(Sidebar).props('displayEditActions')).toBe(true)
-  //     authState.data.user.profile = ''
-  //   })
-  // })
+    it('The edit mode is passed in Sidebar props', async () => {
+      authState.data.user.profile = USER_PROFILE.SUPERADMIN
+      const wrapper = await shallowMount(CMSConfig, globalComponentParams)
+      await Vue.nextTick()
+      expect(wrapper.findComponent(Sidebar).props('displayEditActions')).toBe(false)
+      await wrapper.setData({ editMode: true })
+      expect(wrapper.findComponent(Sidebar).props('displayEditActions')).toBe(true)
+      authState.data.user.profile = ''
+    })
+  })
 
   describe('sidebarItems', () => {
     it('Return an empty array if the workspace content is not defined', async () => {
@@ -303,17 +303,17 @@ describe('CMSConfig', () => {
           expect(wrapper.vm.sidebarItems[0].subitems[0].label).toBe(firstChapter.pages[0].text)
         })
 
-        it('Return the right link', () => {
-          expect(wrapper.vm.sidebarItems[0].subitems[0].to).toBe(
-            wrapper.vm.$router.resolve({
-              name: ROUTES_NAMES.WORKSPACE_ADMIN.CMS_PAGE_DETAIL,
-              params: {
-                worspaceId: firstChapter.workspace_id,
-                pageId: firstChapter.pages[0].id,
-              },
-            }).route.path,
-          )
-        })
+        // it('Return the right link', () => {
+        //   expect(wrapper.vm.sidebarItems[0].subitems[0].to).toBe(
+        //     wrapper.vm.$router.resolve({
+        //       name: ROUTES_NAMES.WORKSPACE_ADMIN.CMS_PAGE,
+        //       params: {
+        //         worspaceId: firstChapter.workspace_id,
+        //         pageId: firstChapter.pages[0].id,
+        //       },
+        //     }).route.path,
+        //   )
+        // })
 
         it('Indicate if the page are hidden', () => {
           expect(wrapper.vm.sidebarItems[0].subitems[0].hidden).toBe(false)
@@ -347,102 +347,105 @@ describe('CMSConfig', () => {
     })
   })
 
-  // describe('Chapter crud', () => {
-  //   let wrapper
-  //   let sidebarWrapper
-  //   const newChapterName = 'newChapterName'
+  describe('Chapter crud', () => {
+    let wrapper
+    let sidebarWrapper
+    const newChapterName = 'newChapterName'
 
-  //   beforeEach(async () => {
-  //     wrapper = await shallowMount(CMSConfig, globalComponentParams)
-  //     await Vue.nextTick()
-  //     sidebarWrapper = wrapper.findComponent(Sidebar)
-  //   })
+    beforeEach(async () => {
+      wrapper = await shallowMount(CMSConfig, globalComponentParams)
+      await Vue.nextTick()
+      sidebarWrapper = wrapper.findComponent(Sidebar)
+    })
 
-  //   describe('Add a new chapter', () => {
-  //     let chapterWrapper
+    describe('Add a new chapter', () => {
+      let chapterWrapper
 
-  //     beforeEach(() => {
-  //       lckServices.chapter.create.mockClear()
-  //       chapterWrapper = wrapper.findComponent(ChapterDialog)
-  //     })
+      beforeEach(() => {
+        lckServices.chapter.create.mockClear()
+        chapterWrapper = wrapper.findComponent(ChapterDialog)
+      })
 
-  //     it('Display the chapter edit dialog with an empty object when the add-item event is emitted from sidebar', async () => {
-  //       await sidebarWrapper.vm.$emit('add-item')
-  //       expect(chapterWrapper.props('chapter')).toStrictEqual({})
-  //       expect(chapterWrapper.props('visible')).toBe(true)
-  //     })
+      it('Display the chapter edit dialog with an empty object when the add-item event is emitted from sidebar', async () => {
+        await sidebarWrapper.vm.$emit('add-item')
+        expect(chapterWrapper.props('chapter')).toStrictEqual({})
+        expect(chapterWrapper.props('visible')).toBe(true)
+      })
 
-  //     it('Create a new chapter if the input event is emitted without an existing chapter', async () => {
-  //       await wrapper.vm.onChapterEditClick()
-  //       await chapterWrapper.vm.$emit('input', newChapterName)
-  //       // Send API request
-  //       expect(lckServices.chapter.create).toHaveBeenCalledWith({ text: newChapterName, workspace_id: mockWorkspaceContent.id })
-  //       // Update the component data
-  //       expect(wrapper.vm.workspaceContent.chapters[2]).toBeDefined()
-  //       expect(wrapper.vm.workspaceContent.chapters[2].text).toBe(newChapterName)
-  //     })
-  //   })
+      it('Create a new chapter if the input event is emitted without an existing chapter', async () => {
+        await wrapper.vm.onChapterEditClick()
+        await chapterWrapper.vm.$emit('input', newChapterName)
+        // Send API request
+        expect(lckServices.chapter.create).toHaveBeenCalledWith({
+          text: newChapterName,
+          workspace_id: 'an-id',
+        })
+        // Update the component data
+        expect(wrapper.vm.workspaceContent.chapters[2]).toBeDefined()
+        expect(wrapper.vm.workspaceContent.chapters[2].text).toBe(newChapterName)
+      })
+    })
 
-  //   describe('Update a chapter', () => {
-  //     let chapterWrapper
+    describe('Update a chapter', () => {
+      let chapterWrapper
 
-  //     beforeEach(() => {
-  //       lckServices.chapter.patch.mockClear()
-  //       chapterWrapper = wrapper.findComponent(ChapterDialog)
-  //     })
+      beforeEach(() => {
+        lckServices.chapter.patch.mockClear()
+        chapterWrapper = wrapper.findComponent(ChapterDialog)
+      })
 
-  //     it('Display the chapter edit dialog with the specified chapter when the edit-item event is emitted from sidebar', async () => {
-  //       await sidebarWrapper.vm.$emit('edit-item', '1')
-  //       expect(chapterWrapper.props('visible')).toBe(true)
-  //       expect(chapterWrapper.props('chapter')).toStrictEqual(mockWorkspaceContent.chapters[0])
-  //     })
+      it('Display the chapter edit dialog with the specified chapter when the edit-item event is emitted from sidebar', async () => {
+        await sidebarWrapper.vm.$emit('edit-item', '1')
+        expect(chapterWrapper.props('visible')).toBe(true)
+        expect(chapterWrapper.props('chapter')).toStrictEqual(mockWorkspaceContent.chapters[0])
+      })
 
-  //     it('Hide the chapter edit dialog if it emits the close event', async () => {
-  //       // Display the dialog
-  //       await chapterWrapper.setProps({ visible: true })
-  //       // Hide it
-  //       await chapterWrapper.vm.$emit('close')
-  //       expect(chapterWrapper.props('visible')).toBe(false)
-  //     })
+      it('Hide the chapter edit dialog if it emits the close event', async () => {
+        // Display the dialog
+        await chapterWrapper.setProps({ visible: true })
+        // Hide it
+        await chapterWrapper.vm.$emit('close')
+        expect(chapterWrapper.props('visible')).toBe(false)
+      })
 
-  //     it('Update the chapter if the input event is emitted with an existing chapter', async () => {
-  //       await wrapper.vm.onChapterEditClick('1')
-  //       await chapterWrapper.vm.$emit('input', newChapterName)
-  //       // Send API request
-  //       expect(lckServices.chapter.patch).toHaveBeenCalledWith('1', { text: newChapterName })
-  //       // Update the component data
-  //       expect(wrapper.vm.workspaceContent.chapters.find(c => c.id === '1' && c.text === newChapterName)).toBeDefined()
-  //     })
+      it('Update the chapter if the input event is emitted with an existing chapter', async () => {
+        await wrapper.vm.onChapterEditClick('1')
+        await chapterWrapper.vm.$emit('input', newChapterName)
+        // Send API request
+        expect(lckServices.chapter.patch).toHaveBeenCalledWith('1', { text: newChapterName })
+        // Update the component data
+        expect(wrapper.vm.workspaceContent.chapters.find(c => c.id === '1' && c.text === newChapterName)).toBeDefined()
+      })
 
-  //     it('Display a toast if an error is occured', async () => {
-  //       const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
-  //       lckServices.chapter.create.mockImplementationOnce(() => { throw new Error() })
-  //       await chapterWrapper.vm.$emit('input')
-  //       expect(spyOnToast).toHaveBeenCalledTimes(1)
-  //     })
-  //   })
+      it('Display a toast if an error is occured', async () => {
+        const spyOnToast = jest.spyOn(wrapper.vm, 'displayToastOnError')
+        lckServices.chapter.create.mockImplementationOnce(() => { throw new Error() })
+        await chapterWrapper.vm.$emit('input')
+        expect(spyOnToast).toHaveBeenCalledTimes(1)
+      })
+    })
 
-  //   describe('Delete a chapter', () => {
-  //     let deleteConfirmationWrapper
+    describe('Delete a chapter', () => {
+      let deleteConfirmationWrapper
 
-  //     beforeEach(() => {
-  //       lckServices.chapter.remove.mockClear()
-  //       deleteConfirmationWrapper = wrapper.findComponent(ConfirmDialog)
-  //     })
+      beforeEach(() => {
+        lckServices.chapter.remove.mockClear()
+        deleteConfirmationWrapper = wrapper.findComponent(ConfirmDialog)
+      })
 
-  //     it('Display the confirmation dialog with the specified chapter when the delete-item event is emitted', async () => {
-  //       await sidebarWrapper.vm.$emit('confirm-delete-chapter', { chapterId: '1', chapterName: 'My chapter' })
-  //       expect(deleteConfirmationWrapper.exists()).toBe(true)
-  //     })
+      it('Display the confirmation dialog with the specified chapter when the delete-item event is emitted', async () => {
+        await sidebarWrapper.vm.$emit('confirm-delete-chapter', { chapterId: '1', chapterName: 'My chapter' })
+        expect(deleteConfirmationWrapper.exists()).toBe(true)
+      })
 
-  //     it('Send chapter to delete in confirmeDialog', async () => {
-  //       // Call method
-  //       await wrapper.vm.onConfirmationDeleteChapter({ chapterId: '1', chapterName: 'My chapter' })
-  //       // Expect activate prime mechanism
-  //       expect(wrapper.vm.$confirm.require).toHaveBeenCalled()
-  //     })
-  //   })
-  // })
+      it('Send chapter to delete in confirmeDialog', async () => {
+        // Call method
+        await wrapper.vm.onConfirmationDeleteChapter({ chapterId: '1', chapterName: 'My chapter' })
+        // Expect activate prime mechanism
+        expect(wrapper.vm.$confirm.require).toHaveBeenCalled()
+      })
+    })
+  })
 
   // describe('Page crud', () => {
   //   let wrapper
@@ -740,16 +743,16 @@ describe('CMSConfig', () => {
       }).route.path)
     })
 
-    it('Throw the error if it is not due to a duplicated path', async () => {
-      jest.spyOn(wrapper.vm.$router, 'replace').mockImplementationOnce(() => Promise.reject(new MockRouterError()))
-      let throwError = false
-      try {
-        await wrapper.vm.goToSpecificPage('0')
-      } catch (error) {
-        throwError = true
-      }
-      expect(throwError).toBe(true)
-    })
+    // it('Throw the error if it is not due to a duplicated path', async () => {
+    //   jest.spyOn(wrapper.vm.$router, 'replace').mockImplementationOnce(() => Promise.reject(new MockRouterError()))
+    //   let throwError = false
+    //   try {
+    //     await wrapper.vm.goToSpecificPage('0')
+    //   } catch (error) {
+    //     throwError = true
+    //   }
+    //   expect(throwError).toBe(true)
+    // })
   })
 
   // describe('goToDefaultRoute', () => {
