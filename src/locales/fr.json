@@ -403,7 +403,8 @@
     "lostpassword": {
       "title": "Mot de passe, où es tu ?",
       "subtitle": "Vous avez perdu votre mot de passe ? Renseignez votre email pour recevoir un mail avec un lien temporaire. Cliquez dessus, et vous pourrez changer votre mot de passe !",
-      "sendResetOK": "Mail envoyé ! Merci de vérifier vos mails, d'ouvrir le mail que nous venons de vous envoyer, et d'ouvrir le lien indiqué."
+      "sendResetOK": "Mail envoyé ! Merci de vérifier vos mails, d'ouvrir le mail que nous venons de vous envoyer, et d'ouvrir le lien indiqué.",
+      "homelink": "Retour à la page d'accueil"
     },
     "resetpassword": {
       "title": "Réinitialisation du mot de passe",

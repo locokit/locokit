@@ -14,8 +14,14 @@
         :sendResetOK="sendResetOK"
       />
     </div>
-    <div v-else>
-      {{ $t('pages.lostpassword.sendResetOK') }}
+    <div v-else class="p-text-center lostpassword-message">
+      <div class="p-d-flex p-ai-center p-px-3 p-pb-3">
+        <i style="font-size:2em;" class="pi pi-check-circle p-text-success p-mr-4"></i>
+        <p class="p-text-justify">{{ $t('pages.lostpassword.sendResetOK') }}</p>
+      </div>
+      <router-link :to="{ name: ROUTES_NAMES.HOME }">
+        {{ $t('pages.lostpassword.homelink') }}
+      </router-link>
     </div>
 
   </layout-with-background>
@@ -28,6 +34,7 @@ import Vue from 'vue'
 import LayoutWithBackground from '@/layouts/WithBackground.vue'
 import LostPassword from '@/components/auth/LostPassword/LostPassword.vue'
 import { lckClient } from '@/services/lck-api'
+import { ROUTES_NAMES } from '@/router/paths'
 
 export default Vue.extend({
   name: 'LostPassword',
@@ -35,7 +42,8 @@ export default Vue.extend({
     return {
       loading: false,
       sendResetOK: false,
-      error: null,
+      error: null as Error | null,
+      ROUTES_NAMES,
     }
   },
   components: {
@@ -54,8 +62,8 @@ export default Vue.extend({
         })
         this.error = null
         this.sendResetOK = true
-      } catch (err) {
-        this.error = err
+      } catch (err: any) {
+        this.error = err as Error
       }
       this.loading = false
     },

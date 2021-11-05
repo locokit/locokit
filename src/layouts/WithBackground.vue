@@ -81,7 +81,8 @@ export default Vue.extend({
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  height: 100%;
+  min-height: 100%;
+  flex-grow: 1;
   background-color: var(--primary-color);
 }
 

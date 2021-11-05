@@ -40,12 +40,12 @@
     <div v-if="!logInAgain" class="footer-links">
       <router-link
         v-if="displaySignUpLink"
-        :to="{ name: ROUTES_PATH.SIGNUP }"
+        :to="{ name: ROUTES_NAMES.SIGNUP }"
       >
         {{ $t('components.login.signup') }}
       </router-link>
       <router-link
-        :to="{ name: ROUTES_PATH.LOSTPASSWORD }"
+        :to="{ name: ROUTES_NAMES.LOSTPASSWORD }"
       >
         {{ $t('components.login.lostpassword') }}
       </router-link>
@@ -56,7 +56,7 @@
 <script lang="ts">
 import Vue from 'vue'
 
-import { ROUTES_PATH } from '@/router/paths'
+import { ROUTES_NAMES } from '@/router/paths'
 
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
@@ -83,7 +83,7 @@ export default Vue.extend({
   },
   data () {
     return {
-      ROUTES_PATH,
+      ROUTES_NAMES,
       form: {
         email: '',
         password: '',

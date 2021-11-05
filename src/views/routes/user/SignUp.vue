@@ -43,7 +43,7 @@ export default Vue.extend({
   data () {
     return {
       appState,
-      error: null,
+      error: null as Error | null,
       loading: false,
       signUpOk: false,
       ROUTES_NAMES,
@@ -61,8 +61,8 @@ export default Vue.extend({
           await lckClient.service('signup').create(credentials)
           this.signUpOk = true
           this.error = null
-        } catch (err) {
-          this.error = err
+        } catch (err: any) {
+          this.error = err as Error
         } finally {
           this.loading = false
         }

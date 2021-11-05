@@ -2,7 +2,7 @@
   <lck-form
     :displayCancelButton="false"
     :fullWidthButton="true"
-    :labelButton="$t('components.signup.signup')"
+    :labelButtonSave="$t('components.signup.signup')"
     :submitting="loading"
     @submit="$emit('submit', user)"
   >
