@@ -7,7 +7,7 @@ exports[`storyshots components/store/ColumnIcons All column types with their ico
   <div>
     <p>
       <i
-        class="bi bi-check"
+        class="bi bi-check2-square"
       />
       
         Boolean
@@ -79,7 +79,23 @@ exports[`storyshots components/store/ColumnIcons All column types with their ico
     </p>
     <p>
       <i
-        class="bi bi-check"
+        class="bi bi-binoculars-fill"
+      />
+      
+        Looked up column
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-binoculars"
+      />
+      
+        Virtual looked up column
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-caret-down-square"
       />
       
         Single Select
@@ -95,7 +111,7 @@ exports[`storyshots components/store/ColumnIcons All column types with their ico
     </p>
     <p>
       <i
-        class="bi bi-calculator"
+        class="bi bi-magic"
       />
       
         Formula
@@ -103,7 +119,7 @@ exports[`storyshots components/store/ColumnIcons All column types with their ico
     </p>
     <p>
       <i
-        class="bi-file-earmark"
+        class="bi bi-file-earmark"
       />
       
         File
@@ -159,10 +175,34 @@ exports[`storyshots components/store/ColumnIcons All column types with their ico
     </p>
     <p>
       <i
-        class="bi bi-geo-fill"
+        class="bi bi-slash-lg"
       />
       
         Geometry linestring
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-geo"
+      />
+      
+        Geometry multi point
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-bounding-box-circles"
+      />
+      
+        Geometry multi polygon
+      
+    </p>
+    <p>
+      <i
+        class="bi bi-slash-lg"
+      />
+      
+        Geometry multi linestring
       
     </p>
   </div>

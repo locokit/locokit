@@ -239,7 +239,7 @@ export function getColumnClass (column: LckTableViewColumn): string {
     case COLUMN_TYPE.FORMULA:
       return 'bi bi-magic'
     case COLUMN_TYPE.FILE:
-      return 'bi-file-earmark'
+      return 'bi bi-file-earmark'
     case COLUMN_TYPE.MULTI_USER:
       return 'bi bi-people-fill'
     case COLUMN_TYPE.MULTI_GROUP:
