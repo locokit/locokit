@@ -30,7 +30,10 @@
         classes
       }"
     >
-      <label for="column-name" class="label-field-required">
+      <label
+        for="column-name"
+        class="label-field-required"
+      >
         {{ $t('pages.databaseSchema.handleColumnModal.columnName') }}
       </label>
       <p-input-text
@@ -103,7 +106,10 @@
         classes
       }"
     >
-      <label for="column-type" class="label-field-required">
+      <label
+        for="column-type"
+        class="label-field-required"
+      >
         {{ $t('pages.databaseSchema.handleColumnModal.columnType') }}
       </label>
       <p-dropdown
@@ -118,6 +124,15 @@
         :placeholder="$t('pages.databaseSchema.handleColumnModal.selectColumnType')"
         :disabled="columnToHandle != null && columnToHandle.id != null"
       />
+      <span
+        v-if="selectedColumnTypeIdToHandle"
+        class="p-field"
+      >
+
+        {{ getSelectedColumnTypeDisplayDescription (selectedColumnTypeIdToHandle)}}
+
+      </span>
+
       <span :class="classes">{{ errors[0] }}</span>
     </validation-provider>
     <lck-select-type-column
@@ -176,7 +191,10 @@
         validate,
       }"
     >
-      <label for="column-formula-content" class="label-field-required">{{ $t('components.formulas.formula') }}</label>
+      <label
+        for="column-formula-content"
+        class="label-field-required"
+      >{{ $t('components.formulas.formula') }}</label>
       <lck-monaco-editor
         id="column-formula-content"
         :handledError="errorHandleColumn"
@@ -262,10 +280,6 @@ export default {
   data () {
     return {
       COLUMN_TYPE,
-      columnTypes: Object.keys(COLUMN_TYPE).filter((key) => isNaN(key)).map((key) => ({
-        id: COLUMN_TYPE[key],
-        name: key,
-      })),
       columnNameToHandle: null,
       columnDocumentation: null,
       columnValidation: {},
@@ -278,6 +292,13 @@ export default {
   computed: {
     isSelectColumnType () {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.SINGLE_SELECT || this.selectedColumnTypeIdToHandle === COLUMN_TYPE.MULTI_SELECT
+    },
+    columnTypes () {
+      return Object.keys(COLUMN_TYPE).filter((key) => isNaN(key)).map((key) => ({
+        id: COLUMN_TYPE[key],
+        description: this.$t(`pages.databaseSchema.columnType.${key}.description`),
+        name: this.$t(`pages.databaseSchema.columnType.${key}.name`),
+      }))
     },
     isRelationBetweenTablesType () {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.RELATION_BETWEEN_TABLES
@@ -365,6 +386,11 @@ export default {
     onSelectedColumnTypeTohandleChange () {
       this.settings = {}
     },
+
+    getSelectedColumnTypeDisplayDescription (selectedColumnTypeIdToHandle) {
+      return this.columnTypes.find((columnType) => columnType.id === selectedColumnTypeIdToHandle).description
+    },
+
     selectTypeValuesChange (data) {
       let settings = {}
       data.forEach((selectTypeValue) => {

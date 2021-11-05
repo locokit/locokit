@@ -144,7 +144,10 @@ export default {
   },
   data () {
     return {
-      columnTypes: Object.keys(COLUMN_TYPE).map((key) => ({ id: COLUMN_TYPE[key], name: key })),
+      columnTypes: Object.keys(COLUMN_TYPE).map((key) => ({
+        id: COLUMN_TYPE[key],
+        name: this.$t(`pages.databaseSchema.columnType.${key}.name`),
+      })),
       showHandleColumnModal: false,
       columnToHandle: null,
     }

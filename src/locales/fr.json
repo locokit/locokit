@@ -370,7 +370,7 @@
           "read_filter": "Filtre appliqué lors d'une lecture",
           "update_filter": "Filtre appliqué lors d'une mise à jour",
           "update_rows": "Mise à jour d'un enregistrement"
-          },
+        },
         "listing": {
           "aclSetError": "Impossible de récupérer les rôles associés à l'espace de travail courant.",
           "noAclSet": "Aucun rôle créé",
@@ -701,6 +701,108 @@
         "errorNoData": "Veuillez renseigner les champs",
         "validation": "Règles de validation"
       },
+      "columnType": {
+        "BOOLEAN": {
+          "name": "Booléen",
+          "description": "Permet de cocher des valeurs vrai/faux dans une cellule"
+        },
+        "STRING": {
+          "name": "Texte sur une ligne",
+          "description": "Champ de texte sur une seule ligne"
+        },
+        "TEXT": {
+          "name": "Texte long",
+          "description": "Champ de texte sur une plusieurs lignes"
+        },
+        "NUMBER": {
+          "name": "Entier",
+          "description": "Type de champ prévu pour contenir des nombres entiers"
+        },
+        "FLOAT": {
+          "name": "Flottant",
+          "description": "Type de champ prévu pour contenir des nombres décimaux"
+        },
+        "DATE": {
+          "name": "Date",
+          "description": "Un widget de calendrier vous permet de saisir une date facilement"
+        },
+        "DATETIME": {
+          "name": "Date et heure",
+          "description": "Un widget de calendrier permet de saisir une date et une heure facilement"
+        },
+        "USER": {
+          "name": "Utilisateur",
+          "description": "Permet de sélectionner un utilisateur dans une liste prédéfinie"
+        },
+        "GROUP": {
+          "name": "Groupe d'utilisateurs",
+          "description": "Permet de sélectionner un groupe d'utilisateurs dans une liste prédéfinie"
+        },
+        "MULTI_USER": {
+          "name": "Multi Utilisateurs",
+          "description": "Permet de sélectionner plusieurs utilisateurs dans une liste prédéfinie"
+        },
+        "MULTI_GROUP": {
+          "name": "Groupe d'utilisateurs",
+          "description": "Permet de sélectionner plusieurs groupes d'utilisateurs dans une liste prédéfinie"
+        },
+        "RELATION_BETWEEN_TABLES": {
+          "name": "Lien vers une table",
+          "description": "Permet d'afficher les valeurs de la première colonne d'une autre table"
+        },
+        "LOOKED_UP_COLUMN": {
+          "name": "Lien vers les valeurs de champ d'une autre table",
+          "description": "Permet d'afficher la valeur d'un champ provenant d'une table liée"
+        },
+        "VIRTUAL_LOOKED_UP_COLUMN": {
+          "name": "Lien vers les valeurs de champ virtuel d'une autre table",
+          "description": "Permet d'afficher la valeur d'un champ virtuel provenant d'une table liée"
+        },
+        "SINGLE_SELECT": {
+          "name": "Sélection simple",
+          "description": "Permet de sélectionner une seule valeur dans une liste prédéfinie"
+        },
+        "MULTI_SELECT": {
+          "name": "Sélection multiple",
+          "description": "Permet de sélectionner plusieurs valeurs dans une liste prédéfinie"
+        },
+        "FORMULA": {
+          "name": "Formule",
+          "description": "Permet de calculer une valeur pour chaque cellule d'un champ"
+        },
+        "FILE": {
+          "name": "Fichier",
+          "description": "Permet de joindre un ou plusieurs fichiers à une cellule d'un champ"
+        },
+        "URL": {
+          "name": "URL",
+          "description": "Champ prévu pour stocker une URL par cellule"
+        },
+        "GEOMETRY_POINT": {
+          "name": "Géometrie de point",
+          "description": "Champ prévu pour stocker une géométrie ponctuelle en WKT"
+        },
+        "GEOMETRY_POLYGON": {
+          "name": "Géométrie de polygone",
+          "description": "Champ prévu pour stocker une géométrie polygonale en WKT"
+        },
+        "GEOMETRY_LINESTRING": {
+          "name": "Géométrie de ligne",
+          "description": "Champ prévu pour stocker une géométrie linéraire en WKT"
+        },
+        "GEOMETRY_MULTIPOINT": {
+          "name": "Géométrie multi-points",
+          "description": "Champ prévu pour stocker une géométrie de multi-points en WKT"
+        },
+        "GEOMETRY_MULTIPOLYGON": {
+          "name": "Géométrie multi-polygones",
+          "description": "Champ prévu pour stocker une géométrie de multi-polygones en WKT"
+        },
+        "GEOMETRY_MULTILINESTRING": {
+          "name": "Géométrie multi-lignes",
+          "description": "Champ prévu pour stocker une géométrie de multi-lignes en WKT"
+        }
+      },
       "selectType": {
         "addValue": "Ajouter une valeur",
         "deleteValue": "Supprimer une valeur",
@@ -715,7 +817,7 @@
         "defaultValuePlaceholder": "Choisir une valeur par défaut"
       },
       "validation": {
-        "required":"Colonne requise"
+        "required": "Colonne requise"
       },
       "relationBetweenTablesType": {
         "relationTable": "En relation avec la table",
