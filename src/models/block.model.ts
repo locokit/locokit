@@ -12,11 +12,13 @@ export class Block extends BaseModel {
   container_id!: string
   type!: string
   position?: number
-  settings?: object
   elevation?: boolean
   conditional_display_table_view_id?: string
   conditional_display_field_id?: string
   conditional_display_field_value?: boolean
+  settings?: {
+    id?: string
+  }
 
   static get tableName (): string {
     return 'block'

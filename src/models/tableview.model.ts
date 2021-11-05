@@ -36,10 +36,11 @@ export class TableView extends BaseModel {
   static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
-      required: ['text'],
+      required: ['text', 'table_id'],
 
       properties: {
         text: { type: 'string' },
+        table_id: { type: 'string' },
         documentation: { type: 'string' },
         locked: { type: 'boolean' },
         position: { type: ['number', 'null'] },

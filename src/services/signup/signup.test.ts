@@ -101,7 +101,6 @@ describe('\'signup\' service', () => {
   it('throw a 429 if too many signups are registered', async () => {
     expect.assertions(1)
     const maxTries = parseInt(app.get('authentication').signup.rateLimit.max, 10)
-    console.log(maxTries)
     for (let i = 0; i < maxTries; i++) {
       await axios.post(getUrl('signup'), {
         name: `Signup user n°${i}`,

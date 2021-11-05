@@ -42,11 +42,9 @@ describe('Feathers application tests (with jest)', () => {
             Accept: 'text/html',
           },
         })
-      } catch (error) {
-        const { response } = error
-
-        expect(response.status).toBe(404)
-        expect(response.data.indexOf('<html>')).not.toBe(-1)
+      } catch (error: any) {
+        expect(error.response.status).toBe(404)
+        expect(error.response.data.indexOf('<html>')).not.toBe(-1)
       }
     })
 
@@ -55,13 +53,11 @@ describe('Feathers application tests (with jest)', () => {
 
       try {
         await axios.get(getUrl('path/to/nowhere'))
-      } catch (error) {
-        const { response } = error
-
-        expect(response.status).toBe(404)
-        expect(response.data.code).toBe(404)
-        expect(response.data.message).toBe('Page not found')
-        expect(response.data.name).toBe('NotFound')
+      } catch (error: any) {
+        expect(error.response.status).toBe(404)
+        expect(error.response.data.code).toBe(404)
+        expect(error.response.data.message).toBe('Page not found')
+        expect(error.response.data.name).toBe('NotFound')
       }
     })
   })

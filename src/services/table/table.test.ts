@@ -2,6 +2,7 @@ import { Paginated } from '@feathersjs/feathers'
 import app from '../../app'
 import { Database } from '../../models/database.model'
 import { Table } from '../../models/table.model'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 
 describe('\'table\' service', () => {
   it('registered the service', () => {
@@ -43,10 +44,7 @@ describe('\'table\' service', () => {
     })
     expect(table).toBeTruthy()
     expect(table.id).toBeDefined()
-    await app.services.table.remove(table.id)
-    await app.services.database.remove(db.id)
-    await app.services.aclset.remove(workspace.aclsets[0].id)
-    await app.services.workspace.remove(workspace.id)
+    await dropWorkspace(app, workspace.id)
   })
 
   it('throw an error if we create a table with a name already taken, on the same database', async () => {
@@ -60,7 +58,7 @@ describe('\'table\' service', () => {
       },
     }) as Paginated<Database>
     const db = workspaceDatabases.data[0]
-    const table = await app.services.table.create({
+    await app.services.table.create({
       text: 'myTable',
       database_id: db.id,
     })
@@ -68,9 +66,6 @@ describe('\'table\' service', () => {
       text: 'myTable',
       database_id: db.id,
     })).rejects.toThrow()
-    await app.services.table.remove(table.id)
-    await app.services.database.remove(db.id)
-    await app.services.aclset.remove(workspace.aclsets[0].id)
-    await app.services.workspace.remove(workspace.id)
+    await dropWorkspace(app, workspace.id)
   })
 })

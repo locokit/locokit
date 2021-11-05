@@ -11,7 +11,10 @@ import { Database } from './database.model'
 
 export class Table extends BaseModel {
   columns?: TableColumnDTO[]
+  rows?: TableRow[]
+  views?: TableView[]
   documentation?: string
+  database_id!: string
 
   static get tableName (): string {
     return 'table'
@@ -20,10 +23,11 @@ export class Table extends BaseModel {
   static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
-      required: ['text'],
+      required: ['text', 'database_id'],
 
       properties: {
         text: { type: 'string' },
+        database_id: { type: 'string' },
       },
     }
   }

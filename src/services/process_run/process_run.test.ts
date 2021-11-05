@@ -11,6 +11,7 @@ import { Workspace } from '../../models/workspace.model'
 
 import axios, { AxiosRequestConfig } from 'axios'
 import { User } from '../../models/user.model'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 import { Paginated, Params } from '@feathersjs/feathers'
 import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
 
@@ -332,13 +333,7 @@ describe('\'process_run\' service', () => {
     })
 
     afterEach(async () => {
-      await app.service('row').remove(tableRow.id)
-      await app.service('column').remove(tableColumn.id)
-      await app.service('table').remove(table1.id)
-      await app.service('database').remove(database.id)
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-      await app.service('workspace').remove(workspace.id)
+      await dropWorkspace(app, workspace.id)
     })
 
     afterAll(async () => {
