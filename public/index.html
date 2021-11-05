@@ -12,11 +12,12 @@
       }
 
       html, body {
-        font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
+        font-family: monospace;
         font-weight: 400;
         font-size: 16px;
-        background-color: #005666;
+        background-color: #29264F;
         height: 100%;
+        color: white;
       }
 
       .center-text {
@@ -25,22 +26,29 @@
 
       main {
         display: flex;
-        justify-content: center;
+        justify-content: space-around;
+        align-content: space-around;
         align-items: center;
+        flex-direction: column;
         height: 100%;
+      }
+
+      h1 {
+        margin: 2rem;
+      }
+
+      main > * {
+        flex: 1;
       }
 
       img.logo {
         display: block;
         margin: auto;
-        max-width: 100%;
+        width:  100%;
+        max-width: 800px;
       }
 
       footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
         padding: 20px;
       }
 
@@ -62,12 +70,28 @@
     </style>
   </head>
   <body>
-    <main class="container">
-      <img class="logo" src="/logokit-grayscale.png" alt="LocoKit Logo">
+    <main>
+      <h1>
+        LocoKit API Server
+      </h1>
 
-      <footer>
-        <p class="center-text">For more information on LocoKit see <a href="https://locokit.gitlab.io/lck-docs" title="LocoKit Documentation" target="blank">https://locokit.gitlab.io/lck-docs</a>.</p>
-      </footer>
+      <img class="logo" src="/logo-dark.svg" alt="LocoKit Logo">
+
+      <h2>
+        Well done ! The API server is up and running.
+      </h2>
+
+      <p>
+        You can check the swagger <a href="/swagger.html">here</a>.
+        <br>
+        <br>
+        You can also get the swagger's JSON file <a target='_blank' href="/swagger.json">here</a>.
+        <br>
+        <br>
+        For more information on LocoKit see
+        <a href="https://locokit.gitlab.io/lck-docs" title="LocoKit Documentation" target="blank">https://locokit.gitlab.io/lck-docs</a>.
+      </p>
+
     </main>
   </body>
 </html>
