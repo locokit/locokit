@@ -22,8 +22,9 @@ From here you need docker and docker-compose in recent version.
 Copy a `.env` from  `.env.example` and customize it.
 
 ```sh
-docker-compose up
+docker-compose up # you can add -d to use the daemon option of docker-compose
 
+# in another terminal
 npm run migrate:latest
 npm run seed:run
 npm run start
