@@ -41,7 +41,7 @@ describe('\'upload\' service', () => {
       // await mkdir(fsPath)
 
       // upload a new file
-      const file = await open(path.join(__dirname, '../../../public/logokit-grayscale.png'), 'r')
+      const file = await open(path.join(__dirname, '../../../public/logo.png'), 'r')
       const buffer = await file.readFile()
       await app.service('upload').create({
         buffer,
@@ -49,7 +49,7 @@ describe('\'upload\' service', () => {
       }, {
         query: {
           workspaceId,
-          fileName: 'logokit-grayscale.png',
+          fileName: 'logo.png',
           contentType: 'image/png',
         },
       })
@@ -63,8 +63,8 @@ describe('\'upload\' service', () => {
       expect.assertions(3)
       const files = await readdir(path.join(fsPath, workspaceId))
       expect(files.length).toBe(2)
-      expect(files[0]).toBe('logokit-grayscale.png')
-      expect(files[1]).toBe('thumbnail_logokit-grayscale.png')
+      expect(files[0]).toBe('logo.png')
+      expect(files[1]).toBe('thumbnail_logo.png')
     })
 
     it('create an attachment on the workspace', async () => {
@@ -75,7 +75,7 @@ describe('\'upload\' service', () => {
         },
       }) as Paginated<LckAttachment>
       expect(attachments.total).toBe(1)
-      expect(attachments.data[0].filename).toBe('logokit-grayscale.png')
+      expect(attachments.data[0].filename).toBe('logo.png')
       expect(attachments.data[0].thumbnail).toBe(true)
     })
 
@@ -92,23 +92,23 @@ describe('\'upload\' service', () => {
       }, {
         query: {
           workspaceId,
-          fileName: 'logokit-grayscale1.png',
+          fileName: 'logo1.png',
           contentType: 'image/png',
         },
       })
       expect.assertions(5)
       const files = await readdir(path.join(fsPath, workspaceId))
       expect(files.length).toBe(1)
-      expect(files[0]).toBe('logokit-grayscale1.png')
+      expect(files[0]).toBe('logo1.png')
 
       const attachments = await app.service('attachment').find({
         query: {
           workspace_id: workspaceId,
-          filepath: workspaceId + '/logokit-grayscale1.png',
+          filepath: workspaceId + '/logo1.png',
         },
       }) as Paginated<LckAttachment>
       expect(attachments.total).toBe(1)
-      expect(attachments.data[0].filename).toBe('logokit-grayscale1.png')
+      expect(attachments.data[0].filename).toBe('logo1.png')
       expect(attachments.data[0].thumbnail).toBe(false)
     })
 
@@ -117,7 +117,7 @@ describe('\'upload\' service', () => {
       await rmdir(fsPath, { recursive: true })
       await mkdir(fsPath)
       // upload a new file
-      const file = await open(path.join(__dirname, '../../../public/logokit-grayscale.png'), 'r')
+      const file = await open(path.join(__dirname, '../../../public/logo.png'), 'r')
       const buffer = await file.readFile()
       expect.assertions(1)
       await expect(app.service('upload').create({
@@ -126,7 +126,7 @@ describe('\'upload\' service', () => {
       }, {
         query: {
           workspaceId,
-          fileName: 'logokit-grayscale.png',
+          fileName: 'logo.png',
           contentType: 'image/png',
         },
       })).rejects.toThrowError(NotAcceptable)
@@ -137,7 +137,7 @@ describe('\'upload\' service', () => {
       await rmdir(fsPath, { recursive: true })
       await mkdir(fsPath)
       // upload a new file
-      const file = await open(path.join(__dirname, '../../../public/logokit-grayscale.png'), 'r')
+      const file = await open(path.join(__dirname, '../../../public/logo.png'), 'r')
       const buffer = await file.readFile()
       expect.assertions(3)
       const attachment = await app.service('upload').create({
@@ -146,14 +146,14 @@ describe('\'upload\' service', () => {
       }, {
         query: {
           workspaceId,
-          fileName: 'logokit-grayscale.png',
+          fileName: 'logo.png',
           contentType: 'image/png',
           forceUpdate: 1,
         },
       })
       expect(attachment).toBeDefined()
       expect(attachment.thumbnail).toBe(true)
-      expect(attachment.filename).toBe('logokit-grayscale.png')
+      expect(attachment.filename).toBe('logo.png')
     })
 
     afterAll(() => {
@@ -189,7 +189,7 @@ describe('\'upload\' service', () => {
       app.set('storage', s3Config)
       // configure again the service to take the new config
       app.configure(uploadService)
-      const file = await open(path.join(__dirname, '../../../public/logokit-grayscale.png'), 'r')
+      const file = await open(path.join(__dirname, '../../../public/logo.png'), 'r')
       const buffer = await file.readFile()
       await app.service('upload').create({
         buffer,
@@ -197,7 +197,7 @@ describe('\'upload\' service', () => {
       }, {
         query: {
           workspaceId,
-          fileName: 'logokit-grayscale.png',
+          fileName: 'logo.png',
           contentType: 'image/png',
         },
       })
@@ -215,8 +215,8 @@ describe('\'upload\' service', () => {
         MaxKeys: 10,
       }).promise()
       expect(bucketFiles.Contents?.length).toBe(2)
-      expect((bucketFiles.Contents as AWS.S3.ObjectList)[0].Key).toBe('logokit-grayscale.png')
-      expect((bucketFiles.Contents as AWS.S3.ObjectList)[1].Key).toBe('thumbnail_logokit-grayscale.png')
+      expect((bucketFiles.Contents as AWS.S3.ObjectList)[0].Key).toBe('logo.png')
+      expect((bucketFiles.Contents as AWS.S3.ObjectList)[1].Key).toBe('thumbnail_logo.png')
     })
 
     it('create an attachment on the workspace', async () => {
@@ -230,7 +230,7 @@ describe('\'upload\' service', () => {
         },
       }) as Paginated<LckAttachment>
       expect(attachments.total).toBe(1)
-      expect(attachments.data[0].filename).toBe('logokit-grayscale.png')
+      expect(attachments.data[0].filename).toBe('logo.png')
       expect(attachments.data[0].thumbnail).toBe(true)
     })
 
