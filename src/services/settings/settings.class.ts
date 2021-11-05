@@ -1,7 +1,18 @@
 import { Application } from '../../declarations'
+import { ServiceSwaggerOptions } from 'feathers-swagger'
+import { JSONSchema } from 'objection'
 
-export interface SettingsModel {
-  allow_signup: boolean
+export class SettingsModel {
+  allow_signup!: boolean
+
+  static get jsonSchema (): JSONSchema {
+    return {
+      type: 'object',
+      properties: {
+        allow_signup: { type: 'boolean' },
+      },
+    }
+  }
 }
 
 export interface SettingsService {
@@ -11,11 +22,17 @@ export interface SettingsService {
 export class Settings implements SettingsService {
   app: Application
   localSettings: SettingsModel
+  public docs: ServiceSwaggerOptions
 
   constructor (app: Application) {
     this.app = app
     this.localSettings = {
-      allow_signup: this.app.get('authentication').allowSignUp === 'true',
+      allow_signup: this.app.get('authentication').signup.isAllowed === 'true',
+    }
+
+    this.docs = {
+      description: 'Settings of the LocoKit platform',
+      definition: SettingsModel.jsonSchema,
     }
   }
 

@@ -42,7 +42,13 @@
       "digits": true,
       "symbols": true
     },
-    "allowSignUp": "ALLOW_SIGNUP"
+    "signup": {
+      "isAllowed": "SIGNUP_ALLOWED",
+      "rateLimit": {
+        "max": "SIGNUP_RATE_LIMIT_MAX",
+        "timeframe": "SIGNUP_RATE_LIMIT_TIMEFRAME"
+      }
+    }
   },
   "postgres": {
     "client": "pg",

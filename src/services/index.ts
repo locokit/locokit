@@ -62,7 +62,5 @@ export default function (app: Application): void {
   app.configure(processRun)
   app.configure(log)
   app.configure(settings)
-  if (app.get('authentication').allowSignUp === 'true') {
-    app.configure(signup)
-  }
+  app.configure(signup)
 }
