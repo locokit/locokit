@@ -1,6 +1,6 @@
 # Visualization
 
-The LCK platform has a built-in visualization "CMS".
+The LCK platform has a built-in visualization "Content Management System".
 
 It allows you organize the data,
 according user permissions, and page organization.
@@ -17,3 +17,4 @@ according user permissions, and page organization.
 * Markdown
 * Paragraph
 * TableView
+* Media

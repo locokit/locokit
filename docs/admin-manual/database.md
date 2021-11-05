@@ -1,20 +1,20 @@
-# Storage
+# Database schema
 
-## Resources
+![](./dbschema_210318.png)
 
-### Workspace
+## Workspace
 
-### Database
+## Database
 
-### Table
+## Table
 
-### Table columns
+## Table columns
 
-### Table rows
+## Table rows
 
-### Table_view
+## Table_view
 
-### Table_view_has_table_column
+## Table_view_has_table_column
 
  - __table_view_id__: reference to the table view id
  - __table_column_id__: reference to the table column id

@@ -14,6 +14,6 @@
   "author": "Mathieu DARTIGUES",
   "license": "ISC",
   "dependencies": {
-    "vitepress": "^0.7.4"
+    "vitepress": "^0.13.2"
   }
 }
