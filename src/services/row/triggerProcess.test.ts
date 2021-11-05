@@ -11,6 +11,7 @@ import { Workspace } from '../../models/workspace.model'
 import axios, { AxiosRequestConfig } from 'axios'
 import { ProcessRun } from '../../models/process_run.model'
 import { Paginated } from '@feathersjs/feathers'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 
 describe('\'triggerProcess\' hook', () => {
   let workspace: Workspace
@@ -333,14 +334,7 @@ describe('\'triggerProcess\' hook', () => {
   })
 
   afterEach(async () => {
-    await app.service('column').remove(tableColumn1.id)
-    await app.service('column').remove(tableColumn.id)
-    await app.service('column').remove(tableFormulaColumn.id)
-    await app.service('table').remove(table1.id)
-    await app.service('database').remove(database.id)
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-    await app.service('workspace').remove(workspace.id)
+    await dropWorkspace(app, workspace.id)
   })
 
   afterAll(async () => {

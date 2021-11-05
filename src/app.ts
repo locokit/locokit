@@ -58,7 +58,7 @@ app.use(helmet({
   contentSecurityPolicy: {
     useDefaults: true,
     directives: {
-      'script-src': ["'self'", "'unsafe-inline'", 'https://cdn.jsdelivr.net', "'unsafe-eval'"],
+      'script-src': ["'self'", "'unsafe-inline'", 'https://cdn.jsdelivr.net', "'unsafe-eval'", 'https://unpkg.com'],
       'worker-src': ['blob:'], // needed by redoc swagger
     },
   },
@@ -131,7 +131,7 @@ then add it in each request in the header \`Authorization\`.
 
 You'll be able to make your request, according your permissions / ACLs.
 `,
-      version: process.env.npm_version || 'local version',
+      version: process.env.npm_version ?? 'local version',
       'x-logo': {
         url: app.get('swagger').urlLogo,
       },
@@ -151,11 +151,13 @@ You'll be able to make your request, according your permissions / ACLs.
         name: 'Access Control List',
         tags: [
           'aclset',
+          'acltable',
         ],
       }, {
         name: 'Data',
         tags: [
           'workspace',
+          'database',
           'table',
           'column',
           'columnrelation',
@@ -165,6 +167,7 @@ You'll be able to make your request, according your permissions / ACLs.
           'table-view-has-table-column',
           'attachment',
           'upload',
+          'log',
         ],
       }, {
         name: 'CMS',
@@ -179,6 +182,11 @@ You'll be able to make your request, according your permissions / ACLs.
         tags: [
           'process',
           'process-run',
+        ],
+      }, {
+        name: 'Other',
+        tags: [
+          'settings',
         ],
       },
     ],
@@ -218,7 +226,7 @@ You'll be able to make your request, according your permissions / ACLs.
         }
       }
       return {
-        [model]: service?.docs?.definition || service?.jsonSchema,
+        [model]: service?.docs?.definition ?? service?.jsonSchema,
         [`${model}_list`]: {
           title: `${modelName} list`,
           type: 'array',

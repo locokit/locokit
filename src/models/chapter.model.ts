@@ -7,7 +7,8 @@ import { Page } from './page.model'
 import { Model, RelationMappings, JSONSchema } from 'objection'
 
 export class Chapter extends BaseModel {
-  title!: string
+  text!: string
+  workspace_id!: string
   position!: number
   settings!: object
   type!: string
@@ -19,10 +20,11 @@ export class Chapter extends BaseModel {
   static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
-      required: ['text'],
+      required: ['text', 'workspace_id'],
 
       properties: {
-        title: { type: 'string' },
+        text: { type: 'string' },
+        workspace_id: { type: 'string' },
         position: { type: 'number' },
         settings: { type: 'object' },
       },

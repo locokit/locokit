@@ -2,7 +2,7 @@ import * as authentication from '@feathersjs/authentication'
 import { authorize } from 'feathers-casl/dist/hooks'
 import { defineAbilitiesIffHook } from '../../abilities/workspace.abilities'
 import filterChapterAccordingPermissions from './filterChapter.hook'
-import { disablePagination } from 'feathers-hooks-common'
+import { disablePagination, required } from 'feathers-hooks-common'
 import { addWorkspaceDependencies } from './addWorkspaceDependencies.hook'
 // Don't remove this comment. It's needed to format import lines nicely.
 
@@ -30,6 +30,7 @@ export default {
       authorize({
         adapter: 'feathers-objection',
       }),
+      required('text'),
     ],
     update: [],
     patch: [],

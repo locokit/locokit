@@ -9,6 +9,7 @@ import { Workspace } from '../../models/workspace.model'
 import { TableView } from '../../models/tableview.model'
 import { TableViewColumn } from '../../models/tableviewcolumn.model'
 import { Paginated } from '@feathersjs/feathers'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 
 describe('\'checkIfTableViewIsLocked\' hook', () => {
   const service = app.service('table-view-has-table-column')
@@ -191,13 +192,6 @@ describe('\'checkIfTableViewIsLocked\' hook', () => {
   })
 
   afterEach(async () => {
-    await app.service('column').remove(columnTable1Boolean.id)
-    await app.service('column').remove(columnTable1Number.id)
-    await app.service('view').remove(tableview.id)
-    await app.service('table').remove(table1.id)
-    await app.service('database').remove(database.id)
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-    await app.service('workspace').remove(workspace.id)
+    await dropWorkspace(app, workspace.id)
   })
 })

@@ -13,6 +13,7 @@ export class Page extends BaseModel {
   chapter_id!: string
   hidden!: boolean
   layout!: string
+  containers?: Container[]
 
   static get tableName (): string {
     return 'page'

@@ -1,7 +1,6 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
 import { JSONSchema, Model, RelationMappings } from 'objection'
-import { Application } from '../declarations'
 import { BaseModel } from './base.model'
 import { Workspace } from './workspace.model'
 import { Chapter } from './chapter.model'
@@ -98,6 +97,6 @@ export class LckAclSet extends BaseModel {
   }
 }
 
-export default function (app: Application): typeof LckAclSet {
+export default function (): typeof LckAclSet {
   return LckAclSet
 }

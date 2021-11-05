@@ -13,6 +13,8 @@ export class Container extends BaseModel {
   anchor_icon_class?: string
   display_title?: boolean
   elevation?: boolean
+  page_id!: string
+  blocks?: Block[]
 
   static get tableName (): string {
     return 'container'
@@ -21,9 +23,10 @@ export class Container extends BaseModel {
   static get jsonSchema (): JSONSchema {
     return {
       type: 'object',
-      required: ['text'],
+      required: ['text', 'page_id'],
       properties: {
         text: { type: 'string' },
+        page_id: { type: 'string' },
         position: { type: ['number', 'null'] },
         displayed_in_navbar: { type: 'boolean' },
         anchor_label: { type: 'string' },
