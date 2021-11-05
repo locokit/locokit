@@ -51,6 +51,14 @@ const columns = [
     column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
   },
   {
+    text: 'Looked up column',
+    column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+  },
+  {
+    text: 'Virtual looked up column',
+    column_type_id: COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN,
+  },
+  {
     text: 'Single Select',
     column_type_id: COLUMN_TYPE.SINGLE_SELECT,
   },
@@ -96,6 +104,18 @@ const columns = [
   {
     text: 'Geometry linestring',
     column_type_id: COLUMN_TYPE.GEOMETRY_LINESTRING,
+  },
+  {
+    text: 'Geometry multi point',
+    column_type_id: COLUMN_TYPE.GEOMETRY_MULTIPOINT,
+  },
+  {
+    text: 'Geometry multi polygon',
+    column_type_id: COLUMN_TYPE.GEOMETRY_MULTIPOLYGON,
+  },
+  {
+    text: 'Geometry multi linestring',
+    column_type_id: COLUMN_TYPE.GEOMETRY_MULTILINESTRING,
   },
 ]
 

@@ -211,7 +211,7 @@ export function getColumnClass (column: LckTableViewColumn): string {
   const columnClass = getColumnTypeId(column)
   switch (columnClass) {
     case COLUMN_TYPE.BOOLEAN:
-      return 'bi bi-check'
+      return 'bi bi-check2-square'
     case COLUMN_TYPE.STRING:
       return 'bi bi-type'
     case COLUMN_TYPE.NUMBER:
@@ -228,14 +228,18 @@ export function getColumnClass (column: LckTableViewColumn): string {
       return 'bi bi-people-fill'
     case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
       return 'bi bi-text-indent-left'
+    case COLUMN_TYPE.LOOKED_UP_COLUMN:
+      return 'bi bi-binoculars-fill'
+    case COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN:
+      return 'bi bi-binoculars'
     case COLUMN_TYPE.SINGLE_SELECT:
-      return 'bi bi-check'
+      return 'bi bi-caret-down-square'
     case COLUMN_TYPE.MULTI_SELECT:
       return 'bi bi-list-check'
     case COLUMN_TYPE.FORMULA:
-      return 'bi bi-calculator'
+      return 'bi bi-magic'
     case COLUMN_TYPE.FILE:
-      return 'bi-file-earmark'
+      return 'bi bi-file-earmark'
     case COLUMN_TYPE.MULTI_USER:
       return 'bi bi-people-fill'
     case COLUMN_TYPE.MULTI_GROUP:
@@ -246,10 +250,16 @@ export function getColumnClass (column: LckTableViewColumn): string {
       return 'bi bi-link-45deg'
     case COLUMN_TYPE.GEOMETRY_POINT:
       return 'bi bi-geo'
+    case COLUMN_TYPE.GEOMETRY_MULTIPOINT:
+      return 'bi bi-geo'
     case COLUMN_TYPE.GEOMETRY_POLYGON:
       return 'bi bi-bounding-box-circles'
+    case COLUMN_TYPE.GEOMETRY_MULTIPOLYGON:
+      return 'bi bi-bounding-box-circles'
     case COLUMN_TYPE.GEOMETRY_LINESTRING:
-      return 'bi bi-geo-fill'
+      return 'bi bi-slash-lg'
+    case COLUMN_TYPE.GEOMETRY_MULTILINESTRING:
+      return 'bi bi-slash-lg'
     default:
       return ''
   }
