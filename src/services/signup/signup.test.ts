@@ -2,6 +2,17 @@ import { Paginated } from '@feathersjs/feathers'
 import { USER_PROFILE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { User } from '../../models/user.model'
+import axios from 'axios'
+import url from 'url'
+import { Server } from 'http'
+
+const port = app.get('port') || 8998
+const getUrl = (pathname?: string): string => url.format({
+  hostname: app.get('host') || 'localhost',
+  protocol: 'http',
+  port,
+  pathname,
+})
 
 describe('\'signup\' service', () => {
   const credentials = {
@@ -10,9 +21,16 @@ describe('\'signup\' service', () => {
   }
 
   const originalMailerCreateFunction = app.service('mailer').create
+  let server: Server
 
-  beforeAll(() => {
+  beforeAll(done => {
     app.service('mailer').create = jest.fn()
+    server = app.listen(port)
+    server.once('listening', () => done())
+  })
+
+  afterAll(done => {
+    server.close(done)
   })
 
   afterAll(() => {
@@ -78,5 +96,25 @@ describe('\'signup\' service', () => {
       subject: '[LCK_PUBLIC_PORTAL_NAME] Your email address has been used',
       to: 'signupuser@locokit.io',
     }))
+  })
+
+  it('throw a 429 if too many signups are registered', async () => {
+    expect.assertions(1)
+    const maxTries = parseInt(app.get('authentication').signup.rateLimit.max, 10)
+    console.log(maxTries)
+    for (let i = 0; i < maxTries; i++) {
+      await axios.post(getUrl('signup'), {
+        name: `Signup user n°${i}`,
+        email: `signupuser${i}@locokit.io`,
+      })
+    }
+    try {
+      await axios.post(getUrl('signup'), {
+        name: 'Signup user n° too much',
+        email: 'signupusertoomuch@locokit.io',
+      })
+    } catch (error: any) {
+      expect(error.response.status).toBe(429)
+    }
   })
 })

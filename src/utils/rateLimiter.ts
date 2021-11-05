@@ -11,16 +11,13 @@ import { TooManyRequests } from '@feathersjs/errors'
  * @param windowMS
  * Timeframe during the maximum number of tries is limited
  */
-export function rateLimiter (max: number, windowMs: number): rateLimit.RateLimit | Function {
-  if (process.env.NODE_ENV !== 'test') {
-    const apiLimiter = rateLimit({
-      windowMs,
-      max,
-      handler: () => {
-        throw new TooManyRequests()
-      },
-    })
-    return apiLimiter
-  }
-  return () => {}
+export function rateLimiter (max: number, windowMs: number): rateLimit.RateLimit {
+  const apiLimiter = rateLimit({
+    windowMs,
+    max,
+    handler () {
+      throw new TooManyRequests()
+    },
+  })
+  return apiLimiter
 }
