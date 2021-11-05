@@ -28,15 +28,14 @@ Four profiles are available :
 
 | Profile        | Permissions                                           |
 | -------------- | ----------------------------------------------------- |
-| **USER**       | Can access to its group and all related resources     |
-| **CREATOR**    | Can create / manage workspace (it owns)               |
+| **USER**       | can access to its group and all related resources     |
+| **CREATOR**    | can create / manage workspace (it owns)               |
 | **ADMIN**      | can create users and change profile until ADMIN grade |
 |                | can see all workspaces                                |
 |                | can create groups                                     |
 |                | can affect users to groups                            |
-| **SUPERADMIN** | Manager of the instance (config, theme, ...)          |
-|                | Manage users (creation + remove)                      |
-|                | update profiles                                       |
+| **SUPERADMIN** | manager the instance (config, theme, ...)             |
+|                | update users' profile                                 |
 
 If a user is deleted, that implies we replace every action of this user by an anonymous user.
 
@@ -48,7 +47,7 @@ All users are readable by all users.
 
 ## Groups
 
-A group is a user's set, linked to a workspace.
+A group is a user's set.
 
 Each user in a group will have a role.
 
@@ -60,14 +59,10 @@ Three roles exist : **OWNER**, **ADMIN**, **MEMBER**.
 | **ADMIN**  | Can add / remove user, update role               |
 | **OWNER**  | Can delete the group                             |
 
-Each group is linked to a workspace.
+Each group is linked to an ACL set,
+and a user can be member of several groups, linked to the same workspace.
 
-A group can be a **manager** of a workspace if the group's property `manager` is `true`.
-
-A group **manager** can manage the workspace
-(in fact, all users that are at least **MEMBER** of this group):
-* can CRUD all workspace's resources (group, database, chapter, table, ...)
-* can manage permissions on workspace's resources (database, table, ...), per group
-* delete the workspace
+So, a user can access the same workspace through different groups,
+allowing him to browse workspace data with specific permissions / visualizations.
 
 All groups are readable by all users.

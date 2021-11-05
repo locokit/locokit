@@ -5,18 +5,33 @@ for the [storage](storage.md#resources) / [visualization](visualization.md) reso
 
 Several resources are available :
 
-* storage
-  * database
-  * table
-  * table_row = records
-  * table_column = fields
-  * table_view
 * visualization
   * chapter
   * page
   * container
   * block
 * process / action
+* storage
+  * database
+  * table
+  * table_row = records
+  * table_column = fields
+  * table_view
+  * attachment
+
+Each group of permission is called an ACL set, 
+we can find them in the `acl_set` table.
+
+An ACL set is related to a workspace
+and can be a **manager** of this one if the property `manager` is `true`.
+
+An ACL set **manager** can manage the workspace
+(in fact, all users that are at least **MEMBER** of a group related to this ACL set):
+* can CRUD all workspace's resources (group, database, chapter, table, ...)
+* can manage permissions on workspace's resources (database, table, ...), per group
+* delete the workspace
+
+For other set, we want to define more precisely what the set allows to.
 
 ## on database
 
