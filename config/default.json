@@ -41,6 +41,13 @@
       "lowercase": true,
       "digits": true,
       "symbols": true
+    },
+    "signup": {
+      "isAllowed": "SIGNUP_ALLOWED",
+      "rateLimit": {
+        "max": "SIGNUP_RATE_LIMIT_MAX",
+        "timeframe": "SIGNUP_RATE_LIMIT_TIMEFRAME"
+      }
     }
   },
   "postgres": {

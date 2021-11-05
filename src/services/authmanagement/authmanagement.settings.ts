@@ -28,6 +28,10 @@ export enum AuthenticationManagementAction {
    */
   sendUpdatedEmailAddress = 'sendUpdatedEmailAddress',
   /**
+   * We use it to inform a user that its email has been used to create / update another account.
+   */
+  informUserConflict = 'informUserConflict',
+  /**
    * We use them when a user is enabled / disabled to inform him/her with an email.
    */
   enableUser = 'enableUser',
@@ -37,8 +41,10 @@ export enum AuthenticationManagementAction {
 const templateFolder = '/templates/mails'
 
 export function authManagementSettings (app: Application) {
-  function getLink (type: string, hash: string): string {
-    return app.get('publicUrl') as string + '/' + type + '?token=' + hash
+  function getLink (type: string, hash?: string): string {
+    let link = app.get('publicUrl') as string + '/' + type
+    if (hash) link += '?token=' + hash
+    return link
   }
 
   const actionOptions: Record<AuthenticationManagementAction, {
@@ -97,6 +103,10 @@ export function authManagementSettings (app: Application) {
       templateFile: path.join(process.cwd(), templateFolder, '/disableUser/template.ejs'),
       titleFile: path.join(process.cwd(), templateFolder, '/disableUser/title.ejs'),
     },
+    [AuthenticationManagementAction.informUserConflict]: {
+      templateFile: path.join(process.cwd(), templateFolder, '/informUserConflict/template.ejs'),
+      titleFile: path.join(process.cwd(), templateFolder, '/informUserConflict/title.ejs'),
+    },
   }
 
   return {
@@ -115,6 +125,7 @@ export function authManagementSettings (app: Application) {
         user: LckUser
         verifySignupLink?: string
         resetPasswordLink?: string
+        lostPasswordLink?: string
         identityChangeLink?: string
       } = {
         portalLink: app.get('publicUrl'),
@@ -130,6 +141,9 @@ export function authManagementSettings (app: Application) {
           break
         case AuthenticationManagementAction.identityChange:
           currentTemplateVars.identityChangeLink = getLink('update-email', user.verifyToken as string)
+          break
+        case AuthenticationManagementAction.informUserConflict:
+          currentTemplateVars.lostPasswordLink = getLink('lost-password')
           break
       }
 

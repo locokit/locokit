@@ -12,6 +12,7 @@ module.exports = {
     '!src/**/*.test.ts',
     '!src/**/*.d.ts',
   ],
+  setupFiles: ['<rootDir>/.jest/setEnvVars.js'],
   testMatch: [
     '**/src/*.test.ts',
     '**/src/**/*.test.ts',
