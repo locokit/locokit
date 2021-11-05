@@ -1,0 +1,19 @@
+{
+  "name": "lck-docs",
+  "version": "0.0.1",
+  "description": "Low Code Kit Documentation",
+  "main": "index.js",
+  "scripts": {
+    "start": "DEBUG=true vitepress dev docs",
+    "build": "vitepress build docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.makina-corpus.net:lck/lck-docs.git"
+  },
+  "author": "Mathieu DARTIGUES",
+  "license": "ISC",
+  "dependencies": {
+    "vitepress": "^0.13.2"
+  }
+}
