@@ -1,0 +1,111 @@
+image: node:fermium-slim
+
+stages:
+  - quality
+  - build
+  - build-docker
+
+.build_variables:
+  variables: &build_variables
+    # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_DRIVER: overlay2
+    IMAGE_NAME: "${MC_REGISTRY}/${MC_REGISTRY_IMAGE}"
+
+.build_template: &build_definition
+  image: docker:stable
+  tags: [shared-ci-docker]
+  stage: build-docker
+  services:
+    - docker:dind
+  dependencies:
+    - build-lib
+  before_script:
+    - docker -v
+    - docker info
+    - echo "${MC_REGISTRY_PASSWORD}" | docker login -u ${MC_REGISTRY_USER} --password-stdin ${MC_REGISTRY}
+    - docker pull $IMAGE_NAME:latest || true
+
+test:
+  tags: [shared-ci-docker]
+  stage: quality
+  variables:
+    POSTGRES_DB: postgres
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: pouicpouic
+
+    LCK_PORT: 3030
+    LCK_HOST: localhost
+    LCK_DATABASE_URL_TEST: postgres://postgres:pouicpouic@lck-db:5432/postgres
+
+    OBJECTION_DEBUG: 'false'
+    NODE_ENV: test
+
+    STORAGE_TYPE: fs
+    STORAGE_PUBLIC_PATH: /storage
+    STORAGE_FS_PATH: ../fs-storage
+    STORAGE_S3_URL: http://lck-s3:9000
+    STORAGE_S3_ACCESS_KEY: minio
+    STORAGE_S3_SECRET_KEY: notsecret
+    STORAGE_S3_PATH_STYLE: 1
+    STORAGE_S3_SIGNATURE_VERSION: v4
+    STORAGE_S3_DEFAULT_BUCKET: public
+
+    MINIO_ACCESS_KEY: minio
+    MINIO_SECRET_KEY: notsecret
+
+  services:
+    - name: postgis/postgis:12-3.0
+      alias: lck-db
+    - name: minio/minio:latest
+      alias: lck-s3
+      command: ["server", "/data"]
+  script:
+    - npm ci
+    - cp -r patch/** node_modules/
+    - npm run lint
+    - npm test
+  artifacts:
+    expire_in: 1 day
+    name: 'lck-api-${CI_COMMIT_REF_SLUG}-coverage'
+    paths:
+    - coverage/
+    reports:
+      cobertura: coverage/cobertura-coverage.xml
+
+build-lib:
+  tags: [shared-ci-docker]
+  stage: build
+  script:
+    - npm ci
+    - cp -r patch/** node_modules/
+    - npm run compile
+  artifacts:
+    expire_in: 3 mos
+    name: 'lck-api-${CI_COMMIT_REF_SLUG}'
+    paths:
+    - lib/
+
+build-docker:
+  <<: *build_definition
+  except:
+    - tags
+  when: manual
+  variables:
+    <<: *build_variables
+    IMAGE_VERSION: "latest"
+  script:
+    - docker build --cache-from $IMAGE_NAME:latest --tag $IMAGE_NAME:$IMAGE_VERSION .
+    - docker push $IMAGE_NAME:$IMAGE_VERSION
+
+build-docker-tagged:
+  <<: *build_definition
+  only:
+    - tags
+  variables:
+    <<: *build_variables
+    IMAGE_VERSION: "${CI_COMMIT_TAG}"
+  script:
+    - docker build --cache-from $IMAGE_NAME:latest --tag $IMAGE_NAME:$IMAGE_VERSION --tag $IMAGE_NAME:latest .
+    - docker push $IMAGE_NAME:$IMAGE_VERSION
+    - docker push $IMAGE_NAME:latest

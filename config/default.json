@@ -1,0 +1,80 @@
+{
+  "host": "LCK_HOST",
+  "port": "LCK_PORT",
+  "publicUrl": "LCK_PUBLIC_URL",
+  "publicPortalName": "LCK_PUBLIC_PORTAL_NAME",
+  "public": "../public/",
+  "paginate": {
+    "default": 10,
+    "max": 50
+  },
+  "swagger": {
+    "docsPath": "/swagger",
+    "docsJsonPath": "/swagger.json",
+    "urlLogo": "/logokit-grayscale.png"
+  },
+  "authentication": {
+    "entity": "user",
+    "service": "user",
+    "secret": "LCK_AUTH_SECRET",
+    "authStrategies": [
+      "jwt",
+      "local"
+    ],
+    "jwtOptions": {
+      "header": {
+        "typ": "access"
+      },
+      "audience": "LCK_PUBLIC_URL",
+      "issuer": "locokit",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "usernameField": "email",
+      "passwordField": "password"
+    },
+    "passwordPolicy": {
+      "minLength": 8,
+      "maxLength": 128,
+      "uppercase": true,
+      "lowercase": true,
+      "digits": true,
+      "symbols": true
+    },
+    "signup": {
+      "isAllowed": "SIGNUP_ALLOWED",
+      "rateLimit": {
+        "max": "SIGNUP_RATE_LIMIT_MAX",
+        "timeframe": "SIGNUP_RATE_LIMIT_TIMEFRAME"
+      }
+    }
+  },
+  "postgres": {
+    "client": "pg",
+    "connection": "LCK_DATABASE_URL"
+  },
+  "mail": {
+    "host": "MAIL_SERVER",
+    "port": "MAIL_PORT",
+    "user": "MAIL_USERNAME",
+    "pass": "MAIL_PASSWORD",
+    "from": "MAIL_DEFAULT_FROM",
+    "secure": "MAIL_SECURE"
+  },
+  "cors": {
+    "origin": "CORS_ORIGIN"
+  },
+  "storage": {
+    "type": "STORAGE_TYPE",
+    "publicPath": "STORAGE_PUBLIC_PATH",
+    "endpoint": "STORAGE_S3_URL",
+    "accessKeyId": "STORAGE_S3_ACCESS_KEY",
+    "secretAccessKey": "STORAGE_S3_SECRET_KEY",
+    "s3ForcePathStyle": "STORAGE_S3_PATH_STYLE",
+    "signatureVersion": "STORAGE_S3_SIGNATURE_VERSION",
+    "defaultBucket": "STORAGE_S3_DEFAULT_BUCKET",
+    "fsPath": "STORAGE_FS_PATH",
+    "maxUploadSize": "STORAGE_MAX_UPLOAD_SIZE"
+  }
+}

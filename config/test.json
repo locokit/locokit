@@ -1,0 +1,43 @@
+{
+  "postgres": {
+    "client": "pg",
+    "connection": "LCK_DATABASE_URL_TEST"
+  },
+  "authentication": {
+    "entity": "user",
+    "service": "user",
+    "secret": "LCK_AUTH_SECRET",
+    "authStrategies": [
+      "jwt",
+      "local"
+    ],
+    "jwtOptions": {
+      "header": {
+        "typ": "access"
+      },
+      "audience": "LCK_PUBLIC_URL",
+      "issuer": "locokit",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "usernameField": "email",
+      "passwordField": "password"
+    },
+    "passwordPolicy": {
+      "minLength": 8,
+      "maxLength": 128,
+      "uppercase": true,
+      "lowercase": true,
+      "digits": true,
+      "symbols": true
+    },
+    "signup": {
+      "isAllowed": "true",
+      "rateLimit": {
+        "max": "5",
+        "timeframe": "60000"
+      }
+    }
+  }
+}
