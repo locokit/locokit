@@ -14,3 +14,11 @@ export const LoginStory = () => ({
 })
 
 LoginStory.storyName = 'Login'
+
+export const LoginWithSignUpStory = () => ({
+  components: { Login },
+  template: '<Login @submit="this.submit" displaySignUpLink="true" />',
+  methods: { submit: action('submit') },
+})
+
+LoginWithSignUpStory.storyName = 'Login with signup link'

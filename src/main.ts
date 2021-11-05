@@ -9,11 +9,14 @@ import './plugins/casl'
 import './plugins/vee-validate'
 
 import { reAuthenticate } from './store/auth'
+import { loadApplicationSettings } from './store/app'
 
 Vue.config.productionTip = false
 
 async function boot () {
-  // first, try to reauthent the user,
+  // load application settings
+  await loadApplicationSettings()
+  // try to reauthent the user,
   // this allow the app to keep the actual route if authenticated
   await reAuthenticate()
 

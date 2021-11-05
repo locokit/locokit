@@ -10,7 +10,8 @@
       "signin": "Se connecter",
       "signinAgain": "Se reconnecter",
       "passwordHelper": "Renseignez votre mot de passe",
-      "lostpassword": "Mot de passe perdu ?"
+      "lostpassword": "Mot de passe perdu ?",
+      "signup": "S'inscrire"
     },
     "lostpassword": {
       "email": "E-mail",
@@ -26,6 +27,11 @@
       "resetSubmit": "Réinitialiser le mot de passe",
       "setSubmit": "Définir le mot de passe",
       "passwordMismatch": "Les mots de passe ne sont pas identiques."
+    },
+    "signup": {
+      "email": "E-mail",
+      "name": "Nom",
+      "signup": "S'inscrire"
     },
     "paginator": {
       "currentPageReportTemplate": "De {first} à {last} sur {totalRecords} résultat(s)",
@@ -397,13 +403,21 @@
     "lostpassword": {
       "title": "Mot de passe, où es tu ?",
       "subtitle": "Vous avez perdu votre mot de passe ? Renseignez votre email pour recevoir un mail avec un lien temporaire. Cliquez dessus, et vous pourrez changer votre mot de passe !",
-      "sendResetOK": "Mail envoyé ! Merci de vérifier vos mails, d'ouvrir le mail que nous venons de vous envoyer, et d'ouvrir le lien indiqué."
+      "sendResetOK": "Mail envoyé ! Merci de vérifier vos mails, d'ouvrir le mail que nous venons de vous envoyer, et d'ouvrir le lien indiqué.",
+      "homelink": "Retour à la page d'accueil"
     },
     "resetpassword": {
       "title": "Réinitialisation du mot de passe",
       "subtitle": "Vous pouvez réinitialiser votre mot de passe.",
       "resetOK": "Mot de passe réinitialisé. Vous pouvez vous connecter avec ce nouveau mot de passe.",
       "homelink": "Retour à la page d'accueil"
+    },
+    "signup": {
+      "forbid": "Il n'est pas possible de s'inscrire.",
+      "homelink": "Retour à la page d'accueil",
+      "signUpOk": "Votre demande d'inscription a bien été prise en compte. Vous allez recevoir un message électronique contenant la démarche à suivre pour finaliser votre inscription.",
+      "subtitle": "Complétez ce formulaire pour initialiser votre inscription.",
+      "title": "Inscription"
     },
     "verifysignup": {
       "title": "Vérification de votre email et enregistrement du mot de passe",
@@ -619,7 +633,7 @@
           "displayFieldConditionQuery": "Activer le bouton si la valeur équivaut à",
           "notification": {
             "settings": "Configuration de la notification",
-            "explain": "Une notification sera affichée lorsqu'un utilisateur clique sur le bouton. Il vous est possible de modfiier son contenu selon si l'action a bien fonctionné ou si cette dernière a échoué.",
+            "explain": "Une notification sera affichée lorsqu'un utilisateur clique sur le bouton. Il vous est possible de modifier son contenu selon si l'action a bien fonctionné ou si cette dernière a échoué.",
             "success": {
               "info": "Lorsque l'action a réussi :",
               "title": "Titre de la notification",
@@ -956,8 +970,10 @@
       "401": "Accès non authentifié",
       "403": "Accès interdit",
       "404": "Non trouvé",
+      "405": "Non autorisé",
       "406": "Non acceptable",
       "409": "Conflit de données",
+      "429": "Nombre maximal de requêtes dépassé",
       "500": "Une erreur a eu lieu…"
     },
     "lck": {
@@ -1101,7 +1117,7 @@
       "required": "Le champ '{_field_}' est requis.",
       "email": "L'adresse électronique du champ '{_field_}' ne correspond pas au format attendu.",
       "regex": "Le champ '{_field_}' ne correspond pas au format attendu.",
-      "passwordConfirm": "Les mots de passe du champ '{_field_}' et du champ '{target}' ne sont pas identique.",
+      "passwordConfirm": "Les mots de passe du champ '{_field_}' et du champ '{target}' ne sont pas identiques.",
       "minDate": "La date du champ '{_field_}' doit être après {fromDate}.",
       "dateValid": "La date du champ '{_field_}' ne correspond pas au format attendu.",
       "reference": "La valeur du champ '{_field_}' est invalide : veuillez sélectionnez une valeur dans la liste."

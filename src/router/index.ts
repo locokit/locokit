@@ -50,6 +50,7 @@ import LostPassword from '../views/routes/user/LostPassword.vue'
 import ResetPassword from '../views/routes/user/ResetPassword.vue'
 import VerifySignup from '../views/routes/user/VerifySignup.vue'
 import UpdateEmail from '../views/routes/user/UpdateEmail.vue'
+import SignUp from '../views/routes/user/SignUp.vue'
 
 import { ROUTES_NAMES, ROUTES_PATH } from './paths'
 import { authState } from '@/store/auth'
@@ -87,6 +88,15 @@ const routes: Array<RouteConfig> = [
     path: ROUTES_PATH.VERIFYSIGNUP,
     name: 'VerifySignup',
     component: VerifySignup,
+    meta: {
+      needHeader: false,
+      needGuest: true,
+    },
+  },
+  {
+    path: ROUTES_PATH.SIGNUP,
+    name: ROUTES_NAMES.SIGNUP,
+    component: SignUp,
     meta: {
       needHeader: false,
       needGuest: true,

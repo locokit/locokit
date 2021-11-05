@@ -45,31 +45,121 @@ exports[`storyshots components/auth/Login Login 1`] = `
      
     <!---->
      
-    <div
-      class="p-d-flex p-flex-column"
+    <button
+      class="p-mb-4 p-button p-component"
+      type="submit"
     >
-      <button
-        class="p-mb-4 p-button p-component"
-        type="submit"
+      <span
+        class="pi pi-sign-in p-button-icon p-button-icon-left"
+      />
+       
+      <span
+        class="p-button-label"
       >
-        <span
-          class="pi pi-sign-in p-button-icon p-button-icon-left"
-        />
-         
-        <span
-          class="p-button-label"
-        >
-          Sign in
-        </span>
-         
-        <!---->
-        <span
-          class="p-ink"
-        />
-      </button>
+        Sign in
+      </span>
+       
+      <!---->
+      <span
+        class="p-ink"
+      />
+    </button>
+     
+    <div
+      class="footer-links"
+    >
+      <!---->
        
       <a
-        class="mock-link p-d-block p-text-center"
+        class="mock-link"
+      >
+        
+      Forgot your password ?
+    
+      </a>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`storyshots components/auth/Login Login with signup link 1`] = `
+<div
+  style="height: 100%;"
+>
+  <form
+    class="p-text-left p-fluid"
+  >
+    <div
+      class="p-field"
+    >
+      <label
+        for="email"
+      >
+        email
+      </label>
+       
+      <input
+        class="p-inputtext p-component"
+        id="email"
+        placeholder="email"
+        required="required"
+        type="text"
+      />
+    </div>
+     
+    <div
+      class="p-field"
+    >
+      <label
+        for="password"
+      >
+        password
+      </label>
+       
+      <input
+        class="rounded-sm p-inputtext p-component"
+        id="password"
+        placeholder="password"
+        required="required"
+        type="password"
+      />
+    </div>
+     
+    <!---->
+     
+    <button
+      class="p-mb-4 p-button p-component"
+      type="submit"
+    >
+      <span
+        class="pi pi-sign-in p-button-icon p-button-icon-left"
+      />
+       
+      <span
+        class="p-button-label"
+      >
+        Sign in
+      </span>
+       
+      <!---->
+      <span
+        class="p-ink"
+      />
+    </button>
+     
+    <div
+      class="footer-links"
+    >
+      <a
+        class="mock-link"
+      >
+        
+      Sign up
+    
+      </a>
+       
+      <a
+        class="mock-link"
       >
         
       Forgot your password ?

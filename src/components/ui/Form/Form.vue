@@ -28,7 +28,7 @@
           v-else
           :class="{ 'full-width-button': fullWidthButton }"
           :disabled="!valid || pristine"
-          :label="$t('form.save')"
+          :label="labelButtonSave || $t('form.save')"
           icon="pi pi-save"
           type="submit"
         />
@@ -65,6 +65,10 @@ export default {
     reset: {
       type: Boolean,
       default: false,
+    },
+    labelButtonSave: {
+      type: String,
+      default: '',
     },
   },
   watch: {
