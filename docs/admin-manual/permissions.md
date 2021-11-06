@@ -1,7 +1,7 @@
 # Permissions
 
 The LCK API manage several level of permissions
-for the [storage](storage.md#resources) / [visualization](visualization.md) resources.
+for the storage / [visualization](visualization.md) resources.
 
 Several resources are available :
 
