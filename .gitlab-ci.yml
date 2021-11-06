@@ -275,7 +275,7 @@ pkg-glossary-lint:
   stage: quality
   script:
     - npm ci
-    - npm run lint
+    - npm run lint --workspace=packages/glossary
   needs: []
   rules:
     - if: $CI_COMMIT_BRANCH == "master"
@@ -290,7 +290,7 @@ pkg-glossary-build:
   stage: build
   script:
     - npm ci
-    - npm run build
+    - npm run build --workspace=packages/glossary
   artifacts:
     expire_in: 1 month
     when: always
@@ -310,7 +310,7 @@ pkg-glossary-publish:
   stage: publish
   script:
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}">~/.npmrc
-    - npm publish
+    - npm publish --workspace=packages/glossary
   needs: ["pkg-glossary-build"]
   rules:
     - if: $CI_COMMIT_BRANCH == "master"
