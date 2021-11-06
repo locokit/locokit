@@ -9,13 +9,13 @@ export async function seed (knex: Knex): Promise<any> {
     {
       id: 2,
       name: 'SUPER TEST',
-      email: 'supertest@makina-corpus.net',
+      email: 'supertest@locokit.io',
       password: hashPassword,
       profile: USER_PROFILE.USER,
-      isVerified: true
-    }
+      isVerified: true,
+    },
   ]
   await knex('user').insert(usersToInsert)
 
-  await knex.raw(`SELECT setval('user_id_seq', 2)`)
+  await knex.raw('SELECT setval(\'user_id_seq\', 2)')
 };

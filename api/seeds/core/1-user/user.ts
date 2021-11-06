@@ -9,11 +9,11 @@ export async function seed (knex: Knex): Promise<any> {
     {
       id: 1,
       name: 'SUPER ADMIN',
-      email: 'superadmin@makina-corpus.net',
+      email: 'superadmin@locokit.io',
       password: hashPassword,
       profile: USER_PROFILE.SUPERADMIN,
-      isVerified: true
-    }
+      isVerified: true,
+    },
   ]
   await knex('user').insert(usersToInsert)
 

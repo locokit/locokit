@@ -32,7 +32,7 @@ npm run seed:run
 npm run start
 ```
 
-The default user created is `superadmin@makina-corpus.net` with password `locokit`.
+The default user created is `superadmin@locokit.io` with password `locokit`.
 
 ## Back
 
