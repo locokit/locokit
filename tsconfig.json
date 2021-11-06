@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "strict": true,
+    "esModuleInterop": true,
+    "rootDir": "."
+  },
+  "references": [
+    {
+      "path": "front"
+    },
+    {
+      "path": "api"
+    }
+  ]
+}

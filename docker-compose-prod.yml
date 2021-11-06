@@ -1,0 +1,81 @@
+version: '3'
+services:
+  lck-db:
+    image: postgis/postgis:12-3.0
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pouicpouic
+    # restart: always
+    volumes:
+      - lck-db-data:/var/lib/postgresql/data
+      - ./dumps:/dumps
+    container_name: lck-db
+
+  lck-mail:
+    image: mailhog/mailhog:latest
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /home/mailhog
+    volumes:
+      - mailhog:/home/mailhog/
+    ports:
+      - 1025:1025
+      - 8025:8025
+    container_name: lck-mail
+
+  # LocoKit can handle S3 storage
+  # We take an example with minio
+  # we use also a proxy nginx to wire s3 storage
+  lck-s3:
+    image: minio/minio:latest
+    ports:
+      - "9000:9000"
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: notsecret
+    command: server /data
+    volumes:
+      - s3-data:/data
+    container_name: lck-s3
+
+  # LocoKit can be served behind a proxy
+  # Here we use nginx,
+  # it serve backend API, and also storage s3 if needed
+  lck-proxy:
+    image: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/lck-server.conf:/etc/nginx/conf.d/default.conf
+      # binding for allowing nginx to serve file stored by lck
+      - ./fs-storage:/usr/share/nginx/storage
+    ports:
+      - "8000:80"
+    depends_on:
+      - lck-s3
+    container_name: lck-proxy
+  
+  lck-stack:
+    image: ea88047def68
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+    environment:
+      LCK_PUBLIC_URL: /api
+    # depends_on:
+      # - lck-s3
+      # - lck-db
+      # - lck-mail
+    # env_file: .lck-stack.env
+    command: pm2-runtime lib/index.js -n lck-api -i max
+    working_dir: /code/api
+
+
+volumes:
+  lck-db-data:
+  mailhog:
+  s3-data:
