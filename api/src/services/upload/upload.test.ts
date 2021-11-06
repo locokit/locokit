@@ -25,7 +25,11 @@ describe('\'upload\' service', () => {
     beforeAll(async () => {
       app.set('storage', fsConfig)
       // empty the folder of file storage
-      await rmdir(fsPath, { recursive: true })
+      try {
+        await rmdir(fsPath, { recursive: true })
+      } catch (error) {
+        console.error('error during rmdir of ' + fsPath + ' (don\'t worry, be happy)')
+      }
 
       // configure again the service to take the new config
       // this would create the folder fs-storage if necessary
