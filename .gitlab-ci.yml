@@ -199,7 +199,6 @@ api-quality:
   script:
     - cd api
     - npm ci
-    - cp -r api/patch/** api/node_modules/
     - npm run lint
     - npm test
   artifacts:
@@ -217,7 +216,6 @@ api-build-lib:
   script:
     - cd api
     - npm ci
-    - cp -r api/patch/** api/node_modules/
     - npm run compile
   artifacts:
     expire_in: 3 mos
