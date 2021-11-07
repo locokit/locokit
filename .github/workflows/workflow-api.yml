@@ -50,7 +50,7 @@ jobs:
         env:
           MINIO_ACCESS_KEY: minio
           MINIO_SECRET_KEY: notsecret
-        command: ["server", "/data"]
+        options: server /data
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
