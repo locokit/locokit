@@ -1,4 +1,4 @@
-name: API CI
+name: LocoKit CI
 
 on:
   push:
@@ -18,6 +18,10 @@ jobs:
     runs-on: ubuntu-latest
 
     container: buildkite/puppeteer
+
+    defaults:
+      run:
+        working-directory: front
 
     # - if: '$CI_COMMIT_BRANCH == "master" || $CI_COMMIT_TAG != ""'
 
@@ -50,7 +54,11 @@ jobs:
     runs-on: ubuntu-latest
 
     container: node:16
-    needs: [front-quality]
+    defaults:
+      run:
+        working-directory: front
+
+    # needs: [front-quality]
     # - if: '$CI_COMMIT_BRANCH == "master" || $CI_COMMIT_TAG != ""'
 
     env:
