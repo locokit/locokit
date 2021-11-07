@@ -31,8 +31,6 @@ jobs:
         run: npm i -g npm@7
       - name: NPM Version
         run: npm -v
-      - name: Go to Front folder
-        run: cd front/
       - name: Install dependencies
         run: npm ci
       - name: Build storybook
@@ -71,8 +69,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: NPM Version
         run: npm -v
-      - name: Go to API folder
-        run: cd front/
       - name: Install dependencies
         run: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
       - name: Build front
