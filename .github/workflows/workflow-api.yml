@@ -11,7 +11,76 @@ on:
       - created
 
 jobs:
-  quality:
+
+  ## Front part
+  front-quality:
+
+    runs-on: ubuntu-latest
+
+    container: buildkite/puppeteer
+
+    # - if: '$CI_COMMIT_BRANCH == "master" || $CI_COMMIT_TAG != ""'
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Upgrade NPM
+        run: npm i -g npm@7
+      - name: NPM Version
+        run: npm -v
+      - name: Go to Front folder
+        run: cd front/
+      - name: Install dependencies
+        run: npm ci
+      - name: Build storybook
+        run: npm run storybook:build
+      - name: Unit tests
+        run: npm run test:unit -- --coverage --reporters=default
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: lck-front-quality
+          path: |
+            front/tests/unit/__image_snapshots__
+            front/storybook-static
+
+  front-build:
+
+    runs-on: ubuntu-latest
+
+    container: node:16
+    needs: [front-quality]
+    # - if: '$CI_COMMIT_BRANCH == "master" || $CI_COMMIT_TAG != ""'
+
+    env:
+      VUE_APP_I18N_LOCALE: 'fr'
+      VUE_APP_I18N_FALLBACK_LOCALE: 'fr'
+      VUE_APP_TITLE: '{{ lck_app_title }}'
+      VUE_APP_THEME: '{{ lck_app_theme }}'
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: NPM Version
+        run: npm -v
+      - name: Go to API folder
+        run: cd front/
+      - name: Install dependencies
+        run: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
+      - name: Build front
+        run: npm run build
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: lck-front
+          path: |
+            front/dist/
+
+
+  ## API Part
+  api-quality:
 
     runs-on: ubuntu-latest
 
@@ -74,7 +143,7 @@ jobs:
           path: |
             api/coverage
 
-  build-lib:
+  api-build:
     runs-on: ubuntu-latest
 
     container: node:16
@@ -98,9 +167,32 @@ jobs:
           path: |
             api/lib
 
-  docker:
+  ## Documentation part
+  docs-build:
     runs-on: ubuntu-latest
-    needs: [build-lib]
+
+    env:
+      BASE_URL: '/lck-docs/'
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Build documentation
+        run: npx vitepress build docs
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: docs-build-artifact
+          path: |
+            docs/.vitepress/dist
+
+
+  locokit-docker:
+    runs-on: ubuntu-latest
+    needs: [front-build, api-build, docs-build]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -119,28 +211,6 @@ jobs:
           context: .
           push: true
           tags: locokit/locokit:latest
-
-  # build-docker:
-  #   image: docker:stable
-  #   stage: docker
-  #   variables:
-  #     IMAGE_VERSION: "latest"
-  #     # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
-  #     DOCKER_HOST: tcp://docker:2375
-  #     DOCKER_DRIVER: overlay2
-  #     IMAGE_NAME: "${MC_REGISTRY}/${MC_REGISTRY_IMAGE}"
-  #   services:
-  #     - docker:dind
-  #   needs: ["api-build-lib", "front-build", "docs-build"]
-  #   before_script:
-  #     - docker -v
-  #     - docker info
-  #     - echo "${MC_REGISTRY_PASSWORD}" | docker login -u ${MC_REGISTRY_USER} --password-stdin ${MC_REGISTRY}
-  #     - docker pull $IMAGE_NAME:latest || true
-  #   variables:
-  #   script:
-  #     - docker build --cache-from $IMAGE_NAME:latest --tag $IMAGE_NAME:$IMAGE_VERSION .
-  #     - docker push $IMAGE_NAME:$IMAGE_VERSION
 
 # api-build-docker-tagged:
 #   extends: .api-docker-template
