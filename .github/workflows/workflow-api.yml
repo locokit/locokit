@@ -50,7 +50,7 @@ jobs:
         env:
           MINIO_ACCESS_KEY: minio
           MINIO_SECRET_KEY: notsecret
-        options: server /data
+        # options: server /data
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
@@ -70,7 +70,6 @@ jobs:
 
   build-lib:
     runs-on: ubuntu-latest
-    needs: [quality]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -87,6 +86,27 @@ jobs:
           name: api-build-lib-artifact
           path: |
             api/lib
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: locokit/locokit:latest
 
   # build-docker:
   #   image: docker:stable
