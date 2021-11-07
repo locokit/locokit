@@ -448,7 +448,7 @@ export function makeGeoJsonFeaturesCollection (
   i18nOptions: LckPopupI18nOptions,
   styleColumns?: string[],
 ): GeoJSONFeatureCollection {
-  const features: Feature[] = []
+  const features: Feature<Geometry>[] = []
 
   const getEWKTFromGeoColumn = (geoColumn: LckTableColumn, data: Record<string, LckTableRowData>): string => {
     switch (geoColumn.column_type_id) {
@@ -481,7 +481,7 @@ export function makeGeoJsonFeaturesCollection (
     }
 
     const aggregatedFeatures: Record<string, {
-      features: Feature[];
+      features: Feature<Geometry>[];
       count: number;
     }> = {}
 
