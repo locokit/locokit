@@ -60,9 +60,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Lint code
-        run: npm run lint --workspace=api
+        run: npm run lint
       - name: Unit tests
-        run: npm test --workspace=api
+        run: npm test
         env:
           NODE_OPTIONS: --max_old_space_size=4096
       - name: Archive production artifacts
@@ -86,7 +86,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build API lib
-        run: npm run compile --workspace=api
+        run: npm run compile
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
