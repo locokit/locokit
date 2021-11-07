@@ -29,6 +29,8 @@ jobs:
       STORAGE_S3_SIGNATURE_VERSION: v4
       STORAGE_S3_DEFAULT_BUCKET: public
 
+      NODE_OPTIONS: --max_old_space_size=4096
+
     services:
       lck-db:
         image: postgis/postgis:12-3.0
@@ -42,7 +44,7 @@ jobs:
         env:
           MINIO_ACCESS_KEY: minio
           MINIO_SECRET_KEY: notsecret
-
+        command: ["server", "/data"]
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
@@ -58,9 +60,9 @@ jobs:
           path: |
             api/coverage
 
-  build:
+  build-lib:
     runs-on: ubuntu-latest
-
+    needs: [quality]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -69,11 +71,46 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: npm ci --workspace=api && cp -r api/patch/** api/node_modules/
-      - name: Unit tests
+      - name: Build API lib
         run: npm run compile --workspace=api
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: api-build-artifact
+          name: api-build-lib-artifact
           path: |
             api/lib
+
+  build-docker:
+    image: docker:stable
+    stage: docker
+    variables:
+      IMAGE_VERSION: "latest"
+      # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
+      DOCKER_HOST: tcp://docker:2375
+      DOCKER_DRIVER: overlay2
+      IMAGE_NAME: "${MC_REGISTRY}/${MC_REGISTRY_IMAGE}"
+    services:
+      - docker:dind
+    needs: ["api-build-lib", "front-build", "docs-build"]
+    before_script:
+      - docker -v
+      - docker info
+      - echo "${MC_REGISTRY_PASSWORD}" | docker login -u ${MC_REGISTRY_USER} --password-stdin ${MC_REGISTRY}
+      - docker pull $IMAGE_NAME:latest || true
+    variables:
+    script:
+      - docker build --cache-from $IMAGE_NAME:latest --tag $IMAGE_NAME:$IMAGE_VERSION .
+      - docker push $IMAGE_NAME:$IMAGE_VERSION
+
+# api-build-docker-tagged:
+#   extends: .api-docker-template
+#   rules:
+#     - if: '$CI_COMMIT_TAG != ""'
+#       when: manual
+#   variables:
+#     IMAGE_VERSION: "${CI_COMMIT_TAG}"
+#   script:
+#     - docker build --cache-from $IMAGE_NAME:latest --tag $IMAGE_NAME:$IMAGE_VERSION --tag $IMAGE_NAME:latest .
+#     - docker push $IMAGE_NAME:$IMAGE_VERSION
+#     - docker push $IMAGE_NAME:latest
+
