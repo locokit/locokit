@@ -7,8 +7,6 @@
 
 image: 
   name: node:16
-  variables:
-    NODE_OPTIONS: --max_old_space_size=4096
 
 stages:
   - quality
