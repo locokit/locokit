@@ -55,8 +55,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: NPM Version
         run: npm -v
+      - name: Go to API folder
+        run: cd api/
       - name: Install dependencies
-        run: npm ci --workspace=api && cp -r api/patch/** api/node_modules/
+        run: npm ci
       - name: Lint code
         run: npm run lint --workspace=api
       - name: Unit tests
@@ -79,8 +81,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: NPM Version
         run: npm -v
+      - name: Go to API folder
+        run: cd api/
       - name: Install dependencies
-        run: npm ci --workspace=api && cp -r api/patch/** api/node_modules/
+        run: npm ci
       - name: Build API lib
         run: npm run compile --workspace=api
       - name: Archive production artifacts

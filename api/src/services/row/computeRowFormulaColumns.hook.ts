@@ -91,7 +91,7 @@ export function computeRowFormulaColumns (): Hook {
           )
           // Indicate that this formula column will be updated
           formulaColumnsToUpdateIds.add(formulaColumn.id)
-        } catch (error) {
+        } catch (error: any) {
           throw new GeneralError('Invalid formula: ' + (error.message as string), {
             code: 'INVALID_FORMULA_SYNTAX',
             location: error.location,
@@ -138,7 +138,7 @@ export function computeRowFormulaColumns (): Hook {
           {},
         )
       }
-    } catch (err) {
+    } catch (err: any) {
       if (err.code !== 404) {
         throw new GeneralError('An error has been encountered when the formulas have been computed')
       }

@@ -1,19 +1,14 @@
 {
   "name": "locokit",
-  "version": "0.6.0-alpha.0",
+  "version": "0.6.0",
   "description": "Low-Code Kit platform",
   "workspaces": [
-    "packages/**",
-    "docs",
-    "front",
-    "api"
+    "packages/**"
   ],
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "serve:front": "npm run serve --workspace=front",
-    "serve:api": "npm run dev --workspace=api",
     "docs:start": "DEBUG=true vitepress dev docs",
     "docs:build": "BASE_URL=/docs vitepress build docs"
   },
