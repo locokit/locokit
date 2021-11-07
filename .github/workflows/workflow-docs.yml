@@ -2,7 +2,13 @@ name: Docs CI
 
 on:
   push:
+    branches:
+      - master
   pull_request:
+
+  release:
+    types:
+      - created
 
 jobs:
   build:

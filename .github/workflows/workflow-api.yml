@@ -2,8 +2,14 @@ name: API CI
 
 on:
   push:
+    branches:
+      - master
   pull_request:
 
+  release:
+    types: # This configuration does not affect the page_build event above
+      - created
+      
 jobs:
   quality:
 
@@ -53,6 +59,8 @@ jobs:
         run: npm run lint --workspace=api
       - name: Unit tests
         run: npm test --workspace=api
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
