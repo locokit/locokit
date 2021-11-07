@@ -9,7 +9,7 @@ on:
   release:
     types: # This configuration does not affect the page_build event above
       - created
-      
+
 jobs:
   quality:
 
@@ -88,27 +88,27 @@ jobs:
           path: |
             api/lib
 
-  build-docker:
-    image: docker:stable
-    stage: docker
-    variables:
-      IMAGE_VERSION: "latest"
-      # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
-      DOCKER_HOST: tcp://docker:2375
-      DOCKER_DRIVER: overlay2
-      IMAGE_NAME: "${MC_REGISTRY}/${MC_REGISTRY_IMAGE}"
-    services:
-      - docker:dind
-    needs: ["api-build-lib", "front-build", "docs-build"]
-    before_script:
-      - docker -v
-      - docker info
-      - echo "${MC_REGISTRY_PASSWORD}" | docker login -u ${MC_REGISTRY_USER} --password-stdin ${MC_REGISTRY}
-      - docker pull $IMAGE_NAME:latest || true
-    variables:
-    script:
-      - docker build --cache-from $IMAGE_NAME:latest --tag $IMAGE_NAME:$IMAGE_VERSION .
-      - docker push $IMAGE_NAME:$IMAGE_VERSION
+  # build-docker:
+  #   image: docker:stable
+  #   stage: docker
+  #   variables:
+  #     IMAGE_VERSION: "latest"
+  #     # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
+  #     DOCKER_HOST: tcp://docker:2375
+  #     DOCKER_DRIVER: overlay2
+  #     IMAGE_NAME: "${MC_REGISTRY}/${MC_REGISTRY_IMAGE}"
+  #   services:
+  #     - docker:dind
+  #   needs: ["api-build-lib", "front-build", "docs-build"]
+  #   before_script:
+  #     - docker -v
+  #     - docker info
+  #     - echo "${MC_REGISTRY_PASSWORD}" | docker login -u ${MC_REGISTRY_USER} --password-stdin ${MC_REGISTRY}
+  #     - docker pull $IMAGE_NAME:latest || true
+  #   variables:
+  #   script:
+  #     - docker build --cache-from $IMAGE_NAME:latest --tag $IMAGE_NAME:$IMAGE_VERSION .
+  #     - docker push $IMAGE_NAME:$IMAGE_VERSION
 
 # api-build-docker-tagged:
 #   extends: .api-docker-template
