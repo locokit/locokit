@@ -228,10 +228,12 @@ jobs:
         uses: actions/download-artifact@v2
         with: 
           name: api-build-lib-artifact
+          path: api/lib/
       - name: Download front artifact
         uses: actions/download-artifact@v2
         with: 
           name: front-build-artifact
+          path: front/dist/
       - name: Download docs artifact
         uses: actions/download-artifact@v2
         with: 
