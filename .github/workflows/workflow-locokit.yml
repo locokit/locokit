@@ -62,8 +62,8 @@ jobs:
     # - if: '$CI_COMMIT_BRANCH == "master" || $CI_COMMIT_TAG != ""'
 
     env:
-      VUE_APP_I18N_LOCALE: 'fr'
-      VUE_APP_I18N_FALLBACK_LOCALE: 'fr'
+      VUE_APP_I18N_LOCALE: 'en'
+      VUE_APP_I18N_FALLBACK_LOCALE: 'en'
       VUE_APP_TITLE: '{{ lck_app_title }}'
       VUE_APP_THEME: '{{ lck_app_theme }}'
     
@@ -77,6 +77,11 @@ jobs:
         run: npm run build
         env:
           NODE_OPTIONS: --max_old_space_size=4096
+      - name: Create default index.html
+        run: npm run build:html
+        env:
+          VUE_APP_TITLE: 'LocoKit platform'
+          VUE_APP_THEME: 'locokit'
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:

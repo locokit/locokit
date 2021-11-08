@@ -49,7 +49,6 @@ COPY api/public/ /code/public/
 COPY api/public/index.html /code/public/index-api.html
 COPY front/dist /code/public/
 COPY front/dist/config-default.js /code/public/config.js
-COPY front/dist/index-default.html /code/public/index.html
 COPY docs/.vitepress/dist /code/public/docs/
 COPY api/templates /code/templates/
 COPY api/lib /code/lib/
