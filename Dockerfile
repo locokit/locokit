@@ -56,9 +56,9 @@ COPY api/tsconfig.json /code/api/
 COPY api/knexfile.ts /code/api/
 
 # Install dependencies
+COPY api/patch/ /code/api/patch/
 RUN cd api/ && npm ci --also=dev
 RUN npm install pm2 knex typescript -g
-COPY api/patch/feathers-objection/lib/index.js /code/api/node_modules/feathers-objection/lib/index.js
 
 # ENTRYPOINT pm2-runtime lib/index.js -n lck-api
 WORKDIR /code/api
