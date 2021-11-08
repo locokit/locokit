@@ -20,7 +20,7 @@ From here you need docker and docker-compose in recent version.
 In the `front` folder, 
 you need to create a `.env` file from the `.env.dist`.
 
-In the `back` folder,
+In the `api` folder,
 same thing, but with the `.env.example` file.
 
 ```sh
@@ -34,7 +34,7 @@ npm run start
 
 The default user created is `superadmin@locokit.io` with password `locokit`.
 
-## Back
+## API
 
 
 ### Swagger
