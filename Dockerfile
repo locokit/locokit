@@ -23,6 +23,7 @@ ENV SENTRY_ENVIRONMENT=
 
 ENV CORS_ORIGIN=*
 
+ENV HELMET_ENABLED=true
 ENV HELMET_HSTS=true
 
 ENV STORAGE_TYPE=fs
@@ -45,7 +46,10 @@ COPY api/package*.json /code/
 COPY api/src /code/src/
 COPY api/knexutils /code/knexutils/
 COPY api/public/ /code/public/
+COPY api/public/index.html /code/public/index-api.html
 COPY front/dist /code/public/
+COPY front/dist/config-default.js /code/public/config.js
+COPY front/dist/index-default.html /code/public/index.html
 COPY docs/.vitepress/dist /code/public/docs/
 COPY api/templates /code/templates/
 COPY api/lib /code/lib/

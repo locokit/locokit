@@ -54,16 +54,19 @@ app.use(Sentry.Handlers.tracingHandler())
 app.configure(casl())
 
 // Enable security, CORS, compression, favicon and body parsing
-app.use(helmet({
-  contentSecurityPolicy: {
-    useDefaults: true,
-    directives: {
-      'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://unpkg.com'],
-      'worker-src': ['blob:'], // needed by redoc swagger
+const helmetSettings = app.get('helmet')
+if (helmetSettings.isEnabled === 'true') {
+  app.use(helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://unpkg.com'],
+        'worker-src': ['blob:'], // needed by redoc swagger
+      },
     },
-  },
-  hsts: app.get('helmet').hsts === 'true'
-}))
+    hsts: helmetSettings.hstsEnabled === 'true'
+  }))
+}
 app.use(cors(app.get('cors')))
 app.use(compress())
 const maxUploadSize = app.get('storage').maxUploadSize || '5mb'
