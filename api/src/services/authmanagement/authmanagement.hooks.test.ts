@@ -90,7 +90,7 @@ describe('\'authManagement\' hooks for passwordChange action', () => {
         email: userInfo.email,
         password: 'pouetP@1',
       }, {})
-    } catch (error) {
+    } catch (error: any) {
       expect(error instanceof Forbidden).toBe(true)
       expect(error.message).toBe('User email is not verified. You can\'t login.')
     }

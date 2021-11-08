@@ -104,7 +104,7 @@ export function parseFormula (): Hook {
             columnsUsedInFormula: columnsUsedInFormulaObject,
             newParsedFormula,
           }
-        } catch (error) {
+        } catch (error: any) {
           throw new NotAcceptable(`Invalid formula: ${(error.message as string)}`, {
             code: 'INVALID_FORMULA_SYNTAX',
             location: error.location,
@@ -144,7 +144,7 @@ export function updatedRelatedRowsFormula (): Hook {
           },
           paginate: false,
         })
-      } catch (err) {
+      } catch (err: any) {
         if (err.code !== 404) {
           throw new GeneralError('An error has been encountered when updating the rows containing the updated formula')
         }

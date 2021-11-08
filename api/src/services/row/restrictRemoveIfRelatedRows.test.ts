@@ -110,13 +110,13 @@ describe('restrictRemoveIfRelatedRows hook', () => {
     await app.service('row').remove(rowTable1.id)
     try {
       await app.service('row').get(rowTable2.id)
-    } catch (e) {
+    } catch (e: any) {
       expect(e).toBeTruthy()
       expect(e.code).toBe(404)
     }
     try {
       await app.service('row').get(rowTable1.id)
-    } catch (e) {
+    } catch (e: any) {
       expect(e).toBeTruthy()
       expect(e.code).toBe(404)
     }

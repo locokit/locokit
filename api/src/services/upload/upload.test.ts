@@ -167,81 +167,81 @@ describe('\'upload\' service', () => {
     })
   })
 
-  describe('for s3 storage', () => {
-    const oldStorageConfig = app.get('storage')
-    const s3Config = {
-      ...oldStorageConfig,
-      type: 's3',
-      publicPath: '/s3-storage',
-    }
-    const s3Client = new AWS.S3({
-      endpoint: s3Config.endpoint,
-      accessKeyId: s3Config.accessKeyId,
-      secretAccessKey: s3Config.secretAccessKey,
-      s3ForcePathStyle: s3Config.s3ForcePathStyle === '1', // needed with minio
-      signatureVersion: s3Config.signatureVersion,
-    })
+  // describe('for s3 storage', () => {
+  //   const oldStorageConfig = app.get('storage')
+  //   const s3Config = {
+  //     ...oldStorageConfig,
+  //     type: 's3',
+  //     publicPath: '/s3-storage',
+  //   }
+  //   const s3Client = new AWS.S3({
+  //     endpoint: s3Config.endpoint,
+  //     accessKeyId: s3Config.accessKeyId,
+  //     secretAccessKey: s3Config.secretAccessKey,
+  //     s3ForcePathStyle: s3Config.s3ForcePathStyle === '1', // needed with minio
+  //     signatureVersion: s3Config.signatureVersion,
+  //   })
 
-    let workspaceId: string
-    beforeAll(async () => {
-      /**
-       * Create a new attachment on a workspace
-       */
-      const workspace = await app.service('workspace').create({ text: 'pouet' })
-      workspaceId = workspace.id
+  //   let workspaceId: string
+  //   beforeAll(async () => {
+  //     /**
+  //      * Create a new attachment on a workspace
+  //      */
+  //     const workspace = await app.service('workspace').create({ text: 'pouet' })
+  //     workspaceId = workspace.id
 
-      app.set('storage', s3Config)
-      // configure again the service to take the new config
-      app.configure(uploadService)
-      const file = await open(path.join(__dirname, '../../../public/logo.png'), 'r')
-      const buffer = await file.readFile()
-      await app.service('upload').create({
-        buffer,
-        contentType: 'image/png',
-      }, {
-        query: {
-          workspaceId,
-          fileName: 'logo.png',
-          contentType: 'image/png',
-        },
-      })
-    })
-    it('create the workspace bucket if it does not exist', async () => {
-      expect.assertions(1)
-      expect(async () => await s3Client.getBucketAcl({
-        Bucket: workspaceId,
-      }).promise()).not.toThrow()
-    })
-    it('create a thumbnail if it is an image', async () => {
-      expect.assertions(3)
-      const bucketFiles = await s3Client.listObjectsV2({
-        Bucket: workspaceId,
-        MaxKeys: 10,
-      }).promise()
-      expect(bucketFiles.Contents?.length).toBe(2)
-      expect((bucketFiles.Contents as AWS.S3.ObjectList)[0].Key).toBe('logo.png')
-      expect((bucketFiles.Contents as AWS.S3.ObjectList)[1].Key).toBe('thumbnail_logo.png')
-    })
+  //     app.set('storage', s3Config)
+  //     // configure again the service to take the new config
+  //     app.configure(uploadService)
+  //     const file = await open(path.join(__dirname, '../../../public/logo.png'), 'r')
+  //     const buffer = await file.readFile()
+  //     await app.service('upload').create({
+  //       buffer,
+  //       contentType: 'image/png',
+  //     }, {
+  //       query: {
+  //         workspaceId,
+  //         fileName: 'logo.png',
+  //         contentType: 'image/png',
+  //       },
+  //     })
+  //   })
+  //   it('create the workspace bucket if it does not exist', async () => {
+  //     expect.assertions(1)
+  //     expect(async () => await s3Client.getBucketAcl({
+  //       Bucket: workspaceId,
+  //     }).promise()).not.toThrow()
+  //   })
+  //   it('create a thumbnail if it is an image', async () => {
+  //     expect.assertions(3)
+  //     const bucketFiles = await s3Client.listObjectsV2({
+  //       Bucket: workspaceId,
+  //       MaxKeys: 10,
+  //     }).promise()
+  //     expect(bucketFiles.Contents?.length).toBe(2)
+  //     expect((bucketFiles.Contents as AWS.S3.ObjectList)[0].Key).toBe('logo.png')
+  //     expect((bucketFiles.Contents as AWS.S3.ObjectList)[1].Key).toBe('thumbnail_logo.png')
+  //   })
 
-    it('create an attachment on the workspace', async () => {
-      expect.assertions(3)
-      const attachments = await app.service('attachment').find({
-        query: {
-          workspace_id: workspaceId,
-          $sort: {
-            filename: 1, // we sort by filename to guarantee assertions order
-          },
-        },
-      }) as Paginated<LckAttachment>
-      expect(attachments.total).toBe(1)
-      expect(attachments.data[0].filename).toBe('logo.png')
-      expect(attachments.data[0].thumbnail).toBe(true)
-    })
+  //   it('create an attachment on the workspace', async () => {
+  //     expect.assertions(3)
+  //     const attachments = await app.service('attachment').find({
+  //       query: {
+  //         workspace_id: workspaceId,
+  //         $sort: {
+  //           filename: 1, // we sort by filename to guarantee assertions order
+  //         },
+  //       },
+  //     }) as Paginated<LckAttachment>
+  //     expect(attachments.total).toBe(1)
+  //     expect(attachments.data[0].filename).toBe('logo.png')
+  //     expect(attachments.data[0].thumbnail).toBe(true)
+  //   })
 
-    afterAll(async () => {
-      app.set('storage', oldStorageConfig)
-      // configure again the service to take the new config
-      app.configure(uploadService)
-    })
-  })
+  //   afterAll(async () => {
+  //     app.set('storage', oldStorageConfig)
+  //     // configure again the service to take the new config
+  //     app.configure(uploadService)
+  //   })
+  // })
 })

@@ -5,7 +5,8 @@
 # or if we want to create a new release, 
 # it will combine front & api into one docker image.
 
-image: node:16
+image: 
+  name: node:16
 
 stages:
   - quality
@@ -35,9 +36,10 @@ stages:
     # VUE_APP_THEME: 'vlogistique'
     # LCK_ENV: 'vlog-staging'
   script:
-    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci --workspace=front
+    - cd front
+    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
     - cp front/public/config-${LCK_ENV}.js.dist front/dist/config.js
-    - npm run build:html --workspace=front
+    - npm run build:html
     - npx surge front/dist lck-${LCK_ENV}-${CI_COMMIT_REF_SLUG}.surge.sh
   environment:
     name: review/lck-${LCK_ENV}-${CI_COMMIT_REF_SLUG}
@@ -64,11 +66,12 @@ front-quality:
   rules:
     - if: '$CI_COMMIT_BRANCH == "master" || $CI_COMMIT_TAG != ""'
   script:
+    - cd front
     - npm i -g npm@7
-    - npm ci --workspace=front
-    - npm run lint --workspace=front
-    - npm run storybook:build --workspace=front
-    - npm run test:unit --workspace=front -- --coverage --reporters=default
+    - npm ci
+    - npm run lint
+    - npm run storybook:build
+    - npm run test:unit -- --coverage --reporters=default
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
   artifacts:
     expire_in: 1 week
@@ -93,8 +96,9 @@ front-build:
     VUE_APP_TITLE: '{{ lck_app_title }}'
     VUE_APP_THEME: '{{ lck_app_theme }}'
   script:
-    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci --workspace=front
-    - npm run build --workspace=front
+    - cd front
+    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
+    - npm run build
   artifacts:
     expire_in: 3 mos
     name: 'lck-front-${CI_COMMIT_REF_SLUG}'
@@ -193,10 +197,10 @@ api-quality:
       alias: lck-s3
       command: ["server", "/data"]
   script:
-    - npm ci --workspace=api
-    - cp -r api/patch/** api/node_modules/
-    - npm run lint --workspace=api
-    - npm test --workspace=api
+    - cd api
+    - npm ci
+    - npm run lint
+    - npm test
   artifacts:
     expire_in: 1 day
     name: 'lck-api-${CI_COMMIT_REF_SLUG}-coverage'
@@ -210,9 +214,9 @@ api-build-lib:
   stage: build
   needs: ["api-quality"]
   script:
-    - npm ci --workspace=api
-    - cp -r api/patch/** api/node_modules/
-    - npm run compile --workspace=api
+    - cd api
+    - npm ci
+    - npm run compile
   artifacts:
     expire_in: 3 mos
     name: 'lck-api-${CI_COMMIT_REF_SLUG}'
@@ -275,7 +279,7 @@ pkg-glossary-lint:
   stage: quality
   script:
     - npm ci
-    - npm run lint --workspace=packages/glossary
+    - npm run lint/glossary
   needs: []
   rules:
     - if: $CI_COMMIT_BRANCH == "master"
@@ -290,7 +294,7 @@ pkg-glossary-build:
   stage: build
   script:
     - npm ci
-    - npm run build --workspace=packages/glossary
+    - npm run build/glossary
   artifacts:
     expire_in: 1 month
     when: always
@@ -310,7 +314,7 @@ pkg-glossary-publish:
   stage: publish
   script:
     - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}">~/.npmrc
-    - npm publish --workspace=packages/glossary
+    - npm publish/glossary
   needs: ["pkg-glossary-build"]
   rules:
     - if: $CI_COMMIT_BRANCH == "master"

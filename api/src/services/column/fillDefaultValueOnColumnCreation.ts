@@ -32,7 +32,7 @@ export function fillDefaultValueOnColumnCreation (): Hook {
             },
             paginate: false,
           })
-        } catch (err) {
+        } catch (err: any) {
           // Don't throw an error if there is no row to update
           if (err.code !== 404) {
             throw new GeneralError('An error has been encountered when filling a default value for the rows related to the created column')

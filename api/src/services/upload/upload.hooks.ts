@@ -54,7 +54,7 @@ async function createWorkspaceStorage (context: HookContext): Promise<HookContex
             Bucket: workspaceId,
             ACL: 'public-read',
           }).promise()
-        } catch (error) {
+        } catch (error: any) {
           if (error.statusCode !== 409) throw error
         }
         context.params.s3 = {

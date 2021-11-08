@@ -39,8 +39,7 @@ RUN apt-get autoclean
 RUN apt install nano
 
 # Copy all files related to api, front & docs
-COPY package*.json /code/
-COPY api/package.json /code/api/
+COPY api/package*.json /code/api/
 COPY api/src /code/api/src/
 COPY api/knexutils /code/api/knexutils/
 COPY api/public/ /code/api/public/
@@ -57,9 +56,9 @@ COPY api/tsconfig.json /code/api/
 COPY api/knexfile.ts /code/api/
 
 # Install dependencies
-RUN npm ci --also=dev --workspace=api
+COPY api/patch/ /code/api/patch/
+RUN cd api/ && npm ci --also=dev
 RUN npm install pm2 knex typescript -g
-COPY api/patch/feathers-objection/lib/index.js /code/api/node_modules/feathers-objection/lib/index.js
 
 # ENTRYPOINT pm2-runtime lib/index.js -n lck-api
 WORKDIR /code/api
