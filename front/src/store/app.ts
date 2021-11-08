@@ -14,7 +14,7 @@ export async function loadApplicationSettings () {
   try {
     const applicationSettings: LckSettings = await lckClient.service('settings').find()
     appState.allowSignUp = applicationSettings.allow_signup
-  } catch (e: any) {
+  } catch (e) {
     console.error(e)
   }
 }
