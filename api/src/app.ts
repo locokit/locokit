@@ -263,7 +263,14 @@ app.configure(services)
 app.use(Sentry.Handlers.errorHandler({
   shouldHandleError: () => (true),
 }))
-app.use(express.notFound())
+/**
+ * No send 404 page except by the index.html file.
+ * Allow the front to have "history" mode URL
+ * when serving front-end from the locokit docker.
+ */
+app.use(function defaultToIndex(req, res, next) {
+  res.sendFile(path.join(app.get('public'), 'index.html'))
+})
 app.use(express.errorHandler({ logger } as any))
 
 app.hooks(appHooks)
