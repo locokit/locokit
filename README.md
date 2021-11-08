@@ -11,22 +11,32 @@ and several packages. (only `glossary` actually).
 
 Initialize node modules:
 
+For each directory (`api`, `front`, `docs`, `glossary`), you need to:
+
 ```sh
-npm ci # install deps of api, front, docs, glossary
+npm ci # install deps
 ```
 
 From here you need docker and docker-compose in recent version.
 
-In the `front` folder, 
-you need to create a `.env` file from the `.env.dist`.
+In the `front` directory, 
+you need to create a `.env` file from the `.env.dist`. Then in `public`, you also need to create a `config.js` file from the `config.js.dist`. [View the full config reference](#customize-configuration).
+```
+cp .env.dist .env
+cp public/config.js.dist public/config.js
+```
 
-In the `api` folder,
+In the `api` directory,
 same thing, but with the `.env.example` file.
+```
+cp .env.example .env
+```
 
 ```sh
 docker-compose up # you can add -d to use the daemon option of docker-compose
 
 # in another terminal
+npm ci
 npm run migrate:latest
 npm run seed:run
 npm run start
