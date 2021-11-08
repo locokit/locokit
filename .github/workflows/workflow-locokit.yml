@@ -199,6 +199,7 @@ jobs:
   locokit-docker:
     runs-on: ubuntu-latest
     # needs: [front-build, api-build, docs-build]
+    needs: [docs-build]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -224,14 +225,14 @@ jobs:
         uses: docker/setup-buildx-action@v1
       - name: Print GITHUB REF
         run: echo $GITHUB_REF
-      - name: Download api artifact
-        uses: actions/download-artifact@v2
-        with: 
-          name: api-build-lib-artifact
-      - name: Download front artifact
-        uses: actions/download-artifact@v2
-        with: 
-          name: front-build-artifact
+      # - name: Download api artifact
+      #   uses: actions/download-artifact@v2
+      #   with: 
+      #     name: api-build-lib-artifact
+      # - name: Download front artifact
+      #   uses: actions/download-artifact@v2
+      #   with: 
+      #     name: front-build-artifact
       - name: Download docs artifact
         uses: actions/download-artifact@v2
         with: 
