@@ -65,6 +65,9 @@
   "cors": {
     "origin": "CORS_ORIGIN"
   },
+  "helmet": {
+    "hsts": "HELMET_HSTS"
+  },
   "storage": {
     "type": "STORAGE_TYPE",
     "publicPath": "STORAGE_PUBLIC_PATH",

@@ -58,10 +58,11 @@ app.use(helmet({
   contentSecurityPolicy: {
     useDefaults: true,
     directives: {
-      'script-src': ["'self'", "'unsafe-inline'", 'https://cdn.jsdelivr.net', "'unsafe-eval'", 'https://unpkg.com'],
+      'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://unpkg.com'],
       'worker-src': ['blob:'], // needed by redoc swagger
     },
   },
+  hsts: app.get('helmet').hsts === 'true'
 }))
 app.use(cors(app.get('cors')))
 app.use(compress())
