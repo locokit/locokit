@@ -65,4 +65,4 @@ RUN npm install pm2 knex typescript -g
 
 # ENTRYPOINT pm2-runtime lib/index.js -n lck-api
 WORKDIR /code/
-CMD node /code/lib/index.js
+CMD npm run migrate:latest && node /code/lib/index.js
