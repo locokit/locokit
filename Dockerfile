@@ -43,12 +43,12 @@ COPY api/package*.json /code/api/
 COPY api/src /code/api/src/
 COPY api/knexutils /code/api/knexutils/
 COPY api/public/ /code/api/public/
-# COPY front/dist /code/public/
-# COPY front/dist /code/api/public/
+COPY front/dist /code/public/
+COPY front/dist /code/api/public/
 COPY docs/.vitepress/dist /code/public/docs/
 COPY docs/.vitepress/dist /code/api/public/docs/
 COPY api/templates /code/api/templates/
-# COPY api/lib /code/api/lib/
+COPY api/lib /code/api/lib/
 COPY api/config /code/api/config/
 COPY api/migrations /code/api/migrations/
 COPY api/seeds /code/api/seeds/
