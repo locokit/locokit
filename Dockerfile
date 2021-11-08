@@ -39,17 +39,16 @@ RUN apt-get autoclean
 RUN apt install nano
 
 # Copy all files related to api, front & docs
-COPY package*.json /code/
-COPY api/package.json /code/api/
+COPY api/package*.json /code/api/
 COPY api/src /code/api/src/
 COPY api/knexutils /code/api/knexutils/
 COPY api/public/ /code/api/public/
-COPY front/dist /code/public/
-COPY front/dist /code/api/public/
+# COPY front/dist /code/public/
+# COPY front/dist /code/api/public/
 COPY docs/.vitepress/dist /code/public/docs/
 COPY docs/.vitepress/dist /code/api/public/docs/
 COPY api/templates /code/api/templates/
-COPY api/lib /code/api/lib/
+# COPY api/lib /code/api/lib/
 COPY api/config /code/api/config/
 COPY api/migrations /code/api/migrations/
 COPY api/seeds /code/api/seeds/
@@ -57,7 +56,7 @@ COPY api/tsconfig.json /code/api/
 COPY api/knexfile.ts /code/api/
 
 # Install dependencies
-RUN npm ci --also=dev --workspace=api
+RUN cd api/ && npm ci --also=dev
 RUN npm install pm2 knex typescript -g
 COPY api/patch/feathers-objection/lib/index.js /code/api/node_modules/feathers-objection/lib/index.js
 

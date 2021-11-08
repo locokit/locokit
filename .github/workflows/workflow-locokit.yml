@@ -237,6 +237,7 @@ jobs:
         uses: actions/download-artifact@v2
         with: 
           name: docs-build-artifact
+          path: docs/.vitepress/dist
       - name: LS
         run: ls -al
       - name: Login to DockerHub
