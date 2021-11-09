@@ -1,0 +1,1 @@
+import{_ as e,c as t,o,d}from"./app.d94ceb3f.js";const _='{"title":"Theme","description":"","frontmatter":{},"relativePath":"advanced/theme.md","lastUpdated":1636471032418}',i={},c=d('',9),n=[c];function a(r,l,s,h,m,p){return o(),t("div",null,n)}var f=e(i,[["render",a]]);export{_ as __pageData,f as default};

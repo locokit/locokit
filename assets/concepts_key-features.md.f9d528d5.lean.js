@@ -1,0 +1,1 @@
+import{_ as e,c as a,o as t,d as o}from"./app.d94ceb3f.js";const g='{"title":"Key features","description":"","frontmatter":{},"relativePath":"concepts/key-features.md","lastUpdated":1636471032418}',s={},i=o('',12),l=[i];function r(c,n,p,u,d,_){return t(),a("div",null,l)}var f=e(s,[["render",r]]);export{g as __pageData,f as default};
