@@ -8,8 +8,8 @@ or by cloning the repository.
 On your host, you'll have to create a `docker-compose.yml` file.
 
 You can download it from 
-
-You can write the following content inside  :
+https://raw.githubusercontent.com/locokit/locokit/master/docker-compose-starter.yml
+directly if you want.
 
 ```yaml
 # This docker-compose is for testing purpose only
@@ -96,6 +96,36 @@ volumes:
   mailhog:
   lck-fs-storage:
 ```
+
+Then, you can launch docker-compose :
+
+```sh
+docker-compose up
+```
+
+You'll see 3 containers starting.
+
+The `lck-platform` container will start by playing database migrations,
+so your database will be up to date.
+
+At this stage, no user have been created.
+
+If you want to create the superadmin user,
+you can run this command in another terminal :
+
+```sh
+docker exec lck-platform npm run seed:run
+```
+
+This will create a new `SUPERADMIN` user with the following credentials :
+
+```
+email: superadmin@locokit.io
+password: locokit
+```
+
+For more details on environment variables,
+check the [dedicated page](advanced/env-vars.html).
 
 The LCK platform is compose of several packages :
 

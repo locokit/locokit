@@ -55,8 +55,8 @@ module.exports = {
             text: 'User / group management',
             link: 'advanced/user-group-management.html'
           }, {
-            text: 'Docker environment variables',
-            link: 'advanced/docker-env.html'
+            text: 'Environment variables',
+            link: 'advanced/env-vars.html'
           }, {
             text: 'Theme',
             link: 'advanced/theme.html'
