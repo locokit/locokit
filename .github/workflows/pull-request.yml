@@ -202,18 +202,23 @@ jobs:
           ref: gh-pages
       - name: Rm all files
         run: |
-          rm -rf **
+          rm -rf *
+      - name: Config git
+        run: |
+          git config --global user.email "mathieu@dartic.fr"
+          git config --global user.name "mdartic"
+      - name: Config git
+        run: |
+          git add .
+          git commit -m "Remove old files"
       - name: Download docs artifact
         uses: actions/download-artifact@v2
         with: 
           name: docs-build-artifact
       - name: Commit & push files
         run: |
-          git reset --hard
-          git config --global user.email "mathieu@dartic.fr"
-          git config --global user.name "mdartic"
           git add .
-          git commit -m "Add changes" -a
+          git commit -m "Add changes"
           git push origin gh-pages --force
 
   ## Docker part
