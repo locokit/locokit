@@ -211,6 +211,8 @@ jobs:
         run: |
           git add .
           git commit -m "Remove old files"
+      - name: Create CNAME
+        run: echo "docs.locokit.io" > CNAME
       - name: Download docs artifact
         uses: actions/download-artifact@v2
         with: 
