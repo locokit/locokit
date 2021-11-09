@@ -127,17 +127,9 @@ password: locokit
 For more details on environment variables,
 check the [dedicated page](advanced/env-vars.html).
 
-The LCK platform is compose of several packages :
-
-* backend
-  * several docker images (the API based on Feathers, the db based on PostGreSQL, ...)
-* frontend
-  * the generic build is archived
-  * for a custom build, you'll need to enhance visuals from the build, or the theme
-* client library (node + browser)
-  * based on the FeathersJS client
-  * includes the typings of the platform (User, Group, Permission, Workspace, ...)
-  * and several methods already wired to the backend for starting more quickly
-  * not available at this time
-
 ## cloning the repository (for dev)
+
+The other way to start the LocoKit platform is by cloning the repo 
+available in [https://github.com/locokit/locokit](https://github.com/locokit/locokit).
+
+Please follow instructions that are available directly in the README of the repo.
