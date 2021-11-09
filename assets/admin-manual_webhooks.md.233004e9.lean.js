@@ -1,0 +1,1 @@
+import{_ as e,c as a,o as t,d as o}from"./app.31edeedd.js";const m='{"title":"Webhooks","description":"","frontmatter":{},"relativePath":"admin-manual/webhooks.md","lastUpdated":1636454731024}',i={},r=o('',6),d=[r];function n(s,l,c,h,p,_){return t(),a("div",null,d)}var f=e(i,[["render",n]]);export{m as __pageData,f as default};
