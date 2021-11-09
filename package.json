@@ -10,7 +10,7 @@
   },
   "scripts": {
     "docs:start": "DEBUG=true vitepress dev docs",
-    "docs:build": "BASE_URL=/docs vitepress build docs"
+    "docs:build": "BASE_URL=/locokit vitepress build docs"
   },
   "repository": {
     "type": "git",
