@@ -29,7 +29,7 @@ services:
     container_name: lck-mail
 
   lck-platform:
-    image: locokit/locokit:0.6.0-alpha.1
+    image: locokit/locokit:0.6.0
     environment:
       LCK_PORT: "8002"
       LCK_HOST: localhost
@@ -60,18 +60,6 @@ services:
 
       HELMET_ENABLED: "false"
       HELMET_HSTS: "false"
-
-      # Signup keys
-      # Is the signup allowed on the LocoKit platform
-      # This will display a signup form in the front,
-      # and the signup endpoint will be registered
-      SIGNUP_ALLOWED: "true"
-      # How many tries are authorized
-      SIGNUP_RATE_LIMIT_MAX: "5"
-      # Within a time frame of xxx milliseconds
-      # If more than 5 signup during 60s
-      # signups will be rejected with a 429 HTTP (TooManyRequests)
-      SIGNUP_RATE_LIMIT_TIMEFRAME: "60000"
 
       # Storage keys
       # type can be one of : s3 (s3 compatible object storage), fs (file system)
