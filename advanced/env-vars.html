@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Environment variables | LocoKit platform</title>
+    <meta name="description" content="open source platform with Database Management as a Spreadsheet and an App Builder">
+    <link rel="stylesheet" href="/assets/style.cd675da5.css">
+    <link rel="modulepreload" href="/assets/Home.ffebfb9b.js">
+    <link rel="modulepreload" href="/assets/AlgoliaSearchBox.988522fa.js">
+    <link rel="modulepreload" href="/assets/app.bb6a31ba.js">
+    <link rel="modulepreload" href="/assets/advanced_env-vars.md.69516edd.lean.js">
+    <link rel="modulepreload" href="/assets/app.bb6a31ba.js">
+    <meta name="twitter:title" content="Environment variables | LocoKit platform">
+    <meta property="og:title" content="Environment variables | LocoKit platform">
+  </head>
+  <body>
+    <div id="app"><!--[--><div class="theme"><header class="nav-bar" data-v-8c32cd00><div class="sidebar-button" data-v-8c32cd00><svg class="icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z" class></path></svg></div><a class="nav-bar-title" href="/" aria-label="LocoKit platform, back to home" data-v-8c32cd00 data-v-78859296><!----> LocoKit platform</a><div class="flex-grow" data-v-8c32cd00></div><div class="nav" data-v-8c32cd00><nav class="nav-links" data-v-8c32cd00 data-v-05efc6f6><!--[--><div class="item" data-v-05efc6f6><div class="nav-link" data-v-05efc6f6 data-v-774fa4a5><a class="item" href="/" data-v-774fa4a5>Home <!----></a></div></div><div class="item" data-v-05efc6f6><div class="nav-link" data-v-05efc6f6 data-v-774fa4a5><a class="item isExternal" href="http://lck-storybook.surge.sh" target="_blank" rel="noopener noreferrer" data-v-774fa4a5>Storybook <svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" data-v-774fa4a5><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div></div><div class="item" data-v-05efc6f6><div class="nav-link" data-v-05efc6f6 data-v-774fa4a5><a class="item isExternal" href="https://github.com/locokit/locokit" target="_blank" rel="noopener noreferrer" data-v-774fa4a5>GitHub <svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" data-v-774fa4a5><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div></div><div class="item" data-v-05efc6f6><div class="nav-link" data-v-05efc6f6 data-v-774fa4a5><a class="item isExternal" href="https://hub.docker.com/r/locokit/locokit/tags" target="_blank" rel="noopener noreferrer" data-v-774fa4a5>Docker <svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" data-v-774fa4a5><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div></div><!--]--><!----><!----></nav></div><!--[--><!--[--><div class="algolia-search-box" id="docsearch"></div><!--]--><!--]--></header><aside class="sidebar" data-v-dba2fa92><nav class="nav-links nav" data-v-dba2fa92 data-v-05efc6f6><!--[--><div class="item" data-v-05efc6f6><div class="nav-link" data-v-05efc6f6 data-v-774fa4a5><a class="item" href="/" data-v-774fa4a5>Home <!----></a></div></div><div class="item" data-v-05efc6f6><div class="nav-link" data-v-05efc6f6 data-v-774fa4a5><a class="item isExternal" href="http://lck-storybook.surge.sh" target="_blank" rel="noopener noreferrer" data-v-774fa4a5>Storybook <svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" data-v-774fa4a5><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div></div><div class="item" data-v-05efc6f6><div class="nav-link" data-v-05efc6f6 data-v-774fa4a5><a class="item isExternal" href="https://github.com/locokit/locokit" target="_blank" rel="noopener noreferrer" data-v-774fa4a5>GitHub <svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" data-v-774fa4a5><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div></div><div class="item" data-v-05efc6f6><div class="nav-link" data-v-05efc6f6 data-v-774fa4a5><a class="item isExternal" href="https://hub.docker.com/r/locokit/locokit/tags" target="_blank" rel="noopener noreferrer" data-v-774fa4a5>Docker <svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15" data-v-774fa4a5><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div></div><!--]--><!----><!----></nav><!--[--><!--]--><ul class="sidebar-links" data-v-dba2fa92><!--[--><li class="sidebar-link"><a class="sidebar-link-item" href="/introduction.html">Introduction</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/getting-started.html">Getting started</a><!----></li><li class="sidebar-link"><p class="sidebar-link-item">Concepts</p><ul class="sidebar-links"><li class="sidebar-link"><a class="sidebar-link-item" href="/concepts/key-features.html">Key features</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/concepts/column-types.html">Column types</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/concepts/block-types.html">Block types</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/concepts/permissions.html">Permissions</a><!----></li></ul></li><li class="sidebar-link"><p class="sidebar-link-item">Advanced</p><ul class="sidebar-links"><li class="sidebar-link"><a class="sidebar-link-item" href="/advanced/user-group-management.html">User / group management</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/advanced/env-vars.html">Environment variables</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/advanced/theme.html">Theme</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="/advanced/deployment.html">Deployment in production</a><!----></li></ul></li><!--]--></ul><!--[--><!--]--></aside><!-- TODO: make this button accessible --><div class="sidebar-mask"></div><main class="page" data-v-d2547f22><div class="container" data-v-d2547f22><!--[--><!--]--><div style="position:relative;" class="content" data-v-d2547f22><div><h1 id="environment-variables" tabindex="-1">Environment variables <a class="header-anchor" href="#environment-variables" aria-hidden="true">#</a></h1><p>The backend use some environment variables for configuring some part of it.</p><p>Here is a summary.</p><h2 id="web-server" tabindex="-1">Web server <a class="header-anchor" href="#web-server" aria-hidden="true">#</a></h2><div class="language-yml"><pre><code><span class="token comment"># Port on which LocoKit will listen</span>
+LCK_PORT=3030
+<span class="token comment"># Hostname on which LocoKit is</span>
+LCK_HOST=localhost
+<span class="token comment"># Public URL users will have to call the server (API mainly)</span>
+<span class="token comment"># Useful for link in emails for example</span>
+LCK_PUBLIC_URL=http<span class="token punctuation">:</span>//localhost<span class="token punctuation">:</span><span class="token number">8080</span>
+<span class="token comment"># What is the name of this LocoKit instance</span>
+<span class="token comment"># Useful for email subjects</span>
+LCK_PUBLIC_PORTAL_NAME=Locokit
+<span class="token comment"># Secret used to encrypt user passwords</span>
+LCK_AUTH_SECRET=yoursecretforpasswordTOCHANGEABSOLUTELY
+<span class="token comment"># URL connection to the database</span>
+LCK_DATABASE_URL=postgres<span class="token punctuation">:</span>//postgres<span class="token punctuation">:</span>pouicpouic@localhost<span class="token punctuation">:</span>5432/postgres
+<span class="token comment"># [dev] URL connection to the database, only for dev/test purpose</span>
+LCK_DATABASE_URL_TEST=postgres<span class="token punctuation">:</span>//postgres<span class="token punctuation">:</span>pouicpouic@localhost<span class="token punctuation">:</span>5433/postgres
+<span class="token comment"># [dev] Allow developer to see all requests executed in the terminal</span>
+OBJECTION_DEBUG=false
+</code></pre></div><h2 id="mail-server" tabindex="-1">Mail server <a class="header-anchor" href="#mail-server" aria-hidden="true">#</a></h2><p>You can connect LocoKit platform to a mail server for sending emails concerning signups, lost passwords, ...</p><p>In the default docker-compose, a <a href="https://github.com/mailhog/MailHog" target="_blank" rel="noopener noreferrer">mailhog</a> container is created, allowing you to check emails.</p><div class="language-yml"><pre><code>MAIL_PORT=1025
+MAIL_SERVER=localhost
+MAIL_USERNAME=
+MAIL_PASSWORD=
+MAIL_DEFAULT_FROM=&quot;Contact locokit&quot; &lt;contact@locokit.io<span class="token punctuation">&gt;</span>
+MAIL_SECURE=false
+</code></pre></div><h2 id="sentry" tabindex="-1">Sentry <a class="header-anchor" href="#sentry" aria-hidden="true">#</a></h2><p>Check <a href="https://docs.sentry.io/platforms/node/configuration/options/" target="_blank" rel="noopener noreferrer">Sentry documentation</a>.</p><div class="language-yml"><pre><code>SENTRY_DSN=
+SENTRY_RELEASE=
+SENTRY_ENVIRONMENT=
+</code></pre></div><h2 id="security" tabindex="-1">Security <a class="header-anchor" href="#security" aria-hidden="true">#</a></h2><div class="language-"><pre><code>CORS_ORIGIN=*
+
+# Helmet settings
+# https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
+HELMET_HSTS=true
+
+# Signup keys
+# Is the signup allowed on the LocoKit platform
+# This will display a signup form in the front,
+# and the signup endpoint will be registered
+SIGNUP_ALLOWED=false
+# How many tries are authorized
+SIGNUP_RATE_LIMIT_MAX=5
+# Within a time frame of xxx milliseconds
+# If more than 5 signup during 60s
+# signups will be rejected with a 429 HTTP (TooManyRequests)
+SIGNUP_RATE_LIMIT_TIMEFRAME=60000
+</code></pre></div><h2 id="storage-keys" tabindex="-1">Storage keys <a class="header-anchor" href="#storage-keys" aria-hidden="true">#</a></h2><div class="language-"><pre><code># type can be one of : s3 (s3 compatible object storage), fs (file system)
+STORAGE_TYPE=s3
+# public path can be one of : /s3-storage (s3 compatible object storage), /fs-storage (file system)
+# these paths depend on your configuration (nginx or other)
+STORAGE_PUBLIC_PATH=/s3-storage
+STORAGE_S3_URL=http://localhost:9000
+STORAGE_S3_ACCESS_KEY=minio
+STORAGE_S3_SECRET_KEY=notsecret
+STORAGE_S3_PATH_STYLE=1
+STORAGE_S3_SIGNATURE_VERSION=v4
+STORAGE_S3_DEFAULT_BUCKET=public
+STORAGE_FS_PATH=../fs-storage
+STORAGE_MAX_UPLOAD_SIZE=20mb
+</code></pre></div><h1 id="public-url" tabindex="-1">Public URL <a class="header-anchor" href="#public-url" aria-hidden="true">#</a></h1><p>For user management purpose, you&#39;ll have to set the <code>LCK_PUBLIC_URL</code> to the public url of the front-end.</p><p>This will help users to verify their email during the signup process, or password reset.</p></div></div><footer class="page-footer" data-v-d2547f22 data-v-66473b08><div class="edit" data-v-66473b08><div class="edit-link" data-v-66473b08 data-v-0d82f580><!----></div></div><div class="updated" data-v-66473b08><!----></div></footer><!----><!--[--><!--]--></div></main></div><!----><!--]--></div>
+    <script>__VP_HASH_MAP__ = JSON.parse("{\"readme.md\":\"6d87a49e\",\"admin-manual_auth.md\":\"2351932a\",\"admin-manual_visualization.md\":\"ba131113\",\"admin-manual_webhooks.md\":\"322536ac\",\"advanced_deployment.md\":\"cc75c22e\",\"advanced_env-vars.md\":\"69516edd\",\"advanced_theme.md\":\"196f6529\",\"advanced_user-group-management.md\":\"4b87efe5\",\"concepts_block-types.md\":\"d6190368\",\"concepts_column-types.md\":\"52aee09b\",\"concepts_key-features.md\":\"83896cf1\",\"concepts_permissions.md\":\"5d4ecfa2\",\"getting-started.md\":\"98267fd5\",\"index.md\":\"c00ce29f\",\"introduction.md\":\"31b176cf\",\"roadmap.md\":\"ef398183\"}")</script>
+    <script type="module" async src="/assets/app.bb6a31ba.js"></script>
+    
+  </body>
+</html>

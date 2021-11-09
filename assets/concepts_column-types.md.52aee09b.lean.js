@@ -1,0 +1,1 @@
+import{_ as e,c as o,o as t,d as l}from"./app.bb6a31ba.js";const y='{"title":"Column Types","description":"","frontmatter":{},"relativePath":"concepts/column-types.md","lastUpdated":1636470238598}',s={},i=l('',11),n=[i];function r(a,g,u,c,p,d){return t(),o("div",null,n)}var f=e(s,[["render",r]]);export{y as __pageData,f as default};
