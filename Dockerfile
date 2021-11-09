@@ -23,6 +23,9 @@ ENV SENTRY_ENVIRONMENT=
 
 ENV CORS_ORIGIN=*
 
+ENV HELMET_ENABLED=true
+ENV HELMET_HSTS=true
+
 ENV STORAGE_TYPE=fs
 ENV STORAGE_FS_PATH=../fs-storage
 ENV STORAGE_MAX_UPLOAD_SIZE=20mb
@@ -39,27 +42,27 @@ RUN apt-get autoclean
 RUN apt install nano
 
 # Copy all files related to api, front & docs
-COPY api/package*.json /code/api/
-COPY api/src /code/api/src/
-COPY api/knexutils /code/api/knexutils/
-COPY api/public/ /code/api/public/
+COPY api/package*.json /code/
+COPY api/src /code/src/
+COPY api/knexutils /code/knexutils/
+COPY api/public/ /code/public/
+COPY api/public/index.html /code/public/index-api.html
 COPY front/dist /code/public/
-COPY front/dist /code/api/public/
+COPY front/dist/config-default.js /code/public/config.js
 COPY docs/.vitepress/dist /code/public/docs/
-COPY docs/.vitepress/dist /code/api/public/docs/
-COPY api/templates /code/api/templates/
-COPY api/lib /code/api/lib/
-COPY api/config /code/api/config/
-COPY api/migrations /code/api/migrations/
-COPY api/seeds /code/api/seeds/
-COPY api/tsconfig.json /code/api/
-COPY api/knexfile.ts /code/api/
+COPY api/templates /code/templates/
+COPY api/lib /code/lib/
+COPY api/config /code/config/
+COPY api/migrations /code/migrations/
+COPY api/seeds /code/seeds/
+COPY api/tsconfig.json /code/
+COPY api/knexfile.ts /code/
 
 # Install dependencies
-COPY api/patch/ /code/api/patch/
-RUN cd api/ && npm ci --also=dev
+COPY api/patch/ /code/patch/
+RUN npm ci --also=dev
 RUN npm install pm2 knex typescript -g
 
 # ENTRYPOINT pm2-runtime lib/index.js -n lck-api
-WORKDIR /code/api
-CMD node /code/api/lib/index.js
+WORKDIR /code/
+CMD npm run migrate:latest && node /code/lib/index.js

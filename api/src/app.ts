@@ -54,15 +54,19 @@ app.use(Sentry.Handlers.tracingHandler())
 app.configure(casl())
 
 // Enable security, CORS, compression, favicon and body parsing
-app.use(helmet({
-  contentSecurityPolicy: {
-    useDefaults: true,
-    directives: {
-      'script-src': ["'self'", "'unsafe-inline'", 'https://cdn.jsdelivr.net', "'unsafe-eval'", 'https://unpkg.com'],
-      'worker-src': ['blob:'], // needed by redoc swagger
+const helmetSettings = app.get('helmet')
+if (helmetSettings.isEnabled === 'true') {
+  app.use(helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://unpkg.com'],
+        'worker-src': ['blob:'], // needed by redoc swagger
+      },
     },
-  },
-}))
+    hsts: helmetSettings.hstsEnabled === 'true'
+  }))
+}
 app.use(cors(app.get('cors')))
 app.use(compress())
 const maxUploadSize = app.get('storage').maxUploadSize || '5mb'
@@ -259,7 +263,14 @@ app.configure(services)
 app.use(Sentry.Handlers.errorHandler({
   shouldHandleError: () => (true),
 }))
-app.use(express.notFound())
+/**
+ * No send 404 page except by the index.html file.
+ * Allow the front to have "history" mode URL
+ * when serving front-end from the locokit docker.
+ */
+app.use(function defaultToIndex(req, res, next) {
+  res.sendFile(path.join(app.get('public'), 'index.html'))
+})
 app.use(express.errorHandler({ logger } as any))
 
 app.hooks(appHooks)

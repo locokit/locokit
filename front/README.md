@@ -36,8 +36,8 @@ Same for this file, you'll find an example at the root in `.env.dist` file.
 This file contains more global variables used at compilation time.
 
 As you can't change these vars after compilation time,
-we have made a special `index.html` file to be generic when the build is done.
-You'll find after build in the `dist/index-generic.html` file.
+we have made a special `index.html` file to be a template when the build is done.
+You'll find after build in the `dist/index-template.html` file.
 This file contains the `.env` variables in an template-handlebar syntax.
 
 This allows you to compile only the html file if you need
@@ -59,7 +59,7 @@ npm run serve
 npm run build
 ```
 
-You'll get an `index-generic.html` file in the `dist` folder.
+You'll get an `index-template.html` file in the `dist` folder.
 You can use the `npm run build:html` if you want to customize the title or other vars.
 
 ### Run your unit tests

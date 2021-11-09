@@ -62,8 +62,8 @@ jobs:
     # - if: '$CI_COMMIT_BRANCH == "master" || $CI_COMMIT_TAG != ""'
 
     env:
-      VUE_APP_I18N_LOCALE: 'fr'
-      VUE_APP_I18N_FALLBACK_LOCALE: 'fr'
+      VUE_APP_I18N_LOCALE: 'en'
+      VUE_APP_I18N_FALLBACK_LOCALE: 'en'
       VUE_APP_TITLE: '{{ lck_app_title }}'
       VUE_APP_THEME: '{{ lck_app_theme }}'
     
@@ -77,6 +77,11 @@ jobs:
         run: npm run build
         env:
           NODE_OPTIONS: --max_old_space_size=4096
+      - name: Create default index.html
+        run: npm run build:html
+        env:
+          VUE_APP_TITLE: 'LocoKit platform'
+          VUE_APP_THEME: 'locokit'
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -178,7 +183,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      BASE_URL: '/lck-docs/'
+      BASE_URL: '/locokit/'
 
     steps:
       - uses: actions/checkout@v2
@@ -193,7 +198,27 @@ jobs:
         with:
           name: docs-build-artifact
           path: |
-            docs/.vitepress/dist
+            docs/.vitepress/dist/
+  
+  docs-push-pages:
+    runs-on: ubuntu-latest
+    needs: [docs-build]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+      - name: Download docs artifact
+        uses: actions/download-artifact@v2
+        with: 
+          name: docs-build-artifact
+      - name: Commit & push files
+        run: |
+          git reset --hard
+          git config --global user.email "mathieu@dartic.fr"
+          git config --global user.name "mdartic"
+          git add .
+          git commit -m "Add changes" -a
+          git push origin gh-pages --force
 
   ## Docker part
   locokit-docker:
