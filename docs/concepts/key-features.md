@@ -1,9 +1,22 @@
-## How can I understand how this platform work, and what can I really do with it ?
+# Key features
 
-You're in the right place !
+This page is in work in progress.
+We do our best to explain what is LocoKit.
 
-You can follow the several pages to understand how the platform is made,
-and what you can do with it.
+
+
+
+LocoKit is composed of two main features.
+
+* a spreadsheet UI that allows you to create / update your data,
+* and a mini app builder allowing you to create pages for your users
+
+When your are logged to the platform, you will be able to create **workspaces**.
+This is where you are going to build your database, tool.
+
+In each workspace, you'll be able to create **databases** 
+with dedicated **tables**.
+
 
 Understand what we call : 
 * storage
