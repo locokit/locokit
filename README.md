@@ -17,7 +17,7 @@ For each directory (`api`, `front`, `docs`, `glossary`), you need to:
 npm ci # install deps
 ```
 
-From here you need docker and docker-compose in recent version.
+From here you need [docker](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) and [docker-compose](https://docs.docker.com/compose/install/) in recent version.
 
 In the `front` directory, 
 you need to create a `.env` file from the `.env.dist`. Then in `public`, you also need to create a `config.js` file from the `config.js.dist`. [View the full config reference](#customize-configuration).
