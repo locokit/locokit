@@ -4,7 +4,7 @@
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const LCK_SETTINGS = {
-  API_URL: document.location.href.replace(/\/$/, ''),
+  API_URL: document.location.origin,
   LOCALSTORAGE_KEY: 'lck-auth',
   SENTRY_DSN: '',
   SENTRY_ENV: '',

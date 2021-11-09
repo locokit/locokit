@@ -213,6 +213,7 @@ jobs:
           name: docs-build-artifact
       - name: Commit & push files
         run: |
+          git reset --hard
           git config --global user.email "mathieu@dartic.fr"
           git config --global user.name "mdartic"
           git add .
