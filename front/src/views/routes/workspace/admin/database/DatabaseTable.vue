@@ -43,7 +43,7 @@
                 :columnsDropdownOptions="currentBlockDropdownOptions"
                 :crudMode="crudMode"
                 v-model="currentDatatableFilters"
-                :disabled="!hasDataToDisplay && currentDatatableFilters.length === 0"
+                :disabled="currentView.locked && currentDatatableFilters.length === 0"
                 @submit="onSubmitFilter"
                 @reset="onResetFilter"
                 @save-filters="onSaveFilters"
@@ -768,11 +768,11 @@ export default {
       if (!currentColumn) return
       const newColumn = await lckServices.tableViewColumn.patch(
         `${this.selectedViewId},${columnId}`, {
-          style: {
-            ...currentColumn.style,
-            width: newWidth,
-          },
+        style: {
+          ...currentColumn.style,
+          width: newWidth,
         },
+      },
       )
       // replace existing definition with new column
       currentColumn.style = newColumn.style
@@ -787,8 +787,8 @@ export default {
       // first, patch the moved column
       updatePromises.push(lckServices.tableViewColumn.patch(
         `${this.selectedViewId},${this.viewColumnsIds[fromIndex]}`, {
-          position: toIndex,
-        }),
+        position: toIndex,
+      }),
       )
       if (fromIndex > toIndex) {
         // if the fromIndex is after the toIndex
@@ -796,8 +796,8 @@ export default {
         for (let i1 = toIndex; i1 < fromIndex; i1++) {
           updatePromises.push(lckServices.tableViewColumn.patch(
             `${this.selectedViewId},${this.viewColumnsIds[i1]}`, {
-              position: i1 + 1,
-            }),
+            position: i1 + 1,
+          }),
           )
         }
       } else {
@@ -806,8 +806,8 @@ export default {
         for (let i2 = fromIndex + 1; i2 <= toIndex; i2++) {
           updatePromises.push(lckServices.tableViewColumn.patch(
             `${this.selectedViewId},${this.viewColumnsIds[i2]}`, {
-              position: i2 - 1,
-            }),
+            position: i2 - 1,
+          }),
           )
         }
       }
