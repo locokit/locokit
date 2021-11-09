@@ -60,9 +60,9 @@ module.exports = {
           }, {
             text: 'Theme',
             link: 'advanced/theme.html'
-          }, {
-            text: 'Deployment in production',
-            link: 'advanced/deployment.html'
+          // }, {
+          //   text: 'Deployment in production',
+          //   link: 'advanced/deployment.html'
           }]
         // }, {
         //   text: 'Use cases',
