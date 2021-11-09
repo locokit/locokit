@@ -18,7 +18,9 @@
           </div>
         </div>
 
-        <p v-if="!loading && workspaces.length === 0">{{ $t('pages.workspace.noWorkspace') }}</p>
+        <p v-if="!loading && workspaces.length === 0" class="p-col-12">
+          {{ $t('pages.workspace.noWorkspace') }}
+        </p>
 
         <div v-for="workspace in workspaces" :key="workspace.id" class="p-col-12 p-md-4 p-lg-3 workspaces-item">
           <div
@@ -53,7 +55,10 @@
           </div>
         </div>
 
-        <div v-if="$can('create', 'workspace')" class="p-col-12 p-md-4 p-lg-3 workspaces-item">
+        <div
+          v-if="$can('create', 'workspace')"
+          :class="'p-col-12 p-md-4 p-lg-3 workspaces-item' + ( workspaces.length === 0 ? ' p-mx-auto' : '')"
+        >
           <button class="workspaces-new" @click="dialogVisible = true">
             <i class="bi bi-file-plus workspaces-new-icon"></i>
             <p class="p-button p-button-sm">{{ $t('pages.workspace.form.new') }}</p>
