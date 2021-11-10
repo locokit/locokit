@@ -1,0 +1,1 @@
+import{_ as a,c as e,o as t}from"./app.45c07c2f.js";const f='{"title":"","description":"","frontmatter":{},"relativePath":"user-manual/create-a-database.md","lastUpdated":1636534268196}',r={};function c(s,o,n,p,_,d){return t(),e("div")}var l=a(r,[["render",c]]);export{f as __pageData,l as default};
