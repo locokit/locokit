@@ -27,6 +27,19 @@
     }
   }
 
+  &-title,
+  &-subtitle {
+    margin-right: 3rem;
+  }
+
+  &-title {
+    margin-bottom: 0;
+  }
+
+  &-subtitle {
+    margin-top: var(--spacing-xs);
+  }
+
   // Link inside accordion
   &-link {
     display: flex;

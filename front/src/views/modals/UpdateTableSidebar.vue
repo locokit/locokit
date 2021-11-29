@@ -8,17 +8,15 @@
     @update:visible="$emit('close', $event)"
   >
     <div v-if="currentTableToUpdate">
-      <h2 class="lck-color-page-title">{{ $t('pages.databaseSchema.updateTableSidebar.updateTable') }}</h2>
+      <h2 class="lck-sidebar-title">{{ $t('pages.databaseSchema.updateTableSidebar.updateTable') }}</h2>
+      <p class="lck-sidebar-subtitle">
+        <span>{{ $t('pages.databaseSchema.displayUuid.uuid') }} </span>
+        <span>{{ currentTable.id }}</span>
+      </p>
       <lck-form
         :displayCancelButton="false"
         @submit="updateTableName"
       >
-        <div class="p-field p-mb-3">
-          <label>
-            <span>{{ $t('pages.databaseSchema.displayUuid.uuid') }} </span>
-            <span>{{ currentTable.id }}</span>
-          </label>
-        </div>
         <validation-provider
           vid="table-name"
           tag="div"
@@ -48,13 +46,13 @@
         </validation-provider>
       </lck-form>
 
-      <div class="p-d-flex p-my-4">
+      <div class="p-d-flex p-mt-4 p-mb-2">
         <div class="p-ai-start">
           <p-button
             @click="createColumn"
             :label="$t('pages.databaseSchema.updateTableSidebar.createColumn')"
             icon="pi pi-plus"
-            class="p-button-text"
+            class="p-button-secondary"
           />
         </div>
       </div>
