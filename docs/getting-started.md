@@ -124,6 +124,11 @@ email: superadmin@locokit.io
 password: locokit
 ```
 
+You could also create your own user with the signup page
+(check the `SIGNUP_ALLOWED` environment variable).
+The confirmation email will be sent to [mailhog](https://github.com/mailhog/MailHog),
+you can access by opening [http://localhost:8025](http://localhost:8025).
+
 For more details on environment variables,
 check the [dedicated page](advanced/env-vars.html).
 

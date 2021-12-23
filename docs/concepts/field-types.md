@@ -1,6 +1,6 @@
-# Column Types
+# Field Types
 
-In LocoKit, you can manage several column types.
+In LocoKit, you can manage several field types.
 
 Here is the summary of all the types implemented.
 
@@ -26,8 +26,8 @@ Here is the summary of all the types implemented.
 * **File** : Allows you to attach one or more files to a cell
 * **URL** : Designed to store a single URL in each cell
 * **Link to another table** : Allows you create a linked record field between two tables
-* **Lookup column** : Allows you to look up a specific field in a linked table
-* **Virtual lookup column** : Allows you to look up a specific virtual field in a linked table
+* **Lookup field** : Allows you to look up a specific field in a linked table
+* **Virtual lookup field** : Allows you to look up a specific virtual field in a linked table
 
 **Geometries**
 * **Point geometry** : Designed to store a WKT point geometry
