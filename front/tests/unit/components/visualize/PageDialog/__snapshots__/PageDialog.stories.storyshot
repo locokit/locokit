@@ -7,22 +7,22 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
   <span>
     <form>
       <div
-        class="p-dialog-mask p-component-overlay "
+        class="p-fluid p-dialog-mask p-component-overlay p-component-overlay-enter"
         style="z-index: 1025;"
       >
         <div
-          aria-labelledby="pv_id_33_header"
+          aria-labelledby="pv_id_34_header"
           aria-modal="true"
           class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
           role="dialog"
-          style="z-index: 1026;"
+          style="z-index: 1026; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
         >
           <div
             class="p-dialog-header"
           >
             <span
               class="p-dialog-title"
-              id="pv_id_33_header"
+              id="pv_id_34_header"
             >
               Create a new page
             </span>
@@ -304,22 +304,22 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
   <span>
     <form>
       <div
-        class="p-dialog-mask p-component-overlay "
+        class="p-fluid p-dialog-mask p-component-overlay p-component-overlay-enter"
         style="z-index: 1026;"
       >
         <div
-          aria-labelledby="pv_id_34_header"
+          aria-labelledby="pv_id_35_header"
           aria-modal="true"
           class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
           role="dialog"
-          style="z-index: 1027;"
+          style="z-index: 1027; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
         >
           <div
             class="p-dialog-header"
           >
             <span
               class="p-dialog-title"
-              id="pv_id_34_header"
+              id="pv_id_35_header"
             >
               Edit a page
             </span>

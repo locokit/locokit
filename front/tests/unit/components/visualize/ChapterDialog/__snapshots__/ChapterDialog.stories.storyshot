@@ -7,22 +7,22 @@ exports[`storyshots components/visualize/ChapterDialog chapter create 1`] = `
   <span>
     <form>
       <div
-        class="p-dialog-mask p-component-overlay "
+        class="p-fluid p-dialog-mask p-component-overlay p-component-overlay-enter"
         style="z-index: 1023;"
       >
         <div
-          aria-labelledby="pv_id_31_header"
+          aria-labelledby="pv_id_32_header"
           aria-modal="true"
           class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
           role="dialog"
-          style="z-index: 1024;"
+          style="z-index: 1024; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
         >
           <div
             class="p-dialog-header"
           >
             <span
               class="p-dialog-title"
-              id="pv_id_31_header"
+              id="pv_id_32_header"
             >
               Create a new chapter
             </span>
@@ -135,22 +135,22 @@ exports[`storyshots components/visualize/ChapterDialog chapter edit 1`] = `
   <span>
     <form>
       <div
-        class="p-dialog-mask p-component-overlay "
+        class="p-fluid p-dialog-mask p-component-overlay p-component-overlay-enter"
         style="z-index: 1024;"
       >
         <div
-          aria-labelledby="pv_id_32_header"
+          aria-labelledby="pv_id_33_header"
           aria-modal="true"
           class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
           role="dialog"
-          style="z-index: 1025;"
+          style="z-index: 1025; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
         >
           <div
             class="p-dialog-header"
           >
             <span
               class="p-dialog-title"
-              id="pv_id_32_header"
+              id="pv_id_33_header"
             >
               Edit a chapter
             </span>

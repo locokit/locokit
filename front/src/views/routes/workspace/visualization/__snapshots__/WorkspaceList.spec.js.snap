@@ -39,7 +39,7 @@ exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "A
         </div>
       </div>
       <!---->
-      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item"><button class="workspaces-new"><i class="bi bi-file-plus workspaces-new-icon"></i>
+      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item p-mx-auto"><button class="workspaces-new"><i class="bi bi-file-plus workspaces-new-icon"></i>
           <p class="p-button p-button-sm">pages.workspace.form.new</p>
         </button></div>
     </div>
@@ -65,7 +65,7 @@ exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "C
         </div>
       </div>
       <!---->
-      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item"><button class="workspaces-new"><i class="bi bi-file-plus workspaces-new-icon"></i>
+      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item p-mx-auto"><button class="workspaces-new"><i class="bi bi-file-plus workspaces-new-icon"></i>
           <p class="p-button p-button-sm">pages.workspace.form.new</p>
         </button></div>
     </div>
@@ -91,7 +91,7 @@ exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "S
         </div>
       </div>
       <!---->
-      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item"><button class="workspaces-new"><i class="bi bi-file-plus workspaces-new-icon"></i>
+      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item p-mx-auto"><button class="workspaces-new"><i class="bi bi-file-plus workspaces-new-icon"></i>
           <p class="p-button p-button-sm">pages.workspace.form.new</p>
         </button></div>
     </div>

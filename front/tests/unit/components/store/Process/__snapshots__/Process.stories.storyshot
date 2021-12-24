@@ -127,7 +127,7 @@ exports[`storyshots components/store/process/Process default 1`] = `
                
               <span
                 aria-haspopup="listbox"
-                aria-owns="pv_id_5_list"
+                aria-owns="pv_id_6_list"
                 class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                 dropdown="true"
                 id="table"
@@ -135,7 +135,7 @@ exports[`storyshots components/store/process/Process default 1`] = `
               >
                 <input
                   aria-autocomplete="list"
-                  aria-controls="pv_id_5_list"
+                  aria-controls="pv_id_6_list"
                   autocomplete="off"
                   class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
                   id="table"
@@ -251,7 +251,7 @@ exports[`storyshots components/store/process/Process default 1`] = `
               </label>
                
               <span
-                class="p-inputnumber p-component p-inputwrapper-filled"
+                class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled"
               >
                 <input
                   class="p-inputtext p-component p-filled p-inputnumber-input"
@@ -384,9 +384,9 @@ exports[`storyshots components/store/process/Process default 1`] = `
                   class="p-accordion-header"
                 >
                   <a
-                    aria-controls="pv_id_6_content"
+                    aria-controls="pv_id_7_content"
                     class="p-accordion-header-link"
-                    id="pv_id_6_header"
+                    id="pv_id_7_header"
                     role="tab"
                     tabindex="0"
                   >
@@ -404,9 +404,9 @@ exports[`storyshots components/store/process/Process default 1`] = `
                 </div>
                  
                 <div
-                  aria-labelledby="pv_id_6_header"
+                  aria-labelledby="pv_id_7_header"
                   class="p-toggleable-content"
-                  id="pv_id_6_content"
+                  id="pv_id_7_content"
                   role="region"
                   style="display: none;"
                 >
@@ -456,9 +456,9 @@ Over.
                   class="p-accordion-header"
                 >
                   <a
-                    aria-controls="pv_id_7_content"
+                    aria-controls="pv_id_8_content"
                     class="p-accordion-header-link"
-                    id="pv_id_7_header"
+                    id="pv_id_8_header"
                     role="tab"
                     tabindex="0"
                   >
@@ -476,9 +476,9 @@ Over.
                 </div>
                  
                 <div
-                  aria-labelledby="pv_id_7_header"
+                  aria-labelledby="pv_id_8_header"
                   class="p-toggleable-content"
-                  id="pv_id_7_content"
+                  id="pv_id_8_content"
                   role="region"
                   style="display: none;"
                 >
@@ -499,9 +499,9 @@ Over.
                   class="p-accordion-header"
                 >
                   <a
-                    aria-controls="pv_id_8_content"
+                    aria-controls="pv_id_9_content"
                     class="p-accordion-header-link"
-                    id="pv_id_8_header"
+                    id="pv_id_9_header"
                     role="tab"
                     tabindex="0"
                   >
@@ -519,9 +519,9 @@ Over.
                 </div>
                  
                 <div
-                  aria-labelledby="pv_id_8_header"
+                  aria-labelledby="pv_id_9_header"
                   class="p-toggleable-content"
-                  id="pv_id_8_content"
+                  id="pv_id_9_content"
                   role="region"
                   style="display: none;"
                 >
