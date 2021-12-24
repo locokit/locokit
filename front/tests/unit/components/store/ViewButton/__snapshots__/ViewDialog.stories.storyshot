@@ -7,22 +7,22 @@ exports[`storyshots components/store/View/ViewDialog default 1`] = `
   <span>
     <form>
       <div
-        class="p-dialog-mask p-component-overlay "
+        class="p-fluid p-dialog-mask p-component-overlay p-component-overlay-enter"
         style="z-index: 1006;"
       >
         <div
-          aria-labelledby="pv_id_14_header"
+          aria-labelledby="pv_id_15_header"
           aria-modal="true"
           class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
           role="dialog"
-          style="z-index: 1007;"
+          style="z-index: 1007; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
         >
           <div
             class="p-dialog-header"
           >
             <span
               class="p-dialog-title"
-              id="pv_id_14_header"
+              id="pv_id_15_header"
             >
               Create a new view
             </span>
@@ -166,22 +166,22 @@ exports[`storyshots components/store/View/ViewDialog update view 1`] = `
   <span>
     <form>
       <div
-        class="p-dialog-mask p-component-overlay "
+        class="p-fluid p-dialog-mask p-component-overlay p-component-overlay-enter"
         style="z-index: 1007;"
       >
         <div
-          aria-labelledby="pv_id_15_header"
+          aria-labelledby="pv_id_16_header"
           aria-modal="true"
           class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
           role="dialog"
-          style="z-index: 1008;"
+          style="z-index: 1008; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
         >
           <div
             class="p-dialog-header"
           >
             <span
               class="p-dialog-title"
-              id="pv_id_15_header"
+              id="pv_id_16_header"
             >
               Edit the view
             </span>

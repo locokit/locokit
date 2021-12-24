@@ -88,7 +88,7 @@ exports[`DataDetail Manage conditional fields ($eq, $ne, $in) display / hide fie
   </span> <i class="p-dropdown-clear-icon pi pi-times"></i>
   <div role="button" aria-haspopup="listbox" class="p-dropdown-trigger" aria-expanded="true"><span class="p-dropdown-trigger-icon pi pi-chevron-down"></span></div>
   <transition-stub name="p-connected-overlay">
-    <div class="p-dropdown-panel p-component">
+    <div class="p-dropdown-panel p-component" style="visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;">
       <!---->
       <div class="p-dropdown-items-wrapper" style="max-height: 200px;">
         <ul role="listbox" class="p-dropdown-items">

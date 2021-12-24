@@ -587,14 +587,14 @@ exports[`storyshots components/store/DataDetail with edit state error 1`] = `
         >
           <span
             aria-haspopup="listbox"
-            aria-owns="pv_id_4_list"
+            aria-owns="pv_id_3_list"
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
             id="bde4bbbd-2584-447f-acff-f434f53619da"
             value="[object Object]"
           >
             <input
               aria-autocomplete="list"
-              aria-controls="pv_id_4_list"
+              aria-controls="pv_id_3_list"
               autocomplete="off"
               class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
               id="bde4bbbd-2584-447f-acff-f434f53619da"
@@ -915,14 +915,14 @@ exports[`storyshots components/store/DataDetail with edit state ok 1`] = `
         >
           <span
             aria-haspopup="listbox"
-            aria-owns="pv_id_3_list"
+            aria-owns="pv_id_4_list"
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
             id="bde4bbbd-2584-447f-acff-f434f53619da"
             value="[object Object]"
           >
             <input
               aria-autocomplete="list"
-              aria-controls="pv_id_3_list"
+              aria-controls="pv_id_4_list"
               autocomplete="off"
               class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
               id="bde4bbbd-2584-447f-acff-f434f53619da"
@@ -1243,14 +1243,14 @@ exports[`storyshots components/store/DataDetail with edit state saving 1`] = `
         >
           <span
             aria-haspopup="listbox"
-            aria-owns="pv_id_2_list"
+            aria-owns="pv_id_5_list"
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
             id="bde4bbbd-2584-447f-acff-f434f53619da"
             value="[object Object]"
           >
             <input
               aria-autocomplete="list"
-              aria-controls="pv_id_2_list"
+              aria-controls="pv_id_5_list"
               autocomplete="off"
               class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
               id="bde4bbbd-2584-447f-acff-f434f53619da"
@@ -1571,14 +1571,14 @@ exports[`storyshots components/store/DataDetail with editable columns and row 1`
         >
           <span
             aria-haspopup="listbox"
-            aria-owns="pv_id_1_list"
+            aria-owns="pv_id_2_list"
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
             id="bde4bbbd-2584-447f-acff-f434f53619da"
             value="[object Object]"
           >
             <input
               aria-autocomplete="list"
-              aria-controls="pv_id_1_list"
+              aria-controls="pv_id_2_list"
               autocomplete="off"
               class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
               id="bde4bbbd-2584-447f-acff-f434f53619da"

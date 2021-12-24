@@ -107,7 +107,7 @@ exports[`storyshots components/store/process/ProcessForm default 1`] = `
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_9_list"
+          aria-owns="pv_id_10_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
           dropdown="true"
           id="table"
@@ -116,7 +116,7 @@ exports[`storyshots components/store/process/ProcessForm default 1`] = `
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_9_list"
+            aria-controls="pv_id_10_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="table"
@@ -232,7 +232,7 @@ exports[`storyshots components/store/process/ProcessForm default 1`] = `
         </label>
          
         <span
-          class="p-inputnumber p-component p-inputwrapper-filled"
+          class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled"
         >
           <input
             class="p-inputtext p-component p-filled p-inputnumber-input"
@@ -402,7 +402,7 @@ exports[`storyshots components/store/process/ProcessForm submitting 1`] = `
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_10_list"
+          aria-owns="pv_id_11_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
           dropdown="true"
           id="table"
@@ -411,7 +411,7 @@ exports[`storyshots components/store/process/ProcessForm submitting 1`] = `
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_10_list"
+            aria-controls="pv_id_11_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="table"
@@ -527,7 +527,7 @@ exports[`storyshots components/store/process/ProcessForm submitting 1`] = `
         </label>
          
         <span
-          class="p-inputnumber p-component p-inputwrapper-filled"
+          class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled"
         >
           <input
             class="p-inputtext p-component p-filled p-inputnumber-input"

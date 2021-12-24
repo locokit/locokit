@@ -35,17 +35,7 @@ exports[`storyshots components/ui/Paginator default 1`] = `
     </button>
     <span
       class="p-paginator-pages"
-    >
-      <button
-        class="p-paginator-page p-paginator-element p-link p-highlight"
-        type="button"
-      >
-        1
-        <span
-          class="p-ink"
-        />
-      </button>
-    </span>
+    />
     <button
       class="p-paginator-next p-paginator-element p-link p-disabled"
       disabled="disabled"
@@ -73,7 +63,7 @@ exports[`storyshots components/ui/Paginator default 1`] = `
     <span
       class="p-paginator-current"
     >
-      Showing 1 to 0 of 0 entries
+      Showing 0 to 0 of 0 entries
     </span>
      
     <div

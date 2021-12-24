@@ -7,7 +7,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
   <div
     class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active p-sidebar-enter p-sidebar-enter-active"
     role="complementary"
-    style="width: 40rem; z-index: 1032;"
+    style="width: 40rem; z-index: 1028;"
   >
     <div
       class="p-sidebar-header"
@@ -35,15 +35,27 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
         <div
           class="p-tabview p-component"
         >
-          <ul
-            class="p-tabview-nav"
-            role="tablist"
+          <div
+            class="p-tabview-nav-container"
           >
+            <!---->
              
-            <li
-              class="p-tabview-ink-bar"
-            />
-          </ul>
+            <div
+              class="p-tabview-nav-content"
+            >
+              <ul
+                class="p-tabview-nav"
+                role="tablist"
+              >
+                 
+                <li
+                  class="p-tabview-ink-bar"
+                />
+              </ul>
+            </div>
+             
+            <!---->
+          </div>
            
           <div
             class="p-tabview-panels"
@@ -576,7 +588,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                      
                     <span
                       aria-haspopup="listbox"
-                      aria-owns="pv_id_72_list"
+                      aria-owns="pv_id_73_list"
                       class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                       dropdown="true"
                       id="blockConditionalDisplayTableViewId"
@@ -584,7 +596,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                     >
                       <input
                         aria-autocomplete="list"
-                        aria-controls="pv_id_72_list"
+                        aria-controls="pv_id_73_list"
                         autocomplete="off"
                         class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
                         id="blockConditionalDisplayTableViewId"
@@ -634,7 +646,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                      
                     <span
                       aria-haspopup="listbox"
-                      aria-owns="pv_id_73_list"
+                      aria-owns="pv_id_74_list"
                       class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                       disabled="disabled"
                       dropdown="true"
@@ -643,7 +655,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
                     >
                       <input
                         aria-autocomplete="list"
-                        aria-controls="pv_id_73_list"
+                        aria-controls="pv_id_74_list"
                         autocomplete="off"
                         class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
                         disabled="disabled"
@@ -784,7 +796,7 @@ exports[`storyshots components/visualize/UpdateSidebar when display page 1`] = `
   <div
     class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active p-sidebar-enter p-sidebar-enter-active"
     role="complementary"
-    style="width: 40rem; z-index: 1028;"
+    style="width: 40rem; z-index: 1029;"
   >
     <div
       class="p-sidebar-header"
@@ -812,15 +824,27 @@ exports[`storyshots components/visualize/UpdateSidebar when display page 1`] = `
         <div
           class="p-tabview p-component"
         >
-          <ul
-            class="p-tabview-nav"
-            role="tablist"
+          <div
+            class="p-tabview-nav-container"
           >
+            <!---->
              
-            <li
-              class="p-tabview-ink-bar"
-            />
-          </ul>
+            <div
+              class="p-tabview-nav-content"
+            >
+              <ul
+                class="p-tabview-nav"
+                role="tablist"
+              >
+                 
+                <li
+                  class="p-tabview-ink-bar"
+                />
+              </ul>
+            </div>
+             
+            <!---->
+          </div>
            
           <div
             class="p-tabview-panels"
@@ -985,15 +1009,27 @@ exports[`storyshots components/visualize/UpdateSidebar when submitting an empty 
         <div
           class="p-tabview p-component"
         >
-          <ul
-            class="p-tabview-nav"
-            role="tablist"
+          <div
+            class="p-tabview-nav-container"
           >
+            <!---->
              
-            <li
-              class="p-tabview-ink-bar"
-            />
-          </ul>
+            <div
+              class="p-tabview-nav-content"
+            >
+              <ul
+                class="p-tabview-nav"
+                role="tablist"
+              >
+                 
+                <li
+                  class="p-tabview-ink-bar"
+                />
+              </ul>
+            </div>
+             
+            <!---->
+          </div>
            
           <div
             class="p-tabview-panels"
@@ -1403,7 +1439,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
   <div
     class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active p-sidebar-enter p-sidebar-enter-active"
     role="complementary"
-    style="width: 40rem; z-index: 1033;"
+    style="width: 40rem; z-index: 1032;"
   >
     <div
       class="p-sidebar-header"
@@ -1431,15 +1467,27 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
         <div
           class="p-tabview p-component"
         >
-          <ul
-            class="p-tabview-nav"
-            role="tablist"
+          <div
+            class="p-tabview-nav-container"
           >
+            <!---->
              
-            <li
-              class="p-tabview-ink-bar"
-            />
-          </ul>
+            <div
+              class="p-tabview-nav-content"
+            >
+              <ul
+                class="p-tabview-nav"
+                role="tablist"
+              >
+                 
+                <li
+                  class="p-tabview-ink-bar"
+                />
+              </ul>
+            </div>
+             
+            <!---->
+          </div>
            
           <div
             class="p-tabview-panels"
@@ -1972,7 +2020,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                      
                     <span
                       aria-haspopup="listbox"
-                      aria-owns="pv_id_74_list"
+                      aria-owns="pv_id_75_list"
                       class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                       dropdown="true"
                       id="blockConditionalDisplayTableViewId"
@@ -1980,7 +2028,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                     >
                       <input
                         aria-autocomplete="list"
-                        aria-controls="pv_id_74_list"
+                        aria-controls="pv_id_75_list"
                         autocomplete="off"
                         class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
                         id="blockConditionalDisplayTableViewId"
@@ -2030,7 +2078,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                      
                     <span
                       aria-haspopup="listbox"
-                      aria-owns="pv_id_75_list"
+                      aria-owns="pv_id_76_list"
                       class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                       disabled="disabled"
                       dropdown="true"
@@ -2039,7 +2087,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
                     >
                       <input
                         aria-autocomplete="list"
-                        aria-controls="pv_id_75_list"
+                        aria-controls="pv_id_76_list"
                         autocomplete="off"
                         class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
                         disabled="disabled"
@@ -2180,7 +2228,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a not empty
   <div
     class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active p-sidebar-enter p-sidebar-enter-active"
     role="complementary"
-    style="width: 40rem; z-index: 1031;"
+    style="width: 40rem; z-index: 1033;"
   >
     <div
       class="p-sidebar-header"
@@ -2208,15 +2256,27 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a not empty
         <div
           class="p-tabview p-component"
         >
-          <ul
-            class="p-tabview-nav"
-            role="tablist"
+          <div
+            class="p-tabview-nav-container"
           >
+            <!---->
              
-            <li
-              class="p-tabview-ink-bar"
-            />
-          </ul>
+            <div
+              class="p-tabview-nav-content"
+            >
+              <ul
+                class="p-tabview-nav"
+                role="tablist"
+              >
+                 
+                <li
+                  class="p-tabview-ink-bar"
+                />
+              </ul>
+            </div>
+             
+            <!---->
+          </div>
            
           <div
             class="p-tabview-panels"
@@ -2640,7 +2700,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating an empty co
   <div
     class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active p-sidebar-enter p-sidebar-enter-active"
     role="complementary"
-    style="width: 40rem; z-index: 1029;"
+    style="width: 40rem; z-index: 1031;"
   >
     <div
       class="p-sidebar-header"
@@ -2668,15 +2728,27 @@ exports[`storyshots components/visualize/UpdateSidebar when updating an empty co
         <div
           class="p-tabview p-component"
         >
-          <ul
-            class="p-tabview-nav"
-            role="tablist"
+          <div
+            class="p-tabview-nav-container"
           >
+            <!---->
              
-            <li
-              class="p-tabview-ink-bar"
-            />
-          </ul>
+            <div
+              class="p-tabview-nav-content"
+            >
+              <ul
+                class="p-tabview-nav"
+                role="tablist"
+              >
+                 
+                <li
+                  class="p-tabview-ink-bar"
+                />
+              </ul>
+            </div>
+             
+            <!---->
+          </div>
            
           <div
             class="p-tabview-panels"

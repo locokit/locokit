@@ -11,7 +11,7 @@ exports[`FormRecord could have required columns disable the submit button if the
     </div>
     <div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="number_1_column" class="lck-color-primary untouched pristine pending required label-field-required">
           Number
-        </label> <!----></div> <div class="form-field-editable untouched pristine pending required"><span class="p-inputnumber p-component p-inputwrapper-filled"><input class="p-inputtext p-component p-filled p-inputnumber-input" id="number_1_column" rows="7"> <!----> <!----> <!----></span> <span class="cell-state"></span></div> <span class="untouched pristine pending required"></span></span>
+        </label> <!----></div> <div class="form-field-editable untouched pristine pending required"><span class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled"><input class="p-inputtext p-component p-filled p-inputnumber-input" id="number_1_column" rows="7"> <!----> <!----> <!----></span> <span class="cell-state"></span></div> <span class="untouched pristine pending required"></span></span>
 </div>
 <div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><div class="p-checkbox p-component p-checkbox-checked"><div class="p-hidden-accessible"><input type="checkbox" id="boolean_1_column" value=""></div> <div role="checkbox" class="p-checkbox-box p-highlight" aria-checked="true"><span class="p-checkbox-icon pi pi-check"></span></div>
 </div> <label for="boolean_1_column" class="lck-color-primary untouched pristine pending required label-field-required">
@@ -24,7 +24,9 @@ exports[`FormRecord could have required columns disable the submit button if the
 </div>
 <div class="lck-form-footer">
   <!----> <button type="submit" class="p-button p-component full-width-button" disabled="disabled"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
-    <!----></button></div>
+    <!---->
+  </button>
+</div>
 </form>
 </div>
 `;
@@ -40,7 +42,7 @@ exports[`FormRecord could have required columns disable the submit button if the
     </div>
     <div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="number_1_column" class="lck-color-primary untouched pristine required label-field-required">
           Number
-        </label> <!----></div> <div class="form-field-editable untouched pristine required"><span class="p-inputnumber p-component"><input class="p-inputtext p-component p-inputnumber-input" id="number_1_column" rows="7"> <!----> <!----> <!----></span> <span class="cell-state"></span></div> <span class="untouched pristine required"></span></span>
+        </label> <!----></div> <div class="form-field-editable untouched pristine required"><span class="p-inputnumber p-component p-inputwrapper"><input class="p-inputtext p-component p-inputnumber-input" id="number_1_column" rows="7"> <!----> <!----> <!----></span> <span class="cell-state"></span></div> <span class="untouched pristine required"></span></span>
 </div>
 <div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><div class="p-checkbox p-component"><div class="p-hidden-accessible"><input type="checkbox" id="boolean_1_column" value=""></div> <div role="checkbox" class="p-checkbox-box"><span class="p-checkbox-icon"></span></div>
 </div> <label for="boolean_1_column" class="lck-color-primary untouched pristine required label-field-required">
@@ -53,7 +55,9 @@ exports[`FormRecord could have required columns disable the submit button if the
 </div>
 <div class="lck-form-footer">
   <!----> <button type="submit" class="p-button p-component full-width-button" disabled="disabled"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
-    <!----></button></div>
+    <!---->
+  </button>
+</div>
 </form>
 </div>
 `;
@@ -67,9 +71,9 @@ exports[`FormRecord could have required columns enable the submit button if all 
           Description
         </label> <!----></div> <div class="form-field-editable touched dirty valid validated required changed passed"><input class="p-inputtext p-component p-filled" id="string_1_column" rows="7"> <span class="cell-state"></span></div> <span class="touched dirty valid validated required changed passed"></span></span>
     </div>
-    <div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="number_1_column" class="lck-color-primary touched dirty valid validated required changed passed label-field-required">
+    <div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="number_1_column" class="lck-color-primary untouched dirty valid validated required changed passed label-field-required">
           Number
-        </label> <!----></div> <div class="form-field-editable touched dirty valid validated required changed passed"><span class="p-inputnumber p-component p-inputwrapper-filled"><input class="p-inputtext p-component p-filled p-inputnumber-input" id="number_1_column" rows="7" aria-valuenow="1"> <!----> <!----> <!----></span> <span class="cell-state"></span></div> <span class="touched dirty valid validated required changed passed"></span></span>
+        </label> <!----></div> <div class="form-field-editable untouched dirty valid validated required changed passed"><span class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled"><input class="p-inputtext p-component p-filled p-inputnumber-input" id="number_1_column" rows="7" aria-valuenow="1"> <!----> <!----> <!----></span> <span class="cell-state"></span></div> <span class="untouched dirty valid validated required changed passed"></span></span>
 </div>
 <div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><div class="p-checkbox p-component p-checkbox-checked"><div class="p-hidden-accessible"><input type="checkbox" id="boolean_1_column" value=""></div> <div role="checkbox" class="p-checkbox-box p-highlight" aria-checked="true"><span class="p-checkbox-icon pi pi-check"></span></div>
 </div> <label for="boolean_1_column" class="lck-color-primary touched dirty valid validated required changed passed label-field-required">
@@ -82,7 +86,9 @@ exports[`FormRecord could have required columns enable the submit button if all 
 </div>
 <div class="lck-form-footer">
   <!----> <button type="submit" class="p-button p-component full-width-button"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
-    <!----></button></div>
+    <!---->
+  </button>
+</div>
 </form>
 </div>
 `;
@@ -96,9 +102,9 @@ exports[`FormRecord could have required columns enable the submit button if all 
           Description
         </label> <!----></div> <div class="form-field-editable touched dirty valid validated required changed passed"><input class="p-inputtext p-component p-filled" id="string_1_column" rows="7"> <span class="cell-state"></span></div> <span class="touched dirty valid validated required changed passed"></span></span>
     </div>
-    <div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="number_1_column" class="lck-color-primary touched dirty valid validated required changed passed label-field-required">
+    <div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="number_1_column" class="lck-color-primary untouched dirty valid validated required changed passed label-field-required">
           Number
-        </label> <!----></div> <div class="form-field-editable touched dirty valid validated required changed passed"><span class="p-inputnumber p-component p-inputwrapper-filled"><input class="p-inputtext p-component p-filled p-inputnumber-input" id="number_1_column" rows="7" aria-valuenow="1"> <!----> <!----> <!----></span> <span class="cell-state"></span></div> <span class="touched dirty valid validated required changed passed"></span></span>
+        </label> <!----></div> <div class="form-field-editable untouched dirty valid validated required changed passed"><span class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled"><input class="p-inputtext p-component p-filled p-inputnumber-input" id="number_1_column" rows="7" aria-valuenow="1"> <!----> <!----> <!----></span> <span class="cell-state"></span></div> <span class="untouched dirty valid validated required changed passed"></span></span>
 </div>
 <div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><div class="p-checkbox p-component p-checkbox-checked"><div class="p-hidden-accessible"><input type="checkbox" id="boolean_1_column" value=""></div> <div role="checkbox" class="p-checkbox-box p-highlight" aria-checked="true"><span class="p-checkbox-icon pi pi-check"></span></div>
 </div> <label for="boolean_1_column" class="lck-color-primary touched dirty valid validated required changed passed label-field-required">
@@ -111,7 +117,9 @@ exports[`FormRecord could have required columns enable the submit button if all 
 </div>
 <div class="lck-form-footer">
   <!----> <button type="submit" class="p-button p-component full-width-button"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
-    <!----></button></div>
+    <!---->
+  </button>
+</div>
 </form>
 </div>
 `;
@@ -127,12 +135,14 @@ exports[`FormRecord could have required columns enable the submit button if no r
     </div>
     <div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="number_2_column" class="lck-color-primary untouched pristine">
           Number
-        </label> <!----></div> <div class="form-field-editable untouched pristine"><span class="p-inputnumber p-component"><input class="p-inputtext p-component p-inputnumber-input" id="number_2_column" rows="7"> <!----> <!----> <!----></span> <span class="cell-state"></span></div> <span class="untouched pristine"></span></span>
+        </label> <!----></div> <div class="form-field-editable untouched pristine"><span class="p-inputnumber p-component p-inputwrapper"><input class="p-inputtext p-component p-inputnumber-input" id="number_2_column" rows="7"> <!----> <!----> <!----></span> <span class="cell-state"></span></div> <span class="untouched pristine"></span></span>
 </div>
 </div>
 <div class="lck-form-footer">
   <!----> <button type="submit" class="p-button p-component full-width-button"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
-    <!----></button></div>
+    <!---->
+  </button>
+</div>
 </form>
 </div>
 `;

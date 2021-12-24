@@ -571,7 +571,7 @@ exports[`storyshots components/visualize/TableSet with definition and content an
           class="lck-dropdownbutton"
         >
           <button
-            aria-controls="pv_id_7_overlay"
+            aria-controls="pv_id_6_overlay"
             aria-haspopup="true"
             class="lck-dropdownbutton-menubutton p-button p-component p-button-secondary button-with-icon"
             type="button"
@@ -900,7 +900,7 @@ exports[`storyshots components/visualize/TableSet with definition and toolbar bu
           class="lck-dropdownbutton"
         >
           <button
-            aria-controls="pv_id_6_overlay"
+            aria-controls="pv_id_7_overlay"
             aria-haspopup="true"
             class="lck-dropdownbutton-menubutton p-button p-component p-button-secondary button-with-icon"
             disabled="disabled"

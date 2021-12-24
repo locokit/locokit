@@ -7,8 +7,10 @@ exports[`AclSetListing add a new acltable to an aclset 1`] = `
       pages.workspaceAdmin.acl.common.title
     </h2>
     <div><a href="#/aclset/aclset1_id" aria-current="page" class="lck-sidebar-link router-link-exact-active router-link-active"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 1</span> <span class="status-mark">M</span></a><a href="#/aclset/aclset2_id" class="lck-sidebar-link"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 2</span>
-        <!----></a></div> <button type="button" class="p-button-primary p-mx-3 p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
-      <!----></button>
+        <!---->
+      </a></div> <button type="button" class="p-button-primary p-mx-3 p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
+      <!---->
+    </button>
   </div>
   <div class="lck-page">
     <div class="p-card p-component p-col-12 p-md-10 p-xl-8 p-mx-auto p-mt-2">
@@ -19,7 +21,9 @@ exports[`AclSetListing add a new acltable to an aclset 1`] = `
             AclSet 1
 
             <button type="button" class="delete-aclset-button p-button-sm p-button-danger p-button p-component p-button-icon-only"><span class="pi pi-trash p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-              <!----></button></div>
+              <!---->
+            </button>
+          </div>
         </div>
         <!---->
         <div class="p-card-content">
@@ -45,8 +49,10 @@ exports[`AclSetListing add a new acltable to an aclset 1`] = `
                 </span> <span class="p-my-2 untouched pristine"></span>
               </div>
               <div class="lck-form-footer"><button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
-                  <!----></button> <button type="submit" class="p-button p-component" disabled="disabled"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
-                  <!----></button></div>
+                  <!---->
+                </button> <button type="submit" class="p-button p-component" disabled="disabled"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
+                  <!---->
+                </button></div>
             </form>
           </div>
           <h3>
@@ -172,16 +178,21 @@ exports[`AclSetListing add a new acltable to an aclset 1`] = `
                   <tr class="">
                     <td class="" style="border-right-width: 1px; background-color: white;"></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: green;"><span class="pi pi-check p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -189,7 +200,8 @@ exports[`AclSetListing add a new acltable to an aclset 1`] = `
                     </td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -197,7 +209,8 @@ exports[`AclSetListing add a new acltable to an aclset 1`] = `
                     </td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -210,16 +223,21 @@ exports[`AclSetListing add a new acltable to an aclset 1`] = `
                   <tr class="">
                     <td class="" style="border-right-width: 1px; background-color: white;"></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -227,7 +245,8 @@ exports[`AclSetListing add a new acltable to an aclset 1`] = `
                     </td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -235,7 +254,8 @@ exports[`AclSetListing add a new acltable to an aclset 1`] = `
                     </td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -270,8 +290,10 @@ exports[`AclSetListing create a new aclset 1`] = `
       pages.workspaceAdmin.acl.common.title
     </h2>
     <div><a href="#/aclset/aclset1_id" class="lck-sidebar-link"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 1</span> <span class="status-mark">M</span></a><a href="#/aclset/aclset2_id" class="lck-sidebar-link"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 2</span>
-        <!----></a><a href="#/aclset/aclset3_id," class="lck-sidebar-link"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>New aclset</span> <span class="status-mark">M</span></a></div> <button type="button" class="p-button-primary p-mx-3 p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
-      <!----></button>
+        <!---->
+      </a><a href="#/aclset/aclset3_id," class="lck-sidebar-link"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>New aclset</span> <span class="status-mark">M</span></a></div> <button type="button" class="p-button-primary p-mx-3 p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
+      <!---->
+    </button>
   </div>
   <div class="lck-page">
     <div class="p-card p-component p-col-12 p-md-10 p-xl-8 p-mx-auto p-mt-2">
@@ -282,7 +304,9 @@ exports[`AclSetListing create a new aclset 1`] = `
             New aclset
 
             <button type="button" class="delete-aclset-button p-button-sm p-button-danger p-button p-component p-button-icon-only"><span class="pi pi-trash p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-              <!----></button></div>
+              <!---->
+            </button>
+          </div>
         </div>
         <!---->
         <div class="p-card-content">
@@ -308,8 +332,10 @@ exports[`AclSetListing create a new aclset 1`] = `
                 </span> <span class="p-my-2 untouched pristine"></span>
               </div>
               <div class="lck-form-footer"><button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
-                  <!----></button> <button class="p-button p-component" type="submit"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
-                  <!----></button></div>
+                  <!---->
+                </button> <button class="p-button p-component" type="submit"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
+                  <!---->
+                </button></div>
             </form>
           </div>
           <h3>
@@ -435,16 +461,21 @@ exports[`AclSetListing create a new aclset 1`] = `
                   <tr class="">
                     <td class="" style="border-right-width: 1px; background-color: white;">Table 1</td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -452,7 +483,8 @@ exports[`AclSetListing create a new aclset 1`] = `
                     </td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -460,7 +492,8 @@ exports[`AclSetListing create a new aclset 1`] = `
                     </td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -473,16 +506,21 @@ exports[`AclSetListing create a new aclset 1`] = `
                   <tr class="">
                     <td class="" style="border-right-width: 1px; background-color: white;">Table 2</td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -490,7 +528,8 @@ exports[`AclSetListing create a new aclset 1`] = `
                     </td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -498,7 +537,8 @@ exports[`AclSetListing create a new aclset 1`] = `
                     </td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -533,8 +573,10 @@ exports[`AclSetListing display a list of aclsets if there are ones 1`] = `
       pages.workspaceAdmin.acl.common.title
     </h2>
     <div><a href="#/aclset/aclset1_id" class="lck-sidebar-link"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 1</span> <span class="status-mark">M</span></a><a href="#/aclset/aclset2_id" class="lck-sidebar-link"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 2</span>
-        <!----></a></div> <button type="button" class="p-button-primary p-mx-3 p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
-      <!----></button>
+        <!---->
+      </a></div> <button type="button" class="p-button-primary p-mx-3 p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
+      <!---->
+    </button>
   </div>
   <div class="lck-page">
     <!---->
@@ -552,7 +594,8 @@ exports[`AclSetListing display a message if there is no aclsets 1`] = `
     <div class="p-p-3">
       pages.workspaceAdmin.acl.listing.noAclSet
     </div> <button type="button" class="p-button-primary p-mx-3 p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
-      <!----></button>
+      <!---->
+    </button>
   </div>
   <div class="lck-page">
     <!---->
@@ -568,8 +611,10 @@ exports[`AclSetListing patch an acltable of an aclset 1`] = `
       pages.workspaceAdmin.acl.common.title
     </h2>
     <div><a href="#/aclset/aclset1_id" aria-current="page" class="lck-sidebar-link router-link-exact-active router-link-active"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 1</span> <span class="status-mark">M</span></a><a href="#/aclset/aclset2_id" class="lck-sidebar-link"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 2</span>
-        <!----></a></div> <button type="button" class="p-button-primary p-mx-3 p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
-      <!----></button>
+        <!---->
+      </a></div> <button type="button" class="p-button-primary p-mx-3 p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
+      <!---->
+    </button>
   </div>
   <div class="lck-page">
     <div class="p-card p-component p-col-12 p-md-10 p-xl-8 p-mx-auto p-mt-2">
@@ -580,7 +625,9 @@ exports[`AclSetListing patch an acltable of an aclset 1`] = `
             AclSet 1
 
             <button type="button" class="delete-aclset-button p-button-sm p-button-danger p-button p-component p-button-icon-only"><span class="pi pi-trash p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-              <!----></button></div>
+              <!---->
+            </button>
+          </div>
         </div>
         <!---->
         <div class="p-card-content">
@@ -606,8 +653,10 @@ exports[`AclSetListing patch an acltable of an aclset 1`] = `
                 </span> <span class="p-my-2 untouched pristine"></span>
               </div>
               <div class="lck-form-footer"><button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
-                  <!----></button> <button type="submit" class="p-button p-component" disabled="disabled"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
-                  <!----></button></div>
+                  <!---->
+                </button> <button type="submit" class="p-button p-component" disabled="disabled"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
+                  <!---->
+                </button></div>
             </form>
           </div>
           <h3>
@@ -733,16 +782,21 @@ exports[`AclSetListing patch an acltable of an aclset 1`] = `
                   <tr class="">
                     <td class="" style="border-right-width: 1px; background-color: white;"></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -750,7 +804,8 @@ exports[`AclSetListing patch an acltable of an aclset 1`] = `
                     </td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -758,7 +813,8 @@ exports[`AclSetListing patch an acltable of an aclset 1`] = `
                     </td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -771,16 +827,21 @@ exports[`AclSetListing patch an acltable of an aclset 1`] = `
                   <tr class="">
                     <td class="" style="border-right-width: 1px; background-color: white;"></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: green;"><span class="pi pi-check p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -788,7 +849,8 @@ exports[`AclSetListing patch an acltable of an aclset 1`] = `
                     </td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -796,7 +858,8 @@ exports[`AclSetListing patch an acltable of an aclset 1`] = `
                     </td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -831,9 +894,12 @@ exports[`AclSetListing update an aclset 1`] = `
       pages.workspaceAdmin.acl.common.title
     </h2>
     <div><a href="#/aclset/aclset1_id" aria-current="page" class="lck-sidebar-link router-link-exact-active router-link-active"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 1 updated</span>
-        <!----></a><a href="#/aclset/aclset2_id" class="lck-sidebar-link"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 2</span>
-        <!----></a></div> <button type="button" class="p-button-primary p-mx-3 p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
-      <!----></button>
+        <!---->
+      </a><a href="#/aclset/aclset2_id" class="lck-sidebar-link"><i class="bi lck-sidebar-link-icon bi-shield-lock"></i> <span>AclSet 2</span>
+        <!---->
+      </a></div> <button type="button" class="p-button-primary p-mx-3 p-button p-component"><span class="pi pi-plus-circle p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.add</span>
+      <!---->
+    </button>
   </div>
   <div class="lck-page">
     <div class="p-card p-component p-col-12 p-md-10 p-xl-8 p-mx-auto p-mt-2">
@@ -844,7 +910,9 @@ exports[`AclSetListing update an aclset 1`] = `
             AclSet 1 updated
 
             <button type="button" class="delete-aclset-button p-button-sm p-button-danger p-button p-component p-button-icon-only"><span class="pi pi-trash p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-              <!----></button></div>
+              <!---->
+            </button>
+          </div>
         </div>
         <!---->
         <div class="p-card-content">
@@ -870,8 +938,10 @@ exports[`AclSetListing update an aclset 1`] = `
                 </span> <span class="p-my-2 untouched pristine"></span>
               </div>
               <div class="lck-form-footer"><button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
-                  <!----></button> <button class="p-button p-component" type="submit"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
-                  <!----></button></div>
+                  <!---->
+                </button> <button class="p-button p-component" type="submit"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
+                  <!---->
+                </button></div>
             </form>
           </div>
           <h3>
@@ -997,16 +1067,21 @@ exports[`AclSetListing update an aclset 1`] = `
                   <tr class="">
                     <td class="" style="border-right-width: 1px; background-color: white;"></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -1014,7 +1089,8 @@ exports[`AclSetListing update an aclset 1`] = `
                     </td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -1022,7 +1098,8 @@ exports[`AclSetListing update an aclset 1`] = `
                     </td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -1035,16 +1112,21 @@ exports[`AclSetListing update an aclset 1`] = `
                   <tr class="">
                     <td class="" style="border-right-width: 1px; background-color: white;"></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class=""><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class="" style="border-right-width: 1px;"><button type="button" class="p-button p-component p-button-icon-only p-button-text" title="" style="color: red;"><span class="pi pi-ban p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                        <!----></button></td>
+                        <!---->
+                      </button></td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -1052,7 +1134,8 @@ exports[`AclSetListing update an aclset 1`] = `
                     </td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
@@ -1060,7 +1143,8 @@ exports[`AclSetListing update an aclset 1`] = `
                     </td>
                     <td class="">
                       <div class="lck-overlay-panel"><button type="button" class="p-button p-component p-button-icon-only p-button-outlined p-button-text p-button-secondary"><span class="bi bi-file-code p-button-icon"></span> <span class="p-button-label">&nbsp;</span>
-                          <!----></button>
+                          <!---->
+                        </button>
                         <transition-stub name="p-overlaypanel">
                           <!---->
                         </transition-stub>
