@@ -1,1 +1,0 @@
-import{_ as a,c as o,o as t,d as e}from"./app.a2baa444.js";var s="/autonomens.png",r="/makina.svg";const g='{"title":"About us","description":"","frontmatter":{},"relativePath":"about-us.md","lastUpdated":1640296032149}',n={},i=e("",6),p=[i];function _(c,l,u,d,m,h){return t(),o("div",null,p)}var b=a(n,[["render",_]]);export{g as __pageData,b as default};
