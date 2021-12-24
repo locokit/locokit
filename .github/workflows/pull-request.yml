@@ -1,11 +1,9 @@
-name: LocoKit CI
+name: pull_request
 
 on:
   push:
     branches:
       - master
-    tags:
-      - 'v*.*.*'
   pull_request:
 
 jobs:
@@ -276,16 +274,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-# api-build-docker-tagged:
-#   extends: .api-docker-template
-#   rules:
-#     - if: '$CI_COMMIT_TAG != ""'
-#       when: manual
-#   variables:
-#     IMAGE_VERSION: "${CI_COMMIT_TAG}"
-#   script:
-#     - docker build --cache-from $IMAGE_NAME:latest --tag $IMAGE_NAME:$IMAGE_VERSION --tag $IMAGE_NAME:latest .
-#     - docker push $IMAGE_NAME:$IMAGE_VERSION
-#     - docker push $IMAGE_NAME:latest
-
