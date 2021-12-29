@@ -4,11 +4,13 @@ import {
   mount as originalMount,
 } from '@vue/test-utils'
 
+import PrimeVue from 'primevue/config'
 import VueI18n from 'vue-i18n'
 import '../../src/plugins/vee-validate'
 import flushPromises from 'flush-promises'
 
 const localVue = createLocalVue()
+localVue.use(PrimeVue)
 localVue.use(VueI18n)
 
 export function shallowMount (component, options = {}) {

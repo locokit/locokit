@@ -118,9 +118,6 @@ const globalComponentParams = (workspaceId, aclSetId = null) => {
       $toast: {
         add: jest.fn(),
       },
-      $route: {
-        params: {},
-      },
     },
   }
 }

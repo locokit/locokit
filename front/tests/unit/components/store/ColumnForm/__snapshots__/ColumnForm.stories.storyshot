@@ -317,7 +317,7 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
           class="p-fluid"
         >
           <div
-            class="p-field p-mb-2 p-d-flex"
+            class="p-field p-d-flex"
           >
             <div
               class="p-mr-2 p-checkbox p-component"
@@ -342,21 +342,23 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
               </div>
             </div>
              
-            <label
-              for="columnTransmittedField"
-            >
-              Transmitted column
-            </label>
-             
-            <span
-              class="untouched pristine"
-            >
-              
-            </span>
+            <div>
+              <label
+                for="columnTransmittedField"
+              >
+                Transmitted column
+              </label>
+               
+              <p
+                class="p-my-0 untouched pristine"
+              >
+                
+              </p>
+            </div>
           </div>
            
           <div
-            class="p-field p-mb-2 p-d-flex"
+            class="p-field p-d-flex"
           >
             <div
               class="p-mr-2 p-checkbox p-component p-checkbox-checked"
@@ -382,21 +384,23 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
               </div>
             </div>
              
-            <label
-              for="columnDisplayedField"
-            >
-              Displayed column
-            </label>
-             
-            <span
-              class="untouched pristine"
-            >
-              
-            </span>
+            <div>
+              <label
+                for="columnDisplayedField"
+              >
+                Displayed column
+              </label>
+               
+              <p
+                class="p-my-0 untouched pristine"
+              >
+                
+              </p>
+            </div>
           </div>
            
           <div
-            class="p-field p-mb-2 p-d-flex"
+            class="p-field p-d-flex"
           >
             <div
               class="p-mr-2 p-checkbox p-component"
@@ -421,17 +425,19 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
               </div>
             </div>
              
-            <label
-              for="columnEditableField"
-            >
-              Editable column
-            </label>
-             
-            <span
-              class="untouched pristine"
-            >
-              
-            </span>
+            <div>
+              <label
+                for="columnEditableField"
+              >
+                Editable column
+              </label>
+               
+              <p
+                class="p-my-0 untouched pristine"
+              >
+                
+              </p>
+            </div>
           </div>
            
           <div
@@ -630,7 +636,7 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
           class="p-fluid"
         >
           <div
-            class="p-field p-mb-2 p-d-flex"
+            class="p-field p-d-flex"
           >
             <div
               class="p-mr-2 p-checkbox p-component p-checkbox-checked"
@@ -656,21 +662,23 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
               </div>
             </div>
              
-            <label
-              for="columnTransmittedField"
-            >
-              Transmitted column
-            </label>
-             
-            <span
-              class="untouched pristine"
-            >
-              
-            </span>
+            <div>
+              <label
+                for="columnTransmittedField"
+              >
+                Transmitted column
+              </label>
+               
+              <p
+                class="p-my-0 untouched pristine"
+              >
+                
+              </p>
+            </div>
           </div>
            
           <div
-            class="p-field p-mb-2 p-d-flex"
+            class="p-field p-d-flex"
           >
             <div
               class="p-mr-2 p-checkbox p-component p-checkbox-checked"
@@ -696,21 +704,23 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
               </div>
             </div>
              
-            <label
-              for="columnDisplayedField"
-            >
-              Displayed column
-            </label>
-             
-            <span
-              class="untouched pristine"
-            >
-              
-            </span>
+            <div>
+              <label
+                for="columnDisplayedField"
+              >
+                Displayed column
+              </label>
+               
+              <p
+                class="p-my-0 untouched pristine"
+              >
+                
+              </p>
+            </div>
           </div>
            
           <div
-            class="p-field p-mb-2 p-d-flex"
+            class="p-field p-d-flex"
           >
             <div
               class="p-mr-2 p-checkbox p-component"
@@ -735,17 +745,19 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
               </div>
             </div>
              
-            <label
-              for="columnEditableField"
-            >
-              Editable column
-            </label>
-             
-            <span
-              class="untouched pristine"
-            >
-              
-            </span>
+            <div>
+              <label
+                for="columnEditableField"
+              >
+                Editable column
+              </label>
+               
+              <p
+                class="p-my-0 untouched pristine"
+              >
+                
+              </p>
+            </div>
           </div>
            
           <div
@@ -944,7 +956,7 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
           class="p-fluid"
         >
           <div
-            class="p-field p-mb-2 p-d-flex"
+            class="p-field p-d-flex"
           >
             <div
               class="p-mr-2 p-checkbox p-component p-checkbox-checked"
@@ -970,21 +982,23 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
               </div>
             </div>
              
-            <label
-              for="columnTransmittedField"
-            >
-              Transmitted column
-            </label>
-             
-            <span
-              class="untouched pristine"
-            >
-              
-            </span>
+            <div>
+              <label
+                for="columnTransmittedField"
+              >
+                Transmitted column
+              </label>
+               
+              <p
+                class="p-my-0 untouched pristine"
+              >
+                
+              </p>
+            </div>
           </div>
            
           <div
-            class="p-field p-mb-2 p-d-flex"
+            class="p-field p-d-flex"
           >
             <div
               class="p-mr-2 p-checkbox p-component p-checkbox-checked"
@@ -1010,21 +1024,23 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
               </div>
             </div>
              
-            <label
-              for="columnDisplayedField"
-            >
-              Displayed column
-            </label>
-             
-            <span
-              class="untouched pristine"
-            >
-              
-            </span>
+            <div>
+              <label
+                for="columnDisplayedField"
+              >
+                Displayed column
+              </label>
+               
+              <p
+                class="p-my-0 untouched pristine"
+              >
+                
+              </p>
+            </div>
           </div>
            
           <div
-            class="p-field p-mb-2 p-d-flex"
+            class="p-field p-d-flex"
           >
             <div
               class="p-mr-2 p-checkbox p-component"
@@ -1049,17 +1065,19 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
               </div>
             </div>
              
-            <label
-              for="columnEditableField"
-            >
-              Editable column
-            </label>
-             
-            <span
-              class="untouched pristine"
-            >
-              
-            </span>
+            <div>
+              <label
+                for="columnEditableField"
+              >
+                Editable column
+              </label>
+               
+              <p
+                class="p-my-0 untouched pristine"
+              >
+                
+              </p>
+            </div>
           </div>
            
           <div

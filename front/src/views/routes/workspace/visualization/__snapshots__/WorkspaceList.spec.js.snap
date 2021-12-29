@@ -7,14 +7,18 @@ exports[`Workspace Create workspace button Hide if the user has a USER_PROFILE "
       pages.workspace.title
     </h1>
     <div class="p-grid">
+      <!---->
+      <!---->
       <div class="p-col-12 p-md-4 p-lg-3 workspaces-item">
-        <div class="workspaces-button">
-          <div class="workspaces-detail">
-            <p-skeleton-stub shape="rectangle" width="10rem" height="2rem" animation="wave" class="workspaces-detail-title"></p-skeleton-stub>
-          </div>
+        <div class="workspaces-button p-mr-2" style="background-color: inherit;">
+          <router-link-stub to="/workspace/0" tag="a" ariacurrentvalue="page" event="click" class="workspaces-detail">
+            <p class="workspaces-detail-title">workspace-title</p>
+
+          </router-link-stub>
+          <!---->
+          <!---->
         </div>
       </div>
-      <!---->
       <!---->
     </div>
     <p-dialog-stub header="pages.workspace.form.create" modal="true" closable="true" closeonescape="true" showheader="true" basezindex="0" autozindex="true" ariacloselabel="close" position="center">
@@ -31,15 +35,19 @@ exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "A
       pages.workspace.title
     </h1>
     <div class="p-grid">
+      <!---->
+      <!---->
       <div class="p-col-12 p-md-4 p-lg-3 workspaces-item">
-        <div class="workspaces-button">
-          <div class="workspaces-detail">
-            <p-skeleton-stub shape="rectangle" width="10rem" height="2rem" animation="wave" class="workspaces-detail-title"></p-skeleton-stub>
-          </div>
+        <div class="workspaces-button p-mr-2" style="background-color: inherit;">
+          <router-link-stub to="/workspace/0" tag="a" ariacurrentvalue="page" event="click" class="workspaces-detail">
+            <p class="workspaces-detail-title">workspace-title</p>
+
+          </router-link-stub>
+          <!---->
+          <!---->
         </div>
       </div>
-      <!---->
-      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item p-mx-auto"><button class="workspaces-new"><i class="bi bi-file-plus workspaces-new-icon"></i>
+      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item"><button class="workspaces-new"><i class="bi bi-file-plus workspaces-new-icon"></i>
           <p class="p-button p-button-sm">pages.workspace.form.new</p>
         </button></div>
     </div>
@@ -57,15 +65,19 @@ exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "C
       pages.workspace.title
     </h1>
     <div class="p-grid">
+      <!---->
+      <!---->
       <div class="p-col-12 p-md-4 p-lg-3 workspaces-item">
-        <div class="workspaces-button">
-          <div class="workspaces-detail">
-            <p-skeleton-stub shape="rectangle" width="10rem" height="2rem" animation="wave" class="workspaces-detail-title"></p-skeleton-stub>
-          </div>
+        <div class="workspaces-button p-mr-2" style="background-color: inherit;">
+          <router-link-stub to="/workspace/0" tag="a" ariacurrentvalue="page" event="click" class="workspaces-detail">
+            <p class="workspaces-detail-title">workspace-title</p>
+
+          </router-link-stub>
+          <!---->
+          <!---->
         </div>
       </div>
-      <!---->
-      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item p-mx-auto"><button class="workspaces-new"><i class="bi bi-file-plus workspaces-new-icon"></i>
+      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item"><button class="workspaces-new"><i class="bi bi-file-plus workspaces-new-icon"></i>
           <p class="p-button p-button-sm">pages.workspace.form.new</p>
         </button></div>
     </div>
@@ -83,15 +95,19 @@ exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "S
       pages.workspace.title
     </h1>
     <div class="p-grid">
+      <!---->
+      <!---->
       <div class="p-col-12 p-md-4 p-lg-3 workspaces-item">
-        <div class="workspaces-button">
-          <div class="workspaces-detail">
-            <p-skeleton-stub shape="rectangle" width="10rem" height="2rem" animation="wave" class="workspaces-detail-title"></p-skeleton-stub>
-          </div>
+        <div class="workspaces-button p-mr-2" style="background-color: inherit;">
+          <router-link-stub to="/workspace/0" tag="a" ariacurrentvalue="page" event="click" class="workspaces-detail">
+            <p class="workspaces-detail-title">workspace-title</p>
+
+          </router-link-stub>
+          <!---->
+          <!---->
         </div>
       </div>
-      <!---->
-      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item p-mx-auto"><button class="workspaces-new"><i class="bi bi-file-plus workspaces-new-icon"></i>
+      <div class="p-col-12 p-md-4 p-lg-3 workspaces-item"><button class="workspaces-new"><i class="bi bi-file-plus workspaces-new-icon"></i>
           <p class="p-button p-button-sm">pages.workspace.form.new</p>
         </button></div>
     </div>

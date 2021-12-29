@@ -599,9 +599,14 @@ export default {
           label: this.selectedColumn.displayed ? this.$t('components.datatable.column.hide') : this.$t('components.datatable.column.display'),
           icon: this.selectedColumn.displayed ? 'pi pi-eye-slash' : 'pi pi-eye',
           command: () => {
-            this.$emit('table-view-column-edit', {
+            const editedColumn = {
               displayed: !this.selectedColumn.displayed,
-            })
+            }
+            // If we want to display the column, we need to transmit it
+            if (editedColumn.displayed && !this.selectedColumn.transmitted) {
+              editedColumn.transmitted = true
+            }
+            this.$emit('table-view-column-edit', editedColumn)
           },
         },
         {

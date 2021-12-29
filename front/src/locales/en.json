@@ -134,8 +134,8 @@
       },
       "column": {
         "edit": "Edit the column",
-        "hide": "Hide the column",
-        "display": "Display the column",
+        "hide": "Hide the column (visualization part)",
+        "display": "Display the column (visualization part)",
         "ascOrder": "Ascending order",
         "descOrder": "Descending order",
         "globalConfiguration": "Global configuration",
@@ -1117,6 +1117,7 @@
       "email": "The '{_field_}' field does not match the expected format (email).",
       "regex": "The '{_field_}' field does not match the expected format.",
       "passwordConfirm": "The passwords in the '{_field_}' and '{target}' fields are not identical.",
+      "isFalseOrOtherTrue": "The '{_field_}' field can only be checked if the '{target}' field is also checked.",
       "minDate": "The '{_field_}' field must be after {fromDate}.",
       "dateValid": "The '{_field_}' field does not match the expected format.",
       "reference": "The '{_field_}' field value is invalid : please select an item from the list."

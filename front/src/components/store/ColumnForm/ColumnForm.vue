@@ -74,7 +74,7 @@
         <validation-provider
           vid="columnTransmittedField"
           tag="div"
-          class="p-field p-mb-2 p-d-flex"
+          class="p-field p-d-flex"
           :name="$t('components.datatable.column.transmitted')"
           rules=""
           v-slot="{
@@ -88,15 +88,18 @@
             id="columnTransmittedField"
             v-model="columnCopy.transmitted"
           />
-          <label for="columnTransmittedField">{{ $t('components.datatable.column.transmitted') }}</label>
-          <span :class="classes">{{ errors[0] }}</span>
+          <div>
+            <label for="columnTransmittedField">{{ $t('components.datatable.column.transmitted') }}</label>
+            <p :class="classes" class="p-my-0">{{ errors[0] }}</p>
+          </div>
         </validation-provider>
         <validation-provider
           vid="columnDisplayedField"
           tag="div"
-          class="p-field p-mb-2 p-d-flex"
+          class="p-field p-d-flex"
           :name="$t('components.datatable.column.displayed')"
-          rules=""
+          immediate
+          rules="isFalseOrOtherTrue:@columnTransmittedField"
           v-slot="{
             errors,
             classes
@@ -108,15 +111,18 @@
             id="columnDisplayedField"
             v-model="columnCopy.displayed"
           />
-          <label for="columnDisplayedField">{{ $t('components.datatable.column.displayed') }}</label>
-          <span :class="classes">{{ errors[0] }}</span>
+          <div>
+            <label for="columnDisplayedField">{{ $t('components.datatable.column.displayed') }}</label>
+            <p :class="classes" class="p-my-0">{{ errors[0] }}</p>
+          </div>
         </validation-provider>
         <validation-provider
           vid="columnEditableField"
           tag="div"
-          class="p-field p-mb-2 p-d-flex"
+          class="p-field p-d-flex"
           :name="$t('components.datatable.column.editable')"
-          rules=""
+          rules="isFalseOrOtherTrue:@columnTransmittedField"
+          immediate
           v-slot="{
             errors,
             classes
@@ -128,8 +134,10 @@
             id="columnEditableField"
             v-model="columnCopy.editable"
           />
-          <label for="columnEditableField">{{ $t('components.datatable.column.editable') }}</label>
-          <span :class="classes">{{ errors[0] }}</span>
+          <div>
+            <label for="columnEditableField">{{ $t('components.datatable.column.editable') }}</label>
+            <p :class="classes" class="p-my-0">{{ errors[0] }}</p>
+          </div>
         </validation-provider>
 
       </lck-form>
@@ -212,8 +220,8 @@ export default {
   methods: {
     selectTypeValuesChange (data: SelectValueWithId[]) {
       const selectTypeValues: Record<string, SelectValue> = {}
-      data.forEach(({ id, label, color, backgroundColor }: SelectValueWithId) => {
-        selectTypeValues[id] = { label, color, backgroundColor }
+      data.forEach(({ id, label, color, backgroundColor, position }: SelectValueWithId) => {
+        selectTypeValues[id] = { label, color, backgroundColor, position }
       })
       this.columnCopy.settings.values = selectTypeValues
     },
