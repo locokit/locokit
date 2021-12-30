@@ -1,5 +1,5 @@
 <template>
-  <div v-if="page" :class="layoutPageClass">
+  <div v-if="page" :class="[layoutPageClass, 'lck-workspace-admin-cms-page']">
     <div
       class="lck-page-content"
       :style="{ marginRight: showUpdateSidebar ? editableSidebarWidth : 0 }"
@@ -482,102 +482,108 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style lang="scss">
 
 /**
- * Editable container, draggable & co.
+ * We don't use a component-scoped CSS to apply the parent component style.
  */
-.editable-container {
-  margin-bottom: 1rem;
-  border: 2px solid var(--color-white);
-  background-color: #ffffff;
-  border-radius: var(--border-radius);
-  box-shadow: 0px 0px 6px 0px rgba(194, 194, 194, 0.7);
-  overflow: hidden;
-}
 
-.edit-container-line {
-  padding-left: 0.5rem;
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--primary-color);
-}
-
-.edit-container-line .p-button {
-  color: var(--primary-color);
-  height: 100%;
-}
-
-.edit-container-line .p-buttonset {
-  flex-shrink: 0;
-}
-
-.edit-container-line .handle {
-  cursor: move;
-}
-
-.lck-container.editable-container .edit-container-line {
-  flex-direction: row;
-}
-
-.lck-container.editable-container .edit-container-line .lck-color-title {
-  color: var(--primary-color)
-}
-
-/* Flex (2/n columns) */
-@media (min-width: 900px) {
-  .lck-layout-flex .lck-page-content .editable-container-parent {
-    height: calc(100% - 12rem);
-    max-height: calc(100% - 12rem);
+.lck-workspace-admin-cms-page {
+  /**
+  * Editable container, draggable & co.
+  */
+  .editable-container {
+    margin-bottom: 1rem;
+    border: 2px solid var(--color-white);
+    background-color: #ffffff;
+    border-radius: var(--border-radius);
+    box-shadow: 0px 0px 6px 0px rgba(194, 194, 194, 0.7);
+    overflow: hidden;
   }
-  .lck-layout-flex .lck-container .edit-container-line {
-    align-self: flex-start;
+
+  .edit-container-line {
+    padding-left: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--primary-color);
+  }
+
+  .edit-container-line .p-button {
+    color: var(--primary-color);
+    height: 100%;
+  }
+
+  .edit-container-line .p-buttonset {
+    flex-shrink: 0;
+  }
+
+  .edit-container-line .handle {
+    cursor: move;
+  }
+
+  .lck-container.editable-container .edit-container-line {
+    flex-direction: row;
+  }
+
+  .lck-container.editable-container .edit-container-line .lck-color-title {
+    color: var(--primary-color)
+  }
+
+  /* Flex (2/n columns) */
+  @media (min-width: 900px) {
+    .lck-layout-flex .lck-page-content .editable-container-parent {
+      height: calc(100% - 12rem);
+      max-height: calc(100% - 12rem);
+    }
+    .lck-layout-flex .lck-container .edit-container-line {
+      align-self: flex-start;
+      width: 100%;
+    }
+  }
+
+  /* Full */
+  @media (min-width: 900px) {
+    .lck-layout-full .lck-page-content .editable-container-parent {
+      height: calc(100% - 12rem);
+      min-height: unset;
+      max-height: calc(100% - 12rem);
+      overflow: auto;
+    }
+  }
+
+  /**
+  * Button for creating a new block or a new container
+  */
+  .page-new-button {
+    padding: var(--spacing);
     width: 100%;
+    min-height: 10rem;
+    width: 100%;
+    border-radius: var(--border-radius);
+    border: dashed 2px var(--secondary-color-light);
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--primary-color);
   }
-}
 
-/* Full */
-@media (min-width: 900px) {
-  .lck-layout-full .lck-page-content .editable-container-parent {
-    height: calc(100% - 12rem);
-    min-height: unset;
-    max-height: calc(100% - 12rem);
-    overflow: auto;
+  .page-new-button-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 1rem;
   }
-}
 
-/**
- * Button for creating a new block or a new container
- */
-.page-new-button {
-  padding: var(--spacing);
-  width: 100%;
-  min-height: 10rem;
-  width: 100%;
-  border-radius: var(--border-radius);
-  border: dashed 2px var(--secondary-color-light);
-  cursor: pointer;
-  background-color: transparent;
-  color: var(--primary-color);
-}
+  .page-new-button:hover {
+    border-color: var(--primary-color);
+    background-color: var(--primary-color-lighten);
+  }
 
-.page-new-button-icon {
-  font-size: 2rem;
-  display: block;
-  margin-bottom: 1rem;
-}
+  .page-new-button:focus {
+    outline: none;
+    background-color: var(--primary-color-lighten);
+  }
 
-.page-new-button:hover {
-  border-color: var(--primary-color);
-  background-color: var(--primary-color-lighten);
-}
-
-.page-new-button:focus {
-  outline: none;
-  background-color: var(--primary-color-lighten);
-}
-
-.page-new-button:focus.p-button {
-  background-color: var(--primary-color-dark);
+  .page-new-button:focus.p-button {
+    background-color: var(--primary-color-dark);
+  }
 }
 </style>
