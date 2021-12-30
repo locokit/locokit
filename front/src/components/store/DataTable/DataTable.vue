@@ -343,6 +343,10 @@
               v-else-if="getComponentDisplayCellForColumnType(column) === 'lck-badge'"
               v-bind="getColumnDisplayValue(column, slotProps.data.data[column.id])"
             />
+            <lck-multi-badges
+              v-else-if="getComponentDisplayCellForColumnType(column) === 'lck-multi-badges'"
+              :options="getColumnDisplayValue(column, slotProps.data.data[column.id])"
+            />
             <lck-cell-file
               v-else-if="getComponentDisplayCellForColumnType(column) === 'lck-input-file'"
               :workspaceId="workspaceId"
@@ -416,6 +420,7 @@ import LckCellAction from '@/components/ui/ColumnType/Action/ActionCell.vue'
 import LckDropdownButton from '@/components/ui/DropdownButton/DropdownButton'
 import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
 import Badge from '@/components/ui/Badge/Badge'
+import LckMultiBadges from '@/components/ui/MultiBadges/MultiBadges.vue'
 import LckButtonConfirmation from '@/components/ui/ButtonConfirmation/ButtonConfirmation'
 
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
@@ -442,6 +447,7 @@ export default {
     'lck-dropdown-button': LckDropdownButton,
     'lck-url-input': URLInput,
     'lck-badge': Badge,
+    'lck-multi-badges': LckMultiBadges,
     'lck-cell-file': LckCellFile,
     'lck-cell-action': LckCellAction,
     'lck-button-confirmation': LckButtonConfirmation,

@@ -15,13 +15,19 @@ defaultStory.storyName = 'default'
 
 const suggestions = [{
   label: 'Option one',
-  value: 1,
+  value: '1',
+  color: '#484848',
+  backgroundColor: '#fffbc2',
 }, {
   label: 'Option two',
-  value: 2,
+  value: '2',
+  color: '#484848',
+  backgroundColor: '#ffedc3',
 }, {
   label: 'Option three',
-  value: 3,
+  value: '3',
+  color: '#484848',
+  backgroundColor: '#ffe1d2',
 }]
 
 export const withSuggestions = () => ({

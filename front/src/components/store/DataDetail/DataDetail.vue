@@ -222,6 +222,10 @@
           v-else-if="getComponentDisplayDetailForColumnType(column) === 'lck-badge'"
           v-bind="getColumnDisplayValue(column, row.data[column.id])"
         />
+        <lck-multi-badges
+          v-else-if="getComponentDisplayDetailForColumnType(column) === 'lck-multi-badges'"
+          :options="getColumnDisplayValue(column, row.data[column.id])"
+        />
         <lck-file-input
           v-else-if="getComponentDisplayDetailForColumnType(column) === 'lck-file-input'"
           :attachments="row.data[column.id]"
@@ -297,6 +301,7 @@ import FilterButton from '@/components/store/FilterButton/FilterButton.vue'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
 import Badge from '@/components/ui/Badge/Badge.vue'
+import LckMultiBadges from '@/components/ui/MultiBadges/MultiBadges.vue'
 import FileInput from '@/components/ui/ColumnType/File/Input.vue'
 
 const Map = () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
@@ -311,6 +316,7 @@ export default {
     'lck-url-input': URLInput,
     'lck-map': Map,
     'lck-badge': Badge,
+    'lck-multi-badges': LckMultiBadges,
     'lck-file-input': FileInput,
     'p-dialog': Vue.extend(Dialog),
     'p-dropdown': Vue.extend(Dropdown),
