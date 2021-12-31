@@ -3,6 +3,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { shallowMount, mount } from '../../../../tests/unit/local-test-utils'
 import flushPromises from 'flush-promises'
 import FormRecord from '@/components/visualize/FormRecord/FormRecord.vue'
+import Map from '@/components/ui/ColumnType/Geometry/Map.vue'
 
 async function flushAll () {
   // get rid of any pending validations on the leading edge
@@ -59,6 +60,24 @@ const mockDefinitionsWithRequiredColumns = {
       column_type_id: COLUMN_TYPE.BOOLEAN,
       editable: true,
       position: 3,
+      transmitted: true,
+      default: null,
+      displayed: true,
+      validation: {
+        required: true,
+      },
+      sort: 'DESC',
+      table_view_id: 'table_view_1',
+      style: {},
+    },
+    {
+      text: 'Point',
+      id: 'geo_point_1_column',
+      settings: {},
+      table_id: 'table_1',
+      column_type_id: COLUMN_TYPE.GEOMETRY_POINT,
+      editable: true,
+      position: 4,
       transmitted: true,
       default: null,
       displayed: true,
@@ -260,6 +279,27 @@ const mockDefinitionsWithDefaultColumns = {
   ],
 }
 
+const mockGeoPointData = {
+  id: 'row-1:geo_point_1_column',
+  type: 'Feature',
+  properties: {
+    id: 'row-1:geo_point_1_column',
+    columnId: 'geo_point_1_column',
+    rowId: 'row-1',
+    sourceId: 'table_view_1',
+  },
+  geometry: {
+    coordinates: [10.2, 48.75],
+    type: 'Point',
+  },
+}
+
+// Mock lck components
+jest.mock('@/components/ui/ColumnType/Geometry/Map.vue', () => ({
+  name: 'lck-map',
+  render: h => h(),
+}))
+
 describe('FormRecord', () => {
   jest.useFakeTimers()
   describe('could have required columns', () => {
@@ -292,6 +332,7 @@ describe('FormRecord', () => {
       expect(wrapper.vm.newRow.data.string_1_column).toBe(undefined)
       expect(wrapper.vm.newRow.data.boolean_1_column).toBe(undefined)
       expect(wrapper.vm.newRow.data.number_1_column).toBe(undefined)
+      expect(wrapper.vm.newRow.data.geo_point_1_column).toBe(undefined)
       const inputs = wrapper.findAll('input')
       expect(inputs.length).toBe(3)
       const submitButton = wrapper.find('.p-button[type=submit]')
@@ -331,12 +372,14 @@ describe('FormRecord', () => {
             string_1_column: 'Test',
             boolean_1_column: true,
             number_1_column: 1,
+            geo_point_1_column: 'SRID=4326;POINT(10.2 48.75)'
           },
         },
       })
       expect(wrapper.vm.newRow.data.string_1_column).toBe('Test')
       expect(wrapper.vm.newRow.data.boolean_1_column).toBe(true)
       expect(wrapper.vm.newRow.data.number_1_column).toBe(1)
+      expect(wrapper.vm.newRow.data.geo_point_1_column).toBe('SRID=4326;POINT(10.2 48.75)')
       const inputs = wrapper.findAll('input')
       expect(inputs.length).toBe(3)
       const submitButton = wrapper.find('.p-button[type=submit]')
@@ -373,9 +416,12 @@ describe('FormRecord', () => {
       expect(wrapper.vm.newRow.data.string_1_column).toBe(undefined)
       expect(wrapper.vm.newRow.data.boolean_1_column).toBe(undefined)
       expect(wrapper.vm.newRow.data.number_1_column).toBe(undefined)
+      expect(wrapper.vm.newRow.data.geo_point_1_column).toBe(undefined)
       const string_1_column = wrapper.find('input[id="string_1_column"]')
       const boolean_1_column = wrapper.find('input[id="boolean_1_column"]')
       const number_1_column = wrapper.find('input[id="number_1_column"]')
+      const geo_point_1_column = wrapper.findComponent({ name: 'lck-map' })
+
       // Force parents's input to be dirty and touched to enabled form and validation
       string_1_column.element.value = 'Test'
       string_1_column.trigger('blur')
@@ -389,11 +435,14 @@ describe('FormRecord', () => {
       number_1_column.element.value = 1
       number_1_column.trigger('blur')
       number_1_column.trigger('input')
+      
+      geo_point_1_column.vm.$emit('update-features', [mockGeoPointData])
 
       await flushAll()
       expect(wrapper.vm.newRow.data.string_1_column).toBe('Test')
       expect(wrapper.vm.newRow.data.boolean_1_column).toBe(true)
       expect(wrapper.vm.newRow.data.number_1_column).toBe(1)
+      expect(wrapper.vm.newRow.data.geo_point_1_column).toBe('SRID=4326;POINT(10.2 48.75)')
       await flushAll()
       const submitButton = wrapper.find('.p-button[type=submit]')
       expect(submitButton.attributes().disabled).toBeUndefined()
@@ -410,6 +459,7 @@ describe('FormRecord', () => {
           string_1_column: 'Test',
           boolean_1_column: true,
           number_1_column: 1,
+          geo_point_1_column: 'SRID=4326;POINT(10.2 48.75)',
         },
       })
       expect(wrapper).toMatchSnapshot()
