@@ -1,0 +1,1 @@
+import{_ as e,c as t,o,d as l}from"./app.a2baa444.js";const f='{"title":"Field Types","description":"","frontmatter":{},"relativePath":"concepts/field-types.md","lastUpdated":1640970594810}',s={},i=l("",11),r=[i];function n(a,g,d,u,p,c){return o(),t("div",null,r)}var y=e(s,[["render",n]]);export{f as __pageData,y as default};
