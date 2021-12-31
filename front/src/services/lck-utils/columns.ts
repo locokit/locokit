@@ -347,6 +347,7 @@ export function getColumnDisplayValue (
         // Base value -> concatenation of the labels of the selected options
         if (onlyBaseValue) {
           if ((data as string[]).length > 0 && column.settings.values) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             return (data as string[]).map(d => column.settings.values![d]?.label).join(', ')
           } else {
             return ''
@@ -355,6 +356,7 @@ export function getColumnDisplayValue (
         // Complex value -> an array of the configurations of the selected options
         if (column.settings.values) {
           return (data as string[]).reduce((options: SelectValue[], value) => {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const currentOption = column.settings.values![value]
             if (currentOption) options.push(currentOption)
             return options
@@ -384,7 +386,7 @@ export function getColumnDisplayValue (
         return data as string
     }
   } catch (error) {
-    // eslint-disable no-console
+    // eslint-disable-next-line no-console
     console.error('Field with bad format', data, error)
     return ''
   }

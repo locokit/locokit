@@ -573,7 +573,7 @@ export function makeGeoJsonFeaturesCollection (
                 matchingColumn,
                 row.data[field],
                 true,
-              )
+              ) as string | number | undefined
             } else {
               throw new TypeError('Only columns linked to the aggregation field can be used in an event.')
             }
@@ -699,7 +699,7 @@ export function makeGeoJsonFeaturesCollection (
                     definitionColumns[field],
                     row.data[field],
                     true,
-                  )
+                  ) as string | number | undefined
                 })
               }
             }
