@@ -152,7 +152,7 @@ export default {
 .logo-link {
   display: flex;
   align-items: center;
-  width: 10rem;
+  max-width: 20rem;
   margin: auto;
 }
 
@@ -161,7 +161,7 @@ export default {
     display: block;
   }
   width: 100%;
-  height: calc(var(--header-height) - 0.5rem);
+  max-height: calc(var(--header-height) - 0.5rem);
   display: none;
 }
 
