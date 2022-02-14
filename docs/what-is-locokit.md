@@ -1,8 +1,8 @@
 # What is LocoKit ?
 
 **LocoKit** is an **open source platform**
-which provide **Database management** as a spreadsheet
-with an **app builder**.
+which provide **Database Management** as a spreadsheet
+with an **App Builder**.
 
 You can create your **database**
 with a **spreadsheet-like UI**, that helps you define your data model,
