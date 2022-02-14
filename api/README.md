@@ -43,3 +43,15 @@ $ feathers help                           # Show all commands
 ## Help
 
 For more information on all the things you can do with Feathers visit [docs.feathersjs.com](http://docs.feathersjs.com).
+
+## Generating a password hash
+
+We've made a small script `hash-bcrypt.js` that hash a string.
+
+To run it, you can run `node hash-bcrypt.js [stringA] [stringB] ...` .
+
+In result, you'll see in your terminal the hash for each string
+given in arguments of the script.
+
+You can copy/paste the hash in your database if you need
+to reset a password of a specific user.
