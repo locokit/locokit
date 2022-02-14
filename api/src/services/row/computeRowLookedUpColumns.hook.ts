@@ -22,36 +22,41 @@ export function computeRowLookedUpColumns (): Hook {
           context.params._meta.columnsIdsTransmitted.includes(c.settings.localField),
         )
         .map(async currentColumnDefinition => {
-          // Value of the current looked-up column
-          let currentColumnData: RowData | null = null
-          // Value of the relation between tables column linked to the current looked-up column
-          const foreignRowId: { reference: string, value: string } = context.data.data?.[currentColumnDefinition.settings.localField as string]
-          if (foreignRowId?.reference) {
-            const foreignColumn: TableColumn = await context.app.services.column.get(currentColumnDefinition.settings.foreignField as string)
-            const foreignColumnTypeId = foreignColumn.column_type_id
-            const matchingRow: TableRow = await context.service.get(foreignRowId?.reference)
-            currentColumnData = {
-              reference: foreignRowId.reference,
-              value: matchingRow.data[currentColumnDefinition.settings.foreignField as string] as { reference: string, value: string },
-            }
-            if (foreignColumnTypeId === COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
+          try {
+            // Value of the current looked-up column
+            let currentColumnData: RowData | null = null
+            // Value of the relation between tables column linked to the current looked-up column
+            const foreignRowId: { reference: string, value: string } = context.data.data?.[currentColumnDefinition.settings.localField as string]
+            if (foreignRowId?.reference) {
+              const foreignColumn: TableColumn = await context.app.services.column.get(currentColumnDefinition.settings.foreignField as string)
+              const foreignColumnTypeId = foreignColumn.column_type_id
+              const matchingRow: TableRow = await context.service.get(foreignRowId?.reference)
+              currentColumnData = {
+                reference: foreignRowId.reference,
+                value: matchingRow.data[currentColumnDefinition.settings.foreignField as string] as { reference: string, value: string },
+              }
+              if (foreignColumnTypeId === COLUMN_TYPE.RELATION_BETWEEN_TABLES) {
               // For a RELATION_BETWEEN_TABLES column, we retrieve the sub property of value for the value
-              currentColumnData.value = (currentColumnData.value as { reference: string, value: string })?.value
-            } else if (typeof currentColumnData.value === 'object') {
+                currentColumnData.value = (currentColumnData.value as { reference: string, value: string })?.value
+              } else if (typeof currentColumnData.value === 'object') {
               // If the value is an object, we retrieve the sub property of value
-              currentColumnData.reference = currentColumnData.value?.reference
-              if (
-                foreignColumnTypeId === COLUMN_TYPE.MULTI_USER &&
+                currentColumnData.reference = currentColumnData.value?.reference
+                if (
+                  foreignColumnTypeId === COLUMN_TYPE.MULTI_USER &&
                 Array.isArray(currentColumnData.value?.value)
-              ) {
-                currentColumnData.value = currentColumnData.value.value.join(', ')
-              } else {
-                currentColumnData.value = currentColumnData.value?.value
+                ) {
+                  currentColumnData.value = currentColumnData.value.value.join(', ')
+                } else {
+                  currentColumnData.value = currentColumnData.value?.value
+                }
               }
             }
+            context.data.data[currentColumnDefinition.id] = currentColumnData
+            context.params._meta.columnsIdsTransmitted.push(currentColumnDefinition.id)
+          } catch (error: any) {
+            console.error(error)
+            throw new Error(error)
           }
-          context.data.data[currentColumnDefinition.id] = currentColumnData
-          context.params._meta.columnsIdsTransmitted.push(currentColumnDefinition.id)
         }),
     )
     return context
