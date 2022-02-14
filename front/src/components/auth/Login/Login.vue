@@ -60,16 +60,16 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue from 'vue'
 
-import { ROUTES_NAMES } from "@/router/paths";
+import { ROUTES_NAMES } from '@/router/paths'
 
-import Password from "primevue/password";
-import InputText from "primevue/inputtext";
-import Button from "primevue/button";
+import Password from 'primevue/password'
+import InputText from 'primevue/inputtext'
+import Button from 'primevue/button'
 
 export default Vue.extend({
-  name: "LckLogin",
+  name: 'LckLogin',
   props: {
     loading: {
       type: Boolean,
@@ -88,26 +88,26 @@ export default Vue.extend({
       default: false,
     },
   },
-  data() {
+  data () {
     return {
       ROUTES_NAMES,
       form: {
-        email: "",
-        password: "",
+        email: '',
+        password: '',
       },
-    };
+    }
   },
   components: {
-    "p-input-text": Vue.extend(InputText),
-    "p-button": Vue.extend(Button),
-    "p-password": Vue.extend(Password),
+    'p-input-text': Vue.extend(InputText),
+    'p-button': Vue.extend(Button),
+    'p-password': Vue.extend(Password),
   },
   methods: {
-    emitSubmit() {
-      this.$emit("submit", this.form);
+    emitSubmit () {
+      this.$emit('submit', this.form)
     },
   },
-});
+})
 </script>
 
 <style scoped>
