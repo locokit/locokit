@@ -1,0 +1,187 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/admin/group/UserGroupForm Default story 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-card p-component"
+  >
+    <!---->
+     
+    <div
+      class="p-card-body"
+    >
+      <div
+        class="p-card-title"
+      >
+        
+    Current group
+  
+      </div>
+       
+      <!---->
+       
+      <div
+        class="p-card-content"
+      >
+        <!---->
+         
+        <div>
+          <form
+            class="p-fluid"
+          >
+            <div
+              class="p-field"
+            >
+              <label
+                class="label-field-required"
+                for="name"
+              >
+                
+          Name
+        
+              </label>
+               
+              <input
+                class="p-inputtext p-component p-filled"
+                id="name"
+                placeholder="Example: The customer user group"
+                type="text"
+              />
+               
+              <span
+                class="untouched pristine"
+              >
+                
+              </span>
+            </div>
+             
+            <div
+              class="p-field"
+            >
+              <label
+                class="label-field-required"
+                for="aclset"
+              >
+                
+          Role
+        
+              </label>
+               
+              <span
+                aria-haspopup="listbox"
+                aria-owns="pv_id_1_list"
+                class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+                dropdown="true"
+                id="aclset"
+                suggestions=""
+              >
+                <input
+                  aria-autocomplete="list"
+                  aria-controls="pv_id_1_list"
+                  autocomplete="off"
+                  class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+                  id="aclset"
+                  placeholder="Assign a workspace's role"
+                  role="searchbox"
+                  type="text"
+                />
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <button
+                  class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+                  type="button"
+                >
+                  <span
+                    class="pi pi-chevron-down p-button-icon"
+                  />
+                   
+                  <span
+                    class="p-button-label"
+                  >
+                     
+                  </span>
+                   
+                  <!---->
+                  <span
+                    class="p-ink"
+                  />
+                </button>
+                 
+                <!---->
+              </span>
+               
+              <span
+                class="untouched pristine"
+              >
+                
+              </span>
+            </div>
+             
+            <div
+              class="lck-form-footer"
+            >
+              <button
+                class="p-button-text p-button-secondary p-button p-component"
+                type="button"
+              >
+                <span
+                  class="pi pi-times p-button-icon p-button-icon-left"
+                />
+                 
+                <span
+                  class="p-button-label"
+                >
+                  Cancel
+                </span>
+                 
+                <!---->
+                <span
+                  class="p-ink"
+                />
+              </button>
+               
+              <button
+                class="p-button p-component"
+                disabled="disabled"
+                type="submit"
+              >
+                <span
+                  class="pi pi-save p-button-icon p-button-icon-left"
+                />
+                 
+                <span
+                  class="p-button-label"
+                >
+                  Save
+                </span>
+                 
+                <!---->
+                <span
+                  class="p-ink"
+                />
+              </button>
+            </div>
+          </form>
+        </div>
+         
+        <!---->
+         
+        <!---->
+         
+        <span
+          class="p-fluid"
+        />
+         
+        <!---->
+      </div>
+       
+      <!---->
+    </div>
+  </div>
+</div>
+`;
