@@ -1,5 +1,8 @@
 <template>
-  <form @submit.prevent="emitSubmit" class="p-text-left p-fluid">
+  <form
+    @submit.prevent="emitSubmit"
+    class="p-text-left p-fluid"
+  >
     <div class="p-field">
       <label for="email">{{ $t('components.login.email') }}</label>
       <p-input-text
@@ -12,13 +15,15 @@
     </div>
     <div class="p-field">
       <label for="password">{{ $t('components.login.password') }}</label>
-      <p-input-text
+
+      <p-password
         id="password"
         type="password"
         class="rounded-sm"
-        v-model="form.password"
         :placeholder="$t('components.login.password')"
         required
+        v-model="form.password"
+        toggleMask
       />
     </div>
 
@@ -37,16 +42,17 @@
       class="p-mb-4"
     />
 
-    <div v-if="!logInAgain" class="footer-links">
+    <div
+      v-if="!logInAgain"
+      class="footer-links"
+    >
       <router-link
         v-if="displaySignUpLink"
         :to="{ name: ROUTES_NAMES.SIGNUP }"
       >
         {{ $t('components.login.signup') }}
       </router-link>
-      <router-link
-        :to="{ name: ROUTES_NAMES.LOSTPASSWORD }"
-      >
+      <router-link :to="{ name: ROUTES_NAMES.LOSTPASSWORD }">
         {{ $t('components.login.lostpassword') }}
       </router-link>
     </div>
@@ -58,6 +64,7 @@ import Vue from 'vue'
 
 import { ROUTES_NAMES } from '@/router/paths'
 
+import Password from 'primevue/password'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 
@@ -93,6 +100,7 @@ export default Vue.extend({
   components: {
     'p-input-text': Vue.extend(InputText),
     'p-button': Vue.extend(Button),
+    'p-password': Vue.extend(Password),
   },
   methods: {
     emitSubmit () {
