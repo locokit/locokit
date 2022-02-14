@@ -9,7 +9,7 @@ with a **spreadsheet-like UI**, that helps you define your data model,
 and manage your data.
 
 Based on your data, you can build a **dedicated app** with our **app builder**,
-by assembling [blocks](concepts/block-types) (markdown, table, maps, ...).
+by assembling [blocks](concepts/block-types) (markdown, table, maps…).
 
 
 
@@ -18,23 +18,23 @@ We call that kind of tools **no-code** tools, or **low-code** tools.
 The best example is [AirTable](https://airtable.com).
 A tool that allows you to build **your** database, **your** tool.
 
-They allow users to build things with a no-code / low-code tool.
+They allow users to build app with a no-code / low-code tool.
 
 :::warning LocoKit is still in early stages
 
 **LocoKit** is still in its 0.x.x versions.
 
-But, we thought we develop enough to free the code,
-and allow other users to test it, use it, and adopt it.
+But, we think we have developed enough to share the code
+and allow other to test it, use it, and adopt it.
 
 We have deployed several instances of **LocoKit**
 and we are learning from our customers
 what is missing the most.
 
 We know there are still issues regarding usability,
-documentation, or maybe performance.
-We're working on that, but you can create issues in our github repository
-if you want to.
+documentation or maybe performance.
+We're working on that ! :muscle: 
+You can help us by creating issues in our github repository.
 
 Feel free to join us on [GitHub](https://github.com/locokit/locokit),
 and add a :star: to make us happy ;-) .
@@ -50,7 +50,7 @@ Newcomers or contributors are really appreciated and welcome !
 ## Functionnaly, what is it ?
 
 **Functionnaly**, the **LocoKit** platform is a web platform allowing users to :
-* create database (with tables, related tables, ...), like a mini AirTable app
+* create database (with tables, related tables…), like a mini AirTable app
 * grant access to this data, according users permissions (via group)
 * visualize data, through a hierarchy of chapter / page / container / block, like a mini App
 * process data, by trigerring webhooks
@@ -70,10 +70,10 @@ simple enough for "non IT" users,
 allowing them managing their data and their app.
 Without too much headaches. We hope.
 
-What we hear by *"Low-Code"* is the fact that you'll need, sometimes,
-to write some code (like formulas, advanced settings,...),
+This tool is *"Low-Code"* because you may have
+to write some code (like formulas, advanced settings…),
 or configure some parts of it (like webhook triggers)
-helping the platform to better understand what you exactly want / need.
+helping the platform to better understand what you exactly want/need.
 
 ## Motivation, why we built LocoKit ?
 
@@ -87,8 +87,8 @@ that **SeaTable** won't be really open sourced.
 
 We had to find another solution.
 After some searches, we didn't find a solution
-able to manage a spreadsheet UI, permissions at row levels,
-malleable data and wire interfaces to this data definition easily.
+able to manage a user-friendly spreadsheet, permissions at row levels,
+malleable data and to use different interfaces to visualize data (Dataviz).
 
 We decided to build it, make it reusable through other projects,
 and finally free the code if it was ok for us.

@@ -4,14 +4,14 @@ When you start to configure your application,
 several blocks will be available to you.
 
 Each block will have dedicated settings.
-Some of them are related to data,
-others are for presentation only.
+Some of them are related to data in your database,
+others are just for presentation.
 
 This section will describe all block types we have created until now.
 
 ## Presentation blocks
 
-Presentation blocks are here to display any arbitrary text.
+Presentation blocks are here to display any arbitrary information.
 
 ### Paragraph
 
@@ -23,6 +23,12 @@ Markdown blocks display markdown text, allowing you
 to display text written in markdown.
 
 You can check Markdown syntax in the [wikipedia page](https://en.wikipedia.org/wiki/Markdown#Examples).
+
+### Media
+
+Media block allow to display image, video or gallery.
+
+This is a work in progress.
 
 ## Data blocks
 
@@ -42,6 +48,46 @@ Display a list of records, using the spreadsheet UI.
 ## RecordSet
 
 Display a single record in a "detail" view.
+
+## KanbanSet
+
+Display a data according to Kanban's method.
+
+This is a work in progress.
+
+## HighlightField
+
+Display a single value to enhance its visibility.
+
+This is a work in progress.
+
+## Cardset
+
+Display data as a card.
+
+This is a work in progress.
+
+## ActionButton
+
+Allow to trigger an action like a process and/or a redirection.
+
+## MarkdownField
+
+Display markdown data.
+
+## FormRecord
+
+Display a form for a record.
+Each column becomes the label of the input field and
+it is possible to prevent user to update specific field.
+
+## ExternalApp
+
+Display a link to external app.
+
+## MapRecord
+
+Like below but only for a record.
 
 ## MapSet
 
@@ -131,7 +177,7 @@ Example of configuration :
 ```
 
 If we want to display the points even if the displayed texts overlap,
-we can add the following property to the layout object (default style) :
+we can add the following property to the layout object (default style):
 
 ```
   "text-allow-overlap": true

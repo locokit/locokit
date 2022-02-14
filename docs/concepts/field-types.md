@@ -16,16 +16,16 @@ Here is the summary of all the types implemented.
 * **Multi-select** : Allows you to select several options from a preset list of options.
 
 **Users**
-* **User** : Allows you to select select one predetermined user from a list
-* **User group** : Allows you to select select one predetermined group of users from a list
-* **Multi-user** : Allows you to select select several predetermined users from a list
-* **Multi user-group** : Allows you to select select several predetermined groups of users from a list
+* **User**: Allows you to select one predetermined user from a list
+* **User group**: Allows you to select one predetermined group of users from a list
+* **Multi-user**: Allows you to select several predetermined users from a list
+* **Multi user-group**: Allows you to select several predetermined groups of users from a list
 
 **Advanced**
 * **Formula** : Allows you to compute a value in each cell
 * **File** : Allows you to attach one or more files to a cell
 * **URL** : Designed to store a single URL in each cell
-* **Link to another table** : Allows you create a linked record field between two tables
+* **Link to another table**: Allows you to create a linked record field between two tables
 * **Lookup field** : Allows you to look up a specific field in a linked table
 * **Virtual lookup field** : Allows you to look up a specific virtual field in a linked table
 
