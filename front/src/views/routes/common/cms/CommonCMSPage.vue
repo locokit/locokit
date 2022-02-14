@@ -426,7 +426,8 @@ export default {
       })
     },
     async loadSourcesDefinitions () {
-      const tableViews = await lckHelpers.retrieveViewDefinition(Object.keys(this.sources))
+      if (Object.keys(this.sources).length === 0) return
+      const tableViews = await lckHelpers.retrieveViewDefinition(Object.keys(this.sources)) || []
       tableViews.forEach(tv => {
         this.$set(this.sources[tv.id], 'definition', tv)
       })
