@@ -88,9 +88,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
           >
              
             <button
-              aria-controls="pv_id_12_content"
+              aria-controls="pv_id_11_content"
               class="p-panel-header-icon p-panel-toggler p-link"
-              id="pv_id_12_header"
+              id="pv_id_11_header"
               type="button"
             >
               <span
@@ -104,9 +104,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
         </div>
          
         <div
-          aria-labelledby="pv_id_12_header"
+          aria-labelledby="pv_id_11_header"
           class="p-toggleable-content"
-          id="pv_id_12_content"
+          id="pv_id_11_content"
           role="region"
           style="display: none;"
         >
@@ -261,9 +261,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
           >
              
             <button
-              aria-controls="pv_id_13_content"
+              aria-controls="pv_id_12_content"
               class="p-panel-header-icon p-panel-toggler p-link"
-              id="pv_id_13_header"
+              id="pv_id_12_header"
               type="button"
             >
               <span
@@ -277,9 +277,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
         </div>
          
         <div
-          aria-labelledby="pv_id_13_header"
+          aria-labelledby="pv_id_12_header"
           class="p-toggleable-content"
-          id="pv_id_13_content"
+          id="pv_id_12_content"
           role="region"
           style="display: none;"
         >
@@ -358,9 +358,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
           >
              
             <button
-              aria-controls="pv_id_14_content"
+              aria-controls="pv_id_13_content"
               class="p-panel-header-icon p-panel-toggler p-link"
-              id="pv_id_14_header"
+              id="pv_id_13_header"
               type="button"
             >
               <span
@@ -374,9 +374,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
         </div>
          
         <div
-          aria-labelledby="pv_id_14_header"
+          aria-labelledby="pv_id_13_header"
           class="p-toggleable-content"
-          id="pv_id_14_content"
+          id="pv_id_13_content"
           role="region"
           style="display: none;"
         >

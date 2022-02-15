@@ -34,13 +34,27 @@ exports[`storyshots components/auth/Login Login 1`] = `
         password
       </label>
        
-      <input
-        class="rounded-sm p-inputtext p-component"
+      <div
+        class="rounded-sm p-password p-component p-inputwrapper p-input-icon-right"
         id="password"
         placeholder="password"
         required="required"
         type="password"
-      />
+      >
+        <input
+          class="p-inputtext p-component p-password-input"
+          id="password"
+          placeholder="password"
+          required="required"
+          type="password"
+        />
+         
+        <i
+          class="pi pi-eye"
+        />
+         
+        <!---->
+      </div>
     </div>
      
     <!---->
@@ -116,13 +130,27 @@ exports[`storyshots components/auth/Login Login with signup link 1`] = `
         password
       </label>
        
-      <input
-        class="rounded-sm p-inputtext p-component"
+      <div
+        class="rounded-sm p-password p-component p-inputwrapper p-input-icon-right"
         id="password"
         placeholder="password"
         required="required"
         type="password"
-      />
+      >
+        <input
+          class="p-inputtext p-component p-password-input"
+          id="password"
+          placeholder="password"
+          required="required"
+          type="password"
+        />
+         
+        <i
+          class="pi pi-eye"
+        />
+         
+        <!---->
+      </div>
     </div>
      
     <!---->
