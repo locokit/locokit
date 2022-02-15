@@ -25,7 +25,7 @@ For restoring a dump :
 
 ```sh
 docker exec -it lck-db bash
-pg_restore --no-owner --clean -d public -U postgres -W /dumps/your_dump # you'll have to enter the password pouicpouic
+pg_restore --no-owner --clean -d public -U postgres -W /dumps/your_dump # you'll have to enter the password yourPostgresPassword
 ```
 
 ## Scaffolding

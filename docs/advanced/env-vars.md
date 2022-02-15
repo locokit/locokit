@@ -21,9 +21,9 @@ LCK_PUBLIC_PORTAL_NAME=Locokit
 # Secret used to encrypt user passwords
 LCK_AUTH_SECRET=yoursecretforpasswordTOCHANGEABSOLUTELY
 # URL connection to the database
-LCK_DATABASE_URL=postgres://postgres:pouicpouic@localhost:5432/postgres
+LCK_DATABASE_URL=postgres://postgres:yourPostgresPassword@localhost:5432/postgres
 # [dev] URL connection to the database, only for dev/test purpose
-LCK_DATABASE_URL_TEST=postgres://postgres:pouicpouic@localhost:5433/postgres
+LCK_DATABASE_URL_TEST=postgres://postgres:yourPostgresPassword@localhost:5433/postgres
 # [dev] Allow developer to see all requests executed in the terminal
 OBJECTION_DEBUG=false
 ```

@@ -23,7 +23,7 @@ services:
     environment:
       POSTGRES_DB: public
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: pouicpouic
+      POSTGRES_PASSWORD: yourPostgresPassword
     # restart: always
     volumes:
       - lck-db-data:/var/lib/postgresql/data
@@ -50,7 +50,7 @@ services:
       LCK_PUBLIC_URL: http://localhost:8002
       LCK_PUBLIC_PORTAL_NAME: Locokit
       LCK_AUTH_SECRET: putYourAuthSecretHereAndChangeItPlease!
-      LCK_DATABASE_URL: postgres://postgres:pouicpouic@lck-db:5432/public
+      LCK_DATABASE_URL: postgres://postgres:yourPostgresPassword@lck-db:5432/public
       OBJECTION_DEBUG: "false"
 
       MAIL_PORT: "1025"
