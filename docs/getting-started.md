@@ -1,3 +1,17 @@
+# Getting started
+
+To start LocoKit, you can use the docker-compose installation
+or by cloning the repository.
+
+## docker-compose installation
+
+On your host, you'll have to create a `docker-compose.yml` file.
+
+You can download it from 
+https://raw.githubusercontent.com/locokit/locokit/master/docker-compose-starter.yml
+directly if you want.
+
+```yaml
 # This docker-compose is for testing purpose only
 # For a deployment, you'll need to set a mail server
 # and security with helmet environment variables,
@@ -81,3 +95,46 @@ volumes:
   lck-db-data:
   mailhog:
   lck-fs-storage:
+```
+
+Then, you can launch docker-compose :
+
+```sh
+docker-compose up
+```
+
+You'll see 3 containers starting.
+
+The `lck-platform` container will start by playing database migrations,
+so your database will be up to date.
+
+At this stage, no user have been created.
+
+If you want to create the superadmin user,
+you can run this command in another terminal :
+
+```sh
+docker exec lck-platform npm run seed:run
+```
+
+This will create a new `SUPERADMIN` user with the following credentials :
+
+```
+email: superadmin@locokit.io
+password: locokit
+```
+
+You could also create your own user with the signup page
+(check the `SIGNUP_ALLOWED` environment variable).
+The confirmation email will be sent to [mailhog](https://github.com/mailhog/MailHog),
+you can access by opening [http://localhost:8025](http://localhost:8025).
+
+For more details on environment variables,
+check the [dedicated page](advanced/env-vars.html).
+
+## cloning the repository (for dev)
+
+The other way to start the LocoKit platform is by cloning the repo 
+available in [https://github.com/locokit/locokit](https://github.com/locokit/locokit).
+
+Please follow instructions that are available directly in the README of the repo.

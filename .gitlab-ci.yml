@@ -169,11 +169,11 @@ api-quality:
   variables:
     POSTGRES_DB: postgres
     POSTGRES_USER: postgres
-    POSTGRES_PASSWORD: pouicpouic
+    POSTGRES_PASSWORD: yourPostgresPassword
 
     LCK_PORT: 3030
     LCK_HOST: localhost
-    LCK_DATABASE_URL_TEST: postgres://postgres:pouicpouic@lck-db:5432/postgres
+    LCK_DATABASE_URL_TEST: postgres://postgres:yourPostgresPassword@lck-db:5432/postgres
 
     OBJECTION_DEBUG: 'false'
     NODE_ENV: test

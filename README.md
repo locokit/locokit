@@ -51,7 +51,7 @@ The default user created is `superadmin@locokit.io` with password `locokit`.
 
 A swagger is available on http://localhost:3030/swagger/ once the project has started.
 
-This is made with [Redoc UI](https://redocly.github.io/redoc/).
+This is made with [RapiDoc](https://mrin9.github.io/RapiDoc/).
 
 ### Restore a dump
 
@@ -64,10 +64,10 @@ For restoring a dump :
 
 ```sh
 docker exec -it lck-db bash
-pg_restore --no-owner --clean -d public -U postgres -W /dumps/your_dump # you'll have to enter the password pouicpouic
+pg_restore --no-owner --clean -d public -U postgres -W /dumps/your_dump # you'll have to enter the password yourPostgresPassword
 ```
 
-## Scaffolding
+### Scaffolding
 
 Feathers has a powerful command line interface. Here are a few things it can do:
 
@@ -79,39 +79,23 @@ $ feathers generate hook                  # Generate a new Hook
 $ feathers help                           # Show all commands
 ```
 
-## Help
-
-For more information on all the things you can do with Feathers visit [docs.feathersjs.com](http://docs.feathersjs.com).
-
-## Contribute
-
-If you encounter a bug, please submit an issue.
-
-If you want to contribute to the code,
-first ask to the team where to begin.
-
-When making a contribution, please name your branch with the issue's id.
-
-For example, on the issue n° 23, you could name your branch `23-add-of-a-new-feature` or `23-fix-this-horrible-bug`.
-
-Then you could submit a Merge Request.
-
-The CI is configured, so you could check also if your branch is not breaking anything.
-
-
-```sh
-npm ci
-```
-
-A postinstall copy some patches directly in the `node_modules` directory,
-waiting for our PR to be merged.
-
+## Front end
 ### Configuration
 
 **`public/config.js`**
 
 This file contains a `LCK_SETTINGS` variable
 allowing the app to know some settings like the API URL, the localStorage key, ...
+
+```js
+const LCK_SETTINGS = {
+  API_URL: 'http://localhost:3030',
+  LOCALSTORAGE_KEY: 'lck-auth',
+  SENTRY_DSN: '', // here you can set your SENTRY_DSN, please check sentry documentation
+  SENTRY_ENV: 'local',
+  STORAGE_PATH: 'http://localhost:8000/storage'
+}
+```
 
 This file is used at runtime, so you could customise it
 when you deploy the app.
@@ -206,19 +190,8 @@ to wait the DOM element with the CSS selector you define is really in the DOM.
 We encounter lots of issues on Mac OS, so if you use this OS,
 don't worry if your CI is broken. Ask a developer with a Linux OS to update your shots.
 
-### Customize configuration
+The storybook of the master branch is available on http://lck-storybook.surge.sh/.
 
-A configuration file is present in `public/config.js`.
-
-```js
-const LCK_SETTINGS = {
-  API_URL: 'http://localhost:3030',
-  LOCALSTORAGE_KEY: 'lck-auth',
-  SENTRY_DSN: '', // here you can set your SENTRY_DSN, please check sentry documentation
-  SENTRY_ENV: 'local',
-  STORAGE_PATH: 'http://localhost:8000/storage'
-}
-```
 
 You can write your own configuration settings here,
 when you deploy this front, you will have to override these settings
@@ -233,7 +206,7 @@ first ask to the team where to begin (with an issue).
 
 1. create an issue, or be assigned on an issue
 2. put the issue in the "Doing" column of the board
-3. create a local branch prefixed by the issue's id (this help gitlab to wire issue / branch / MR)
+3. create a local branch prefixed by the issue's id (`23-add-of-a-new-feature` or `23-fix-this-horrible-bug`)
 4. add some tests / stories for the code you're writing
 5. when your work is ok for you, push it to the repo
 6. create a MR
