@@ -87,6 +87,7 @@
           "updateSuccess": "The default filters have been saved.",
           "resetSuccess": "The default filters have been reset.",
           "updateError": "An error occured when saving the filters.",
+          "viewIsLocked": "You can't update default filters already defined.",
           "select": {
             "operator": {
               "$or": "OR",
@@ -990,6 +991,9 @@
     "expiredToken": {
       "header": "Your session has expired",
       "message": "Please log in again to continue browsing the site."
+    },
+    "filters": {
+      "viewIsLocked": "View is locked."
     }
   },
   "form": {

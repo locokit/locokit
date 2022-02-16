@@ -43,7 +43,8 @@
                 :columnsDropdownOptions="currentBlockDropdownOptions"
                 :crudMode="crudMode"
                 v-model="currentDatatableFilters"
-                :disabled="currentView.locked && currentDatatableFilters.length === 0"
+                :disabled="!hasDataToDisplay && currentDatatableFilters.length === 0"
+                :locked="currentView && currentView.locked"
                 @submit="onSubmitFilter"
                 @reset="onResetFilter"
                 @save-filters="onSaveFilters"
@@ -565,6 +566,15 @@ export default {
     },
     async onSaveFilters (hasChanged) {
       if (!this.currentView) return
+      if (this.currentView.locked) {
+        this.$toast.add({
+          severity: 'error',
+          summary: this.$t('error.filters.viewIsLocked'),
+          detail: this.$t('components.datatable.toolbar.filters.viewIsLocked'),
+          life: 5000,
+        })
+        return
+      }
       try {
         const updatedView = await lckServices.tableView.patch(this.currentView.id, {
           filter: hasChanged ? convertFiltersToDatatabase(this.currentDatatableFilters) : null,
