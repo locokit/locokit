@@ -288,7 +288,6 @@ import Textarea from 'primevue/textarea'
 import InputSwitch from 'primevue/inputswitch'
 import Calendar from 'primevue/calendar'
 import Dialog from 'primevue/dialog'
-import InputNumber from 'primevue/inputnumber'
 import Checkbox from 'primevue/checkbox'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
@@ -298,6 +297,7 @@ import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import URLInput from '@/components/ui/ColumnType/URL/Input.vue'
 import Badge from '@/components/ui/Badge/Badge.vue'
 import FileInput from '@/components/ui/ColumnType/File/Input.vue'
+import InputNumber from '@/components/ui/ColumnType/Number/InputNumber.vue'
 
 const Map = () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
 
