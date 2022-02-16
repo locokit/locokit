@@ -261,8 +261,8 @@ jest.mock('@/components/ui/ColumnType/Geometry/Map.vue', () => ({
 // Mock routes
 const mockRoutes = [
   {
-    path: ROUTES_PATH.WORKSPACE + '/:groupId' + ROUTES_PATH.DATABASE + '/:databaseId' + '/table/:tableId?',
-    name: 'WorkspaceDatabase',
+    name: ROUTES_NAMES.WORKSPACE_ADMIN.DATABASETABLE,
+    path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASETABLE + '/:tableId?',
     component: DatabaseTable,
     props: true,
   },

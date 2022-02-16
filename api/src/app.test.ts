@@ -33,32 +33,22 @@ describe('Feathers application tests (with jest)', () => {
   })
 
   describe('404', () => {
-    it('shows a 404 HTML page', async () => {
+    it('redirect to the html index page (text/html)', async () => {
       expect.assertions(2)
-
-      try {
-        await axios.get(getUrl('path/to/nowhere'), {
-          headers: {
-            Accept: 'text/html',
-          },
-        })
-      } catch (error: any) {
-        expect(error.response.status).toBe(404)
-        expect(error.response.data.indexOf('<html>')).not.toBe(-1)
-      }
+      const response = await axios.get(getUrl('path/to/nowhere'), {
+        headers: {
+          Accept: 'text/html',
+        },
+      })
+      expect(response.status).toBe(200)
+      expect(response.data).toContain('<html lang="en">')
     })
 
-    it('shows a 404 JSON error without stack trace', async () => {
-      expect.assertions(4)
-
-      try {
-        await axios.get(getUrl('path/to/nowhere'))
-      } catch (error: any) {
-        expect(error.response.status).toBe(404)
-        expect(error.response.data.code).toBe(404)
-        expect(error.response.data.message).toBe('Page not found')
-        expect(error.response.data.name).toBe('NotFound')
-      }
+    it('redirect to the html index page (application/json)', async () => {
+      expect.assertions(2)
+      const response = await axios.get(getUrl('path/to/nowhere'))
+      expect(response.status).toBe(200)
+      expect(response.data).toContain('<html lang="en">')
     })
   })
 })

@@ -6,12 +6,12 @@ exports[`storyshots components/ui/AutoComplete default 1`] = `
 >
   <span
     aria-haspopup="listbox"
-    aria-owns="pv_id_17_list"
+    aria-owns="pv_id_16_list"
     class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
   >
     <input
       aria-autocomplete="list"
-      aria-controls="pv_id_17_list"
+      aria-controls="pv_id_16_list"
       autocomplete="off"
       class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
       placeholder="Start typing for suggestions"
@@ -54,13 +54,13 @@ exports[`storyshots components/ui/AutoComplete with suggestions and dropdown ope
 >
   <span
     aria-haspopup="listbox"
-    aria-owns="pv_id_18_list"
+    aria-owns="pv_id_17_list"
     class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
     suggestions=""
   >
     <input
       aria-autocomplete="list"
-      aria-controls="pv_id_18_list"
+      aria-controls="pv_id_17_list"
       autocomplete="off"
       class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
       placeholder="Start typing for suggestions"

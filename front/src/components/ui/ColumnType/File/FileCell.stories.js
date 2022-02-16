@@ -178,6 +178,7 @@ export const withAttachmentsAfterClickOnIt = () => (
 withAttachmentsAfterClickOnIt.storyName = 'after click with attachments'
 withAttachmentsAfterClickOnIt.args = {
   waitForSelector: '.p-dialog',
+  waitForTimeout: 1000,
 }
 
 export const withAttachmentsAfterClickOnItDisabled = () => (
@@ -207,4 +208,5 @@ export const withAttachmentsAfterClickOnItDisabled = () => (
 withAttachmentsAfterClickOnItDisabled.storyName = 'after click with attachments (disabled)'
 withAttachmentsAfterClickOnItDisabled.args = {
   waitForSelector: '.p-dialog',
+  waitForTimeout: 1000,
 }

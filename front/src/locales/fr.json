@@ -134,8 +134,8 @@
       },
       "column": {
         "edit": "Modifier la colonne",
-        "hide": "Cacher la colonne",
-        "display": "Afficher la colonne",
+        "hide": "Cacher la colonne côté visualisation",
+        "display": "Afficher la colonne côté visualisation",
         "ascOrder": "Ordre croissant",
         "descOrder": "Ordre décroissant",
         "globalConfiguration": "Configuration globale",
@@ -1118,6 +1118,7 @@
       "email": "L'adresse électronique du champ '{_field_}' ne correspond pas au format attendu.",
       "regex": "Le champ '{_field_}' ne correspond pas au format attendu.",
       "passwordConfirm": "Les mots de passe du champ '{_field_}' et du champ '{target}' ne sont pas identiques.",
+      "isFalseOrOtherTrue": "Le champ '{_field_}' ne peut être coché que si le champ '{target}' l'est également.",
       "minDate": "La date du champ '{_field_}' doit être après {fromDate}.",
       "dateValid": "La date du champ '{_field_}' ne correspond pas au format attendu.",
       "reference": "La valeur du champ '{_field_}' est invalide : veuillez sélectionnez une valeur dans la liste."

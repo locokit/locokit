@@ -35,6 +35,13 @@ extend('reference', {
   },
 })
 
+extend('isFalseOrOtherTrue', {
+  params: ['target'],
+  validate (value: boolean, { target }: Record<string, any>) {
+    return value === false || target === true
+  },
+})
+
 configure({
   // this will be used to generate messages.
   defaultMessage: (_, values) => {

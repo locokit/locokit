@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import logo from '../../../../public/themes/locokit/img/logo.png'
+import logo from '../../../../public/themes/locokit/img/logo.svg'
 import { lckServices } from './services'
 
 export const searchItems = () => '456'
@@ -26,7 +26,7 @@ export const uploadMultipleFiles = () => ({})
 export const retrieveWorkspaceWithChaptersAndPages = () => ({})
 export const retrieveTableViewData = () => ({})
 export const retrieveViewData = () => ({})
-export const retrieveViewDefinition = () => ({})
+export const retrieveViewDefinition = () => ([])
 
 export async function retrievePageWithContainersAndBlocks (id: string) {
   return await lckServices.page.get(id, {

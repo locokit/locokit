@@ -1158,7 +1158,7 @@ export default {
     async goToSpecificTable (tableId) {
       // Go to another table page
       await this.$router.replace({
-        name: ROUTES_NAMES.DATABASETABLE,
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.DATABASETABLE,
         params: {
           workspaceId: this.workspaceId,
           databaseId: this.databaseId,

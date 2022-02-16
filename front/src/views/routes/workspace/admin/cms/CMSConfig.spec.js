@@ -402,7 +402,7 @@ describe('CMSConfig', () => {
 
       it('Hide the chapter edit dialog if it emits the close event', async () => {
         // Display the dialog
-        await chapterWrapper.setProps({ visible: true })
+        await sidebarWrapper.vm.$emit('edit-item', '1')
         // Hide it
         await chapterWrapper.vm.$emit('close')
         expect(chapterWrapper.props('visible')).toBe(false)
