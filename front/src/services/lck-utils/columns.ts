@@ -65,6 +65,8 @@ export function getComponentDisplayCellForColumnType (columnTypeId: number) {
   switch (columnTypeId) {
     case COLUMN_TYPE.SINGLE_SELECT:
       return 'lck-badge'
+    case COLUMN_TYPE.MULTI_SELECT:
+      return 'lck-multi-badges'
     case COLUMN_TYPE.BOOLEAN:
       return 'p-checkbox'
     case COLUMN_TYPE.FILE:
@@ -134,6 +136,8 @@ export function getComponentDisplayDetailForColumnType (columnTypeId: number) {
   switch (columnTypeId) {
     case COLUMN_TYPE.SINGLE_SELECT:
       return 'lck-badge'
+    case COLUMN_TYPE.MULTI_SELECT:
+      return 'lck-multi-badges'
     case COLUMN_TYPE.BOOLEAN:
       return 'p-checkbox'
     case COLUMN_TYPE.GEOMETRY_POINT:
@@ -293,12 +297,15 @@ export function getColumnDisplayValue (
     dateFormat: string | TranslateResult;
     datetimeFormat: string | TranslateResult;
   },
-): string | undefined | SelectValue {
+): string | undefined | SelectValue | SelectValue[] {
   if (
     data === '' ||
     data === undefined ||
     data === null
-  ) return ''
+  ) {
+    if (column.column_type_id === COLUMN_TYPE.MULTI_SELECT && !onlyBaseValue) return []
+    return ''
+  }
   try {
     switch (column.column_type_id) {
       case COLUMN_TYPE.USER:
@@ -337,12 +344,25 @@ export function getColumnDisplayValue (
           backgroundColor: currentValue?.backgroundColor,
         }
       case COLUMN_TYPE.MULTI_SELECT:
-        if ((data as string[]).length > 0) {
-          return (data as string[]).map(d => column.settings.values?.[d]?.label).join(', ')
-        } else {
-          return ''
+        // Base value -> concatenation of the labels of the selected options
+        if (onlyBaseValue) {
+          if ((data as string[]).length > 0 && column.settings.values) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            return (data as string[]).map(d => column.settings.values![d]?.label).join(', ')
+          } else {
+            return ''
+          }
         }
-
+        // Complex value -> an array of the configurations of the selected options
+        if (column.settings.values) {
+          return (data as string[]).reduce((options: SelectValue[], value) => {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const currentOption = column.settings.values![value]
+            if (currentOption) options.push(currentOption)
+            return options
+          }, [])
+        }
+        return []
       case COLUMN_TYPE.FORMULA:
         if (getColumnTypeId(column) === COLUMN_TYPE.DATE) {
           return formatDate(
@@ -366,7 +386,7 @@ export function getColumnDisplayValue (
         return data as string
     }
   } catch (error) {
-    // eslint-disable no-console
+    // eslint-disable-next-line no-console
     console.error('Field with bad format', data, error)
     return ''
   }

@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/ui/MultiBadges with three badges 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    style="margin: 1em;"
+  >
+    <div>
+      <span
+        class="lck-badge"
+        style="color: rgb(72, 72, 72); background-color: rgb(255, 251, 194);"
+      >
+        <span
+          class="lck-badge-content"
+        >
+          First badge
+        </span>
+      </span>
+      <span
+        class="lck-badge"
+        style="color: rgb(72, 72, 72); background-color: rgb(255, 237, 195);"
+      >
+        <span
+          class="lck-badge-content"
+        >
+          Second badge
+        </span>
+      </span>
+      <span
+        class="lck-badge"
+        style="color: rgb(72, 72, 72); background-color: rgb(255, 225, 210);"
+      >
+        <span
+          class="lck-badge-content"
+        >
+          Third badge
+        </span>
+      </span>
+    </div>
+  </div>
+</div>
+`;

@@ -77,14 +77,44 @@ const definitionColumn = {
 /* eslint-enable @typescript-eslint/camelcase */
 const columnsDropdownOptions = {
   6: [
-    { label: 'option 1', value: 1 },
-    { label: 'option 2', value: 2 },
-    { label: 'option 3', value: 3 },
+    {
+      label: 'option 1',
+      value: 1,
+      color: '#484848',
+      backgroundColor: '#fffbc2',
+    },
+    {
+      label: 'option 2',
+      value: 2,
+      color: '#484848',
+      backgroundColor: '#ffedc3',
+    },
+    {
+      label: 'option 3',
+      value: 3,
+      color: '#484848',
+      backgroundColor: '#ffe1d2',
+    },
   ],
   7: [
-    { label: 'option A', value: 1 },
-    { label: 'option B', value: 2 },
-    { label: 'option C', value: 3 },
+    {
+      label: 'option A',
+      value: 1,
+      color: '#484848',
+      backgroundColor: '#fffbc2',
+    },
+    {
+      label: 'option B',
+      value: 2,
+      color: '#484848',
+      backgroundColor: '#ffedc3',
+    },
+    {
+      label: 'option C',
+      value: 3,
+      color: '#484848',
+      backgroundColor: '#ffe1d2',
+    },
   ],
 }
 

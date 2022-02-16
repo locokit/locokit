@@ -2034,11 +2034,28 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           </label>
         </div>
          
-        <span>
-          
-        Option 1, Option 2
-      
-        </span>
+        <div>
+          <span
+            class="lck-badge"
+            style="color: rgb(72, 72, 72); background-color: rgb(255, 251, 194);"
+          >
+            <span
+              class="lck-badge-content"
+            >
+              Option 1
+            </span>
+          </span>
+          <span
+            class="lck-badge"
+            style="color: rgb(72, 72, 72); background-color: rgb(255, 237, 195);"
+          >
+            <span
+              class="lck-badge-content"
+            >
+              Option 2
+            </span>
+          </span>
+        </div>
       </div>
     </div>
     <div

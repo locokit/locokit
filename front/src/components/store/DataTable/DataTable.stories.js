@@ -783,12 +783,21 @@ const tableViewDataLookedUpColumn = {
               values: {
                 [singleSelectOption1UUID]: {
                   label: 'option 1',
+                  value: 1,
+                  color: '#484848',
+                  backgroundColor: '#fffbc2',
                 },
                 [singleSelectOption2UUID]: {
                   label: 'option 2',
+                  value: 2,
+                  color: '#484848',
+                  backgroundColor: '#ffedc3',
                 },
                 [singleSelectOption3UUID]: {
                   label: 'option 3',
+                  value: 3,
+                  color: '#484848',
+                  backgroundColor: '#ffe1d2',
                 },
               },
             },

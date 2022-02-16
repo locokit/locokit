@@ -231,12 +231,8 @@ async function retrieveTableViewData (tableViewId: string, filters: object = {},
 function getValueExport (currentColumn: LckTableViewColumn, currentRowValue: LckTableRowData): string|undefined {
   switch (currentColumn.column_type_id) {
     case COLUMN_TYPE.FILE:
-      const values = getColumnDisplayValue(
-        currentColumn,
-        currentRowValue,
-      )
-      if (Array.isArray(values) && values.length > 0) {
-        return values.map(x => x.filename).join(', ')
+      if (Array.isArray(currentRowValue) && currentRowValue.length > 0) {
+        return (currentRowValue as LckAttachment[]).map(x => x.filename).join(', ')
       }
       return ''
     case COLUMN_TYPE.DATE:

@@ -385,7 +385,7 @@ export default {
         ) {
           result[currentColumn.id] = Object.keys(originalColumn.settings?.values || {}).map(k => ({
             value: k,
-            label: originalColumn.settings.values[k].label,
+            ...originalColumn.settings.values[k],
           }))
         }
       })
