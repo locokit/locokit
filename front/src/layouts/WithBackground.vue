@@ -6,7 +6,7 @@
       p-jc-center
       p-ai-center
     "
-   :style="{
+    :style="{
       'background-image': 'url(' + backgroundImage + ')',
        position: 'relative'
     }"

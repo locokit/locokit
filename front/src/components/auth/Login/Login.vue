@@ -24,6 +24,7 @@
         required
         v-model="form.password"
         toggleMask
+        :feedback="false"
       />
     </div>
 

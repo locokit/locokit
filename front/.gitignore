@@ -17,6 +17,7 @@ node_modules
 /coverage
 /storybook-static
 junit.xml
+/tests/unit/__image_snapshots__/__diff_output__
 
 # local env files
 .env

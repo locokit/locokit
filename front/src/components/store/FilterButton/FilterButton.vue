@@ -4,14 +4,14 @@
     class-button="p-button-outlined p-button-secondary"
     :disabled="disabled"
     :label="$tc('components.datatable.toolbar.filters.label', value.length)"
-    :appendTo="null"
+    appendTo="body"
   >
     <template #overlay-content="overlaySlotProps">
       <p-button
         class="p-button-text p-button-rounded save-filter-button"
         :disabled="!canSaveFilters"
         :icon="`pi ${ value.length === 0 || hasChanged ? 'pi-star-o' : 'pi-star'}`"
-        @click="saveFilters(r)"
+        @click="saveFilters"
       />
       <div
         class="p-mb-2 filters-listing"
@@ -211,6 +211,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    locked: {
+      type: Boolean,
+      default: false,
+    },
   },
   data () {
     return {
@@ -259,7 +263,7 @@ export default {
       )
     },
     canSaveFilters (): boolean {
-      return !this.invalidFilters && (this.value.length > 0 || this.hasChanged)
+      return !this.locked && !this.invalidFilters && (this.value.length > 0 || this.hasChanged)
     },
   },
   methods: {

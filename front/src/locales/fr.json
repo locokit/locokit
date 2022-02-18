@@ -87,6 +87,7 @@
           "updateSuccess": "Les filtres par défaut ont bien été enregistrés.",
           "resetSuccess": "Les filtres par défaut ont bien été réinitialisés.",
           "updateError": "Une erreur est survenue lors de l'enregistrement des filtres.",
+          "viewIsLocked": "Vous ne pouvez pas modifier les filtres par défaut déjà définis.",
           "select": {
             "operator": {
               "$or": "OU",
@@ -991,6 +992,9 @@
     "expiredToken": {
       "header": "Votre session a expiré",
       "message": "Merci de vous reconnecter pour poursuivre votre navigation sur le site."
+    },
+    "filters": {
+      "viewIsLocked": "La vue est verrouillée."
     }
   },
   "form": {
