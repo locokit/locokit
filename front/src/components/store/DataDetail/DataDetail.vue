@@ -155,6 +155,7 @@
               :singleEditMode="true"
               @remove-features="onEdit(row.id, column.id, null)"
               @update-features="onGeoDataEdit(row.id, column, $event)"
+              @hook:mounted="silentValidation(row.id, column.id)"
             />
           </template>
           <lck-file-input
@@ -170,6 +171,7 @@
             @download="$emit('download-attachment', $event)"
             @remove-attachment="onRemoveAttachment(row.id, column.id, $event)"
             @updated-attachments="validate($event)"
+            @hook:mounted="silentValidation(row.id, column.id)"
           />
 
           <component
@@ -497,6 +499,27 @@ export default {
         column.id,
         transformFeatureToWKT(features[0], column.column_type_id),
       )
+    },
+    /**
+     * Validate the field without updating the flags specifying that it has been manipulated
+     * @param rowId the id of the current row to check
+     * @param columnId the id of the column to check
+     * @param value the value that we want to check
+     */
+    async silentValidation (rowId: string, columnId: string) {
+      const veeValidateField = this.$refs[`vp_${rowId}_${columnId}`]
+      const provider = (Array.isArray(veeValidateField)
+        ? veeValidateField[0]
+        : veeValidateField
+      ) as InstanceType<typeof ValidationProvider>
+      if (provider) {
+        provider.validateSilent().then((validation) => {
+          provider.setFlags({
+            valid: validation.valid,
+            invalid: !validation.valid,
+          })
+        })
+      }
     },
     /**
      * Emit an 'update-row' event with the value to save if it is valid.

@@ -110,7 +110,6 @@ export default {
   },
   watch: {
     attachments: {
-      immediate: true,
       handler (newAttachments: LckAttachment[]) {
         this.$emit('updated-attachments', newAttachments)
       },

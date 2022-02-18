@@ -21,6 +21,9 @@ exports[`FormRecord could have required columns disable the submit button if the
   <!---->
   <!---->
 </div> <span class="untouched pristine pending required"></span></span></div>
+<div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="geo_point_1_column" class="lck-color-primary untouched pristine required label-field-required">
+          Point
+        </label> <!----></div> <div class="form-field-editable untouched pristine required"><!----> <span class="cell-state"></span></div> <span class="untouched pristine required"></span></span></div>
 </div>
 <div class="lck-form-footer">
   <!----> <button type="submit" class="p-button p-component full-width-button" disabled="disabled"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
@@ -52,6 +55,9 @@ exports[`FormRecord could have required columns disable the submit button if the
   <!---->
   <!---->
 </div> <span class="untouched pristine required"></span></span></div>
+<div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="geo_point_1_column" class="lck-color-primary untouched pristine required label-field-required">
+          Point
+        </label> <!----></div> <div class="form-field-editable untouched pristine required"><!----> <span class="cell-state"></span></div> <span class="untouched pristine required"></span></span></div>
 </div>
 <div class="lck-form-footer">
   <!----> <button type="submit" class="p-button p-component full-width-button" disabled="disabled"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
@@ -83,6 +89,9 @@ exports[`FormRecord could have required columns enable the submit button if all 
   <!---->
   <!---->
 </div> <span class="touched dirty valid validated required changed passed"></span></span></div>
+<div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="geo_point_1_column" class="lck-color-primary untouched pristine valid validated required changed passed label-field-required">
+          Point
+        </label> <!----></div> <div class="form-field-editable untouched pristine valid validated required changed passed"><!----> <span class="cell-state"></span></div> <span class="untouched pristine valid validated required changed passed"></span></span></div>
 </div>
 <div class="lck-form-footer">
   <!----> <button type="submit" class="p-button p-component full-width-button"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
@@ -114,6 +123,9 @@ exports[`FormRecord could have required columns enable the submit button if all 
   <!---->
   <!---->
 </div> <span class="touched dirty valid validated required changed passed"></span></span></div>
+<div class="p-field"><span style="position: relative;"><div class="p-d-flex" style="position: relative;"><!----> <label for="geo_point_1_column" class="lck-color-primary untouched pristine valid validated required changed passed label-field-required">
+          Point
+        </label> <!----></div> <div class="form-field-editable untouched pristine valid validated required changed passed"><!----> <span class="cell-state"></span></div> <span class="untouched pristine valid validated required changed passed"></span></span></div>
 </div>
 <div class="lck-form-footer">
   <!----> <button type="submit" class="p-button p-component full-width-button"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
