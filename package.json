@@ -23,6 +23,6 @@
     "npm": ">=7.0.0"
   },
   "dependencies": {
-    "vitepress": "^0.20.9"
+    "vitepress": "0.20.10"
   }
 }

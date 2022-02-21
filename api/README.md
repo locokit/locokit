@@ -23,7 +23,7 @@ This folder is shared with the postgres dockers. (`lck-db` and `lck-db-test`)
 
 For restoring a dump :
 
-```sh
+```bash
 docker exec -it lck-db bash
 pg_restore --no-owner --clean -d public -U postgres -W /dumps/your_dump # you'll have to enter the password yourPostgresPassword
 ```

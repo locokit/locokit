@@ -8,7 +8,7 @@ see the [README](../README.md) above.
 
 ### Dependencies installation
 
-```sh
+```bash
 npm ci
 ```
 
@@ -49,13 +49,13 @@ you could give to your CI some env vars that will be injected in your html file.
 
 ### Compiles and hot-reloads for development
 
-```sh
+```bash
 npm run serve
 ```
 
 ### Compiles and minifies for production
 
-```sh
+```bash
 npm run build
 ```
 
@@ -66,37 +66,37 @@ You can use the `npm run build:html` if you want to customize the title or other
 
 * only stories of the storybook
 
-```sh
+```bash
 npm run test:unit-stories
 ```
 
 * run stories and update imageshots
 
-```sh
+```bash
 npm run test:update-imageshot
 ```
 
 * except stories
 
-```sh
+```bash
 npm run test:unit-src
 ```
 
 * all unit tests
 
-```sh
+```bash
 npm run test:unit
 ```
 
 ### Lints and fixes files
 
-```sh
+```bash
 npm run lint
 ```
 
 ### Storybook
 
-```sh
+```bash
 npm run storybook:serve
 ```
 

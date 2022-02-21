@@ -63,6 +63,9 @@ module.exports = {
       }, {
         text: 'Theme',
         link: 'advanced/theme.html'
+      }, {
+        text: 'Formula',
+        link: 'advanced/formula.html'
       }]
     }]
   },

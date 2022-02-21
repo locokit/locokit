@@ -99,7 +99,7 @@ volumes:
 
 Then, you can launch docker-compose :
 
-```sh
+```bash
 docker-compose up
 ```
 
@@ -113,7 +113,7 @@ At this stage, no user have been created.
 If you want to create the superadmin user,
 you can run this command in another terminal :
 
-```sh
+```bash
 docker exec lck-platform npm run seed:run
 ```
 
@@ -127,7 +127,7 @@ password: locokit
 You could also create your own user with the signup page
 (check the `SIGNUP_ALLOWED` environment variable).
 The confirmation email will be sent to [mailhog](https://github.com/mailhog/MailHog),
-you can access by opening [http://localhost:8025](http://localhost:8025).
+you can access by opening `http://localhost:8025`.
 
 For more details on environment variables,
 check the [dedicated page](advanced/env-vars.html).

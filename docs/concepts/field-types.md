@@ -22,7 +22,7 @@ Here is the summary of all the types implemented.
 * **Multi user-group**: Allows you to select several predetermined groups of users from a list
 
 **Advanced**
-* **Formula**: Allows you to compute a value in each cell
+* **Formula**: Allows you to compute a value in each cell (see the [dedicated page](/advanced/formula.html) for more information)
 * **File**: Allows you to attach one or more files to a cell
 * **URL**: Designed to store a single URL in each cell
 * **Link to another table**: Allows you to create a linked record field between two tables
