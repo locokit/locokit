@@ -28,6 +28,8 @@ You can check Markdown syntax in the [wikipedia page](https://en.wikipedia.org/w
 
 Media blocks are intented to display images and videos. For now, you can use it to display a single external image by specifing its URL.
 
+This is a work in progress.
+
 ## Data blocks
 
 Data blocks allow user to access data from your workspace.
@@ -262,7 +264,7 @@ This block works in the same way as the **MapSet** block except that only one so
 
 ### ActionButton
 
-Display a button which can be clicked to trigger a process or to go to another page.
+Display a button which that triggers a process and/or redirects.
 
 It should be placed in a details page i.e. a page linked to a single record, allowing for example to deactivate or not the button depending on the value of a view field of this record.
 
@@ -309,3 +311,22 @@ If the part is dynamic, we can provide a view and a field of this view whose the
   "id": "[TABLE_VIEW_ID]",
   "fieldId": "[FIELD_ID]"
 }
+```
+
+### KanbanSet
+
+Display a data according to Kanban's method.
+
+This is a work in progress.
+
+### HighlightField
+
+Display a single value to enhance its visibility.
+
+This is a work in progress.
+
+### Cardset
+
+Display data as a card.
+
+This is a work in progress.

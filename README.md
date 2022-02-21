@@ -13,7 +13,7 @@ Initialize node modules:
 
 For each directory (`api`, `front`, `docs`, `glossary`), you need to:
 
-```sh
+```bash
 npm ci # install deps
 ```
 
@@ -32,7 +32,7 @@ same thing, but with the `.env.example` file.
 cp .env.example .env
 ```
 
-```sh
+```bash
 docker-compose up # you can add -d to use the daemon option of docker-compose
 
 # in another terminal
@@ -62,7 +62,7 @@ This folder is shared with the postgres dockers. (`lck-db` and `lck-db-test`)
 
 For restoring a dump :
 
-```sh
+```bash
 docker exec -it lck-db bash
 pg_restore --no-owner --clean -d public -U postgres -W /dumps/your_dump # you'll have to enter the password yourPostgresPassword
 ```
@@ -124,13 +124,13 @@ you could give to your CI some env vars that will be injected in your html file.
 
 ### Compiles and hot-reloads for development
 
-```sh
+```bash
 npm run serve
 ```
 
 ### Compiles and minifies for production
 
-```sh
+```bash
 npm run build
 ```
 
@@ -141,37 +141,37 @@ You can use the `npm run build:html` if you want to customize the title or other
 
 * only stories of the storybook
 
-```sh
+```bash
 npm run test:unit-stories
 ```
 
 * run stories and update imageshots
 
-```sh
+```bash
 npm run test:update-imageshot
 ```
 
 * except stories
 
-```sh
+```bash
 npm run test:unit-src
 ```
 
 * all unit tests
 
-```sh
+```bash
 npm run test:unit
 ```
 
 ### Lints and fixes files
 
-```sh
+```bash
 npm run lint
 ```
 
 ### Storybook
 
-```sh
+```bash
 npm run storybook:serve
 ```
 
