@@ -264,7 +264,7 @@ This block works in the same way as the **MapSet** block except that only one so
 
 ### ActionButton
 
-Display a button which that triggers a process and/or redirects.
+Display a button which triggers a process and/or redirects.
 
 It should be placed in a details page i.e. a page linked to a single record, allowing for example to deactivate or not the button depending on the value of a view field of this record.
 
