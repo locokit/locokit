@@ -1,6 +1,6 @@
 import { Hook, HookContext } from '@feathersjs/feathers'
 import { TableColumn } from '../../models/tablecolumn.model'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 import { NotAcceptable, NotFound } from '@feathersjs/errors'
 
 /**

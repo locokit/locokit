@@ -1,5 +1,5 @@
 import app from '../app'
-import { COLUMN_TYPE, USER_PROFILE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE, USER_PROFILE } from '@locokit/lck-glossary/src'
 import { Workspace } from '../models/workspace.model'
 
 import { LckAclSet } from '../models/aclset.model'

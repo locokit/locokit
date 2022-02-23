@@ -18,7 +18,7 @@ import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 import CommunicatingBlock from '@/components/visualize/Block/CommunicatingBlock'
 
 import { EmittedBlockEvent, LckTableRow, LckTableRowData, LckTableView, LckTableViewColumn } from '@/services/lck-api/definitions'
-import { DataRecordSettings } from '@locokit/lck-glossary'
+import { DataRecordSettings } from '@locokit/lck-glossary/src'
 import { objectFromArray } from '@/services/lck-utils/arrays'
 import { getColumnDisplayValue } from '@/services/lck-utils/columns'
 import eventHub from '@/services/lck-event-hub/eventHub'

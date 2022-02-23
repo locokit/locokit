@@ -265,7 +265,7 @@
 import Vue from 'vue'
 
 import { ValidationProvider } from 'vee-validate'
-import { USER_PROFILE, COLUMN_TYPE } from '@locokit/lck-glossary'
+import { USER_PROFILE, COLUMN_TYPE } from '@locokit/lck-glossary/src'
 
 import { lckClient, lckServices } from '@/services/lck-api'
 import { getCurrentFilters } from '@/services/lck-utils/filter'

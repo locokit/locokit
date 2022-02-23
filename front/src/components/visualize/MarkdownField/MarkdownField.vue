@@ -7,7 +7,7 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 
-import { MarkdownFieldSettings, MarkdownSettings } from '@locokit/lck-glossary'
+import { MarkdownFieldSettings, MarkdownSettings } from '@locokit/lck-glossary/src'
 import { LckTableRow } from '@/services/lck-api/definitions'
 
 import Markdown from '@/components/visualize/Markdown/Markdown.vue'

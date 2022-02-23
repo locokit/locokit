@@ -1,4 +1,4 @@
-import { GROUP_ROLE } from '@locokit/lck-glossary'
+import { GROUP_ROLE } from '@locokit/lck-glossary/src'
 import app from '../../app'
 import { Group as LckGroup } from '../../models/group.model'
 import { User as LckUser } from '../../models/user.model'

@@ -117,7 +117,7 @@ import Vue from 'vue'
 
 import { ValidationProvider } from 'vee-validate'
 
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 
 import { lckServices } from '@/services/lck-api'
 
@@ -157,14 +157,20 @@ export default {
     },
   },
   computed: {
-    currentTableToUpdate: function () { return JSON.parse(JSON.stringify(this.currentTable)) },
+    currentTableToUpdate () {
+      return JSON.parse(JSON.stringify(this.currentTable))
+    },
+    columnTypes () {
+      return Object.keys(COLUMN_TYPE).map((key) => {
+        return ({
+          id: COLUMN_TYPE[key],
+          name: this.$t(`pages.databaseSchema.columnType.${key}.name`),
+        })
+      })
+    },
   },
   data () {
     return {
-      columnTypes: Object.keys(COLUMN_TYPE).map((key) => ({
-        id: COLUMN_TYPE[key],
-        name: this.$t(`pages.databaseSchema.columnType.${key}.name`),
-      })),
       showHandleColumnModal: false,
       columnToHandle: null,
     }

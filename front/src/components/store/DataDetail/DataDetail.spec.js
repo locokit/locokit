@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { mount } from '@vue/test-utils'
 
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 
 import DataDetail from '@/components/store/DataDetail/DataDetail.vue'
 

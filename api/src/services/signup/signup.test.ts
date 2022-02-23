@@ -1,5 +1,5 @@
 import { Paginated } from '@feathersjs/feathers'
-import { USER_PROFILE } from '@locokit/lck-glossary'
+import { USER_PROFILE } from '@locokit/lck-glossary/src'
 import app from '../../app'
 import { User } from '../../models/user.model'
 import axios from 'axios'

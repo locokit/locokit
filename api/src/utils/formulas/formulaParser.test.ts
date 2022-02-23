@@ -1,4 +1,4 @@
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { Database } from '../../models/database.model'
 import { Table } from '../../models/table.model'

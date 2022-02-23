@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
+import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary/src'
 import { GeoJSONFeature } from 'ol/format/GeoJSON'
 
 import { LckTableRow, LckTableRowDataComplex, LckTableView, LckTableViewColumn, SORT_COLUMN } from '@/services/lck-api/definitions'

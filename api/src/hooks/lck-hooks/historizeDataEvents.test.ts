@@ -1,4 +1,4 @@
-import { COLUMN_TYPE, USER_PROFILE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE, USER_PROFILE } from '@locokit/lck-glossary/src'
 
 import { Paginated } from '@feathersjs/feathers'
 import { AuthenticationResult } from '@feathersjs/authentication/lib'

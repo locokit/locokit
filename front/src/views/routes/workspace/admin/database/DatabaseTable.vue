@@ -199,7 +199,7 @@
 import Vue from 'vue'
 import ConfirmDialog from 'primevue/confirmdialog'
 
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 
 import {
   retrieveDatabaseTableAndViewsDefinitions,

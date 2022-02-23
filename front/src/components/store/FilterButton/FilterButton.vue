@@ -168,7 +168,7 @@ import InputNumber from 'primevue/inputnumber'
 import MultiSelect from '@/components/ui/MultiSelect/MultiSelect.vue'
 import OverlayPanel from '@/components/ui/OverlayPanel/OverlayPanel.vue'
 
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 import { getComponentEditorCellForColumnType, getColumnTypeId } from '@/services/lck-utils/columns'
 import { LckTableViewColumn } from '@/services/lck-api/definitions'
 import { Filter, FilterAction, OPERATORS, COLUMN_FILTERS_CONFIG } from '@/services/lck-utils/filter'

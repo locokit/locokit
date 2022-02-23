@@ -2,7 +2,7 @@
 import {
   GEO_STYLE,
 } from '@/services/lck-utils/map/transformWithOL'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import { shallowMount } from '@vue/test-utils'
 import mapboxgl from 'mapbox-gl'

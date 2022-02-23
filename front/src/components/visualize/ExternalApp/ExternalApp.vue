@@ -5,7 +5,7 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 import { LckTableRow } from '@/services/lck-api/definitions'
-import { ExternalAppURLPart, EXTERNAL_APP_URL_PART_TYPE } from '@locokit/lck-glossary'
+import { ExternalAppURLPart, EXTERNAL_APP_URL_PART_TYPE } from '@locokit/lck-glossary/src'
 
 export default Vue.extend({
   name: 'ExternalApp',

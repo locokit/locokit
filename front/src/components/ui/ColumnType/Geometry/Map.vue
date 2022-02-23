@@ -20,7 +20,7 @@ import {
   PopupContent,
 } from '@/services/lck-utils/map/transformWithOL'
 import { mergeSets, setHasValues, setsAreEqual } from '@/services/lck-utils/set'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 import MapboxDraw from '@mapbox/mapbox-gl-draw'
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css'
 import buffer from '@turf/buffer'

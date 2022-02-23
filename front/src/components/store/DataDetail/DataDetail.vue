@@ -257,7 +257,7 @@ import { ValidationProvider } from 'vee-validate'
 
 import {
   COLUMN_TYPE, MapSourceSettings,
-} from '@locokit/lck-glossary'
+} from '@locokit/lck-glossary/src'
 
 import {
   getColumnTypeId,

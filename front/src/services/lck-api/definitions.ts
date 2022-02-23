@@ -1,5 +1,5 @@
 import { Paginated } from '@feathersjs/feathers'
-import { BLOCK_TYPE, COLUMN_TYPE, EXTERNAL_APP_URL_PART_TYPE, GROUP_ROLE, MapSourceSettings, MEDIA_TYPE } from '@locokit/lck-glossary'
+import { BLOCK_TYPE, COLUMN_TYPE, EXTERNAL_APP_URL_PART_TYPE, GROUP_ROLE, MapSourceSettings, MEDIA_TYPE } from '@locokit/lck-glossary/src'
 
 export class LckBaseModel {
   /**

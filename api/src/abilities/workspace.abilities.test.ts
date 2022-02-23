@@ -1,5 +1,5 @@
 import { Ability } from '@casl/ability'
-import { USER_PROFILE } from '@locokit/lck-glossary'
+import { USER_PROFILE } from '@locokit/lck-glossary/src'
 import { Workspace } from '../models/workspace.model'
 import { createAbility } from './workspace.abilities'
 import app from '../app'

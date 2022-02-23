@@ -1,7 +1,7 @@
 import { Hook, HookContext } from '@feathersjs/feathers'
 import { TableRow, RowData } from '../../models/tablerow.model'
 import { TableColumn } from '../../models/tablecolumn.model'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 
 /**
  * Compute the looked up columns for the current row,

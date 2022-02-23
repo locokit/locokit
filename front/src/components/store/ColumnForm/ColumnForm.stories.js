@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 
 import ColumnForm from './ColumnForm.vue'
 

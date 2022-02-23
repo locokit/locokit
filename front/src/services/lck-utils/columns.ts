@@ -1,7 +1,7 @@
 import { TranslateResult } from 'vue-i18n'
 import i18n from '@/plugins/i18n'
 
-import { COLUMN_GEO_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_GEO_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary/src'
 
 import {
   LckTableColumn,

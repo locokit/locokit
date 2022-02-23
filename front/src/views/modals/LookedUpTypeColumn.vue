@@ -62,7 +62,7 @@
 import Vue from 'vue'
 
 import { ValidationProvider } from 'vee-validate'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 import { Paginated } from '@feathersjs/feathers'
 
 import { lckServices } from '@/services/lck-api'

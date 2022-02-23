@@ -1,5 +1,5 @@
 import DataTable from './DataTable'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 import Vue from 'vue'
 
 export default {

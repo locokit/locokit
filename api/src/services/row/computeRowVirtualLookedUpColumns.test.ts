@@ -1,4 +1,4 @@
-import { COLUMN_TYPE, USER_PROFILE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE, USER_PROFILE } from '@locokit/lck-glossary/src'
 
 import { AuthenticationResult } from '@feathersjs/authentication/lib'
 import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'

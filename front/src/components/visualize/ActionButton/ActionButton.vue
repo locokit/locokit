@@ -18,7 +18,7 @@ import { LckTableRow } from '@/services/lck-api/definitions'
 import {
   ACTION_BUTTON_TYPE,
   ActionButtonSettings,
-} from '@locokit/lck-glossary'
+} from '@locokit/lck-glossary/src'
 
 import Button from 'primevue/button'
 

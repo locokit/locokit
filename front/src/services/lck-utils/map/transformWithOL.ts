@@ -30,7 +30,7 @@ import {
   COLUMN_TYPE,
   MapSourceSettings,
   MapSourceTriggerEvents,
-} from '@locokit/lck-glossary'
+} from '@locokit/lck-glossary/src'
 
 import {
   LckTableColumn,

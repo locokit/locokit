@@ -1,5 +1,5 @@
 import Block from './Block'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 
 export default {
   title: 'components/visualize/Block',

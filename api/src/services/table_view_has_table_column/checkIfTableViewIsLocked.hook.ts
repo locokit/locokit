@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { NotAcceptable } from '@feathersjs/errors'
 import { HookContext } from '@feathersjs/feathers'
-import { ERROR_CODE, ERROR_LABEL } from '@locokit/lck-glossary'
+import { ERROR_CODE, ERROR_LABEL } from '@locokit/lck-glossary/src'
 import { TableView } from '../../models/tableview.model'
 import { TableViewColumn } from '../../models/tableviewcolumn.model'
 

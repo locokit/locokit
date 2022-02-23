@@ -20,7 +20,7 @@ import {
   authState,
   logout,
 } from '@/store/auth'
-import { USER_PROFILE } from '@locokit/lck-glossary'
+import { USER_PROFILE } from '@locokit/lck-glossary/src'
 import { ROUTES_PATH } from '@/router/paths'
 
 export default {

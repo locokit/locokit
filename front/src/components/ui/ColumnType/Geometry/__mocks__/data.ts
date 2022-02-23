@@ -1,7 +1,7 @@
 import {
   GEO_STYLE,
 } from '@/services/lck-utils/map/transformWithOL'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 import GeometryType from 'ol/geom/GeometryType'
 
 // Mock variables

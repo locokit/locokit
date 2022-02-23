@@ -1,4 +1,4 @@
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 import { getColumnClass } from '../../../services/lck-utils/columns'
 
 export default {

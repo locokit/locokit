@@ -1,5 +1,5 @@
 import { shallowMount, flushAll } from '@/../tests/unit/local-test-utils'
-import { BLOCK_TYPE } from '@locokit/lck-glossary'
+import { BLOCK_TYPE } from '@locokit/lck-glossary/src'
 import MapSet from '@/components/visualize/MapSet/MapSet.vue'
 
 const blockDefinition1 = {

@@ -2,7 +2,7 @@
 
 import { mount } from '@vue/test-utils'
 
-import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
+import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary/src'
 
 import LckForm from '@/components/ui/Form/Form.vue'
 import UpdateBlockForm from './UpdateBlockForm.vue'

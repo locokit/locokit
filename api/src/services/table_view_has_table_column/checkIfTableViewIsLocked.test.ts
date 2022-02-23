@@ -1,5 +1,5 @@
 import app from '../../app'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 import { NotAcceptable } from '@feathersjs/errors'
 
 import { TableColumn } from '../../models/tablecolumn.model'

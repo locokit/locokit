@@ -1,5 +1,5 @@
 import { Ability, subject } from '@casl/ability'
-import { USER_PROFILE } from '@locokit/lck-glossary'
+import { USER_PROFILE } from '@locokit/lck-glossary/src'
 import { defineAbilityFor } from './record.abilities'
 import app from '../app'
 import { User } from '../models/user.model'

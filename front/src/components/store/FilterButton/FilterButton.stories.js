@@ -1,4 +1,4 @@
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 import FilterButton from './FilterButton'
 
 export default {

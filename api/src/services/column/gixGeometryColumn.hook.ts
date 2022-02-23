@@ -1,5 +1,5 @@
 import { Hook, HookContext } from '@feathersjs/feathers'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 import Knex from 'knex'
 
 function isGeometryColumn (columnType: COLUMN_TYPE): boolean {

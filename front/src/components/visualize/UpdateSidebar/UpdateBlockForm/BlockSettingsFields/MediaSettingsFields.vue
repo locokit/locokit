@@ -118,7 +118,7 @@ import Vue from 'vue'
 
 import { ValidationProvider } from 'vee-validate'
 
-import { MEDIA_TYPE } from '@locokit/lck-glossary'
+import { MEDIA_TYPE } from '@locokit/lck-glossary/src'
 import Dropdown from 'primevue/dropdown'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'

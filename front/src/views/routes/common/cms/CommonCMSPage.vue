@@ -89,7 +89,7 @@ import Vue, { PropOptions } from 'vue'
 import {
   BLOCK_TYPE,
   EXTERNAL_APP_URL_PART_TYPE,
-} from '@locokit/lck-glossary'
+} from '@locokit/lck-glossary/src'
 
 import { ROUTES_NAMES } from '@/router/paths'
 import {
@@ -736,14 +736,6 @@ export default {
       block: LckBlockExtended,
       { rowId, pageDetailId }: { rowId: string; pageDetailId: string },
     ) {
-      console.log({
-        name: this.routeNamePageDetail,
-        params: {
-          pageId: this.$route.params.pageId,
-          pageDetailId: pageDetailId || block.settings.pageDetailId,
-        },
-        query: { rowId },
-      })
       await this.$router.push({
         name: this.routeNamePageDetail,
         params: {

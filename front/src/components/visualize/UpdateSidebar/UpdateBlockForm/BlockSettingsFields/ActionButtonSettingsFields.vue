@@ -306,7 +306,7 @@ import Vue, { PropType, PropOptions } from 'vue'
 import { ValidationProvider } from 'vee-validate'
 import {
   ACTION_BUTTON_TYPE,
-} from '@locokit/lck-glossary'
+} from '@locokit/lck-glossary/src'
 
 import {
   ACTIONS_TYPE,

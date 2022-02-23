@@ -5,7 +5,7 @@ import * as feathersAuthenticationManagement from 'feathers-authentication-manag
 import { HookContext } from '@feathersjs/feathers'
 import { Application } from '@feathersjs/express'
 import commonHooks, { lowerCase, disablePagination } from 'feathers-hooks-common'
-import { USER_PROFILE } from '@locokit/lck-glossary'
+import { USER_PROFILE } from '@locokit/lck-glossary/src'
 import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
 import { enforcePasswordPolicy } from '../../hooks/lck-hooks/passwords/enforcePasswordPolicy'
 import { generatePassword } from '../../hooks/lck-hooks/passwords/generatePassword'

@@ -3,7 +3,7 @@ import { lckClient } from '@/services/lck-api'
 import { LckGroup } from '@/services/lck-api/definitions'
 import {
   USER_PROFILE,
-} from '@locokit/lck-glossary'
+} from '@locokit/lck-glossary/src'
 import { BaseState } from './state'
 
 class User {

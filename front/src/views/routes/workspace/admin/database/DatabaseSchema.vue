@@ -51,7 +51,7 @@ import Vue from 'vue'
 import { renderSvg } from 'nomnoml'
 import svgPanZoom from 'svg-pan-zoom'
 
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 import { lckServices } from '@/services/lck-api'
 import { LckTable, LckTableColumn } from '@/services/lck-api/definitions'
 import { objectFromArray } from '@/services/lck-utils/arrays'
@@ -100,7 +100,7 @@ export default {
     },
   },
   methods: {
-    onClickCreateTableModalButton () {
+    onClickCreateTableModalButton (): void {
       this.showCreateTableModal = true
     },
     onCloseCreateTableModal (shouldReloadTables: boolean) {

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/camelcase */
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 import { parseISO } from 'date-fns'
 import { LckTableColumn } from '../lck-api/definitions'
 import { ACTIONS, convertFiltersFromDatabase, convertFiltersToDatatabase, getCurrentFilters } from './filter'

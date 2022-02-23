@@ -1,5 +1,5 @@
 import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
-import { COLUMN_TYPE, GROUP_ROLE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE, GROUP_ROLE } from '@locokit/lck-glossary/src'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { Database } from '../../models/database.model'

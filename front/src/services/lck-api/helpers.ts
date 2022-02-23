@@ -24,7 +24,7 @@ import {
 } from './definitions'
 import { lckServices } from './services'
 import { lckClient } from './client'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 
 import { getColumnDisplayValue, getColumnTypeId, READ_ONLY_COLUMNS_TYPES } from '../lck-utils/columns'
 import FileType from 'file-type/browser'

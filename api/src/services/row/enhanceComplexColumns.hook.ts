@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
 import { Hook, HookContext } from '@feathersjs/feathers'
 import { TableColumn } from '../../models/tablecolumn.model'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 import { TableRow } from '../../models/tablerow.model'
 import { User } from '../../models/user.model'
 import { Group } from '../../models/group.model'

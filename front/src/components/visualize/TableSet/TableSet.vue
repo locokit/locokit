@@ -82,7 +82,7 @@
 <script>
 import Vue from 'vue'
 
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
 import { getCurrentFilters } from '@/services/lck-utils/filter'
 import {
   getOriginalColumn, READ_ONLY_COLUMNS_TYPES,

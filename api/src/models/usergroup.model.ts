@@ -6,7 +6,7 @@ import { JSONSchema, Model, RelationMappings } from 'objection'
 import { Application } from '../declarations'
 import { User } from './user.model'
 import { Group } from './group.model'
-import { GROUP_ROLE } from '@locokit/lck-glossary'
+import { GROUP_ROLE } from '@locokit/lck-glossary/src'
 
 export class Usergroup extends BaseModel {
   uhg_role!: GROUP_ROLE

@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { ParagraphSettings } from '@locokit/lck-glossary'
+import { ParagraphSettings } from '@locokit/lck-glossary/src'
 import CommunicatingBlock from '../Block/CommunicatingBlock'
 import { EmittedBlockEvent } from '@/services/lck-api/definitions'
 

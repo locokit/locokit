@@ -9,9 +9,9 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 
-import marked from 'marked'
+import { marked } from 'marked'
 
-import { MarkdownSettings } from '@locokit/lck-glossary'
+import { MarkdownSettings } from '@locokit/lck-glossary/src'
 
 export default Vue.extend({
   name: 'Markdown',
@@ -25,7 +25,7 @@ export default Vue.extend({
   },
   computed: {
     markdownToDisplay (): string {
-      return marked(this.settings.content || '')
+      return marked.parse(this.settings.content || '')
     },
   },
 })

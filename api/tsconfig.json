@@ -5,12 +5,12 @@
     "outDir": "./lib",
     "rootDir": "./src",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "moduleResolution": "node",
   },
   "exclude": [
     "test",
     "knexfile.ts",
-    "migrations",
     "seeds",
     "knexutils",
     "temp",
