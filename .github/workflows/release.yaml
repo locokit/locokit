@@ -82,8 +82,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: npm ci
       - name: Build documentation
-        run: npx vitepress build docs
+        run: npm run docs:build
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
