@@ -218,7 +218,7 @@ import Vue from 'vue'
 
 import { ValidationProvider } from 'vee-validate'
 
-import { BLOCK_TYPE, MapSettings, MapSourceSettings, MediaSettings, MEDIA_TYPE } from '@locokit/lck-glossary/src'
+import { BLOCK_TYPE, MapSettings, MapSourceSettings, MediaSettings, MEDIA_TYPE } from '@locokit/lck-glossary'
 import { LckBlockExtended, LckTableView, MediaConfiguration } from '@/services/lck-api/definitions'
 
 import InputText from 'primevue/inputtext'

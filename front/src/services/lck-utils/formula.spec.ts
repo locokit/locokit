@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { languages } from 'monaco-editor-core/esm/vs/editor/editor.api'
 import { LckTableColumn } from '../lck-api/definitions'
 import {
@@ -31,7 +31,7 @@ jest.mock('@/plugins/i18n', () => ({
 }))
 
 // Mock the glossary
-jest.mock('@locokit/lck-glossary/src', () => ({
+jest.mock('@locokit/lck-glossary', () => ({
   COLUMN_TYPE: {
     BOOLEAN: 1,
     STRING: 2,

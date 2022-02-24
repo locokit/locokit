@@ -233,7 +233,7 @@
 import Vue from 'vue'
 import { LckGroup, LckUser, LckUserGroup } from '@/services/lck-api/definitions'
 import { ValidationProvider } from 'vee-validate'
-import { GROUP_ROLE } from '@locokit/lck-glossary/src'
+import { GROUP_ROLE } from '@locokit/lck-glossary'
 
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'

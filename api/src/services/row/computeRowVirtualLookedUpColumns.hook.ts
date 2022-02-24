@@ -1,7 +1,7 @@
 import { Hook, HookContext } from '@feathersjs/feathers'
 import { TableRow } from '../../models/tablerow.model'
 import { TableColumn } from '../../models/tablecolumn.model'
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { Unprocessable } from '@feathersjs/errors'
 import { getItems } from 'feathers-hooks-common'
 

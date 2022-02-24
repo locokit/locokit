@@ -6,7 +6,7 @@ import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { Table as LckTable } from './table.model'
 import { ColumnType } from './columnType.model'
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { TableView } from './tableview.model'
 
 export interface SelectValue {

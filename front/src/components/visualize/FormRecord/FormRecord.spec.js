@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { mount, shallowMount } from '../../../../tests/unit/local-test-utils'
 import flushPromises from 'flush-promises'
 import FormRecord from '@/components/visualize/FormRecord/FormRecord.vue'

@@ -1,5 +1,5 @@
 import UpdateBlockForm from './UpdateBlockForm.vue'
-import { BLOCK_TYPE, MEDIA_TYPE } from '@locokit/lck-glossary/src'
+import { BLOCK_TYPE, MEDIA_TYPE } from '@locokit/lck-glossary'
 export default {
   title: 'components/visualize/UpdateBlockForm',
   component: UpdateBlockForm,

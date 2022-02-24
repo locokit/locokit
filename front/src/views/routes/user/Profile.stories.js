@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions'
-import { GROUP_ROLE, USER_PROFILE } from '@locokit/lck-glossary/src'
+import { GROUP_ROLE, USER_PROFILE } from '@locokit/lck-glossary'
 import Vue from 'vue'
 import Profile from './Profile'
 

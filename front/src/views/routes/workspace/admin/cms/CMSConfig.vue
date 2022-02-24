@@ -65,7 +65,7 @@
 <script>
 import Vue from 'vue'
 
-import { USER_PROFILE } from '@locokit/lck-glossary/src'
+import { USER_PROFILE } from '@locokit/lck-glossary'
 
 import { authState } from '@/store/auth'
 import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'

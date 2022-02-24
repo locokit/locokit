@@ -1,6 +1,6 @@
 import { MethodNotAllowed, NotAcceptable } from '@feathersjs/errors'
 import { NullableId, Params } from '@feathersjs/feathers'
-import { ERROR_CODE, ERROR_LABEL } from '@locokit/lck-glossary/src'
+import { ERROR_CODE, ERROR_LABEL } from '@locokit/lck-glossary'
 import { Service, ObjectionServiceOptions } from 'feathers-objection'
 import { Application } from '../../declarations'
 import { TableView } from '../../models/tableview.model'

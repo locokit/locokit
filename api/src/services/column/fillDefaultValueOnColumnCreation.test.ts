@@ -1,4 +1,4 @@
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { Paginated } from '@feathersjs/feathers'
 
 import app from '../../app'

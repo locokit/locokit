@@ -150,7 +150,7 @@ import Vue from 'vue'
 
 import { ValidationProvider } from 'vee-validate'
 import cloneDeep from 'lodash/cloneDeep'
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import {
   LckTableViewColumn,

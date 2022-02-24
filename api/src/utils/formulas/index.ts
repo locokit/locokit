@@ -1,4 +1,4 @@
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { fn, FunctionBuilder, raw, ref, ReferenceBuilder } from 'objection'
 import { TableColumn } from '../../models/tablecolumn.model'
 

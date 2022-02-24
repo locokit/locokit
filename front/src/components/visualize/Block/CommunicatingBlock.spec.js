@@ -2,7 +2,7 @@
 
 import { shallowMount } from '@vue/test-utils'
 
-import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import eventHub from '@/services/lck-event-hub/eventHub'
 

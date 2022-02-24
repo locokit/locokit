@@ -3,7 +3,7 @@
 import { Hook, HookContext } from '@feathersjs/feathers'
 import { LckColumnFilter, TableColumnDTO } from '../../models/tablecolumn.model'
 import { TableView } from '../../models/tableview.model'
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { NotAcceptable } from '@feathersjs/errors'
 
 interface QueryFilter {

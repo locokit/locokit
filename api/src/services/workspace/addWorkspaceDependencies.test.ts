@@ -1,5 +1,5 @@
 import { LocalStrategy } from '@feathersjs/authentication-local/lib'
-import { GROUP_ROLE, USER_PROFILE } from '@locokit/lck-glossary/src'
+import { GROUP_ROLE, USER_PROFILE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { Group } from '../../models/group.model'
 import { User } from '../../models/user.model'

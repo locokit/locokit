@@ -19,7 +19,7 @@ import Sidebar from '@/components/visualize/Sidebar/Sidebar'
 import Vue from 'vue'
 
 // Mock glossary
-jest.mock('@locokit/lck-glossary/src', () => ({
+jest.mock('@locokit/lck-glossary', () => ({
   USER_PROFILE: {
     ADMIN: 'ADMIN',
     SUPERADMIN: 'SUPERADMIN',

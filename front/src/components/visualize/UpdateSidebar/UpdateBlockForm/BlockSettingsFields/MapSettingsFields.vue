@@ -418,7 +418,7 @@ import Vue, { PropType } from 'vue'
 
 import { ValidationProvider } from 'vee-validate'
 import { LckTableView } from '@/services/lck-api/definitions'
-import { COLUMN_TYPE, MapSourceSettings } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE, MapSourceSettings } from '@locokit/lck-glossary'
 
 import Button from 'primevue/button'
 import Dropdown from 'primevue/dropdown'

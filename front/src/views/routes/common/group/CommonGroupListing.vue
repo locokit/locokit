@@ -75,7 +75,7 @@ import ConfirmDialog from 'primevue/confirmdialog'
 
 import UserGroupForm from '@/components/admin/group/UserGroupForm.vue'
 import { ROUTES_NAMES } from '@/router/paths'
-import { GROUP_ROLE } from '@locokit/lck-glossary/src'
+import { GROUP_ROLE } from '@locokit/lck-glossary'
 
 export default {
   name: 'CommonGroupListing',

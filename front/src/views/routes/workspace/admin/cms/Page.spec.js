@@ -2,7 +2,7 @@
 
 import { shallowMount, createLocalVue, mount } from '@vue/test-utils'
 import { flushAll } from '@/../tests/unit/local-test-utils'
-import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { BLOCK_TYPE, COLUMN_TYPE } from '@locokit/lck-glossary'
 import VueRouter from 'vue-router'
 import draggable from 'vuedraggable'
 import Toast from 'primevue/toast'

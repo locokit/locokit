@@ -1,5 +1,5 @@
 import { Paginated } from '@feathersjs/feathers'
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { TableColumn } from '../../models/tablecolumn.model'
 import { Database } from '../../models/database.model'

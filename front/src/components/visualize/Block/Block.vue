@@ -55,7 +55,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { BLOCK_TYPE, Block, BlockTableSet } from '@locokit/lck-glossary/src'
+import { BLOCK_TYPE, Block, BlockTableSet } from '@locokit/lck-glossary'
 import Button from 'primevue/button'
 
 import TableSet from '@/components/visualize/TableSet/TableSet.vue'

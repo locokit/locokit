@@ -1,5 +1,5 @@
 import { HookContext } from '@feathersjs/feathers'
-import { COLUMN_TYPE, GROUP_ROLE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE, GROUP_ROLE } from '@locokit/lck-glossary'
 
 /**
  * Config a workspace just created

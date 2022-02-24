@@ -1,6 +1,6 @@
 import Vue, { PropType } from 'vue'
 
-import { CommunicatingBlockSettings } from '@locokit/lck-glossary/src'
+import { CommunicatingBlockSettings } from '@locokit/lck-glossary'
 
 import { EmittedBlockEvent } from '@/services/lck-api/definitions'
 import eventHub from '@/services/lck-event-hub/eventHub'

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import i18n from '@/plugins/i18n'
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import { LckTableColumn, LckTableViewFilter, LckTableViewFilterPattern, LckTableViewFilterValue } from '../lck-api/definitions'
 import { getColumnTypeId } from './columns'

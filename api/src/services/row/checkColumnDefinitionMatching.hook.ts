@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 import { Hook, HookContext } from '@feathersjs/feathers'
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { SelectValue, TableColumn } from '../../models/tablecolumn.model'
 import { GeneralError, NotAcceptable } from '@feathersjs/errors'
 import { TableRow } from '../../models/tablerow.model'

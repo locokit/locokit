@@ -2,8 +2,7 @@
 
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import { USER_PROFILE } from '@locokit/lck-glossary'
-// import ToggleButton from 'primevue/togglebutton'
-// import ConfirmDialog from 'primevue/confirmdialog'
+
 import VueRouter from 'vue-router'
 
 import { ROUTES_NAMES, ROUTES_PATH } from '@/router/paths'
@@ -20,7 +19,7 @@ import Sidebar from '@/components/visualize/Sidebar/Sidebar'
 
 
 // Mock glossary
-jest.mock('@locokit/lck-glossary/src', () => ({
+jest.mock('@locokit/lck-glossary', () => ({
   USER_PROFILE: {
     ADMIN: 'ADMIN',
     SUPERADMIN: 'SUPERADMIN',

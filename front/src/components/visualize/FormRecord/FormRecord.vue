@@ -33,7 +33,7 @@ import Form from '@/components/ui/Form/Form.vue'
 import { EmittedBlockEvent, LckTableRow, LckTableRowData, LckTableView, LckTableViewColumn, Submitting } from '@/services/lck-api/definitions'
 import { objectFromArray } from '@/services/lck-utils/arrays'
 import { getColumnDisplayValue } from '@/services/lck-utils/columns'
-import { FormRecordSettings } from '@locokit/lck-glossary/src'
+import { FormRecordSettings } from '@locokit/lck-glossary'
 import CommunicatingBlock from '../Block/CommunicatingBlock'
 import eventHub from '@/services/lck-event-hub/eventHub'
 

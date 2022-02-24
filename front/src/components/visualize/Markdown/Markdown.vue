@@ -11,7 +11,7 @@ import Vue, { PropType } from 'vue'
 
 import { marked } from 'marked'
 
-import { MarkdownSettings } from '@locokit/lck-glossary/src'
+import { MarkdownSettings } from '@locokit/lck-glossary'
 
 export default Vue.extend({
   name: 'Markdown',

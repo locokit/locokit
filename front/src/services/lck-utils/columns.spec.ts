@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { LckTableViewColumn, SORT_COLUMN } from '../lck-api/definitions'
 import { getDataFromTableViewColumn } from './columns'
 import { LckPopupI18nOptions } from './map/transformWithOL'

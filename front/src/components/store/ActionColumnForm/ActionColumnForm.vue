@@ -302,7 +302,7 @@
 <script lang='ts'>
 import Vue, { PropOptions } from 'vue'
 
-import { ACTION_BUTTON_TYPE } from '@locokit/lck-glossary/src'
+import { ACTION_BUTTON_TYPE } from '@locokit/lck-glossary'
 import { ValidationProvider } from 'vee-validate'
 
 import {

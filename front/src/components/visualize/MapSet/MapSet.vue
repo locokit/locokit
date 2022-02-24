@@ -50,7 +50,7 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue'
 
-import { COLUMN_TYPE, MapSettings } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE, MapSettings } from '@locokit/lck-glossary'
 
 import { EmittedBlockEvent, LckTableRow, LckTableRowData, LckTableRowDataComplex, LckTableView } from '@/services/lck-api/definitions'
 import {

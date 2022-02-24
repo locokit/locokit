@@ -1,5 +1,5 @@
 import { Conflict, Forbidden } from '@feathersjs/errors'
-import { USER_PROFILE } from '@locokit/lck-glossary/src'
+import { USER_PROFILE } from '@locokit/lck-glossary'
 import { ServiceSwaggerOptions } from 'feathers-swagger'
 import { JSONSchema } from 'objection'
 

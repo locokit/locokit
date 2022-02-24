@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import { shallowMount, createLocalVue } from '@vue/test-utils'
-import { USER_PROFILE } from '@locokit/lck-glossary/src'
+import { USER_PROFILE } from '@locokit/lck-glossary'
 import VueRouter from 'vue-router'
 
 import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
@@ -14,7 +14,7 @@ import lckAbilitiesService from '@/services/lck-abilities'
 import Vue from 'vue'
 
 // Mock glossary
-jest.mock('@locokit/lck-glossary/src', () => ({
+jest.mock('@locokit/lck-glossary', () => ({
   USER_PROFILE: {
     ADMIN: 'ADMIN',
     SUPERADMIN: 'SUPERADMIN',

@@ -1,5 +1,5 @@
 /* eslint-disable no-duplicate-case */
-import { GROUP_ROLE, USER_PROFILE } from '@locokit/lck-glossary/src'
+import { GROUP_ROLE, USER_PROFILE } from '@locokit/lck-glossary'
 import { AbilityBuilder, makeAbilityFromRules } from 'feathers-casl'
 
 import { AppAbility, resolveAction } from './definitions'

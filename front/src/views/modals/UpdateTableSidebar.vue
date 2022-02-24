@@ -117,7 +117,7 @@ import Vue from 'vue'
 
 import { ValidationProvider } from 'vee-validate'
 
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import { lckServices } from '@/services/lck-api'
 

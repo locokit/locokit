@@ -26,7 +26,7 @@
 <script lang='ts'>
 import Vue, { PropOptions } from 'vue'
 
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { ValidationProvider } from 'vee-validate'
 
 import Checkbox from 'primevue/checkbox'

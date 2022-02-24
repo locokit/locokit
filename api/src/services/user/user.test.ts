@@ -1,6 +1,6 @@
 import { LocalStrategy } from '@feathersjs/authentication-local/lib'
 import { BadRequest, NotAuthenticated, NotFound } from '@feathersjs/errors'
-import { USER_PROFILE } from '@locokit/lck-glossary/src'
+import { USER_PROFILE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { User } from '../../models/user.model'
 import { authManagementSettings } from '../authmanagement/authmanagement.settings'

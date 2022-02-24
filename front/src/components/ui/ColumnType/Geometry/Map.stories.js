@@ -1,4 +1,4 @@
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { action } from '@storybook/addon-actions'
 import GeometryType from 'ol/geom/GeometryType'
 import Map from './Map'

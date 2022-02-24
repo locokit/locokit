@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import DataDetail from './DataDetail'
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 export default {
   title: 'components/store/DataDetail',

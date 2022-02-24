@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 import { Hook, HookContext } from '@feathersjs/feathers'
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import Knex from 'knex'
 import { TableColumn } from '../../models/tablecolumn.model'
 

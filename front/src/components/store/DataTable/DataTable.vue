@@ -423,7 +423,7 @@ import Badge from '@/components/ui/Badge/Badge'
 import LckMultiBadges from '@/components/ui/MultiBadges/MultiBadges.vue'
 import LckButtonConfirmation from '@/components/ui/ButtonConfirmation/ButtonConfirmation'
 
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 import {
   getComponentDisplayCellForColumnType,

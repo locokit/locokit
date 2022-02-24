@@ -89,7 +89,7 @@ import Vue, { PropOptions } from 'vue'
 import {
   BLOCK_TYPE,
   EXTERNAL_APP_URL_PART_TYPE,
-} from '@locokit/lck-glossary/src'
+} from '@locokit/lck-glossary'
 
 import { ROUTES_NAMES } from '@/router/paths'
 import {

@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { MediaSettings } from '@locokit/lck-glossary/src'
+import { MediaSettings } from '@locokit/lck-glossary'
 
 export default Vue.extend({
   name: 'Media',

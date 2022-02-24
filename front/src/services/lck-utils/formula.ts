@@ -2,7 +2,7 @@
 import { languages, IRange } from 'monaco-editor-core/esm/vs/editor/editor.api'
 import i18n from '@/plugins/i18n'
 
-import { COLUMN_TYPE } from '@locokit/lck-glossary/src'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { LckTableColumn } from '../lck-api/definitions'
 
 // Common code with API
