@@ -6,13 +6,13 @@ exports[`storyshots components/ui/Dialog default 1`] = `
 >
   <div
     class="p-fluid p-dialog-mask p-component-overlay p-component-overlay-enter"
-    style="z-index: 1014;"
+    style="z-index: 1015;"
   >
     <div
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1015; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
+      style="z-index: 1016; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
     >
       <div
         class="p-dialog-header"
@@ -57,14 +57,14 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
 >
   <div
     class="p-fluid p-dialog-mask p-component-overlay p-component-overlay-enter"
-    style="z-index: 1015;"
+    style="z-index: 1016;"
   >
     <div
       aria-labelledby="pv_id_22_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1016; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
+      style="z-index: 1017; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
     >
       <div
         class="p-dialog-header"
@@ -119,14 +119,14 @@ exports[`storyshots components/ui/Dialog with header, content and actions 1`] = 
   <div
     class="p-fluid p-dialog-mask p-component-overlay p-component-overlay-enter"
     isactionform="true"
-    style="z-index: 1016;"
+    style="z-index: 1017;"
   >
     <div
       aria-labelledby="pv_id_23_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       role="dialog"
-      style="z-index: 1017; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
+      style="z-index: 1018; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
     >
       <div
         class="p-dialog-header"
