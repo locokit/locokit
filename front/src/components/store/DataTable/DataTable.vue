@@ -1020,7 +1020,11 @@ tr.p-datatable-emptymessage {
   /* max-height: 75vh; */
 }
 
-.field-editable {
+/**
+ * we want a absolute position for editable fields,
+ * only for those who are not with an overlay
+ */
+.field-editable:not(.p-component-overlay) {
   position: absolute;
   top: 0;
   right: 0;
