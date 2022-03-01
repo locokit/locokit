@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es2018",
     "module": "esnext",
+    "rootDir": "./src",
     "strict": true,
     "skipLibCheck": true,
     "jsx": "preserve",
@@ -43,6 +44,7 @@
     "tests/unit/local-test-utils.js"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "../packages/*"
   ]
 }
