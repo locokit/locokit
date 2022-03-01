@@ -17,7 +17,6 @@ jobs:
         working-directory: front
 
     env:
-      VUE_APP_I18N_LOCALE: 'en'
       VUE_APP_I18N_FALLBACK_LOCALE: 'en'
       VUE_APP_TITLE: '{{ lck_app_title }}'
       VUE_APP_THEME: '{{ lck_app_theme }}'
