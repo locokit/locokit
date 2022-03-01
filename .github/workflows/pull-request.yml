@@ -82,11 +82,13 @@ jobs:
         run: npm run build
         env:
           NODE_OPTIONS: --max_old_space_size=4096
+          VUE_APP_VERSION: $GITHUB_REF_NAME
       - name: Create default index.html
         run: npm run build:html
         env:
           VUE_APP_TITLE: 'LocoKit platform'
           VUE_APP_THEME: 'locokit'
+          VUE_APP_VERSION: $GITHUB_REF_NAME
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
