@@ -17,7 +17,7 @@ module.exports = {
     'comma-dangle': ['error', 'always-multiline'],
     'no-case-declarations': 'off',
   },
-  ignorePatterns: ['patch/*'],
+  ignorePatterns: ['patch/*', 'packages/*'],
   overrides: [
     {
       files: [
