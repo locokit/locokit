@@ -116,11 +116,36 @@ export default {
 }
 </style>
 
-<style scoped>
+<style scoped lang="scss">
 .lck-edit-button {
   position: fixed;
   bottom: 1em;
   right: 1em;
   z-index: 15;
+}
+
+::v-deep .lck-sidebar {
+  background-color: var(--sidebar-app-background-color);
+  width: var(--sidebar-app-width);
+  .p-accordion-header-link {
+    color: var(--sidebar-app-text-color);
+  }
+  &-link {
+    color: var(--sidebar-app-text-color);
+  }
+  .p-accordion-header-link,
+  &-link {
+    &.router-link-active {
+      color: var(--sidebar-app-text-color-active);
+      &::before {
+        background: var(--sidebar-app-link-hover);
+      }
+    }
+    &:hover {
+      &::before {
+        background: var(--sidebar-app-link-hover);
+      }
+    }
+  }
 }
 </style>

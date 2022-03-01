@@ -24,3 +24,101 @@ referencing the defined theme, with the `npm run build:html`
 available in the `front` directory.
 By defining environment variables `VUE_APP_TITLE` and `VUE_APP_THEME`,
 your `index.html` will load your `theme.js`, `theme.css`, etc from your theme.
+
+## Theme colors
+
+Here is the default theme for LocoKit :
+
+```css
+/**
+ * This file is here to allow you overwrite default colors
+ * Please define the colors you want to use inside the app
+ */
+:root {
+  /* Spacings */
+  --spacing-xs: .25rem;
+  --spacing-sm: .5rem;
+  --spacing: .75rem;
+  --spacing-lg: 1rem;
+  --spacing-xl: 2rem;
+
+  /* Borders */
+  --border-color: #ced4da;
+  --table-border-color: #e9ecef;
+  --border: 1px solid var(--border-color);
+  --border-radius: 4px;
+
+  /* Fonts */
+  --font-family: 'Raleway', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+
+  /* 12px */
+  --font-size-sm: 0.75rem;
+  /* 14px */
+  --font-size-md: 0.875rem;
+  /* 16px */
+  --font-size-lg: 1rem;
+  /* 20px */
+  --font-size-xl: 1.25rem;
+
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* Colors */
+  --color-white: #fff;
+  --color-black: #1f1e1e;
+  --color-grey-light: #f1f1f1;
+
+  --color-warning: #f7a603;
+  --color-warning-lighten: #f7f2e9;
+  --color-warning-light: #fcca6e;
+  --color-warning-dark: #a86500;
+
+  --color-error: #f44336;
+  --color-error-lighten: #f7e5e4;
+  --color-error-light: #f37971;
+  --color-error-dark: #94251d;
+
+  --color-success: #289228;
+  --color-success-lighten: #dcf3dc;
+  --color-success-light: #c0e0c0;
+  --color-success-dark: #1a6d1a;
+
+  --primary-color: #29264F;
+  --primary-color-lighten: #f0f0fa;
+  --primary-color-light: #9997b4;
+  --primary-color-dark: #121031;
+
+  --secondary-color: #4b9c6d;
+  --secondary-color-lighten: #eaf7ef;
+  --secondary-color-light: #ccddd3;
+  --secondary-color-dark: #243029;
+
+
+  /* Background color, main content */
+  --background-color: #fafafa;
+
+  /* Text Color */
+  --text-color: #495057;
+
+  /* Admin Sidebar */
+  --sidebar-width: 18rem;
+  --sidebar-background-color: var(--primary-color-lighten);
+  --sidebar-text-color: var(--primary-color-dark);
+  --sidebar-text-color-active: var(--primary-color-dark);
+  --sidebar-link-hover: var(--primary-color);
+
+  /* App Sidebar */
+  --sidebar-app-width: var(--sidebar-width);
+  --sidebar-app-background-color: var(--primary-color);
+  --sidebar-app-text-color: white;
+  --sidebar-app-text-color-active: white;
+  --sidebar-app-link-hover: var(--primary-color-light);
+
+  /* Main Header */
+  --header-height: 4rem;
+  --header-background-color: #FAF9F9;
+  --header-border-bottom-color: #cccccc;
+}
+```

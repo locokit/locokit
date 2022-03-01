@@ -64,7 +64,7 @@
 
     &:hover {
       &::before {
-        background: var(--primary-color);
+        background: var(--sidebar-link-hover);
         opacity: .2;
       }
     }
@@ -75,7 +75,7 @@
       font-weight: var(--font-weight-bold);
 
       &::before {
-        background: var(--primary-color);
+        background: var(--sidebar-link-hover);
         opacity: .15;
       }
     }
