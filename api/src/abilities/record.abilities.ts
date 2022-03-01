@@ -8,7 +8,7 @@ import { LckAclSet } from '../models/aclset.model'
 import { iff, IffHook, isProvider } from 'feathers-hooks-common'
 import { User } from '../models/user.model'
 import { ServiceTypes } from '../declarations'
-import { NotAcceptable } from '@feathersjs/errors'
+import { Forbidden, NotAcceptable } from '@feathersjs/errors'
 import { Usergroup } from '../models/usergroup.model'
 
 /**
@@ -99,19 +99,32 @@ export async function defineAbilityFor (
        * we need to fetch all groups available for the user ?
        */
       let groupId: string | null | string[] = null
-      if (!query?.$lckGroupId) {
-        // manage a user without the $lckGroupId
-        // we search all user's groups
-        const groups = await services.usergroup.find({
-          query: {
-            user_id: userId,
-          },
-          paginate: false,
-        }) as Usergroup[]
-        groupId = []
-        groups.forEach(g => (groupId as string[]).push(g.group_id))
-      } else {
-        groupId = query?.$lckGroupId || null
+
+      /**
+       * By default, we set groupId with all the groups the user is member of
+       */
+      const groups = await services.usergroup.find({
+        query: {
+          user_id: userId,
+        },
+        paginate: false,
+      }) as Usergroup[]
+      groupId = []
+      groups.forEach(g => (groupId as string[]).push(g.group_id))
+
+      /**
+       * If a $lckGroupId is provided in query params,
+       * we check if this groupId is valid, ie included in the groups of the user.
+       * If yes, we replace the groupId value,
+       * else, we throw a 403 error.
+       */
+      if (query?.$lckGroupId) {
+        const groupIdIndex = groups.findIndex(g => g.group_id === query.$lckGroupId)
+        if (groupIdIndex >= 0) {
+          groupId = query.$lckGroupId
+        } else {
+          throw new Forbidden('You are not allowed to access data through this group.')
+        }
       }
 
       // find matching acl for the current user through aclset > group

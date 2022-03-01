@@ -200,7 +200,7 @@ describe('Records abilities', () => {
         },
       })
       ability = await defineAbilityFor(setupData.user3, {
-        $lckGroupId: setupData.group2,
+        $lckGroupId: setupData.group2.id,
       }, app.services)
       expect(ability.can('read', 'row')).toBe(true)
 
@@ -220,6 +220,35 @@ describe('Records abilities', () => {
         reference: setupData.group2.id,
         value: setupData.group2.name,
       })
+    })
+
+    it('cannot read data according to acltable filter ({groupId}) by giving a $lckGroupId not owned', async () => {
+      expect.assertions(2)
+      acltable = await app.service('acltable').create({
+        aclset_id: setupData.aclset2.id,
+        table_id: setupData.table1Id,
+        read_rows: true,
+        read_filter: {
+          data: {
+            [setupData.columnTable1GroupId + '.reference']: '{groupId}',
+          },
+        },
+      })
+      ability = await defineAbilityFor(setupData.user3, {
+        $lckGroupId: setupData.group2.id,
+      }, app.services)
+      expect(ability.can('read', 'row')).toBe(true)
+
+      await expect(app.service('row').find({
+        query: {
+          table_id: setupData.table1Id,
+          $lckGroupId: setupData.group1.id,
+        },
+        provider: 'external',
+        user: setupData.user3,
+        accessToken: setupData.user3Authentication.accessToken,
+        authenticated: true,
+      })).rejects.toThrow(Forbidden)
     })
 
     it('can read data according to acltable filter ({groupId}) even without $lckGroupId', async () => {
@@ -497,6 +526,35 @@ describe('Records abilities', () => {
       expect(rows.data.length).toBe(1)
       expect(rows.data[0].text).toBe('Row 3 Table 1')
       expect(rows.data[0].id).toBe(setupData.row3Table1.id)
+    })
+
+    it('cannot retrieve authorized rows filtered by groupId when user specify bad $lckGroupId', async () => {
+      expect.assertions(2)
+      acltable = await app.service('acltable').create({
+        aclset_id: setupData.aclset2.id,
+        table_id: setupData.table1Id,
+        read_rows: true,
+        read_filter: {
+          data: {
+            [setupData.columnTable1GroupId + '.reference']: '{groupId}',
+          },
+        },
+      })
+      ability = await defineAbilityFor(setupData.user5, {}, app.services)
+      expect(ability.can('read', 'row')).toBe(true)
+      await expect(app.service('row').find({
+        query: {
+          $lckGroupId: setupData.group1.id,
+          table_id: setupData.table1Id,
+          $sort: {
+            text: 1,
+          },
+        },
+        provider: 'external',
+        user: setupData.user5,
+        accessToken: setupData.user1Authentication.accessToken,
+        authenticated: true,
+      })).rejects.toThrow(Forbidden)
     })
 
     afterEach(async () => {
