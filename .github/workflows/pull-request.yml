@@ -31,8 +31,19 @@ jobs:
         run: npm ci
       - name: Build storybook
         run: npm run storybook:build
-      - name: Unit tests
-        run: npm run test:unit -- --coverage --reporters=default
+      - name: Unit tests src
+        if: always()
+        run: npm run test:unit-src -- --coverage --reporters=default
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
+      - name: Unit tests imageshots
+        if: always()
+        run: npm run test:unit -- tests/unit/imageshots.spec.js
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
+      - name: Unit tests storyshots
+        if: always()
+        run: npm run test:unit -- tests/unit/storyshots.spec.js
         env:
           NODE_OPTIONS: --max_old_space_size=4096
       - name: Archive production artifacts
