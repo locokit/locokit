@@ -200,7 +200,7 @@ describe('Records abilities', () => {
         },
       })
       ability = await defineAbilityFor(setupData.user3, {
-        $lckGroupId: setupData.group2,
+        $lckGroupId: setupData.group2.id,
       }, app.services)
       expect(ability.can('read', 'row')).toBe(true)
 
@@ -220,6 +220,35 @@ describe('Records abilities', () => {
         reference: setupData.group2.id,
         value: setupData.group2.name,
       })
+    })
+
+    it('cannot read data according to acltable filter ({groupId}) by giving a $lckGroupId not owned', async () => {
+      expect.assertions(2)
+      acltable = await app.service('acltable').create({
+        aclset_id: setupData.aclset2.id,
+        table_id: setupData.table1Id,
+        read_rows: true,
+        read_filter: {
+          data: {
+            [setupData.columnTable1GroupId + '.reference']: '{groupId}',
+          },
+        },
+      })
+      ability = await defineAbilityFor(setupData.user3, {
+        $lckGroupId: setupData.group2.id,
+      }, app.services)
+      expect(ability.can('read', 'row')).toBe(true)
+
+      await expect(app.service('row').find({
+        query: {
+          table_id: setupData.table1Id,
+          $lckGroupId: setupData.group1.id,
+        },
+        provider: 'external',
+        user: setupData.user3,
+        accessToken: setupData.user3Authentication.accessToken,
+        authenticated: true,
+      })).rejects.toThrow(Forbidden)
     })
 
     it('can read data according to acltable filter ({groupId}) even without $lckGroupId', async () => {
@@ -318,6 +347,7 @@ describe('Records abilities', () => {
         data: {
           [setupData.columnTable1BooleanId]: false,
         },
+        text: 'Row 2 Table 1',
       }, {
         provider: 'external',
         user: setupData.user3,
@@ -328,7 +358,7 @@ describe('Records abilities', () => {
       expect(row.data[setupData.columnTable1BooleanId]).toBe(false)
     })
 
-    it('can not patch data on which he can not access', async () => {
+    it('can not patch data on which he can not access ({userId})', async () => {
       expect.assertions(4)
       acltable = await app.service('acltable').create({
         aclset_id: setupData.aclset2.id,
@@ -355,6 +385,70 @@ describe('Records abilities', () => {
         accessToken: setupData.user3Authentication.accessToken,
         authenticated: true,
       })).rejects.toThrow(NotFound)
+    })
+
+    it('can not patch data on which he can not access ({groupId})', async () => {
+      expect.assertions(4)
+      acltable = await app.service('acltable').create({
+        aclset_id: setupData.aclset2.id,
+        table_id: setupData.table1Id,
+        update_rows: true,
+        update_filter: {
+          data: {
+            [setupData.columnTable1GroupId + '.reference']: '{groupId}',
+          },
+        },
+      })
+      ability = await defineAbilityFor(setupData.user3, {
+      }, app.services)
+      expect(ability.can('read', 'row')).toBe(false)
+      expect(ability.can('update', 'row')).toBe(true)
+      expect(ability.can('delete', 'row')).toBe(false)
+
+      await expect(app.service('row').patch(setupData.row4Table1.id, {
+        data: {
+          [setupData.columnTable1BooleanId]: false,
+        },
+      }, {
+        provider: 'external',
+        user: setupData.user3,
+        accessToken: setupData.user1Authentication.accessToken,
+        authenticated: true,
+      })).rejects.toThrow(NotFound)
+    })
+
+    it('can patch data on which he can access through its groups ({groupId})', async () => {
+      expect.assertions(5)
+      acltable = await app.service('acltable').create({
+        aclset_id: setupData.aclset2.id,
+        table_id: setupData.table1Id,
+        update_rows: true,
+        update_filter: {
+          data: {
+            [setupData.columnTable1GroupId + '.reference']: '{groupId}',
+          },
+        },
+      })
+      ability = await defineAbilityFor(setupData.user3, {
+        $lckGroupId: setupData.group2.id,
+      }, app.services)
+      expect(ability.can('read', 'row')).toBe(false)
+      expect(ability.can('update', 'row')).toBe(true)
+      expect(ability.can('delete', 'row')).toBe(false)
+
+      const row = await app.service('row').patch(setupData.row3Table1.id, {
+        data: {
+          [setupData.columnTable1BooleanId]: false,
+        },
+        text: 'Row 3 Table 1',
+      }, {
+        provider: 'external',
+        user: setupData.user3,
+        accessToken: setupData.user3Authentication.accessToken,
+        authenticated: true,
+      })
+      expect(row).toBeDefined()
+      expect(row.data[setupData.columnTable1BooleanId]).toBe(false)
     })
 
     it('can delete data on which he has authorization', async () => {
@@ -427,7 +521,7 @@ describe('Records abilities', () => {
     })
   })
 
-  describe('when user have several groups (user1, aclset1 aclset4) is a simple USER', () => {
+  describe('when user have several groups (user5, aclset2 aclset4) is a simple USER', () => {
     let acltable: LckAclTable | null = null
     beforeEach(async () => {
     })
@@ -497,6 +591,101 @@ describe('Records abilities', () => {
       expect(rows.data.length).toBe(1)
       expect(rows.data[0].text).toBe('Row 3 Table 1')
       expect(rows.data[0].id).toBe(setupData.row3Table1.id)
+    })
+
+    it('cannot retrieve authorized rows filtered by groupId when user specify bad $lckGroupId', async () => {
+      expect.assertions(2)
+      acltable = await app.service('acltable').create({
+        aclset_id: setupData.aclset2.id,
+        table_id: setupData.table1Id,
+        read_rows: true,
+        read_filter: {
+          data: {
+            [setupData.columnTable1GroupId + '.reference']: '{groupId}',
+          },
+        },
+      })
+      ability = await defineAbilityFor(setupData.user5, {}, app.services)
+      expect(ability.can('read', 'row')).toBe(true)
+      await expect(app.service('row').find({
+        query: {
+          $lckGroupId: setupData.group1.id,
+          table_id: setupData.table1Id,
+          $sort: {
+            text: 1,
+          },
+        },
+        provider: 'external',
+        user: setupData.user5,
+        accessToken: setupData.user1Authentication.accessToken,
+        authenticated: true,
+      })).rejects.toThrow(Forbidden)
+    })
+
+    it('can patch rows related to the users groups', async () => {
+      expect.assertions(5)
+      acltable = await app.service('acltable').create({
+        aclset_id: setupData.aclset2.id,
+        table_id: setupData.table1Id,
+        update_rows: true,
+        update_filter: {
+          data: {
+            [setupData.columnTable1GroupId + '.reference']: '{groupId}',
+          },
+        },
+      })
+      ability = await defineAbilityFor(setupData.user5, {
+        $lckGroupId: setupData.group2.id,
+      }, app.services)
+      expect(ability.can('read', 'row')).toBe(false)
+      expect(ability.can('update', 'row')).toBe(true)
+      expect(ability.can('delete', 'row')).toBe(false)
+
+      const row = await app.service('row').patch(setupData.row4Table1.id, {
+        data: {
+          [setupData.columnTable1BooleanId]: false,
+        },
+        text: 'Row 4 Table 1',
+      }, {
+        provider: 'external',
+        user: setupData.user5,
+        accessToken: setupData.user5Authentication.accessToken,
+        authenticated: true,
+      })
+      expect(row).toBeDefined()
+      expect(row.data[setupData.columnTable1BooleanId]).toBe(false)
+    })
+
+    it('cannot patch rows related to others groups', async () => {
+      expect.assertions(4)
+      acltable = await app.service('acltable').create({
+        aclset_id: setupData.aclset2.id,
+        table_id: setupData.table1Id,
+        update_rows: true,
+        update_filter: {
+          data: {
+            [setupData.columnTable1GroupId + '.reference']: '{groupId}',
+          },
+        },
+      })
+      ability = await defineAbilityFor(setupData.user5, {
+        $lckGroupId: setupData.group2.id,
+      }, app.services)
+      expect(ability.can('read', 'row')).toBe(false)
+      expect(ability.can('update', 'row')).toBe(true)
+      expect(ability.can('delete', 'row')).toBe(false)
+
+      await expect(app.service('row').patch(setupData.row2Table1.id, {
+        data: {
+          [setupData.columnTable1BooleanId]: false,
+        },
+        text: 'Row 2 Table 1',
+      }, {
+        provider: 'external',
+        user: setupData.user5,
+        accessToken: setupData.user5Authentication.accessToken,
+        authenticated: true,
+      })).rejects.toThrow(NotFound)
     })
 
     afterEach(async () => {

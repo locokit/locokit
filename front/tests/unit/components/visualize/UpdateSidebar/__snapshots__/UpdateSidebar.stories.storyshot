@@ -7,7 +7,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
   <div
     class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active p-sidebar-enter p-sidebar-enter-active"
     role="complementary"
-    style="width: 40rem; z-index: 1028;"
+    style="width: 40rem; z-index: 1029;"
   >
     <div
       class="p-sidebar-header"
@@ -796,7 +796,7 @@ exports[`storyshots components/visualize/UpdateSidebar when display page 1`] = `
   <div
     class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active p-sidebar-enter p-sidebar-enter-active"
     role="complementary"
-    style="width: 40rem; z-index: 1029;"
+    style="width: 40rem; z-index: 1030;"
   >
     <div
       class="p-sidebar-header"
@@ -981,7 +981,7 @@ exports[`storyshots components/visualize/UpdateSidebar when submitting an empty 
   <div
     class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active p-sidebar-enter p-sidebar-enter-active"
     role="complementary"
-    style="width: 40rem; z-index: 1030;"
+    style="width: 40rem; z-index: 1031;"
   >
     <div
       class="p-sidebar-header"
@@ -1439,7 +1439,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
   <div
     class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active p-sidebar-enter p-sidebar-enter-active"
     role="complementary"
-    style="width: 40rem; z-index: 1032;"
+    style="width: 40rem; z-index: 1033;"
   >
     <div
       class="p-sidebar-header"
@@ -2228,7 +2228,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a not empty
   <div
     class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active p-sidebar-enter p-sidebar-enter-active"
     role="complementary"
-    style="width: 40rem; z-index: 1033;"
+    style="width: 40rem; z-index: 1034;"
   >
     <div
       class="p-sidebar-header"
@@ -2700,7 +2700,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating an empty co
   <div
     class="p-fluid p-sidebar p-component p-sidebar-right p-sidebar-active p-sidebar-enter p-sidebar-enter-active"
     role="complementary"
-    style="width: 40rem; z-index: 1031;"
+    style="width: 40rem; z-index: 1032;"
   >
     <div
       class="p-sidebar-header"

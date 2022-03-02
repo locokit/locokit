@@ -228,7 +228,7 @@ export default {
       try {
         const groupParams: Params = {
           query: {
-            $limit: 100,
+            $limit: -1,
           },
         }
         /**
@@ -238,8 +238,8 @@ export default {
           groupParams.query!.$joinRelation = '[aclset.[workspace]]'
           groupParams.query!['aclset:workspace.id'] = this.workspaceId
         }
-        const responseGroups = await lckServices.group.find(groupParams) as Paginated<LckGroup>
-        this.groups = responseGroups.data
+        const responseGroups = await lckServices.group.find(groupParams) as LckGroup[]
+        this.groups = responseGroups
       } catch (error: any) {
         this.displayToastOnError(error)
       }

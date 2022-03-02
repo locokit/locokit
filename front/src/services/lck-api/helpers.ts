@@ -20,7 +20,6 @@ import {
   LckTableRowDataComplex,
   LckPage,
   LCKTableRowMultiDataComplex,
-  LckAclSet,
   LckChapter,
 } from './definitions'
 import { lckServices } from './services'
@@ -406,26 +405,25 @@ export async function retrieveWorkspaceWithChaptersAndPages (workspaceId: string
  * @returns All user groups related to this workspace with a chapter configured
  */
 export async function retrieveWorkspaceUserGroupsWithChaptersAndPages (workspaceId: string, userId: string) {
-  const aclsets = await lckServices.aclset.find({
+  const userGroups = await lckServices.group.find({
     query: {
-      $eager: '[groups, chapter.[pages]]',
-      $joinRelation: '[groups.[users], workspace]',
-      'workspace.id': workspaceId,
-      'groups:users.id': userId,
+      $eager: '[aclset.[chapter.[pages]]]',
+      $joinRelation: '[users, aclset.[workspace]]',
+      'users.id': userId,
+      'aclset:workspace.id': workspaceId,
+      $limit: -1,
     },
-  }) as Paginated<LckAclSet>
-  return aclsets.data.reduce((accumulator: {
+  }) as LckGroup[]
+
+  return userGroups.reduce((accumulator: {
     id: string;
     name: string;
     chapter: LckChapter;
-  }[], currentAclSet: LckAclSet) => {
-    // eslint-disable-next-line no-unused-expressions
-    currentAclSet.groups?.forEach(function (currentGroup) {
-      accumulator.push({
-        id: currentGroup.id,
-        name: currentGroup.name,
-        chapter: currentAclSet.chapter as LckChapter,
-      })
+  }[], currentGroup: LckGroup) => {
+    accumulator.push({
+      id: currentGroup.id,
+      name: currentGroup.name,
+      chapter: currentGroup.aclset?.chapter as LckChapter,
     })
     return accumulator
   }, [])

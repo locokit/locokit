@@ -31,11 +31,23 @@ jobs:
         run: npm ci
       - name: Build storybook
         run: npm run storybook:build
-      - name: Unit tests
-        run: npm run test:unit -- --coverage --reporters=default
+      - name: Unit tests src
+        if: always()
+        run: npm run test:unit-src -- --coverage --reporters=default
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
+      - name: Unit tests imageshots
+        if: always()
+        run: npm run test:unit -- tests/unit/imageshots.spec.js
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
+      - name: Unit tests storyshots
+        if: always()
+        run: npm run test:unit -- tests/unit/storyshots.spec.js
         env:
           NODE_OPTIONS: --max_old_space_size=4096
       - name: Archive production artifacts
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: lck-front-quality
@@ -70,11 +82,13 @@ jobs:
         run: npm run build
         env:
           NODE_OPTIONS: --max_old_space_size=4096
+          VUE_APP_VERSION: ${{ github.ref_name }}
       - name: Create default index.html
         run: npm run build:html
         env:
           VUE_APP_TITLE: 'LocoKit platform'
           VUE_APP_THEME: 'locokit'
+          VUE_APP_VERSION: ${{ github.ref_name }}
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -140,6 +154,7 @@ jobs:
         env:
           NODE_OPTIONS: --max_old_space_size=4096
       - name: Archive production artifacts
+        if: always()
         uses: actions/upload-artifact@v2
         with:
           name: api-quality-artifact
