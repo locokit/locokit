@@ -74,7 +74,7 @@ async function createWorkspaceStorage (context: HookContext): Promise<HookContex
 
           const bucketExist = await minioClient.bucketExists(workspaceId)
           if (!bucketExist) {
-            await minioClient.makeBucket(workspaceId, 'us-east-1')
+            await minioClient.makeBucket(workspaceId, 'eu-west-3')
           }
           await minioClient.setBucketPolicy(workspaceId, JSON.stringify(policy))
         } catch (error: any) {
