@@ -37,7 +37,6 @@
               }"
             >
               <p class="workspaces-detail-title">{{ workspace.text }}</p>
-              {{ workspace.documentation }}
             </router-link>
 
             <router-link
@@ -127,6 +126,7 @@ export default {
     workspaces: {
       id: string;
       text: string;
+      documentation?: string;
       color?: string | null;
       backgroundColor?: string | null;
       icon?: string | null;
@@ -181,7 +181,7 @@ export default {
         })
         this.dialogVisible = false
         this.fetchUserGroups()
-      } catch (error: any) {
+      } catch (error) {
         this.$toast.add({
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
@@ -205,6 +205,7 @@ export default {
         const currentWorkspace = {
           id: w.id,
           text: w.text,
+          documentation: w.documentation,
           icon: w.settings?.icon,
           color: w.settings?.color,
           backgroundColor: w.settings?.backgroundColor,

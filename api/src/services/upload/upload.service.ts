@@ -22,6 +22,9 @@ export default function (app: Application): void {
   let blobStore
   switch (config.type) {
     case 's3':
+      const endpoint =
+        config.useSSL === 'true' ? 'https://' : 'http://' +
+        config.endPoint + ':' + config.port
       /**
        * cf https://docs.min.io/docs/how-to-use-aws-sdk-for-javascript-with-minio-server.html
        * if we use Minio, we need to specify path style & signature version,
@@ -29,7 +32,7 @@ export default function (app: Application): void {
        */
       blobStore = S3BlobStore({
         client: new AWS.S3({
-          endpoint: config.endpoint,
+          endpoint,
           accessKeyId: config.accessKeyId,
           secretAccessKey: config.secretAccessKey,
           s3ForcePathStyle: config.s3ForcePathStyle === '1', // needed with minio

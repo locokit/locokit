@@ -72,7 +72,9 @@
   "storage": {
     "type": "STORAGE_TYPE",
     "publicPath": "STORAGE_PUBLIC_PATH",
-    "endpoint": "STORAGE_S3_URL",
+    "endPoint": "STORAGE_S3_ENDPOINT",
+    "port": "STORAGE_S3_PORT",
+    "useSSL": "STORAGE_S3_USE_SSL",
     "accessKeyId": "STORAGE_S3_ACCESS_KEY",
     "secretAccessKey": "STORAGE_S3_SECRET_KEY",
     "s3ForcePathStyle": "STORAGE_S3_PATH_STYLE",

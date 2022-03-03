@@ -21,7 +21,7 @@ export function getAttachmentsToDisplay (attachments: LckAttachment[], workspace
         }
         break
       case 'application/pdf':
-        displayData.class = 'pi pi-file-pdf'
+        displayData.class = 'bi bi-file-earmark-pdf'
         break
       case 'application/vnd.oasis.opendocument.text':
         displayData.class = 'bi bi-file-earmark-text'

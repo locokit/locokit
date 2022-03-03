@@ -2,12 +2,13 @@ import { HookContext } from '@feathersjs/feathers'
 import * as authentication from '@feathersjs/authentication'
 import { iff, disallow } from 'feathers-hooks-common'
 import { queryContainsKeys } from '../../hooks/lck-hooks/queryContainsKeys'
-import AWS from 'aws-sdk'
 import fs from 'fs'
 import path from 'path'
 import sharp from 'sharp'
 import { NotAcceptable } from '@feathersjs/errors'
 import * as Sentry from '@sentry/node'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const Minio = require('minio')
 
 const { authenticate } = authentication.hooks
 
@@ -25,11 +26,11 @@ async function createWorkspaceStorage (context: HookContext): Promise<HookContex
   const {
     type: storageType,
     /* s3 parameters */
-    endpoint,
+    endPoint,
+    port,
+    useSSL,
     accessKeyId,
     secretAccessKey,
-    s3ForcePathStyle,
-    signatureVersion,
     /* file parameters */
     fsPath,
   } = context.app.get('storage')
@@ -41,20 +42,43 @@ async function createWorkspaceStorage (context: HookContext): Promise<HookContex
    */
   switch (storageType) {
     case 's3':
-      const s3Client = new AWS.S3({
-        endpoint,
-        accessKeyId,
-        secretAccessKey,
-        s3ForcePathStyle: s3ForcePathStyle === '1', // needed with minio
-        signatureVersion,
+      const minioClient = new Minio.Client({
+        endPoint,
+        port: parseInt(port),
+        useSSL: useSSL === 'true',
+        accessKey: accessKeyId,
+        secretKey: secretAccessKey,
       })
       if (workspaceId) {
         try {
-          await s3Client.createBucket({
-            Bucket: workspaceId,
-            ACL: 'public-read',
-          }).promise()
+          const policy = {
+            Version: '2012-10-17',
+            Statement: [
+              {
+                Action: [
+                  's3:GetObject',
+                ],
+                Effect: 'Allow',
+                Principal: {
+                  AWS: [
+                    '*',
+                  ],
+                },
+                Resource: [
+                  `arn:aws:s3:::${workspaceId}/*`,
+                ],
+                Sid: '',
+              },
+            ],
+          }
+
+          const bucketExist = await minioClient.bucketExists(workspaceId)
+          if (!bucketExist) {
+            await minioClient.makeBucket(workspaceId, 'eu-west-3')
+          }
+          await minioClient.setBucketPolicy(workspaceId, JSON.stringify(policy))
         } catch (error: any) {
+          console.log(error)
           if (error.statusCode !== 409) throw error
         }
         context.params.s3 = {
