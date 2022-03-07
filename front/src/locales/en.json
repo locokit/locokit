@@ -491,7 +491,9 @@
         "settings": "Settings"
       },
       "title": "Workspaces",
+      "noName": "(no name)",
       "noWorkspace": "No workspace to display",
+      "settingButtonTitle": "Workspace admin of '{workspaceText}'",
       "created": "Created:",
       "updated": "Updated:",
       "noChapter": "No chapter to display",
