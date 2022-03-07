@@ -1,13 +1,13 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { JSONSchema, Model, RelationMappings } from 'objection'
+import { JSONSchema, Model, QueryBuilder, RelationMappings } from 'objection'
 import { BaseModel } from './base.model'
-import { Application } from '../declarations'
 import { Chapter } from './chapter.model'
 import { Database } from './database.model'
 import { LckAttachment } from './attachment.model'
 import { Process } from './process.model'
 import { LckAclSet } from './aclset.model'
+import { GeneralError } from '@feathersjs/errors'
 
 export class Workspace extends BaseModel {
   text!: string
@@ -88,8 +88,19 @@ export class Workspace extends BaseModel {
       },
     }
   }
+
+  static get modifiers () {
+    return {
+      ofUser: (builder: QueryBuilder<Workspace>, userId: number) => {
+        if (!userId) throw new GeneralError('Missing user id for modifier ofUser. Please check your API call.')
+        builder
+          .withGraphJoined('[aclsets.[groups.[users]]]')
+          .where('aclsets:groups:users.id', userId)
+      },
+    }
+  }
 }
 
-export default function (app: Application): typeof Workspace {
+export default function (): typeof Workspace {
   return Workspace
 }

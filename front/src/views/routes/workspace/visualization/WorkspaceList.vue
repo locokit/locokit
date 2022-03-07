@@ -195,9 +195,7 @@ export default {
       this.loading = true
       const userWorkspaces = await lckServices.workspace.find({
         query: {
-          $eager: '[aclsets]',
-          $joinRelation: '[aclsets.[groups.[users]]]',
-          'aclsets:groups:users.id': authState?.data?.user?.id,
+          $modify: 'ofUser',
           $limit: -1,
         },
       }) as LckWorkspace[]
