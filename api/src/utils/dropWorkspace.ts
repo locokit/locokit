@@ -2,7 +2,6 @@ import { Application, Paginated } from '@feathersjs/feathers'
 import { Database } from '../models/database.model'
 import { Workspace } from '../models/workspace.model'
 import { Page } from '../models/page.model'
-import { User } from '../models/user.model'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 /**
@@ -17,7 +16,7 @@ export async function dropWorkspace (app: Application, workspaceId: string): Pro
   const allIdsChapters: string[] = []
   const allIdsGroups: string[] = []
   const allIdsUsers: Set<number> = new Set()
-  const allIdsUsersGroups: {group_id: string; user_id: number}[] = []
+  const allIdsUsersGroups: Array<{group_id: string, user_id: number}> = []
   const allIdsAclsets: string[] = []
 
   workspace.aclsets?.forEach(a => {
