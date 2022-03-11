@@ -1,6 +1,6 @@
 // See https://vincit.github.io/objection.js/#models
 // for more of what you can do here.
-import { JSONSchema, Model, QueryBuilder, RelationMappings } from 'objection'
+import { JSONSchema, Model, Modifiers, QueryBuilder, RelationMappings } from 'objection'
 import { BaseModel } from './base.model'
 import { Chapter } from './chapter.model'
 import { Database } from './database.model'
@@ -89,12 +89,12 @@ export class Workspace extends BaseModel {
     }
   }
 
-  static get modifiers () {
+  static get modifiers (): Modifiers {
     return {
-      ofUser: (builder: QueryBuilder<Workspace>, userId: number) => {
+      ofUser: async (builder: QueryBuilder<Workspace>, userId: number) => {
         if (!userId) throw new GeneralError('Missing user id for modifier ofUser. Please check your API call.')
-        builder
-          .withGraphJoined('[aclsets.[groups.[users]]]')
+
+        return await builder.withGraphJoined('[aclsets.[groups.[users]]]')
           .where('aclsets:groups:users.id', userId)
       },
     }

@@ -2,7 +2,7 @@
 // for more of what you can do here.
 import { Application } from '@feathersjs/express'
 import { Group } from './group.model'
-import { Model, RelationMappings, JSONSchema, QueryBuilder } from 'objection'
+import { Model, RelationMappings, JSONSchema, QueryBuilder, Modifiers } from 'objection'
 
 export type UserProfile = 'USER' | 'ADMIN' | 'SUPERADMIN' | 'CREATOR'
 export class User extends Model {
@@ -146,13 +146,12 @@ export class User extends Model {
     }
   }
 
-  static get modifiers () {
+  static get modifiers (): Modifiers {
     return {
-      serialize: (builder: QueryBuilder<User>) => {
-        builder
-          .clearSelect()
+      serialize: async (builder: QueryBuilder<User>) => {
+        return await builder.clearSelect()
           .select('user.id', 'user.createdAt', 'user.updatedAt', 'user.name')
-      }
+      },
     }
   }
 

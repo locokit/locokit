@@ -50,7 +50,7 @@ export class Group extends BaseModel {
           },
           to: 'user.id',
         },
-        modify: 'serialize'
+        modify: 'serialize',
       },
       usergroups: {
         relation: Model.HasManyRelation,
