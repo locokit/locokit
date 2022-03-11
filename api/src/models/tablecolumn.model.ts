@@ -33,9 +33,6 @@ export class TableColumn extends BaseModel {
       skip: number
       aggregate: string // count, avg, sum, min, max, count distinct
     }
-    table_to_id?: string
-    column_to_id?: string
-    column_from_id?: string
     tableId?: string
     localField?: string
     foreignField?: string
