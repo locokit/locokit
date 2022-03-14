@@ -43,6 +43,7 @@ describe('\'usergroup\' service', () => {
     expect(uhg.uhg_role).toBe(GROUP_ROLE.MEMBER)
     expect(uhg.user_id).toBe(user.id)
     expect(uhg.group_id).toBe(group.id)
+    await service.remove(`${uhg.user_id as string},${uhg.group_id as string}`)
   })
 
   afterAll(async () => {

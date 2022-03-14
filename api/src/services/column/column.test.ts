@@ -7,6 +7,7 @@ import { Table } from '../../models/table.model'
 import { Workspace } from '../../models/workspace.model'
 import { Columnrelation } from '../columnrelation/columnrelation.class'
 import { TableColumnRelation } from '../../models/tablecolumnrelation.model'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 
 describe('\'column\' service', () => {
   it('registered the service', () => {
@@ -33,10 +34,7 @@ describe('\'column\' service', () => {
     })
 
     afterAll(async () => {
-      await app.service('workspace').remove(workspace.id)
-      await app.service('database').remove(database.id)
-      await app.service('table').remove(table1.id)
-      await app.service('table').remove(table2.id)
+      await dropWorkspace(app, workspace.id)
     })
 
     it('create a column without error', async () => {
@@ -234,20 +232,19 @@ describe('\'column\' service', () => {
     })
 
     afterAll(async () => {
-      await app.service('table').remove(table1.id)
-      await app.service('table').remove(table2.id)
-      await app.service('database').remove(database.id)
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-      await app.service('workspace').remove(workspace.id)
-      await app.service('column').remove(stringColumn.id)
+      await app.service('column').remove(formulaColumn.id)
+      await app.service('column').remove(virtualLookedUpColumn1FromStringColumn.id)
+      await app.service('column').remove(lookedUpColumn3FromLookedUpColumn1.id)
+      await app.service('column').remove(lookedUpColumn2FromStringColumn.id)
+      await app.service('column').remove(lookedUpColumn1FromStringColumn.id)
       await app.service('column').remove(relationBetweenTableColumn1.id)
       await app.service('column').remove(relationBetweenTableColumn2.id)
-      await app.service('column').remove(lookedUpColumn1FromStringColumn.id)
-      await app.service('column').remove(lookedUpColumn2FromStringColumn.id)
-      await app.service('column').remove(lookedUpColumn3FromLookedUpColumn1.id)
-      await app.service('column').remove(virtualLookedUpColumn1FromStringColumn.id)
-      await app.service('column').remove(formulaColumn.id)
+      await app.service('column').remove(stringColumn.id)
+
+      await app.service('table').remove(table2.id)
+      await app.service('table').remove(table1.id)
+
+      await dropWorkspace(app, workspace.id)
     })
   })
 
@@ -629,9 +626,7 @@ describe('hooks for column service', () => {
     afterAll(async () => {
       await app.service('table').remove(table1.id)
       await app.service('table').remove(table2.id)
-      await app.service('database').remove(database.id)
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
+      await dropWorkspace(app, workspace.id)
     })
   })
 })

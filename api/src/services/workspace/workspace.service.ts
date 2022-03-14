@@ -14,7 +14,7 @@ declare module '../../declarations' {
 
 export default function (app: Application): void {
   const options = {
-    Model: createModel(app),
+    Model: createModel(),
     whitelist: [
       '$eq',
       '$ne',
@@ -34,6 +34,7 @@ export default function (app: Application): void {
       '$sort',
       '$any',
       '$eager',
+      '$modify',
       '$joinRelation',
       '$modifyEager',
     ],

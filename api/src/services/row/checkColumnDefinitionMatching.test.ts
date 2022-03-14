@@ -9,6 +9,7 @@ import { NotAcceptable } from '@feathersjs/errors'
 import { Paginated } from '@feathersjs/feathers'
 import { User } from '../../models/user.model'
 import { Group } from '../../models/group.model'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 
 // const geometryPolygon = {
 //   type: 'Feature',
@@ -140,7 +141,6 @@ const ewktMultiLinestring = 'SRID=4326;MULTILINESTRING ((3 4,10 50,20 25),(-5 -8
 
 describe('checkColumnDefinitionMatching hook', () => {
   let workspace: Workspace
-  let database: Database
   let table1: Table
   let table2: Table
   let columnTable1Boolean: TableColumn
@@ -1899,11 +1899,7 @@ describe('checkColumnDefinitionMatching hook', () => {
     await app.service('column').remove(columnTable1GeomMultiPoint.id)
     await app.service('column').remove(columnTable1GeomMultiPolygon.id)
     await app.service('column').remove(columnTable1GeomMultiLinestring.id)
-    await app.service('table').remove(table1.id)
-    await app.service('table').remove(table2.id)
-    await app.service('database').remove(database.id)
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-    await app.service('workspace').remove(workspace.id)
+
+    await dropWorkspace(app, workspace.id)
   })
 })

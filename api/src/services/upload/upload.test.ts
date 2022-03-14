@@ -1,7 +1,7 @@
 import app from '../../app'
-import { open, rmdir, mkdir, access, readdir } from 'fs/promises'
+import { open, rm, mkdir, access, readdir } from 'fs/promises'
 import path from 'path'
-import AWS from 'aws-sdk'
+// import AWS from 'aws-sdk'
 import uploadService from './upload.service'
 import { NotAcceptable } from '@feathersjs/errors'
 import { Paginated } from '@feathersjs/feathers'
@@ -26,9 +26,9 @@ describe('\'upload\' service', () => {
       app.set('storage', fsConfig)
       // empty the folder of file storage
       try {
-        await rmdir(fsPath, { recursive: true })
+        await rm(fsPath, { recursive: true })
       } catch (error) {
-        console.error('error during rmdir of ' + fsPath + ' (don\'t worry, be happy)')
+        console.error('error during rm of ' + fsPath + ' (don\'t worry, be happy)')
       }
 
       // configure again the service to take the new config
@@ -57,6 +57,7 @@ describe('\'upload\' service', () => {
           contentType: 'image/png',
         },
       })
+      await file.close()
     })
     it('create the workspace folder if it does not exist', async () => {
       expect.assertions(1)
@@ -85,7 +86,7 @@ describe('\'upload\' service', () => {
 
     it('doesn\'t crash when the thumbnail can\'t be generated', async () => {
       // empty the folder of file storage
-      await rmdir(fsPath, { recursive: true })
+      await rm(fsPath, { recursive: true })
       await mkdir(fsPath)
       // upload a new file
       const file = await open(path.join(__dirname, '../../../public/index.html'), 'r')
@@ -100,6 +101,7 @@ describe('\'upload\' service', () => {
           contentType: 'image/png',
         },
       })
+      await file.close()
       expect.assertions(5)
       const files = await readdir(path.join(fsPath, workspaceId))
       expect(files.length).toBe(1)
@@ -118,7 +120,7 @@ describe('\'upload\' service', () => {
 
     it('forbid the upload of an already uploaded attachment', async () => {
       // empty the folder of file storage
-      await rmdir(fsPath, { recursive: true })
+      await rm(fsPath, { recursive: true })
       await mkdir(fsPath)
       // upload a new file
       const file = await open(path.join(__dirname, '../../../public/logo.png'), 'r')
@@ -134,11 +136,12 @@ describe('\'upload\' service', () => {
           contentType: 'image/png',
         },
       })).rejects.toThrowError(NotAcceptable)
+      await file.close()
     })
 
     it('allows the upload of an already uploaded attachment if forceUpdate is set', async () => {
       // empty the folder of file storage
-      await rmdir(fsPath, { recursive: true })
+      await rm(fsPath, { recursive: true })
       await mkdir(fsPath)
       // upload a new file
       const file = await open(path.join(__dirname, '../../../public/logo.png'), 'r')
@@ -155,6 +158,8 @@ describe('\'upload\' service', () => {
           forceUpdate: 1,
         },
       })
+      await file.close()
+
       expect(attachment).toBeDefined()
       expect(attachment.thumbnail).toBe(true)
       expect(attachment.filename).toBe('logo.png')

@@ -9,6 +9,7 @@ export default function (app: Application): void {
     connection,
     useNullAsDefault: false,
     debug: process.env.OBJECTION_DEBUG === 'true' || false,
+    pool: { min: 0, max: 20 },
   })
 
   Model.knex(knex)

@@ -36,7 +36,7 @@
                 color: workspace.color || 'inherit'
               }"
             >
-              <p class="workspaces-detail-title">{{ workspace.text }}</p>
+              <p class="workspaces-detail-title">{{ workspace.text || $t('pages.workspace.noName') }}</p>
             </router-link>
 
             <router-link
@@ -46,6 +46,7 @@
               :style="{
                 color: workspace.color || 'inherit',
               }"
+              :title="$t('pages.workspace.settingButtonTitle', { workspaceText: workspace.text })"
             >
               <i class="bi bi-sliders"></i>
             </router-link>
@@ -56,7 +57,7 @@
 
         <div
           v-if="$can('create', 'workspace')"
-          :class="'p-col-12 p-md-4 p-lg-3 workspaces-item' + ( workspaces.length === 0 ? ' p-mx-auto' : '')"
+          :class="'p-col-12 p-md-4 p-lg-3 workspaces-item' + ( !loading && workspaces.length === 0 ? ' p-mx-auto' : '')"
         >
           <button class="workspaces-new" @click="dialogVisible = true">
             <i class="bi bi-file-plus workspaces-new-icon"></i>
@@ -195,9 +196,7 @@ export default {
       this.loading = true
       const userWorkspaces = await lckServices.workspace.find({
         query: {
-          $eager: '[aclsets]',
-          $joinRelation: '[aclsets.[groups.[users]]]',
-          'aclsets:groups:users.id': authState?.data?.user?.id,
+          $modify: 'ofUser',
           $limit: -1,
         },
       }) as LckWorkspace[]
@@ -304,22 +303,24 @@ export default {
     text-decoration: none;
 
     &:before {
-        position: absolute;
-        content: '';
-        display: block;
-        width: 1.25rem;
-        height: 1.25rem;
-        border-radius: 3rem;
-        padding: 2rem;
-        opacity: 0.1;
-        bottom: -1.125rem;
-        right: -3.25rem;
-        transition: ease background-color .2s;
-      }
+      position: absolute;
+      content: '';
+      display: block;
+      width: 1.25rem;
+      height: 1.25rem;
+      border-radius: 3rem;
+      border: 2px solid currentColor;
+      padding: 2rem;
+      opacity: 0.1;
+      bottom: -1.125rem;
+      right: -3.25rem;
+      transition: ease opacity .5s;
+      background-color: currentColor;
+    }
 
     &:hover {
       &:before {
-        background: currentColor;
+        opacity: 0.5;
       }
     }
   }

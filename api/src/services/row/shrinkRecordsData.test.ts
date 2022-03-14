@@ -8,6 +8,7 @@ import { User } from '../../models/user.model'
 import { Workspace } from '../../models/workspace.model'
 import { Paginated } from '@feathersjs/feathers'
 import { TableView } from '../../models/tableview.model'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 
 describe('shrinkRecordsData hook', () => {
   let workspace: Workspace
@@ -149,12 +150,7 @@ describe('shrinkRecordsData hook', () => {
   afterAll(async () => {
     await app.service('row').remove(rowTable1.id)
     await app.service('user').remove(user1.id)
-    await app.service('column').remove(columnTable1User.id)
-    await app.service('column').remove(columnTable1Ref.id)
-    await app.service('table').remove(table1.id)
-    await app.service('database').remove(database.id)
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-    await app.service('workspace').remove(workspace.id)
+
+    await dropWorkspace(app, workspace.id)
   })
 })

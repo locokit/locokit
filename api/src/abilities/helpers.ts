@@ -12,9 +12,12 @@ import { Table } from '../models/table.model'
 import { TableRow } from '../models/tablerow.model'
 import { AuthenticationResult } from '@feathersjs/authentication/lib'
 import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
+import { dropWorkspace } from '../utils/dropWorkspace'
 // import { LckAclTable } from '../models/acltable.model'
 
 export interface SetupData {
+  workspace1Id: string
+  workspace2Id: string
   columnTable1GroupId: string
   columnTable1UserId: string
   columnTable1BooleanId: string
@@ -497,6 +500,8 @@ export function builderTestEnvironment (prefix: string) {
     })
 
     _data = {
+      workspace1Id: workspace1.id,
+      workspace2Id: workspace2.id,
       table1Id: table1.id,
       table2Id: table2.id,
       columnTable1GroupId: columnTable1Group.id,
@@ -535,14 +540,17 @@ export function builderTestEnvironment (prefix: string) {
   }
 
   async function teardownWorkspace (): Promise<void> {
-    await app.service('row').remove(row1Table2.id)
-    await app.service('row').remove(row2Table2.id)
-    await app.service('row').remove(row3Table2.id)
-
-    await app.service('row').remove(row1Table1.id)
-    await app.service('row').remove(row2Table1.id)
-    await app.service('row').remove(row3Table1.id)
-    await app.service('row').remove(row4Table1.id)
+    try {
+      await app.service('row').remove(row1Table2.id)
+      await app.service('row').remove(row2Table2.id)
+      await app.service('row').remove(row3Table2.id)
+      await app.service('row').remove(row1Table1.id)
+      await app.service('row').remove(row2Table1.id)
+      await app.service('row').remove(row3Table1.id)
+      await app.service('row').remove(row4Table1.id)
+    } catch (e) {
+      console.error('[teardownWorkspace] error : ', e)
+    }
 
     await app.service('column').remove(columnTable2RelationBetweenTables.id)
     await app.service('column').remove(columnTable2LkdUpGroup.id)
@@ -553,6 +561,7 @@ export function builderTestEnvironment (prefix: string) {
     await app.service('column').remove(columnTable1Boolean.id)
     await app.service('column').remove(columnTable1Number.id)
     await app.service('column').remove(columnTable1Date.id)
+    await app.service('column').remove(columnTable1DateTime.id)
     await app.service('column').remove(columnTable1String.id)
     await app.service('column').remove(columnTable1Float.id)
     await app.service('column').remove(columnTable1User.id)
@@ -568,6 +577,11 @@ export function builderTestEnvironment (prefix: string) {
     await app.service('column').remove(columnTable1GeomPoint.id)
     await app.service('column').remove(columnTable1GeomPolygon.id)
     await app.service('column').remove(columnTable1GeomLinestring.id)
+
+    await dropWorkspace(app, workspace1.id)
+    await dropWorkspace(app, workspace2.id)
+
+    /*
     await app.service('table').remove(table1.id)
     await app.service('table').remove(table2.id)
 
@@ -575,7 +589,6 @@ export function builderTestEnvironment (prefix: string) {
     await app.services.usergroup.remove(`${user5.id},${group4.id}`)
     await app.services.usergroup.remove(`${user4.id},${group1.id}`)
     await app.services.usergroup.remove(`${user1.id},${group1.id}`)
-    await app.services.usergroup.remove(`${user3.id},${group1.id}`)
     await app.services.usergroup.remove(`${user2.id},${group2.id}`)
     await app.services.usergroup.remove(`${user3.id},${group2.id}`)
     await app.services.usergroup.remove(`${user2.id},${group3.id}`)
@@ -594,8 +607,11 @@ export function builderTestEnvironment (prefix: string) {
     await app.services.aclset.remove(aclset3.id)
     await app.services.aclset.remove(aclset2.id)
     await app.services.aclset.remove(aclset1.id)
+
+    await app.services.database.remove(database1.id)
     await app.services.workspace.remove(workspace1.id)
     await app.services.workspace.remove(workspace2.id)
+    */
   }
 
   return {

@@ -492,7 +492,9 @@
         "settings": "Paramètres"
       },
       "title": "Espaces de travail",
+      "noName": "(pas de nom)",
       "noWorkspace": "Aucun espace de travail à afficher",
+      "settingButtonTitle": "Administration de l'espace de travail '{workspaceText}'",
       "created": "Créé le :",
       "updated": "Mis à jour le :",
       "noChapter": "Aucun chapitre à afficher",

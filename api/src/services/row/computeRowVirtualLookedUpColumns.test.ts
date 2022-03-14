@@ -11,6 +11,7 @@ import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
 import { Workspace } from '../../models/workspace.model'
 import { User } from '../../models/user.model'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 
 describe('computeRowVirtualLookedUpColumns hook', () => {
   let workspace: Workspace
@@ -341,11 +342,9 @@ describe('computeRowVirtualLookedUpColumns hook', () => {
 
     // Clean user
     await app.service('user').remove(user.id)
-    await app.service('authentication').remove(authentication.id, {})
+    // await app.service('authentication').remove(authentication.id, {})
 
     // Clean workspace
-    await app.service('database').remove(database.id)
-    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-    await app.service('workspace').remove(workspace.id)
+    await dropWorkspace(app, workspace.id)
   })
 })

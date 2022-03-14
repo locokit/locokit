@@ -7,6 +7,7 @@ import { Database } from '../../models/database.model'
 import { Table } from '../../models/table.model'
 import { Workspace } from '../../models/workspace.model'
 import { TableRow } from '../../models/tablerow.model'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 
 describe('fillDefaultValueOnColumnCreation hooks', () => {
   let workspace: Workspace
@@ -57,9 +58,7 @@ describe('fillDefaultValueOnColumnCreation hooks', () => {
     await app.service('row').remove(row2Table1.id)
     await app.service('column').remove(stringColumn1.id)
     await app.service('table').remove(table1.id)
-    await app.service('database').remove(database.id)
-    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-    await app.service('workspace').remove(workspace.id)
+    await dropWorkspace(app, workspace.id)
   })
 
   describe('Boolean column', () => {

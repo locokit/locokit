@@ -12,6 +12,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { Group } from '../../models/group.model'
 import { LckAclSet } from '../../models/aclset.model'
 import { Paginated } from '@feathersjs/feathers'
+import { dropWorkspace } from '../dropWorkspace'
 
 describe('formula utility functions', () => {
   let workspace: Workspace
@@ -205,11 +206,13 @@ describe('formula utility functions', () => {
   })
 
   afterAll(async () => {
-    await app.service('user').remove(user1.id)
-    await app.service('user').remove(user2.id)
-    await app.service('group').remove(group.id)
     await app.service('row').remove(rowTable1.id)
     await app.service('row').remove(rowTable2.id)
+
+    await app.service('group').remove(group.id)
+    await app.service('user').remove(user1.id)
+    await app.service('user').remove(user2.id)
+
     await app.service('column').remove(columnTable1Group.id)
     await app.service('column').remove(columnTable1RelationBetweenTables.id)
     await app.service('column').remove(columnTable1SingleSelect.id)
@@ -222,13 +225,14 @@ describe('formula utility functions', () => {
     await app.service('column').remove(columnTable1Date.id)
     await app.service('column').remove(columnTable1Boolean.id)
     await app.service('column').remove(columnTable1LookedUpColumn.id)
+    await app.service('column').remove(columnTable1Formula.id)
+
     await app.service('column').remove(columnTable2String.id)
     await app.service('table').remove(table1.id)
     await app.service('table').remove(table2.id)
-    await app.service('database').remove(database.id)
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-    await app.service('workspace').remove(workspace.id)
+
+
+    await dropWorkspace(app, workspace.id)
   })
   describe('getColumnIdsFromFormula, return a list of columns ids specified in a formula', () => {
     it('When only one column is specified', () => {

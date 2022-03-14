@@ -9,6 +9,7 @@ import { Workspace } from '../../models/workspace.model'
 import { Paginated } from '@feathersjs/feathers'
 import { LckAclSet } from '../../models/aclset.model'
 import { Group } from '../../models/group.model'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 
 const singleSelectOption1UUID = '1efa77d0-c07a-4d3e-8677-2c19c6a26ecd'
 const singleSelectOption2UUID = 'c1d336fb-438f-4709-963f-5f159c147781'
@@ -1236,14 +1237,13 @@ describe('fillLookedUpColumnInTableRowData hook', () => {
     await app.services.column.remove(columnTable1URL.id)
     await app.services.column.remove(columnTable1Boolean.id)
     await app.services.column.remove(columnTable1Ref.id)
+    await app.services.column.remove(columnTable1Group.id)
     await app.services.column.remove(columnTable2Ref.id)
     await app.services.column.remove(columnTable2RelationBetweenTable1.id)
     await app.services.column.remove(columnTable3RelationBetweenTable2.id)
-    await app.services.table.remove(table1.id)
-    await app.services.table.remove(table2.id)
     await app.services.table.remove(table3.id)
-    await app.services.database.remove(database.id)
-    await app.services.aclset.remove(acl.id)
-    await app.services.workspace.remove(workspace.id)
+    await app.services.table.remove(table2.id)
+    await app.services.table.remove(table1.id)
+    await dropWorkspace(app, workspace.id)
   })
 })

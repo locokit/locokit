@@ -13,7 +13,6 @@ exports[`Workspace Create workspace button Hide if the user has a USER_PROFILE "
         <div class="workspaces-button p-mr-2" style="background-color: inherit;">
           <router-link-stub to="/workspace/0" tag="a" ariacurrentvalue="page" event="click" class="workspaces-detail">
             <p class="workspaces-detail-title">workspace-title</p>
-
           </router-link-stub>
           <!---->
           <!---->
@@ -41,7 +40,6 @@ exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "A
         <div class="workspaces-button p-mr-2" style="background-color: inherit;">
           <router-link-stub to="/workspace/0" tag="a" ariacurrentvalue="page" event="click" class="workspaces-detail">
             <p class="workspaces-detail-title">workspace-title</p>
-
           </router-link-stub>
           <!---->
           <!---->
@@ -71,7 +69,6 @@ exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "C
         <div class="workspaces-button p-mr-2" style="background-color: inherit;">
           <router-link-stub to="/workspace/0" tag="a" ariacurrentvalue="page" event="click" class="workspaces-detail">
             <p class="workspaces-detail-title">workspace-title</p>
-
           </router-link-stub>
           <!---->
           <!---->
@@ -101,7 +98,6 @@ exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "S
         <div class="workspaces-button p-mr-2" style="background-color: inherit;">
           <router-link-stub to="/workspace/0" tag="a" ariacurrentvalue="page" event="click" class="workspaces-detail">
             <p class="workspaces-detail-title">workspace-title</p>
-
           </router-link-stub>
           <!---->
           <!---->

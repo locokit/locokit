@@ -78,7 +78,9 @@ describe('addWorkspaceDependencies hook', () => {
     expect(databases.data?.[0].tables?.[0].views?.length).toBe(1)
     expect(databases.data?.[0].tables?.[0].views?.[0].columns?.length).toBe(2)
 
-    const groupCreated: Group = await app.service('group').get(workspaceCreated.aclsets?.[0]?.groups?.[0]?.id as string, {
+    const groupId = workspaceCreated.aclsets?.[0]?.groups?.[0]?.id as string
+
+    const groupCreated: Group = await app.service('group').get(groupId, {
       query: {
         $eager: 'users',
       },
@@ -102,7 +104,7 @@ describe('addWorkspaceDependencies hook', () => {
     expect(pages.data[0]?.containers?.[0].blocks?.[0].type).toBe('TableSet')
     expect(pages.data[0]?.containers?.[0].blocks?.[0]?.settings?.id).toBe(databases.data?.[0].tables?.[0].views?.[0].id)
 
-    await app.service('usergroup').remove(`${user.id},${workspaceCreated.aclsets?.[0]?.groups?.[0].id}`)
+    await app.service('usergroup').remove(`${user.id as number},${workspaceCreated.aclsets?.[0]?.groups?.[0].id as string}`)
     await app.service('group').remove(workspaceCreated.aclsets?.[0]?.groups?.[0].id as string)
     await app.service('user').remove(user.id)
     await dropWorkspace(app, workspaceCreated.id)

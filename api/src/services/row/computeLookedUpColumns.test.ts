@@ -8,6 +8,7 @@ import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
 import { Workspace } from '../../models/workspace.model'
 import { Paginated } from '@feathersjs/feathers'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 
 describe('computeLookedUpColumns hook', () => {
   let workspace: Workspace
@@ -613,10 +614,11 @@ describe('computeLookedUpColumns hook', () => {
     })
 
     afterAll(async () => {
-      await app.service('row').remove(row1Table3.id)
+      await app.service('row').remove(row1Table4.id)
       await app.service('row').remove(row2Table3.id)
-      await app.service('row').remove(row1Table2.id)
       await app.service('row').remove(row2Table2.id)
+      await app.service('row').remove(row1Table3.id)
+      await app.service('row').remove(row1Table2.id)
       await app.service('row').remove(row1Table1.id)
     })
 
@@ -991,10 +993,21 @@ describe('computeLookedUpColumns hook', () => {
   afterAll(async () => {
     await app.service('user').remove(user1.id)
     await app.service('user').remove(user2.id)
-    await app.service('column').remove(columnTable1User.id)
-    await app.service('column').remove(columnTable1MultiUser.id)
-    await app.service('column').remove(columnTable1FormulaRef.id)
-    await app.service('column').remove(columnTable1Ref.id)
+    await app.service('column').remove(columnTable4FormulaUserT1T3.id)
+    await app.service('column').remove(columnTable4LookedUpColumnTable1User.id)
+    await app.service('column').remove(columnTable4LookedUpColumnTable3User.id)
+    await app.service('column').remove(columnTable4RelationBetweenTable1.id)
+    await app.service('column').remove(columnTable4RelationBetweenTable3.id)
+    await app.service('column').remove(columnTable4LookedUpColumnTable3FormulaUser.id)
+
+    await app.service('column').remove(columnTable3FormulaUser.id)
+    await app.service('column').remove(columnTable3FormulaUserString.id)
+    await app.service('column').remove(columnTable3LookedUpColumnTable2Ref.id)
+    await app.service('column').remove(columnTable3LookedUpColumnTable2User.id)
+    await app.service('column').remove(columnTable3LookedUpColumnTable2MultiUser.id)
+    await app.service('column').remove(columnTable3LookedUpColumnTable2RelationBetweenTable.id)
+    await app.service('column').remove(columnTable3RelationBetweenTable2.id)
+
     await app.service('column').remove(columnTable2Ref.id)
     await app.service('column').remove(columnTable2FormulaUser.id)
     await app.service('column').remove(columnTable2FormulaUserString.id)
@@ -1002,27 +1015,19 @@ describe('computeLookedUpColumns hook', () => {
     await app.service('column').remove(columnTable2LookedUpColumnTable1User.id)
     await app.service('column').remove(columnTable2LookedUpColumnTable1MultiUser.id)
     await app.service('column').remove(columnTable2LookedUpcolumnTable1FormulaRef.id)
+    await app.service('column').remove(columnTable2VirtualLookedUpColumnTable1Ref.id)
     await app.service('column').remove(columnTable2RelationBetweenTable1.id)
-    await app.service('column').remove(columnTable3FormulaUser.id)
-    await app.service('column').remove(columnTable3FormulaUserString.id)
-    await app.service('column').remove(columnTable3LookedUpColumnTable2Ref.id)
-    await app.service('column').remove(columnTable3LookedUpColumnTable2User.id)
-    await app.service('column').remove(columnTable3LookedUpColumnTable2MultiUser.id)
-    await app.service('column').remove(columnTable3RelationBetweenTable2.id)
-    await app.service('column').remove(columnTable4FormulaUserT1T3.id)
-    await app.service('column').remove(columnTable4LookedUpColumnTable1User.id)
-    await app.service('column').remove(columnTable4LookedUpColumnTable3User.id)
-    await app.service('column').remove(columnTable4RelationBetweenTable1.id)
-    await app.service('column').remove(columnTable4RelationBetweenTable3.id)
-    await app.service('column').remove(columnTable4LookedUpColumnTable3User.id)
-    await app.service('column').remove(columnTable4LookedUpColumnTable3FormulaUser.id)
-    await app.service('table').remove(table1.id)
-    await app.service('table').remove(table2.id)
-    await app.service('table').remove(table3.id)
+
+    await app.service('column').remove(columnTable1User.id)
+    await app.service('column').remove(columnTable1MultiUser.id)
+    await app.service('column').remove(columnTable1FormulaRef.id)
+    await app.service('column').remove(columnTable1Ref.id)
+
     await app.service('table').remove(table4.id)
-    await app.service('database').remove(database.id)
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-    await app.service('workspace').remove(workspace.id)
+    await app.service('table').remove(table3.id)
+    await app.service('table').remove(table2.id)
+    await app.service('table').remove(table1.id)
+
+    await dropWorkspace(app, workspace.id)
   })
 })

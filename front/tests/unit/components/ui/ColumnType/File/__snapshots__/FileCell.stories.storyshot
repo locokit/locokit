@@ -71,7 +71,7 @@ exports[`storyshots components/ui/ColumnType/File/Cell after click with attachme
         title="(2/5) /themes/locokit/img/logo-dark.svg"
       />
       <span
-        class="cell-file pi pi-file-pdf"
+        class="cell-file bi bi-file-earmark-pdf"
         title="(3/5) document.pdf"
       />
       <span
@@ -126,7 +126,7 @@ exports[`storyshots components/ui/ColumnType/File/Cell after click with attachme
         title="(2/5) /themes/locokit/img/logo-dark.svg"
       />
       <span
-        class="cell-file pi pi-file-pdf"
+        class="cell-file bi bi-file-earmark-pdf"
         title="(3/5) document.pdf"
       />
       <span
@@ -198,7 +198,7 @@ exports[`storyshots components/ui/ColumnType/File/Cell with attachments 1`] = `
         title="(2/5) /themes/locokit/img/logo-dark.svg"
       />
       <span
-        class="cell-file pi pi-file-pdf"
+        class="cell-file bi bi-file-earmark-pdf"
         title="(3/5) document.pdf"
       />
       <span
@@ -253,7 +253,7 @@ exports[`storyshots components/ui/ColumnType/File/Cell with attachments and over
         title="(2/5) /themes/locokit/img/logo-dark.svg"
       />
       <span
-        class="cell-file pi pi-file-pdf"
+        class="cell-file bi bi-file-earmark-pdf"
         title="(3/5) document.pdf"
       />
       <span

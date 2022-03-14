@@ -6,6 +6,7 @@ import { Table } from '../../models/table.model'
 import { Workspace } from '../../models/workspace.model'
 import { TableRow } from '../../models/tablerow.model'
 import { Paginated } from '@feathersjs/feathers'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 
 describe('computeRowFormulaColumns hooks', () => {
   let workspace: Workspace
@@ -168,25 +169,25 @@ describe('computeRowFormulaColumns hooks', () => {
   })
 
   afterAll(async () => {
-    await app.service('table').remove(table1.id)
-    await app.service('table').remove(table2.id)
-    await app.service('table').remove(table3.id)
-    await app.service('database').remove(database.id)
-    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-    await app.service('workspace').remove(workspace.id)
-    await app.service('column').remove(table1StringColumn1.id)
-    await app.service('column').remove(table1BooleanColumn1.id)
-    await app.service('column').remove(table1StringColumn2.id)
-    await app.service('column').remove(table1FormulaColumn1.id)
-    await app.service('column').remove(table1FormulaColumn2.id)
-    await app.service('column').remove(table1FormulaColumn3.id)
-    await app.service('column').remove(table1FormulaColumn4.id)
-    await app.service('column').remove(table1LookedUpColumnT2.id)
-    await app.service('column').remove(table1RelationBetweenTableT2.id)
-    await app.service('column').remove(table2StringColumn1.id)
     await app.service('column').remove(table3FormulaColumn1.id)
     await app.service('column').remove(table3LookedUpColumnT1.id)
     await app.service('column').remove(table3RelationBetweenTableT1.id)
+    await app.service('column').remove(table1FormulaColumn4.id)
+    await app.service('column').remove(table1FormulaColumn1.id)
+    await app.service('column').remove(table1FormulaColumn2.id)
+    await app.service('column').remove(table1FormulaColumn3.id)
+    await app.service('column').remove(table1LookedUpColumnT2.id)
+    await app.service('column').remove(table1StringColumn1.id)
+    await app.service('column').remove(table1BooleanColumn1.id)
+    await app.service('column').remove(table1StringColumn2.id)
+    await app.service('column').remove(table1RelationBetweenTableT2.id)
+    await app.service('column').remove(table2StringColumn1.id)
+
+    await app.service('table').remove(table3.id)
+    await app.service('table').remove(table2.id)
+    await app.service('table').remove(table1.id)
+
+    await dropWorkspace(app, workspace.id)
   })
 
   beforeEach(async () => {

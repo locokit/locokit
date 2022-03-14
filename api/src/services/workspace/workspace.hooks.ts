@@ -4,6 +4,7 @@ import { defineAbilitiesIffHook } from '../../abilities/workspace.abilities'
 import filterChapterAccordingPermissions from './filterChapter.hook'
 import { disablePagination, required } from 'feathers-hooks-common'
 import { addWorkspaceDependencies } from './addWorkspaceDependencies.hook'
+import { setModifierDefaultValues } from './setModifierDefaultValue'
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks
@@ -16,12 +17,19 @@ export default {
     ],
     find: [
       disablePagination(),
+      filterChapterAccordingPermissions(),
+      setModifierDefaultValues({
+        ofUser: '{userId}',
+      }),
       authorize({
         adapter: 'feathers-objection',
       }),
     ],
     get: [
       filterChapterAccordingPermissions(),
+      setModifierDefaultValues({
+        ofUser: '{userId}',
+      }),
       authorize({
         adapter: 'feathers-objection',
       }),
