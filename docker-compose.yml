@@ -8,6 +8,8 @@ services:
       POSTGRES_DB: public
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: yourPostgresPassword
+      TZ: 'UTC'
+      PGTZ: 'UTC'
     # restart: always
     volumes:
       - lck-db-data:/var/lib/postgresql/data
@@ -22,6 +24,8 @@ services:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: yourPostgresPassword
+      TZ: 'UTC'
+      PGTZ: 'UTC'
     # restart: always
     volumes:
       - ./dumps:/dumps

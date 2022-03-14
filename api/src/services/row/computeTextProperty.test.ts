@@ -7,6 +7,7 @@ import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
 import { Workspace } from '../../models/workspace.model'
 import { Paginated } from '@feathersjs/feathers'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 
 describe('computeTextProperty hook', () => {
   let workspace: Workspace
@@ -75,8 +76,8 @@ describe('computeTextProperty hook', () => {
     afterAll(async () => {
       await app.service('column').remove(columnTable1FirstName.id)
       await app.service('column').remove(columnTable1LastName.id)
-      await app.service('table').remove(tableRB.id)
       await app.service('table').remove(table2.id)
+      await app.service('table').remove(tableRB.id)
     })
 
     it('If it is a string column', async () => {
@@ -182,6 +183,7 @@ describe('computeTextProperty hook', () => {
       expect(rowTable2.data[columnTable2RelationBetweenTable1.id].value).toBe('first name last name')
       // Clean database
       await app.service('row').remove(rowTable2.id)
+      await app.service('row').remove(rowTable1.id)
       await app.service('column').remove(columnTable2RelationBetweenTable1.id)
     })
     it('If it is a relation between table column with empty value', async () => {
@@ -284,10 +286,11 @@ describe('computeTextProperty hook', () => {
     })
 
     afterAll(async () => {
-      await app.service('row').remove(rowTable1.id)
       await app.service('user').remove(user1.id)
       await app.service('column').remove(columnTable1User.id)
       await app.service('column').remove(columnTable1Ref.id)
+      await app.service('column').remove(columnTable1FirstName.id)
+      await app.service('column').remove(columnTable1LastName.id)
       await app.service('table').remove(table1.id)
       await app.service('table').remove(table3.id)
     })
@@ -680,7 +683,7 @@ describe('computeTextProperty hook', () => {
         table_id: table3.id,
         data: {
           [columnTable3Date.id]: '2020-10-29',
-          [columnTable3DateTime.id]: '2020-10-29T12:09:12',
+          [columnTable3DateTime.id]: '2020-10-29T12:09:12Z',
         },
       })
       // Tests
@@ -688,7 +691,7 @@ describe('computeTextProperty hook', () => {
       // Updated by hook computeRowFormulaColumns when we create the row
       expect(rowTable3.text).toBe('10/29/2020, 12:00:00 AM 10/29/2020')
       expect(rowTable3.data[columnTable3Date.id]).toBe('2020-10-29')
-      expect(rowTable3.data[columnTable3DateTime.id]).toBe('2020-10-29T12:09:12')
+      expect(rowTable3.data[columnTable3DateTime.id]).toBe('2020-10-29T12:09:12Z')
       // Clean database
       await app.service('row').remove(rowTable3.id)
       await app.service('column').remove(columnTable3Date.id)
@@ -697,9 +700,6 @@ describe('computeTextProperty hook', () => {
   })
 
   afterAll(async () => {
-    await app.service('database').remove(database.id)
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-    await app.service('workspace').remove(workspace.id)
+    await dropWorkspace(app, workspace.id)
   })
 })

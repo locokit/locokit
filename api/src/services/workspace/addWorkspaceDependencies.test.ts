@@ -79,7 +79,6 @@ describe('addWorkspaceDependencies hook', () => {
     expect(databases.data?.[0].tables?.[0].views?.[0].columns?.length).toBe(2)
 
     const groupId = workspaceCreated.aclsets?.[0]?.groups?.[0]?.id as string
-    console.log(groupId)
 
     const groupCreated: Group = await app.service('group').get(groupId, {
       query: {

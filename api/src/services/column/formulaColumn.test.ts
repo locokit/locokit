@@ -7,6 +7,7 @@ import { Workspace } from '../../models/workspace.model'
 import { GeneralError, NotAcceptable } from '@feathersjs/errors'
 import { TableRow } from '../../models/tablerow.model'
 import { Paginated } from '@feathersjs/feathers'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 
 describe('formulaColumn hooks', () => {
   let workspace: Workspace
@@ -103,12 +104,6 @@ describe('formulaColumn hooks', () => {
   })
 
   afterAll(async () => {
-    await app.service('table').remove(table1.id)
-    await app.service('table').remove(table2.id)
-    await app.service('database').remove(database.id)
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-    await app.service('workspace').remove(workspace.id)
     await app.service('column').remove(stringColumn1.id)
     await app.service('column').remove(stringColumn2.id)
     await app.service('column').remove(formulaColumn1.id)
@@ -116,6 +111,14 @@ describe('formulaColumn hooks', () => {
     await app.service('column').remove(singleSelectColumn1.id)
     await app.service('row').remove(row1Table1.id)
     await app.service('row').remove(row2Table1.id)
+
+    await dropWorkspace(app, workspace.id)
+    // await app.service('table').remove(table2.id)
+    // await app.service('table').remove(table1.id)
+    // await app.service('database').remove(database.id)
+    // // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    // await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
+    // await app.service('workspace').remove(workspace.id)
   })
 
   describe('On update', () => {

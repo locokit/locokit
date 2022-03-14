@@ -540,14 +540,17 @@ export function builderTestEnvironment (prefix: string) {
   }
 
   async function teardownWorkspace (): Promise<void> {
-    await app.service('row').remove(row1Table2.id)
-    await app.service('row').remove(row2Table2.id)
-    await app.service('row').remove(row3Table2.id)
-
-    await app.service('row').remove(row1Table1.id)
-    await app.service('row').remove(row2Table1.id)
-    await app.service('row').remove(row3Table1.id)
-    await app.service('row').remove(row4Table1.id)
+    try {
+      await app.service('row').remove(row1Table2.id)
+      await app.service('row').remove(row2Table2.id)
+      await app.service('row').remove(row3Table2.id)
+      await app.service('row').remove(row1Table1.id)
+      await app.service('row').remove(row2Table1.id)
+      await app.service('row').remove(row3Table1.id)
+      await app.service('row').remove(row4Table1.id)
+    } catch (e) {
+      console.error('[teardownWorkspace] error : ', e)
+    }
 
     await app.service('column').remove(columnTable2RelationBetweenTables.id)
     await app.service('column').remove(columnTable2LkdUpGroup.id)

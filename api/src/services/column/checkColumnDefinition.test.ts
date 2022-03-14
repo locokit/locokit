@@ -6,6 +6,7 @@ import { Table } from '../../models/table.model'
 import { Workspace } from '../../models/workspace.model'
 import { Paginated } from '@feathersjs/feathers'
 import { NotAcceptable } from '@feathersjs/errors'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 
 describe('checkColumnDefinition hook', () => {
   let workspace: Workspace
@@ -111,8 +112,7 @@ describe('checkColumnDefinition hook', () => {
     await app.service('table').remove(table1.id)
     await app.service('table').remove(table2.id)
     await app.service('table').remove(table3.id)
-    await app.service('database').remove(database.id)
-    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-    await app.service('workspace').remove(workspace.id)
+
+    await dropWorkspace(app, workspace.id)
   })
 })

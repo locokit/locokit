@@ -1,14 +1,5 @@
 import * as Knex from 'knex'
 
-/**
- * need add
- * ALTER TABLE public.table_row_relation DROP CONSTRAINT "FK_trr_table_row_to_id";
-ALTER TABLE public.table_row_relation ADD CONSTRAINT "FK_trr_table_row_to_id" FOREIGN KEY (table_row_to_id) REFERENCES public.table_row(id) ON DELETE CASCADE;
-ALTER TABLE public.table_column_relation DROP CONSTRAINT "FK_tcd_table_column_to_id";
-ALTER TABLE public.table_column_relation ADD CONSTRAINT "FK_tcd_table_column_to_id" FOREIGN KEY (table_column_to_id) REFERENCES public.table_column(id) ON DELETE CASCADE;
-
- */
-
 export async function up (knex: Knex): Promise<void> {
   await knex.schema
     .alterTable('acl_column', table => {
@@ -88,6 +79,8 @@ export async function up (knex: Knex): Promise<void> {
     })
     .alterTable('user_has_group', table => {
       table.index('group_id')
+      table.dropForeign(['group_id'], 'FK_group_id')
+      table.foreign('group_id', 'FK_group_id').references('id').inTable('group').onDelete('CASCADE')
     })
 
     .alterTable('page', table => {

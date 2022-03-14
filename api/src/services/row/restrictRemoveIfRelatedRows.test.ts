@@ -6,7 +6,7 @@ import { TableRow } from '../../models/tablerow.model'
 import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
 import { Workspace } from '../../models/workspace.model'
-import { Paginated } from '@feathersjs/feathers'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 
 describe('restrictRemoveIfRelatedRows hook', () => {
   let workspace: Workspace
@@ -24,13 +24,7 @@ describe('restrictRemoveIfRelatedRows hook', () => {
 
   beforeAll(async () => {
     workspace = await app.service('workspace').create({ text: 'pouet' })
-    const workspaceDatabases = await app.service('database').find({
-      query: {
-        workspace_id: workspace.id,
-        $limit: 1,
-      },
-    }) as Paginated<Database>
-    database = workspaceDatabases.data[0]
+    database = workspace.databases?.[0] as Database
     table1 = await app.service('table').create({
       text: 'table1',
       database_id: database.id,
@@ -103,6 +97,8 @@ describe('restrictRemoveIfRelatedRows hook', () => {
     } catch (e) {
       expect(e).toBeTruthy()
     }
+    await app.service('row').remove(rowTable2.id)
+    await app.service('row').remove(rowTable1.id)
   })
   it('let the removal execute if deletion are ordered correctly', async () => {
     expect.assertions(4)
@@ -123,19 +119,17 @@ describe('restrictRemoveIfRelatedRows hook', () => {
   })
 
   afterAll(async () => {
-    await app.service('row').remove(rowTable2.id)
-    await app.service('row').remove(rowTable1.id)
     await app.service('user').remove(user1.id)
-    await app.service('column').remove(columnTable1User.id)
-    await app.service('column').remove(columnTable1Ref.id)
-    await app.service('column').remove(columnTable2Ref.id)
+
     await app.service('column').remove(columnTable2LookedUpColumnTable1User.id)
     await app.service('column').remove(columnTable2RelationBetweenTable1.id)
-    await app.service('table').remove(table1.id)
+    await app.service('column').remove(columnTable2Ref.id)
     await app.service('table').remove(table2.id)
-    await app.service('database').remove(database.id)
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-    await app.service('workspace').remove(workspace.id)
+
+    await app.service('column').remove(columnTable1User.id)
+    await app.service('column').remove(columnTable1Ref.id)
+    await app.service('table').remove(table1.id)
+
+    await dropWorkspace(app, workspace.id)
   })
 })

@@ -95,6 +95,8 @@ export async function dropWorkspace (app: Application, workspaceId: string): Pro
       t.columns?.forEach(c => {
         switch (c.column_type_id) {
           case COLUMN_TYPE.LOOKED_UP_COLUMN:
+          case COLUMN_TYPE.FORMULA:
+          case COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN:
             allIdsColumnsFirst.push(c.id)
             break
           default:

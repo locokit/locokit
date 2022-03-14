@@ -7,6 +7,7 @@ import { Table } from '../../models/table.model'
 import { User } from '../../models/user.model'
 import { Workspace } from '../../models/workspace.model'
 import { Paginated } from '@feathersjs/feathers'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 
 describe('computeRowLookedUpColumns hook', () => {
   let workspace: Workspace
@@ -237,23 +238,22 @@ describe('computeRowLookedUpColumns hook', () => {
 
   afterAll(async () => {
     await app.service('user').remove(user1.id)
+    await app.service('column').remove(columnTable2LookedUpColumnTable1User.id)
+    await app.service('column').remove(columnTable2LookedUpColumnTable1UserBis.id)
+    await app.service('column').remove(columnTable3LookedUpColumnTable1RBT2.id)
+    await app.service('column').remove(columnTable2LookedUpColumnTable1MultiUser.id)
+
     await app.service('column').remove(columnTable1User.id)
     await app.service('column').remove(columnTable1MultiUser.id)
     await app.service('column').remove(columnTable1Ref.id)
     await app.service('column').remove(columnTable2Ref.id)
-    await app.service('column').remove(columnTable2LookedUpColumnTable1User.id)
-    await app.service('column').remove(columnTable2LookedUpColumnTable1MultiUser.id)
     await app.service('column').remove(columnTable2RelationBetweenTable1.id)
-    await app.service('column').remove(columnTable2LookedUpColumnTable1UserBis.id)
     await app.service('column').remove(columnTable2RelationBetweenTable1Bis.id)
-    await app.service('column').remove(columnTable3LookedUpColumnTable1RBT2.id)
     await app.service('column').remove(columnTable3RelationBetweenTable2.id)
-    await app.service('table').remove(table1.id)
-    await app.service('table').remove(table2.id)
     await app.service('table').remove(table3.id)
-    await app.service('database').remove(database.id)
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-    await app.service('workspace').remove(workspace.id)
+    await app.service('table').remove(table2.id)
+    await app.service('table').remove(table1.id)
+
+    await dropWorkspace(app, workspace.id)
   })
 })

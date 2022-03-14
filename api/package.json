@@ -48,7 +48,7 @@
     "dev": "ts-node-dev --no-notify --files src/",
     "start": "npm run compile && node lib/",
     "lint": "eslint ./src/**/*.ts",
-    "jest": "NODE_ENV=test npm run seed:run && NODE_ENV=test jest --runInBand",
+    "jest": "NODE_ENV=test npm run seed:run && NODE_ENV=test jest --forceExit",
     "prejest:watch": "NODE_ENV=test npm run migrate:latest && NODE_ENV=test npm run seed:run",
     "jest:watch": "NODE_ENV=test jest --watch --runInBand",
     "compile": "shx rm -rf lib/ && tsc --strict",

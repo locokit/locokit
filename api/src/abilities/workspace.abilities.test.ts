@@ -6,6 +6,7 @@ import app from '../app'
 import { LckAclSet } from '../models/aclset.model'
 import { Group } from '../models/group.model'
 import { User } from '../models/user.model'
+import { dropWorkspace } from '../utils/dropWorkspace'
 
 describe('Workspace abilities', () => {
   let user
@@ -218,7 +219,7 @@ describe('Workspace abilities', () => {
     await app.services.aclset.remove(aclset3.id)
     await app.services.aclset.remove(aclset2.id)
     await app.services.aclset.remove(aclset1.id)
-    await app.services.workspace.remove(workspace1.id)
-    await app.services.workspace.remove(workspace2.id)
+    await dropWorkspace(app, workspace1.id)
+    await dropWorkspace(app, workspace2.id)
   })
 })

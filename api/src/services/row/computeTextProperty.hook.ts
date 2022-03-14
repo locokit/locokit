@@ -70,10 +70,10 @@ export function computeTextProperty (): Hook {
                   text += (context.data.data[column.id]?.value || '') as string
                   break
                 case COLUMN_TYPE.DATETIME:
-                  text += new Date((context.data.data[column.id].toString()) as string).toLocaleDateString()
+                  text += new Date((context.data.data[column.id].toString()) as string).toLocaleDateString('en', { timeZone: 'UTC' })
                   break
                 case COLUMN_TYPE.DATE:
-                  text += new Date((context.data.data[column.id].toString()) as string).toLocaleString()
+                  text += new Date((context.data.data[column.id].toString()) as string).toLocaleString('en', { timeZone: 'UTC' })
                   break
                 default:
                   text += (context.data.data[column.id].toString()) as string

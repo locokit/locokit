@@ -17,5 +17,8 @@ module.exports = {
     '**/src/*.test.ts',
     '**/src/**/*.test.ts',
   ],
+  testTimeout: 10000,
   testPathIgnorePatterns: ['knexutils'],
 }
+
+process.env.LCK_PUBLIC_PORTAL_NAME = 'LCK_PUBLIC_PORTAL_NAME'

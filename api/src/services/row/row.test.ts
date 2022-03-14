@@ -6,6 +6,7 @@ import { Table } from '../../models/table.model'
 import { Workspace } from '../../models/workspace.model'
 import { BadRequest } from '@feathersjs/errors'
 import { Paginated } from '@feathersjs/feathers'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 
 describe('\'row\' service', () => {
   const service = app.service('row')
@@ -450,10 +451,11 @@ describe('\'row\' service', () => {
   })
 
   afterAll(async () => {
-    await app.service('table').remove(table.id)
-    await app.service('database').remove(database.id)
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-    await app.service('workspace').remove(workspace.id)
+    await dropWorkspace(app, workspace.id)
+    // await app.service('table').remove(table.id)
+    // await app.service('database').remove(database.id)
+    // // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    // await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
+    // await app.service('workspace').remove(workspace.id)
   })
 })

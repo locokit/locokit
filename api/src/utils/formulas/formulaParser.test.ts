@@ -6,6 +6,7 @@ import { Workspace } from '../../models/workspace.model'
 import app from '../../app'
 import { parse } from './formulaParser'
 import { Paginated } from '@feathersjs/feathers'
+import { dropWorkspace } from '../dropWorkspace'
 
 describe('Formula parser', () => {
   describe('integer values', () => {
@@ -183,10 +184,8 @@ describe('Formula parser', () => {
       await app.service('column').remove(singleSelectColumnWithoutSettings.id)
       await app.service('column').remove(stringColumn.id)
       await app.service('table').remove(table.id)
-      await app.service('database').remove(database.id)
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-      await app.service('workspace').remove(workspace.id)
+
+      await dropWorkspace(app, workspace.id)
     })
 
     it('throw an error is the specified column is unknown', () => {

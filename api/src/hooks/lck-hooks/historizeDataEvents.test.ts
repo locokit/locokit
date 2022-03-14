@@ -16,6 +16,7 @@ import { Process, ProcessTrigger } from '../../models/process.model'
 import { ProcessRun } from '../../models/process_run.model'
 import axios, { AxiosRequestConfig } from 'axios'
 import { NotFound } from '@feathersjs/errors'
+import { dropWorkspace } from '../../utils/dropWorkspace'
 
 describe('historizeDataEvents hook', () => {
   let workspace: Workspace
@@ -574,10 +575,6 @@ describe('historizeDataEvents hook', () => {
     await app.service('table').remove(table1.id)
 
     // Clean workspace
-    await app.service('database').remove(database.id)
-    await app.service('aclset').remove(workspace.aclsets?.[0].id as string)
-    await app.service('workspace').remove(workspace.id)
-
-    await app.service('authentication').remove(authentication.id, {})
+    await dropWorkspace(app, workspace.id)
   })
 })
