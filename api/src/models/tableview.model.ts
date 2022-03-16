@@ -22,6 +22,7 @@ export interface TableViewFilter {
 export class TableView extends BaseModel {
   columns?: TableColumnDTO[]
   text!: string
+  slug!: string
   documentation?: string
   locked!: boolean
   position?: number
@@ -40,6 +41,7 @@ export class TableView extends BaseModel {
 
       properties: {
         text: { type: 'string' },
+        slug: { type: 'string' },
         table_id: { type: 'string' },
         documentation: { type: 'string' },
         locked: { type: 'boolean' },

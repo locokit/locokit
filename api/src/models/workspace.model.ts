@@ -11,6 +11,7 @@ import { GeneralError } from '@feathersjs/errors'
 
 export class Workspace extends BaseModel {
   text!: string
+  slug!: string
   documentation?: string
   settings?: object
   chapters?: Chapter[]
@@ -31,6 +32,7 @@ export class Workspace extends BaseModel {
 
       properties: {
         text: { type: 'string' },
+        slug: { type: 'string' },
         documentation: { type: 'string' },
         settings: {
           type: 'object',

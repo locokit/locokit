@@ -14,7 +14,10 @@ export class Table extends BaseModel {
   rows?: TableRow[]
   views?: TableView[]
   documentation?: string
+  database?: Database
   database_id!: string
+  text!: string
+  slug!: string
 
   static get tableName (): string {
     return 'table'
@@ -27,6 +30,7 @@ export class Table extends BaseModel {
 
       properties: {
         text: { type: 'string' },
+        slug: { type: 'string' },
         database_id: { type: 'string' },
       },
     }

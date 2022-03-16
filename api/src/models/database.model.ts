@@ -8,6 +8,7 @@ import { Workspace } from './workspace.model'
 
 export class Database extends BaseModel {
   text!: string
+  slug!: string
   documentation?: string
   workspace_id!: string
   workspace?: Workspace
@@ -24,6 +25,7 @@ export class Database extends BaseModel {
 
       properties: {
         text: { type: 'string' },
+        slug: { type: 'string' },
         workspace_id: { type: 'string', format: 'uuid' },
       },
     }
