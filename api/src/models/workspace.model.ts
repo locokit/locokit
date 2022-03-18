@@ -1,5 +1,3 @@
-// See https://vincit.github.io/objection.js/#models
-// for more of what you can do here.
 import { JSONSchema, Model, Modifiers, QueryBuilder, RelationMappings } from 'objection'
 import { BaseModel } from './base.model'
 import { Chapter } from './chapter.model'
@@ -10,10 +8,25 @@ import { LckAclSet } from './aclset.model'
 import { GeneralError } from '@feathersjs/errors'
 
 export class Workspace extends BaseModel {
+  /**
+   * Workspace name
+   */
   text!: string
-  slug!: string
+  /**
+   * Does this workspace have a dedicated SQL schema ?
+   */
+  generate_sql!: boolean
+  /**
+   * Workspace's slug, used for create a SQL schema.
+   * Set only if `generate_sql` is true
+   */
+  slug?: string
   documentation?: string
-  settings?: object
+  settings?: {
+    color: string;
+    backgroundColor: string;
+    icon: string;
+  }
   chapters?: Chapter[]
   databases?: Database[]
   attachments?: LckAttachment[]
@@ -31,10 +44,25 @@ export class Workspace extends BaseModel {
       required: ['text'],
 
       properties: {
-        text: { type: 'string' },
-        slug: { type: 'string' },
-        documentation: { type: 'string' },
+        text: {
+          description: 'Name of the workspace',
+          type: 'string'
+        },
+        generate_sql: {
+          description: 'Does this workspace generate a SQL schema ?',
+          type: 'boolean',
+          default: false
+        },
+        slug: {
+          description: 'slug used to create the SQL schema if needed',
+          type: 'string'
+        },
+        documentation: {
+          description: 'Workspace\'s documentation, what is the aim of this workspace.',
+          type: 'string'
+        },
         settings: {
+          description: 'Workspace\'s settings, for display purpose.',
           type: 'object',
           properties: {
             color: { type: 'string' },

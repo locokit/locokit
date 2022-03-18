@@ -105,7 +105,7 @@ const WORKSPACE_ROLE = {
   MEMBER: 'MEMBER',
 }
 
-export default {
+export default Vue.extend({
   name: 'WorkspaceList',
   components: {
     'layout-with-header': Vue.extend(WithHeader),
@@ -182,7 +182,7 @@ export default {
         })
         this.dialogVisible = false
         this.fetchUserGroups()
-      } catch (error) {
+      } catch (error: any) {
         this.$toast.add({
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
@@ -250,7 +250,7 @@ export default {
       next()
     }
   },
-}
+})
 </script>
 <style lang="scss" scoped>
 .workspaces {

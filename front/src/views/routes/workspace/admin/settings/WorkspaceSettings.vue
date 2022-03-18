@@ -18,7 +18,7 @@
 <script lang="ts">
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import Vue from 'vue'
+import Vue, { PropOptions } from 'vue'
 
 import { lckServices } from '@/services/lck-api'
 import { LckWorkspace } from '@/services/lck-api/definitions'
@@ -27,7 +27,7 @@ import WorkspaceForm from '@/components/visualize/WorkspaceForm/WorkspaceForm.vu
 
 import Card from 'primevue/card'
 
-export default {
+export default Vue.extend({
   name: 'WorkspaceSettings',
   components: {
     'lck-workspace-form': WorkspaceForm,
@@ -37,15 +37,12 @@ export default {
     workspaceId: {
       type: String,
       required: true,
-    },
+    } as PropOptions<string>,
   },
-  data (): {
-    workspace: LckWorkspace | null;
-    submitting: boolean;
-    } {
+  data () {
     return {
-      workspace: null,
-      submitting: false,
+      workspace: null as LckWorkspace | null,
+      submitting: false as boolean,
     }
   },
   async mounted () {
@@ -85,5 +82,5 @@ export default {
       })
     },
   },
-}
+})
 </script>
