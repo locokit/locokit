@@ -11,20 +11,17 @@ import { toSnakeCase } from './toSnakeCase'
  * Useful for tools that need to make SQL queries
  * without headaches concerning the JSONB columns of the `row` service.
  *
- * @param {HookContext} context
- * @returns {boolean}
  */
-export async function generateSQLView (table: Table, schemaName: string, knex: Knex): Promise<Knex.RawBuilder> {
+export async function generateSQLView (
+  table: Table,
+  schemaName: string,
+  knex: Knex,
+): Promise<Knex.RawBuilder> {
   /**
    * Retrieve all columns of the table
    */
   const columns = table.columns as TableColumn[]
   const viewName = table.slug as string || toSnakeCase(table.text) as string
-
-  const sqlDrop = 'DROP VIEW IF EXISTS ??.??;\n'
-  const bindingsDrop = []
-  bindingsDrop.push(schemaName)
-  bindingsDrop.push(viewName)
 
   const sqlCreate = 'CREATE OR REPLACE VIEW ??.?? as \n'
   const bindingsCreate = []
@@ -40,7 +37,7 @@ export async function generateSQLView (table: Table, schemaName: string, knex: K
 
   columns.forEach(function (currentColumn: TableColumn) {
     const originalTypeId = currentColumn.originalTypeId()
-    let columnName = toSnakeCase(currentColumn.text)
+    let columnName = currentColumn.slug || toSnakeCase(currentColumn.text)
     if (columnsName[columnName] !== null && columnsName[columnName] !== undefined) {
       columnsName[columnName]++
       columnName += `_${columnsName[columnName] - 1}`
@@ -186,7 +183,18 @@ export async function generateSQLView (table: Table, schemaName: string, knex: K
 
   const sql = sqlCreate + sqlSelect + sqlFrom + sqlWhere + ';'
 
-  await knex.raw(sqlDrop, bindingsDrop)
-
   return await knex.raw(sql, bindingsCreate)
+}
+
+/**
+ * Drop an SQL view for a table in dedicated schema.
+ */
+export async function dropSQLView (
+  table: Table,
+  schemaName: string,
+  knex: Knex,
+): Promise<Knex.RawBuilder> {
+  const viewName = table.slug as string || toSnakeCase(table.text) as string
+  const sqlDrop = 'DROP VIEW IF EXISTS ??.??;\n'
+  return await knex.raw(sqlDrop, [schemaName, viewName])
 }

@@ -52,11 +52,11 @@ export default {
     find: [],
     get: [],
     create: [
-      addWorkspaceDependencies,
       iff(
         (context: HookContext) => context.result.generate_sql === true,
         createWorkspaceSQLSchema,
       ),
+      addWorkspaceDependencies,
     ],
     update: [
       iffElse(

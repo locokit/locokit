@@ -25,9 +25,9 @@ export async function createWorkspaceSQLSchema (context: HookContext): Promise<H
 
   const currentWorkspace = context.result as Workspace
 
-  if (currentWorkspace.generate_sql === true) {
-    await (context.app.get('knex') as Knex).raw('CREATE SCHEMA IF NOT EXISTS ??;', [currentWorkspace.slug as string])
-  }
+  if (currentWorkspace.generate_sql !== true) return context
+
+  await (context.app.get('knex') as Knex).raw('CREATE SCHEMA IF NOT EXISTS ??;', [currentWorkspace.slug as string])
 
   /**
    * Generate all views for the current workspace if there are

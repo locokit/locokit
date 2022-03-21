@@ -17,7 +17,7 @@ export class Table extends BaseModel {
   database?: Database
   database_id!: string
   text!: string
-  slug!: string
+  slug?: string
 
   static get tableName (): string {
     return 'table'
@@ -30,7 +30,8 @@ export class Table extends BaseModel {
 
       properties: {
         text: { type: 'string' },
-        slug: { type: 'string' },
+        documentation: { type: ['string', 'null'] },
+        slug: { type: ['string', 'null'] },
         database_id: { type: 'string' },
       },
     }

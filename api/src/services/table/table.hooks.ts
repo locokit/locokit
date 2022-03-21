@@ -1,5 +1,6 @@
 import * as authentication from '@feathersjs/authentication'
-import { disablePagination } from 'feathers-hooks-common'
+import { disablePagination, iff } from 'feathers-hooks-common'
+import { createOrRefreshSQLViewHook, dropSQLViewHook } from '../../hooks/lck-hooks/managementSQLViewHooks'
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks
@@ -12,18 +13,36 @@ export default {
     ],
     get: [],
     create: [],
-    update: [],
-    patch: [],
-    remove: [],
+    update: [
+      iff(
+        (context) => context.data.slug,
+        dropSQLViewHook,
+      ),
+    ],
+    patch: [
+      iff(
+        (context) => context.data.slug,
+        dropSQLViewHook,
+      ),
+    ],
+    remove: [
+      dropSQLViewHook,
+    ],
   },
 
   after: {
     all: [],
     find: [],
     get: [],
-    create: [],
-    update: [],
-    patch: [],
+    create: [
+      createOrRefreshSQLViewHook,
+    ],
+    update: [
+      createOrRefreshSQLViewHook,
+    ],
+    patch: [
+      createOrRefreshSQLViewHook,
+    ],
     remove: [],
   },
 
