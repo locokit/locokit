@@ -23,10 +23,11 @@ export class Workspace extends BaseModel {
   slug?: string
   documentation?: string
   settings?: {
-    color: string;
-    backgroundColor: string;
-    icon: string;
+    color: string
+    backgroundColor: string
+    icon: string
   }
+
   chapters?: Chapter[]
   databases?: Database[]
   attachments?: LckAttachment[]
@@ -46,20 +47,20 @@ export class Workspace extends BaseModel {
       properties: {
         text: {
           description: 'Name of the workspace',
-          type: 'string'
+          type: 'string',
         },
         generate_sql: {
           description: 'Does this workspace generate a SQL schema ?',
           type: 'boolean',
-          default: false
+          default: false,
         },
         slug: {
           description: 'slug used to create the SQL schema if needed',
-          type: 'string'
+          type: 'string',
         },
         documentation: {
           description: 'Workspace\'s documentation, what is the aim of this workspace.',
-          type: 'string'
+          type: 'string',
         },
         settings: {
           description: 'Workspace\'s settings, for display purpose.',

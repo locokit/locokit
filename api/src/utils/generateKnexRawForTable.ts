@@ -21,13 +21,12 @@ export async function generateSQLView (table: Table, schemaName: string, knex: K
   const columns = table.columns as TableColumn[]
   const viewName = table.slug as string || toSnakeCase(table.text) as string
 
-  const sqlDrop = `DROP VIEW IF EXISTS ??.??;\n`
+  const sqlDrop = 'DROP VIEW IF EXISTS ??.??;\n'
   const bindingsDrop = []
   bindingsDrop.push(schemaName)
   bindingsDrop.push(viewName)
 
-
-  const sqlCreate = `CREATE OR REPLACE VIEW ??.?? as \n`
+  const sqlCreate = 'CREATE OR REPLACE VIEW ??.?? as \n'
   const bindingsCreate = []
   bindingsCreate.push(schemaName)
   bindingsCreate.push(viewName)

@@ -8,7 +8,8 @@ export function toSnakeCase (text: string): string {
     .toLowerCase()
     .normalize('NFD') // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize
     .replace(/[\u0300-\u036f]/g, '') // remove all diacritics
-    .replace(/[\\[ ,\-'"\.\]()/]/g, '_')
+    /* eslint-disable no-useless-escape */
+    .replace(/[[ ,\-'"\.\]()/]/g, '_')
     .replace(/_+/g, '_')
     .replace(/_$/, '')
 }
