@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { convertDateInRecords, formatRowData } from './helpers'
-import { LckTableRow, LckTableColumn, LckTableRowDataComplex, LckTableViewColumn, SORT_COLUMN, LckAttachment } from './definitions'
+import { LckTableRow, LckTableColumn, LckTableRowDataComplex, LckTableViewColumn, SORT_COLUMN } from './definitions'
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 
 function getDefaultColumnParameters (columnId: string, columnType: COLUMN_TYPE, params: Partial<LckTableViewColumn> = {}): LckTableViewColumn {
@@ -18,6 +18,7 @@ function getDefaultColumnParameters (columnId: string, columnType: COLUMN_TYPE, 
     table_id: 'table',
     table_view_id: 'table_view',
     text: columnId,
+    slug: columnId,
     transmitted: true,
     reference: false,
     reference_position: 0,
@@ -68,6 +69,7 @@ describe('LCK API helpers utilities', () => {
         column_type_id: COLUMN_TYPE.DATE,
         settings: {},
         text: 'date field',
+        slug: 'date field',
         table_id: 'table1',
         reference: false,
         position: 0,
@@ -78,6 +80,7 @@ describe('LCK API helpers utilities', () => {
         column_type_id: COLUMN_TYPE.DATETIME,
         settings: {},
         text: 'datetime field',
+        slug: 'datetime field',
         table_id: 'table1',
         reference: false,
         position: 1,
@@ -88,6 +91,7 @@ describe('LCK API helpers utilities', () => {
         column_type_id: COLUMN_TYPE.STRING,
         settings: {},
         text: 'non date field',
+        slug: 'non date field',
         table_id: 'table1',
         reference: false,
         position: 2,
@@ -116,6 +120,7 @@ describe('LCK API helpers utilities', () => {
         id: 'formula-date-field',
         column_type_id: COLUMN_TYPE.FORMULA,
         text: 'date field',
+        slug: 'date field',
         table_id: 'table1',
         settings: {
           formula_type_id: COLUMN_TYPE.DATE,
@@ -128,6 +133,7 @@ describe('LCK API helpers utilities', () => {
         id: 'formula-date-time-field',
         column_type_id: COLUMN_TYPE.FORMULA,
         text: 'datetime field',
+        slug: 'datetime field',
         table_id: 'table1',
         settings: {
           formula_type_id: COLUMN_TYPE.DATETIME,
@@ -164,12 +170,14 @@ describe('LCK API helpers utilities', () => {
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         settings: {},
         text: 'date field',
+        slug: 'date field',
         table_id: 'table1',
         parents: [{
           id: 'date-field',
           column_type_id: COLUMN_TYPE.DATE,
           settings: {},
           text: 'date field',
+          slug: 'date field',
           table_id: 'table1',
           reference: false,
           position: 0,
@@ -185,12 +193,14 @@ describe('LCK API helpers utilities', () => {
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         settings: {},
         text: 'datetime field',
+        slug: 'datetime field',
         table_id: 'table1',
         parents: [{
           id: 'datetime-field',
           column_type_id: COLUMN_TYPE.DATETIME,
           settings: {},
           text: 'datetime field',
+          slug: 'datetime field',
           table_id: 'table1',
           reference: false,
           position: 1,
@@ -235,6 +245,7 @@ describe('LCK API helpers utilities', () => {
         column_type_id: COLUMN_TYPE.DATE,
         settings: {},
         text: 'date field',
+        slug: 'date field',
         table_id: 'table1',
         reference: false,
         position: 0,
@@ -245,6 +256,7 @@ describe('LCK API helpers utilities', () => {
         column_type_id: COLUMN_TYPE.DATETIME,
         settings: {},
         text: 'datetime field',
+        slug: 'datetime field',
         table_id: 'table1',
         reference: false,
         position: 1,
@@ -255,6 +267,7 @@ describe('LCK API helpers utilities', () => {
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         settings: {},
         text: 'date field',
+        slug: 'date field',
         table_id: 'table1',
         reference: false,
         parents: [{
@@ -262,6 +275,7 @@ describe('LCK API helpers utilities', () => {
           column_type_id: COLUMN_TYPE.DATE,
           settings: {},
           text: 'date field',
+          slug: 'date field',
           table_id: 'table1',
           reference: false,
           position: 0,
@@ -276,6 +290,7 @@ describe('LCK API helpers utilities', () => {
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         settings: {},
         text: 'datetime field',
+        slug: 'datetime field',
         table_id: 'table1',
         reference: false,
         parents: [{
@@ -283,6 +298,7 @@ describe('LCK API helpers utilities', () => {
           column_type_id: COLUMN_TYPE.DATETIME,
           settings: {},
           text: 'datetime field',
+          slug: 'datetime field',
           table_id: 'table1',
           reference: false,
           position: 1,
@@ -297,6 +313,7 @@ describe('LCK API helpers utilities', () => {
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         settings: {},
         text: 'date field',
+        slug: 'date field',
         table_id: 'table1',
         reference: false,
         parents: [{
@@ -304,6 +321,7 @@ describe('LCK API helpers utilities', () => {
           column_type_id: COLUMN_TYPE.DATE,
           settings: {},
           text: 'date field',
+          slug: 'date field',
           table_id: 'table1',
           reference: false,
           position: 0,
@@ -318,6 +336,7 @@ describe('LCK API helpers utilities', () => {
         column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
         settings: {},
         text: 'datetime field',
+        slug: 'datetime field',
         table_id: 'table1',
         reference: false,
         parents: [{
@@ -325,6 +344,7 @@ describe('LCK API helpers utilities', () => {
           column_type_id: COLUMN_TYPE.DATETIME,
           settings: {},
           text: 'datetime field',
+          slug: 'datetime field',
           table_id: 'table1',
           reference: false,
           position: 1,
@@ -338,6 +358,7 @@ describe('LCK API helpers utilities', () => {
         id: 'formula-date-field',
         column_type_id: COLUMN_TYPE.FORMULA,
         text: 'date field',
+        slug: 'date field',
         table_id: 'table1',
         settings: {
           formula_type_id: COLUMN_TYPE.DATE,
@@ -350,6 +371,7 @@ describe('LCK API helpers utilities', () => {
         id: 'formula-date-time-field',
         column_type_id: COLUMN_TYPE.FORMULA,
         text: 'datetime field',
+        slug: 'datetime field',
         table_id: 'table1',
         settings: {
           formula_type_id: COLUMN_TYPE.DATETIME,

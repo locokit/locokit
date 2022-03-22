@@ -26,6 +26,9 @@ defaultStory.parameters = {
               backgroundColor: '#aa7bea',
               icon: 'bi-app-indicator',
             },
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            generate_sql: true,
+            slug: 'grrreat_workspace',
           })
         })
       },

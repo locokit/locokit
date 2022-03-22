@@ -11,6 +11,7 @@ exports[`storyshots components/ui/Dialog default 1`] = `
     <div
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
+      containerstyle=""
       role="dialog"
       style="z-index: 1016; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
     >
@@ -42,7 +43,7 @@ exports[`storyshots components/ui/Dialog default 1`] = `
        
       <div
         class="p-dialog-content"
-        style="max-height: 70vh;"
+        style="overflow-y: auto; width: 800px; max-width: min(800px, 100%); max-height: 70vh;"
       />
        
       <!---->
@@ -63,6 +64,7 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
       aria-labelledby="pv_id_22_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
+      containerstyle=""
       role="dialog"
       style="z-index: 1017; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
     >
@@ -99,7 +101,7 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
        
       <div
         class="p-dialog-content"
-        style="max-height: 70vh;"
+        style="overflow-y: auto; width: 800px; max-width: min(800px, 100%); max-height: 70vh;"
       >
         
         This is the dialog content
@@ -125,6 +127,7 @@ exports[`storyshots components/ui/Dialog with header, content and actions 1`] = 
       aria-labelledby="pv_id_23_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
+      containerstyle=""
       role="dialog"
       style="z-index: 1018; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
     >
@@ -161,7 +164,7 @@ exports[`storyshots components/ui/Dialog with header, content and actions 1`] = 
        
       <div
         class="p-dialog-content"
-        style="max-height: 70vh;"
+        style="overflow-y: auto; width: 800px; max-width: min(800px, 100%); max-height: 70vh;"
       >
         
         This is the dialog content

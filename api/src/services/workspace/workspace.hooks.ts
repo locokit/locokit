@@ -2,9 +2,11 @@ import * as authentication from '@feathersjs/authentication'
 import { authorize } from 'feathers-casl/dist/hooks'
 import { defineAbilitiesIffHook } from '../../abilities/workspace.abilities'
 import filterChapterAccordingPermissions from './filterChapter.hook'
-import { disablePagination, required } from 'feathers-hooks-common'
+import { disablePagination, iff, iffElse, required } from 'feathers-hooks-common'
 import { addWorkspaceDependencies } from './addWorkspaceDependencies.hook'
 import { setModifierDefaultValues } from './setModifierDefaultValue'
+import { createWorkspaceSQLSchema, dropWorkspaceSQLSchema } from './createSQLSchema'
+import { HookContext } from '@feathersjs/feathers'
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks
@@ -50,11 +52,29 @@ export default {
     find: [],
     get: [],
     create: [
+      iff(
+        (context: HookContext) => context.result.generate_sql === true,
+        createWorkspaceSQLSchema,
+      ),
       addWorkspaceDependencies,
     ],
-    update: [],
-    patch: [],
-    remove: [],
+    update: [
+      iffElse(
+        (context: HookContext) => context.result.generate_sql === true,
+        [createWorkspaceSQLSchema],
+        [dropWorkspaceSQLSchema],
+      ),
+    ],
+    patch: [
+      iffElse(
+        (context: HookContext) => context.result.generate_sql === true,
+        [createWorkspaceSQLSchema],
+        [dropWorkspaceSQLSchema],
+      ),
+    ],
+    remove: [
+      dropWorkspaceSQLSchema,
+    ],
   },
 
   error: {

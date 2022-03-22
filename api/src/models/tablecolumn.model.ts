@@ -18,6 +18,7 @@ export interface SelectValue {
 
 export class TableColumn extends BaseModel {
   text!: string
+  slug!: string
   reference!: boolean
   reference_position!: number
   locked!: boolean
@@ -70,6 +71,7 @@ export class TableColumn extends BaseModel {
 
       properties: {
         text: { type: 'string' },
+        slug: { type: 'string' },
         reference: { type: 'boolean' },
         reference_position: { type: 'number' },
         locked: { type: 'boolean' },

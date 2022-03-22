@@ -9,6 +9,7 @@ import { fillLookedUpColumnInTableRowData } from './fillLookedUpColumnInTableRow
 import { upsertColumnRelation } from './upsertColumnRelation.hook'
 import { fillDefaultValueOnColumnCreation } from './fillDefaultValueOnColumnCreation'
 import { checkColumnDefinition } from './checkColumnDefinition.hook'
+import { createOrRefreshSQLViewHook } from '../../hooks/lck-hooks/managementSQLViewHooks'
 const { authenticate } = authentication.hooks
 
 export default {
@@ -53,6 +54,7 @@ export default {
       fillLookedUpColumnInTableRowData(),
       iff(isFormulaColumn, updatedRelatedRowsFormula()),
       fillDefaultValueOnColumnCreation(),
+      createOrRefreshSQLViewHook,
     ],
     update: [],
     patch: [
@@ -60,9 +62,11 @@ export default {
       upsertColumnRelation(),
       fillLookedUpColumnInTableRowData(),
       iff(isFormulaColumn, updatedRelatedRowsFormula()),
+      createOrRefreshSQLViewHook,
     ],
     remove: [
       dropGIX(),
+      createOrRefreshSQLViewHook,
       // iff(isGeometryColumn(), dropGIX()),
     ],
   },

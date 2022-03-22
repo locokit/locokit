@@ -46,9 +46,26 @@
             v-model="currentTableToUpdate.documentation"
           />
         </validation-provider>
+        <validation-provider
+          vid="table-slug"
+          tag="div"
+          class="p-field p-mt-4"
+          rules="required snakeCase"
+        >
+          <label for="table-slug">
+            {{ $t('pages.databaseSchema.updateTableSidebar.tableSlug') }}
+          </label>
+          <p-input-text
+            id="table-slug"
+            type="text"
+            v-model="currentTableToUpdate.slug"
+          />
+          <small>{{ $t('pages.databaseSchema.updateTableSidebar.tableSlugInfo') }}</small>
+        </validation-provider>
+
       </lck-form>
 
-      <div class="p-d-flex p-my-4">
+      <div class="flex p-my-4">
         <div class="p-ai-start">
           <p-button
             @click="createColumn"

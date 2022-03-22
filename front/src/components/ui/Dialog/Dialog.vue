@@ -1,11 +1,17 @@
 <template>
   <p-dialog
     :visible="visible"
-    :style="{width: '600px'}"
+    containerStyle=""
     :header="header"
     :modal="true"
     :baseZIndex="baseZIndex"
-    :contentStyle="{ ...contentStyle, 'max-height': '70vh'}"
+    :contentStyle="{
+      ...contentStyle,
+      'overflow-y': 'auto',
+      width: '800px',
+      'max-width': 'min(800px, 100%)',
+      'max-height': '70vh'
+    }"
     :closeOnEscape="closeOnEscape"
     :closable="closable"
     class="p-fluid"
@@ -22,7 +28,7 @@
 import Vue from 'vue'
 import Dialog from 'primevue/dialog'
 
-export default {
+export default Vue.extend({
   name: 'LckDialog',
   components: {
     'p-dialog': Vue.extend(Dialog),
@@ -51,5 +57,11 @@ export default {
       default: true,
     },
   },
-}
+})
 </script>
+
+<style>
+::v-deep .p-dialog {
+  width: 600px;
+  max-width: min(600px, 100%);
+}</style>

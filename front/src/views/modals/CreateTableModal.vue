@@ -35,11 +35,27 @@
       <label for="table-documentation">
         {{ $t('pages.databaseSchema.createTableModal.tableDoc') }}
       </label>
-      <p-input-text
+      <p-textarea
         id="table-documentation"
-        type="text"
         v-model="tableDocumentation"
+        :autoResize="true"
       />
+    </validation-provider>
+    <validation-provider
+      vid="table-slug"
+      tag="div"
+      class="p-field p-mt-4"
+      rules="required snakeCase"
+    >
+      <label for="table-slug">
+        {{ $t('pages.databaseSchema.createTableModal.tableSlug') }}
+      </label>
+      <p-input-text
+        id="table-slug"
+        type="text"
+        v-model="tableSlug"
+      />
+      <small>{{ $t('pages.databaseSchema.createTableModal.tableSlugInfo') }}</small>
     </validation-provider>
     <div v-if="errorTableNameToCreate" class="p-invalid">
       <small id="table-name-invalid" class="p-invalid">
@@ -49,42 +65,43 @@
   </lck-dialog-form>
 </template>
 
-<script>
-import Vue from 'vue'
+<script lang="ts">
 
+import Vue, { PropOptions } from 'vue'
 import { ValidationProvider } from 'vee-validate'
-
 import { lckServices } from '@/services/lck-api'
-
 import InputText from 'primevue/inputtext'
-
+import Textarea from 'primevue/textarea'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 
-export default {
+export default Vue.extend({
   name: 'CreateTableModal',
   components: {
     'lck-dialog-form': DialogForm,
     'p-input-text': Vue.extend(InputText),
+    'p-textarea': Vue.extend(Textarea),
     'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
     visible: {
       type: Boolean,
       default: false,
-    },
-    databaseId: String,
+    } as PropOptions<boolean>,
+    databaseId: String as PropOptions<string>,
   },
   data () {
     return {
-      tableNameToCreate: null,
-      tableDocumentation: null,
-      errorTableNameToCreate: null,
+      tableNameToCreate: null as string | null,
+      tableDocumentation: null as string | null,
+      tableSlug: null as string | null,
+      errorTableNameToCreate: null as boolean | null,
     }
   },
   methods: {
     closeCreateTableModal () {
       this.tableNameToCreate = null
       this.tableDocumentation = null
+      this.tableSlug = null
       this.errorTableNameToCreate = null
       this.$emit('close', false)
     },
@@ -95,17 +112,19 @@ export default {
           database_id: this.databaseId,
           text: this.tableNameToCreate,
           documentation: this.tableDocumentation,
+          slug: this.tableSlug,
         })
         if (createTableResponse) {
           this.tableNameToCreate = null
           this.tableDocumentation = null
+          this.tableSlug = null
           this.errorTableNameToCreate = false
           this.$emit('close', true)
         }
-      } catch (errorCreateTable) {
+      } catch (errorCreateTable: any) {
         this.errorTableNameToCreate = errorCreateTable.message
       }
     },
   },
-}
+})
 </script>

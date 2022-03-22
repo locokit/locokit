@@ -19,6 +19,7 @@ function getDefaultColumnParameters (columnId: string, columnType: COLUMN_TYPE):
     table_id: 'table',
     table_view_id: 'table_view',
     text: columnId,
+    slug: columnId,
     transmitted: true,
     reference: false,
     reference_position: 0,

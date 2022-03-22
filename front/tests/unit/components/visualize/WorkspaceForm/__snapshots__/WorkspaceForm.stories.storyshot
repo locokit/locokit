@@ -27,12 +27,52 @@ exports[`storyshots components/visualize/WorkspaceForm default 1`] = `
           placeholder="Workspace's name"
         />
          
-        <span
-          class="untouched pristine"
+        <!---->
+      </div>
+       
+      <div
+        class="p-field"
+      >
+        <div
+          class="p-checkbox p-component"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              id="generate_sql"
+              type="checkbox"
+              value=""
+            />
+          </div>
+           
+          <div
+            class="p-checkbox-box"
+            role="checkbox"
+          >
+            <span
+              class="p-checkbox-icon"
+            />
+          </div>
+        </div>
+         
+        <label
+          class="p-mb-0 p-ml-2"
+          for="generate_sql"
         >
           
-        </span>
+      Automatic generation of SQL views
+    
+        </label>
+         
+        <p
+          class="p-my-0 untouched pristine"
+        >
+          
+        </p>
       </div>
+       
+      <!---->
        
       <div
         class="p-field"
@@ -51,11 +91,7 @@ exports[`storyshots components/visualize/WorkspaceForm default 1`] = `
           placeholder="Add a description of your workspace, a documentation, ..."
         />
          
-        <span
-          class="untouched pristine"
-        >
-          
-        </span>
+        <!---->
       </div>
        
       <div
@@ -114,11 +150,7 @@ exports[`storyshots components/visualize/WorkspaceForm default 1`] = `
           This color will be used as background in the workspace listing page
         </small>
          
-        <span
-          class="untouched pristine"
-        >
-          
-        </span>
+        <!---->
       </div>
        
       <div
@@ -151,11 +183,7 @@ exports[`storyshots components/visualize/WorkspaceForm default 1`] = `
           .
         </small>
          
-        <span
-          class="untouched pristine"
-        >
-          
-        </span>
+        <!---->
       </div>
        
       <div
@@ -234,12 +262,52 @@ exports[`storyshots components/visualize/WorkspaceForm update 1`] = `
           placeholder="Workspace's name"
         />
          
-        <span
-          class="untouched pristine"
+        <!---->
+      </div>
+       
+      <div
+        class="p-field"
+      >
+        <div
+          class="p-checkbox p-component"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              id="generate_sql"
+              type="checkbox"
+              value=""
+            />
+          </div>
+           
+          <div
+            class="p-checkbox-box"
+            role="checkbox"
+          >
+            <span
+              class="p-checkbox-icon"
+            />
+          </div>
+        </div>
+         
+        <label
+          class="p-mb-0 p-ml-2"
+          for="generate_sql"
         >
           
-        </span>
+      Automatic generation of SQL views
+    
+        </label>
+         
+        <p
+          class="p-my-0 untouched pristine"
+        >
+          
+        </p>
       </div>
+       
+      <!---->
        
       <div
         class="p-field"
@@ -258,11 +326,7 @@ exports[`storyshots components/visualize/WorkspaceForm update 1`] = `
           placeholder="Add a description of your workspace, a documentation, ..."
         />
          
-        <span
-          class="untouched pristine"
-        >
-          
-        </span>
+        <!---->
       </div>
        
       <div
@@ -330,11 +394,7 @@ exports[`storyshots components/visualize/WorkspaceForm update 1`] = `
           This color will be used as background in the workspace listing page
         </small>
          
-        <span
-          class="untouched pristine"
-        >
-          
-        </span>
+        <!---->
       </div>
        
       <div
@@ -367,11 +427,7 @@ exports[`storyshots components/visualize/WorkspaceForm update 1`] = `
           .
         </small>
          
-        <span
-          class="untouched pristine"
-        >
-          
-        </span>
+        <!---->
       </div>
        
       <div

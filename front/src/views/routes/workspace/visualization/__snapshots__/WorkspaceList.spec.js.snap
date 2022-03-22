@@ -20,9 +20,9 @@ exports[`Workspace Create workspace button Hide if the user has a USER_PROFILE "
       </div>
       <!---->
     </div>
-    <p-dialog-stub header="pages.workspace.form.create" modal="true" closable="true" closeonescape="true" showheader="true" basezindex="0" autozindex="true" ariacloselabel="close" position="center">
+    <lck-dialog-stub header="pages.workspace.form.create" basezindex="0" closable="true" closeonescape="true" modal="true">
       <lck-workspace-form-stub></lck-workspace-form-stub>
-    </p-dialog-stub>
+    </lck-dialog-stub>
   </div>
 </layout-with-header-stub>
 `;
@@ -49,9 +49,9 @@ exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "A
           <p class="p-button p-button-sm">pages.workspace.form.new</p>
         </button></div>
     </div>
-    <p-dialog-stub header="pages.workspace.form.create" modal="true" closable="true" closeonescape="true" showheader="true" basezindex="0" autozindex="true" ariacloselabel="close" position="center">
+    <lck-dialog-stub header="pages.workspace.form.create" basezindex="0" closable="true" closeonescape="true" modal="true">
       <lck-workspace-form-stub></lck-workspace-form-stub>
-    </p-dialog-stub>
+    </lck-dialog-stub>
   </div>
 </layout-with-header-stub>
 `;
@@ -78,9 +78,9 @@ exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "C
           <p class="p-button p-button-sm">pages.workspace.form.new</p>
         </button></div>
     </div>
-    <p-dialog-stub header="pages.workspace.form.create" modal="true" closable="true" closeonescape="true" showheader="true" basezindex="0" autozindex="true" ariacloselabel="close" position="center">
+    <lck-dialog-stub header="pages.workspace.form.create" basezindex="0" closable="true" closeonescape="true" modal="true">
       <lck-workspace-form-stub></lck-workspace-form-stub>
-    </p-dialog-stub>
+    </lck-dialog-stub>
   </div>
 </layout-with-header-stub>
 `;
@@ -107,9 +107,9 @@ exports[`Workspace Create workspace button Show if the user is a USER_PROFILE "S
           <p class="p-button p-button-sm">pages.workspace.form.new</p>
         </button></div>
     </div>
-    <p-dialog-stub header="pages.workspace.form.create" modal="true" closable="true" closeonescape="true" showheader="true" basezindex="0" autozindex="true" ariacloselabel="close" position="center">
+    <lck-dialog-stub header="pages.workspace.form.create" basezindex="0" closable="true" closeonescape="true" modal="true">
       <lck-workspace-form-stub></lck-workspace-form-stub>
-    </p-dialog-stub>
+    </lck-dialog-stub>
   </div>
 </layout-with-header-stub>
 `;

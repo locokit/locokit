@@ -28,10 +28,12 @@ export async function addWorkspaceDependencies (context: HookContext): Promise<H
   context.result.databases = [newDatabase]
   const newTable = await context.app.service('table').create({
     text: 'Task (Example table)',
+    slug: 'task',
     database_id: newDatabase.id,
   })
   const newColumnName = await context.app.service('column').create({
     text: 'Name',
+    slug: 'name',
     column_type_id: COLUMN_TYPE.STRING,
     table_id: newTable.id,
   })
@@ -41,6 +43,7 @@ export async function addWorkspaceDependencies (context: HookContext): Promise<H
   const uuidDone = 'aee351bd-4b27-43bc-a2f8-79419df58141'
   const newColumnStatus = await context.app.service('column').create({
     text: 'Status',
+    slug: 'status',
     column_type_id: COLUMN_TYPE.SINGLE_SELECT,
     table_id: newTable.id,
     settings: {

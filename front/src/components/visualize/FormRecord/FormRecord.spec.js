@@ -3,7 +3,6 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import { shallowMount, mount } from '../../../../tests/unit/local-test-utils'
 import flushPromises from 'flush-promises'
 import FormRecord from '@/components/visualize/FormRecord/FormRecord.vue'
-import Map from '@/components/ui/ColumnType/Geometry/Map.vue'
 
 async function flushAll () {
   // get rid of any pending validations on the leading edge
@@ -372,7 +371,7 @@ describe('FormRecord', () => {
             string_1_column: 'Test',
             boolean_1_column: true,
             number_1_column: 1,
-            geo_point_1_column: 'SRID=4326;POINT(10.2 48.75)'
+            geo_point_1_column: 'SRID=4326;POINT(10.2 48.75)',
           },
         },
       })
@@ -435,7 +434,7 @@ describe('FormRecord', () => {
       number_1_column.element.value = 1
       number_1_column.trigger('blur')
       number_1_column.trigger('input')
-      
+
       geo_point_1_column.vm.$emit('update-features', [mockGeoPointData])
 
       await flushAll()

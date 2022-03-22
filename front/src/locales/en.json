@@ -336,6 +336,11 @@
       "fields": {
         "textPlaceholder": "Workspace's name",
         "textLabel": "Name",
+        "generateLabel": "Automatic generation of SQL views",
+        "generateHelp": "Generate automatically a SQL database for interoperability purpose with tools like SuperSet, Redash, ...",
+        "slugPlaceholder": "Workspace's slug",
+        "slugLabel": "slug",
+        "slugHelp": "SQL database name, dedicated to your workspace. In snake case, only lower case and underscore '_' char.",
         "docPlaceholder": "Add a description of your workspace, a documentation, ...",
         "docLabel": "Documentation",
         "colorLabel": "Color",
@@ -692,6 +697,8 @@
       "createTableModal": {
         "createTable": "Create table",
         "tableName": "Table name",
+        "tableSlug": "Table slug",
+        "tableSlugInfo": "Name used to generate the SQL view, in snake case.",
         "tableDoc": "Table documentation",
         "cancel": "Cancel",
         "create": "Create"
@@ -699,6 +706,8 @@
       "updateTableSidebar": {
         "updateTable": "Update table",
         "tableName": "Table name",
+        "tableSlug": "Table slug",
+        "tableSlugInfo": "Name used to generate the SQL view, in snake case.",
         "tableDoc": "Table documentation",
         "columnName": "Column name",
         "columnType": "Column type",
@@ -710,6 +719,8 @@
         "createColumn": "Create column",
         "updateColumn": "Update column",
         "columnName": "Column name",
+        "columnSlug": "Column slug",
+        "columnSlugInfo": "Name used for the column in the SQL view, in snake case.",
         "columnDoc": "Documentation",
         "reference": "Reference",
         "columnType": "Column type",

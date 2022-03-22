@@ -72,6 +72,7 @@ const defaultParamsTableViewColumn = {
 
 const geoPointColumn: LckTableViewColumn = {
   text: 'Point',
+  slug: 'point',
   id: 'e065323c-1151-447f-be0f-6d2728117b40',
   settings: {},
   column_type_id: COLUMN_TYPE.GEOMETRY_POINT,
@@ -80,6 +81,7 @@ const geoPointColumn: LckTableViewColumn = {
 
 const geoPolygonColumn: LckTableViewColumn = {
   text: 'Geographic area',
+  slug: 'geographic_area',
   id: 'e065323c-1151-447f-be0f-6d2728117b39',
   settings: {},
   column_type_id: COLUMN_TYPE.GEOMETRY_POLYGON,
@@ -89,6 +91,7 @@ const geoPolygonColumn: LckTableViewColumn = {
 
 const geoLineStringColumn: LckTableViewColumn = {
   text: 'Line string',
+  slug: 'line_string',
   id: 'e065323c-1151-447f-be0f-6d2728117b38',
   settings: {},
   column_type_id: COLUMN_TYPE.GEOMETRY_LINESTRING,
@@ -97,6 +100,7 @@ const geoLineStringColumn: LckTableViewColumn = {
 
 const stringColumn: LckTableViewColumn = {
   text: 'Name',
+  slug: 'name',
   id: 'e065323c-1151-447f-be0f-6d2728117b37',
   settings: {},
   column_type_id: COLUMN_TYPE.STRING,
@@ -105,6 +109,7 @@ const stringColumn: LckTableViewColumn = {
 
 const relationBetweenTablesColumn: LckTableViewColumn = {
   text: 'RBT',
+  slug: 'rbt',
   id: 'e065323c-1151-447f-be0f-6d2728117b36',
   settings: {
     tableId: 't065323c-1151-447f-be0f-6d2728117b35',
@@ -115,6 +120,7 @@ const relationBetweenTablesColumn: LckTableViewColumn = {
 
 const booleanLookedUpColumn: LckTableViewColumn = {
   text: 'Boolean LUC',
+  slug: 'boolean_luc',
   id: 'e065323c-1151-447f-be0f-6d2728117b35',
   settings: {
     localField: relationBetweenTablesColumn.id,
@@ -126,6 +132,7 @@ const booleanLookedUpColumn: LckTableViewColumn = {
 
 const geoPointLookedUpColumn: LckTableViewColumn = {
   text: 'Geo Point LUC',
+  slug: 'geopoint_luc',
   id: 'e065323c-1151-447f-be0f-6d2728117b34',
   settings: {
     localField: relationBetweenTablesColumn.id,
@@ -137,6 +144,7 @@ const geoPointLookedUpColumn: LckTableViewColumn = {
 
 const singleSelectColumn: LckTableViewColumn = {
   text: 'Selection',
+  slug: 'selection',
   id: 'e065323c-1151-447f-be0f-6d2728117b35',
   settings: {
     values: {
@@ -166,6 +174,7 @@ const singleSelectColumn: LckTableViewColumn = {
 
 const booleanColumn: LckTableViewColumn = {
   text: 'Checkbox',
+  slug: 'checkbox',
   id: 'e065323c-1151-447f-be0f-6d2728117b34',
   settings: {},
   column_type_id: COLUMN_TYPE.BOOLEAN,
