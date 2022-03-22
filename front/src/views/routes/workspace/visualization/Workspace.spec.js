@@ -1,22 +1,22 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import { USER_PROFILE } from '@locokit/lck-glossary'
-import ToggleButton from 'primevue/togglebutton'
-import ConfirmDialog from 'primevue/confirmdialog'
+// import ToggleButton from 'primevue/togglebutton'
+// import ConfirmDialog from 'primevue/confirmdialog'
 import VueRouter from 'vue-router'
 
 import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
 import { authState } from '@/store/auth'
-import { lckServices } from '@/services/lck-api'
+// import { lckServices } from '@/services/lck-api'
 
 import Workspace from './Workspace.vue'
 import Page from '@/views/routes/workspace/visualization/Page'
-import ChapterDialog from '@/components/visualize/ChapterDialog/ChapterDialog.vue'
-import PageDialog from '@/components/visualize/PageDialog/PageDialog.vue'
+// import ChapterDialog from '@/components/visualize/ChapterDialog/ChapterDialog.vue'
+// import PageDialog from '@/components/visualize/PageDialog/PageDialog.vue'
 import Sidebar from '@/components/visualize/Sidebar/Sidebar'
 
-import Vue from 'vue'
+// import Vue from 'vue'
 
 // Mock glossary
 jest.mock('@locokit/lck-glossary', () => ({
@@ -43,21 +43,21 @@ jest.mock('primevue/confirmdialog', () => ({
   render: h => h('p-confirm-dialog'),
 }))
 
-// Mock error
-class MockError extends Error {
-  constructor (code, ...args) {
-    super(args)
-    this.code = code
-  }
-}
+// // Mock error
+// class MockError extends Error {
+//   constructor (code, ...args) {
+//     super(args)
+//     this.code = code
+//   }
+// }
 
-class MockRouterError extends Error {
-  constructor (args) {
-    super(args)
-    this.from = { path: 'from' }
-    this.to = { path: 'to' }
-  }
-}
+// class MockRouterError extends Error {
+//   constructor (args) {
+//     super(args)
+//     this.from = { path: 'from' }
+//     this.to = { path: 'to' }
+//   }
+// }
 
 // Mock variables
 const mockWorkspaceContent = [{

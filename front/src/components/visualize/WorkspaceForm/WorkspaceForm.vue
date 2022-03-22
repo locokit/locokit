@@ -24,7 +24,58 @@
         autofocus
         v-model="newWorkspace.text"
       />
-      <span :class="classes">{{ errors[0] }}</span>
+      <p :class="classes" v-if="errors.length > 0">{{ errors.join(' ') }}</p>
+    </validation-provider>
+
+    <validation-provider
+      vid="generate_sql"
+      tag="div"
+      class="p-field"
+      :name="$t('components.workspaceForm.fields.generateLabel')"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
+      <p-checkbox
+        :binary="true"
+        id="generate_sql"
+        v-model="newWorkspace.generate_sql"
+      />
+      <label for="generate_sql" class="p-mb-0 p-ml-2">
+        {{$t('components.workspaceForm.fields.generateLabel')}}
+      </label>
+      <p :class="classes" class="p-my-0">{{ errors.join(' ') }}</p>
+    </validation-provider>
+
+    <validation-provider
+      v-if="newWorkspace.generate_sql === true"
+      vid="slug"
+      tag="div"
+      class="p-field"
+      :name="$t('components.workspaceForm.fields.slugLabel')"
+      :rules="{
+        required_if: {
+          generate_sql: true
+        },
+        snakeCase: true
+      }"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
+      <label for="slug" class="label-field-required">
+        {{$t('components.workspaceForm.fields.slugLabel')}}
+      </label>
+      <p-input-text
+        id="slug"
+        :placeholder="$t('components.workspaceForm.fields.slugPlaceholder')"
+        autofocus
+        v-model="newWorkspace.slug"
+      />
+      <p :class="classes" v-if="errors.length > 0">{{ errors.join(' ') }}</p>
+      <small id="slug">{{ $t('components.workspaceForm.fields.slugHelp') }}</small>
     </validation-provider>
 
     <validation-provider
@@ -47,7 +98,7 @@
         :autoResize="true"
         v-model="newWorkspace.documentation"
       />
-      <span :class="classes">{{ errors[0] }}</span>
+      <p :class="classes" v-if="errors.length > 0">{{ errors.join(' ') }}</p>
     </validation-provider>
 
     <validation-provider
@@ -90,7 +141,7 @@
         </template>
       </p-dropdown>
       <small id="color">{{ $t('components.workspaceForm.fields.colorHelp') }}</small>
-      <span :class="classes">{{ errors[0] }}</span>
+      <p :class="classes" v-if="errors.length > 0">{{ errors.join(' ') }}</p>
     </validation-provider>
 
     <validation-provider
@@ -112,7 +163,7 @@
         v-model="newWorkspace.settings.icon"
       />
       <small id="icon">{{ $t('components.workspaceForm.fields.iconHelp') }} <a href="https://icons.getbootstrap.com/" target="_blank" ref="noopener">Bootstrap Icon</a>.</small>
-      <span :class="classes">{{ errors[0] }}</span>
+      <p :class="classes" v-if="errors.length > 0">{{ errors.join(' ') }}</p>
     </validation-provider>
   </lck-form>
 </template>
@@ -126,11 +177,12 @@ import { ColorScheme, COLOR_SCHEME } from '@/services/lck-utils/color'
 import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
 import Dropdown from 'primevue/dropdown'
+import Checkbox from 'primevue/checkbox'
 import { ValidationProvider } from 'vee-validate'
 
 import Badge from '@/components/ui/Badge/Badge.vue'
 
-export default {
+export default Vue.extend({
   name: 'WorkspaceForm',
   components: {
     'lck-form': Form,
@@ -138,6 +190,7 @@ export default {
     'p-dropdown': Vue.extend(Dropdown),
     'p-input-text': Vue.extend(InputText),
     'p-textarea': Vue.extend(Textarea),
+    'p-checkbox': Vue.extend(Checkbox),
     'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
@@ -186,7 +239,7 @@ export default {
       immediate: true,
     },
   },
-}
+})
 </script>
 
 <style>

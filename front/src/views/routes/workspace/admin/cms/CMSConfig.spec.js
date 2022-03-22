@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import { USER_PROFILE } from '@locokit/lck-glossary'
 import ToggleButton from 'primevue/togglebutton'
 import ConfirmDialog from 'primevue/confirmdialog'
@@ -13,7 +13,6 @@ import { lckServices } from '@/services/lck-api'
 import CMSConfig from './CMSConfig.vue'
 import CMSPage from '@/views/routes/workspace/admin/cms/Page'
 import ChapterDialog from '@/components/visualize/ChapterDialog/ChapterDialog.vue'
-import PageDialog from '@/components/visualize/PageDialog/PageDialog.vue'
 import Sidebar from '@/components/visualize/Sidebar/Sidebar'
 
 import Vue from 'vue'
@@ -43,7 +42,7 @@ jest.mock('primevue/confirmdialog', () => ({
   render: h => h('p-confirm-dialog'),
 }))
 
-// Mock error
+/* // Mock error
 class MockError extends Error {
   constructor (code, ...args) {
     super(args)
@@ -58,7 +57,7 @@ class MockRouterError extends Error {
     this.to = { path: 'to' }
   }
 }
-
+*/
 // Mock variables
 const mockWorkspaceContent = {
   chapters: [{

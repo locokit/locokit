@@ -66,7 +66,7 @@
         </div>
       </div>
 
-      <p-dialog
+      <lck-dialog
         :header="$t('pages.workspace.form.create')"
         :modal="true"
         :visible="dialogVisible"
@@ -79,7 +79,7 @@
           @input="createWorkspace"
         />
 
-      </p-dialog>
+      </lck-dialog>
     </div>
   </layout-with-header>
 </template>
@@ -93,9 +93,9 @@ import { ColorScheme, COLOR_SCHEME } from '@/services/lck-utils/color'
 import Skeleton from 'primevue/skeleton'
 
 import WorkspaceForm from '@/components/visualize/WorkspaceForm/WorkspaceForm.vue'
+import Dialog from '@/components/ui/Dialog/Dialog.vue'
 
 import { lckServices } from '@/services/lck-api'
-import Dialog from 'primevue/dialog/Dialog'
 import { LckDatabase, LckWorkspace } from '@/services/lck-api/definitions'
 import WithHeader from '@/layouts/WithHeader.vue'
 
@@ -108,9 +108,9 @@ const WORKSPACE_ROLE = {
 export default Vue.extend({
   name: 'WorkspaceList',
   components: {
-    'layout-with-header': Vue.extend(WithHeader),
-    'lck-workspace-form': Vue.extend(WorkspaceForm),
-    'p-dialog': Vue.extend(Dialog),
+    'layout-with-header': WithHeader,
+    'lck-workspace-form': WorkspaceForm,
+    'lck-dialog': Dialog,
     'p-skeleton': Vue.extend(Skeleton),
   },
   data (): {
@@ -183,10 +183,11 @@ export default Vue.extend({
         this.dialogVisible = false
         this.fetchUserGroups()
       } catch (error: any) {
+        console.error(error)
         this.$toast.add({
           severity: 'error',
           summary: this.$t('error.http.' + error.code),
-          detail: this.$t('error.lck.' + error.data.code),
+          detail: this.$t('error.lck.' + error.data?.code),
           life: 5000,
         })
       }

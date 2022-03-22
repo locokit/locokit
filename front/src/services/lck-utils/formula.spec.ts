@@ -55,6 +55,7 @@ describe('formulas', () => {
   const knownTables: LckTableColumn[] = [
     {
       text: 'NAME_C1',
+      slug: 'name_c1',
       id: 'id-c1',
       table_id: 'id-t1',
       column_type_id: COLUMN_TYPE.STRING,
@@ -66,6 +67,7 @@ describe('formulas', () => {
     },
     {
       text: 'NAME_C2',
+      slug: 'name_c2',
       id: 'id-c2',
       table_id: 'id-t1',
       column_type_id: COLUMN_TYPE.BOOLEAN,

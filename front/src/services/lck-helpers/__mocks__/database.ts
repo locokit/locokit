@@ -7,6 +7,7 @@ import { Paginated } from '@feathersjs/feathers'
 const firstNameColumn = {
   id: 'C11',
   text: 'Prénom',
+  slug: 'Prénom',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {},
@@ -21,6 +22,7 @@ const firstNameColumn = {
 const lastNameColumn = {
   id: 'C12',
   text: 'Nom',
+  slug: 'Nom',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {},
@@ -35,6 +37,7 @@ const lastNameColumn = {
 const emailColumn = {
   id: 'C13',
   text: 'E-mail',
+  slug: 'E-mail',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2021-02-09T08:29:25.368Z',
   settings: {},
@@ -49,6 +52,7 @@ const emailColumn = {
 const phoneColumn = {
   id: 'C14',
   text: 'Tél',
+  slug: 'Tél',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {},
@@ -63,6 +67,7 @@ const phoneColumn = {
 const userColumn = {
   id: 'C15',
   text: 'Utilisateur',
+  slug: 'Utilisateur',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {},
@@ -77,6 +82,7 @@ const userColumn = {
 const isActiveColumn = {
   id: 'C16',
   text: 'Est actif',
+  slug: 'Est actif',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {},
@@ -91,6 +97,7 @@ const isActiveColumn = {
 const integerColumn = {
   id: 'C17',
   text: 'Nombre entier',
+  slug: 'Nombre entier',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {},
@@ -105,6 +112,7 @@ const integerColumn = {
 const decimalColumn = {
   id: 'C18',
   text: 'Nombre décimal',
+  slug: 'Nombre décimal',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {},
@@ -119,6 +127,7 @@ const decimalColumn = {
 const dateColumn = {
   id: 'C19',
   text: 'Date',
+  slug: 'Date',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {},
@@ -133,6 +142,7 @@ const dateColumn = {
 const groupColumn = {
   id: 'C110',
   text: 'Groupe',
+  slug: 'Groupe',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {},
@@ -147,6 +157,7 @@ const groupColumn = {
 const linkColumn = {
   id: 'C111',
   text: 'Lien',
+  slug: 'Lien',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {
@@ -163,6 +174,7 @@ const linkColumn = {
 const colorColumn = {
   id: 'C112',
   text: 'Couleur',
+  slug: 'Couleur',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {
@@ -198,6 +210,7 @@ const colorColumn = {
 const colorsColumn = {
   id: 'C113',
   text: 'Couleurs',
+  slug: 'Couleurs',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {
@@ -233,6 +246,7 @@ const colorsColumn = {
 const fileColumn = {
   id: 'C114',
   text: 'Fichier',
+  slug: 'Fichier',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {},
@@ -247,6 +261,7 @@ const fileColumn = {
 const usersColumn = {
   id: 'C115',
   text: 'Utilisateurs',
+  slug: 'Utilisateurs',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {},
@@ -261,6 +276,7 @@ const usersColumn = {
 const textColumn = {
   id: 'C116',
   text: 'Texte long',
+  slug: 'slug long',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {},
@@ -275,6 +291,7 @@ const textColumn = {
 const urlColumn = {
   id: 'C117',
   text: 'URL',
+  slug: 'URL',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {},
@@ -289,6 +306,7 @@ const urlColumn = {
 const geoColumn = {
   id: 'C118',
   text: 'Coordonnées géographiques',
+  slug: 'Coordonnées géographiques',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {},
@@ -303,6 +321,7 @@ const geoColumn = {
 const datetimeColumn = {
   id: 'C119',
   text: 'Heure',
+  slug: 'Heure',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {},
@@ -317,6 +336,7 @@ const datetimeColumn = {
 const multiGeoColumn = {
   id: 'C120',
   text: 'Zones géographiques',
+  slug: 'Zones géographiques',
   createdAt: '2020-11-02T16:11:03.109Z',
   updatedAt: '2020-11-02T16:11:03.109Z',
   settings: {},
@@ -338,6 +358,7 @@ export const mockDatabase: LckDatabase = {
     {
       id: 'T1',
       text: 'Personne',
+      slug: 'Personne',
       createdAt: '2020-11-02T16:11:03.109Z',
       updatedAt: '2020-11-02T16:11:03.109Z',
       database_id: 'D1',
@@ -492,6 +513,7 @@ export const mockDatabase: LckDatabase = {
     {
       id: 'T2',
       text: 'Fournisseur',
+      slug: 'Fournisseur',
       createdAt: '2020-11-02T16:11:03.109Z',
       updatedAt: '2020-11-02T16:11:03.109Z',
       database_id: 'D1',
@@ -507,6 +529,7 @@ export const mockDatabase: LckDatabase = {
             {
               id: 'C21',
               text: 'Utilisateur',
+              slug: 'Utilisateur',
               createdAt: '2020-11-02T16:11:03.109Z',
               updatedAt: '2020-11-02T16:11:03.109Z',
               settings: {},
@@ -532,6 +555,7 @@ export const mockDatabase: LckDatabase = {
             {
               id: 'C22',
               text: 'Nom fournisseur',
+              slug: 'Nom fournisseur',
               createdAt: '2020-11-02T16:11:03.109Z',
               updatedAt: '2020-11-02T16:11:03.109Z',
               settings: {},
@@ -561,6 +585,7 @@ export const mockDatabase: LckDatabase = {
         {
           id: 'C21',
           text: 'Nom fournisseur',
+          slug: 'Nom fournisseur',
           createdAt: '2020-11-02T16:11:03.109Z',
           updatedAt: '2020-11-02T16:11:03.109Z',
           settings: {},
@@ -574,6 +599,7 @@ export const mockDatabase: LckDatabase = {
         {
           id: 'C22',
           text: 'Utilisateur',
+          slug: 'Utilisateur',
           createdAt: '2020-11-02T16:11:03.109Z',
           updatedAt: '2020-11-02T16:11:03.109Z',
           settings: {},

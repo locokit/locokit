@@ -28,6 +28,8 @@ export class LckWorkspace extends LckBaseModel {
   databases?: LckDatabase[];
   aclsets?: LckAclSet[];
   documentation?: string;
+  generate_sql!: boolean;
+  slug?: string;
   settings?: LckWorkspaceSettings;
 
   constructor () {
@@ -65,6 +67,8 @@ export class LckDatabase extends LckBaseModel {
 
 export class LckTable extends LckBaseModel {
   text!: string;
+  documentation?: string
+  slug!: string
   database_id!: string;
   columns?: LckTableColumn[]
   views?: LckTableView[]
@@ -92,6 +96,7 @@ export class LckTableColumn extends LckBaseModel {
   parents?: LckTableColumn[]|null;
   children?: LckTableColumn[]|null;
   documentation?: string
+  slug!: string
   position!: number;
   reference!: boolean;
   reference_position!: number;
@@ -107,9 +112,6 @@ export class LckTableColumn extends LckBaseModel {
       skip: number;
       aggregate: string; // count, avg, sum, min, max, count distinct
     };
-    table_to_id?: string;
-    column_to_id?: string;
-    column_from_id?: string;
     tableId?: string;
     localField?: string;
     foreignField?: string;

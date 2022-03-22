@@ -93,7 +93,7 @@ jest.mock('@/services/lck-api', () => ({
       find: jest.fn(() => []),
     },
     workspace: {
-      find: jest.fn(() => [mockWorkspaceContent])
+      find: jest.fn(() => [mockWorkspaceContent]),
     },
   },
   lckHelpers: {

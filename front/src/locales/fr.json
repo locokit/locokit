@@ -336,6 +336,11 @@
       "fields": {
         "textPlaceholder": "Nom de l'espace de travail",
         "textLabel": "Nom",
+        "generateLabel": "Génération automatique de vues SQL",
+        "generateHelp": "Génère automatiquement une base SQL interopérable avec des outils type SuperSet, Redash, ...",
+        "slugPlaceholder": "slug de votre espace de travail",
+        "slugLabel": "slug",
+        "slugHelp": "Nom de votre base de donnée SQL dédiée à votre espace de travail. Il doit respecter la casse 'snake', uniquement des minuscules et le caractère '_' (souligné bas).",
         "docPlaceholder": "Ajoutez une description de votre espace de travail, une documentation...",
         "docLabel": "Documentation",
         "colorLabel": "Couleur",
@@ -693,6 +698,8 @@
       "createTableModal": {
         "createTable": "Créer une table",
         "tableName": "Nom de la table",
+        "tableSlug": "Slug de la table",
+        "tableSlugInfo": "Nom utilisé pour générer la vue SQL, en snake_case",
         "tableDoc": "Documentation de la table",
         "cancel": "Annuler",
         "create": "Créer"
@@ -700,6 +707,8 @@
       "updateTableSidebar": {
         "updateTable": "Modifier une table",
         "tableName": "Nom de la table",
+        "tableSlug": "Slug de la table",
+        "tableSlugInfo": "Nom utilisé pour générer la vue SQL, en snake_case",
         "tableDoc": "Documentation de la table",
         "columnName": "Nom de la colonne",
         "columnType": "Type de colonne",
@@ -711,6 +720,8 @@
         "createColumn": "Créer une colonne",
         "updateColumn": "Modifier une colonne",
         "columnName": "Nom de la colonne",
+        "columnSlug": "Slug de la colonne",
+        "columnSlugInfo": "Nom utilisé pour la colonne dans la vue SQL, en snake_case",
         "columnDoc": "Documentation",
         "reference": "Référence",
         "columnType": "Type de colonne",
@@ -980,6 +991,7 @@
       "500": "Une erreur a eu lieu…"
     },
     "lck": {
+      "undefined": "Une erreur inconnue est survenue... Aucune information à afficher.",
       "ROW_DUPLICATE": "Une erreur est survenue lors la duplication de la ligne.",
       "ROW_DELETION": "Une erreur est survenue lors la suppression de la ligne.",
       "ROW_SAVE": "Une erreur est survenue lors de l'enregistrement de la ligne.",
@@ -1121,6 +1133,8 @@
   "validations": {
     "messages": {
       "required": "Le champ '{_field_}' est requis.",
+      "required_if": "Le champ '{_field_}' est requis.",
+      "snakeCase": "Le champ '{_field_}' est obligatoirement composé des lettres minuscules de a à z, et du caractère _",
       "email": "L'adresse électronique du champ '{_field_}' ne correspond pas au format attendu.",
       "regex": "Le champ '{_field_}' ne correspond pas au format attendu.",
       "passwordConfirm": "Les mots de passe du champ '{_field_}' et du champ '{target}' ne sont pas identiques.",

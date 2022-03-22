@@ -58,7 +58,23 @@
         :autoResize="true"
       />
     </validation-provider>
-    <div class="p-d-flex p-ai-center p-field">
+    <validation-provider
+      vid="column-slug"
+      tag="div"
+      class="p-field"
+      rules="required snakeCase"
+    >
+      <label for="column-slug">
+        {{ $t('pages.databaseSchema.handleColumnModal.columnSlug') }}
+      </label>
+      <p-input-text
+        v-model="columnSlug"
+        id="column-slug"
+        type="text"
+      />
+      <small>{{ $t('pages.databaseSchema.handleColumnModal.columnSlugInfo') }}</small>
+    </validation-provider>
+    <div class="flex p-ai-center p-field">
       <label class="p-mr-2">
         {{ $t('pages.databaseSchema.handleColumnModal.reference') }}
       </label>
@@ -282,6 +298,7 @@ export default {
       COLUMN_TYPE,
       columnNameToHandle: null,
       columnDocumentation: null,
+      columnSlug: null,
       columnValidation: {},
       referenceToHandle: { isActive: false, position: 0 },
       selectedColumnTypeIdToHandle: null,
@@ -339,6 +356,7 @@ export default {
               table_id: this.tableId,
               text: this.columnNameToHandle,
               documentation: this.columnDocumentation,
+              slug: this.columnSlug,
               reference: this.referenceToHandle.isActive,
               // eslint-disable-next-line @typescript-eslint/camelcase
               reference_position: Number(this.referenceToHandle.position),
@@ -353,6 +371,7 @@ export default {
               table_id: this.tableId,
               text: this.columnNameToHandle,
               documentation: this.columnDocumentation,
+              slug: this.columnSlug,
               reference: this.referenceToHandle.isActive,
               // eslint-disable-next-line @typescript-eslint/camelcase
               reference_position: Number(this.referenceToHandle.position),
@@ -364,6 +383,7 @@ export default {
           }
           this.columnNameToHandle = null
           this.columnDocumentation = null
+          this.columnSlug = null
           this.selectedColumnTypeIdToHandle = null
           this.columnValidation = {}
           this.$emit('close', true)
@@ -434,6 +454,7 @@ export default {
       if (this.columnToHandle) {
         this.columnNameToHandle = this.columnToHandle.text
         this.columnDocumentation = this.columnToHandle.documentation
+        this.columnSlug = this.columnToHandle.slug
         if (Object.prototype.hasOwnProperty.call(this.columnToHandle, 'reference')) {
           this.referenceToHandle.isActive = this.columnToHandle.reference
         }

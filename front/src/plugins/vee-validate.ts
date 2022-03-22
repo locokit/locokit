@@ -2,10 +2,11 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { isAfter, isValid } from 'date-fns'
 import { extend, configure } from 'vee-validate'
-import { email, required, regex } from 'vee-validate/dist/rules'
+import { email, required, regex, required_if } from 'vee-validate/dist/rules'
 import i18n from './i18n'
 
 extend('email', email)
+extend('required_if', required_if)
 extend('required', required)
 extend('regex', regex)
 
@@ -39,6 +40,12 @@ extend('isFalseOrOtherTrue', {
   params: ['target'],
   validate (value: boolean, { target }: Record<string, any>) {
     return value === false || target === true
+  },
+})
+
+extend('snakeCase', {
+  validate (value: string) {
+    return /^[a-z_]+$/.test(value)
   },
 })
 
