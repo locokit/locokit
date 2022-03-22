@@ -1,6 +1,10 @@
-# Low-Code Kit Platform
+# LocoKit - the Low-Code Kit Platform
 
-This is the monorepo of the [LocoKit, aka Low-Code Kit platform](https://locokit.io).
+![LocoKit logo](docs/public/logo.png)
+
+Welcome on the monorepo of [LocoKit, aka Low-Code Kit platform](https://locokit.io).
+
+LocoKit is an AirTable alternative, providing database management as a spreadsheet and an app builder.
 
 There is the backend part (`api` folder),
 the frontend (`front` folder),
