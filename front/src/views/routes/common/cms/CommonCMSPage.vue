@@ -27,7 +27,7 @@
 
       <div class="lck-container-parent p-mx-2">
         <div
-          v-for="container in page.containers"
+          v-for="container in displayContainersByModeNavigation"
           :id="container.id"
           :key="container.id"
           class="lck-container"
@@ -258,6 +258,13 @@ export default {
     isNavBarAnchorLinkDisplayed () {
       return this.page?.containers?.some(container => container.displayed_in_navbar)
     },
+    displayContainersByModeNavigation () {
+      if (this.isNavBarAnchorLinkDisplayed && this.page.modeNavigation === 'tab' && this.page.containers.length > 0) {
+        return this.page.containers.filter(({ id }) => this.$route.hash.slice(1) === id)
+      }
+      // Case by default + Mode Navigation anchor
+      return this.page.containers
+    },
     relatedChapterPages () {
       let relatedChapterPages = []
       if (this.page && Array.isArray(this.chapters)) {
@@ -297,6 +304,13 @@ export default {
       this.currentContainerToEdit = null
       this.currentBlockToEdit = null
       this.showUpdateSidebar = true
+    },
+    async forceHashToNavigate () {
+      if (this.page.modeNavigation === 'tab' && this.page.containers.length > 0) {
+        if (!this.$route.hash) {
+          await this.$router.replace({ ...this.$route, hash: `#${this.page.containers[0].id}` })
+        }
+      }
     },
     resetSources () {
       this.sources = {}
@@ -1144,16 +1158,22 @@ export default {
     } else {
       this.page = await lckHelpers.retrievePageWithContainersAndBlocks(this.pageId)
     }
+
+    this.forceHashToNavigate()
   },
   async beforeRouteUpdate (to, from, next) {
     if (to.params.pageId !== from.params.pageId) {
       this.page = await lckHelpers.retrievePageWithContainersAndBlocks(to.params.pageId)
+      if (!to.hash) {
+        this.forceHashToNavigate()
+      }
       next()
     }
     if (to.params.pageDetailId !== from.params.pageDetailId) {
       this.page = await lckHelpers.retrievePageWithContainersAndBlocks(to.params.pageDetailId)
       next()
     }
+    return next() // To allow hash insertion
   },
   async beforeRouteLeave (to, from, next) {
     if (to.params.pageDetailId) {

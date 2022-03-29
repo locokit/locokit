@@ -537,7 +537,12 @@
         "noContainers": "Aucun conteneur trouvé",
         "navigationSubject": "Ceci est la barre de navigation des conteneurs. Cela permet à l'utilisateur de naviguer à travers les conteneurs de la page.",
         "navigationExplain": "Pour configurer la navigation de la page, vous devez modifier chaque conteneur souhaité.",
-        "navigationEditButton": "Modifier la barre de navigation"
+        "navigationEditButton": "Modifier la barre de navigation",
+        "mode_navigation": {
+          "title": "Mode de navigation :",
+          "anchor": "Par ancre",
+          "tab": "Par onglet"
+        }
       },
       "container": {
         "title": "Conteneur",
@@ -974,6 +979,7 @@
   "success": {
     "basic": "Votre demande à bien été enregistrée.",
     "removed": "L'élément a bien été supprimé.",
+    "updated": "L'élément a bien été mis à jour.",
     "save": "Enregistrement réussi"
   },
   "error": {

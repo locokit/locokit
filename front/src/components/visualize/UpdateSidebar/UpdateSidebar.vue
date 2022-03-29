@@ -14,6 +14,7 @@
       >
         <p-tab-panel :header="$t('pages.workspace.page.pageConfiguration')">
           <update-page-form
+            :page="page"
             :containers="page.containers"
             :autocompleteSuggestions="autocompleteSuggestions"
             @close="resetSidebar"

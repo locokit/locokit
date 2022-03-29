@@ -276,6 +276,7 @@ export class LckPage extends LckBaseModel {
   hidden?: boolean;
   position!: number;
   layout!: string;
+  modeNavigation!: string;
   chapter?: LckChapter;
   containers: LckContainer[] = [];
 }

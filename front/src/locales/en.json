@@ -536,7 +536,12 @@
         "noContainers": "No container found",
         "navigationSubject": "This is the nav bar for container. It allows the user to navigate through the container's page.",
         "navigationExplain": "To configure the page navigation, you must edit each desired container.",
-        "navigationEditButton": "Modifier la barre de navigation"
+        "navigationEditButton": "Update navigation",
+        "mode_navigation": {
+          "title": "Navigation mode:",
+          "anchor": "By anchor",
+          "tab": "By tab"
+        }
       },
       "container": {
         "title": "container",
@@ -973,6 +978,7 @@
   "success": {
     "basic": "Your request has been registered.",
     "removed": "Item has been deleted.",
+    "updated": "L'élément a bien été mis à jour.",
     "save": "Successful registration"
   },
   "error": {
