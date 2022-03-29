@@ -18,6 +18,13 @@
         <h1>{{ page.text }}</h1>
       </div>
 
+      <lck-nav-anchor-link
+        v-if="isNavBarAnchorLinkDisplayed || editMode"
+        :containers="page.containers"
+        :editMode="editMode"
+        @edit-nav="onNavAnchorLinkEditClick"
+      />
+
       <div class="lck-container-parent p-mx-2">
         <div
           v-for="container in page.containers"
@@ -122,6 +129,7 @@ import {
 } from '@/services/lck-helpers/process'
 
 import Breadcrumb from 'primevue/breadcrumb'
+import NavAnchorLink from '@/components/ui/NavAnchorLink/NavAnchorLink.vue'
 
 import Block from '@/components/visualize/Block/Block.vue'
 import { TranslateResult } from 'vue-i18n'
@@ -131,6 +139,7 @@ export default {
   name: 'Page',
   components: {
     'lck-block': Block,
+    'lck-nav-anchor-link': NavAnchorLink,
     'p-breadcrumb': Vue.extend(Breadcrumb),
   },
   props: {
@@ -158,6 +167,10 @@ export default {
     userId: {
       type: Number,
       required: true,
+    },
+    editMode: {
+      type: Boolean,
+      default: false,
     },
     sidebarItems: {
       type: Array,
@@ -280,6 +293,11 @@ export default {
   },
   methods: {
     searchItems: lckHelpers.searchItems,
+    onNavAnchorLinkEditClick (): void {
+      this.currentContainerToEdit = null
+      this.currentBlockToEdit = null
+      this.showUpdateSidebar = true
+    },
     resetSources () {
       this.sources = {}
       this.secondarySources = {}
