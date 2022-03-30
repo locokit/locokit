@@ -410,7 +410,7 @@
       "title": "Password... where are you ?!",
       "subtitle": "Do you lose your password ? Enter your email to receive a mail with a temporary link. Open it, and update your password !",
       "sendResetOK": "Mail sent ! Please now check your mailbox to open the email we've just sent. Please click on the link.",
-      "homelink": "Go back to landing page"
+      "homelink": "Go back to home page"
     },
     "resetpassword": {
       "title": "Password reset",
@@ -540,8 +540,8 @@
         "navigationEditButton": "Update navigation",
         "mode_navigation": {
           "title": "Navigation mode:",
-          "anchor": "By anchor",
-          "tab": "By tab"
+          "anchor": "By anchor (scroll to the right container)",
+          "tab": "By tab (show the current container, hide the others)"
         }
       },
       "container": {
@@ -979,7 +979,7 @@
   "success": {
     "basic": "Your request has been registered.",
     "removed": "Item has been deleted.",
-    "updated": "L'élément a bien été mis à jour.",
+    "updated": "Item has been updated.",
     "save": "Successful registration"
   },
   "error": {

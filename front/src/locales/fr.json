@@ -540,8 +540,8 @@
         "navigationEditButton": "Modifier la barre de navigation",
         "mode_navigation": {
           "title": "Mode de navigation :",
-          "anchor": "Par ancre",
-          "tab": "Par onglet"
+          "anchor": "Par ancre (navigue jusqu'au conteneur)",
+          "tab": "Par onglet (affiche le conteneur courant, masque les autres)"
         }
       },
       "container": {
