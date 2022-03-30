@@ -35,6 +35,7 @@
           ...$attrs,
           ...block
         }"
+        :blockId="block.id"
         :workspaceId="workspaceId"
         :display-detail-button="displayDetailButton"
         :add-allowed="addAllowed"
@@ -92,6 +93,7 @@ export default Vue.extend({
   props: {
     block: {
       type: Object as PropType<Block>,
+      required: true,
     },
     editMode: {
       type: Boolean,

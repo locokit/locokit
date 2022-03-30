@@ -7,6 +7,7 @@
     v-on="$listeners"
     v-bind="$attrs"
     :title="content.data[0].text"
+    :blockId="blockId"
     @update-row="onUpdateRow"
   />
 </template>
@@ -30,6 +31,10 @@ export default Vue.extend({
   },
   mixins: [CommunicatingBlock],
   props: {
+    blockId: {
+      type: String,
+      required: true,
+    },
     settings: {
       type: Object as PropType<DataRecordSettings>,
     },

@@ -213,7 +213,7 @@
           <lck-map
             v-if="availableColumnsIds.has(column.id)"
             mode="Dialog"
-            :id="'map-display-detail-' + column.id"
+            :id="'map-display-detail-' + blockId + column.id"
             :resources="getLckGeoResources(column)"
             :options="{
               interactive: false
@@ -333,6 +333,10 @@ export default {
     'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
+    blockId: {
+      type: String,
+      required: true,
+    },
     autocompleteSuggestions: {
       type: Array, //  as { label: string; value: number }[]
     },
