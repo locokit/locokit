@@ -37,7 +37,7 @@ export default function (app: Application): void {
       '$joinEager',
       '$modifyEager',
     ],
-    allowedEager: '[table, column_type, children.^, parents.^, views]',
+    allowedEager: '[table.[database], column_type, children.^, parents.^, views]',
     paginate: app.get('paginate'),
   }
 

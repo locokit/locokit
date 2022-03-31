@@ -1,6 +1,6 @@
 import { HookContext } from '@feathersjs/feathers'
 import * as authentication from '@feathersjs/authentication'
-import { iff, disallow } from 'feathers-hooks-common'
+import { iff, disallow, isProvider } from 'feathers-hooks-common'
 import { queryContainsKeys } from '../../hooks/lck-hooks/queryContainsKeys'
 import fs from 'fs'
 import path from 'path'
@@ -83,7 +83,6 @@ async function createWorkspaceStorage (context: HookContext): Promise<HookContex
         }
         context.params.s3 = {
           Bucket: workspaceId,
-          ACL: 'public-read',
         }
       }
       if (context.params.query?.fileName) {
@@ -207,8 +206,7 @@ export default {
         createWorkspaceStorage,
       ),
     ],
-    get: [
-    ],
+    get: [],
     create: [
       /**
        * Forbid the creation of an upload already uploaded
@@ -217,11 +215,12 @@ export default {
     ],
     remove: [
       /**
-       * Remove all links from this upload
-       * but, for the moment, just don't remove an upload,
-       * we need to think how manage the upload links (workspace & records)
+       * Forbid access for external, only internal use
        */
-      disallow(),
+      iff(
+        isProvider('external'),
+        disallow(),
+      ),
     ],
   },
 
