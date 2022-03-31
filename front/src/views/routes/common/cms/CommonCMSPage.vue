@@ -1218,7 +1218,7 @@ export default {
 ::v-deep .p-breadcrumb {
   background: unset;
   border: unset;
-  padding-left: 0;
+  padding-left: 1.5rem;
 }
 
 /**
