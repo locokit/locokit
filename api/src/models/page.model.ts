@@ -13,6 +13,7 @@ export class Page extends BaseModel {
   chapter_id!: string
   hidden!: boolean
   layout!: string
+  mode_navigation?: string
   containers?: Container[]
 
   static get tableName (): string {
@@ -32,6 +33,7 @@ export class Page extends BaseModel {
         chapter_id: { type: ['string', 'null'] },
         hidden: { type: ['boolean', 'null'] },
         layout: { enum: ['classic', 'center', 'flex', 'full'] },
+        mode_navigation: { type: 'string', enum: ['anchor', 'tab'] },
       },
     }
   }

@@ -36,7 +36,7 @@
         }"
       >
         <div
-          v-for="container in page.containers"
+          v-for="container in displayContainersByModeNavigation"
           :id="container.id"
           :key="container.id"
           class="lck-container"
@@ -162,6 +162,8 @@
       @update-container="onContainerEditInput"
       @update-block="onBlockEditInput"
 
+      @updateModeNavigation="updateModeNavigation"
+
       @add-new-block="onBlockEditClickFromSidebar"
       @edit-block="onBlockEditClickFromSidebar"
       @confirm-delete-block="onBlockDeleteClick(currentContainerToEdit, $event)"
@@ -286,6 +288,23 @@ export default Vue.extend({
     /**
      * Edition part
      */
+    async updateModeNavigation (modeNavigation: string) {
+      try {
+        this.submitting = true
+        await lckServices.page.patch(this.page.id, { modeNavigation })
+        this.page.modeNavigation = modeNavigation
+        this.$toast.add({
+          severity: 'success',
+          summary: this.$t('components.processPanel.SUCCESS'),
+          detail: this.$t('success.updated'),
+          life: 5000,
+        })
+      } catch (error) {
+        this.displayToastOnError(`${this.$t('pages.workspace.page')} ${this.page.text}`, error)
+      } finally {
+        this.submitting = false
+      }
+    },
     onContainerEditClick (containerToEdit: LckContainer) {
       this.currentContainerToEdit = containerToEdit?.id ? containerToEdit : null
       this.currentBlockToEdit = null

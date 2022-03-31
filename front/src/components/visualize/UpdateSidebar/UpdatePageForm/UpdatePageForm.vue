@@ -6,6 +6,34 @@
     <span class="field p-mb-2">
       {{ $t('pages.workspace.page.navigationExplain') }}
     </span>
+
+    <lck-form
+      :submitting="submitting"
+      @submit="onFormSubmit"
+      @cancel="$emit('close')"
+      class="lck-color-content p-text-bold p-mb-4"
+    >
+      <validation-provider
+        vid="modeNavigation"
+        :name="$t('pages.workspace.page.mode_navigation.title')"
+        tag="div"
+        class="p-field"
+      >
+        <p>{{ $t('pages.workspace.page.mode_navigation.title') }}</p>
+        <div v-for="mode in MODE_NAVIGATION" :key="mode">
+          <p-radio-button
+            :id="mode"
+            :name="mode"
+            :value="mode"
+            v-model="modeNavigation"
+          />
+          <label :for="mode">
+            {{ $t(`pages.workspace.page.mode_navigation.${mode}`) }}
+          </label>
+        </div>
+      </validation-provider>
+    </lck-form>
+
     <span class=" p-mb-2">
       {{ $t('pages.workspace.page.list') }}
     </span>
@@ -70,16 +98,28 @@ import Button from 'primevue/button'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import InputSwitch from 'primevue/inputswitch'
+import { ValidationProvider } from 'vee-validate'
+import LckForm from '@/components/ui/Form/Form.vue'
+import RadioButton from 'primevue/radiobutton'
+
+const MODE_NAVIGATION = ['anchor', 'tab']
 
 export default Vue.extend({
   name: 'UpdatePageForm',
   components: {
+    'lck-form': LckForm,
     'p-button': Vue.extend(Button),
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'p-switch': Vue.extend(InputSwitch),
+    'p-radio-button': Vue.extend(RadioButton),
+    'validation-provider': Vue.extend(ValidationProvider),
   },
   props: {
+    page: {
+      type: Object,
+      required: true,
+    },
     containers: {
       type: Array,
       required: true,
@@ -91,6 +131,17 @@ export default Vue.extend({
     autocompleteSuggestions: {
       type: Array as PropType<{ label: string; value: string }[]>,
       default: () => [],
+    },
+  },
+  data () {
+    return {
+      MODE_NAVIGATION,
+      modeNavigation: this.page.modeNavigation, // Always set
+    }
+  },
+  methods: {
+    onFormSubmit () {
+      return this.$emit('updateModeNavigation', this.modeNavigation)
     },
   },
 })
