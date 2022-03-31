@@ -46,9 +46,9 @@ exports[`storyshots components/ui/ColumnType/File/Cell after click with attachme
     >
       <div
         aria-busy="true"
-        class="p-progress-spinner async-image cell-file"
+        class="p-progress-spinner cell-file"
         role="alert"
-        style="width: 1.5rem;"
+        style="width: 1.5rem; height: 1.5rem;"
       >
         <svg
           class="p-progress-spinner-svg"
@@ -101,9 +101,9 @@ exports[`storyshots components/ui/ColumnType/File/Cell after click with attachme
     >
       <div
         aria-busy="true"
-        class="p-progress-spinner async-image cell-file"
+        class="p-progress-spinner cell-file"
         role="alert"
-        style="width: 1.5rem;"
+        style="width: 1.5rem; height: 1.5rem;"
       >
         <svg
           class="p-progress-spinner-svg"
@@ -173,9 +173,9 @@ exports[`storyshots components/ui/ColumnType/File/Cell with attachments 1`] = `
     >
       <div
         aria-busy="true"
-        class="p-progress-spinner async-image cell-file"
+        class="p-progress-spinner cell-file"
         role="alert"
-        style="width: 1.5rem;"
+        style="width: 1.5rem; height: 1.5rem;"
       >
         <svg
           class="p-progress-spinner-svg"
@@ -228,9 +228,9 @@ exports[`storyshots components/ui/ColumnType/File/Cell with attachments and over
     >
       <div
         aria-busy="true"
-        class="p-progress-spinner async-image cell-file"
+        class="p-progress-spinner cell-file"
         role="alert"
-        style="width: 1.5rem;"
+        style="width: 1.5rem; height: 1.5rem;"
       >
         <svg
           class="p-progress-spinner-svg"

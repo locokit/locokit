@@ -1,6 +1,6 @@
 <template>
   <span v-if="!src">{{ $t('components.asyncimage.noimage') }}</span>
-  <p-spinner v-else-if="loading" style="width: 1.5rem;" class="async-image" />
+  <p-spinner v-else-if="loading" style="width: 1.5rem; height: 1.5rem;" />
   <img
     v-else-if="!loading && link"
     :src="link"
@@ -8,9 +8,11 @@
     class="async-image"
     @click.prevent="$emit('click')"
   />
-  <span v-else-if="error" class="bi bi-exclamation-circle p-text-error">
-    {{ $t('components.asyncimage.error') }}
-  </span>
+  <span
+    v-else-if="error"
+    class="bi bi-exclamation-circle p-text-error"
+    :title="$t('components.asyncimage.error')"
+  />
 </template>
 
 <script lang="ts">

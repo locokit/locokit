@@ -622,6 +622,7 @@ export const mockFile1: LckAttachment = {
   filepath: 'http://www.locokit.io/docs/file.pdf',
   mime: 'application/pdf',
   thumbnail: false,
+  size: 10030,
   workspace_id: 'W1',
 }
 
@@ -632,6 +633,7 @@ export const mockFile2: LckAttachment = {
   filepath: 'http://www.locokit.io/docs/file2.pdf',
   mime: 'application/pdf',
   thumbnail: false,
+  size: 10030,
   workspace_id: 'W1',
 }
 

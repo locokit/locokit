@@ -1,0 +1,185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots views/routes/workspace/admin/WorkspaceFiles default 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="lck-page"
+  >
+    <div
+      class="p-card p-component p-col-12 p-md-8 p-mt-2 p-mx-auto"
+    >
+      <!---->
+       
+      <div
+        class="p-card-body"
+      >
+        <div
+          class="p-card-title"
+        >
+          
+      Files and multimedia contents
+    
+        </div>
+         
+        <!---->
+         
+        <div
+          class="p-card-content"
+        >
+          <div
+            class="p-datatable p-component p-datatable-resizable p-datatable-resizable-fit"
+          >
+             
+            <!---->
+             
+            <!---->
+             
+            <!---->
+             
+            <!---->
+             
+            <!---->
+             
+            <!---->
+             
+            <div
+              class="p-datatable-header"
+            >
+              <span
+                class="p-input-icon-left"
+              >
+                <i
+                  class="pi pi-search"
+                />
+                 
+                <input
+                  class="p-inputtext p-component"
+                  placeholder="Keyword Search"
+                />
+              </span>
+            </div>
+             
+            <!---->
+             
+            <div
+              class="p-datatable-wrapper"
+            >
+              <table
+                role="grid"
+              >
+                <thead
+                  class="p-datatable-thead"
+                >
+                  <tr />
+                   
+                  <!---->
+                </thead>
+                 
+                <tbody
+                  class="p-datatable-tbody"
+                >
+                  <tr
+                    class="p-datatable-emptymessage"
+                  >
+                    <td
+                      colspan="0"
+                    >
+                      <!---->
+                       
+                      <!---->
+                    </td>
+                  </tr>
+                </tbody>
+                 
+                <!---->
+              </table>
+            </div>
+             
+            <div
+              class="p-paginator p-component p-paginator-bottom"
+            >
+              <!---->
+               
+              <button
+                class="p-paginator-first p-paginator-element p-link p-disabled"
+                disabled="disabled"
+                type="button"
+              >
+                <span
+                  class="p-paginator-icon pi pi-angle-double-left"
+                />
+                <span
+                  class="p-ink"
+                />
+              </button>
+              <button
+                class="p-paginator-prev p-paginator-element p-link p-disabled"
+                disabled="disabled"
+                type="button"
+              >
+                <span
+                  class="p-paginator-icon pi pi-angle-left"
+                />
+                <span
+                  class="p-ink"
+                />
+              </button>
+              <span
+                class="p-paginator-pages"
+              />
+              <button
+                class="p-paginator-next p-paginator-element p-link p-disabled"
+                disabled="disabled"
+                type="button"
+              >
+                <span
+                  class="p-paginator-icon pi pi-angle-right"
+                />
+                <span
+                  class="p-ink"
+                />
+              </button>
+              <button
+                class="p-paginator-last p-paginator-element p-link p-disabled"
+                disabled="disabled"
+                type="button"
+              >
+                <span
+                  class="p-paginator-icon pi pi-angle-double-right"
+                />
+                <span
+                  class="p-ink"
+                />
+              </button>
+              <span
+                class="p-paginator-current"
+              >
+                Showing 0 to 0 of 0 entries
+              </span>
+               
+              <!---->
+            </div>
+             
+            <!---->
+             
+            <div
+              class="p-column-resizer-helper"
+              style="display: none;"
+            />
+             
+            <!---->
+             
+            <!---->
+          </div>
+        </div>
+         
+        <!---->
+      </div>
+    </div>
+     
+    <!---->
+  </div>
+</div>
+`;

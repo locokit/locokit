@@ -107,6 +107,15 @@ export default {
           },
         },
       }, {
+        label: this.$t('pages.workspace.menu.files'),
+        icon: 'bi-file-earmark',
+        to: {
+          name: ROUTES_NAMES.WORKSPACE_ADMIN.FILES,
+          params: {
+            workspaceId: this.workspaceId,
+          },
+        },
+      }, {
         label: this.$t('pages.workspace.menu.settings'),
         icon: 'bi-gear',
         to: {

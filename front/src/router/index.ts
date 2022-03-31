@@ -27,6 +27,7 @@ import DatabaseSchema from '@/views/routes/workspace/admin/database/DatabaseSche
 import ProcessListing from '@/views/routes/workspace/admin/process/ProcessListing.vue'
 import WorkspaceGroupListing from '@/views/routes/workspace/admin/group/WorkspaceGroupListing.vue'
 import WorkspaceSettings from '@/views/routes/workspace/admin/settings/WorkspaceSettings.vue'
+import WorkspaceFiles from '@/views/routes/workspace/admin/files/WorkspaceFiles.vue'
 import WorkspaceAdminCMSPage from '@/views/routes/workspace/admin/cms/Page.vue'
 
 /**
@@ -235,6 +236,15 @@ const routes: Array<RouteConfig> = [
       path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.SETTINGS,
       name: ROUTES_NAMES.WORKSPACE_ADMIN.SETTINGS,
       component: WorkspaceSettings,
+      props: true,
+      meta: {
+        needAuthentication: true,
+        hasBurgerMenu: true,
+      },
+    }, {
+      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.FILES,
+      name: ROUTES_NAMES.WORKSPACE_ADMIN.FILES,
+      component: WorkspaceFiles,
       props: true,
       meta: {
         needAuthentication: true,

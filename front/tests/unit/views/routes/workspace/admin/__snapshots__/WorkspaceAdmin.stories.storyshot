@@ -128,6 +128,19 @@ exports[`storyshots views/routes/workspace/admin/WorkspaceAdmin default 1`] = `
             </a>
           </li>
           <li
+            aria-label="Files and multimedia contents"
+            class="lck-nav-item"
+            title="Files and multimedia contents"
+          >
+            <a
+              class="mock-link lck-nav-item-link"
+            >
+              <i
+                class="bi bi-file-earmark"
+              />
+            </a>
+          </li>
+          <li
             aria-label="Settings"
             class="lck-nav-item"
             title="Settings"

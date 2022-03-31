@@ -9,6 +9,7 @@ export function getAttachmentsToDisplay (attachments: LckAttachment[], workspace
       element: 'span',
       url: `${LCK_SETTINGS.STORAGE_URL}/${workspaceId}/${a.filename}`,
       thumbnailURL: `${LCK_SETTINGS.STORAGE_URL}/${workspaceId}/thumbnail_${a.filename}`,
+      displaySize: Math.trunc(a.size / 1024),
     }
     switch (a.mime) {
       case 'image/png':

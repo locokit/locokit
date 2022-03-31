@@ -454,6 +454,7 @@ describe('LCK API helpers utilities', () => {
             filepath: 'file1-path',
             mime: 'application/pdf',
             thumbnail: true,
+            size: 12300,
             workspace_id: 'w1',
           },
           {
@@ -463,6 +464,7 @@ describe('LCK API helpers utilities', () => {
             filepath: 'file2-path',
             mime: 'application/pdf',
             thumbnail: true,
+            size: 12300,
             workspace_id: 'w1',
           },
         ],

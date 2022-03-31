@@ -24,6 +24,7 @@ export const ROUTES_PATH = {
   PROCESS: '/process',
   ACL: '/acl',
   SETTINGS: '/settings',
+  FILES: '/files',
   ACLSET: '/aclset',
   GROUP: '/group', // used in workspace admin AND admin
   CMS: '/cms',
@@ -67,6 +68,7 @@ export const ROUTES_NAMES = {
     CMS_PAGE: 'WorkspaceCMSPage',
     CMS_PAGE_DETAIL: 'WorkspaceCMSPageDetail',
     SETTINGS: 'WorkspaceSettings',
+    FILES: 'WorkspaceFiles',
     GROUP: 'WorkspaceGroup',
     GROUP_DETAIL: 'WorkspaceGroupDetail',
   },

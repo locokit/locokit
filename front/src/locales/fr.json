@@ -400,6 +400,26 @@
       },
       "settings": {
         "title": "Paramètres"
+      },
+      "files": {
+        "title": "Fichiers et contenus multimédias",
+        "columns": {
+          "filename": "Fichier",
+          "size": "Taille",
+          "createdAt": "Créé le",
+          "updatedAt": "Mis à jour le"
+        },
+        "removeConfirmationDialog": {
+          "message": "Êtes-vous sûr de vouloir supprimer le fichier {file} ? Il sera également déréférencé des lignes de votre base de données.",
+          "header": "Confirmation de suppression"
+        },
+        "removeSuccessToast": {
+          "summary": "Le fichier {file} a bien été supprimé"
+        },
+        "removeErrorToast": {
+          "summary": "Le fichier {file} n'a pas pu être supprimé",
+          "detail": "L'erreur suivante s'est produite: {error}"
+        }
       }
     },
     "home": {
@@ -494,7 +514,8 @@
         "cms": "CMS",
         "acl": "Permissions",
         "groups": "Groupes d'utilisateurs",
-        "settings": "Paramètres"
+        "settings": "Paramètres",
+        "files": "Fichiers et contenus multimédias"
       },
       "title": "Espaces de travail",
       "noName": "(pas de nom)",
