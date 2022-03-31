@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
+// import { action } from '@storybook/addon-actions'
 
 import WorkspaceFiles from './WorkspaceFiles.vue'
 
