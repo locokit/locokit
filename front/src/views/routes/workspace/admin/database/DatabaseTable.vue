@@ -1,5 +1,5 @@
 <template>
-  <div class="p-d-flex p-flex-column d-flex-1 o-auto">
+  <div class="p-d-flex p-flex-column d-flex-1 o-auto h-full">
     <div
       v-if="database && database.tables.length > 0"
       class="p-d-flex p-flex-column d-flex-1 o-auto"
