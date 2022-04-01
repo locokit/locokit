@@ -423,7 +423,10 @@ export async function retrieveWorkspaceUserGroupsWithChaptersAndPages (workspace
     accumulator.push({
       id: currentGroup.id,
       name: currentGroup.name,
-      chapter: currentGroup.aclset?.chapter as LckChapter,
+      chapter: {
+        ...currentGroup.aclset?.chapter as LckChapter,
+        pages: currentGroup.aclset?.chapter?.pages?.sort((a, b) => a.position - b.position),
+      },
     })
     return accumulator
   }, [])
