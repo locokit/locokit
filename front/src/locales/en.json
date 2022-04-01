@@ -410,7 +410,7 @@
           "updatedAt": "Updated at"
         },
         "removeConfirmationDialog": {
-          "message": "Do you really want to remove file {file} ? It will also be unlinked from records of your database.",
+          "message": "Do you really want to remove file {file} ? It will also be remove from records of your database.",
           "header": "Removal confirmation"
         },
         "removeSuccessToast": {
