@@ -13,7 +13,7 @@
             :loading="loading"
             :totalRecords="total"
             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
-            :currentPageReportTemplate="          $t('components.paginator.currentPageReportTemplate')"
+            :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')"
             :rowsPerPageOptions="[10,20,50]"
             :resizableColumns="true"
             @page="onPage($event)"
