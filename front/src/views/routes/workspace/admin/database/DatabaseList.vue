@@ -31,7 +31,7 @@
             v-for="subitem in item.items"
             :key="subitem.id"
             :to="subitem.to"
-            class="lck-sidebar-link"
+            class="lck-sidebar-link p-ml-4"
           >
             <i class="bi lck-sidebar-link-icon" :class="subitem.icon" /> <span>{{subitem.label}}</span>
           </router-link>

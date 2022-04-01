@@ -54,7 +54,7 @@ exports[`storyshots views/routes/workspace/admin/WorkspaceAdmin default 1`] = `
     </header>
      
     <div
-      class="lck-layout lck-layout--with-nav"
+      class="lck-layout-content lck-layout--with-nav"
     >
       <nav
         class="lck-nav"

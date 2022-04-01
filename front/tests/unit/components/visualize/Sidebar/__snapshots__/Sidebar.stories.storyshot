@@ -126,7 +126,7 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
            
           <div>
             <a
-              class="mock-link lck-sidebar-link"
+              class="mock-link lck-sidebar-link p-ml-4"
             >
               <span
                 class="bi bi-grip-vertical handle"
@@ -151,7 +151,7 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
               </span>
             </a>
             <a
-              class="mock-link lck-sidebar-link"
+              class="mock-link lck-sidebar-link p-ml-4"
             >
               <span
                 class="bi bi-grip-vertical handle"
@@ -255,7 +255,7 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
            
           <div>
             <a
-              class="mock-link lck-sidebar-link"
+              class="mock-link lck-sidebar-link p-ml-4"
             >
               <span
                 class="bi bi-grip-vertical handle"
@@ -280,7 +280,7 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
               </span>
             </a>
             <a
-              class="mock-link lck-sidebar-link"
+              class="mock-link lck-sidebar-link p-ml-4"
             >
               <span
                 class="bi bi-grip-vertical handle"
@@ -409,7 +409,7 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
            
           <div>
             <a
-              class="mock-link lck-sidebar-link"
+              class="mock-link lck-sidebar-link p-ml-4"
             >
               <!---->
                
@@ -422,7 +422,7 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
               <!---->
             </a>
             <a
-              class="mock-link lck-sidebar-link"
+              class="mock-link lck-sidebar-link p-ml-4"
             >
               <!---->
                
@@ -486,7 +486,7 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
            
           <div>
             <a
-              class="mock-link lck-sidebar-link"
+              class="mock-link lck-sidebar-link p-ml-4"
             >
               <!---->
                
@@ -499,7 +499,7 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
               <!---->
             </a>
             <a
-              class="mock-link lck-sidebar-link"
+              class="mock-link lck-sidebar-link p-ml-4"
             >
               <!---->
                
@@ -580,7 +580,7 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
            
           <div>
             <a
-              class="mock-link lck-sidebar-link"
+              class="mock-link lck-sidebar-link p-ml-4"
             >
               <!---->
                
@@ -593,7 +593,7 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
               <!---->
             </a>
             <a
-              class="mock-link lck-sidebar-link"
+              class="mock-link lck-sidebar-link p-ml-4"
             >
               <!---->
                
@@ -657,7 +657,7 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
            
           <div>
             <a
-              class="mock-link lck-sidebar-link"
+              class="mock-link lck-sidebar-link p-ml-4"
             >
               <!---->
                
@@ -670,7 +670,7 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
               <!---->
             </a>
             <a
-              class="mock-link lck-sidebar-link router-link-exact-active"
+              class="mock-link lck-sidebar-link p-ml-4 router-link-exact-active"
             >
               <!---->
                

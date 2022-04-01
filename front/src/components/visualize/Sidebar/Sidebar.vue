@@ -35,7 +35,7 @@
           v-for="subitem in item.subitems"
           :key="subitem.id"
           :to="subitem.to"
-          class="lck-sidebar-link"
+          class="lck-sidebar-link p-ml-4"
           :class="{ 'router-link-exact-active': subitem.active }"
           @click.native="$emit('click-sidebar-item')"
           v-show="displayEditActions || subitem.hidden !== true"
@@ -140,12 +140,6 @@ export default {
   &-label {
     display: block;
     flex: 1;
-  }
-}
-
-.p-accordion-content {
-  .lck-sidebar-link-label {
-    padding-left: var(--spacing);
   }
 }
 
