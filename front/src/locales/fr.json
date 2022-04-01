@@ -418,7 +418,7 @@
         },
         "removeErrorToast": {
           "summary": "Le fichier {file} n'a pas pu être supprimé",
-          "detail": "L'erreur suivante s'est produite: {error}"
+          "detail": "L'erreur suivante s'est produite : {error}"
         }
       }
     },
