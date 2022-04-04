@@ -214,7 +214,6 @@ export default Vue.extend({
     downloadAttachment: lckHelpers.downloadAttachment,
 
     removeAttachment (attachment: LckAttachment) {
-      console.log('coucou')
       this.$confirm.require({
         message: this.$t('pages.workspaceAdmin.files.removeConfirmationDialog.message', { file: attachment.filename }),
         header: this.$t('pages.workspaceAdmin.files.removeConfirmationDialog.header'),
