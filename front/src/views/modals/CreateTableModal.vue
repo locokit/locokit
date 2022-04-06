@@ -45,7 +45,11 @@
       vid="table-slug"
       tag="div"
       class="p-field p-mt-4"
-      rules="required snakeCase"
+      rules="required|snakeCase"
+      v-slot="{
+        errors,
+        classes
+      }"
     >
       <label for="table-slug">
         {{ $t('pages.databaseSchema.createTableModal.tableSlug') }}
@@ -56,6 +60,7 @@
         v-model="tableSlug"
       />
       <small>{{ $t('pages.databaseSchema.createTableModal.tableSlugInfo') }}</small>
+      <span :class="classes">{{ errors[0] }}</span>
     </validation-provider>
     <div v-if="errorTableNameToCreate" class="p-invalid">
       <small id="table-name-invalid" class="p-invalid">

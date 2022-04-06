@@ -677,4 +677,3 @@ export function builderTestEnvironment (prefix: string) {
     teardownWorkspace,
   }
 }
-
