@@ -4,9 +4,10 @@ import { BaseModel } from './base.model'
 import { Application } from '../declarations'
 import { Table as LckTable } from './table.model'
 import { Model, RelationMappings, JSONSchema } from 'objection'
+import { LckAttachment } from './attachment.model'
 
 export interface RowData {
-  [key: string]: string | { reference: string, value: string }
+  [key: string]: string | { reference: string, value: string } | LckAttachment[]
 }
 
 export class TableRow extends BaseModel {

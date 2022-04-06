@@ -122,7 +122,6 @@ class Service {
 
   remove (id, params = {}) {
     debug(`Removing blob ${id}`)
-    console.log(`Removing blob ${id}`, params)
     return new Promise((resolve, reject) => {
       this.Model.remove({
         key: id,

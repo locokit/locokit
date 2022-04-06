@@ -3,11 +3,15 @@ import { open, rm, mkdir, access, readdir } from 'fs/promises'
 import path from 'path'
 // import AWS from 'aws-sdk'
 import uploadService from './upload.service'
-import { NotAcceptable } from '@feathersjs/errors'
+import { Forbidden, NotAcceptable } from '@feathersjs/errors'
 import { Paginated } from '@feathersjs/feathers'
 import { LckAttachment } from '../../models/attachment.model'
+import { builderTestEnvironment, SetupData } from '../../abilities/helpers'
 
 describe('\'upload\' service', () => {
+  let setupData: SetupData
+  const builder = builderTestEnvironment('attachment')
+
   it('registered the service', () => {
     expect(app.service('upload')).toBeTruthy()
   })
@@ -34,6 +38,11 @@ describe('\'upload\' service', () => {
       // configure again the service to take the new config
       // this would create the folder fs-storage if necessary
       app.configure(uploadService)
+
+      /**
+       * Create a workspace
+       */
+      setupData = await builder.setupWorkspace()
 
       /**
        * Create a new attachment on a workspace
@@ -165,10 +174,34 @@ describe('\'upload\' service', () => {
       expect(attachment.filename).toBe('logo.png')
     })
 
-    afterAll(() => {
+    it('forbid the upload of an attachment if the user do not have access to the workspace', async () => {
+      expect.assertions(1)
+      // upload a new file
+      const file = await open(path.join(__dirname, '../../../public/logo.png'), 'r')
+      const buffer = await file.readFile()
+      await expect(app.service('upload').create({
+        buffer,
+        contentType: 'image/png',
+      }, {
+        query: {
+          workspaceId,
+          workspace_id: workspaceId,
+          fileName: 'logoRejected.png',
+          contentType: 'image/png',
+        },
+        provider: 'external',
+        user: setupData.user4,
+        accessToken: setupData.user4Authentication.accessToken,
+        authenticated: true,
+      })).rejects.toThrow(Forbidden)
+      await file.close()
+    })
+
+    afterAll(async () => {
       app.set('storage', oldStorageConfig)
       // configure again the service to take the new config
       app.configure(uploadService)
+      await builder.teardownWorkspace()
     })
   })
 

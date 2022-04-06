@@ -35,11 +35,13 @@ export async function removeAttachmentOfRows (attachment: LckAttachment): Promis
     sql += (sql === '' ? '' : '\n UNION \n')
     sql += `SELECT tr.id as id, ? as field_id, json_file, json_file_index, tr.data->? as field_data
     FROM table_row tr,
-    LATERAL pg_catalog.jsonb_array_elements(tr.data->?) with ordinality arr(json_file, json_file_index)
+    LATERAL pg_catalog.jsonb_array_elements(case jsonb_typeof(tr.data->?)
+        when 'array' then tr.data->?
+        else '[]' end) with ordinality arr(json_file, json_file_index)
     WHERE table_id = ?
     AND data->? is not null
     AND json_file->>'id' = ?`
-    sqlBindings.push(...[f.id, f.id, f.id, f.table_id, f.id, attachment.id])
+    sqlBindings.push(...[f.id, f.id, f.id, f.id, f.table_id, f.id, attachment.id])
   })
 
   const recordsToUpdateRaw = await knex.raw(sql, sqlBindings)
@@ -58,7 +60,6 @@ export async function removeAttachmentOfRows (attachment: LckAttachment): Promis
   await Promise.all(recordsToUpdate.map(r => {
     const attachmentIds = r.field_data.map(f => f.id)
     attachmentIds.splice(parseInt(r.json_file_index, 10) - 1, 1)
-    console.log(r, r.field_data.map(f => f.id), attachmentIds)
     return app.service('row').patch(r.id, {
       data: {
         [r.field_id]: attachmentIds,

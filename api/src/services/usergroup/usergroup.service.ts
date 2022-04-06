@@ -17,6 +17,28 @@ export default function (app: Application): void {
     Model: createModel(app),
     paginate: app.get('paginate'),
     id: ['user_id', 'group_id'],
+    whitelist: [
+      '$eq',
+      '$ne',
+      '$gte',
+      '$gt',
+      '$lte',
+      '$lt',
+      '$in',
+      '$nin',
+      '$like',
+      '$notLike',
+      '$ilike',
+      '$notILike',
+      '$contains',
+      '$or',
+      '$and',
+      '$sort',
+      '$any',
+      '$joinRelation',
+      '$eager',
+    ],
+    allowedEager: '[group.[aclset.[acltables]]]',
   }
 
   // Initialize our service with any options it requires

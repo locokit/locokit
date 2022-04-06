@@ -7,6 +7,9 @@ import path from 'path'
 import sharp from 'sharp'
 import { NotAcceptable } from '@feathersjs/errors'
 import * as Sentry from '@sentry/node'
+import { authorize } from 'feathers-casl/dist/hooks'
+import { defineAbilitiesIffHook } from '../../abilities/attachment.abilities'
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const Minio = require('minio')
 
@@ -208,10 +211,14 @@ export default {
     ],
     get: [],
     create: [
+      defineAbilitiesIffHook(),
       /**
        * Forbid the creation of an upload already uploaded
        */
       checkUploadDoesNotAlreadyExist,
+      authorize({
+        adapter: 'feathers-objection',
+      }),
     ],
     remove: [
       /**

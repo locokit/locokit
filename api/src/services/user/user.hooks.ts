@@ -10,13 +10,10 @@ import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
 import { enforcePasswordPolicy } from '../../hooks/lck-hooks/passwords/enforcePasswordPolicy'
 import { generatePassword } from '../../hooks/lck-hooks/passwords/generatePassword'
 import { notifyUserOnUpdate } from './notifyUserOnUpdate.hooks'
+import { isUserProfile } from '../../hooks/lck-hooks/isUserProfile'
 
 const { authenticate } = feathersAuthentication.hooks
 const { hashPassword, protect } = local.hooks
-
-const isUserProfile = (profile: USER_PROFILE) => (context: HookContext) => {
-  return context.params.user?.profile === profile
-}
 
 const getPassword = (hook: HookContext): string => hook.data.password
 
