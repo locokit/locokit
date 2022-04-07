@@ -5,9 +5,8 @@ require('isomorphic-fetch');
 
 import ThemeWrapper from './ThemeWrapper.vue'
 import i18n from '../src/plugins/i18n'
-import casl from '../src/plugins/casl'
 import '../src/plugins/primevue'
-import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks'
+import { DocsPage, DocsContainer } from '@storybook/addon-docs'
 import { lckServicesDecorator } from '../src/services/lck-api/__mocks__/services'
 
 i18n.locale = 'en'
