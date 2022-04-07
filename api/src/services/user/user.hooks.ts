@@ -31,7 +31,9 @@ export default {
        * or for manipulating this service from the code (provider !== external)
        */
       commonHooks.iff(
-        commonHooks.isProvider('external') && !isUserProfile(USER_PROFILE.SUPERADMIN),
+        (context: HookContext) => {
+          return !isUserProfile(USER_PROFILE.SUPERADMIN)(context) && commonHooks.isProvider('external')(context)
+        },
         commonHooks.disallow(),
       ).else(
         /**
@@ -64,15 +66,21 @@ export default {
         ),
         commonHooks.iff(
           commonHooks.isNot(isUserProfile(USER_PROFILE.SUPERADMIN)),
-          commonHooks.preventChanges(true, 'email'),
-          commonHooks.preventChanges(true, 'blocked'),
+          commonHooks.disallow(),
         ),
         lowerCase('email'),
         hashPassword('password'),
         getCurrentItem(),
       ),
     ],
-    remove: [],
+    remove: [
+      commonHooks.iff(
+        (context: HookContext) => {
+          return !isUserProfile(USER_PROFILE.SUPERADMIN)(context) && commonHooks.isProvider('external')(context)
+        },
+        commonHooks.disallow(),
+      ),
+    ],
   },
   after: {
     all: [

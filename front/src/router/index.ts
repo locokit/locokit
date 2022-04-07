@@ -56,6 +56,7 @@ import SignUp from '../views/routes/user/SignUp.vue'
 import { ROUTES_NAMES, ROUTES_PATH } from './paths'
 import { authState } from '@/store/auth'
 import { appState } from '@/store/app'
+import { USER_PROFILE } from '@locokit/lck-glossary'
 
 Vue.use(VueRouter)
 
@@ -298,6 +299,10 @@ const routes: Array<RouteConfig> = [
     component: Admin,
     redirect: ROUTES_PATH.ADMIN + ROUTES_PATH.USER,
     props: true,
+    meta: {
+      needAuthentication: true,
+      requiredRoles: [USER_PROFILE.SUPERADMIN, USER_PROFILE.ADMIN, USER_PROFILE.CREATOR],
+    },
     children: [{
       name: ROUTES_NAMES.ADMIN.USER,
       path: ROUTES_PATH.ADMIN + ROUTES_PATH.USER,
@@ -326,9 +331,6 @@ const routes: Array<RouteConfig> = [
         },
       }],
     }],
-    meta: {
-      needAuthentication: true,
-    },
   },
   {
     path: '*',
@@ -374,6 +376,14 @@ export function checkPathAvailable (needAuthentication: boolean, needGuest: bool
   return true
 }
 
+/**
+ * Check if the route accessible by roles
+ */
+export function checkRoles (userRole: USER_PROFILE | undefined, requiredRoles: USER_PROFILE[]) {
+  console.log('userRole', userRole)
+  return userRole && requiredRoles.includes(userRole)
+}
+
 router.beforeEach(function (to, from, next) {
   // To handle children routes (to get meta from parents), Vuejs recommend to use to.matched
   // @see: https://github.com/vuejs/vue-router/issues/704
@@ -381,9 +391,14 @@ router.beforeEach(function (to, from, next) {
   appState.hasBurgerMenu = to.matched.some(m => m.meta.hasBurgerMenu)
   const needGuest = to.matched.some(m => m.meta.needGuest)
   const isAuthenticated = authState.data.isAuthenticated
+  console.log(to.matched)
 
   if (!checkPathAvailable(needAuthentication, needGuest, isAuthenticated)) {
     next({ path: isAuthenticated ? ROUTES_PATH.WORKSPACE : ROUTES_PATH.HOME })
+  } else if (
+    to.matched.length > 0 && to.matched[0].meta.requiredRoles && !checkRoles(authState.data?.user?.profile, to.matched[0].meta.requiredRoles)
+  ) {
+    next({ path: '/not-found' })
   } else {
     next()
   }
