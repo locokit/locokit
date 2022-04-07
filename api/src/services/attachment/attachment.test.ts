@@ -33,11 +33,11 @@ describe('\'attachment\' service', () => {
     fsPath,
   }
 
-  // it('registered the service', () => {
-  //   expect.assertions(1)
-  //   const service = app.service('attachment')
-  //   expect(service).toBeTruthy()
-  // })
+  it('registered the service', () => {
+    expect.assertions(1)
+    const service = app.service('attachment')
+    expect(service).toBeTruthy()
+  })
 
   beforeAll(async () => {
     /**
