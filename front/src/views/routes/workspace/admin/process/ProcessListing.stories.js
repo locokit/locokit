@@ -46,58 +46,8 @@ const mockProcessData = {
     enabled: true,
   }],
 }
-export const defaultStory = () => ({
-  components: { ProcessListing },
-  template: '<ProcessListing workspaceId="this-is-a-id" />',
-})
 
-defaultStory.storyName = 'default'
-
-export const withProcessesToDisplay = () => {
-  return {
-    components: { ProcessListing },
-    template: `
-      <ProcessListing
-        workspaceId="this-is-a-id"
-      />
-    `,
-  }
-}
-
-withProcessesToDisplay.storyName = 'with processes to display'
-withProcessesToDisplay.parameters = {
-  lckServices: {
-    process: {
-      find () {
-        return new Promise(resolve => {
-          resolve(mockProcessData)
-        })
-      },
-    },
-  },
-}
-
-export const withDetailProcessDisplayed = () => {
-  return {
-    components: { ProcessListing },
-    template: `
-      <ProcessListing
-        ref="pl"
-        workspaceId="this-is-a-id"
-        processId="${mockProcessData.data[0].id}"
-      />
-    `,
-    async mounted () {
-      setTimeout(() => {
-        const processItem = this.$refs.pl.$el.querySelector('.lck-process-item')
-        processItem.click()
-      }, 100)
-    },
-  }
-}
-
-withDetailProcessDisplayed.storyName = 'with detail process displayed'
-withDetailProcessDisplayed.parameters = {
+const parameters = {
   lckServices: {
     process: {
       find () {
@@ -123,3 +73,46 @@ withDetailProcessDisplayed.parameters = {
     },
   },
 }
+
+export const defaultStory = () => ({
+  components: { ProcessListing },
+  template: '<ProcessListing workspaceId="this-is-a-id" />',
+})
+
+defaultStory.storyName = 'default'
+// defaultStory.parameters = parameters
+
+export const withProcessesToDisplay = () => {
+  return {
+    components: { ProcessListing },
+    template: `
+      <ProcessListing
+        workspaceId="this-is-a-id"
+      />
+    `,
+  }
+}
+withProcessesToDisplay.storyName = 'with processes to display'
+withProcessesToDisplay.parameters = parameters
+
+export const withDetailProcessDisplayed = () => {
+  return {
+    components: { ProcessListing },
+    template: `
+      <ProcessListing
+        ref="pl"
+        workspaceId="this-is-a-id"
+        processId="${mockProcessData.data[0].id}"
+      />
+    `,
+    async mounted () {
+      setTimeout(() => {
+        const processItem = this.$refs.pl.$el.querySelector('.lck-process-item')
+        processItem.click()
+      }, 100)
+    },
+  }
+}
+
+withDetailProcessDisplayed.storyName = 'with detail process displayed'
+withDetailProcessDisplayed.parameters = parameters

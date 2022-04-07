@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/ui/PopupReload default 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-dialog-mask p-component-overlay p-component-overlay-enter p-dialog-bottomright"
+    style="z-index: 1016;"
+  >
+    <div
+      aria-labelledby="pv_id_30_header"
+      aria-modal="true"
+      class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
+      role="dialog"
+      style="z-index: 1017; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
+    >
+      <div
+        class="p-dialog-header"
+      >
+        <span
+          class="p-dialog-title"
+          id="pv_id_30_header"
+        >
+          New version available
+        </span>
+         
+        <div
+          class="p-dialog-header-icons"
+        >
+          <!---->
+           
+          <button
+            aria-label="close"
+            class="p-dialog-header-icon p-dialog-header-close p-link"
+            tabindex="-1"
+            type="button"
+          >
+            <span
+              class="p-dialog-header-close-icon pi pi-times"
+            />
+            <span
+              class="p-ink"
+            />
+          </button>
+        </div>
+      </div>
+       
+      <div
+        class="p-dialog-content"
+      >
+        <p
+          class="p-m-0"
+        >
+          A new version of the platform is available. To enjoy it, you must refresh your browser.
+        </p>
+      </div>
+       
+      <div
+        class="p-dialog-footer"
+      >
+        <button
+          class="p-button-text p-button p-component"
+          type="button"
+        >
+          <span
+            class="pi pi-times p-button-icon p-button-icon-left"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+            Dismiss
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <button
+          autofocus="autofocus"
+          class="p-button-text p-button p-component"
+          type="button"
+        >
+          <span
+            class="pi pi-check p-button-icon p-button-icon-left"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+            Update
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

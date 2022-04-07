@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/ui/OverlayPanel default 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="lck-overlay-panel"
+  >
+    <button
+      class="p-button p-component"
+      type="button"
+    >
+      <span
+        class="pi pi-list p-button-icon p-button-icon-left"
+      />
+       
+      <span
+        class="p-button-label"
+      >
+        No button label
+      </span>
+       
+      <!---->
+      <span
+        class="p-ink"
+      />
+    </button>
+     
+    <!--function (a, b, c, d) { return createElement(vm, a, b, c, d, true); }-->
+  </div>
+</div>
+`;
+
+exports[`storyshots components/ui/OverlayPanel overlay opened 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="lck-overlay-panel"
+  >
+    <button
+      class="p-button p-component"
+      type="button"
+    >
+      <span
+        class="pi pi-list p-button-icon p-button-icon-left"
+      />
+       
+      <span
+        class="p-button-label"
+      >
+        Hello there
+      </span>
+       
+      <!---->
+      <span
+        class="p-ink"
+      />
+    </button>
+     
+    <!--function (a, b, c, d) { return createElement(vm, a, b, c, d, true); }-->
+  </div>
+</div>
+`;

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import logo from '../../../../public/themes/locokit/img/logo.png'
+import { LckWorkspace } from '../definitions'
 import { lckServices } from './services'
 
 export const searchItems = () => '456'
@@ -34,6 +35,13 @@ export async function retrievePageWithContainersAndBlocks (id: string) {
     query: { $eager: 'containers.[blocks]' },
   })
 }
+
+export async function retrieveWorkspaceWithDatabases (workspaceId: string): Promise<LckWorkspace> {
+  const workspace: LckWorkspace = await lckServices.workspace.get(workspaceId, {
+    query: { $eager: '[databases.[tables]]' },
+  }) as LckWorkspace
+  return workspace
+}
 export default {
   searchItems,
   exportTableRowDataXLS,
@@ -47,4 +55,5 @@ export default {
   retrieveViewData,
   retrieveViewDefinition,
   retrievePageWithContainersAndBlocks,
+  retrieveWorkspaceWithDatabases,
 }

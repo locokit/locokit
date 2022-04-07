@@ -38,6 +38,8 @@ module.exports = {
   ],
 
   moduleNameMapper: {
+    '^@/services/lck-api/services$': '<rootDir>/src/services/lck-api/__mocks__/services',
+    '^@/services/lck-api$': '<rootDir>/src/services/lck-api/__mocks__/index.ts',
     '^@/(.*)$': '<rootDir>/src/$1',
     // non-js files
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':

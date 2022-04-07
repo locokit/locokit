@@ -1,12 +1,11 @@
-import { Params } from '@feathersjs/feathers'
-import { StoryContext, StoryFn } from '@storybook/addons'
+import { DecoratorFunction, StoryContext, StoryFn } from '@storybook/addons'
 
 const dataToReturn = {
   limit: 0,
   total: 0,
   data: [],
 }
-function defaultServiceFunction () {
+function defaultServiceFunction (..._args: any[]) {
   return new Promise(resolve => {
     resolve(dataToReturn)
   })
@@ -14,7 +13,7 @@ function defaultServiceFunction () {
 
 const feathersService = {
   find: defaultServiceFunction,
-  get: (id: string, params: Params) => ({ id, params }),
+  get: defaultServiceFunction,
   put: defaultServiceFunction,
   patch: defaultServiceFunction,
   remove: defaultServiceFunction,
@@ -48,21 +47,31 @@ export const lckServices = {
    */
   user: feathersService,
   group: feathersService,
+  /**
+   * Ŵorkspace
+   */
+  workspace: feathersService,
 }
 
 type lckServicesName = 'database' | 'table' | 'tableColumn' | 'tableView' | 'tableRow' | 'tableViewColumn'
   | 'visuChapter' | 'page' | 'visuContainer' | 'visuBlock'
   | 'process' | 'processRun'
   | 'user' | 'group'
+  | 'workspace'
 
-export function lckServicesDecorator (
+export const lckServicesDecorator: DecoratorFunction = function (
   story: StoryFn,
-  { parameters }: StoryContext,
+  context: StoryContext,
 ) {
-  if (parameters?.lckServices) {
-    (Object.keys(parameters.lckServices) as lckServicesName[]).forEach(serviceName => {
-      lckServices[serviceName] = parameters.lckServices[serviceName]
-    })
+  console.log(context.kind, context.name)
+  if (context.parameters?.lckServices) {
+    (Object.keys(context.parameters.lckServices) as lckServicesName[])
+      .forEach(serviceName => {
+        lckServices[serviceName] = context.parameters.lckServices[serviceName]
+      })
   }
-  return story()
+  return {
+    components: { story },
+    template: '<story />',
+  }
 }

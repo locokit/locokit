@@ -23,19 +23,25 @@ addParameters({
  * Use of a special wrapper to add local styles
  */
 Vue.component('theme-wrapper', ThemeWrapper)
-addDecorator(() => ({
+
+const getTheme = () => ({
   template: '<theme-wrapper><story></story></theme-wrapper>'
-}))
+})
 
 /**
  * Add i18n for storybook
  */
-addDecorator(() => ({
+const getI18n = () => ({
   template: '<story/>',
   i18n,
-}));
+})
 
 /**
  * Add lckServicesDecorator for mocking lck services
  */
-addDecorator(lckServicesDecorator)
+
+export const decorators = [
+  getTheme,
+  getI18n,
+  lckServicesDecorator,
+]

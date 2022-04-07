@@ -57,7 +57,7 @@ const validationRules: ValidationRule[] = [
   },
 ]
 
-export default {
+export default Vue.extend({
   name: 'ColumnValidation',
   components: {
     'p-checkbox': Vue.extend(Checkbox),
@@ -112,7 +112,7 @@ export default {
       }
     },
   },
-}
+})
 </script>
 
 <style scoped>

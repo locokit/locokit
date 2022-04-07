@@ -17,3 +17,34 @@ export const defaultStory = () => ({
 })
 
 defaultStory.storyName = 'default'
+defaultStory.parameters = {
+  lckServices: {
+    workspace: {
+      get () {
+        return new Promise(resolve => {
+          resolve({
+            id: 'workspace1_id',
+            text: 'Workspace 1',
+            databases: [
+              {
+                id: 'database1_id',
+                text: 'Database 1',
+                workspace_id: 'workspace1_id',
+                tables: [
+                  {
+                    id: 'table1_id',
+                    text: 'Table 1',
+                  },
+                  {
+                    id: 'table2_id',
+                    text: 'Table 2',
+                  },
+                ],
+              },
+            ],
+          })
+        })
+      },
+    },
+  },
+}

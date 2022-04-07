@@ -1,0 +1,394 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots views/modals/HandleColumnModal Create 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="p-fluid"
+  >
+    <span
+      class=""
+    >
+      <form>
+        <div
+          class="p-fluid p-dialog-mask p-component-overlay p-component-overlay-enter"
+          style="z-index: 1028;"
+        >
+          <div
+            aria-labelledby="pv_id_77_header"
+            aria-modal="true"
+            class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
+            role="dialog"
+            style="z-index: 1029; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
+          >
+            <div
+              class="p-dialog-header"
+            >
+              <span
+                class="p-dialog-title"
+                id="pv_id_77_header"
+              >
+                Create column
+              </span>
+               
+              <div
+                class="p-dialog-header-icons"
+              >
+                <!---->
+                 
+                <button
+                  aria-label="close"
+                  class="p-dialog-header-icon p-dialog-header-close p-link"
+                  tabindex="-1"
+                  type="button"
+                >
+                  <span
+                    class="p-dialog-header-close-icon pi pi-times"
+                  />
+                  <span
+                    class="p-ink"
+                  />
+                </button>
+              </div>
+            </div>
+             
+            <div
+              class="p-dialog-content"
+              style="max-height: 70vh;"
+            >
+              <!---->
+               
+              <div
+                class="p-field"
+              >
+                <label
+                  class="label-field-required"
+                  for="column-name"
+                >
+                  
+      Column name
+    
+                </label>
+                 
+                <input
+                  autofocus="autofocus"
+                  class="p-inputtext p-component"
+                  id="column-name"
+                  type="text"
+                />
+                 
+                <span
+                  class="untouched pristine"
+                >
+                  
+                </span>
+              </div>
+               
+              <div
+                class="p-field"
+              >
+                <label
+                  for="column-doc"
+                >
+                  
+      Documentation
+    
+                </label>
+                 
+                <textarea
+                  class="p-inputtextarea p-inputtext p-component p-inputtextarea-resizable "
+                  id="column-doc"
+                />
+              </div>
+               
+              <div
+                class="p-field"
+              >
+                <label
+                  for="column-slug"
+                >
+                  
+      Column slug
+    
+                </label>
+                 
+                <input
+                  class="p-inputtext p-component"
+                  id="column-slug"
+                  type="text"
+                />
+                 
+                <small>
+                  Name used for the column in the SQL view, in snake case.
+                </small>
+              </div>
+               
+              <div
+                class="flex p-ai-center p-field"
+              >
+                <label
+                  class="p-mr-2"
+                >
+                  
+      Reference
+    
+                </label>
+                 
+                <div
+                  class="p-mr-2"
+                >
+                  <div
+                    class="p-inputswitch p-component"
+                    id="referenceToHandle-isActive"
+                  >
+                    <div
+                      class="p-hidden-accessible"
+                    >
+                      <input
+                        role="switch"
+                        type="checkbox"
+                      />
+                    </div>
+                     
+                    <span
+                      class="p-inputswitch-slider"
+                    />
+                  </div>
+                </div>
+                 
+                <div
+                  class="input-number-reference"
+                >
+                  <span
+                    class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled p-inputnumber-buttons-stacked"
+                  >
+                    <input
+                      aria-valumin="0"
+                      class="p-inputtext p-component p-filled p-inputnumber-input"
+                      disabled="disabled"
+                      id="referenceToHandle-position"
+                    />
+                     
+                    <span
+                      class="p-inputnumber-button-group"
+                    >
+                      <button
+                        class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-up"
+                        disabled="disabled"
+                        type="button"
+                      >
+                        <span
+                          class="pi pi-angle-up p-button-icon"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                           
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                       
+                      <button
+                        class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-down"
+                        disabled="disabled"
+                        type="button"
+                      >
+                        <span
+                          class="pi pi-angle-down p-button-icon"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                           
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                    </span>
+                     
+                    <!---->
+                     
+                    <!---->
+                  </span>
+                </div>
+              </div>
+               
+              <div>
+                
+    Validation rules
+    
+                <div
+                  class="p-my-2"
+                >
+                  <div>
+                    <div
+                      class="rule-enable"
+                    >
+                      <div
+                        class="p-mr-2 p-checkbox p-component"
+                      >
+                        <div
+                          class="p-hidden-accessible"
+                        >
+                          <input
+                            id="required-enable"
+                            name="rule-enable"
+                            type="checkbox"
+                            value=""
+                          />
+                        </div>
+                         
+                        <div
+                          class="p-checkbox-box"
+                          role="checkbox"
+                        >
+                          <span
+                            class="p-checkbox-icon"
+                          />
+                        </div>
+                      </div>
+                       
+                      <label
+                        for="required-enable"
+                      >
+                        Required column
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+               
+              <div
+                class="p-field"
+              >
+                <label
+                  class="label-field-required"
+                  for="column-type"
+                >
+                  
+      Column type
+    
+                </label>
+                 
+                <div
+                  class="p-dropdown p-component p-inputwrapper"
+                  id="column-type"
+                >
+                  <div
+                    class="p-hidden-accessible"
+                  >
+                    <input
+                      aria-haspopup="listbox"
+                      readonly="readonly"
+                      type="text"
+                    />
+                  </div>
+                   
+                  <!---->
+                   
+                  <span
+                    class="p-dropdown-label p-inputtext p-placeholder"
+                  >
+                    
+            Select column type
+        
+                  </span>
+                   
+                  <!---->
+                   
+                  <div
+                    aria-haspopup="listbox"
+                    class="p-dropdown-trigger"
+                    role="button"
+                  >
+                    <span
+                      class="p-dropdown-trigger-icon pi pi-chevron-down"
+                    />
+                  </div>
+                   
+                  <!---->
+                </div>
+                 
+                <!---->
+                 
+                <span
+                  class="untouched pristine"
+                >
+                  
+                </span>
+              </div>
+               
+              <!---->
+               
+              <!---->
+               
+              <!---->
+               
+              <!---->
+               
+              <!---->
+               
+              <!---->
+            </div>
+             
+            <div
+              class="p-dialog-footer"
+            >
+              <button
+                class="p-button-text p-button-secondary p-button p-component"
+                type="button"
+              >
+                <span
+                  class="pi pi-times p-button-icon p-button-icon-left"
+                />
+                 
+                <span
+                  class="p-button-label"
+                >
+                  Cancel
+                </span>
+                 
+                <!---->
+                <span
+                  class="p-ink"
+                />
+              </button>
+               
+              <button
+                class="p-button-primary p-button p-component"
+                disabled="disabled"
+                type="submit"
+              >
+                <span
+                  class="pi pi-check p-button-icon p-button-icon-left"
+                />
+                 
+                <span
+                  class="p-button-label"
+                >
+                  Submit
+                </span>
+                 
+                <!---->
+                <span
+                  class="p-ink"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </span>
+  </div>
+</div>
+`;
