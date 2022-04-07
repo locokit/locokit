@@ -244,14 +244,17 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .container {
   height: 100%;
   max-height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
+</style>
 
+<style>
 #svg-container {
   width: 100%;
   height: 100%;

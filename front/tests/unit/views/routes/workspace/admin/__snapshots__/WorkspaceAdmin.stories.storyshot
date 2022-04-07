@@ -54,7 +54,7 @@ exports[`storyshots views/routes/workspace/admin/WorkspaceAdmin default 1`] = `
     </header>
      
     <div
-      class="lck-layout lck-layout--with-nav"
+      class="lck-layout-content lck-layout--with-nav"
     >
       <nav
         class="lck-nav"
@@ -124,6 +124,19 @@ exports[`storyshots views/routes/workspace/admin/WorkspaceAdmin default 1`] = `
             >
               <i
                 class="bi bi-people"
+              />
+            </a>
+          </li>
+          <li
+            aria-label="Files and multimedia contents"
+            class="lck-nav-item"
+            title="Files and multimedia contents"
+          >
+            <a
+              class="mock-link lck-nav-item-link"
+            >
+              <i
+                class="bi bi-file-earmark"
               />
             </a>
           </li>

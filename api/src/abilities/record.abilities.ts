@@ -8,40 +8,9 @@ import { LckAclSet } from '../models/aclset.model'
 import { iff, IffHook, isProvider } from 'feathers-hooks-common'
 import { User } from '../models/user.model'
 import { ServiceTypes } from '../declarations'
-import { Forbidden, NotAcceptable } from '@feathersjs/errors'
+import { Forbidden } from '@feathersjs/errors'
 import { Usergroup } from '../models/usergroup.model'
-
-/**
- * Replace placeholder in an ACL filter (read, update or delete ones)
- * * {userId} is replaced with the current user id
- * * {groupId} is replaced with the groupId var
- *   depending it's an array or a string, will spread it or replace simply
- *
- * @return the filter with all palceholder replaced
- */
-function replacePlaceholderInACLFilter (
-  filter: string,
-  userId: number,
-  groupId: string | null | string[],
-): string {
-  let filterEnhance = filter.replace('"{userId}"', userId.toString())
-  if (filterEnhance.includes('{groupId}')) {
-    if (!groupId) {
-      throw new NotAcceptable('Missing filter $lckGroupId.', {
-        code: 'RECORDS_NOT_FILTERABLE',
-      })
-    } else if (Array.isArray(groupId)) {
-      filterEnhance = filterEnhance.replace('"{groupId}"', `{
-        "$in": [
-          "${groupId.join('", "')}"
-        ]
-      }`)
-    } else {
-      filterEnhance = filterEnhance.replace('{groupId}', groupId)
-    }
-  }
-  return filterEnhance
-}
+import { replacePlaceholderInACLFilter } from './replacePlaceholder.helper'
 
 /**
  * Define abilities for records
@@ -54,10 +23,6 @@ function replacePlaceholderInACLFilter (
  * After, he can create - or not - new records.
  * He can remove lines - or not.
  *
- *
- *
- * @param context Hook context, provided by FeathersJS
- * @returns Promise<HookContext>
  */
 export async function defineAbilityFor (
   user: User,
@@ -236,9 +201,6 @@ export async function defineAbilityFor (
 
 /**
  * Define abilities for records
- *
- * @param context Hook context, provided by FeathersJS
- * @returns Promise<HookContext>
  */
 export async function defineAbilities (context: HookContext): Promise<HookContext> {
   const ability: AppAbility = await defineAbilityFor(

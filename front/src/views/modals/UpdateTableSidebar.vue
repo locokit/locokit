@@ -50,7 +50,11 @@
           vid="table-slug"
           tag="div"
           class="p-field p-mt-4"
-          rules="required snakeCase"
+          rules="required|snakeCase"
+          v-slot="{
+            errors,
+            classes
+          }"
         >
           <label for="table-slug">
             {{ $t('pages.databaseSchema.updateTableSidebar.tableSlug') }}
@@ -61,6 +65,7 @@
             v-model="currentTableToUpdate.slug"
           />
           <small>{{ $t('pages.databaseSchema.updateTableSidebar.tableSlugInfo') }}</small>
+          <span :class="classes">{{ errors[0] }}</span>
         </validation-provider>
 
       </lck-form>

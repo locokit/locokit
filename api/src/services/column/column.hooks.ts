@@ -1,6 +1,5 @@
 import * as authentication from '@feathersjs/authentication'
 import { disablePagination, disallow, iff, preventChanges } from 'feathers-hooks-common'
-import { queryContainsKeys } from '../../hooks/lck-hooks/queryContainsKeys'
 import { getCurrentItem } from '../../hooks/lck-hooks/getCurrentItem'
 import { createGIX, dropGIX } from './gixGeometryColumn.hook'
 import { parseFormula, isFormulaColumn, updatedRelatedRowsFormula } from './formulaColumn.hook'
@@ -14,12 +13,11 @@ const { authenticate } = authentication.hooks
 
 export default {
   before: {
-    all: [authenticate('jwt')],
+    all: [
+      authenticate('jwt'),
+    ],
     find: [
-      iff(
-        queryContainsKeys(['table_id']),
-        disablePagination(),
-      ),
+      disablePagination(),
     ],
     get: [],
     create: [

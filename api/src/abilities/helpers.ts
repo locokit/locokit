@@ -13,11 +13,11 @@ import { TableRow } from '../models/tablerow.model'
 import { AuthenticationResult } from '@feathersjs/authentication/lib'
 import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
 import { dropWorkspace } from '../utils/dropWorkspace'
-// import { LckAclTable } from '../models/acltable.model'
 
 export interface SetupData {
   workspace1Id: string
   workspace2Id: string
+  database1Id: string
   columnTable1GroupId: string
   columnTable1UserId: string
   columnTable1BooleanId: string
@@ -29,19 +29,25 @@ export interface SetupData {
   user3: User
   user4: User
   user5: User
+  userAdmin: User
+  userSuperAdmin: User
   user1Authentication: AuthenticationResult
   user2Authentication: AuthenticationResult
   user3Authentication: AuthenticationResult
   user4Authentication: AuthenticationResult
   user5Authentication: AuthenticationResult
+  userAdminAuthentication: AuthenticationResult
+  userSuperAdminAuthentication: AuthenticationResult
   group1: Group
   group2: Group
   group3: Group
   group4: Group
+  group5: Group
   aclset1: LckAclSet
   aclset2: LckAclSet
   aclset3: LckAclSet
   aclset4: LckAclSet
+  aclset5: LckAclSet
   table1Id: string
   table2Id: string
   row1Table1: TableRow
@@ -75,20 +81,26 @@ export function builderTestEnvironment (prefix: string) {
   let aclset2: LckAclSet
   let aclset3: LckAclSet
   let aclset4: LckAclSet
+  let aclset5: LckAclSet
   let group1: Group
   let group2: Group
   let group3: Group
   let group4: Group
+  let group5: Group
   let user1: User
   let user2: User
   let user3: User
   let user4: User
   let user5: User
+  let userAdmin: User
+  let userSuperAdmin: User
   let user1Authentication: AuthenticationResult
   let user2Authentication: AuthenticationResult
   let user3Authentication: AuthenticationResult
   let user4Authentication: AuthenticationResult
   let user5Authentication: AuthenticationResult
+  let userAdminAuthentication: AuthenticationResult
+  let userSuperAdminAuthentication: AuthenticationResult
 
   let table1: Table
   let table2: Table
@@ -135,7 +147,7 @@ export function builderTestEnvironment (prefix: string) {
       text: `[${prefix} abilities] Workspace 1`,
     })
     workspace2 = await app.services.workspace.create({
-      text: `[${prefix} abilities] Workspace 1`,
+      text: `[${prefix} abilities] Workspace 2`,
     })
     const workspaceDatabases = await app.service('database').find({
       query: {
@@ -145,22 +157,26 @@ export function builderTestEnvironment (prefix: string) {
     }) as Paginated<Database>
     database1 = workspaceDatabases.data[0]
     aclset1 = await app.services.aclset.create({
-      label: `[${prefix} abilities] Acl Set 1`,
+      label: `[${prefix} abilities] Acl Set 1 workspace 1`,
       workspace_id: workspace1.id,
       manager: true,
     })
     aclset2 = await app.services.aclset.create({
-      label: `[${prefix} abilities] Acl Set 2`,
+      label: `[${prefix} abilities] Acl Set 2 workspace 1`,
       workspace_id: workspace1.id,
     })
     aclset3 = await app.services.aclset.create({
-      label: `[${prefix} abilities] Acl Set 3`,
+      label: `[${prefix} abilities] Acl Set 3 workspace 2`,
       workspace_id: workspace2.id,
       manager: true,
     })
     aclset4 = await app.services.aclset.create({
-      label: `[${prefix} abilities] Acl Set 4`,
+      label: `[${prefix} abilities] Acl Set 4 workspace 2`,
       workspace_id: workspace2.id,
+    })
+    aclset5 = await app.services.aclset.create({
+      label: `[${prefix} abilities] Acl Set 5 workspace 1`,
+      workspace_id: workspace1.id,
     })
     const userPassword = 'locokit'
     const [localStrategy] = app.service('authentication').getStrategies('local') as LocalStrategy[]
@@ -196,6 +212,20 @@ export function builderTestEnvironment (prefix: string) {
       isVerified: true,
       password: passwordHashed,
     }, {})
+    userAdmin = await app.services.user._create({
+      name: `${prefix} Admin`,
+      email: `${prefix}admin@locokit.io`,
+      isVerified: true,
+      password: passwordHashed,
+      profile: USER_PROFILE.ADMIN,
+    }, {})
+    userSuperAdmin = await app.services.user._create({
+      name: `${prefix} Super Admin`,
+      email: `${prefix}superadmin@locokit.io`,
+      isVerified: true,
+      password: passwordHashed,
+      profile: USER_PROFILE.SUPERADMIN,
+    }, {})
 
     user1Authentication = await app.service('authentication').create({
       strategy: 'local',
@@ -222,6 +252,16 @@ export function builderTestEnvironment (prefix: string) {
       email: `${prefix}abilities-user5@locokit.io`,
       password: userPassword,
     }, {})
+    userAdminAuthentication = await app.service('authentication').create({
+      strategy: 'local',
+      email: `${prefix}admin@locokit.io`,
+      password: userPassword,
+    }, {})
+    userSuperAdminAuthentication = await app.service('authentication').create({
+      strategy: 'local',
+      email: `${prefix}superadmin@locokit.io`,
+      password: userPassword,
+    }, {})
 
     group1 = await app.services.group.create({
       name: `[${prefix} abilities] Group 1`,
@@ -242,6 +282,11 @@ export function builderTestEnvironment (prefix: string) {
       name: `[${prefix} abilities] Group 4`,
       aclset_id: aclset4.id,
       users: [user1, user5],
+    })
+    group5 = await app.services.group.create({
+      name: `[${prefix} abilities] Group 5`,
+      aclset_id: aclset5.id,
+      users: [user5],
     })
 
     // let user1: User
@@ -502,6 +547,7 @@ export function builderTestEnvironment (prefix: string) {
     _data = {
       workspace1Id: workspace1.id,
       workspace2Id: workspace2.id,
+      database1Id: database1.id,
       table1Id: table1.id,
       table2Id: table2.id,
       columnTable1GroupId: columnTable1Group.id,
@@ -515,19 +561,25 @@ export function builderTestEnvironment (prefix: string) {
       user3,
       user4,
       user5,
+      userAdmin,
+      userSuperAdmin,
       user1Authentication,
       user2Authentication,
       user3Authentication,
       user4Authentication,
       user5Authentication,
+      userAdminAuthentication,
+      userSuperAdminAuthentication,
       group1,
       group2,
       group3,
       group4,
+      group5,
       aclset1,
       aclset2,
       aclset3,
       aclset4,
+      aclset5,
       row1Table1,
       row2Table1,
       row3Table1,
@@ -578,31 +630,35 @@ export function builderTestEnvironment (prefix: string) {
     await app.service('column').remove(columnTable1GeomPolygon.id)
     await app.service('column').remove(columnTable1GeomLinestring.id)
 
-    await dropWorkspace(app, workspace1.id)
-    await dropWorkspace(app, workspace2.id)
-
     /*
     await app.service('table').remove(table1.id)
     await app.service('table').remove(table2.id)
+    */
+    // await app.services.usergroup.remove(`${user5.id},${group2.id}`)
+    // await app.services.usergroup.remove(`${user5.id},${group4.id}`)
+    // await app.services.usergroup.remove(`${user4.id},${group1.id}`)
+    // await app.services.usergroup.remove(`${user1.id},${group1.id}`)
+    // await app.services.usergroup.remove(`${user2.id},${group2.id}`)
+    // await app.services.usergroup.remove(`${user3.id},${group2.id}`)
+    // await app.services.usergroup.remove(`${user2.id},${group3.id}`)
+    // await app.services.usergroup.remove(`${user1.id},${group4.id}`)
 
-    await app.services.usergroup.remove(`${user5.id},${group2.id}`)
-    await app.services.usergroup.remove(`${user5.id},${group4.id}`)
-    await app.services.usergroup.remove(`${user4.id},${group1.id}`)
-    await app.services.usergroup.remove(`${user1.id},${group1.id}`)
-    await app.services.usergroup.remove(`${user2.id},${group2.id}`)
-    await app.services.usergroup.remove(`${user3.id},${group2.id}`)
-    await app.services.usergroup.remove(`${user2.id},${group3.id}`)
-    await app.services.usergroup.remove(`${user1.id},${group4.id}`)
+    await app.services.group.remove(group5.id)
+    await app.services.group.remove(group4.id)
+    await app.services.group.remove(group3.id)
+    await app.services.group.remove(group2.id)
+    await app.services.group.remove(group1.id)
+
+    await app.services.user.remove(userAdmin.id)
+    await app.services.user.remove(userSuperAdmin.id)
 
     await app.services.user.remove(user5.id)
     await app.services.user.remove(user4.id)
     await app.services.user.remove(user3.id)
     await app.services.user.remove(user2.id)
     await app.services.user.remove(user1.id)
-    await app.services.group.remove(group4.id)
-    await app.services.group.remove(group3.id)
-    await app.services.group.remove(group2.id)
-    await app.services.group.remove(group1.id)
+
+    /*
     await app.services.aclset.remove(aclset4.id)
     await app.services.aclset.remove(aclset3.id)
     await app.services.aclset.remove(aclset2.id)
@@ -612,6 +668,8 @@ export function builderTestEnvironment (prefix: string) {
     await app.services.workspace.remove(workspace1.id)
     await app.services.workspace.remove(workspace2.id)
     */
+    await dropWorkspace(app, workspace1.id)
+    await dropWorkspace(app, workspace2.id)
   }
 
   return {

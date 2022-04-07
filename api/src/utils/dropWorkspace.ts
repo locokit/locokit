@@ -10,7 +10,7 @@ import { COLUMN_TYPE } from '@locokit/lck-glossary'
 export async function dropWorkspace (app: Application, workspaceId: string): Promise<void> {
   const workspace = await app.service('workspace').get(workspaceId, {
     query: {
-      $eager: '[aclsets.[groups.[usergroups]]]',
+      $eager: '[aclsets.[acltables,groups.[usergroups]],attachments]',
     },
   }) as Workspace
   const allIdsChapters: string[] = []
@@ -18,10 +18,13 @@ export async function dropWorkspace (app: Application, workspaceId: string): Pro
   const allIdsUsers: Set<number> = new Set()
   const allIdsUsersGroups: Array<{group_id: string, user_id: number}> = []
   const allIdsAclsets: string[] = []
+  const allIdsAclTables: string[] = []
+  const allIdsAttachments: string[] = workspace.attachments?.map(a => a.id) ?? []
 
   workspace.aclsets?.forEach(a => {
     a.chapter_id !== null && allIdsChapters.push(a.chapter_id as string)
     allIdsAclsets.push(a.id as string)
+    allIdsAclTables.push(...(a.acltables?.map(t => t.id) ?? []))
     a.groups?.forEach(g => {
       allIdsGroups.push(g.id as string)
       g.usergroups?.forEach(ug => {
@@ -109,6 +112,10 @@ export async function dropWorkspace (app: Application, workspaceId: string): Pro
     })
   })
 
+  await Promise.all(allIdsAttachments.map(async id => {
+    return app.service('attachment').remove(id)
+  }))
+
   await Promise.all(allIdsViewsColumns.map(async id => {
     return app.service('table-view-has-table-column').remove(id)
   }))
@@ -124,6 +131,9 @@ export async function dropWorkspace (app: Application, workspaceId: string): Pro
 
   await Promise.all(allIdsRows.map(async id => {
     return app.service('row').remove(id)
+  }))
+  await Promise.all(allIdsAclTables.map(async id => {
+    return app.service('acltable').remove(id)
   }))
   await Promise.all(allIdsTables.map(async id => {
     return app.service('table').remove(id)

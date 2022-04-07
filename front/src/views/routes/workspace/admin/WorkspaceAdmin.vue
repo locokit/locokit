@@ -1,7 +1,7 @@
 <template>
   <layout-with-header>
     <template v-slot:default="slotProps">
-      <div class="lck-layout lck-layout--with-nav">
+      <div class="lck-layout-content lck-layout--with-nav">
         <nav class="lck-nav" :class="{'lck-nav--active': slotProps.sidebarActive}">
           <ul class="lck-nav-list">
             <li
@@ -102,6 +102,15 @@ export default {
         icon: 'bi-people',
         to: {
           name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUP,
+          params: {
+            workspaceId: this.workspaceId,
+          },
+        },
+      }, {
+        label: this.$t('pages.workspace.menu.files'),
+        icon: 'bi-file-earmark',
+        to: {
+          name: ROUTES_NAMES.WORKSPACE_ADMIN.FILES,
           params: {
             workspaceId: this.workspaceId,
           },

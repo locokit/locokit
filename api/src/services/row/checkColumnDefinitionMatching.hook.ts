@@ -459,13 +459,13 @@ export function checkColumnDefinitionMatching (): Hook {
                * For files, we need to check every ids really exist in database
                */
               try {
-                const attachments = await context.app.service('attachment').find({
+                const attachments = await context.app.service('attachment')._find({
                   query: {
                     id: {
                       $in: currentColumnValue,
                     },
-                    $limit: -1,
                   },
+                  paginate: false,
                 }) as LckAttachment[]
                 if (attachments.length !== currentColumnValue.length) {
                   checkErrors.push({

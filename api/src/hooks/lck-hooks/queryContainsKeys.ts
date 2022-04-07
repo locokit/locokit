@@ -2,9 +2,6 @@ import { HookContext } from '@feathersjs/feathers'
 
 /**
  * Is the context's query param containing ANY or ALL the keys ?
- *
- * @param {HookContext} context
- * @returns {boolean}
  */
 export const queryContainsKeys = (
   keysToCheck: string[],

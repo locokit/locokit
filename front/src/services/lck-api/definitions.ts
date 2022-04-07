@@ -45,6 +45,7 @@ export class LckAttachment {
   mime!: string
   ext!: string
   thumbnail!: boolean; // has the attachment a thumbnail available
+  size!: number
 
   workspace_id!: string
 }

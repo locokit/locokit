@@ -6,8 +6,8 @@ Welcome on the monorepo of [LocoKit, aka Low-Code Kit platform](https://locokit.
 
 LocoKit is an AirTable alternative, providing database management as a spreadsheet and an app builder.
 
-There is the backend part (`api` folder),
-the frontend (`front` folder),
+There is the backend part (`api` directory),
+the frontend (`front` directory),
 the documentation (`docs`)
 and several packages. (only `glossary` actually).
 
@@ -60,15 +60,15 @@ This is made with [RapiDoc](https://mrin9.github.io/RapiDoc/).
 ### Restore a dump
 
 You can restore any staging / production dump you have access to by putting them
-in the `dumps` folder.
+in the `dumps` directory.
 
-This folder is shared with the postgres dockers. (`lck-db` and `lck-db-test`)
+This directory is shared with the postgres dockers. (`lck-db` and `lck-db-test`)
 
 For restoring a dump :
 
 ```bash
 docker exec -it lck-db bash
-pg_restore --no-owner --clean -d public -U postgres -W /dumps/your_dump # you'll have to enter the password yourPostgresPassword
+pg_restore --no-owner --clean --create -d public -U postgres -W /dumps/your_dump # you'll have to enter the password yourPostgresPassword
 ```
 
 ### Scaffolding
@@ -138,7 +138,7 @@ npm run serve
 npm run build
 ```
 
-You'll get an `index-template.html` file in the `dist` folder.
+You'll get an `index-template.html` file in the `dist` directory.
 You can use the `npm run build:html` if you want to customize the title or other vars.
 
 ### Run your unit tests

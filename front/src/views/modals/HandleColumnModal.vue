@@ -62,7 +62,11 @@
       vid="column-slug"
       tag="div"
       class="p-field"
-      rules="required snakeCase"
+      rules="required|snakeCase"
+      v-slot="{
+        errors,
+        classes
+      }"
     >
       <label for="column-slug">
         {{ $t('pages.databaseSchema.handleColumnModal.columnSlug') }}
@@ -73,6 +77,7 @@
         type="text"
       />
       <small>{{ $t('pages.databaseSchema.handleColumnModal.columnSlugInfo') }}</small>
+      <span :class="classes">{{ errors[0] }}</span>
     </validation-provider>
     <div class="flex p-ai-center p-field">
       <label class="p-mr-2">

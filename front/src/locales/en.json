@@ -400,6 +400,26 @@
       },
       "settings": {
         "title": "Settings"
+      },
+      "files": {
+        "title": "Files and multimedia contents",
+        "columns": {
+          "filename": "File",
+          "size": "Size",
+          "createdAt": "Created at",
+          "updatedAt": "Updated at"
+        },
+        "removeConfirmationDialog": {
+          "message": "Do you really want to remove file {file} ? It will also be remove from records of your database.",
+          "header": "Removal confirmation"
+        },
+        "removeSuccessToast": {
+          "summary": "File {file} have been removed"
+        },
+        "removeErrorToast": {
+          "summary": "File {file} have not been removed",
+          "detail": "Following error occurs: {error}"
+        }
       }
     },
     "home": {
@@ -494,7 +514,8 @@
         "cms": "CMS, Content Management System",
         "acl": "ACL, Access Control List",
         "groups": "User groups",
-        "settings": "Settings"
+        "settings": "Settings",
+        "files": "Files and multimedia contents"
       },
       "title": "Workspaces",
       "noName": "(no name)",

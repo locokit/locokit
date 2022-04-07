@@ -1,12 +1,15 @@
 import { HookContext } from '@feathersjs/feathers'
 import * as authentication from '@feathersjs/authentication'
-import { iff, disallow } from 'feathers-hooks-common'
+import { iff, disallow, isProvider } from 'feathers-hooks-common'
 import { queryContainsKeys } from '../../hooks/lck-hooks/queryContainsKeys'
 import fs from 'fs'
 import path from 'path'
 import sharp from 'sharp'
 import { NotAcceptable } from '@feathersjs/errors'
 import * as Sentry from '@sentry/node'
+import { authorize } from 'feathers-casl/dist/hooks'
+import { defineAbilitiesIffHook } from '../../abilities/attachment.abilities'
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const Minio = require('minio')
 
@@ -83,7 +86,6 @@ async function createWorkspaceStorage (context: HookContext): Promise<HookContex
         }
         context.params.s3 = {
           Bucket: workspaceId,
-          ACL: 'public-read',
         }
       }
       if (context.params.query?.fileName) {
@@ -207,21 +209,25 @@ export default {
         createWorkspaceStorage,
       ),
     ],
-    get: [
-    ],
+    get: [],
     create: [
+      defineAbilitiesIffHook(),
       /**
        * Forbid the creation of an upload already uploaded
        */
       checkUploadDoesNotAlreadyExist,
+      authorize({
+        adapter: 'feathers-objection',
+      }),
     ],
     remove: [
       /**
-       * Remove all links from this upload
-       * but, for the moment, just don't remove an upload,
-       * we need to think how manage the upload links (workspace & records)
+       * Forbid access for external, only internal use
        */
-      disallow(),
+      iff(
+        isProvider('external'),
+        disallow(),
+      ),
     ],
   },
 

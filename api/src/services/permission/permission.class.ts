@@ -38,11 +38,15 @@ export class Permission implements Partial<ServiceMethods<{}>> {
      * Check if the current user is a member of at least a group
      */
     let userFound = false
-    workspace.aclsets.forEach((aclset: LckAclSet) => aclset.groups?.forEach((currentGroup: Group) => {
-      currentGroup.usergroups?.forEach(currentUsergroup => {
-        if (currentUsergroup.user_id === params?.user?.id) userFound = true
-      })
-    }))
+    workspace.aclsets.forEach(
+      (aclset: LckAclSet) => aclset.groups?.forEach(
+        (currentGroup: Group) => {
+          currentGroup.usergroups?.forEach(currentUsergroup => {
+            if (currentUsergroup.user_id === params?.user?.id) userFound = true
+          })
+        },
+      ),
+    )
     if (!userFound) throw new Forbidden('You don\'t have sufficient right to access this file')
 
     /**
@@ -55,6 +59,11 @@ export class Permission implements Partial<ServiceMethods<{}>> {
       },
     }) as Paginated<LckAttachment>
     if (file.total === 0) throw new NotFound('File not found')
+
+    /**
+     * Find if the user have access to this file
+     */
+
     if (thumbnail === 'thumbnail_' && !file.data[0].thumbnail) {
       throw new NotAcceptable('You try to access a thumbnail that is not generated.')
     }

@@ -9,9 +9,9 @@ exports[`storyshots components/ui/AsyncImage default 1`] = `
   >
     <div
       aria-busy="true"
-      class="p-progress-spinner async-image"
+      class="p-progress-spinner"
       role="alert"
-      style="width: 1.5rem;"
+      style="width: 1.5rem; height: 1.5rem;"
     >
       <svg
         class="p-progress-spinner-svg"
@@ -42,9 +42,9 @@ exports[`storyshots components/ui/AsyncImage error 1`] = `
   >
     <div
       aria-busy="true"
-      class="p-progress-spinner async-image"
+      class="p-progress-spinner"
       role="alert"
-      style="width: 1.5rem;"
+      style="width: 1.5rem; height: 1.5rem;"
     >
       <svg
         class="p-progress-spinner-svg"
@@ -75,9 +75,9 @@ exports[`storyshots components/ui/AsyncImage loading 1`] = `
   >
     <div
       aria-busy="true"
-      class="p-progress-spinner async-image"
+      class="p-progress-spinner"
       role="alert"
-      style="width: 1.5rem;"
+      style="width: 1.5rem; height: 1.5rem;"
     >
       <svg
         class="p-progress-spinner-svg"
