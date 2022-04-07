@@ -1,19 +1,18 @@
-import { GROUP_ROLE, USER_PROFILE } from '@locokit/lck-glossary'
+import { GROUP_ROLE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { Group as LckGroup } from '../../models/group.model'
 import { User as LckUser } from '../../models/user.model'
 import { MethodNotAllowed, NotFound } from '@feathersjs/errors'
-import { LocalStrategy } from '@feathersjs/authentication-local'
 import { Usergroup } from '../../models/usergroup.model'
+import { builderTestEnvironment, SetupData } from '../../abilities/helpers'
 
 describe('\'usergroup\' service', () => {
   let group: LckGroup
-  let lambdaUser: LckUser
-  let adminUser: LckUser
-  let superAdminUser: LckUser
-  let lambdaParams: object
-  let adminParams: object
-  let superAdminParams: object
+  let setupData: SetupData
+  const builder = builderTestEnvironment('user')
+  let lambdaUserParams: object
+  let adminUserParams: object
+  let superAdminUserParams: object
 
   beforeAll(async () => {
     // Default group
@@ -21,78 +20,26 @@ describe('\'usergroup\' service', () => {
       name: 'user group test',
     })
 
-    // User password
-    const userPassword = 'add-wd-dependencies@locokit.io0'
-    const [localStrategy] = app.service('authentication').getStrategies('local') as LocalStrategy[]
-    const passwordHashed = await localStrategy.hashPassword(userPassword, {})
-
-    // Lambda user
-    const lambdaEmail = 'lambda@locokit.io'
-    lambdaUser = await app.service('user')._create({
-      name: 'Ellie',
-      email: lambdaEmail,
-      isVerified: true,
-      password: passwordHashed,
-      profile: USER_PROFILE.USER,
-    }, {})
-
-    // Simulate the authentication
-    const lambdaAuthentication = await app.service('authentication').create({
-      strategy: 'local',
-      email: lambdaEmail,
-      password: userPassword,
-    }, {})
-    lambdaParams = {
+    /**
+     * Create a workspace with default user and authentication
+     */
+    setupData = await builder.setupWorkspace()
+    lambdaUserParams = {
       provider: 'external',
-      user: lambdaUser,
-      accessToken: lambdaAuthentication.accessToken,
+      user: setupData.user2,
+      accessToken: setupData.user2Authentication.accessToken,
       authenticated: true,
     }
-
-    // Admin user
-    const adminEmail = 'admin@locokit.io'
-    adminUser = await app.service('user')._create({
-      name: 'Abby',
-      email: adminEmail,
-      isVerified: true,
-      password: passwordHashed,
-      profile: USER_PROFILE.ADMIN,
-    }, {})
-
-    // Simulate the authentication
-    const adminAuthentication = await app.service('authentication').create({
-      strategy: 'local',
-      email: adminEmail,
-      password: userPassword,
-    }, {})
-    adminParams = {
+    adminUserParams = {
       provider: 'external',
-      user: adminUser,
-      accessToken: adminAuthentication.accessToken,
+      user: setupData.userAdmin,
+      accessToken: setupData.userAdminAuthentication.accessToken,
       authenticated: true,
     }
-
-    // SuperAdmin user
-    const superAdminEmail = 'jacksuperadmin@locokit.io'
-    superAdminUser = await app.service('user')._create({
-      name: 'Jack',
-      email: superAdminEmail,
-      isVerified: true,
-      password: passwordHashed,
-      profile: USER_PROFILE.SUPERADMIN,
-    }, {})
-
-    // Simulate the authentication
-    const superAdminAuthentication = await app.service('authentication').create({
-      strategy: 'local',
-      email: superAdminEmail,
-      password: userPassword,
-    }, {})
-    // Params to simulate an outside call
-    superAdminParams = {
+    superAdminUserParams = {
       provider: 'external',
-      user: superAdminUser,
-      accessToken: superAdminAuthentication.accessToken,
+      user: setupData.userSuperAdmin,
+      accessToken: setupData.userSuperAdminAuthentication.accessToken,
       authenticated: true,
     }
   })
@@ -111,18 +58,18 @@ describe('\'usergroup\' service', () => {
   it('throw if group_id doesn\'t exist', async () => {
     expect.assertions(1)
     await expect(app.service('usergroup').create({
-      user_id: lambdaUser.id,
+      user_id: setupData.user2.id,
     })).rejects.toThrow()
   })
 
   it('add existing user in an existing group', async () => {
     expect.assertions(3)
     const uhg = await app.service('usergroup').create({
-      user_id: lambdaUser.id,
+      user_id: setupData.user2.id,
       group_id: group.id,
     })
     expect(uhg.uhg_role).toBe(GROUP_ROLE.MEMBER)
-    expect(uhg.user_id).toBe(lambdaUser.id)
+    expect(uhg.user_id).toBe(setupData.user2.id)
     expect(uhg.group_id).toBe(group.id)
     await app.service('usergroup').remove(`${uhg.user_id as number},${uhg.group_id as string}`)
   })
@@ -138,7 +85,7 @@ describe('\'usergroup\' service', () => {
     const userGroup = await expect(app.service('usergroup').create({
       user_id: user.id,
       group_id: group.id,
-    }, lambdaParams)).rejects.toThrowError(MethodNotAllowed) as Usergroup | undefined
+    }, lambdaUserParams)).rejects.toThrowError(MethodNotAllowed) as Usergroup | undefined
     // Clean the database whether the test succeeds or not
     if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
     if (user) await app.service('user').remove(user.id)
@@ -162,7 +109,7 @@ describe('\'usergroup\' service', () => {
 
     await expect(app.service('usergroup').patch(`${userGroup.user_id},${userGroup.group_id}`, {
       uhg_role: 'OWNER',
-    }, lambdaParams)).rejects.toThrowError(MethodNotAllowed)
+    }, lambdaUserParams)).rejects.toThrowError(MethodNotAllowed)
 
     // Clean the database whether the test succeeds or not
     if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
@@ -182,7 +129,7 @@ describe('\'usergroup\' service', () => {
       group_id: group.id,
     }) as Usergroup
 
-    await expect(app.service('usergroup').remove(`${userGroup.user_id},${userGroup.group_id}`, lambdaParams)).rejects.toThrowError(MethodNotAllowed)
+    await expect(app.service('usergroup').remove(`${userGroup.user_id},${userGroup.group_id}`, lambdaUserParams)).rejects.toThrowError(MethodNotAllowed)
 
     // Clean the database whether the test succeeds or not
     if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
@@ -200,7 +147,7 @@ describe('\'usergroup\' service', () => {
     const userGroup = await app.service('usergroup').create({
       user_id: user.id,
       group_id: group.id,
-    }, superAdminParams)
+    }, superAdminUserParams)
 
     expect(userGroup.user_id).toBe(user.id)
     expect(userGroup.group_id).toBe(group.id)
@@ -228,7 +175,7 @@ describe('\'usergroup\' service', () => {
 
     const userGroupUpdated = await app.service('usergroup').patch(`${userGroup.user_id},${userGroup.group_id}`, {
       uhg_role: 'OWNER',
-    }, superAdminParams)
+    }, superAdminUserParams)
 
     expect(userGroupUpdated.uhg_role).toBe('OWNER')
 
@@ -251,7 +198,7 @@ describe('\'usergroup\' service', () => {
     }) as Usergroup
 
     expect(userGroup).toBeDefined()
-    await app.service('usergroup').remove(`${userGroup.user_id},${userGroup.group_id}`, superAdminParams)
+    await app.service('usergroup').remove(`${userGroup.user_id},${userGroup.group_id}`, superAdminUserParams)
 
     const userGroupStillExist = await expect(app.service('usergroup').get(`${userGroup.user_id},${userGroup.group_id}`)).rejects.toThrowError(NotFound) as undefined | Usergroup
 
@@ -271,7 +218,7 @@ describe('\'usergroup\' service', () => {
     const userGroup = await app.service('usergroup').create({
       user_id: user.id,
       group_id: group.id,
-    }, adminParams)
+    }, adminUserParams)
 
     expect(userGroup.user_id).toBe(user.id)
     expect(userGroup.group_id).toBe(group.id)
@@ -299,7 +246,7 @@ describe('\'usergroup\' service', () => {
 
     const userGroupUpdated = await app.service('usergroup').patch(`${userGroup.user_id},${userGroup.group_id}`, {
       uhg_role: 'OWNER',
-    }, adminParams)
+    }, adminUserParams)
 
     expect(userGroupUpdated.uhg_role).toBe('OWNER')
 
@@ -322,7 +269,7 @@ describe('\'usergroup\' service', () => {
     }) as Usergroup
 
     expect(userGroup).toBeDefined()
-    await app.service('usergroup').remove(`${userGroup.user_id},${userGroup.group_id}`, adminParams)
+    await app.service('usergroup').remove(`${userGroup.user_id},${userGroup.group_id}`, adminUserParams)
 
     const userGroupStillExist = await expect(app.service('usergroup').get(`${userGroup.user_id},${userGroup.group_id}`)).rejects.toThrowError(NotFound) as undefined | Usergroup
 
@@ -332,9 +279,7 @@ describe('\'usergroup\' service', () => {
   })
 
   afterAll(async () => {
-    await app.service('user').remove(lambdaUser.id)
-    await app.service('user').remove(adminUser.id)
-    await app.service('user').remove(superAdminUser.id)
+    await builder.teardownWorkspace()
     await app.service('group').remove(group.id)
   })
 })

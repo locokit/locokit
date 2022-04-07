@@ -1,90 +1,29 @@
-import { LocalStrategy } from '@feathersjs/authentication-local/lib'
 import { MethodNotAllowed, NotAuthenticated } from '@feathersjs/errors'
-import { USER_PROFILE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { User } from '../../models/user.model'
+import { builderTestEnvironment, SetupData } from '../../abilities/helpers'
 
 describe('\'user\' service', () => {
-  let lambdaUser: User
-  let adminUser: User
-  let superAdminUser: User
-  let lambdaParams: object
-  let adminParams: object
-  let superAdminParams: object
+  let setupData: SetupData
+  const builder = builderTestEnvironment('user')
+  let lambdaUserParams: object
+  let superAdminUserParams: object
 
   beforeAll(async () => {
-    // User password
-    const userPassword = 'add-wd-dependencies@locokit.io0'
-    const [localStrategy] = app.service('authentication').getStrategies('local') as LocalStrategy[]
-    const passwordHashed = await localStrategy.hashPassword(userPassword, {})
-
-    // Lambda user
-    const lambdaEmail = 'lambda@locokit.io'
-    lambdaUser = await app.service('user')._create({
-      name: 'Ellie',
-      email: lambdaEmail,
-      isVerified: true,
-      password: passwordHashed,
-      profile: USER_PROFILE.USER,
-    }, {})
-
-    // Simulate the authentication
-    const lambdaAuthentication = await app.service('authentication').create({
-      strategy: 'local',
-      email: lambdaEmail,
-      password: userPassword,
-    }, {})
-    lambdaParams = {
+    /**
+     * Create a workspace with default user and authentication
+     */
+    setupData = await builder.setupWorkspace()
+    lambdaUserParams = {
       provider: 'external',
-      user: lambdaUser,
-      accessToken: lambdaAuthentication.accessToken,
+      user: setupData.user2,
+      accessToken: setupData.user2Authentication.accessToken,
       authenticated: true,
     }
-
-    // Admin user
-    const adminEmail = 'admin@locokit.io'
-    adminUser = await app.service('user')._create({
-      name: 'Abby',
-      email: adminEmail,
-      isVerified: true,
-      password: passwordHashed,
-      profile: USER_PROFILE.ADMIN,
-    }, {})
-
-    // Simulate the authentication
-    const adminAuthentication = await app.service('authentication').create({
-      strategy: 'local',
-      email: adminEmail,
-      password: userPassword,
-    }, {})
-    adminParams = {
+    superAdminUserParams = {
       provider: 'external',
-      user: adminUser,
-      accessToken: adminAuthentication.accessToken,
-      authenticated: true,
-    }
-
-    // SuperAdmin user
-    const superAdminEmail = 'jacksuperadmin@locokit.io'
-    superAdminUser = await app.service('user')._create({
-      name: 'Jack',
-      email: superAdminEmail,
-      isVerified: true,
-      password: passwordHashed,
-      profile: USER_PROFILE.SUPERADMIN,
-    }, {})
-
-    // Simulate the authentication
-    const superAdminAuthentication = await app.service('authentication').create({
-      strategy: 'local',
-      email: superAdminEmail,
-      password: userPassword,
-    }, {})
-    // Params to simulate an outside call
-    superAdminParams = {
-      provider: 'external',
-      user: superAdminUser,
-      accessToken: superAdminAuthentication.accessToken,
+      user: setupData.userSuperAdmin,
+      accessToken: setupData.userSuperAdminAuthentication.accessToken,
       authenticated: true,
     }
   })
@@ -106,7 +45,7 @@ describe('\'user\' service', () => {
     const user = await app.service('user').create({
       email: 'TEST-azaPOI@lOcoKiT.IO',
       name: 'testing lower case',
-    }, superAdminParams)
+    }, superAdminUserParams)
     expect(user.email).toBe('test-azapoi@locokit.io')
     if (user) await app.service('user').remove(user.id)
   })
@@ -117,7 +56,7 @@ describe('\'user\' service', () => {
     const user = await expect(app.service('user').create({
       email: 'originalUser@locokit.io',
       name: 'testing create user',
-    }, lambdaParams)).rejects.toThrowError(MethodNotAllowed) as User | undefined
+    }, lambdaUserParams)).rejects.toThrowError(MethodNotAllowed) as User | undefined
     // Clean the database whether the test succeeds or not
     if (user) await app.service('user').remove(user.id)
   })
@@ -128,7 +67,7 @@ describe('\'user\' service', () => {
     const user = await app.service('user').create({
       email: 'originalUser@locokit.io',
       name: 'testing create user by SUPERADMIN',
-    }, superAdminParams) as User
+    }, superAdminUserParams) as User
     // Clean the database whether the test succeeds or not
     expect(user.name).toBe('testing create user by SUPERADMIN')
     if (user) await app.service('user').remove(user.id)
@@ -145,7 +84,7 @@ describe('\'user\' service', () => {
       await expect(
         app.service('user').patch(updatedUser.id, {
           blocked: true,
-        }, lambdaParams),
+        }, lambdaUserParams),
       ).rejects.toThrowError(MethodNotAllowed)
     } finally {
       // Clean the database whether the test succeeds or not
@@ -167,7 +106,7 @@ describe('\'user\' service', () => {
         {
           blocked: true,
         },
-        superAdminParams,
+        superAdminUserParams,
       ) as User
       expect(updatedUser.blocked).toBe(true)
       // Enable the account
@@ -175,7 +114,7 @@ describe('\'user\' service', () => {
         {
           blocked: false,
         },
-        superAdminParams,
+        superAdminUserParams,
       ) as User
       expect(updatedUser.blocked).toBe(false)
       // Check that an email is sent to the user to inform that is account has been disabled
@@ -210,7 +149,7 @@ describe('\'user\' service', () => {
         {
           blocked: false,
         },
-        superAdminParams,
+        superAdminUserParams,
       ) as User
       expect(updatedUser.blocked).toBe(false)
       // No email must be sent
@@ -232,7 +171,7 @@ describe('\'user\' service', () => {
       await expect(
         app.service('user').patch(updatedUser.id, {
           email: 'updatedUser@locokit.io',
-        }, lambdaParams),
+        }, lambdaUserParams),
       ).rejects.toThrowError(MethodNotAllowed)
     } finally {
       // Clean the database whether the test succeeds or not
@@ -248,12 +187,12 @@ describe('\'user\' service', () => {
       updatedUser = await app.service('user').create({
         email: 'originalUser@locokit.io',
         name: 'testing patch name',
-      }, lambdaUser) as User
+      }, setupData.user2) as User
       const updatedUserFailed = await expect(app.service('user').patch(updatedUser.id,
         {
           name: 'testing patch name with user account',
         },
-        lambdaParams,
+        lambdaUserParams,
       )).rejects.toThrowError(MethodNotAllowed) as User | undefined
       expect(updatedUser.name).not.toBe('testing patch name with user account')
       expect(updatedUserFailed).toBeUndefined()
@@ -277,7 +216,7 @@ describe('\'user\' service', () => {
         {
           email: 'updatedUser@locokit.io',
         },
-        superAdminParams,
+        superAdminUserParams,
       ) as User
       expect(updatedUser.email).toBe('updateduser@locokit.io')
       // Check that two emails are sent to the old and the new email addresses
@@ -308,7 +247,7 @@ describe('\'user\' service', () => {
         {
           email: 'originalUser@locokit.io',
         },
-        superAdminParams,
+        superAdminUserParams,
       ) as User
       expect(updatedUser.email).toBe('originaluser@locokit.io')
       // No email must be sent
@@ -325,10 +264,10 @@ describe('\'user\' service', () => {
     const updatedUser = await app.service('user').create({
       email: 'originalUser@locokit.io',
       name: 'testing patch name',
-    }, lambdaUser) as User
+    }, setupData.user2) as User
 
     const tryRemoveUser = await expect(
-      app.service('user').remove(updatedUser.id, lambdaParams)).rejects.toThrowError(MethodNotAllowed) as User | undefined
+      app.service('user').remove(updatedUser.id, lambdaUserParams)).rejects.toThrowError(MethodNotAllowed) as User | undefined
 
     expect(tryRemoveUser).toBeUndefined()
     // Clean the database whether the test succeeds or not
@@ -336,8 +275,6 @@ describe('\'user\' service', () => {
   })
 
   afterAll(async () => {
-    await app.service('user').remove(lambdaUser.id)
-    await app.service('user').remove(adminUser.id)
-    await app.service('user').remove(superAdminUser.id)
+    await builder.teardownWorkspace()
   })
 })
