@@ -149,6 +149,8 @@ export function getComponentDisplayDetailForColumnType (columnTypeId: number) {
       return 'lck-map'
     case COLUMN_TYPE.FILE:
       return 'lck-file-input'
+    case COLUMN_TYPE.URL:
+      return 'lck-url'
     default:
       return null
   }

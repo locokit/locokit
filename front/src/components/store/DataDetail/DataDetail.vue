@@ -236,6 +236,23 @@
           :disabled="true"
           @download="$emit('download-attachment', $event)"
         />
+        <span
+          v-else-if="getComponentDisplayDetailForColumnType(column) === 'lck-url'"
+          class="lck-url"
+        >
+          <a
+            :href="getColumnDisplayValue(column, row.data[column.id])"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>{{ getColumnDisplayValue(column, row.data[column.id]) }}</span>
+            <i
+              class="pi pi-external-link"
+              :title="$t('components.URLInput.openTheLink')"
+              :aria-label="$t('components.URLInput.openTheLink')"
+            />
+          </a>
+        </span>
         <span v-else-if="getComponentDisplayDetailForColumnType(column) !== 'p-checkbox'">
           {{ getColumnDisplayValue(column, row.data[column.id]) }}
         </span>
@@ -798,20 +815,38 @@ export default {
   color: var(--primary-color-light) !important;
 }
 
+</style>
+
+<style lang="scss" scoped>
+
+.form-field-editable {
+  position: relative;
+
+  &.failed {
+    border-color: var(--color-error);
+  }
+}
+
 .non-editable-field {
   border: unset;
   background-color: transparent;
   padding-left: unset;
-}
-.form-field-editable {
-  position: relative;
-}
-.form-field-editable.failed {
-  border-color: var(--color-error);
+
+  .lck-url {
+    > a {
+      display: flex;
+      width: 100%;
+
+      > span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
 }
 
 textarea {
   resize: none;
 }
-
 </style>
