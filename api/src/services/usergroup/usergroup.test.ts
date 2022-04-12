@@ -2,7 +2,7 @@ import { GROUP_ROLE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { Group as LckGroup } from '../../models/group.model'
 import { User as LckUser } from '../../models/user.model'
-import { MethodNotAllowed, NotFound } from '@feathersjs/errors'
+import { NotFound, Forbidden } from '@feathersjs/errors'
 import { Usergroup } from '../../models/usergroup.model'
 import { builderTestEnvironment, SetupData } from '../../abilities/helpers'
 
@@ -74,7 +74,7 @@ describe('\'usergroup\' service', () => {
     await app.service('usergroup').remove(`${uhg.user_id as number},${uhg.group_id as string}`)
   })
 
-  it("prevent a user with USER's role to assign user to group", async () => {
+  it('prevent a user MEMBER with USER role to assign user to group', async () => {
     expect.assertions(1)
 
     const user = await app.service('user').create({
@@ -85,13 +85,13 @@ describe('\'usergroup\' service', () => {
     const userGroup = await expect(app.service('usergroup').create({
       user_id: user.id,
       group_id: group.id,
-    }, lambdaUserParams)).rejects.toThrowError(MethodNotAllowed) as Usergroup | undefined
+    }, lambdaUserParams)).rejects.toThrowError(Forbidden) as Usergroup | undefined
     // Clean the database whether the test succeeds or not
     if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
     if (user) await app.service('user').remove(user.id)
   })
 
-  it("prevent a user with USER's role to modify user in a group", async () => {
+  it('prevent a user MEMBER with USER role to modify user in a group', async () => {
     expect.assertions(2)
 
     const user = await app.service('user').create({
@@ -107,17 +107,17 @@ describe('\'usergroup\' service', () => {
 
     expect(userGroup.uhg_role).toBe('MEMBER')
 
-    await expect(app.service('usergroup').patch(`${userGroup.user_id},${userGroup.group_id}`, {
-      uhg_role: 'OWNER',
-    }, lambdaUserParams)).rejects.toThrowError(MethodNotAllowed)
+    await expect(app.service('usergroup').patch(`${user.id},${group.id}`, {
+      uhg_role: GROUP_ROLE.ADMIN,
+    }, lambdaUserParams)).rejects.toThrowError(Forbidden)
 
     // Clean the database whether the test succeeds or not
     if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
     if (user) await app.service('user').remove(user.id)
   })
 
-  it("prevent a user with USER's role to remove user in a group", async () => {
-    expect.assertions(1)
+  it('prevent a user MEMBER with USER role to remove user in a group', async () => {
+    expect.assertions(2)
 
     const user = await app.service('user').create({
       email: 'originalUser@locokit.io',
@@ -128,8 +128,9 @@ describe('\'usergroup\' service', () => {
       user_id: user.id,
       group_id: group.id,
     }) as Usergroup
+    expect(userGroup.uhg_role).toBe(GROUP_ROLE.MEMBER)
 
-    await expect(app.service('usergroup').remove(`${userGroup.user_id},${userGroup.group_id}`, lambdaUserParams)).rejects.toThrowError(MethodNotAllowed)
+    await expect(app.service('usergroup').remove(`${userGroup.user_id},${userGroup.group_id}`, lambdaUserParams)).rejects.toThrowError(Forbidden)
 
     // Clean the database whether the test succeeds or not
     if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
@@ -151,7 +152,7 @@ describe('\'usergroup\' service', () => {
 
     expect(userGroup.user_id).toBe(user.id)
     expect(userGroup.group_id).toBe(group.id)
-    expect(userGroup.uhg_role).toBe('MEMBER')
+    expect(userGroup.uhg_role).toBe(GROUP_ROLE.MEMBER)
     // Clean the database whether the test succeeds or not
     if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
     if (user) await app.service('user').remove(user.id)
@@ -168,24 +169,24 @@ describe('\'usergroup\' service', () => {
     const userGroup = await app.service('usergroup').create({
       user_id: user.id,
       group_id: group.id,
-      uhg_role: 'MEMBER',
+      uhg_role: GROUP_ROLE.MEMBER,
     }) as Usergroup
 
-    expect(userGroup.uhg_role).toBe('MEMBER')
+    expect(userGroup.uhg_role).toBe(GROUP_ROLE.MEMBER)
 
     const userGroupUpdated = await app.service('usergroup').patch(`${userGroup.user_id},${userGroup.group_id}`, {
-      uhg_role: 'OWNER',
+      uhg_role: GROUP_ROLE.OWNER,
     }, superAdminUserParams)
 
-    expect(userGroupUpdated.uhg_role).toBe('OWNER')
+    expect(userGroupUpdated.uhg_role).toBe(GROUP_ROLE.OWNER)
 
-    // Clean the database whether the test succeeds or not
+    // Clean the database
     if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
     if (user) await app.service('user').remove(user.id)
   })
 
   it('verify a SUPERADMIN user can remove user to group', async () => {
-    expect.assertions(2)
+    expect.assertions(3)
 
     const user = await app.service('user').create({
       email: 'originalUser@locokit.io',
@@ -202,8 +203,9 @@ describe('\'usergroup\' service', () => {
 
     const userGroupStillExist = await expect(app.service('usergroup').get(`${userGroup.user_id},${userGroup.group_id}`)).rejects.toThrowError(NotFound) as undefined | Usergroup
 
-    // Clean the database whether the test succeeds or not
-    if (userGroupStillExist) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
+    expect(userGroupStillExist).toBeUndefined()
+
+    // Clean the database
     if (user) await app.service('user').remove(user.id)
   })
 
@@ -222,8 +224,8 @@ describe('\'usergroup\' service', () => {
 
     expect(userGroup.user_id).toBe(user.id)
     expect(userGroup.group_id).toBe(group.id)
-    expect(userGroup.uhg_role).toBe('MEMBER')
-    // Clean the database whether the test succeeds or not
+    expect(userGroup.uhg_role).toBe(GROUP_ROLE.MEMBER)
+    // Clean the database
     if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
     if (user) await app.service('user').remove(user.id)
   })
@@ -239,16 +241,16 @@ describe('\'usergroup\' service', () => {
     const userGroup = await app.service('usergroup').create({
       user_id: user.id,
       group_id: group.id,
-      uhg_role: 'MEMBER',
+      uhg_role: GROUP_ROLE.MEMBER,
     }) as Usergroup
 
-    expect(userGroup.uhg_role).toBe('MEMBER')
+    expect(userGroup.uhg_role).toBe(GROUP_ROLE.MEMBER)
 
     const userGroupUpdated = await app.service('usergroup').patch(`${userGroup.user_id},${userGroup.group_id}`, {
-      uhg_role: 'OWNER',
+      uhg_role: GROUP_ROLE.OWNER,
     }, adminUserParams)
 
-    expect(userGroupUpdated.uhg_role).toBe('OWNER')
+    expect(userGroupUpdated.uhg_role).toBe(GROUP_ROLE.OWNER)
 
     // Clean the database whether the test succeeds or not
     if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
@@ -256,7 +258,7 @@ describe('\'usergroup\' service', () => {
   })
 
   it('verify a ADMIN user can remove user to group', async () => {
-    expect.assertions(2)
+    expect.assertions(3)
 
     const user = await app.service('user').create({
       email: 'originalUser@locokit.io',
@@ -273,8 +275,101 @@ describe('\'usergroup\' service', () => {
 
     const userGroupStillExist = await expect(app.service('usergroup').get(`${userGroup.user_id},${userGroup.group_id}`)).rejects.toThrowError(NotFound) as undefined | Usergroup
 
-    // Clean the database whether the test succeeds or not
-    if (userGroupStillExist) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
+    expect(userGroupStillExist).toBeUndefined()
+
+    // Clean the database
+    if (user) await app.service('user').remove(user.id)
+  })
+
+  it('verify a MEMBER user with OWNER role can assign user to group', async () => {
+    expect.assertions(3)
+
+    const user = await app.service('user').create({
+      email: 'originalUser@locokit.io',
+      name: 'Test',
+    }) as LckUser
+
+    // Set Lambda User to OWNER of group3
+    const upgradeRole = await app.service('usergroup').patch(`${setupData.user2.id},${setupData.group3.id}`, { uhg_role: GROUP_ROLE.OWNER })
+    expect(upgradeRole.uhg_role).toBe(GROUP_ROLE.OWNER)
+
+    const userGroup = await app.service('usergroup').create({
+      user_id: user.id,
+      group_id: setupData.group3.id,
+    }, lambdaUserParams)
+
+    expect(userGroup.user_id).toBe(user.id)
+    expect(userGroup.group_id).toBe(setupData.group3.id)
+
+    // Restore setup
+    await app.service('usergroup').patch(`${setupData.user2.id},${setupData.group3.id}`, { uhg_role: GROUP_ROLE.MEMBER })
+
+    // Clean the database
+    if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
+    if (user) await app.service('user').remove(user.id)
+  })
+
+  it('verify a MEMBER user with OWNER role can modify user to group', async () => {
+    expect.assertions(3)
+
+    const user = await app.service('user').create({
+      email: 'originalUser@locokit.io',
+      name: 'testing create user',
+    }) as LckUser
+
+    // Set Lambda User to OWNER of group3
+    const upgradeRole = await app.service('usergroup').patch(`${setupData.user2.id},${setupData.group3.id}`, { uhg_role: GROUP_ROLE.OWNER })
+    expect(upgradeRole.uhg_role).toBe(GROUP_ROLE.OWNER)
+
+    const userGroup = await app.service('usergroup').create({
+      user_id: user.id,
+      group_id: setupData.group3.id,
+      uhg_role: GROUP_ROLE.MEMBER,
+    }) as Usergroup
+    expect(userGroup.uhg_role).toBe(GROUP_ROLE.MEMBER)
+
+    const userGroupUpdated = await app.service('usergroup').patch(`${userGroup.user_id},${userGroup.group_id}`, {
+      uhg_role: GROUP_ROLE.ADMIN,
+    }, lambdaUserParams)
+
+    expect(userGroupUpdated.uhg_role).toBe(GROUP_ROLE.ADMIN)
+
+    // Restore setup
+    await app.service('usergroup').patch(`${setupData.user2.id},${setupData.group3.id}`, { uhg_role: GROUP_ROLE.MEMBER })
+
+    // Clean the database
+    if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
+    if (user) await app.service('user').remove(user.id)
+  })
+
+  it('verify a MEMBER user with OWNER role can remove user to group', async () => {
+    expect.assertions(4)
+
+    const user = await app.service('user').create({
+      email: 'originalUser@locokit.io',
+      name: 'testing create user',
+    }) as LckUser
+
+    // Set Lambda User to OWNER of group3
+    const upgradeRole = await app.service('usergroup').patch(`${setupData.user2.id},${setupData.group3.id}`, { uhg_role: GROUP_ROLE.OWNER })
+    expect(upgradeRole.uhg_role).toBe(GROUP_ROLE.OWNER)
+
+    const userGroup = await app.service('usergroup').create({
+      user_id: user.id,
+      group_id: setupData.group3.id,
+    }) as Usergroup
+
+    expect(userGroup).toBeDefined()
+    await app.service('usergroup').remove(`${userGroup.user_id},${userGroup.group_id}`, lambdaUserParams)
+
+    const userGroupStillExist = await expect(app.service('usergroup').get(`${userGroup.user_id},${userGroup.group_id}`)).rejects.toThrowError(NotFound) as undefined | Usergroup
+
+    expect(userGroupStillExist).toBeUndefined()
+
+    // Restore setup
+    await app.service('usergroup').patch(`${setupData.user2.id},${setupData.group3.id}`, { uhg_role: GROUP_ROLE.MEMBER })
+
+    // Clean the database
     if (user) await app.service('user').remove(user.id)
   })
 

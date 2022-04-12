@@ -7,6 +7,7 @@ describe('\'user\' service', () => {
   let setupData: SetupData
   const builder = builderTestEnvironment('user')
   let lambdaUserParams: object
+  let adminUserParams: object
   let superAdminUserParams: object
 
   beforeAll(async () => {
@@ -18,6 +19,12 @@ describe('\'user\' service', () => {
       provider: 'external',
       user: setupData.user2,
       accessToken: setupData.user2Authentication.accessToken,
+      authenticated: true,
+    }
+    adminUserParams = {
+      provider: 'external',
+      user: setupData.userAdmin,
+      accessToken: setupData.userAdminAuthentication.accessToken,
       authenticated: true,
     }
     superAdminUserParams = {
@@ -51,14 +58,14 @@ describe('\'user\' service', () => {
   })
 
   it("prevent a user with USER's role to create new user", async () => {
-    expect.assertions(1)
+    expect.assertions(2)
 
     const user = await expect(app.service('user').create({
       email: 'originalUser@locokit.io',
       name: 'testing create user',
     }, lambdaUserParams)).rejects.toThrowError(MethodNotAllowed) as User | undefined
-    // Clean the database whether the test succeeds or not
-    if (user) await app.service('user').remove(user.id)
+
+    expect(user).toBeUndefined()
   })
 
   it("authorize a superAdmin with SUPERADMIN's role to create new user", async () => {
@@ -68,12 +75,24 @@ describe('\'user\' service', () => {
       email: 'originalUser@locokit.io',
       name: 'testing create user by SUPERADMIN',
     }, superAdminUserParams) as User
-    // Clean the database whether the test succeeds or not
+    // Clean the database
     expect(user.name).toBe('testing create user by SUPERADMIN')
     if (user) await app.service('user').remove(user.id)
   })
 
-  it('prevent a non SUPERADMIN user to patch the blocked property', async () => {
+  it("authorize a admin with ADMIN's role to create new user", async () => {
+    expect.assertions(1)
+
+    const user = await app.service('user').create({
+      email: 'originalUser@locokit.io',
+      name: 'testing create user by ADMIN',
+    }, adminUserParams) as User
+    // Clean the database
+    expect(user.name).toBe('testing create user by ADMIN')
+    if (user) await app.service('user').remove(user.id)
+  })
+
+  it('prevent a lambda user to patch the blocked property', async () => {
     expect.assertions(1)
     let updatedUser: User | null = null
     try {
@@ -87,7 +106,7 @@ describe('\'user\' service', () => {
         }, lambdaUserParams),
       ).rejects.toThrowError(MethodNotAllowed)
     } finally {
-      // Clean the database whether the test succeeds or not
+      // Clean the database
       if (updatedUser) await app.service('user').remove(updatedUser.id)
     }
   })
@@ -160,7 +179,7 @@ describe('\'user\' service', () => {
     }
   })
 
-  it('prevent a non superadmin user to patch the user email address', async () => {
+  it('prevent a lambda user to patch the user email address', async () => {
     expect.assertions(1)
     let updatedUser: User | null = null
     try {
@@ -179,7 +198,7 @@ describe('\'user\' service', () => {
     }
   })
 
-  it('prevent a non superadmin user to patch the user information', async () => {
+  it('prevent a lambda user to patch the user information', async () => {
     expect.assertions(3)
 
     let updatedUser: User | undefined
@@ -187,7 +206,7 @@ describe('\'user\' service', () => {
       updatedUser = await app.service('user').create({
         email: 'originalUser@locokit.io',
         name: 'testing patch name',
-      }, setupData.user2) as User
+      }) as User
       const updatedUserFailed = await expect(app.service('user').patch(updatedUser.id,
         {
           name: 'testing patch name with user account',
@@ -197,9 +216,22 @@ describe('\'user\' service', () => {
       expect(updatedUser.name).not.toBe('testing patch name with user account')
       expect(updatedUserFailed).toBeUndefined()
     } finally {
-      // Clean the database whether the test succeeds or not
+      // Clean the database
       if (updatedUser) await app.service('user').remove(updatedUser.id)
     }
+  })
+
+  it('prevent a lambda user to patch its user information', async () => {
+    expect.assertions(3)
+
+    const updatedUserFailed = await expect(app.service('user').patch(setupData.user2.id,
+      {
+        name: 'testing patch its information',
+      },
+      lambdaUserParams,
+    )).rejects.toThrowError(MethodNotAllowed) as User | undefined
+    expect(setupData.user2.name).not.toBe('testing patch name with user account')
+    expect(updatedUserFailed).toBeUndefined()
   })
 
   it('only allow admin user to patch the user email address', async () => {

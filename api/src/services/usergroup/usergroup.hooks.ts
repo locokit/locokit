@@ -1,8 +1,6 @@
 import * as authentication from '@feathersjs/authentication'
-import commonHooks from 'feathers-hooks-common'
-import { USER_PROFILE } from '@locokit/lck-glossary'
-import { HookContext } from '@feathersjs/feathers'
-import { isUserProfile } from '../../hooks/lck-hooks/isUserProfile'
+import { defineAbilitiesIffHook } from '../../abilities/group.abilities'
+import { authorize } from 'feathers-casl/dist/hooks'
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks
@@ -13,29 +11,23 @@ export default {
     find: [],
     get: [],
     create: [
-      commonHooks.iff(
-        (context: HookContext) => {
-          return !isUserProfile([USER_PROFILE.SUPERADMIN, USER_PROFILE.ADMIN])(context) && commonHooks.isProvider('external')(context)
-        },
-        commonHooks.disallow(),
-      ),
+      defineAbilitiesIffHook(),
+      authorize({
+        adapter: 'feathers-objection',
+      }),
     ],
     update: [],
     patch: [
-      commonHooks.iff(
-        // commonHooks.isNot(isUserProfile(USER_PROFILE.SUPERADMIN)),
-        commonHooks.isNot(isUserProfile([USER_PROFILE.SUPERADMIN, USER_PROFILE.ADMIN])),
-        commonHooks.disallow(),
-      ),
+      defineAbilitiesIffHook(),
+      authorize({
+        adapter: 'feathers-objection',
+      }),
     ],
     remove: [
-      commonHooks.iff(
-        (context: HookContext) => {
-          // return !isUserProfile(USER_PROFILE.SUPERADMIN)(context) && commonHooks.isProvider('external')(context)
-          return !isUserProfile([USER_PROFILE.SUPERADMIN, USER_PROFILE.ADMIN])(context) && commonHooks.isProvider('external')(context)
-        },
-        commonHooks.disallow(),
-      ),
+      defineAbilitiesIffHook(),
+      authorize({
+        adapter: 'feathers-objection',
+      }),
     ],
   },
 

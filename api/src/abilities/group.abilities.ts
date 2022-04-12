@@ -34,7 +34,7 @@ export async function createAbility (
      */
     case USER_PROFILE.SUPERADMIN:
     case USER_PROFILE.ADMIN:
-      can('manage', 'group')
+      can('manage', ['group', 'usergroup'])
       break
     /**
      * Others can only see their groups
@@ -51,17 +51,28 @@ export async function createAbility (
       const userGroupsIdsOwner = usergroupsDefault
         .filter(ug => GROUP_ROLE.OWNER === ug.uhg_role) // only OWNER can manage their groups
         .map(ug => ug.group_id)
-
       can('read', 'group', {
         [withJoin ? 'group.id' : 'id']: {
           $in: userGroupsIds,
         },
       })
-      can('manage', 'group', {
-        [withJoin ? 'group.id' : 'id']: {
-          $in: userGroupsIdsOwner,
-        },
-      })
+      if (userGroupsIdsOwner.length > 0) {
+        can('manage', 'group', {
+          [withJoin ? 'group.id' : 'id']: {
+            $in: userGroupsIdsOwner,
+          },
+        })
+        can('manage', 'usergroup', {
+          group_id: {
+            $in: userGroupsIdsOwner,
+          },
+        })
+        can('delete', 'usergroup', {
+          group_id: {
+            $in: userGroupsIdsOwner,
+          },
+        })
+      }
   }
 
   return makeAbilityFromRules(rules, { resolveAction }) as AppAbility

@@ -32,7 +32,7 @@ export default {
        */
       commonHooks.iff(
         (context: HookContext) => {
-          return !isUserProfile(USER_PROFILE.SUPERADMIN)(context) && commonHooks.isProvider('external')(context)
+          return !isUserProfile([USER_PROFILE.SUPERADMIN, USER_PROFILE.ADMIN])(context) && commonHooks.isProvider('external')(context)
         },
         commonHooks.disallow(),
       ).else(
