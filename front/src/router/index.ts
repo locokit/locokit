@@ -57,6 +57,8 @@ import { ROUTES_NAMES, ROUTES_PATH } from './paths'
 import { authState } from '@/store/auth'
 import { appState } from '@/store/app'
 import { USER_PROFILE } from '@locokit/lck-glossary'
+import { GROUP_ROLE } from '@locokit/lck-glossary/src'
+import { LckGroup } from '@/services/lck-api/definitions'
 
 Vue.use(VueRouter)
 
@@ -144,6 +146,7 @@ const routes: Array<RouteConfig> = [
     meta: {
       needAuthentication: true,
       hasBurgerMenu: true,
+      authorizedRoles: [GROUP_ROLE.ADMIN, GROUP_ROLE.OWNER],
     },
     children: [{
       name: 'WorkspaceDatabase',
@@ -259,6 +262,7 @@ const routes: Array<RouteConfig> = [
       meta: {
         needAuthentication: true,
         hasBurgerMenu: true,
+        authorizedRoles: [GROUP_ROLE.ADMIN, GROUP_ROLE.OWNER],
       },
       children: [{
         name: ROUTES_NAMES.WORKSPACE_ADMIN.CMS_PAGE_DETAIL,
@@ -301,7 +305,7 @@ const routes: Array<RouteConfig> = [
     props: true,
     meta: {
       needAuthentication: true,
-      requiredRoles: [USER_PROFILE.SUPERADMIN, USER_PROFILE.ADMIN, USER_PROFILE.CREATOR],
+      authorizedRoles: [GROUP_ROLE.ADMIN, GROUP_ROLE.OWNER],
     },
     children: [{
       name: ROUTES_NAMES.ADMIN.USER,
@@ -379,9 +383,14 @@ export function checkPathAvailable (needAuthentication: boolean, needGuest: bool
 /**
  * Check if the route accessible by roles
  */
-export function checkRoles (userRole: USER_PROFILE | undefined, requiredRoles: USER_PROFILE[]) {
-  console.log('userRole', userRole)
-  return userRole && requiredRoles.includes(userRole)
+export function checkProfile (
+  workspaceId: string,
+  userGroupRole: LckGroup[] | undefined,
+  requiredRoles: GROUP_ROLE[],
+) {
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  const userGroupRoleCurrentWorkspace = userGroupRole && userGroupRole.find(({ aclset }) => aclset && aclset.workspace_id === workspaceId)
+  return userGroupRoleCurrentWorkspace && requiredRoles && requiredRoles.includes(userGroupRoleCurrentWorkspace.uhg_role)
 }
 
 router.beforeEach(function (to, from, next) {
@@ -391,12 +400,19 @@ router.beforeEach(function (to, from, next) {
   appState.hasBurgerMenu = to.matched.some(m => m.meta.hasBurgerMenu)
   const needGuest = to.matched.some(m => m.meta.needGuest)
   const isAuthenticated = authState.data.isAuthenticated
-  console.log(to.matched)
+  const userProfile = authState.data?.user?.profile as USER_PROFILE
+  // const userGroupsRole = authState.data?.groups[0].aclset?.ugh_role
+  const userGroupsRole = authState.data?.user?.groups
+  const profileAlwaysAuthorized = [USER_PROFILE.SUPERADMIN, USER_PROFILE.ADMIN]
+  const authorizedRoles = to.matched.length > 0 && to.matched[0].meta.authorizedRoles
 
   if (!checkPathAvailable(needAuthentication, needGuest, isAuthenticated)) {
     next({ path: isAuthenticated ? ROUTES_PATH.WORKSPACE : ROUTES_PATH.HOME })
   } else if (
-    to.matched.length > 0 && to.matched[0].meta.requiredRoles && !checkRoles(authState.data?.user?.profile, to.matched[0].meta.requiredRoles)
+    !profileAlwaysAuthorized.includes(userProfile) &&
+    // Be careful /admin is accessible only with profil Admin - SuperAdmin
+    // Todo: so not accessible by any role for now we need to handle workspaceId
+    authorizedRoles && !checkProfile(to.params.workspaceId, userGroupsRole, authorizedRoles)
   ) {
     next({ path: '/not-found' })
   } else {
