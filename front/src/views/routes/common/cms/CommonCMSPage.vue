@@ -27,7 +27,7 @@
 
       <div class="lck-container-parent p-mx-2">
         <div
-          v-for="container in displayContainersByModeNavigation"
+          v-for="container in this.page.containers"
           :id="container.id"
           :key="container.id"
           class="lck-container"
@@ -35,10 +35,11 @@
             'lck-elevation': container.elevation
           }"
         >
-          <h2 v-if="container.display_title" class="lck-color-title">
+          <div v-show="container.id === currentHash">
+            <h2 v-if="container.display_title" class="lck-color-title">
             {{ container.text }}
           </h2>
-          <div class="lck-block-parent">
+            <div class="lck-block-parent">
             <template v-for="block in container.blocks">
               <lck-block
                 :key="block.id"
@@ -82,6 +83,7 @@
                 @remove-features="onGeoDataRemove(block, $event)"
               />
             </template>
+          </div>
           </div>
         </div>
       </div>
@@ -163,11 +165,11 @@ export default {
     },
     groupId: {
       type: String,
-      required: true,
+      required: false,
     },
     userId: {
       type: Number,
-      required: true,
+      required: false,
     },
     editMode: {
       type: Boolean,
@@ -266,6 +268,9 @@ export default {
       // Case by default + Mode Navigation anchor
       return this.page.containers
     },
+    currentHash (): string {
+      return this.$route.hash.slice(1)
+    },
     relatedChapterPages () {
       let relatedChapterPages = []
       if (this.page && Array.isArray(this.chapters)) {
@@ -306,9 +311,13 @@ export default {
       this.currentBlockToEdit = null
       this.showUpdateSidebar = true
     },
-    async forceHashToNavigate () {
-      if (this.page.modeNavigation === 'tab' && this.page.containers.length > 0) {
-        if (!this.$route.hash) {
+    async forceHashToNavigate (route) {
+      if (this.isNavBarAnchorLinkDisplayed && this.page.containers.length > 0) {
+        if (route) {
+          // Execute when beforeRouteUpdate
+          await this.$router.replace({ ...route, hash: `#${this.page.containers[0].id}` })
+        } else if (!this.$route.hash) {
+          // Execute when mounted
           await this.$router.replace({ ...this.$route, hash: `#${this.page.containers[0].id}` })
         }
       }
@@ -1151,14 +1160,13 @@ export default {
     } else {
       this.page = await lckHelpers.retrievePageWithContainersAndBlocks(this.pageId)
     }
-
     this.forceHashToNavigate()
   },
   async beforeRouteUpdate (to, from, next) {
     if (to.params.pageId !== from.params.pageId) {
       this.page = await lckHelpers.retrievePageWithContainersAndBlocks(to.params.pageId)
       if (!to.hash) {
-        this.forceHashToNavigate()
+        this.forceHashToNavigate(to)
       }
       next()
     }

@@ -579,7 +579,6 @@ export default Vue.extend({
     padding: var(--spacing);
     width: 100%;
     min-height: 10rem;
-    width: 100%;
     border-radius: var(--border-radius);
     border: dashed 2px var(--secondary-color-light);
     cursor: pointer;
