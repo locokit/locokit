@@ -86,9 +86,9 @@ describe('\'usergroup\' service', () => {
       user_id: user.id,
       group_id: group.id,
     }, lambdaUserParams)).rejects.toThrowError(Forbidden) as Usergroup | undefined
-    // Clean the database whether the test succeeds or not
+    // Clean the database
     if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
-    if (user) await app.service('user').remove(user.id)
+    await app.service('user').remove(user.id)
   })
 
   it('prevent a user MEMBER with USER role to modify user in a group', async () => {
@@ -111,9 +111,9 @@ describe('\'usergroup\' service', () => {
       uhg_role: GROUP_ROLE.ADMIN,
     }, lambdaUserParams)).rejects.toThrowError(Forbidden)
 
-    // Clean the database whether the test succeeds or not
-    if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
-    if (user) await app.service('user').remove(user.id)
+    // Clean the database
+    await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
+    await app.service('user').remove(user.id)
   })
 
   it('prevent a user MEMBER with USER role to remove user in a group', async () => {
@@ -132,9 +132,9 @@ describe('\'usergroup\' service', () => {
 
     await expect(app.service('usergroup').remove(`${userGroup.user_id},${userGroup.group_id}`, lambdaUserParams)).rejects.toThrowError(Forbidden)
 
-    // Clean the database whether the test succeeds or not
-    if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
-    if (user) await app.service('user').remove(user.id)
+    // Clean the database
+    await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
+    await app.service('user').remove(user.id)
   })
 
   it('verify a SUPERADMIN user can assign user to group', async () => {
@@ -153,9 +153,9 @@ describe('\'usergroup\' service', () => {
     expect(userGroup.user_id).toBe(user.id)
     expect(userGroup.group_id).toBe(group.id)
     expect(userGroup.uhg_role).toBe(GROUP_ROLE.MEMBER)
-    // Clean the database whether the test succeeds or not
-    if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
-    if (user) await app.service('user').remove(user.id)
+    // Clean the database
+    await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
+    await app.service('user').remove(user.id)
   })
 
   it('verify a SUPERADMIN user can modify user to group', async () => {
@@ -181,8 +181,8 @@ describe('\'usergroup\' service', () => {
     expect(userGroupUpdated.uhg_role).toBe(GROUP_ROLE.OWNER)
 
     // Clean the database
-    if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
-    if (user) await app.service('user').remove(user.id)
+    await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
+    await app.service('user').remove(user.id)
   })
 
   it('verify a SUPERADMIN user can remove user to group', async () => {
@@ -206,7 +206,7 @@ describe('\'usergroup\' service', () => {
     expect(userGroupStillExist).toBeUndefined()
 
     // Clean the database
-    if (user) await app.service('user').remove(user.id)
+    await app.service('user').remove(user.id)
   })
 
   it('verify a ADMIN user can assign user to group', async () => {
@@ -226,8 +226,8 @@ describe('\'usergroup\' service', () => {
     expect(userGroup.group_id).toBe(group.id)
     expect(userGroup.uhg_role).toBe(GROUP_ROLE.MEMBER)
     // Clean the database
-    if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
-    if (user) await app.service('user').remove(user.id)
+    await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
+    await app.service('user').remove(user.id)
   })
 
   it('verify a ADMIN user can modify user to group', async () => {
@@ -253,8 +253,8 @@ describe('\'usergroup\' service', () => {
     expect(userGroupUpdated.uhg_role).toBe(GROUP_ROLE.OWNER)
 
     // Clean the database whether the test succeeds or not
-    if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
-    if (user) await app.service('user').remove(user.id)
+    await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
+    await app.service('user').remove(user.id)
   })
 
   it('verify a ADMIN user can remove user to group', async () => {
@@ -278,7 +278,7 @@ describe('\'usergroup\' service', () => {
     expect(userGroupStillExist).toBeUndefined()
 
     // Clean the database
-    if (user) await app.service('user').remove(user.id)
+    await app.service('user').remove(user.id)
   })
 
   it('verify a MEMBER user with OWNER role can assign user to group', async () => {
@@ -305,8 +305,8 @@ describe('\'usergroup\' service', () => {
     await app.service('usergroup').patch(`${setupData.user2.id},${setupData.group3.id}`, { uhg_role: GROUP_ROLE.MEMBER })
 
     // Clean the database
-    if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
-    if (user) await app.service('user').remove(user.id)
+    await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
+    await app.service('user').remove(user.id)
   })
 
   it('verify a MEMBER user with OWNER role can modify user to group', async () => {
@@ -338,8 +338,8 @@ describe('\'usergroup\' service', () => {
     await app.service('usergroup').patch(`${setupData.user2.id},${setupData.group3.id}`, { uhg_role: GROUP_ROLE.MEMBER })
 
     // Clean the database
-    if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
-    if (user) await app.service('user').remove(user.id)
+    await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
+    await app.service('user').remove(user.id)
   })
 
   it('verify a MEMBER user with OWNER role can remove user to group', async () => {
@@ -370,7 +370,7 @@ describe('\'usergroup\' service', () => {
     await app.service('usergroup').patch(`${setupData.user2.id},${setupData.group3.id}`, { uhg_role: GROUP_ROLE.MEMBER })
 
     // Clean the database
-    if (user) await app.service('user').remove(user.id)
+    await app.service('user').remove(user.id)
   })
 
   afterAll(async () => {
