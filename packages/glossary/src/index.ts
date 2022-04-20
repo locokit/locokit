@@ -27,6 +27,14 @@ export enum COLUMN_TYPE {
   VIRTUAL_LOOKED_UP_COLUMN = 25,
 }
 
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+export const columnsType = Object.entries(COLUMN_TYPE).reduce((acc: Record<string, any>, elem: Record<string, any>) => {
+  if (!isNaN(elem[0])) {
+    acc[elem[1]] = elem[0]
+  }
+  return acc
+}, {})
+
 export enum COLUMN_GEO_TYPE {
   POINT = COLUMN_TYPE.GEOMETRY_POINT,
   LINESTRING = COLUMN_TYPE.GEOMETRY_LINESTRING,

@@ -4,7 +4,7 @@ import { User as LckUser } from '../../models/user.model'
 import ejs from 'ejs'
 import path from 'path'
 import makeDebug from 'debug'
-import marked from 'marked'
+import { marked } from 'marked'
 
 const debug = makeDebug('lck:service:authMgnt:settings')
 
@@ -148,7 +148,7 @@ export function authManagementSettings (app: Application) {
       }
 
       const emailText = await ejs.renderFile(currentActionOption.templateFile, currentTemplateVars)
-      const emailHTML = marked(emailText)
+      const emailHTML = marked.parse(emailText)
 
       const emailSubject = await ejs.renderFile(
         currentActionOption.titleFile, {

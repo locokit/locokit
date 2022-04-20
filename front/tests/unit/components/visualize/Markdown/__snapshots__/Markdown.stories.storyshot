@@ -56,11 +56,11 @@ exports[`storyshots components/visualize/Markdown with a markdown demo 1`] = `
         bold
       </strong>
       , and 
-      <strong>
-        <em>
+      <em>
+        <strong>
           both
-        </em>
-      </strong>
+        </strong>
+      </em>
       .
     </p>
     

@@ -100,7 +100,7 @@ export default {
     },
   },
   methods: {
-    onClickCreateTableModalButton () {
+    onClickCreateTableModalButton (): void {
       this.showCreateTableModal = true
     },
     onCloseCreateTableModal (shouldReloadTables: boolean) {

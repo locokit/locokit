@@ -29,17 +29,17 @@ const definitionColumn = {
   columns: [
     {
       text: 'String column',
-      id: 1,
+      id: '1',
       column_type_id: COLUMN_TYPE.STRING,
     },
     {
       text: 'Boolean column',
-      id: 2,
+      id: '2',
       column_type_id: COLUMN_TYPE.BOOLEAN,
     },
     {
       text: 'Number column',
-      id: 3,
+      id: '3',
       column_type_id: COLUMN_TYPE.NUMBER,
     },
     {
@@ -49,27 +49,27 @@ const definitionColumn = {
     },
     {
       text: 'Relation between tables column',
-      id: 5,
+      id: '5',
       column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
     },
     {
       text: 'Single select',
-      id: 6,
+      id: '6',
       column_type_id: COLUMN_TYPE.SINGLE_SELECT,
     },
     {
       text: 'Multi select',
-      id: 7,
+      id: '7',
       column_type_id: COLUMN_TYPE.MULTI_SELECT,
     },
     {
       text: 'Looked up column',
-      id: 8,
+      id: '8',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
     },
     {
       text: 'Date',
-      id: 9,
+      id: '9',
       column_type_id: COLUMN_TYPE.DATE,
     },
   ],
@@ -82,18 +82,21 @@ const columnsDropdownOptions = {
       value: 1,
       color: '#484848',
       backgroundColor: '#fffbc2',
+      position: 1,
     },
     {
       label: 'option 2',
       value: 2,
       color: '#484848',
       backgroundColor: '#ffedc3',
+      position: 2,
     },
     {
       label: 'option 3',
       value: 3,
       color: '#484848',
       backgroundColor: '#ffe1d2',
+      position: 3,
     },
   ],
   7: [
@@ -102,18 +105,21 @@ const columnsDropdownOptions = {
       value: 1,
       color: '#484848',
       backgroundColor: '#fffbc2',
+      position: 1,
     },
     {
       label: 'option B',
       value: 2,
       color: '#484848',
       backgroundColor: '#ffedc3',
+      position: 2,
     },
     {
       label: 'option C',
       value: 3,
       color: '#484848',
       backgroundColor: '#ffe1d2',
+      position: 3,
     },
   ],
 }
@@ -128,6 +134,7 @@ export const selectedColumnAndActionOverlayOpenedStory = () => (
     async mounted () {
       // Open the panel
       await this.$refs.fb.$el.querySelector('button').click()
+
       // Add a new filter
       await document.body.querySelector('button > .bi.bi-plus-circle').click()
       await document.body.querySelector('#column .p-dropdown-trigger').click()

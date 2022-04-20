@@ -164,7 +164,7 @@ export const WithDefinitionAndToolbarButtonsStory = () => (
       addAllowed
       exportAllowed
       filterAllowed
-      groupId="g1" 
+      groupId="g1"
       :userId="1"
       workspaceId="w1"
       @update-suggestions="() => 1"
@@ -189,7 +189,7 @@ export const WithDefAndContentAndToolbarButtonsStory = () => (
       addAllowed
       exportAllowed
       filterAllowed
-      groupId="g1" 
+      groupId="g1"
       :userId="1"
       workspaceId="w1"
       @update-suggestions="() => 1"

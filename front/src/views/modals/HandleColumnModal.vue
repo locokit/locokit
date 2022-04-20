@@ -246,7 +246,7 @@
 import Vue from 'vue'
 
 import { ValidationProvider } from 'vee-validate'
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE, columnsType } from '@locokit/lck-glossary'
 
 import { lckServices } from '@/services/lck-api'
 import { formulaColumnsNamesToIds, formulaColumnsIdsToNames } from '@/services/lck-utils/formula'
@@ -300,7 +300,7 @@ export default {
   },
   data () {
     return {
-      COLUMN_TYPE,
+      COLUMN_TYPE: columnsType,
       columnNameToHandle: null,
       columnDocumentation: null,
       columnSlug: null,
@@ -316,7 +316,7 @@ export default {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.SINGLE_SELECT || this.selectedColumnTypeIdToHandle === COLUMN_TYPE.MULTI_SELECT
     },
     columnTypes () {
-      return Object.keys(COLUMN_TYPE).filter((key) => isNaN(key)).map((key) => ({
+      return Object.keys(COLUMN_TYPE).map((key) => ({
         id: COLUMN_TYPE[key],
         description: this.$t(`pages.databaseSchema.columnType.${key}.description`),
         name: this.$t(`pages.databaseSchema.columnType.${key}.name`),
