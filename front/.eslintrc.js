@@ -7,7 +7,7 @@ module.exports = {
     'plugin:vue/essential',
     '@vue/standard',
     '@vue/typescript/recommended',
-    'plugin:storybook/recommended'
+    'plugin:storybook/recommended',
   ],
   parserOptions: {
     ecmaVersion: 2020,

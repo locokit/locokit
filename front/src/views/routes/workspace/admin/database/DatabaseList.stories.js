@@ -1,4 +1,4 @@
-// import { action } from '@storybook/addon-actions'
+/* eslint-disable @typescript-eslint/camelcase */
 
 import DatabaseList from './DatabaseList.vue'
 import StoryRouter from 'storybook-vue-router'

@@ -65,19 +65,19 @@ export default Vue.extend({
     workspaceId: {
       type: String,
       required: true,
-    } as PropOptions<String>,
+    } as PropOptions<string>,
     sidebarActive: {
       type: Boolean,
       default: true,
-    } as PropOptions<Boolean>,
+    } as PropOptions<boolean>,
   },
   data (): {
     loading: boolean;
-    workspace: LckWorkspace | null
-  } {
+    workspace: LckWorkspace | null;
+    } {
     return {
       loading: false,
-      workspace: null
+      workspace: null,
     }
   },
   mounted () {
