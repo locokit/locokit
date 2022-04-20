@@ -1,0 +1,1 @@
+import{_ as e,c as t,o as s}from"./app.ee1354cf.js";const f='{"title":"","description":"","frontmatter":{},"relativePath":"features/permissions.md","lastUpdated":1650461122855}',a={};function r(o,n,c,i,p,_){return s(),t("div")}var m=e(a,[["render",r]]);export{f as __pageData,m as default};
