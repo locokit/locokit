@@ -41,7 +41,7 @@ exports[`storyshots components/visualize/TableSet default 1`] = `
             />
           </button>
            
-          <!--function (a, b, c, d) { return createElement(vm, a, b, c, d, true); }-->
+          <!---->
         </div>
       </div>
        
@@ -102,7 +102,7 @@ exports[`storyshots components/visualize/TableSet with definition 1`] = `
             />
           </button>
            
-          <!--function (a, b, c, d) { return createElement(vm, a, b, c, d, true); }-->
+          <!---->
         </div>
       </div>
        
@@ -256,7 +256,7 @@ exports[`storyshots components/visualize/TableSet with definition and content 1`
             />
           </button>
            
-          <!--function (a, b, c, d) { return createElement(vm, a, b, c, d, true); }-->
+          <!---->
         </div>
       </div>
        
@@ -540,7 +540,7 @@ exports[`storyshots components/visualize/TableSet with definition and content an
             />
           </button>
            
-          <!--function (a, b, c, d) { return createElement(vm, a, b, c, d, true); }-->
+          <!---->
         </div>
       </div>
        
@@ -869,7 +869,7 @@ exports[`storyshots components/visualize/TableSet with definition and toolbar bu
             />
           </button>
            
-          <!--function (a, b, c, d) { return createElement(vm, a, b, c, d, true); }-->
+          <!---->
         </div>
       </div>
        

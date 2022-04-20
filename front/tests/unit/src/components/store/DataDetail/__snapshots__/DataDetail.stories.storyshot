@@ -2191,10 +2191,24 @@ exports[`storyshots components/store/DataDetail with looked up columns 1`] = `
           </label>
         </div>
          
-        <span>
-          
-        http://myurl.com
-      
+        <span
+          class="lck-url"
+        >
+          <a
+            href="http://myurl.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <span>
+              http://myurl.com
+            </span>
+             
+            <i
+              aria-label="Open the link in an external page"
+              class="pi pi-external-link"
+              title="Open the link in an external page"
+            />
+          </a>
         </span>
       </div>
     </div>

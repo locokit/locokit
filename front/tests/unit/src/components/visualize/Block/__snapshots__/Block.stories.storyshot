@@ -225,7 +225,7 @@ exports[`storyshots components/visualize/Block TableSet 1`] = `
                 />
               </button>
                
-              <!--function (a, b, c, d) { return createElement(vm, a, b, c, d, true); }-->
+              <!---->
             </div>
           </div>
            

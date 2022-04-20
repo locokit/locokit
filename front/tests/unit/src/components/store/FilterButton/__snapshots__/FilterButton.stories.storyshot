@@ -28,7 +28,7 @@ exports[`storyshots components/store/FilterButton crud mode 1`] = `
       />
     </button>
      
-    <!--function (a, b, c, d) { return createElement(vm, a, b, c, d, true); }-->
+    <!---->
   </div>
 </div>
 `;
@@ -60,7 +60,7 @@ exports[`storyshots components/store/FilterButton default 1`] = `
       />
     </button>
      
-    <!--function (a, b, c, d) { return createElement(vm, a, b, c, d, true); }-->
+    <!---->
   </div>
 </div>
 `;
@@ -92,7 +92,7 @@ exports[`storyshots components/store/FilterButton overlay opened 1`] = `
       />
     </button>
      
-    <!--function (a, b, c, d) { return createElement(vm, a, b, c, d, true); }-->
+    <!---->
   </div>
 </div>
 `;
@@ -124,7 +124,7 @@ exports[`storyshots components/store/FilterButton overlay opened with specified 
       />
     </button>
      
-    <!--function (a, b, c, d) { return createElement(vm, a, b, c, d, true); }-->
+    <!---->
   </div>
 </div>
 `;

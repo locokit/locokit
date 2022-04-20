@@ -8,14 +8,14 @@ exports[`storyshots components/visualize/ChapterDialog chapter create 1`] = `
     <form>
       <div
         class="p-fluid p-dialog-mask p-component-overlay p-component-overlay-enter"
-        style="z-index: 1017;"
+        style="z-index: 1024;"
       >
         <div
           aria-labelledby="pv_id_31_header"
           aria-modal="true"
           class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
           role="dialog"
-          style="z-index: 1018; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
+          style="z-index: 1025; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
         >
           <div
             class="p-dialog-header"
@@ -136,14 +136,14 @@ exports[`storyshots components/visualize/ChapterDialog chapter edit 1`] = `
     <form>
       <div
         class="p-fluid p-dialog-mask p-component-overlay p-component-overlay-enter"
-        style="z-index: 1018;"
+        style="z-index: 1025;"
       >
         <div
           aria-labelledby="pv_id_32_header"
           aria-modal="true"
           class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
           role="dialog"
-          style="z-index: 1019; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
+          style="z-index: 1026; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
         >
           <div
             class="p-dialog-header"

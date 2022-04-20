@@ -27,7 +27,7 @@ exports[`storyshots components/store/View/ViewColumnButton default 1`] = `
       />
     </button>
      
-    <!--function (a, b, c, d) { return createElement(vm, a, b, c, d, true); }-->
+    <!---->
   </div>
 </div>
 `;
@@ -60,7 +60,7 @@ exports[`storyshots components/store/View/ViewColumnButton disabled 1`] = `
       />
     </button>
      
-    <!--function (a, b, c, d) { return createElement(vm, a, b, c, d, true); }-->
+    <!---->
   </div>
 </div>
 `;
@@ -92,7 +92,7 @@ exports[`storyshots components/store/View/ViewColumnButton with value and column
       />
     </button>
      
-    <!--function (a, b, c, d) { return createElement(vm, a, b, c, d, true); }-->
+    <!---->
   </div>
 </div>
 `;

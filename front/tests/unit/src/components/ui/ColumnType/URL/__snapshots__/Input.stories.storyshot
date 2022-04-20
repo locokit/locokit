@@ -14,10 +14,10 @@ exports[`storyshots components/ui/ColumnType/URL/Input default 1`] = `
     />
      
     <i
-      aria-label="Open the link"
+      aria-label="Open the link in an external page"
       class="pi pi-external-link"
       style="display: none;"
-      title="Open the link"
+      title="Open the link in an external page"
     />
   </span>
 </div>
@@ -37,10 +37,10 @@ exports[`storyshots components/ui/ColumnType/URL/Input with a valid url 1`] = `
     />
      
     <i
-      aria-label="Open the link"
+      aria-label="Open the link in an external page"
       class="pi pi-external-link"
       style="display: none;"
-      title="Open the link"
+      title="Open the link in an external page"
     />
   </span>
 </div>
@@ -60,10 +60,10 @@ exports[`storyshots components/ui/ColumnType/URL/Input with an invalid url 1`] =
     />
      
     <i
-      aria-label="Open the link"
+      aria-label="Open the link in an external page"
       class="pi pi-external-link"
       style="display: none;"
-      title="Open the link"
+      title="Open the link in an external page"
     />
   </span>
 </div>
