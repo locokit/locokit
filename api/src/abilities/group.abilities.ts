@@ -51,6 +51,10 @@ export async function createAbility (
       const userGroupsIdsOwner = usergroupsDefault
         .filter(ug => GROUP_ROLE.OWNER === ug.uhg_role) // only OWNER can manage their groups
         .map(ug => ug.group_id)
+      const userGroupsIdsAdmin = usergroupsDefault
+        .filter(ug => GROUP_ROLE.ADMIN === ug.uhg_role) // ADMIN can manage only manage user in their groups
+        .map(ug => ug.group_id)
+
       can('read', 'group', {
         [withJoin ? 'group.id' : 'id']: {
           $in: userGroupsIds,
@@ -67,9 +71,11 @@ export async function createAbility (
             $in: userGroupsIdsOwner,
           },
         })
-        can('delete', 'usergroup', {
+      }
+      if (userGroupsIdsAdmin.length > 0) {
+        can('manage', 'usergroup', {
           group_id: {
-            $in: userGroupsIdsOwner,
+            $in: userGroupsIdsAdmin,
           },
         })
       }
