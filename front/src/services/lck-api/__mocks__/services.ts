@@ -47,7 +47,9 @@ export const lckServices = {
    */
   user: feathersService,
   group: feathersService,
-  signup: feathersService,
+  signup: {
+    create: defaultServiceFunction,
+  },
   /**
    * Ŵorkspace
    */

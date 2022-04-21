@@ -1,4 +1,11 @@
 /* eslint-disable @typescript-eslint/camelcase */
+function create () {
+  return {}
+}
+const signupService = {
+  create,
+}
+
 export const lckClient = {
   reAuthenticate: () => ({
     accessToken: 'jeSuisUnToken',
@@ -23,5 +30,12 @@ export const lckClient = {
       profile: 'SUPERADMIN',
     },
   }),
-  service: () => ({}),
+  service: (service: string) => {
+    switch (service) {
+      case 'signup':
+        return signupService
+      default:
+        return {}
+    }
+  },
 }
