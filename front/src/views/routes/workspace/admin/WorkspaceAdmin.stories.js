@@ -1,7 +1,7 @@
 // import { action } from '@storybook/addon-actions'
 
 import WorkspaceAdmin from './WorkspaceAdmin.vue'
-import StoryRouter from 'storybook-vue-router'
+import StoryRouter from '../../../../../.storybook/storyRouterDecorator.js'
 
 export default {
   title: 'views/routes/workspace/admin/WorkspaceAdmin',

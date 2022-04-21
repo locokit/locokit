@@ -1,7 +1,7 @@
 import Header from './Header'
 import Vue from 'vue'
 
-import StoryRouter from 'storybook-vue-router'
+import StoryRouter from '../../../../.storybook/storyRouterDecorator.js'
 import { action } from '@storybook/addon-actions'
 
 export default {

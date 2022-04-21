@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import DatabaseList from './DatabaseList.vue'
-import StoryRouter from 'storybook-vue-router'
+import StoryRouter from '../../../../../../.storybook/storyRouterDecorator.js'
 
 export default {
   title: 'views/routes/workspace/admin/DatabaseList',

@@ -1,5 +1,5 @@
 import LckMultiSelect from './MultiSelect'
-import StoryRouter from 'storybook-vue-router'
+import StoryRouter from '../../../../.storybook/storyRouterDecorator.js'
 
 export default {
   title: 'components/ui/MultiSelect',

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import AclSetListing from './AclSetListing.vue'
-import StoryRouter from 'storybook-vue-router'
+import StoryRouter from '../../../../../../.storybook/storyRouterDecorator.js'
 
 import { LckAclTable, LckAclSet } from '@/services/lck-api/definitions'
 

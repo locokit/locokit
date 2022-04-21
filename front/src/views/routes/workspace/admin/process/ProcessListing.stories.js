@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import ProcessListing from './ProcessListing'
-import StoryRouter from 'storybook-vue-router'
+import StoryRouter from '../../../../../../.storybook/storyRouterDecorator.js'
 
 export default {
   title: 'views/routes/workspace/admin/ProcessListing',
