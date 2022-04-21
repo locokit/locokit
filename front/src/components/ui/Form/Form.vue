@@ -43,7 +43,7 @@ import Vue from 'vue'
 import Button from 'primevue/button'
 import { ValidationObserver } from 'vee-validate'
 
-export default {
+export default Vue.extend({
   name: 'LckForm',
   components: {
     'p-button': Vue.extend(Button),
@@ -79,7 +79,7 @@ export default {
       }
     },
   },
-}
+})
 </script>
 
 <style scoped>

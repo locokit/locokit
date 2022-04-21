@@ -291,7 +291,7 @@ import { ROUTES_PATH } from '@/router/paths'
 import { regexPasswordRules } from '@/services/lck-utils/regex'
 import LayoutWithHeader from '@/layouts/WithHeader.vue'
 
-export default {
+export default Vue.extend({
   name: 'Profile',
   data () {
     return {
@@ -370,11 +370,11 @@ export default {
           detail: this.$t('pages.account.edit.email.success'),
           life: 5000,
         })
-      } catch (error: any) {
+      } catch (error) {
         this.$toast.add({
           severity: 'error',
           summary: this.$t('error.impossibleOperation'),
-          detail: error.errors?.password
+          detail: (error as any).errors?.password
             ? this.$t('pages.account.edit.passwordIncorrect')
             : this.$t('error.basic'),
           life: 5000,
@@ -387,7 +387,7 @@ export default {
       this.$router.push(ROUTES_PATH.HOME)
     },
   },
-}
+})
 </script>
 
 <style scoped lang="scss">

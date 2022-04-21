@@ -53,6 +53,7 @@ import Vue, { PropOptions } from 'vue'
 import Accordion from 'primevue/accordion'
 import AccordionTab from 'primevue/accordiontab'
 import Skeleton from 'primevue/skeleton'
+import { TranslateResult } from 'vue-i18n'
 
 export default Vue.extend({
   name: 'DatabaseList',
@@ -84,7 +85,11 @@ export default Vue.extend({
     this.getDatabaseList()
   },
   computed: {
-    menuItems () {
+    menuItems (): Array<{
+      id: string;
+      label: string;
+      items: Array<{ id: string; label: string | TranslateResult; icon: string; to: string }>;
+    }> | undefined {
       if (!this.workspace) return []
       return this.workspace.databases?.map(database => ({
         id: database.id,

@@ -77,7 +77,7 @@ import UserGroupForm from '@/components/admin/group/UserGroupForm.vue'
 import { ROUTES_NAMES } from '@/router/paths'
 import { GROUP_ROLE } from '@locokit/lck-glossary'
 
-export default {
+export default Vue.extend({
   name: 'CommonGroupListing',
   components: {
     'p-button': Vue.extend(Button),
@@ -176,8 +176,8 @@ export default {
             $eager: '[users, aclset.[workspace, chapter]]',
           },
         })
-      } catch (error: any) {
-        this.displayToastOnError(error)
+      } catch (error) {
+        this.displayToastOnError(error as any)
       }
     },
     /**
@@ -215,8 +215,8 @@ export default {
          * Refresh the listing with the new group / updated group
          */
         this.fetchGroups()
-      } catch (error: any) {
-        this.displayToastOnError(error)
+      } catch (error) {
+        this.displayToastOnError(error as any)
       }
       this.submitting = false
     },
@@ -240,8 +240,8 @@ export default {
         }
         const responseGroups = await lckServices.group.find(groupParams) as LckGroup[]
         this.groups = responseGroups
-      } catch (error: any) {
-        this.displayToastOnError(error)
+      } catch (error) {
+        this.displayToastOnError(error as any)
       }
       this.loading = false
     },
@@ -256,8 +256,8 @@ export default {
           group_id: groupId,
           uhg_role: role,
         })
-      } catch (error: any) {
-        this.displayToastOnError(error)
+      } catch (error) {
+        this.displayToastOnError(error as any)
       }
       await this.fetchGroup(this.groupId)
       this.submitting = false
@@ -272,8 +272,8 @@ export default {
           `${userId},${groupId}`,
           { uhg_role: role },
         )
-      } catch (error: any) {
-        this.displayToastOnError(error)
+      } catch (error) {
+        this.displayToastOnError(error as any)
       }
       this.fetchGroup(this.groupId)
       await this.fetchGroup(this.groupId)
@@ -288,8 +288,8 @@ export default {
         await lckServices.usergroup.remove(
           `${userId},${groupId}`,
         )
-      } catch (error: any) {
-        this.displayToastOnError(error)
+      } catch (error) {
+        this.displayToastOnError(error as any)
       }
       await this.fetchGroup(this.groupId)
       this.submitting = false
@@ -339,5 +339,5 @@ export default {
       immediate: true,
     },
   },
-}
+})
 </script>

@@ -71,7 +71,6 @@
 </template>
 
 <script lang="ts">
-
 import Vue, { PropOptions } from 'vue'
 import { ValidationProvider } from 'vee-validate'
 import { lckServices } from '@/services/lck-api'
@@ -113,6 +112,8 @@ export default Vue.extend({
     async confirmCreateTableModal () {
       try {
         const createTableResponse = await lckServices.table.create({
+          // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+          // @ts-ignore
           // eslint-disable-next-line @typescript-eslint/camelcase
           database_id: this.databaseId,
           text: this.tableNameToCreate,
@@ -126,8 +127,8 @@ export default Vue.extend({
           this.errorTableNameToCreate = false
           this.$emit('close', true)
         }
-      } catch (errorCreateTable: any) {
-        this.errorTableNameToCreate = errorCreateTable.message
+      } catch (errorCreateTable) {
+        this.errorTableNameToCreate = (errorCreateTable as any).message
       }
     },
   },

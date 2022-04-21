@@ -97,7 +97,7 @@ import Dropdown from 'primevue/dropdown'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 
-export default {
+export default Vue.extend({
   name: 'TableSetSettingsFields',
   components: {
     'lck-autocomplete': AutoComplete,
@@ -163,7 +163,7 @@ export default {
   },
   methods: {
     onChangeTableView () {
-      this.$emit('update:id', this.tableView.value)
+      this.$emit('update:id', this.tableView?.value)
       this.$emit('component-refresh-required', true)
     },
     onChangePagination (pagination: number) {
@@ -171,7 +171,7 @@ export default {
       this.$emit('component-refresh-required', true)
     },
   },
-}
+})
 </script>
 
 <style scoped>

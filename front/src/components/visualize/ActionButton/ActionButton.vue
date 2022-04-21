@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import Vue, { PropOptions } from 'vue'
 
 import { LckTableRow } from '@/services/lck-api/definitions'
 import {
@@ -31,26 +31,20 @@ export default Vue.extend({
     displayCheckIcon: {
       type: Boolean,
       default: false,
-    },
+    } as PropOptions<boolean>,
     content: {
-      type: Object as PropType<{ data: LckTableRow[] | LckTableRow }>,
-    },
+      type: Object,
+    } as PropOptions<{ data: LckTableRow[] | LckTableRow }>,
     settings: {
-      type: Object as PropType<ActionButtonSettings>,
+      type: Object,
       required: true,
-    },
+    } as PropOptions<ActionButtonSettings>,
     loading: {
       type: Boolean,
       default: false,
-    },
+    } as PropOptions<boolean>,
   },
   computed: {
-    isHidden () {
-      return (
-        this.settings?.displayFieldId &&
-        this.row?.data[this.settings.displayFieldId] !== (this.settings.displayFieldConditionQuery === 'true')
-      )
-    },
     row () {
       if (this.content && Array.isArray(this.content.data)) {
         // Case for ActionButton block
@@ -58,6 +52,10 @@ export default Vue.extend({
       }
       // Case for ActionButton in DataTable
       return this.content
+    },
+    isHidden (): boolean {
+      if (!this.settings?.displayFieldId) return false
+      return (this.row as LckTableRow)?.data[this.settings.displayFieldId as string] !== (this.settings.displayFieldConditionQuery === 'true')
     },
   },
   methods: {

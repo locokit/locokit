@@ -61,7 +61,7 @@ export default Vue.extend({
         this.error = null
         this.verifyOK = true
       } catch (err) {
-        this.error = err
+        this.error = err as any
       }
       this.loading = false
     },

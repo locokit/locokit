@@ -93,7 +93,7 @@ import { EXTENDED_NAMED_CLASSES, TEXT_ALIGN_CLASS } from '@/services/lck-utils/p
 import Textarea from 'primevue/textarea'
 import Dropdown from 'primevue/dropdown'
 
-export default {
+export default Vue.extend({
   name: 'MarkdownSettingsFields',
   components: {
     'p-textarea': Vue.extend(Textarea),
@@ -117,7 +117,7 @@ export default {
       TEXT_ALIGN_CLASS,
     }
   },
-}
+})
 </script>
 
 <style scoped>

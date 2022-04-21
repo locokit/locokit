@@ -259,7 +259,7 @@ const defaultUsergroup: {
   role: GROUP_ROLE.MEMBER,
 }
 
-export default {
+export default Vue.extend({
   name: 'WorkspaceAdminUserGroupForm',
   components: {
     'lck-autocomplete': AutoComplete,
@@ -378,5 +378,5 @@ export default {
       immediate: true,
     },
   },
-}
+})
 </script>

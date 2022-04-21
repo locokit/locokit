@@ -124,7 +124,7 @@ import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import { TranslateResult } from 'vue-i18n'
 
-export default {
+export default Vue.extend({
   name: 'MediaSettingsFields',
   components: {
     'p-dropdown': Vue.extend(Dropdown),
@@ -164,7 +164,7 @@ export default {
       return this.basicMediaValues.includes(this.displayMode)
     },
   },
-}
+})
 </script>
 
 <style scoped>

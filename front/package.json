@@ -74,6 +74,7 @@
     "@types/mapbox-gl": "^1.13.0",
     "@types/marked": "^4.0.2",
     "@types/ol": "^6.4.2",
+    "@types/resize-observer-browser": "^0.1.7",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "~4.5.0",

@@ -322,7 +322,7 @@ import Panel from 'primevue/panel'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 
-export default {
+export default Vue.extend({
   name: 'ActionButtonSettingsFields',
   components: {
     'lck-autocomplete': AutoComplete,
@@ -386,7 +386,13 @@ export default {
       default: () => ([]),
     } as PropOptions<{ label: string; value: string }[]>,
   },
-  data () {
+  data (): {
+    ROUTES_NAMES: typeof ROUTES_NAMES;
+    NAMED_CLASSES: typeof NAMED_CLASSES;
+    ACTIONS_TYPE: typeof ACTIONS_TYPE;
+    ACTION_BUTTON_TYPE: typeof ACTION_BUTTON_TYPE;
+    tableView: { text: string; value: string } | null;
+    } {
     return {
       ROUTES_NAMES,
       NAMED_CLASSES,
@@ -397,7 +403,7 @@ export default {
   },
   methods: {
     onChangeTableView () {
-      this.$emit('update:id', this.tableView.value)
+      this.$emit('update:id', this.tableView?.value)
       this.$emit('component-refresh-required', true)
     },
   },
@@ -414,7 +420,7 @@ export default {
       immediate: true,
     },
   },
-}
+})
 </script>
 
 <style lang="scss" scoped>

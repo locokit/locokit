@@ -37,7 +37,7 @@ import Badge from '@/components/ui/Badge/Badge.vue'
 import { objectFromArray } from '@/services/lck-utils/arrays'
 import { SelectValue } from '@/services/lck-api/definitions'
 
-export default {
+export default Vue.extend({
   name: 'LckMultiSelect',
   components: {
     'p-multiselect': Vue.extend(PrimeMultiSelect),
@@ -58,7 +58,7 @@ export default {
       return objectFromArray(this.options, 'value')
     },
   },
-}
+})
 </script>
 
 <style>

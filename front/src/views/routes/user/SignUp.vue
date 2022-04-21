@@ -61,7 +61,7 @@ export default Vue.extend({
           await lckClient.service('signup').create(credentials)
           this.signUpOk = true
           this.error = null
-        } catch (err: any) {
+        } catch (err) {
           this.error = err as Error
         } finally {
           this.loading = false

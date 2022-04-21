@@ -38,7 +38,7 @@ import InputText from 'primevue/inputtext'
 
 import LckDialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 
-export default {
+export default Vue.extend({
   name: 'ChapterDialog',
   components: {
     'lck-dialog-form': LckDialogForm,
@@ -72,5 +72,5 @@ export default {
       immediate: true,
     },
   },
-}
+})
 </script>

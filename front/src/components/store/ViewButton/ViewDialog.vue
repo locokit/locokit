@@ -57,7 +57,7 @@ import ToggleButton from 'primevue/togglebutton'
 
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
 
-export default {
+export default Vue.extend({
   name: 'ViewDialog',
   components: {
     'lck-dialog-form': DialogForm,
@@ -90,5 +90,5 @@ export default {
       immediate: true,
     },
   },
-}
+})
 </script>

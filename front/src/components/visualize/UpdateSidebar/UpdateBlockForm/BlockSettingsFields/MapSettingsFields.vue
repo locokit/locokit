@@ -433,6 +433,7 @@ import {
 import {
   GEOGRAPHIC_COLUMN_TYPES,
 } from '@/services/lck-utils/columns'
+import { TranslateResult } from 'vue-i18n'
 
 interface Item {
   text: string;
@@ -527,7 +528,7 @@ export default Vue.extend({
     },
   },
   computed: {
-    needRelatedSourcePlaceholder () {
+    needRelatedSourcePlaceholder (): TranslateResult[] {
       // For each source, return a specific placeholder for the autocomplete inputs that need the view to be chosen
       return this.sources.map(source => {
         return source.id
@@ -535,7 +536,13 @@ export default Vue.extend({
           : this.$t('pages.workspace.block.map.noSelectedView')
       })
     },
-    queryParametersOnAggregation () {
+    queryParametersOnAggregation (): ({
+        settings: {
+          localField: string;
+        };
+      } | {
+        settings?: undefined;
+      })[] {
       // If the source data is aggregated, only the columns related to the aggregation field should be used
       // (in the popup, to customise the layers...) because their values are similar in the aggregated rows.
       return this.sources.map(source => {

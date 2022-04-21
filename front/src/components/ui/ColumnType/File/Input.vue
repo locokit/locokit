@@ -74,7 +74,7 @@ import Button from 'primevue/button'
 import Vue, { PropType } from 'vue'
 import { getAttachmentsToDisplay } from './helpers'
 
-export default {
+export default Vue.extend({
   name: 'LckFileInput',
   components: {
     'lck-async-image': LckAsyncImage,
@@ -115,7 +115,7 @@ export default {
       },
     },
   },
-}
+})
 </script>
 
 <style scoped>

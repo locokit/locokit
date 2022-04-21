@@ -23,15 +23,16 @@
   </layout-with-header>
 </template>
 
-<script>
+<script lang="ts">
 import { ROUTES_NAMES } from '@/router/paths'
 import { LckWorkspace } from '@/services/lck-api/definitions'
 import { lckServices } from '@/services/lck-api'
 import LayoutWithHeader from '@/layouts/WithHeader.vue'
 
 import Vue from 'vue'
+import { TranslateResult } from 'vue-i18n'
 
-export default {
+export default Vue.extend({
   name: 'WorkspaceAdmin',
   components: {
     'layout-with-header': Vue.extend(LayoutWithHeader),
@@ -42,16 +43,10 @@ export default {
       required: true,
     },
   },
-  data () {
+  data (): { loading: boolean; workspace: LckWorkspace | null } {
     return {
-      loading: {
-        type: Boolean,
-        default: false,
-      },
-      workspace: {
-        type: LckWorkspace,
-        default: null,
-      },
+      loading: false,
+      workspace: null,
     }
   },
   async mounted () {
@@ -60,7 +55,11 @@ export default {
     this.loading = false
   },
   computed: {
-    menuItems () {
+    menuItems (): Array<{
+      label: TranslateResult;
+      icon: string;
+      to: { name: string; params: Record<string, any> };
+    }> {
       return [{
         label: this.$t('pages.workspace.menu.databases'),
         icon: 'bi-server',
@@ -127,5 +126,5 @@ export default {
       }]
     },
   },
-}
+})
 </script>

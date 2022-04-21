@@ -70,7 +70,7 @@ import { LckTableColumn } from '@/services/lck-api/definitions'
 
 import Dropdown from 'primevue/dropdown'
 
-export default {
+export default Vue.extend({
   name: 'LookedUpTypeColumn',
   components: {
     'p-dropdown': Vue.extend(Dropdown),
@@ -161,5 +161,5 @@ export default {
       this.$emit('relation-table-id-change', this.relationTableId)
     },
   },
-}
+})
 </script>

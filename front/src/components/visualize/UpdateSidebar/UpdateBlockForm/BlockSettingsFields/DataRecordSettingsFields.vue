@@ -33,7 +33,7 @@ import { LckTableView } from '@/services/lck-api/definitions'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 
-export default {
+export default Vue.extend({
   name: 'DataRecordSettingsFields',
   components: {
     'lck-autocomplete': AutoComplete,
@@ -73,9 +73,9 @@ export default {
   },
   methods: {
     onChangeTableView () {
-      this.$emit('update:id', this.tableView.value)
+      this.$emit('update:id', this.tableView?.value)
       this.$emit('component-refresh-required', true)
     },
   },
-}
+})
 </script>
