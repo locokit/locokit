@@ -27,7 +27,6 @@ export default {
   before: {
     all: [
       authenticate('jwt'),
-
       defineAbilitiesIffHook(),
     ],
     find: [
@@ -41,10 +40,22 @@ export default {
         adapter: 'feathers-objection',
       }),
     ],
-    create: [],
+    create: [
+      authorize({
+        adapter: 'feathers-objection',
+      }),
+    ],
     update: [],
-    patch: [],
-    remove: [],
+    patch: [
+      authorize({
+        adapter: 'feathers-objection',
+      }),
+    ],
+    remove: [
+      authorize({
+        adapter: 'feathers-objection',
+      }),
+    ],
   },
 
   after: {

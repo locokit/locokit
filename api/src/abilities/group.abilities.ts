@@ -22,7 +22,7 @@ export async function createAbility (
   withJoin: boolean = false,
 ): Promise<AppAbility> {
   // also see https://casl.js.org/v5/en/guide/define-rules
-  const { can, rules } = new AbilityBuilder(AppAbility)
+  const { can, cannot, rules } = new AbilityBuilder(AppAbility)
 
   /**
    * User is anonymous, no permission granted
@@ -47,39 +47,51 @@ export async function createAbility (
         },
         paginate: false,
       }) as Usergroup[]
-      const userGroupsIds = usergroupsDefault.map(ug => ug.group_id)
-      const userGroupsIdsOwner = usergroupsDefault
-        .filter(ug => GROUP_ROLE.OWNER === ug.uhg_role) // only OWNER can manage their groups
-        .map(ug => ug.group_id)
-      const userGroupsIdsAdmin = usergroupsDefault
-        .filter(ug => GROUP_ROLE.ADMIN === ug.uhg_role) // ADMIN can manage only manage user in their groups
-        .map(ug => ug.group_id)
 
-      can('read', 'group', {
-        [withJoin ? 'group.id' : 'id']: {
-          $in: userGroupsIds,
-        },
+      // only OWNER can manage their groups
+      const userGroupsOwner = usergroupsDefault.filter(ug => GROUP_ROLE.OWNER === ug.uhg_role)
+      // ADMIN can manage only manage user in their groups
+      const userGroupsAdmin = usergroupsDefault.filter(ug => GROUP_ROLE.ADMIN === ug.uhg_role)
+      const userGroupsMember = usergroupsDefault.filter(ug => GROUP_ROLE.MEMBER === ug.uhg_role)
+
+      // Sort ids to prevent side effect
+      const userGroupsIds = [
+        ...userGroupsOwner,
+        ...userGroupsAdmin,
+        ...userGroupsMember,
+      ]
+
+      cannot('delete', 'group')
+
+      userGroupsIds.forEach(usergroup => {
+        can('read', 'group', {
+          [withJoin ? 'group.id' : 'id']: usergroup.group_id,
+        })
+
+        if (GROUP_ROLE.OWNER === usergroup.uhg_role) {
+          can('manage', 'group', {
+            [withJoin ? 'group.id' : 'id']: usergroup.group_id,
+          })
+          can('manage', 'usergroup', {
+            group_id: usergroup.group_id,
+          })
+        }
+        if (GROUP_ROLE.ADMIN === usergroup.uhg_role) {
+          can('update', 'group', {
+            [withJoin ? 'group.id' : 'id']: usergroup.group_id,
+          })
+          can('manage', 'usergroup', {
+            group_id: usergroup.group_id,
+          })
+        }
+        if (GROUP_ROLE.MEMBER === usergroup.uhg_role) {
+          cannot('update', 'group', {
+            [withJoin ? 'group.id' : 'id']: usergroup.group_id,
+          })
+        }
       })
-      if (userGroupsIdsOwner.length > 0) {
-        can('manage', 'group', {
-          [withJoin ? 'group.id' : 'id']: {
-            $in: userGroupsIdsOwner,
-          },
-        })
-        can('manage', 'usergroup', {
-          group_id: {
-            $in: userGroupsIdsOwner,
-          },
-        })
-      }
-      if (userGroupsIdsAdmin.length > 0) {
-        can('manage', 'usergroup', {
-          group_id: {
-            $in: userGroupsIdsAdmin,
-          },
-        })
-      }
   }
+  // console.log('rules --->', rules)
 
   return makeAbilityFromRules(rules, { resolveAction }) as AppAbility
 }
