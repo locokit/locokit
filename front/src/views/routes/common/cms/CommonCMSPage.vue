@@ -37,53 +37,53 @@
         >
           <div v-show="container.id === currentHash">
             <h2 v-if="container.display_title" class="lck-color-title">
-            {{ container.text }}
-          </h2>
+              {{ container.text }}
+            </h2>
             <div class="lck-block-parent">
-            <template v-for="block in container.blocks">
-              <lck-block
-                :key="block.id"
-                v-if="isBlockDisplayed(block)"
-                class="lck-block"
-                :block="block"
-                :content="getBlockContent(block)"
-                :definition="getBlockDefinition(block)"
-                :workspaceId="workspaceId"
-                :groupId="groupId"
-                :userId="userId"
-                :autocompleteSuggestions="autocompleteSuggestions"
-                :exporting="exporting"
-                :cellState="cellState"
-                :secondarySources="secondarySources[block.id]"
-                v-on="$listeners"
+              <template v-for="block in container.blocks">
+                <lck-block
+                  :key="block.id"
+                  v-if="isBlockDisplayed(block)"
+                  class="lck-block"
+                  :block="block"
+                  :content="getBlockContent(block)"
+                  :definition="getBlockDefinition(block)"
+                  :workspaceId="workspaceId"
+                  :groupId="groupId"
+                  :userId="userId"
+                  :autocompleteSuggestions="autocompleteSuggestions"
+                  :exporting="exporting"
+                  :cellState="cellState"
+                  :secondarySources="secondarySources[block.id]"
+                  v-on="$listeners"
 
-                @row-delete="onRowDelete(block, $event)"
-                @row-duplicate="onRowDuplicate(block, $event)"
+                  @row-delete="onRowDelete(block, $event)"
+                  @row-duplicate="onRowDuplicate(block, $event)"
 
-                @update-row="onUpdateCell(block, $event)"
-                @update-cell="onUpdateCell(block, $event)"
-                @update-content="onUpdateContentBlockTableView(block, $event)"
-                @update-suggestions="onUpdateSuggestions"
-                @sort="onSort(block, $event)"
-                @open-detail="onPageDetail(block, $event)"
-                @create-row="onCreateRow(block, $event)"
-                @export-view-csv="onExportViewCSV(block)"
-                @export-view-xls="onExportViewXLS(block)"
-                @update-filters="onUpdateFilters(block, $event)"
-                @get-secondary-sources="getSecondarySources(block, $event)"
+                  @update-row="onUpdateCell(block, $event)"
+                  @update-cell="onUpdateCell(block, $event)"
+                  @update-content="onUpdateContentBlockTableView(block, $event)"
+                  @update-suggestions="onUpdateSuggestions"
+                  @sort="onSort(block, $event)"
+                  @open-detail="onPageDetail(block, $event)"
+                  @create-row="onCreateRow(block, $event)"
+                  @export-view-csv="onExportViewCSV(block)"
+                  @export-view-xls="onExportViewXLS(block)"
+                  @update-filters="onUpdateFilters(block, $event)"
+                  @get-secondary-sources="getSecondarySources(block, $event)"
 
-                @download-attachment="onDownloadAttachment"
-                @upload-files="onUploadFiles(block, $event)"
-                @remove-attachment="onRemoveAttachment(block, $event)"
+                  @download-attachment="onDownloadAttachment"
+                  @upload-files="onUploadFiles(block, $event)"
+                  @remove-attachment="onRemoveAttachment(block, $event)"
 
-                @go-to-page-detail="goToPage"
-                @create-process-run="onTriggerProcess(block, $event)"
+                  @go-to-page-detail="goToPage"
+                  @create-process-run="onTriggerProcess(block, $event)"
 
-                @update-features="onGeoDataEdit(block, $event)"
-                @remove-features="onGeoDataRemove(block, $event)"
-              />
-            </template>
-          </div>
+                  @update-features="onGeoDataEdit(block, $event)"
+                  @remove-features="onGeoDataRemove(block, $event)"
+                />
+              </template>
+            </div>
           </div>
         </div>
       </div>
@@ -261,13 +261,6 @@ export default {
     isNavBarAnchorLinkDisplayed () {
       return this.page?.containers?.some(container => container.displayed_in_navbar)
     },
-    displayContainersByModeNavigation () {
-      if (this.isNavBarAnchorLinkDisplayed && this.page.modeNavigation === 'tab' && this.page.containers.length > 0) {
-        return this.page.containers.filter(({ id }) => this.$route.hash.slice(1) === id)
-      }
-      // Case by default + Mode Navigation anchor
-      return this.page.containers
-    },
     currentHash (): string {
       return this.$route.hash.slice(1)
     },
@@ -312,7 +305,7 @@ export default {
       this.showUpdateSidebar = true
     },
     async forceHashToNavigate (route) {
-      if (this.isNavBarAnchorLinkDisplayed && this.page.containers.length > 0) {
+      if (this.isNavBarAnchorLinkDisplayed) {
         if (route) {
           // Execute when beforeRouteUpdate
           await this.$router.replace({ ...route, hash: `#${this.page.containers[0].id}` })
