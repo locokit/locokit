@@ -31,7 +31,7 @@
             classes
           }"
         >
-          <label for="name" class="label-field-required">
+          <label for="name" class="label-field-required" v-focus>
             {{ $t('components.userGroupForm.fields.name') }}
           </label>
           <p-input-text
