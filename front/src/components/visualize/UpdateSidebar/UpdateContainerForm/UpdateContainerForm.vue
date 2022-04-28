@@ -240,13 +240,17 @@ export default Vue.extend({
   },
   methods: {
     onFormSubmit () {
+      // Remove invariant data
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/camelcase
+      const { blocks, createdAt, page_id, updatedAt, ...data } = this.containerCopy
+
       if (this.containerCopy?.displayed_in_navbar) {
-        return this.$emit('update-container', this.containerCopy)
+        return this.$emit('update-container', data)
       }
       // Don't send default label for anchor_label if no anchor
       // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/camelcase
-      const { anchor_label, ...data } = this.containerCopy
-      return this.$emit('update-container', data)
+      const { anchor_label, ...rest } = data
+      return this.$emit('update-container', rest)
     },
   },
   watch: {
