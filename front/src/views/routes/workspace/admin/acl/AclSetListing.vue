@@ -134,7 +134,7 @@ export default Vue.extend({
      */
     createAclSet () {
       this.$router.push({
-        name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL,
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL_ADD,
         params: {
           workspaceId: this.workspaceId,
         },

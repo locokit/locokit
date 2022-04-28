@@ -146,7 +146,7 @@ export default Vue.extend({
      */
     async createGroup () {
       await this.$router.push({
-        name: this.routeNameGroup,
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUP_ADD,
         params: {
           ...this.$route.params,
           groupId: '',

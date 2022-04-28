@@ -71,7 +71,8 @@ const routes: Array<RouteConfig> = [
       needHeader: false,
       needGuest: true,
     },
-  }, {
+  },
+  {
     path: ROUTES_PATH.LOSTPASSWORD,
     name: 'LostPassword',
     component: LostPassword,
@@ -79,7 +80,8 @@ const routes: Array<RouteConfig> = [
       needHeader: false,
       needGuest: true,
     },
-  }, {
+  },
+  {
     path: ROUTES_PATH.RESETPASSWORD,
     name: 'ResetPassword',
     component: ResetPassword,
@@ -105,21 +107,24 @@ const routes: Array<RouteConfig> = [
       needHeader: false,
       needGuest: true,
     },
-  }, {
+  },
+  {
     path: ROUTES_PATH.UPDATEEMAIL,
     name: ROUTES_NAMES.UPDATEEMAIL,
     component: UpdateEmail,
     meta: {
       needHeader: false,
     },
-  }, {
+  },
+  {
     path: ROUTES_PATH.PROFILE,
     name: 'Profile',
     component: Profile,
     meta: {
       needAuthentication: true,
     },
-  }, {
+  },
+  {
     path: ROUTES_PATH.WORKSPACE,
     name: 'WorkspaceList',
     component: WorkspaceList,
@@ -137,7 +142,8 @@ const routes: Array<RouteConfig> = [
       needAuthentication: true,
       hasBurgerMenu: true,
     },
-  }, {
+  },
+  {
     name: 'WorkspaceAdmin',
     path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN,
     redirect: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE,
@@ -148,150 +154,201 @@ const routes: Array<RouteConfig> = [
       hasBurgerMenu: true,
       authorizedRoles: [GROUP_ROLE.ADMIN, GROUP_ROLE.OWNER],
     },
-    children: [{
-      name: 'WorkspaceDatabase',
-      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE,
-      props: true,
-      component: DatabaseList,
-      meta: {
-        needAuthentication: true,
-        hasBurgerMenu: true,
-      },
-      children: [
-        {
-          name: ROUTES_NAMES.WORKSPACE_ADMIN.DATABASETABLE,
-          path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASETABLE + '/:tableId?',
-          component: DatabaseTable,
-          props: true,
-          meta: {
-            needAuthentication: true,
-            hasBurgerMenu: true,
-          },
+    children: [
+      {
+        name: 'WorkspaceDatabase',
+        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE,
+        props: true,
+        component: DatabaseList,
+        meta: {
+          needAuthentication: true,
+          hasBurgerMenu: true,
         },
-        {
-          name: ROUTES_NAMES.WORKSPACE_ADMIN.DATABASESCHEMA,
-          path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASESCHEMA,
-          component: DatabaseSchema,
-          props: true,
-          meta: {
-            needAuthentication: true,
-            hasBurgerMenu: true,
+        children: [
+          {
+            name: ROUTES_NAMES.WORKSPACE_ADMIN.DATABASETABLE,
+            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASETABLE + '/:tableId?',
+            component: DatabaseTable,
+            props: true,
+            meta: {
+              needAuthentication: true,
+              hasBurgerMenu: true,
+            },
           },
-        },
-      ],
-    }, {
-      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.PROCESS,
-      name: ROUTES_NAMES.WORKSPACE_ADMIN.PROCESS,
-      component: ProcessListing,
-      props: true,
-      meta: {
-        needAuthentication: true,
-        hasBurgerMenu: true,
+          {
+            name: ROUTES_NAMES.WORKSPACE_ADMIN.DATABASESCHEMA,
+            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE + '/:databaseId' + ROUTES_PATH.DATABASESCHEMA,
+            component: DatabaseSchema,
+            props: true,
+            meta: {
+              needAuthentication: true,
+              hasBurgerMenu: true,
+            },
+          },
+        ],
       },
-      children: [{
-        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.PROCESS + '/:processId',
-        name: ROUTES_NAMES.WORKSPACE_ADMIN.PROCESS_DETAIL,
+      {
+        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.PROCESS,
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.PROCESS,
         component: ProcessListing,
         props: true,
         meta: {
           needAuthentication: true,
           hasBurgerMenu: true,
         },
-      }],
-    }, {
-      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.ACLSET,
-      name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL,
-      component: AclSetListing,
-      props: true,
-      meta: {
-        needAuthentication: true,
-        hasBurgerMenu: true,
+        children: [
+          {
+            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.PROCESS + '/:processId',
+            name: ROUTES_NAMES.WORKSPACE_ADMIN.PROCESS_DETAIL,
+            component: ProcessListing,
+            props: true,
+            meta: {
+              needAuthentication: true,
+              hasBurgerMenu: true,
+            },
+          },
+          {
+            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.PROCESS + '/add',
+            name: ROUTES_NAMES.WORKSPACE_ADMIN.PROCESS_ADD,
+            component: ProcessListing,
+            props: true,
+            meta: {
+              needAuthentication: true,
+              hasBurgerMenu: true,
+            },
+          },
+        ],
       },
-      children: [{
-        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.ACLSET + '/:aclSetId',
-        name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL_DETAIL,
+      {
+        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.ACLSET,
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL,
         component: AclSetListing,
         props: true,
         meta: {
           needAuthentication: true,
           hasBurgerMenu: true,
         },
-      }],
-    }, {
-      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP,
-      name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUP,
-      component: WorkspaceGroupListing,
-      props: true,
-      meta: {
-        needAuthentication: true,
-        hasBurgerMenu: true,
+        children: [
+          {
+            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.ACLSET + '/:aclSetId',
+            name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL_DETAIL,
+            component: AclSetListing,
+            props: true,
+            meta: {
+              needAuthentication: true,
+              hasBurgerMenu: true,
+            },
+          },
+          {
+            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.ACLSET + '/add',
+            name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL_ADD,
+            component: AclSetListing,
+            props: true,
+            meta: {
+              needAuthentication: true,
+              hasBurgerMenu: true,
+            },
+          },
+        ],
       },
-      children: [{
-        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP + '/:groupId',
-        name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUP_DETAIL,
+      {
+        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP,
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUP,
         component: WorkspaceGroupListing,
         props: true,
         meta: {
           needAuthentication: true,
           hasBurgerMenu: true,
         },
-      }],
-    }, {
-      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.SETTINGS,
-      name: ROUTES_NAMES.WORKSPACE_ADMIN.SETTINGS,
-      component: WorkspaceSettings,
-      props: true,
-      meta: {
-        needAuthentication: true,
-        hasBurgerMenu: true,
+        children: [
+          {
+            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP + '/:groupId',
+            name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUP_DETAIL,
+            component: WorkspaceGroupListing,
+            props: true,
+            meta: {
+              needAuthentication: true,
+              hasBurgerMenu: true,
+            },
+          },
+          {
+            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP + '/add',
+            name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUP_ADD,
+            component: WorkspaceGroupListing,
+            props: true,
+            meta: {
+              needAuthentication: true,
+              hasBurgerMenu: true,
+            },
+          },
+        ],
       },
-    }, {
-      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.FILES,
-      name: ROUTES_NAMES.WORKSPACE_ADMIN.FILES,
-      component: WorkspaceFiles,
-      props: true,
-      meta: {
-        needAuthentication: true,
-        hasBurgerMenu: true,
-      },
-    }, {
-      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.CMS,
-      name: ROUTES_NAMES.WORKSPACE_ADMIN.CMS,
-      component: WorkspaceAdminCMSConfig,
-      props: true,
-      meta: {
-        needAuthentication: true,
-        hasBurgerMenu: true,
-        authorizedRoles: [GROUP_ROLE.ADMIN, GROUP_ROLE.OWNER],
-      },
-      children: [{
-        name: ROUTES_NAMES.WORKSPACE_ADMIN.CMS_PAGE_DETAIL,
-        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.CMS + ROUTES_PATH.CMS_PAGE + '/:pageId' + ROUTES_PATH.CMS_PAGE_DETAIL + '/:pageDetailId',
+      {
+        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.SETTINGS,
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.SETTINGS,
+        component: WorkspaceSettings,
         props: true,
-        component: WorkspaceAdminCMSPage,
-      }, {
-        name: ROUTES_NAMES.WORKSPACE_ADMIN.CMS_PAGE,
-        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.CMS + ROUTES_PATH.CMS_PAGE + '/:pageId',
+        meta: {
+          needAuthentication: true,
+          hasBurgerMenu: true,
+        },
+      },
+      {
+        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.FILES,
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.FILES,
+        component: WorkspaceFiles,
         props: true,
-        component: WorkspaceAdminCMSPage,
-      }],
-    }],
-  }, {
+        meta: {
+          needAuthentication: true,
+          hasBurgerMenu: true,
+        },
+      },
+      {
+        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.CMS,
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.CMS,
+        component: WorkspaceAdminCMSConfig,
+        props: true,
+        meta: {
+          needAuthentication: true,
+          hasBurgerMenu: true,
+          authorizedRoles: [GROUP_ROLE.ADMIN, GROUP_ROLE.OWNER],
+        },
+        children: [
+          {
+            name: ROUTES_NAMES.WORKSPACE_ADMIN.CMS_PAGE_DETAIL,
+            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.CMS + ROUTES_PATH.CMS_PAGE + '/:pageId' + ROUTES_PATH.CMS_PAGE_DETAIL + '/:pageDetailId',
+            props: true,
+            component: WorkspaceAdminCMSPage,
+          },
+          {
+            name: ROUTES_NAMES.WORKSPACE_ADMIN.CMS_PAGE,
+            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.CMS + ROUTES_PATH.CMS_PAGE + '/:pageId',
+            props: true,
+            component: WorkspaceAdminCMSPage,
+          },
+        ],
+      },
+    ],
+  },
+  {
     path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION,
     name: 'WorkspaceVisualization',
     component: WorkspaceVisualization,
     props: true,
-    children: [{
-      name: ROUTES_NAMES.WORKSPACE_VISUALIZATION.PAGE_DETAIL,
-      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION + '/:groupId' + ROUTES_PATH.VISUALIZATION_PAGE + '/:pageId' + ROUTES_PATH.VISUALIZATION_PAGE_DETAIL + '/:pageDetailId',
-      props: true,
-      component: WorkspaceVisualizationPage,
-    }, {
-      name: ROUTES_NAMES.WORKSPACE_VISUALIZATION.PAGE,
-      path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION + '/:groupId' + ROUTES_PATH.VISUALIZATION_PAGE + '/:pageId',
-      props: true,
-      component: WorkspaceVisualizationPage,
-    }],
+    children: [
+      {
+        name: ROUTES_NAMES.WORKSPACE_VISUALIZATION.PAGE_DETAIL,
+        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION + '/:groupId' + ROUTES_PATH.VISUALIZATION_PAGE + '/:pageId' + ROUTES_PATH.VISUALIZATION_PAGE_DETAIL + '/:pageDetailId',
+        props: true,
+        component: WorkspaceVisualizationPage,
+      },
+      {
+        name: ROUTES_NAMES.WORKSPACE_VISUALIZATION.PAGE,
+        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION + '/:groupId' + ROUTES_PATH.VISUALIZATION_PAGE + '/:pageId',
+        props: true,
+        component: WorkspaceVisualizationPage,
+      },
+    ],
     meta: {
       needAuthentication: true,
       hasBurgerMenu: true,
@@ -303,38 +360,44 @@ const routes: Array<RouteConfig> = [
     component: Admin,
     redirect: ROUTES_PATH.ADMIN + ROUTES_PATH.USER,
     props: true,
-    meta: {
-      needAuthentication: true,
-      authorizedRoles: [GROUP_ROLE.ADMIN, GROUP_ROLE.OWNER],
-    },
-    children: [{
-      name: ROUTES_NAMES.ADMIN.USER,
-      path: ROUTES_PATH.ADMIN + ROUTES_PATH.USER,
-      component: UserManagement,
-      meta: {
-        needAuthentication: true,
-        hasBurgerMenu: true,
+    children: [
+      {
+        name: ROUTES_NAMES.ADMIN.USER,
+        path: ROUTES_PATH.ADMIN + ROUTES_PATH.USER,
+        component: UserManagement,
+        meta: {
+          needAuthentication: true,
+          hasBurgerMenu: true,
+          authorizedRoles: [GROUP_ROLE.ADMIN, GROUP_ROLE.OWNER],
+
+        },
       },
-    }, {
-      name: ROUTES_NAMES.ADMIN.GROUP,
-      path: ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP,
-      component: GroupManagement,
-      props: true,
-      meta: {
-        needAuthentication: true,
-        hasBurgerMenu: true,
-      },
-      children: [{
-        name: ROUTES_NAMES.ADMIN.GROUP_DETAIL,
-        path: ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP + '/:groupId',
+      {
+        name: ROUTES_NAMES.ADMIN.GROUP,
+        path: ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP,
         component: GroupManagement,
         props: true,
         meta: {
           needAuthentication: true,
           hasBurgerMenu: true,
         },
-      }],
-    }],
+        children: [
+          {
+            name: ROUTES_NAMES.ADMIN.GROUP_DETAIL,
+            path: ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP + '/:groupId',
+            component: GroupManagement,
+            props: true,
+            meta: {
+              needAuthentication: true,
+              hasBurgerMenu: true,
+            },
+          },
+        ],
+      },
+    ],
+    meta: {
+      needAuthentication: true,
+    },
   },
   {
     path: '*',

@@ -203,6 +203,12 @@ export default Vue.extend({
       this.loading = false
     },
     onClickCreateProcess () {
+      this.$router.push({
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.PROCESS_ADD,
+        params: {
+          workspaceId: this.workspaceId,
+        },
+      })
       this.currentProcess = new LckProcess()
     },
     async onSearchTable ({ query }: { query: string }) {
@@ -265,14 +271,18 @@ export default Vue.extend({
   },
   mounted () {
     this.loadProcesses()
-    if (this.processId) this.loadProcess(this.processId)
+    // if (this.processId) this.loadProcess(this.processId)
   },
   watch: {
     workspaceId () {
       this.loadProcesses()
     },
-    processId () {
-      this.loadProcess(this.processId)
+    processId: {
+      handler (newValue) {
+        if (!newValue) return
+        this.loadProcess(this.processId)
+      },
+      immediate: true,
     },
   },
 })

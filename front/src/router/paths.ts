@@ -61,8 +61,10 @@ export const ROUTES_NAMES = {
     DATABASETABLE: 'WorkspaceDatabaseTable',
     DATABASESCHEMA: 'WorkspaceDatabaseSchema',
     PROCESS: 'WorkspaceProcess',
+    PROCESS_ADD: 'WorkspaceProcessAdd',
     PROCESS_DETAIL: 'WorkspaceProcessDetail',
     ACL: 'WorkspaceACL',
+    ACL_ADD: 'WorkspaceACLAdd',
     ACL_DETAIL: 'WorkspaceACLDetail',
     CMS: 'WorkspaceCMS',
     CMS_PAGE: 'WorkspaceCMSPage',
@@ -70,6 +72,7 @@ export const ROUTES_NAMES = {
     SETTINGS: 'WorkspaceSettings',
     FILES: 'WorkspaceFiles',
     GROUP: 'WorkspaceGroup',
+    GROUP_ADD: 'WorkspaceGroupAdd',
     GROUP_DETAIL: 'WorkspaceGroupDetail',
   },
 
