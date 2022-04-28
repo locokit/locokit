@@ -13,7 +13,7 @@ import Vue from 'vue'
 
 import Textarea from 'primevue/textarea'
 
-export default {
+export default Vue.extend({
   name: 'JSONField',
   components: {
     'p-textarea': Vue.extend(Textarea),
@@ -60,7 +60,7 @@ export default {
       },
     },
   },
-}
+})
 </script>
 
 <style scoped>

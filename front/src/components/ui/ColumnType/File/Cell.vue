@@ -46,13 +46,13 @@
 </template>
 
 <script lang="ts">
-import { PropType } from 'vue'
+import Vue, { PropType } from 'vue'
 import LckAsyncImage from '@/components/ui/AsyncImage/AsyncImage.vue'
 import { LckAttachment } from '@/services/lck-api/definitions'
 import LckCellFileDialog from '@/components/ui/ColumnType/File/Dialog.vue'
 import { getAttachmentsToDisplay } from './helpers'
 
-export default {
+export default Vue.extend({
   name: 'LckFileCell',
   components: {
     LckAsyncImage,
@@ -86,7 +86,7 @@ export default {
       dialogFileVisible: false,
     }
   },
-}
+})
 </script>
 
 <style scoped>

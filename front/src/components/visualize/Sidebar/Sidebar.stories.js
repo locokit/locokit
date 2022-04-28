@@ -1,5 +1,5 @@
 import Sidebar from './Sidebar'
-import StoryRouter from 'storybook-vue-router'
+import StoryRouter from '../../../../.storybook/storyRouterDecorator.js'
 
 export default {
   title: 'components/visualize/Sidebar',

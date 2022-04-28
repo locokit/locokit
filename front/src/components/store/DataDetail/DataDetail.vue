@@ -325,7 +325,7 @@ import InputNumber from '@/components/ui/ColumnType/Number/InputNumber.vue'
 
 const Map = () => import(/* webpackChunkName: "lck-map-with-mapbox" */'@/components/ui/ColumnType/Geometry/Map.vue')
 
-export default {
+export default Vue.extend({
   name: 'LckDataDetail',
   components: {
     'lck-autocomplete': AutoComplete,
@@ -784,7 +784,7 @@ export default {
       }
     },
   },
-}
+})
 </script>
 
 <style scoped>

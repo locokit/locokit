@@ -90,6 +90,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 /* eslint-disable @typescript-eslint/camelcase */
 import Vue, { PropOptions } from 'vue'
 

@@ -1,109 +1,109 @@
 <template>
-    <div class="lck-page">
-      <p-card class="p-col-12 p-md-8 p-mt-2 p-mx-auto">
-        <template #title>
-          {{ $t('pages.workspaceAdmin.files.title') }}
-        </template>
-        <template #content>
-          <p-datatable
-            :value="attachments"
-            :paginator="true"
-            :rows="limit"
-            :lazy="true"
-            :loading="loading"
-            :totalRecords="total"
-            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
-            :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')"
-            :rowsPerPageOptions="[10,20,50]"
-            :resizableColumns="true"
-            @page="onPage($event)"
-            @sort="onSort($event)"
+  <div class="lck-page">
+    <p-card class="p-col-12 p-md-8 p-mt-2 p-mx-auto">
+      <template #title>
+        {{ $t('pages.workspaceAdmin.files.title') }}
+      </template>
+      <template #content>
+        <p-datatable
+          :value="attachments"
+          :paginator="true"
+          :rows="limit"
+          :lazy="true"
+          :loading="loading"
+          :totalRecords="total"
+          paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+          :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')"
+          :rowsPerPageOptions="[10,20,50]"
+          :resizableColumns="true"
+          @page="onPage($event)"
+          @sort="onSort($event)"
+        >
+          <template #header>
+            <span class="p-input-icon-left">
+              <i class="pi pi-search" />
+              <p-inputtext
+                v-model="filterName"
+                placeholder="Keyword Search"
+                @keyup.enter="fetchAttachments"
+              />
+            </span>
+          </template>
+
+          <p-column
+            field="filename"
+            header="Name"
+            sortable
+            headerStyle="width: 10rem; max-width: 25rem;"
           >
-            <template #header>
-              <span class="p-input-icon-left">
-                <i class="pi pi-search" />
-                <p-inputtext
-                  v-model="filterName"
-                  placeholder="Keyword Search"
-                  @keyup.enter="fetchAttachments"
-                />
-              </span>
+            <template #body="slotProps">
+              <lck-async-image
+                v-if="slotProps.data.element === 'img'"
+                :key="slotProps.data.id"
+                class="cell-file"
+                :title="slotProps.data.filename"
+                :src="slotProps.data.thumbnailURL"
+              />
+              <span
+                v-else
+                :key="slotProps.data.id"
+                class="cell-file"
+                :class="slotProps.data.class"
+                :title="slotProps.data.filename"
+              />
+              {{ slotProps.data.filename }}
             </template>
+          </p-column>
+          <p-column
+            field="displaySize"
+            header="Size"
+            headerStyle="width: 5rem;"
+            sortable
+            sortField="size"
+          >
+            <template #body="slotProps">
+              {{ slotProps.data.displaySize }} Ko
+            </template>
+          </p-column>
+          <p-column
+            field="createdAt"
+            header="Created"
+            headerStyle="width: 8rem"
+            sortable
+          />
+          <p-column
+            field="updatedAt"
+            header="Updated"
+            headerStyle="width: 8rem"
+            sortable
+          />
+          <p-column
+            headerStyle="width: 7rem"
+          >
+            <template #body="slotProps">
+              <p-button
+                @click="downloadAttachment(
+                  slotProps.data.url,
+                  slotProps.data.filename,
+                  slotProps.data.mime
+                )"
+                class="p-mr-1"
+                icon="bi bi-download"
+              />
+              <p-button
+                @click="removeAttachment(slotProps.data)"
+                class="p-button-danger"
+                icon="bi bi-trash"
+              />
+            </template>
+          </p-column>
+        </p-datatable>
 
-            <p-column
-              field="filename"
-              header="Name"
-              sortable
-              headerStyle="width: 10rem; max-width: 25rem;"
-            >
-              <template #body="slotProps">
-                <lck-async-image
-                  v-if="slotProps.data.element === 'img'"
-                  :key="slotProps.data.id"
-                  class="cell-file"
-                  :title="slotProps.data.filename"
-                  :src="slotProps.data.thumbnailURL"
-                />
-                <span
-                  v-else
-                  :key="slotProps.data.id"
-                  class="cell-file"
-                  :class="slotProps.data.class"
-                  :title="slotProps.data.filename"
-                />
-                {{ slotProps.data.filename }}
-              </template>
-            </p-column>
-            <p-column
-              field="displaySize"
-              header="Size"
-              headerStyle="width: 5rem;"
-              sortable
-              sortField="size"
-            >
-              <template #body="slotProps">
-                {{ slotProps.data.displaySize }} Ko
-              </template>
-            </p-column>
-            <p-column
-              field="createdAt"
-              header="Created"
-              headerStyle="width: 8rem"
-              sortable
-            />
-            <p-column
-              field="updatedAt"
-              header="Updated"
-              headerStyle="width: 8rem"
-              sortable
-            />
-            <p-column
-              headerStyle="width: 7rem"
-            >
-              <template #body="slotProps">
-                <p-button
-                  @click="downloadAttachment(
-                    slotProps.data.url,
-                    slotProps.data.filename,
-                    slotProps.data.mime
-                  )"
-                  class="p-mr-1"
-                  icon="bi bi-download"
-                />
-                <p-button
-                  @click="removeAttachment(slotProps.data)"
-                  class="p-button-danger"
-                  icon="bi bi-trash"
-                />
-              </template>
-            </p-column>
-          </p-datatable>
+      </template>
+    </p-card>
 
-        </template>
-      </p-card>
-
-      <p-confirmdialog />
-    </div>
+    <p-confirmdialog />
+  </div>
 </template>
 
 <script lang="ts">
@@ -173,7 +173,9 @@ export default Vue.extend({
     async fetchAttachments () {
       this.loading = true
       try {
-        const queryParams = {
+        const queryParams: {
+          query: Record<string, any>;
+        } = {
           query: {
             workspace_id: this.workspaceId,
             $skip: this.page * this.limit,
@@ -186,7 +188,7 @@ export default Vue.extend({
         this.total = result.total
         this.attachments = getAttachmentsToDisplay(result.data, this.workspaceId)
       } catch (error) {
-        this.displayToastOnError(error)
+        this.displayToastOnError(error as any)
       }
       this.loading = false
     },

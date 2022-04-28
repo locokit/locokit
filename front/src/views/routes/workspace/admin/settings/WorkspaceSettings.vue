@@ -55,7 +55,7 @@ export default Vue.extend({
     async fetchWorkspace () {
       try {
         this.workspace = await lckServices.workspace.get(this.workspaceId)
-      } catch (error: any) {
+      } catch (error) {
         this.displayToastOnError(error)
       }
     },
@@ -65,7 +65,7 @@ export default Vue.extend({
         this.workspace = await lckServices.workspace.patch(this.workspaceId, {
           ...newWorkspace,
         })
-      } catch (error: any) {
+      } catch (error) {
         this.displayToastOnError(error)
       }
       this.submitting = false

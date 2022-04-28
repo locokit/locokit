@@ -182,7 +182,7 @@ export default Vue.extend({
         })
         this.dialogVisible = false
         this.fetchUserGroups()
-      } catch (error: any) {
+      } catch (error) {
         console.error(error)
         this.$toast.add({
           severity: 'error',

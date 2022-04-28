@@ -122,6 +122,12 @@ exports[`storyshots views/modals/HandleColumnModal Create 1`] = `
                 <small>
                   Name used for the column in the SQL view, in snake case.
                 </small>
+                 
+                <span
+                  class="untouched pristine"
+                >
+                  
+                </span>
               </div>
                
               <div

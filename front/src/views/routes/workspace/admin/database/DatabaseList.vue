@@ -45,16 +45,17 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ROUTES_PATH } from '@/router/paths'
 import { lckHelpers } from '@/services/lck-api'
 import { LckWorkspace } from '@/services/lck-api/definitions'
-import Vue from 'vue'
+import Vue, { PropOptions } from 'vue'
 import Accordion from 'primevue/accordion'
 import AccordionTab from 'primevue/accordiontab'
 import Skeleton from 'primevue/skeleton'
+import { TranslateResult } from 'vue-i18n'
 
-export default {
+export default Vue.extend({
   name: 'DatabaseList',
   components: {
     'p-accordion': Vue.extend(Accordion),
@@ -65,29 +66,31 @@ export default {
     workspaceId: {
       type: String,
       required: true,
-    },
+    } as PropOptions<string>,
     sidebarActive: {
       type: Boolean,
       default: true,
-    },
+    } as PropOptions<boolean>,
   },
-  data () {
+  data (): {
+    loading: boolean;
+    workspace: LckWorkspace | null;
+    } {
     return {
-      loading: {
-        type: Boolean,
-        default: false,
-      },
-      workspace: {
-        type: LckWorkspace,
-        default: null,
-      },
+      loading: false,
+      workspace: null,
     }
   },
   mounted () {
     this.getDatabaseList()
   },
   computed: {
-    menuItems () {
+    menuItems (): Array<{
+      id: string;
+      label: string;
+      items: Array<{ id: string; label: string | TranslateResult; icon: string; to: string }>;
+    }> | undefined {
+      if (!this.workspace) return []
       return this.workspace.databases?.map(database => ({
         id: database.id,
         label: database.text,
@@ -115,7 +118,7 @@ export default {
       this.loading = false
     },
   },
-}
+})
 </script>
 
 <style scoped>

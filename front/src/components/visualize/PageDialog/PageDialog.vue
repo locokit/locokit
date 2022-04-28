@@ -75,7 +75,7 @@ const layoutTypes = [
   'full',
 ]
 
-export default {
+export default Vue.extend({
   name: 'PageDialog',
   components: {
     'lck-dialog-form': LckDialogForm,
@@ -98,7 +98,12 @@ export default {
       default: false,
     },
   },
-  data () {
+  data (): {
+    pageTextCopy: string;
+    pageHiddenCopy: boolean;
+    layoutTypes: typeof layoutTypes;
+    selectedLayout: string | null;
+    } {
     return {
       pageTextCopy: '',
       pageHiddenCopy: false,
@@ -116,7 +121,7 @@ export default {
       immediate: true,
     },
   },
-}
+})
 </script>
 
 <style scoped>

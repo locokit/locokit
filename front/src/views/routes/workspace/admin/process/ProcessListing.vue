@@ -169,7 +169,7 @@ export default Vue.extend({
           this.processResult.push(this.currentProcess)
         }
         // Go back to display processes list
-      } catch (error: any) {
+      } catch (error) {
         this.$toast.add({
           severity: 'error',
           summary: this.$t('error.http.' + error.code),

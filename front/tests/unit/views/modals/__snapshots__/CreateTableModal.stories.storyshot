@@ -118,6 +118,12 @@ exports[`storyshots views/modals/CreateTableModal Create 1`] = `
                 <small>
                   Name used to generate the SQL view, in snake case.
                 </small>
+                 
+                <span
+                  class="untouched pristine"
+                >
+                  
+                </span>
               </div>
                
               <!---->

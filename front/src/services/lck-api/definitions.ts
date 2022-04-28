@@ -1,5 +1,5 @@
 import { Paginated } from '@feathersjs/feathers'
-import { BLOCK_TYPE, COLUMN_TYPE, EXTERNAL_APP_URL_PART_TYPE, GROUP_ROLE, MapSourceSettings, MEDIA_TYPE } from '@locokit/lck-glossary'
+import { BLOCK_TYPE, COLUMN_TYPE, EXTERNAL_APP_URL_PART_TYPE, GROUP_ROLE, MapSourceSettings, MediaSettings, MEDIA_TYPE } from '@locokit/lck-glossary'
 
 export class LckBaseModel {
   /**
@@ -227,12 +227,16 @@ export class LckTableAction extends LckBaseModel {
   icon?: string|null
   action!: string
   page_redirect_id?: string
+  pageRedirectId?: string
   display_field_id?: string
+  displayFieldId?: string
   display_field_condition_query?: object|null
   table_id!: string
   process_id?: string
   page_detail_Id?: string;
+  pageDetailId?: string;
   type_page_to?: string;
+  typePageTo?: string;
   notification_success_title?: string;
   notification_success_description?: string;
   notification_error_title?: string;
@@ -321,7 +325,7 @@ export class LckBlockExtended extends LckBaseModel {
     }[];
     pageDetailId?: string;
     redirectPageId?: string;
-  } = {
+  } | MediaSettings = {
     sources: [],
     parts: [],
   };

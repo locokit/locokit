@@ -17,7 +17,8 @@
     "types": [
       "webpack-env",
       "jest",
-      "webpack"
+      "webpack",
+      "resize-observer-browser"
     ],
     "paths": {
       "@/*": [

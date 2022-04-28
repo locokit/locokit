@@ -173,7 +173,7 @@ import { getComponentEditorCellForColumnType, getColumnTypeId } from '@/services
 import { LckTableViewColumn } from '@/services/lck-api/definitions'
 import { Filter, FilterAction, OPERATORS, COLUMN_FILTERS_CONFIG } from '@/services/lck-utils/filter'
 
-export default {
+export default Vue.extend({
   name: 'LckFilterButton',
   components: {
     'p-dropdown': Vue.extend(Dropdown),
@@ -225,7 +225,7 @@ export default {
     }
   },
   computed: {
-    supportedColumns () {
+    supportedColumns (): { value: string; label: string; type: COLUMN_TYPE; originalType: COLUMN_TYPE }[] {
       if (!this.definition?.columns?.length) return []
       return this.definition.columns.reduce((acc, column) => {
         const originalType = getColumnTypeId(column)
@@ -325,7 +325,7 @@ export default {
       if (this.hasChanged) this.hasChanged = false
     },
   },
-}
+})
 </script>
 
 <style scoped>

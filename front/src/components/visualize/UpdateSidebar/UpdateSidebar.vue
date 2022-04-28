@@ -71,7 +71,7 @@ import UpdateBlockForm from '@/components/visualize/UpdateSidebar/UpdateBlockFor
 import UpdateContainerForm from '@/components/visualize/UpdateSidebar/UpdateContainerForm/UpdateContainerForm.vue'
 import UpdatePageForm from '@/components/visualize/UpdateSidebar/UpdatePageForm/UpdatePageForm.vue'
 
-export default {
+export default Vue.extend({
   name: 'UpdateSidebar',
   components: {
     'update-block-form': UpdateBlockForm,
@@ -148,7 +148,7 @@ export default {
       this.$emit('reset-current-block', {})
     },
   },
-}
+})
 </script>
 
 <style scoped>

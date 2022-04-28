@@ -211,7 +211,7 @@ type PropertyStyle = {
   style?: string;
 }
 
-export default {
+export default Vue.extend({
   name: 'AclSetForm',
   components: {
     'p-button': Vue.extend(Button),
@@ -339,7 +339,7 @@ export default {
       })
     },
   },
-}
+})
 </script>
 
 <style scoped lang="scss">

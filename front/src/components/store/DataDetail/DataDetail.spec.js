@@ -281,6 +281,7 @@ describe('DataDetail', () => {
         wrapper = mount(DataDetail, {
           propsData: {
             workspaceId: '1',
+            blockId: 'dataDetailBlockId',
           },
           ...defaultWrapperParams,
           stubs: ['lck-map'],

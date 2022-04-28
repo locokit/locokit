@@ -309,7 +309,7 @@ import {
   ACTIONS_TYPE,
   NAMED_CLASSES,
 } from '@/services/lck-utils/prime'
-import { LckTableAction } from '@/services/lck-api/definitions'
+import { LckTableAction, LckTableColumn } from '@/services/lck-api/definitions'
 import { ROUTES_NAMES } from '@/router/paths'
 
 import InputText from 'primevue/inputtext'
@@ -322,7 +322,7 @@ import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 import { lckServices } from '@/services/lck-api'
 import { getPageWithChapters } from '@/services/lck-api/helpers'
 
-export default {
+export default Vue.extend({
   name: 'ActionColumnForm',
   components: {
     'lck-form': LckForm,
@@ -345,13 +345,22 @@ export default {
     manualProcesses: {
       type: Array,
       default: () => ([]),
-    },
+    } as PropOptions<Array<{id: string; text: string}>>,
     autocompleteSuggestions: {
       type: Array,
       default: () => ([]),
     } as PropOptions<{ label: string; value: string }[]>,
   },
-  data () {
+  data (): {
+    ROUTES_NAMES: typeof ROUTES_NAMES;
+    NAMED_CLASSES: typeof NAMED_CLASSES;
+    ACTIONS_TYPE: typeof ACTIONS_TYPE;
+    ACTION_BUTTON_TYPE: typeof ACTION_BUTTON_TYPE;
+    actionCopy: LckTableAction | null;
+    columnActionCondition: LckTableColumn | null;
+    page: { text: string; value: string } | null;
+    processes: [];
+    } {
     return {
       ROUTES_NAMES,
       NAMED_CLASSES,
@@ -364,7 +373,7 @@ export default {
     }
   },
   computed: {
-    transformProcesses () {
+    transformProcesses (): Array<{text: string; value: string}> {
       return this.manualProcesses.map(process => ({
         text: process.text,
         value: process.id,
@@ -375,11 +384,15 @@ export default {
     submitActionColumnData () {
       this.$emit('action-column-edit', this.actionCopy)
     },
-    getColumns (columnId: string) {
+    getColumns (columnId: string): Promise<LckTableColumn> {
       return lckServices.tableColumn.get(columnId)
     },
-    getSuggestionPage (query) {
-      if (this.actionCopy.typePageTo === ROUTES_NAMES.PAGEDETAIL || this.actionCopy.action === ACTION_BUTTON_TYPE.PAGE_DETAIL_TO) {
+    getSuggestionPage (query: string) {
+      if (
+        // TODO: I think this is legacy code as I didn't find any data in type_page_to
+        // this.actionCopy?.typePageTo === ROUTES_NAMES.PAGEDETAIL ||
+        this.actionCopy?.action === ACTION_BUTTON_TYPE.PAGE_DETAIL_TO
+      ) {
         this.$emit('search-page', { query: query, filters: { hidden: true } })
       } else {
         this.$emit('search-page', { query: query })
@@ -391,24 +404,26 @@ export default {
       async handler (newActionColumnValue: LckTableAction) {
         this.actionCopy = { ...newActionColumnValue }
         if (newActionColumnValue.action === ACTION_BUTTON_TYPE.PROCESS_TRIGGER) {
-          const res = await getPageWithChapters(newActionColumnValue.pageRedirectId)
+          const res = await getPageWithChapters(newActionColumnValue.pageRedirectId as string)
           this.page = {
             text: `[${res?.chapter?.text}] ${res.text}`,
             value: res.id,
           }
         } else {
-          const res = await getPageWithChapters(newActionColumnValue.pageDetailId)
+          const res = await getPageWithChapters(newActionColumnValue.pageDetailId as string)
           this.page = {
             text: `[${res?.chapter?.text}] ${res.text}`,
             value: res.id,
           }
         }
-        this.columnActionCondition = newActionColumnValue.displayFieldId && await this.getColumns(newActionColumnValue.displayFieldId)
+        if (newActionColumnValue.displayFieldId) {
+          this.columnActionCondition = await this.getColumns(newActionColumnValue.displayFieldId)
+        }
       },
       immediate: true,
     },
   },
-}
+})
 </script>
 
 <style lang="scss" scoped>

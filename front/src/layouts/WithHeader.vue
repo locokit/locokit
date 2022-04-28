@@ -22,8 +22,9 @@ import {
 } from '@/store/auth'
 import { USER_PROFILE } from '@locokit/lck-glossary'
 import { ROUTES_PATH } from '@/router/paths'
+import Vue from 'vue'
 
-export default {
+export default Vue.extend({
   name: 'LayoutWithHeader',
   components: {
     'lck-header': Header,
@@ -47,7 +48,7 @@ export default {
     }
   },
   computed: {
-    isSuperAdmin () {
+    isSuperAdmin (): boolean {
       return authState.data.user?.profile === USER_PROFILE.SUPERADMIN
     },
   },
@@ -60,5 +61,5 @@ export default {
       this.$router.push(ROUTES_PATH.HOME)
     },
   },
-}
+})
 </script>

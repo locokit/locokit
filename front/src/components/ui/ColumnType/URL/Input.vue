@@ -21,11 +21,11 @@
   </span>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue'
 import InputText from 'primevue/inputtext'
 
-export default {
+export default Vue.extend({
   name: 'LckURLInput',
   components: {
     'p-input-text': Vue.extend(InputText),
@@ -56,7 +56,7 @@ export default {
       } catch (error) {}
     },
     urlValidity () {
-      return this.value && this.$refs?.URLInput?.$el.validity?.valid
+      return this.value && (this.$refs?.URLInput as any)?.$el.validity?.valid
     },
   },
   watch: {
@@ -64,7 +64,7 @@ export default {
       this.validURL = this.urlValidity()
     },
   },
-}
+})
 </script>
 
 <style scoped>

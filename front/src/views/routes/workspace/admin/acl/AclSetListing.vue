@@ -75,7 +75,7 @@ import ConfirmDialog from 'primevue/confirmdialog'
 import AclSetForm from './AclSetForm.vue'
 import { ROUTES_NAMES } from '@/router/paths'
 
-export default {
+export default Vue.extend({
   name: 'AclSetListing',
   components: {
     'p-button': Vue.extend(Button),
@@ -168,8 +168,8 @@ export default {
             const indexOfAclSet = this.workspace.aclsets.findIndex(aclSet => aclSet.id === aclSetToDelete.id)
             this.workspace.aclsets.splice(indexOfAclSet, 1)
             this.cancelEdit()
-          } catch (error: any) {
-            this.displayToastOnError(error)
+          } catch (error) {
+            this.displayToastOnError(error as any)
           } finally {
             this.submitting.aclSet = false
           }
@@ -191,8 +191,8 @@ export default {
         if (this.selectedAclSet) {
           this.setDefaultAclTables(this.selectedAclSet)
         }
-      } catch (error: any) {
-        this.displayToastOnError(error)
+      } catch (error) {
+        this.displayToastOnError(error as any)
       }
       this.loading = false
     },
@@ -213,8 +213,8 @@ export default {
           })
           return tables
         }, {})
-      } catch (error: any) {
-        this.displayToastOnError(error)
+      } catch (error) {
+        this.displayToastOnError(error as any)
       }
     },
     /**
@@ -263,8 +263,8 @@ export default {
           this.setDefaultAclTables(this.selectedAclSet)
           this.workspace.aclsets.push(this.selectedAclSet)
         }
-      } catch (error: any) {
-        this.displayToastOnError(error)
+      } catch (error) {
+        this.displayToastOnError(error as any)
       } finally {
         this.submitting.aclSet = false
       }
@@ -284,8 +284,8 @@ export default {
           })
         updatedAclTable.table = aclTable.table
         this.selectedAclSet.acltables!.splice(index, 1, updatedAclTable)
-      } catch (error: any) {
-        this.displayToastOnError(error)
+      } catch (error) {
+        this.displayToastOnError(error as any)
       }
     },
     /**
@@ -319,7 +319,7 @@ export default {
       immediate: true,
     },
   },
-}
+})
 </script>
 
 <style scoped lang="scss">

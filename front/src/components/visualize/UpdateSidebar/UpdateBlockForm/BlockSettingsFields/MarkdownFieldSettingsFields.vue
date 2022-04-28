@@ -121,7 +121,7 @@ import Dropdown from 'primevue/dropdown'
 
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 
-export default {
+export default Vue.extend({
   name: 'MarkdownFieldSettingsFields',
   components: {
     'lck-autocomplete': AutoComplete,
@@ -176,7 +176,7 @@ export default {
       immediate: true,
     },
   },
-}
+})
 </script>
 
 <style scoped>

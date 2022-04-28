@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { PropOptions } from 'vue'
+import Vue, { PropOptions } from 'vue'
 
 import { FeathersError } from '@feathersjs/errors'
 // Needed monaco features
@@ -41,7 +41,7 @@ self.MonacoEnvironment = {
   },
 }
 
-export default {
+export default Vue.extend({
   name: 'LckMonacoEditor',
   data () {
     return {
@@ -330,14 +330,14 @@ export default {
     handleNewError (newError: FeathersError) {
       if (this.editor) {
         const currentEditorModel = this.editor.getModel()
-        const { data: { location }, message = '' } = newError
-        if (currentEditorModel && location && message) {
+        const { data = { }, message = '' } = newError
+        if (currentEditorModel && (data as any).location && message) {
           editor.setModelMarkers(currentEditorModel, this.language, [
             {
-              startLineNumber: location.start.line,
-              startColumn: location.start.column,
-              endLineNumber: location.end.line,
-              endColumn: location.end.column,
+              startLineNumber: (data as any).location.start.line,
+              startColumn: (data as any).location.start.column,
+              endLineNumber: (data as any).location.end.line,
+              endColumn: (data as any).location.end.column,
               message: message,
               severity: MarkerSeverity.Error,
             },
@@ -377,7 +377,7 @@ export default {
       this.handleNewError(newError)
     },
   },
-}
+})
 </script>
 
 <style scoped>

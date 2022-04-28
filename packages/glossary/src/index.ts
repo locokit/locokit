@@ -326,6 +326,7 @@ export interface ActionButtonSettings {
   pageQueryFieldId?: string; // uuid from a relation_between_table column, allows to get data form another table
   displayFieldId?: string; // field id to compare with conditionalDisplayFieldValue
   displayFieldValue?: boolean; // value to compare to display block (only boolean for now)
+  displayFieldConditionQuery?: any;
   notificationSuccessTitle?: string; // Message title display in the notification when action succeed
   notificationSuccessDescription?: string; // Message description display in the notification when action succeed
   notificationErrorTitle?: string; // Message title display in the notification when action failed

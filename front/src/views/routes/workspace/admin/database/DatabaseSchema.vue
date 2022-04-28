@@ -62,7 +62,7 @@ import ConfirmDialog from 'primevue/confirmdialog'
 import CreateTableModal from '@/views/modals/CreateTableModal.vue'
 import UpdateTableSidebar from '@/views/modals/UpdateTableSidebar.vue'
 
-export default {
+export default Vue.extend({
   name: 'DatabaseSchema',
   components: {
     'create-table-modal': CreateTableModal,
@@ -241,7 +241,7 @@ export default {
       }
     },
   },
-}
+})
 </script>
 
 <style scoped>

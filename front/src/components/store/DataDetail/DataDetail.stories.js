@@ -18,7 +18,7 @@ export default {
 export const defaultStory = () => (
   {
     components: { 'lck-data-detail': DataDetail },
-    template: '<lck-data-detail workspaceId="1" />',
+    template: '<lck-data-detail workspaceId="1" blockId="pouet" />',
   }
 )
 
@@ -224,6 +224,7 @@ export const withDefinitionAndRow = () => (
       :definition="definition"
       :row="row"
       workspaceId="1"
+      blockId="pouet"
     />
     `,
   }
@@ -245,6 +246,7 @@ export const withEditableColumnsAndRow = () => (
       :definition="definition"
       :row="row"
       workspaceId="1"
+      blockId="pouet"
     />
     `,
   }
@@ -273,6 +275,7 @@ export const withEditableColumnsAndRowStateSaving = () => (
       :row="row"
       :cellState="cellState"
       workspaceId="1"
+      blockId="pouet"
     />
     `,
   }
@@ -301,6 +304,7 @@ export const withEditableColumnsAndRowStateOK = () => (
       :row="row"
       :cellState="cellState"
       workspaceId="1"
+      blockId="pouet"
     />
     `,
   }
@@ -329,6 +333,7 @@ export const withEditableColumnsAndRowStateError = () => (
         :row="row"
         :cellState="cellState"
         workspaceId="1"
+        blockId="pouet"
       />
     `,
   }
@@ -859,6 +864,7 @@ export const withLookedUpColumns = () => (
       :definition="definition"
       :row="row"
       workspaceId="wsed19db-588d-4ca1-8ab3-c8b17d60db2d"
+      blockId="pouet"
     />
     `,
   }
@@ -981,6 +987,7 @@ export const withConditionalDisplay = () => (
       :definition="definition"
       :row="row"
       workspaceId="wsed19db-588d-4ca1-8ab3-c8b17d60db2d"
+      blockId="pouet"
     />
     `,
   }

@@ -166,7 +166,7 @@ import LckForm from '@/components/ui/Form/Form.vue'
 import ColumnValidation from '@/components/admin/database/ColumnValidation/ColumnValidation.vue'
 import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/SelectTypeColumn.vue'
 
-export default {
+export default Vue.extend({
   name: 'ColumnForm',
   components: {
     'lck-form': LckForm,
@@ -220,8 +220,8 @@ export default {
   methods: {
     selectTypeValuesChange (data: SelectValueWithId[]) {
       const selectTypeValues: Record<string, SelectValue> = {}
-      data.forEach(({ id, label, color, backgroundColor, position }: SelectValueWithId) => {
-        selectTypeValues[id] = { label, color, backgroundColor, position }
+      data.forEach(({ id, label, color, backgroundColor, position, value }: SelectValueWithId) => {
+        selectTypeValues[id] = { label, color, backgroundColor, position, value }
       })
       this.columnCopy.settings.values = selectTypeValues
     },
@@ -247,7 +247,7 @@ export default {
       })
     },
   },
-}
+})
 </script>
 
 <style scoped>

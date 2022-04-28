@@ -185,6 +185,7 @@ exports[`storyshots components/visualize/Block TableSet 1`] = `
       </h3>
        
       <div
+        blockid="1"
         class="block-content"
         id="1"
         type="TableSet"
@@ -238,6 +239,7 @@ exports[`storyshots components/visualize/Block TableSet 1`] = `
         </div>
          
         <div
+          blockid="1"
           class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
           id="1"
           style="min-height: 30rem;"

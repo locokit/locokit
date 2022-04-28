@@ -18,32 +18,9 @@ exports[`storyshots views/routes/workspace/admin/DatabaseList default 1`] = `
     
       </h2>
        
-      <div>
-        <div
-          class="p-m-2 p-skeleton p-component"
-          style="width: 95%; height: 2rem;"
-        />
-         
-        <div
-          class="p-m-2 p-skeleton p-component"
-          style="width: 95%; height: 2rem;"
-        />
-         
-        <div
-          class="p-m-2 p-skeleton p-component"
-          style="width: 95%; height: 2rem;"
-        />
-         
-        <div
-          class="p-m-2 p-skeleton p-component"
-          style="width: 95%; height: 2rem;"
-        />
-         
-        <div
-          class="p-m-2 p-skeleton p-component"
-          style="width: 95%; height: 2rem;"
-        />
-      </div>
+      <div
+        class="p-accordion p-component"
+      />
     </div>
      
     <div

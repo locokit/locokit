@@ -175,7 +175,7 @@ import InputNumber from 'primevue/inputnumber'
 import Form from '@/components/ui/Form/Form.vue'
 import AutoComplete from '@/components/ui/AutoComplete/AutoComplete.vue'
 
-export default {
+export default Vue.extend({
   name: 'LckProcessForm',
   components: {
     'lck-autocomplete': AutoComplete,
@@ -238,15 +238,15 @@ export default {
         if (!newValue) return
         const { id, text, trigger, settings, enabled, url, table_id, table, maximumNumberSuccess } = newValue
         this.processCloned = { id, text, trigger, enabled: !!enabled, url, table_id, settings, table, maximumNumberSuccess: maximumNumberSuccess || 0 }
-        if (settings?.columns) {
+        if (settings?.column) {
           this.processCloned.settings = {
             ...settings,
-            column: { ...settings.columns },
+            column: { ...settings.column },
           }
         }
       },
       immediate: true,
     },
   },
-}
+})
 </script>

@@ -186,6 +186,8 @@
 
 <script lang="ts">
 /* eslint-disable @typescript-eslint/camelcase */
+// @ts-nocheck
+
 import Vue from 'vue'
 import draggable from 'vuedraggable'
 
@@ -277,10 +279,10 @@ export default Vue.extend({
     }
   },
   computed: {
-    routeNamePage () {
+    routeNamePage (): string {
       return ROUTES_NAMES.WORKSPACE_ADMIN.CMS_PAGE
     },
-    routeNamePageDetail () {
+    routeNamePageDetail (): string {
       return ROUTES_NAMES.WORKSPACE_ADMIN.CMS_PAGE_DETAIL
     },
   },

@@ -241,7 +241,7 @@ interface PopupContentField {
   class?: string;
 }
 
-export default {
+export default Vue.extend({
   name: 'UpdateBlockForm',
   components: {
     'lck-form': LckForm,
@@ -434,5 +434,5 @@ export default {
       immediate: true,
     },
   },
-}
+})
 </script>

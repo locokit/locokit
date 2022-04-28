@@ -26,7 +26,7 @@ import { appState } from '@/store/app'
 import { ROUTES_PATH } from '@/router/paths'
 import LayoutWithBackground from '@/layouts/WithBackground.vue'
 
-export default {
+export default Vue.extend({
   name: 'Home',
   components: {
     'layout-with-background': Vue.extend(LayoutWithBackground),
@@ -57,7 +57,7 @@ export default {
       }
     },
   },
-}
+})
 </script>
 
 <style scoped>

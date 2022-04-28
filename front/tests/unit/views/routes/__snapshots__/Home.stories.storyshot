@@ -1,0 +1,161 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots views/routes/Home default 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="
+    layout-with-background
+    p-d-flex
+    p-jc-center
+    p-ai-center
+  "
+    style="background-image: url(); position: relative;"
+  >
+    <div
+      class="p-col"
+      style="max-width: 600px;"
+    >
+      <a
+        class="mock-link p-d-block p-text-center"
+      >
+        <img
+          alt="logo"
+          class="p-mb-4 p-mx-auto"
+          src="/themes/locokit/img/logo-dark.svg"
+        />
+      </a>
+       
+      <div
+        class="p-card p-component p-col"
+      >
+        <!---->
+         
+        <div
+          class="p-card-body"
+        >
+          <div
+            class="p-card-title"
+          >
+            
+    Welcome
+  
+          </div>
+           
+          <!---->
+           
+          <div
+            class="p-card-content"
+          >
+            
+
+  
+
+  
+            <form
+              class="p-text-left p-fluid p-mt-4"
+            >
+              <div
+                class="p-field"
+              >
+                <label
+                  for="email"
+                >
+                  email
+                </label>
+                 
+                <input
+                  class="p-inputtext p-component"
+                  id="email"
+                  placeholder="email"
+                  required="required"
+                  type="text"
+                />
+              </div>
+               
+              <div
+                class="p-field"
+              >
+                <label
+                  for="password"
+                >
+                  password
+                </label>
+                 
+                <div
+                  class="rounded-sm p-password p-component p-inputwrapper p-input-icon-right"
+                  id="password"
+                  placeholder="password"
+                  required="required"
+                  type="password"
+                >
+                  <input
+                    class="p-inputtext p-component p-password-input"
+                    id="password"
+                    placeholder="password"
+                    required="required"
+                    type="password"
+                  />
+                   
+                  <i
+                    class="pi pi-eye"
+                  />
+                   
+                  <!---->
+                </div>
+              </div>
+               
+              <!---->
+               
+              <button
+                class="p-mb-4 p-button p-component"
+                type="submit"
+              >
+                <span
+                  class="pi pi-sign-in p-button-icon p-button-icon-left"
+                />
+                 
+                <span
+                  class="p-button-label"
+                >
+                  Sign in
+                </span>
+                 
+                <!---->
+                <span
+                  class="p-ink"
+                />
+              </button>
+               
+              <div
+                class="footer-links"
+              >
+                <!---->
+                 
+                <a
+                  class="mock-link"
+                >
+                  
+      Forgot your password ?
+    
+                </a>
+              </div>
+            </form>
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="version-block p-p-2"
+    >
+      
+    0.0.4
+  
+    </div>
+  </div>
+</div>
+`;

@@ -10,4 +10,4 @@ export const defaultStory = () => ({
 })
 
 defaultStory.storyName = 'default'
-defaultStory.parameters = { storyshots: { disable: true } }
+// defaultStory.parameters = { storyshots: { disable: true } }

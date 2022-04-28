@@ -76,6 +76,134 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
   
                 </span>
                  
+                <div
+                  class="lck-color-content p-text-bold p-mb-4"
+                >
+                  <form
+                    class="p-fluid"
+                  >
+                    <div
+                      class="p-field"
+                    >
+                      <p>
+                        Navigation mode:
+                      </p>
+                       
+                      <div>
+                        <div
+                          class="p-radiobutton p-component"
+                        >
+                          <div
+                            class="p-hidden-accessible"
+                          >
+                            <input
+                              id="anchor"
+                              name="anchor"
+                              type="radio"
+                              value="anchor"
+                            />
+                          </div>
+                           
+                          <div
+                            class="p-radiobutton-box"
+                            role="radio"
+                          >
+                            <div
+                              class="p-radiobutton-icon"
+                            />
+                          </div>
+                        </div>
+                         
+                        <label
+                          for="anchor"
+                        >
+                          
+          By anchor (scroll to the right container)
+        
+                        </label>
+                      </div>
+                      <div>
+                        <div
+                          class="p-radiobutton p-component"
+                        >
+                          <div
+                            class="p-hidden-accessible"
+                          >
+                            <input
+                              id="tab"
+                              name="tab"
+                              type="radio"
+                              value="tab"
+                            />
+                          </div>
+                           
+                          <div
+                            class="p-radiobutton-box"
+                            role="radio"
+                          >
+                            <div
+                              class="p-radiobutton-icon"
+                            />
+                          </div>
+                        </div>
+                         
+                        <label
+                          for="tab"
+                        >
+                          
+          By tab (show the current container, hide the others)
+        
+                        </label>
+                      </div>
+                    </div>
+                     
+                    <div
+                      class="lck-form-footer"
+                    >
+                      <button
+                        class="p-button-text p-button-secondary p-button p-component"
+                        type="button"
+                      >
+                        <span
+                          class="pi pi-times p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Cancel
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                       
+                      <button
+                        class="p-button p-component"
+                        disabled="disabled"
+                        type="submit"
+                      >
+                        <span
+                          class="pi pi-save p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Save
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                    </div>
+                  </form>
+                </div>
+                 
                 <span
                   class=" p-mb-2"
                 >
@@ -864,6 +992,134 @@ exports[`storyshots components/visualize/UpdateSidebar when display page 1`] = `
   
                 </span>
                  
+                <div
+                  class="lck-color-content p-text-bold p-mb-4"
+                >
+                  <form
+                    class="p-fluid"
+                  >
+                    <div
+                      class="p-field"
+                    >
+                      <p>
+                        Navigation mode:
+                      </p>
+                       
+                      <div>
+                        <div
+                          class="p-radiobutton p-component"
+                        >
+                          <div
+                            class="p-hidden-accessible"
+                          >
+                            <input
+                              id="anchor"
+                              name="anchor"
+                              type="radio"
+                              value="anchor"
+                            />
+                          </div>
+                           
+                          <div
+                            class="p-radiobutton-box"
+                            role="radio"
+                          >
+                            <div
+                              class="p-radiobutton-icon"
+                            />
+                          </div>
+                        </div>
+                         
+                        <label
+                          for="anchor"
+                        >
+                          
+          By anchor (scroll to the right container)
+        
+                        </label>
+                      </div>
+                      <div>
+                        <div
+                          class="p-radiobutton p-component"
+                        >
+                          <div
+                            class="p-hidden-accessible"
+                          >
+                            <input
+                              id="tab"
+                              name="tab"
+                              type="radio"
+                              value="tab"
+                            />
+                          </div>
+                           
+                          <div
+                            class="p-radiobutton-box"
+                            role="radio"
+                          >
+                            <div
+                              class="p-radiobutton-icon"
+                            />
+                          </div>
+                        </div>
+                         
+                        <label
+                          for="tab"
+                        >
+                          
+          By tab (show the current container, hide the others)
+        
+                        </label>
+                      </div>
+                    </div>
+                     
+                    <div
+                      class="lck-form-footer"
+                    >
+                      <button
+                        class="p-button-text p-button-secondary p-button p-component"
+                        type="button"
+                      >
+                        <span
+                          class="pi pi-times p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Cancel
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                       
+                      <button
+                        class="p-button p-component"
+                        disabled="disabled"
+                        type="submit"
+                      >
+                        <span
+                          class="pi pi-save p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Save
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                    </div>
+                  </form>
+                </div>
+                 
                 <span
                   class=" p-mb-2"
                 >
@@ -1049,6 +1305,134 @@ exports[`storyshots components/visualize/UpdateSidebar when submitting an empty 
     To configure the page navigation, you must edit each desired container.
   
                 </span>
+                 
+                <div
+                  class="lck-color-content p-text-bold p-mb-4"
+                >
+                  <form
+                    class="p-fluid"
+                  >
+                    <div
+                      class="p-field"
+                    >
+                      <p>
+                        Navigation mode:
+                      </p>
+                       
+                      <div>
+                        <div
+                          class="p-radiobutton p-component"
+                        >
+                          <div
+                            class="p-hidden-accessible"
+                          >
+                            <input
+                              id="anchor"
+                              name="anchor"
+                              type="radio"
+                              value="anchor"
+                            />
+                          </div>
+                           
+                          <div
+                            class="p-radiobutton-box"
+                            role="radio"
+                          >
+                            <div
+                              class="p-radiobutton-icon"
+                            />
+                          </div>
+                        </div>
+                         
+                        <label
+                          for="anchor"
+                        >
+                          
+          By anchor (scroll to the right container)
+        
+                        </label>
+                      </div>
+                      <div>
+                        <div
+                          class="p-radiobutton p-component"
+                        >
+                          <div
+                            class="p-hidden-accessible"
+                          >
+                            <input
+                              id="tab"
+                              name="tab"
+                              type="radio"
+                              value="tab"
+                            />
+                          </div>
+                           
+                          <div
+                            class="p-radiobutton-box"
+                            role="radio"
+                          >
+                            <div
+                              class="p-radiobutton-icon"
+                            />
+                          </div>
+                        </div>
+                         
+                        <label
+                          for="tab"
+                        >
+                          
+          By tab (show the current container, hide the others)
+        
+                        </label>
+                      </div>
+                    </div>
+                     
+                    <div
+                      class="lck-form-footer"
+                    >
+                      <button
+                        class="p-button-text p-button-secondary p-button p-component"
+                        type="button"
+                      >
+                        <span
+                          class="pi pi-times p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Cancel
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                       
+                      <button
+                        class="p-button p-component"
+                        disabled="disabled"
+                        type="submit"
+                      >
+                        <span
+                          class="pi pi-save p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Save
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                    </div>
+                  </form>
+                </div>
                  
                 <span
                   class=" p-mb-2"
@@ -1507,6 +1891,134 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
     To configure the page navigation, you must edit each desired container.
   
                 </span>
+                 
+                <div
+                  class="lck-color-content p-text-bold p-mb-4"
+                >
+                  <form
+                    class="p-fluid"
+                  >
+                    <div
+                      class="p-field"
+                    >
+                      <p>
+                        Navigation mode:
+                      </p>
+                       
+                      <div>
+                        <div
+                          class="p-radiobutton p-component"
+                        >
+                          <div
+                            class="p-hidden-accessible"
+                          >
+                            <input
+                              id="anchor"
+                              name="anchor"
+                              type="radio"
+                              value="anchor"
+                            />
+                          </div>
+                           
+                          <div
+                            class="p-radiobutton-box"
+                            role="radio"
+                          >
+                            <div
+                              class="p-radiobutton-icon"
+                            />
+                          </div>
+                        </div>
+                         
+                        <label
+                          for="anchor"
+                        >
+                          
+          By anchor (scroll to the right container)
+        
+                        </label>
+                      </div>
+                      <div>
+                        <div
+                          class="p-radiobutton p-component"
+                        >
+                          <div
+                            class="p-hidden-accessible"
+                          >
+                            <input
+                              id="tab"
+                              name="tab"
+                              type="radio"
+                              value="tab"
+                            />
+                          </div>
+                           
+                          <div
+                            class="p-radiobutton-box"
+                            role="radio"
+                          >
+                            <div
+                              class="p-radiobutton-icon"
+                            />
+                          </div>
+                        </div>
+                         
+                        <label
+                          for="tab"
+                        >
+                          
+          By tab (show the current container, hide the others)
+        
+                        </label>
+                      </div>
+                    </div>
+                     
+                    <div
+                      class="lck-form-footer"
+                    >
+                      <button
+                        class="p-button-text p-button-secondary p-button p-component"
+                        type="button"
+                      >
+                        <span
+                          class="pi pi-times p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Cancel
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                       
+                      <button
+                        class="p-button p-component"
+                        disabled="disabled"
+                        type="submit"
+                      >
+                        <span
+                          class="pi pi-save p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Save
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                    </div>
+                  </form>
+                </div>
                  
                 <span
                   class=" p-mb-2"
@@ -2297,6 +2809,134 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a not empty
   
                 </span>
                  
+                <div
+                  class="lck-color-content p-text-bold p-mb-4"
+                >
+                  <form
+                    class="p-fluid"
+                  >
+                    <div
+                      class="p-field"
+                    >
+                      <p>
+                        Navigation mode:
+                      </p>
+                       
+                      <div>
+                        <div
+                          class="p-radiobutton p-component"
+                        >
+                          <div
+                            class="p-hidden-accessible"
+                          >
+                            <input
+                              id="anchor"
+                              name="anchor"
+                              type="radio"
+                              value="anchor"
+                            />
+                          </div>
+                           
+                          <div
+                            class="p-radiobutton-box"
+                            role="radio"
+                          >
+                            <div
+                              class="p-radiobutton-icon"
+                            />
+                          </div>
+                        </div>
+                         
+                        <label
+                          for="anchor"
+                        >
+                          
+          By anchor (scroll to the right container)
+        
+                        </label>
+                      </div>
+                      <div>
+                        <div
+                          class="p-radiobutton p-component"
+                        >
+                          <div
+                            class="p-hidden-accessible"
+                          >
+                            <input
+                              id="tab"
+                              name="tab"
+                              type="radio"
+                              value="tab"
+                            />
+                          </div>
+                           
+                          <div
+                            class="p-radiobutton-box"
+                            role="radio"
+                          >
+                            <div
+                              class="p-radiobutton-icon"
+                            />
+                          </div>
+                        </div>
+                         
+                        <label
+                          for="tab"
+                        >
+                          
+          By tab (show the current container, hide the others)
+        
+                        </label>
+                      </div>
+                    </div>
+                     
+                    <div
+                      class="lck-form-footer"
+                    >
+                      <button
+                        class="p-button-text p-button-secondary p-button p-component"
+                        type="button"
+                      >
+                        <span
+                          class="pi pi-times p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Cancel
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                       
+                      <button
+                        class="p-button p-component"
+                        disabled="disabled"
+                        type="submit"
+                      >
+                        <span
+                          class="pi pi-save p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Save
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                    </div>
+                  </form>
+                </div>
+                 
                 <span
                   class=" p-mb-2"
                 >
@@ -2768,6 +3408,134 @@ exports[`storyshots components/visualize/UpdateSidebar when updating an empty co
     To configure the page navigation, you must edit each desired container.
   
                 </span>
+                 
+                <div
+                  class="lck-color-content p-text-bold p-mb-4"
+                >
+                  <form
+                    class="p-fluid"
+                  >
+                    <div
+                      class="p-field"
+                    >
+                      <p>
+                        Navigation mode:
+                      </p>
+                       
+                      <div>
+                        <div
+                          class="p-radiobutton p-component"
+                        >
+                          <div
+                            class="p-hidden-accessible"
+                          >
+                            <input
+                              id="anchor"
+                              name="anchor"
+                              type="radio"
+                              value="anchor"
+                            />
+                          </div>
+                           
+                          <div
+                            class="p-radiobutton-box"
+                            role="radio"
+                          >
+                            <div
+                              class="p-radiobutton-icon"
+                            />
+                          </div>
+                        </div>
+                         
+                        <label
+                          for="anchor"
+                        >
+                          
+          By anchor (scroll to the right container)
+        
+                        </label>
+                      </div>
+                      <div>
+                        <div
+                          class="p-radiobutton p-component"
+                        >
+                          <div
+                            class="p-hidden-accessible"
+                          >
+                            <input
+                              id="tab"
+                              name="tab"
+                              type="radio"
+                              value="tab"
+                            />
+                          </div>
+                           
+                          <div
+                            class="p-radiobutton-box"
+                            role="radio"
+                          >
+                            <div
+                              class="p-radiobutton-icon"
+                            />
+                          </div>
+                        </div>
+                         
+                        <label
+                          for="tab"
+                        >
+                          
+          By tab (show the current container, hide the others)
+        
+                        </label>
+                      </div>
+                    </div>
+                     
+                    <div
+                      class="lck-form-footer"
+                    >
+                      <button
+                        class="p-button-text p-button-secondary p-button p-component"
+                        type="button"
+                      >
+                        <span
+                          class="pi pi-times p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Cancel
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                       
+                      <button
+                        class="p-button p-component"
+                        disabled="disabled"
+                        type="submit"
+                      >
+                        <span
+                          class="pi pi-save p-button-icon p-button-icon-left"
+                        />
+                         
+                        <span
+                          class="p-button-label"
+                        >
+                          Save
+                        </span>
+                         
+                        <!---->
+                        <span
+                          class="p-ink"
+                        />
+                      </button>
+                    </div>
+                  </form>
+                </div>
                  
                 <span
                   class=" p-mb-2"

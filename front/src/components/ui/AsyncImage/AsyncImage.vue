@@ -20,7 +20,7 @@ import Vue from 'vue'
 import ProgressSpinner from 'primevue/progressspinner'
 import { getAttachmentBlob } from '@/services/lck-api/helpers'
 
-export default {
+export default Vue.extend({
   name: 'LckAsyncImage',
   components: {
     'p-spinner': Vue.extend(ProgressSpinner),
@@ -63,7 +63,7 @@ export default {
       immediate: true,
     },
   },
-}
+})
 </script>
 
 <style scoped>

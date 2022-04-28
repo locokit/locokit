@@ -62,7 +62,7 @@ export default Vue.extend({
         })
         this.error = null
         this.sendResetOK = true
-      } catch (err: any) {
+      } catch (err) {
         this.error = err as Error
       }
       this.loading = false
