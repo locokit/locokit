@@ -36,6 +36,13 @@ const getI18n = () => ({
   i18n,
 })
 
+/** registering directives  */
+Vue.directive('focus', {
+  inserted: function (el) {
+    el.focus()
+  },
+})
+
 /**
  * Add lckServicesDecorator for mocking lck services
  */
