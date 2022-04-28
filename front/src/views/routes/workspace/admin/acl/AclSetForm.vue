@@ -117,7 +117,7 @@
               :key="property.label"
             >
               <template #header>
-                <i :class="property.icon" :title="$t(`pages.acl.detail.${property.label}`)"></i>
+                <i :class="property.icon" :title="$t(`pages.workspaceAdmin.acl.detail.${property.label}`)"></i>
               </template>
             </p-column>
           </p-row>
