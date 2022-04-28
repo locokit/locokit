@@ -66,7 +66,6 @@ export const lckServicesDecorator: DecoratorFunction = function (
   story: StoryFn,
   context: StoryContext,
 ) {
-  console.log(context.kind, context.name)
   if (context.parameters?.lckServices) {
     (Object.keys(context.parameters.lckServices) as lckServicesName[])
       .forEach(serviceName => {
