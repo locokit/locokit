@@ -230,7 +230,9 @@ describe('\'group\' service', () => {
     xdescribe('remove', () => {
       it('can remove his group', async () => {
         expect.assertions(3)
-        // Todo : Need to remove all users in deleted group + Keep reference in row ?
+        /**
+         * TODO : Need to anonymize previous references in row to this group before running this test... #94
+         */
         await app.service('usergroup').remove(setupData.group3.id, lambdaUserOwnerParams)
 
         const userGroupStillExist = await expect(app.service('group').get(
