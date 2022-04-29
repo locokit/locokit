@@ -36,7 +36,7 @@
         }"
       >
         <div
-          v-for="container in displayContainersByModeNavigation"
+          v-for="container in page.containers"
           :id="container.id"
           :key="container.id"
           class="lck-container"

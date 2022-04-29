@@ -27,7 +27,7 @@
 
       <div class="lck-container-parent p-mx-2">
         <div
-          v-for="container in this.page.containers"
+          v-for="container in page.containers"
           :id="container.id"
           :key="container.id"
           class="lck-container"
@@ -35,7 +35,7 @@
             'lck-elevation': container.elevation
           }"
         >
-          <div v-show="container.id === currentHash">
+          <div v-show="page.modeNavigation === 'tab' ? container.id === currentHash : true">
             <h2 v-if="container.display_title" class="lck-color-title">
               {{ container.text }}
             </h2>

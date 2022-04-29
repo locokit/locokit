@@ -10,7 +10,7 @@ exports[`Page Create new records (blocks Set) match snapshot and display all blo
     <!---->
     <div class="lck-container-parent p-mx-2">
       <div id="16" class="lck-container">
-        <div style="display: none;">
+        <div>
           <!---->
           <div class="lck-block-parent">
             <lck-block-stub block="[object Object]" workspaceid="toto" content="[object Object]" definition="[object Object]" groupid="this-is-a-group" userid="1" autocompletesuggestions="" cellstate="[object Object]" secondarysources="[object Object]" class="lck-block"></lck-block-stub>
