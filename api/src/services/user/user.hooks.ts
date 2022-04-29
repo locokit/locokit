@@ -11,6 +11,8 @@ import { enforcePasswordPolicy } from '../../hooks/lck-hooks/passwords/enforcePa
 import { generatePassword } from '../../hooks/lck-hooks/passwords/generatePassword'
 import { notifyUserOnUpdate } from './notifyUserOnUpdate.hooks'
 import { isUserProfile } from '../../hooks/lck-hooks/isUserProfile'
+import { defineAbilitiesIffHook } from '../../abilities/user.abilities'
+import { authorize } from 'feathers-casl/dist/hooks'
 
 const { authenticate } = feathersAuthentication.hooks
 const { hashPassword, protect } = local.hooks
@@ -63,10 +65,15 @@ export default {
           'resetToken',
           'resetShortToken',
           'resetExpires',
+          'resetAttempts',
         ),
         commonHooks.iff(
           commonHooks.isNot(isUserProfile(USER_PROFILE.SUPERADMIN)),
-          commonHooks.disallow(),
+          commonHooks.preventChanges(true, 'email', 'blocked', 'password', 'profile'),
+          defineAbilitiesIffHook(),
+          authorize({
+            adapter: 'feathers-objection',
+          }),
         ),
         lowerCase('email'),
         hashPassword('password'),

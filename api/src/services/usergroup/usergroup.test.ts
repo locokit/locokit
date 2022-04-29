@@ -82,12 +82,11 @@ describe('\'usergroup\' service', () => {
       name: 'testing create user',
     }) as LckUser
 
-    const userGroup = await expect(app.service('usergroup').create({
+    await expect(app.service('usergroup').create({
       user_id: user.id,
       group_id: group.id,
-    }, lambdaUserParams)).rejects.toThrowError(Forbidden) as Usergroup | undefined
-    // Clean the database
-    if (userGroup) await app.service('usergroup').remove(`${userGroup.user_id as number},${userGroup.group_id as string}`)
+    }, lambdaUserParams)).rejects.toThrowError(Forbidden)
+
     await app.service('user').remove(user.id)
   })
 

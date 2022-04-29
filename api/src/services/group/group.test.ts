@@ -4,7 +4,6 @@ import { Group } from '../../models/group.model'
 import { Usergroup } from '../../models/usergroup.model'
 import { GROUP_ROLE } from '@locokit/lck-glossary'
 import { Forbidden, NotFound } from '@feathersjs/errors'
-import { expectCt } from 'helmet'
 
 describe('\'group\' service', () => {
   const builder = builderTestEnvironment('group-service')
@@ -14,6 +13,33 @@ describe('\'group\' service', () => {
   let lambdaUserMemberParams: object
   let adminUserParams: object
   let superAdminUserParams: object
+
+  beforeAll(async () => {
+    setupData = await builder.setupWorkspace()
+    lambdaUserOwnerParams = {
+      provider: 'external',
+      user: setupData.user2,
+      accessToken: setupData.user2Authentication.accessToken,
+      authenticated: true,
+    }
+    lambdaUserAdminParams = {
+      provider: 'external',
+      user: setupData.user1,
+      accessToken: setupData.user1Authentication.accessToken,
+      authenticated: true,
+    }
+    lambdaUserMemberParams = {
+      provider: 'external',
+      user: setupData.user5,
+      accessToken: setupData.user5Authentication.accessToken,
+      authenticated: true,
+    }
+  })
+
+  it('registered the service', () => {
+    const service = app.service('group')
+    expect(service).toBeTruthy()
+  })
 
   it('return users for a group, without sensitive information', async () => {
     expect.assertions(8)
@@ -73,38 +99,11 @@ describe('\'group\' service', () => {
     ].sort())
   })
 
-  beforeAll(async () => {
-    setupData = await builder.setupWorkspace()
-    lambdaUserOwnerParams = {
-      provider: 'external',
-      user: setupData.user2,
-      accessToken: setupData.user2Authentication.accessToken,
-      authenticated: true,
-    }
-    lambdaUserAdminParams = {
-      provider: 'external',
-      user: setupData.user1,
-      accessToken: setupData.user1Authentication.accessToken,
-      authenticated: true,
-    }
-    lambdaUserMemberParams = {
-      provider: 'external',
-      user: setupData.user5,
-      accessToken: setupData.user5Authentication.accessToken,
-      authenticated: true,
-    }
-  })
-
-  it('registered the service', () => {
-    const service = app.service('group')
-    expect(service).toBeTruthy()
-  })
-
   describe('verify a MEMBER user with OWNER role', () => {
     let upgradeRoleOWNER: Usergroup
 
     beforeAll(async () => {
-      // Set Lambda User to OWNER of group3
+      // Set Lambda User to OWNER of group2
       upgradeRoleOWNER = await app.service('usergroup').patch(
         `${setupData.user2.id},${setupData.group2.id}`, { uhg_role: GROUP_ROLE.OWNER },
       )
@@ -185,8 +184,7 @@ describe('\'group\' service', () => {
 
         expect(groups).toBeDefined()
         expect(groups.length).toBe(1)
-        expect(groups[0].id).toBe(setupData.group2.id,
-        )
+        expect(groups[0].id).toBe(setupData.group2.id)
       })
 
       it('can read group of which it is a MEMBER', async () => {
@@ -233,19 +231,17 @@ describe('\'group\' service', () => {
         /**
          * TODO : Need to anonymize previous references in row to this group before running this test... #94
          */
-        await app.service('usergroup').remove(setupData.group3.id, lambdaUserOwnerParams)
+        await app.service('group').remove(setupData.group2.id, lambdaUserOwnerParams)
 
-        const userGroupStillExist = await expect(app.service('group').get(
-          setupData.group3.id,
-        )).rejects.toThrowError(NotFound) as undefined | Usergroup
+        const groupStillExist = await expect(app.service('group').get(setupData.group2.id)).rejects.toThrowError(NotFound) as undefined | Usergroup
 
-        expect(userGroupStillExist).toBeUndefined()
+        expect(groupStillExist).toBeUndefined()
       })
     })
 
     afterAll(async () => {
       // Restore setup
-      await app.service('usergroup').patch(`${setupData.user2.id},${setupData.group3.id}`, { uhg_role: GROUP_ROLE.MEMBER })
+      await app.service('usergroup').patch(`${setupData.user2.id},${setupData.group2.id}`, { uhg_role: GROUP_ROLE.MEMBER })
     })
   })
 

@@ -1,4 +1,4 @@
-import { MethodNotAllowed, NotAuthenticated } from '@feathersjs/errors'
+import { MethodNotAllowed, NotAuthenticated, BadRequest, NotFound } from '@feathersjs/errors'
 import app from '../../app'
 import { User } from '../../models/user.model'
 import { builderTestEnvironment, SetupData } from '../../abilities/helpers'
@@ -57,7 +57,7 @@ describe('\'user\' service', () => {
     await app.service('user').remove(user.id)
   })
 
-  it("prevent a user with USER's role to create new user", async () => {
+  it('prevent a user with USER\'s role to create new user', async () => {
     expect.assertions(2)
 
     const user = await expect(app.service('user').create({
@@ -68,7 +68,7 @@ describe('\'user\' service', () => {
     expect(user).toBeUndefined()
   })
 
-  it("authorize a superAdmin with SUPERADMIN's role to create new user", async () => {
+  it('authorize a superAdmin with SUPERADMIN\'s role to create new user', async () => {
     expect.assertions(1)
 
     const user = await app.service('user').create({
@@ -80,7 +80,7 @@ describe('\'user\' service', () => {
     await app.service('user').remove(user.id)
   })
 
-  it("authorize a admin with ADMIN's role to create new user", async () => {
+  it('authorize a admin with ADMIN\'s role to create new user', async () => {
     expect.assertions(1)
 
     const user = await app.service('user').create({
@@ -102,9 +102,21 @@ describe('\'user\' service', () => {
       app.service('user').patch(updatedUser.id, {
         blocked: true,
       }, lambdaUserParams),
-    ).rejects.toThrowError(MethodNotAllowed)
+    ).rejects.toThrowError(BadRequest)
     // Clean the database
     await app.service('user').remove(updatedUser.id)
+  })
+
+  it('allow a lambda user to patch his name', async () => {
+    expect.assertions(2)
+    expect(setupData.user2.name).toBe('User 2')
+    const updatedUser = await app.service('user').patch(setupData.user2.id, {
+      name: 'Ellie Williams',
+    }, lambdaUserParams)
+    expect(updatedUser.name).toBe('Ellie Williams')
+
+    // Clean the database
+    await app.service('user').patch(setupData.user2.id, { name: 'User 2' })
   })
 
   it('only allow SUPERADMIN user to patch the blocked attribute', async () => {
@@ -187,14 +199,14 @@ describe('\'user\' service', () => {
         app.service('user').patch(updatedUser.id, {
           email: 'updatedUser@locokit.io',
         }, lambdaUserParams),
-      ).rejects.toThrowError(MethodNotAllowed)
+      ).rejects.toThrowError(BadRequest)
     } finally {
       // Clean the database whether the test succeeds or not
       if (updatedUser) await app.service('user').remove(updatedUser.id)
     }
   })
 
-  it('prevent a lambda user to patch the user information', async () => {
+  it('prevent a lambda user to patch another user information', async () => {
     expect.assertions(3)
     const updatedUser = await app.service('user').create({
       email: 'originalUser@locokit.io',
@@ -205,24 +217,11 @@ describe('\'user\' service', () => {
         name: 'testing patch name with user account',
       },
       lambdaUserParams,
-    )).rejects.toThrowError(MethodNotAllowed) as User | undefined
+    )).rejects.toThrowError(NotFound) as User | undefined
     expect(updatedUser.name).not.toBe('testing patch name with user account')
     expect(updatedUserFailed).toBeUndefined()
     // Clean the database
     await app.service('user').remove(updatedUser.id)
-  })
-
-  it('prevent a lambda user to patch its user information', async () => {
-    expect.assertions(3)
-
-    const updatedUserFailed = await expect(app.service('user').patch(setupData.user2.id,
-      {
-        name: 'testing patch its information',
-      },
-      lambdaUserParams,
-    )).rejects.toThrowError(MethodNotAllowed) as User | undefined
-    expect(setupData.user2.name).not.toBe('testing patch name with user account')
-    expect(updatedUserFailed).toBeUndefined()
   })
 
   it('only allow admin user to patch the user email address', async () => {

@@ -50,7 +50,7 @@ export async function createAbility (
 
       // only OWNER can manage their groups
       const userGroupsOwner = usergroupsDefault.filter(ug => GROUP_ROLE.OWNER === ug.uhg_role)
-      // ADMIN can manage only manage user in their groups
+      // ADMIN can only manage user in their groups
       const userGroupsAdmin = usergroupsDefault.filter(ug => GROUP_ROLE.ADMIN === ug.uhg_role)
       const userGroupsMember = usergroupsDefault.filter(ug => GROUP_ROLE.MEMBER === ug.uhg_role)
 
@@ -91,7 +91,6 @@ export async function createAbility (
         }
       })
   }
-  // console.log('rules --->', rules)
 
   return makeAbilityFromRules(rules, { resolveAction }) as AppAbility
 }
