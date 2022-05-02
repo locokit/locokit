@@ -47,17 +47,17 @@ jobs:
         env:
           NODE_OPTIONS: --max_old_space_size=4096
       - name: Tar image snapshots
-        run: tar -cvf lck-front-quality-image-snapshots.tar front/tests/unit/__image_snapshots__
+        run: tar -cvf lck-front-quality-image-snapshots.tar tests/unit/__image_snapshots__
       - name: Tar storybook
-        run: tar -cvf lck-front-quality-storybook.tar front/storybook-static
+        run: tar -cvf lck-front-quality-storybook.tar storybook-static
       - name: Archive production artifacts
         if: always()
         uses: actions/upload-artifact@v2
         with:
           name: lck-front-quality.tar
           path: |
-            lck-front-quality-image-snapshots.tar
-            lck-front-quality-storybook.tar
+            front/lck-front-quality-image-snapshots.tar
+            front/lck-front-quality-storybook.tar
 
   front-build:
 
@@ -100,7 +100,7 @@ jobs:
         with:
           name: lck-front-build-artifact.tar
           path: |
-            lck-front-build-artifact.tar
+            front/lck-front-build-artifact.tar
 
   ## API Part
   api-quality:
@@ -167,7 +167,7 @@ jobs:
         with:
           name: lck-api-quality-artifact.tar
           path: |
-            lck-api-quality-artifact.tar
+            api/lck-api-quality-artifact.tar
 
   api-build:
     runs-on: ubuntu-latest
@@ -193,7 +193,7 @@ jobs:
         with:
           name: lck-api-build-artifact.tar
           path: |
-            lck-api-build-artifact.tar
+            api/lck-api-build-artifact.tar
 
   ## Documentation part
   docs-build:
@@ -284,24 +284,24 @@ jobs:
       - name: Download api artifact
         uses: actions/download-artifact@v2
         with: 
-          name: api-build-lib-artifact.tar
+          name: lck-api-build-artifact.tar
           # path: api/lib/
       - name: Extract api artifact
-        run: tar -xf api-build-lib-artifact.tar
+        run: tar -xf lck-api-build-artifact.tar -C api/
       - name: Download front artifact
         uses: actions/download-artifact@v2
         with: 
-          name: front-build-artifact.tar
+          name: lck-front-build-artifact.tar
           # path: front/dist/
       - name: Extract front artifact
-        run: tar -xf front-build-artifact.tar -C front/
+        run: tar -xf lck-front-build-artifact.tar -C front/
       - name: Download docs artifact
         uses: actions/download-artifact@v2
         with: 
-          name: docs-build-artifact.tar
+          name: lck-docs-build-artifact.tar
           # path: docs/.vitepress/dist
       - name: Extract docs artifact
-        run: tar -xf docs-build-artifact.tar -C api/
+        run: tar -xf lck-docs-build-artifact.tar
       - name: LS
         run: ls -al
       - name: Login to DockerHub
