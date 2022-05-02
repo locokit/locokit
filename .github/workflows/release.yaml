@@ -206,6 +206,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            front/dist/
-            api/lib/
-            docs/.vitepress/dist
+            front/dist/**/*
+            api/lib/**/*
+            docs/.vitepress/dist/*
