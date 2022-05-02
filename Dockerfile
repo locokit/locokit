@@ -57,7 +57,6 @@ COPY api/migrations /code/migrations/
 COPY api/seeds /code/seeds/
 COPY api/tsconfig.json /code/
 COPY api/knexfile.ts /code/
-COPY packages/ /packages/
 
 # Install dependencies
 COPY api/patch/ /code/patch/
