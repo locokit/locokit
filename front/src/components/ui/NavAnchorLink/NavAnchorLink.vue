@@ -149,9 +149,25 @@ export default Vue.extend({
 .anchor-link-container:first-child {
   border-left: unset;
 }
+
+.anchor-link-container > a {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.anchor-link-container > a > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  height: 100%;
+}
+
 .page-nav-item > a > i {
   border-radius: 4px;
-  margin-right: 0.5rem;
+  margin: auto;
   background-color: unset;
 }
 .page-nav-item > a > i.danger {

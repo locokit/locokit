@@ -36,7 +36,6 @@
           :key="subitem.id"
           :to="subitem.to"
           class="lck-sidebar-link p-ml-4"
-          :class="{ 'router-link-exact-active': subitem.active }"
           @click.native="$emit('click-sidebar-item')"
           v-show="displayEditActions || subitem.hidden !== true"
         >

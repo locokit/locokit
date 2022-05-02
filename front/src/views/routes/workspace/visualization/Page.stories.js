@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import Page from './Page'
+import StoryRouter from '../../../../../.storybook/storyRouterDecorator'
 
 export default {
   title: 'views/routes/workspace/visualization/Page',
   component: Page,
+  decorators: [
+    StoryRouter(),
+  ],
 }
 
 const chapterInfo = [
@@ -145,8 +149,8 @@ We can write in *italic*, **bold**, and ***both***.
 }
 
 export const defaultStory = () => ({
-  component: { Page },
-  template: '<Page groupId="g1" :userId="1" workspaceId="w1" />',
+  components: { Page },
+  template: '<Page pageId="pa1" groupId="g1" :userId="1" workspaceId="w1" />',
 })
 
 defaultStory.storyName = 'default'
@@ -164,7 +168,7 @@ export const pageWithBlock = () => (
         userId: 1,
       }
     },
-    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :editMode=true :userId="userId"/>',
+    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :userId="userId"/>',
   }
 )
 
@@ -191,10 +195,9 @@ export const pageWithBlockCentered = () => (
         groupId: 'uuid-group',
         userId: 1,
         pageId: 'pa1',
-        layout: 'centered',
       }
     },
-    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :userId="userId" :layout="layout"/>',
+    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :userId="userId" />',
   }
 )
 
@@ -203,7 +206,7 @@ pageWithBlockCentered.parameters = {
     page: {
       get () {
         return new Promise(resolve => {
-          resolve(pageInfo)
+          resolve({ ...pageInfo, layout: 'centered' })
         })
       },
     },
@@ -221,10 +224,9 @@ export const pageWithBlockFlex = () => (
         groupId: 'uuid-group',
         pageId: 'pa1',
         userId: 1,
-        layout: 'flex',
       }
     },
-    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :userId="userId" :layout="layout"/>',
+    template: '<Page :chapters="chapters" :pageId="pageId" :workspaceId="workspaceId" :groupId="groupId" :userId="userId" />',
   }
 )
 
@@ -233,7 +235,7 @@ pageWithBlockFlex.parameters = {
     page: {
       get () {
         return new Promise(resolve => {
-          resolve(pageInfo)
+          resolve({ ...pageInfo, layout: 'flex' })
         })
       },
     },

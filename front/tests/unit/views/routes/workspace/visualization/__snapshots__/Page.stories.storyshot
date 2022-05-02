@@ -6,7 +6,6 @@ exports[`storyshots views/routes/workspace/visualization/Page with some blocks, 
 >
   <div
     class="lck-layout-classic"
-    layout="centered"
   >
     <div
       class="lck-page-content"
@@ -53,48 +52,7 @@ exports[`storyshots views/routes/workspace/visualization/Page with some blocks, 
         </h1>
       </div>
        
-      <div
-        class="internal-nav sticky-top-nav"
-      >
-        <div
-          class="internal-nav-content"
-        >
-          <div>
-            
-      This is the nav bar for container. It allows the user to navigate through the container's page.
-      
-            <br />
-            
-      To configure the page navigation, you must edit each desired container.
-    
-          </div>
-        </div>
-         
-        <span
-          class="edit-mode-toggle"
-        >
-          <button
-            class="p-button-lg p-button-text edit-container-button p-button p-component p-button-icon-only"
-            title="Update navigation"
-            type="button"
-          >
-            <span
-              class="bi bi-pencil p-button-icon"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-               
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-        </span>
-      </div>
+      <!---->
        
       <div
         class="lck-container-parent p-mx-2"
@@ -110,7 +68,6 @@ exports[`storyshots views/routes/workspace/visualization/Page with some blocks, 
 >
   <div
     class="lck-layout-classic"
-    layout="flex"
   >
     <div
       class="lck-page-content"

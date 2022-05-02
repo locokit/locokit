@@ -16,8 +16,12 @@
       <validation-provider
         vid="modeNavigation"
         :name="$t('pages.workspace.page.mode_navigation.title')"
+        ref="vp-mode-navigation"
         tag="div"
         class="p-field"
+        v-slot="{
+          validate,
+        }"
       >
         <p>{{ $t('pages.workspace.page.mode_navigation.title') }}</p>
         <div v-for="mode in MODE_NAVIGATION" :key="mode">
@@ -25,7 +29,8 @@
             :id="mode"
             :name="mode"
             :value="mode"
-            v-model="modeNavigation"
+            :modelValue="modeNavigation"
+            @change="radioChange(mode, validate)"
           />
           <label :for="mode">
             {{ $t(`pages.workspace.page.mode_navigation.${mode}`) }}
@@ -142,6 +147,20 @@ export default Vue.extend({
   methods: {
     onFormSubmit () {
       return this.$emit('updateModeNavigation', this.modeNavigation)
+    },
+    radioChange (value: string, validate: Function) {
+      if (value !== this.modeNavigation) {
+        this.modeNavigation = value
+        validate(value);
+        // setFlags belongs to ValidationProvider which extend Element
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (this.$refs['vp-mode-navigation'] as any).setFlags({
+          pristine: false,
+          dirty: true,
+          touched: true,
+          untouched: false,
+        })
+      }
     },
   },
 })

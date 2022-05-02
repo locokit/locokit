@@ -670,7 +670,7 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
               <!---->
             </a>
             <a
-              class="mock-link lck-sidebar-link p-ml-4 router-link-exact-active"
+              class="mock-link lck-sidebar-link p-ml-4"
             >
               <!---->
                

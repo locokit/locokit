@@ -27,7 +27,7 @@
 
       <div class="lck-container-parent p-mx-2">
         <div
-          v-for="container in displayContainersByModeNavigation"
+          v-for="container in page.containers"
           :id="container.id"
           :key="container.id"
           class="lck-container"
@@ -35,53 +35,55 @@
             'lck-elevation': container.elevation
           }"
         >
-          <h2 v-if="container.display_title" class="lck-color-title">
-            {{ container.text }}
-          </h2>
-          <div class="lck-block-parent">
-            <template v-for="block in container.blocks">
-              <lck-block
-                :key="block.id"
-                v-if="isBlockDisplayed(block)"
-                class="lck-block"
-                :block="block"
-                :content="getBlockContent(block)"
-                :definition="getBlockDefinition(block)"
-                :workspaceId="workspaceId"
-                :groupId="groupId"
-                :userId="userId"
-                :autocompleteSuggestions="autocompleteSuggestions"
-                :exporting="exporting"
-                :cellState="cellState"
-                :secondarySources="secondarySources[block.id]"
-                v-on="$listeners"
+          <div v-show="page.modeNavigation === 'tab' ? container.id === currentHash : true">
+            <h2 v-if="container.display_title" class="lck-color-title">
+              {{ container.text }}
+            </h2>
+            <div class="lck-block-parent">
+              <template v-for="block in container.blocks">
+                <lck-block
+                  :key="block.id"
+                  v-if="isBlockDisplayed(block)"
+                  class="lck-block"
+                  :block="block"
+                  :content="getBlockContent(block)"
+                  :definition="getBlockDefinition(block)"
+                  :workspaceId="workspaceId"
+                  :groupId="groupId"
+                  :userId="userId"
+                  :autocompleteSuggestions="autocompleteSuggestions"
+                  :exporting="exporting"
+                  :cellState="cellState"
+                  :secondarySources="secondarySources[block.id]"
+                  v-on="$listeners"
 
-                @row-delete="onRowDelete(block, $event)"
-                @row-duplicate="onRowDuplicate(block, $event)"
+                  @row-delete="onRowDelete(block, $event)"
+                  @row-duplicate="onRowDuplicate(block, $event)"
 
-                @update-row="onUpdateCell(block, $event)"
-                @update-cell="onUpdateCell(block, $event)"
-                @update-content="onUpdateContentBlockTableView(block, $event)"
-                @update-suggestions="onUpdateSuggestions"
-                @sort="onSort(block, $event)"
-                @open-detail="onPageDetail(block, $event)"
-                @create-row="onCreateRow(block, $event)"
-                @export-view-csv="onExportViewCSV(block)"
-                @export-view-xls="onExportViewXLS(block)"
-                @update-filters="onUpdateFilters(block, $event)"
-                @get-secondary-sources="getSecondarySources(block, $event)"
+                  @update-row="onUpdateCell(block, $event)"
+                  @update-cell="onUpdateCell(block, $event)"
+                  @update-content="onUpdateContentBlockTableView(block, $event)"
+                  @update-suggestions="onUpdateSuggestions"
+                  @sort="onSort(block, $event)"
+                  @open-detail="onPageDetail(block, $event)"
+                  @create-row="onCreateRow(block, $event)"
+                  @export-view-csv="onExportViewCSV(block)"
+                  @export-view-xls="onExportViewXLS(block)"
+                  @update-filters="onUpdateFilters(block, $event)"
+                  @get-secondary-sources="getSecondarySources(block, $event)"
 
-                @download-attachment="onDownloadAttachment"
-                @upload-files="onUploadFiles(block, $event)"
-                @remove-attachment="onRemoveAttachment(block, $event)"
+                  @download-attachment="onDownloadAttachment"
+                  @upload-files="onUploadFiles(block, $event)"
+                  @remove-attachment="onRemoveAttachment(block, $event)"
 
-                @go-to-page-detail="goToPage"
-                @create-process-run="onTriggerProcess(block, $event)"
+                  @go-to-page-detail="goToPage"
+                  @create-process-run="onTriggerProcess(block, $event)"
 
-                @update-features="onGeoDataEdit(block, $event)"
-                @remove-features="onGeoDataRemove(block, $event)"
-              />
-            </template>
+                  @update-features="onGeoDataEdit(block, $event)"
+                  @remove-features="onGeoDataRemove(block, $event)"
+                />
+              </template>
+            </div>
           </div>
         </div>
       </div>
@@ -163,11 +165,11 @@ export default {
     },
     groupId: {
       type: String,
-      required: true,
+      required: false,
     },
     userId: {
       type: Number,
-      required: true,
+      required: false,
     },
     editMode: {
       type: Boolean,
@@ -259,12 +261,8 @@ export default {
     isNavBarAnchorLinkDisplayed () {
       return this.page?.containers?.some(container => container.displayed_in_navbar)
     },
-    displayContainersByModeNavigation () {
-      if (this.isNavBarAnchorLinkDisplayed && this.page.modeNavigation === 'tab' && this.page.containers.length > 0) {
-        return this.page.containers.filter(({ id }) => this.$route.hash.slice(1) === id)
-      }
-      // Case by default + Mode Navigation anchor
-      return this.page.containers
+    currentHash (): string {
+      return this.$route.hash.slice(1)
     },
     relatedChapterPages () {
       let relatedChapterPages = []
@@ -306,9 +304,13 @@ export default {
       this.currentBlockToEdit = null
       this.showUpdateSidebar = true
     },
-    async forceHashToNavigate () {
-      if (this.page.modeNavigation === 'tab' && this.page.containers.length > 0) {
-        if (!this.$route.hash) {
+    async forceHashToNavigate (route) {
+      if (this.isNavBarAnchorLinkDisplayed) {
+        if (route) {
+          // Execute when beforeRouteUpdate
+          await this.$router.replace({ ...route, hash: `#${this.page.containers[0].id}` })
+        } else if (!this.$route.hash) {
+          // Execute when mounted
           await this.$router.replace({ ...this.$route, hash: `#${this.page.containers[0].id}` })
         }
       }
@@ -1151,14 +1153,13 @@ export default {
     } else {
       this.page = await lckHelpers.retrievePageWithContainersAndBlocks(this.pageId)
     }
-
     this.forceHashToNavigate()
   },
   async beforeRouteUpdate (to, from, next) {
     if (to.params.pageId !== from.params.pageId) {
       this.page = await lckHelpers.retrievePageWithContainersAndBlocks(to.params.pageId)
       if (!to.hash) {
-        this.forceHashToNavigate()
+        this.forceHashToNavigate(to)
       }
       next()
     }
