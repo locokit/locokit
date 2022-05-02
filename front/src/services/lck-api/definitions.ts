@@ -444,6 +444,7 @@ export class LckGroup extends LckBaseModel {
     uhg_role: GROUP_ROLE;
   }[]
 
+  uhg_role!: GROUP_ROLE;
   aclset_id!: string
   aclset?: LckAclSet
 }

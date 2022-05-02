@@ -56,6 +56,9 @@ import SignUp from '../views/routes/user/SignUp.vue'
 import { ROUTES_NAMES, ROUTES_PATH } from './paths'
 import { authState } from '@/store/auth'
 import { appState } from '@/store/app'
+import { USER_PROFILE } from '@locokit/lck-glossary'
+import { GROUP_ROLE } from '@locokit/lck-glossary/src'
+import { LckGroup } from '@/services/lck-api/definitions'
 
 Vue.use(VueRouter)
 
@@ -143,6 +146,7 @@ const routes: Array<RouteConfig> = [
     meta: {
       needAuthentication: true,
       hasBurgerMenu: true,
+      authorizedRoles: [GROUP_ROLE.ADMIN, GROUP_ROLE.OWNER],
     },
     children: [{
       name: 'WorkspaceDatabase',
@@ -258,6 +262,7 @@ const routes: Array<RouteConfig> = [
       meta: {
         needAuthentication: true,
         hasBurgerMenu: true,
+        authorizedRoles: [GROUP_ROLE.ADMIN, GROUP_ROLE.OWNER],
       },
       children: [{
         name: ROUTES_NAMES.WORKSPACE_ADMIN.CMS_PAGE_DETAIL,
@@ -298,6 +303,10 @@ const routes: Array<RouteConfig> = [
     component: Admin,
     redirect: ROUTES_PATH.ADMIN + ROUTES_PATH.USER,
     props: true,
+    meta: {
+      needAuthentication: true,
+      authorizedRoles: [GROUP_ROLE.ADMIN, GROUP_ROLE.OWNER],
+    },
     children: [{
       name: ROUTES_NAMES.ADMIN.USER,
       path: ROUTES_PATH.ADMIN + ROUTES_PATH.USER,
@@ -326,9 +335,6 @@ const routes: Array<RouteConfig> = [
         },
       }],
     }],
-    meta: {
-      needAuthentication: true,
-    },
   },
   {
     path: '*',
@@ -374,6 +380,19 @@ export function checkPathAvailable (needAuthentication: boolean, needGuest: bool
   return true
 }
 
+/**
+ * Check if the route accessible by roles
+ */
+export function checkProfile (
+  workspaceId: string,
+  userGroupRole: LckGroup[] | undefined,
+  requiredRoles: GROUP_ROLE[],
+) {
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  const userGroupRoleCurrentWorkspace = userGroupRole && userGroupRole.find(({ aclset }) => aclset && aclset.workspace_id === workspaceId)
+  return userGroupRoleCurrentWorkspace && requiredRoles && requiredRoles.includes(userGroupRoleCurrentWorkspace.uhg_role)
+}
+
 router.beforeEach(function (to, from, next) {
   // To handle children routes (to get meta from parents), Vuejs recommend to use to.matched
   // @see: https://github.com/vuejs/vue-router/issues/704
@@ -381,9 +400,21 @@ router.beforeEach(function (to, from, next) {
   appState.hasBurgerMenu = to.matched.some(m => m.meta.hasBurgerMenu)
   const needGuest = to.matched.some(m => m.meta.needGuest)
   const isAuthenticated = authState.data.isAuthenticated
+  const userProfile = authState.data?.user?.profile as USER_PROFILE
+  // const userGroupsRole = authState.data?.groups[0].aclset?.ugh_role
+  const userGroupsRole = authState.data?.user?.groups
+  const profileAlwaysAuthorized = [USER_PROFILE.SUPERADMIN, USER_PROFILE.ADMIN]
+  const authorizedRoles = to.matched.length > 0 && to.matched[0].meta.authorizedRoles
 
   if (!checkPathAvailable(needAuthentication, needGuest, isAuthenticated)) {
     next({ path: isAuthenticated ? ROUTES_PATH.WORKSPACE : ROUTES_PATH.HOME })
+  } else if (
+    !profileAlwaysAuthorized.includes(userProfile) &&
+    // Be careful /admin is accessible only with profil Admin - SuperAdmin
+    // Todo: so not accessible by any role for now we need to handle workspaceId
+    authorizedRoles && !checkProfile(to.params.workspaceId, userGroupsRole, authorizedRoles)
+  ) {
+    next({ path: '/not-found' })
   } else {
     next()
   }

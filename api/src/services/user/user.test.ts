@@ -1,104 +1,122 @@
-import { LocalStrategy } from '@feathersjs/authentication-local/lib'
-import { BadRequest, NotAuthenticated } from '@feathersjs/errors'
-import { USER_PROFILE } from '@locokit/lck-glossary'
+import { MethodNotAllowed, NotAuthenticated, BadRequest, NotFound } from '@feathersjs/errors'
 import app from '../../app'
 import { User } from '../../models/user.model'
+import { builderTestEnvironment, SetupData } from '../../abilities/helpers'
 
 describe('\'user\' service', () => {
-  let creatorUser: User
-  let adminUser: User
-  let creatorParams: object
-  let adminParams: object
+  let setupData: SetupData
+  const builder = builderTestEnvironment('user')
+  let lambdaUserParams: object
+  let adminUserParams: object
+  let superAdminUserParams: object
 
   beforeAll(async () => {
-    // User password
-    const userPassword = 'add-wd-dependencies@locokit.io0'
-    const [localStrategy] = app.service('authentication').getStrategies('local') as LocalStrategy[]
-    const passwordHashed = await localStrategy.hashPassword(userPassword, {})
-
-    // Creator user
-    const creatorEmail = 'creator@locokit.io'
-    creatorUser = await app.service('user')._create({
-      name: 'Jack',
-      email: creatorEmail,
-      isVerified: true,
-      password: passwordHashed,
-      profile: USER_PROFILE.CREATOR,
-    }, {})
-    // Simulate the authentication
-    const creatorAuthentication = await app.service('authentication').create({
-      strategy: 'local',
-      email: creatorEmail,
-      password: userPassword,
-    }, {})
-    creatorParams = {
+    /**
+     * Create a workspace with default user and authentication
+     */
+    setupData = await builder.setupWorkspace()
+    lambdaUserParams = {
       provider: 'external',
-      user: creatorUser,
-      accessToken: creatorAuthentication.accessToken,
+      user: setupData.user2,
+      accessToken: setupData.user2Authentication.accessToken,
       authenticated: true,
     }
-
-    // Admin user
-    const adminEmail = 'admin@locokit.io'
-    adminUser = await app.service('user')._create({
-      name: 'Jack',
-      email: adminEmail,
-      isVerified: true,
-      password: passwordHashed,
-      profile: USER_PROFILE.SUPERADMIN,
-    }, {})
-
-    // Simulate the authentication
-    const adminAuthentication = await app.service('authentication').create({
-      strategy: 'local',
-      email: adminEmail,
-      password: userPassword,
-    }, {})
-    // Params to simulate an outside call
-    adminParams = {
+    adminUserParams = {
       provider: 'external',
-      user: adminUser,
-      accessToken: adminAuthentication.accessToken,
+      user: setupData.userAdmin,
+      accessToken: setupData.userAdminAuthentication.accessToken,
+      authenticated: true,
+    }
+    superAdminUserParams = {
+      provider: 'external',
+      user: setupData.userSuperAdmin,
+      accessToken: setupData.userSuperAdminAuthentication.accessToken,
       authenticated: true,
     }
   })
+
   it('registered the service', () => {
     const service = app.service('user')
     expect(service).toBeTruthy()
   })
+
   it('forbid access to users if not authenticated', async () => {
     expect.assertions(1)
     await expect(app.service('user').find({
       provider: 'external',
     })).rejects.toThrowError(NotAuthenticated)
   })
+
   it('lower case email when creating a new user', async () => {
     expect.assertions(1)
     const user = await app.service('user').create({
       email: 'TEST-azaPOI@lOcoKiT.IO',
       name: 'testing lower case',
-    })
+    }, superAdminUserParams)
     expect(user.email).toBe('test-azapoi@locokit.io')
-    if (user) await app.service('user').remove(user.id)
+    await app.service('user').remove(user.id)
   })
 
-  it('prevent a non SUPERADMIN user to patch the blocked property', async () => {
+  it('prevent a user with USER\'s role to create new user', async () => {
+    expect.assertions(2)
+
+    const user = await expect(app.service('user').create({
+      email: 'originalUser@locokit.io',
+      name: 'testing create user',
+    }, lambdaUserParams)).rejects.toThrowError(MethodNotAllowed) as User | undefined
+
+    expect(user).toBeUndefined()
+  })
+
+  it('authorize a superAdmin with SUPERADMIN\'s role to create new user', async () => {
     expect.assertions(1)
-    let updatedUser: User | null = null
-    try {
-      updatedUser = await app.service('user').create({
-        email: 'originalUser@locokit.io',
-        name: 'testing patch the blocked property',
-      }) as User
-      await expect(
-        app.service('user').patch(updatedUser.id, {
-          blocked: true,
-        }, creatorParams),
-      ).rejects.toThrowError(BadRequest)
-    } finally {
-      // Clean the database whether the test succeeds or not
-      if (updatedUser) await app.service('user').remove(updatedUser.id)
-    }
+
+    const user = await app.service('user').create({
+      email: 'originalUser@locokit.io',
+      name: 'testing create user by SUPERADMIN',
+    }, superAdminUserParams) as User
+    // Clean the database
+    expect(user.name).toBe('testing create user by SUPERADMIN')
+    await app.service('user').remove(user.id)
+  })
+
+  it('authorize a admin with ADMIN\'s role to create new user', async () => {
+    expect.assertions(1)
+
+    const user = await app.service('user').create({
+      email: 'originalUser@locokit.io',
+      name: 'testing create user by ADMIN',
+    }, adminUserParams) as User
+    // Clean the database
+    expect(user.name).toBe('testing create user by ADMIN')
+    await app.service('user').remove(user.id)
+  })
+
+  it('prevent a lambda user to patch the blocked property', async () => {
+    expect.assertions(1)
+    const updatedUser = await app.service('user').create({
+      email: 'originalUser@locokit.io',
+      name: 'testing patch the blocked property',
+    }) as User
+    await expect(
+      app.service('user').patch(updatedUser.id, {
+        blocked: true,
+      }, lambdaUserParams),
+    ).rejects.toThrowError(BadRequest)
+    // Clean the database
+    await app.service('user').remove(updatedUser.id)
+  })
+
+  it('allow a lambda user to patch his name', async () => {
+    expect.assertions(2)
+    expect(setupData.user2.name).toBe('User 2')
+    const updatedUser = await app.service('user').patch(setupData.user2.id, {
+      name: 'Ellie Williams',
+    }, lambdaUserParams)
+    expect(updatedUser.name).toBe('Ellie Williams')
+
+    // Clean the database
+    await app.service('user').patch(setupData.user2.id, { name: 'User 2' })
   })
 
   it('only allow SUPERADMIN user to patch the blocked attribute', async () => {
@@ -115,7 +133,7 @@ describe('\'user\' service', () => {
         {
           blocked: true,
         },
-        adminParams,
+        superAdminUserParams,
       ) as User
       expect(updatedUser.blocked).toBe(true)
       // Enable the account
@@ -123,7 +141,7 @@ describe('\'user\' service', () => {
         {
           blocked: false,
         },
-        adminParams,
+        superAdminUserParams,
       ) as User
       expect(updatedUser.blocked).toBe(false)
       // Check that an email is sent to the user to inform that is account has been disabled
@@ -158,7 +176,7 @@ describe('\'user\' service', () => {
         {
           blocked: false,
         },
-        adminParams,
+        superAdminUserParams,
       ) as User
       expect(updatedUser.blocked).toBe(false)
       // No email must be sent
@@ -169,7 +187,7 @@ describe('\'user\' service', () => {
     }
   })
 
-  it('prevent a non superadmin user to patch the user email address', async () => {
+  it('prevent a lambda user to patch the user email address', async () => {
     expect.assertions(1)
     let updatedUser: User | null = null
     try {
@@ -180,12 +198,30 @@ describe('\'user\' service', () => {
       await expect(
         app.service('user').patch(updatedUser.id, {
           email: 'updatedUser@locokit.io',
-        }, creatorParams),
+        }, lambdaUserParams),
       ).rejects.toThrowError(BadRequest)
     } finally {
       // Clean the database whether the test succeeds or not
       if (updatedUser) await app.service('user').remove(updatedUser.id)
     }
+  })
+
+  it('prevent a lambda user to patch another user information', async () => {
+    expect.assertions(3)
+    const updatedUser = await app.service('user').create({
+      email: 'originalUser@locokit.io',
+      name: 'testing patch name',
+    }) as User
+    const updatedUserFailed = await expect(app.service('user').patch(updatedUser.id,
+      {
+        name: 'testing patch name with user account',
+      },
+      lambdaUserParams,
+    )).rejects.toThrowError(NotFound) as User | undefined
+    expect(updatedUser.name).not.toBe('testing patch name with user account')
+    expect(updatedUserFailed).toBeUndefined()
+    // Clean the database
+    await app.service('user').remove(updatedUser.id)
   })
 
   it('only allow admin user to patch the user email address', async () => {
@@ -202,7 +238,7 @@ describe('\'user\' service', () => {
         {
           email: 'updatedUser@locokit.io',
         },
-        adminParams,
+        superAdminUserParams,
       ) as User
       expect(updatedUser.email).toBe('updateduser@locokit.io')
       // Check that two emails are sent to the old and the new email addresses
@@ -233,7 +269,7 @@ describe('\'user\' service', () => {
         {
           email: 'originalUser@locokit.io',
         },
-        adminParams,
+        superAdminUserParams,
       ) as User
       expect(updatedUser.email).toBe('originaluser@locokit.io')
       // No email must be sent
@@ -244,8 +280,23 @@ describe('\'user\' service', () => {
     }
   })
 
+  it('prevent a non superadmin user to remove user', async () => {
+    expect.assertions(2)
+
+    const updatedUser = await app.service('user').create({
+      email: 'originalUser@locokit.io',
+      name: 'testing patch name',
+    }, setupData.user2) as User
+
+    const tryRemoveUser = await expect(
+      app.service('user').remove(updatedUser.id, lambdaUserParams)).rejects.toThrowError(MethodNotAllowed) as User | undefined
+
+    expect(tryRemoveUser).toBeUndefined()
+    // Clean the database whether the test succeeds or not
+    if (updatedUser) await app.service('user').remove(updatedUser.id)
+  })
+
   afterAll(async () => {
-    await app.service('user').remove(creatorUser.id)
-    await app.service('user').remove(adminUser.id)
+    await builder.teardownWorkspace()
   })
 })

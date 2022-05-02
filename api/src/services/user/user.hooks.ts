@@ -11,6 +11,8 @@ import { enforcePasswordPolicy } from '../../hooks/lck-hooks/passwords/enforcePa
 import { generatePassword } from '../../hooks/lck-hooks/passwords/generatePassword'
 import { notifyUserOnUpdate } from './notifyUserOnUpdate.hooks'
 import { isUserProfile } from '../../hooks/lck-hooks/isUserProfile'
+import { defineAbilitiesIffHook } from '../../abilities/user.abilities'
+import { authorize } from 'feathers-casl/dist/hooks'
 
 const { authenticate } = feathersAuthentication.hooks
 const { hashPassword, protect } = local.hooks
@@ -31,7 +33,9 @@ export default {
        * or for manipulating this service from the code (provider !== external)
        */
       commonHooks.iff(
-        commonHooks.isProvider('external') && !isUserProfile(USER_PROFILE.SUPERADMIN),
+        (context: HookContext) => {
+          return !isUserProfile([USER_PROFILE.SUPERADMIN, USER_PROFILE.ADMIN])(context) && commonHooks.isProvider('external')(context)
+        },
         commonHooks.disallow(),
       ).else(
         /**
@@ -61,18 +65,29 @@ export default {
           'resetToken',
           'resetShortToken',
           'resetExpires',
+          'resetAttempts',
         ),
         commonHooks.iff(
-          commonHooks.isNot(isUserProfile(USER_PROFILE.SUPERADMIN)),
-          commonHooks.preventChanges(true, 'email'),
-          commonHooks.preventChanges(true, 'blocked'),
+          commonHooks.isNot(isUserProfile([USER_PROFILE.SUPERADMIN, USER_PROFILE.ADMIN])),
+          commonHooks.preventChanges(true, 'email', 'blocked', 'password', 'profile'),
+          defineAbilitiesIffHook(),
+          authorize({
+            adapter: 'feathers-objection',
+          }),
         ),
         lowerCase('email'),
         hashPassword('password'),
         getCurrentItem(),
       ),
     ],
-    remove: [],
+    remove: [
+      commonHooks.iff(
+        (context: HookContext) => {
+          return !isUserProfile([USER_PROFILE.SUPERADMIN, USER_PROFILE.ADMIN])(context) && commonHooks.isProvider('external')(context)
+        },
+        commonHooks.disallow(),
+      ),
+    ],
   },
   after: {
     all: [

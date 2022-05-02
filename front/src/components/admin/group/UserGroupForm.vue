@@ -363,10 +363,11 @@ export default Vue.extend({
     group: {
       handler (newValue: LckGroup) {
         if (!newValue) return
-        // eslint-disable-next-line @typescript-eslint/camelcase
         this.groupCloned = {
           id: newValue.id,
           name: newValue.name,
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          uhg_role: newValue.uhg_role,
           // eslint-disable-next-line @typescript-eslint/camelcase
           aclset_id: newValue.aclset_id,
           aclset: undefined,

@@ -1,4 +1,6 @@
 import * as authentication from '@feathersjs/authentication'
+import { defineAbilitiesIffHook } from '../../abilities/group.abilities'
+import { authorize } from 'feathers-casl/dist/hooks'
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks
@@ -8,10 +10,25 @@ export default {
     all: [authenticate('jwt')],
     find: [],
     get: [],
-    create: [],
+    create: [
+      defineAbilitiesIffHook(),
+      authorize({
+        adapter: 'feathers-objection',
+      }),
+    ],
     update: [],
-    patch: [],
-    remove: [],
+    patch: [
+      defineAbilitiesIffHook(),
+      authorize({
+        adapter: 'feathers-objection',
+      }),
+    ],
+    remove: [
+      defineAbilitiesIffHook(),
+      authorize({
+        adapter: 'feathers-objection',
+      }),
+    ],
   },
 
   after: {

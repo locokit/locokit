@@ -50,6 +50,6 @@ export const AppAbility = Ability as AbilityClass<AppAbility>
 
 export const resolveAction = createAliasResolver({
   update: 'patch', // define the same rules for update & patch
-  read: ['get', 'find'], // use 'read' as a equivalent for 'get' & 'find'
+  read: ['get', 'find'], // use 'read' as an equivalent for 'get' & 'find'
   delete: 'remove', // use 'delete' or 'remove'
 })
