@@ -68,7 +68,7 @@ export default {
           'resetAttempts',
         ),
         commonHooks.iff(
-          commonHooks.isNot(isUserProfile(USER_PROFILE.SUPERADMIN)),
+          commonHooks.isNot(isUserProfile([USER_PROFILE.SUPERADMIN, USER_PROFILE.ADMIN])),
           commonHooks.preventChanges(true, 'email', 'blocked', 'password', 'profile'),
           defineAbilitiesIffHook(),
           authorize({

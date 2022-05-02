@@ -5,20 +5,17 @@ import { AbilityBuilder, makeAbilityFromRules } from 'feathers-casl'
 import { AppAbility, resolveAction } from './definitions'
 import { HookContext } from '@feathersjs/feathers'
 import { User } from '../models/user.model'
-import { ServiceTypes } from '../declarations'
 import { iff, IffHook, isProvider } from 'feathers-hooks-common'
 
 /**
  * Define abilities for group
  * regarding the current hook context.
  *
- * @param context Hook context, provided by FeathersJS
+ * @param user from Hook context, provided by FeathersJS
  * @returns Promise<HookContext>
  */
 export async function createAbility (
   user: User,
-  services: ServiceTypes,
-  withJoin: boolean = false,
 ): Promise<AppAbility> {
   // also see https://casl.js.org/v5/en/guide/define-rules
   const { can, rules } = new AbilityBuilder(AppAbility)
@@ -55,8 +52,6 @@ export async function createAbility (
 async function defineAbilities (context: HookContext): Promise<HookContext> {
   const ability: AppAbility = await createAbility(
     context.params.user as User,
-    context.app.services,
-    context.params.query?.$eager || context.params.query?.$joinRelation,
   )
   context.params.ability = ability
   context.params.rules = ability.rules
