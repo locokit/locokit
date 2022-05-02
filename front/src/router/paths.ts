@@ -22,7 +22,6 @@ export const ROUTES_PATH = {
   DATABASETABLE: '/table',
   DATABASESCHEMA: '/schema',
   PROCESS: '/process',
-  ACL: '/acl',
   SETTINGS: '/settings',
   FILES: '/files',
   ACLSET: '/aclset',
@@ -57,6 +56,7 @@ export const ROUTES_NAMES = {
   WORKSPACELIST: 'WorkspaceList',
   WORKSPACE: 'Workspace',
   WORKSPACE_ADMIN: {
+    SELF: 'WorkspaceAdmin',
     DATABASE: 'WorkspaceDatabase',
     DATABASETABLE: 'WorkspaceDatabaseTable',
     DATABASESCHEMA: 'WorkspaceDatabaseSchema',
@@ -86,13 +86,15 @@ export const ROUTES_NAMES = {
    * Admin paths
    */
   ADMIN: {
+    SELF: 'Administration',
     USER: 'AdminUser',
     GROUP: 'AdminGroup',
-    GROUP_DETAIL: 'AdminGroupDetail',
+    GROUP_DETAIL: 'AdminGroupDetail', // used in workspace admin AND admin
+    GROUP_ADD: 'AdminGroupAdd', // used in workspace admin AND admin
   },
 
   /**
    * Other paths
    */
-  404: '404',
+  ERROR_404: '404',
 }

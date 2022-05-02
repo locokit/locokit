@@ -271,7 +271,6 @@ export default Vue.extend({
   },
   mounted () {
     this.loadProcesses()
-    // if (this.processId) this.loadProcess(this.processId)
   },
   watch: {
     workspaceId () {

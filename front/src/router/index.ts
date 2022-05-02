@@ -64,8 +64,8 @@ Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
   {
+    name: ROUTES_NAMES.HOME,
     path: ROUTES_PATH.HOME,
-    name: 'Home',
     component: Home,
     meta: {
       needHeader: false,
@@ -73,8 +73,8 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
+    name: ROUTES_NAMES.LOSTPASSWORD,
     path: ROUTES_PATH.LOSTPASSWORD,
-    name: 'LostPassword',
     component: LostPassword,
     meta: {
       needHeader: false,
@@ -82,8 +82,8 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
+    name: ROUTES_NAMES.RESETPASSWORD,
     path: ROUTES_PATH.RESETPASSWORD,
-    name: 'ResetPassword',
     component: ResetPassword,
     meta: {
       needHeader: false,
@@ -91,8 +91,8 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
+    name: ROUTES_NAMES.VERIFYSIGNUP,
     path: ROUTES_PATH.VERIFYSIGNUP,
-    name: 'VerifySignup',
     component: VerifySignup,
     meta: {
       needHeader: false,
@@ -100,8 +100,8 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    path: ROUTES_PATH.SIGNUP,
     name: ROUTES_NAMES.SIGNUP,
+    path: ROUTES_PATH.SIGNUP,
     component: SignUp,
     meta: {
       needHeader: false,
@@ -109,24 +109,24 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    path: ROUTES_PATH.UPDATEEMAIL,
     name: ROUTES_NAMES.UPDATEEMAIL,
+    path: ROUTES_PATH.UPDATEEMAIL,
     component: UpdateEmail,
     meta: {
       needHeader: false,
     },
   },
   {
+    name: ROUTES_NAMES.PROFILE,
     path: ROUTES_PATH.PROFILE,
-    name: 'Profile',
     component: Profile,
     meta: {
       needAuthentication: true,
     },
   },
   {
+    name: ROUTES_NAMES.WORKSPACELIST,
     path: ROUTES_PATH.WORKSPACE,
-    name: 'WorkspaceList',
     component: WorkspaceList,
     meta: {
       needAuthentication: true,
@@ -134,8 +134,8 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
+    name: ROUTES_NAMES.WORKSPACE,
     path: ROUTES_PATH.WORKSPACE + '/:workspaceId',
-    name: 'Workspace',
     props: true,
     redirect: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION,
     meta: {
@@ -144,7 +144,7 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    name: 'WorkspaceAdmin',
+    name: ROUTES_NAMES.WORKSPACE_ADMIN.SELF,
     path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN,
     redirect: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE,
     component: WorkspaceAdmin,
@@ -156,7 +156,7 @@ const routes: Array<RouteConfig> = [
     },
     children: [
       {
-        name: 'WorkspaceDatabase',
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.DATABASE,
         path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.DATABASE,
         props: true,
         component: DatabaseList,
@@ -188,8 +188,8 @@ const routes: Array<RouteConfig> = [
         ],
       },
       {
-        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.PROCESS,
         name: ROUTES_NAMES.WORKSPACE_ADMIN.PROCESS,
+        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.PROCESS,
         component: ProcessListing,
         props: true,
         meta: {
@@ -198,8 +198,8 @@ const routes: Array<RouteConfig> = [
         },
         children: [
           {
-            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.PROCESS + '/:processId',
             name: ROUTES_NAMES.WORKSPACE_ADMIN.PROCESS_DETAIL,
+            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.PROCESS + '/:processId',
             component: ProcessListing,
             props: true,
             meta: {
@@ -208,8 +208,8 @@ const routes: Array<RouteConfig> = [
             },
           },
           {
-            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.PROCESS + '/add',
             name: ROUTES_NAMES.WORKSPACE_ADMIN.PROCESS_ADD,
+            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.PROCESS + '/add',
             component: ProcessListing,
             props: true,
             meta: {
@@ -220,8 +220,8 @@ const routes: Array<RouteConfig> = [
         ],
       },
       {
-        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.ACLSET,
         name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL,
+        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.ACLSET,
         component: AclSetListing,
         props: true,
         meta: {
@@ -230,8 +230,8 @@ const routes: Array<RouteConfig> = [
         },
         children: [
           {
-            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.ACLSET + '/:aclSetId',
             name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL_DETAIL,
+            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.ACLSET + '/:aclSetId',
             component: AclSetListing,
             props: true,
             meta: {
@@ -240,8 +240,8 @@ const routes: Array<RouteConfig> = [
             },
           },
           {
-            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.ACLSET + '/add',
             name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL_ADD,
+            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.ACLSET + '/add',
             component: AclSetListing,
             props: true,
             meta: {
@@ -252,8 +252,8 @@ const routes: Array<RouteConfig> = [
         ],
       },
       {
-        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP,
         name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUP,
+        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP,
         component: WorkspaceGroupListing,
         props: true,
         meta: {
@@ -262,8 +262,8 @@ const routes: Array<RouteConfig> = [
         },
         children: [
           {
-            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP + '/:groupId',
             name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUP_DETAIL,
+            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP + '/:groupId',
             component: WorkspaceGroupListing,
             props: true,
             meta: {
@@ -272,8 +272,8 @@ const routes: Array<RouteConfig> = [
             },
           },
           {
-            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP + '/add',
             name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUP_ADD,
+            path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP + '/add',
             component: WorkspaceGroupListing,
             props: true,
             meta: {
@@ -284,8 +284,8 @@ const routes: Array<RouteConfig> = [
         ],
       },
       {
-        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.SETTINGS,
         name: ROUTES_NAMES.WORKSPACE_ADMIN.SETTINGS,
+        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.SETTINGS,
         component: WorkspaceSettings,
         props: true,
         meta: {
@@ -294,8 +294,8 @@ const routes: Array<RouteConfig> = [
         },
       },
       {
-        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.FILES,
         name: ROUTES_NAMES.WORKSPACE_ADMIN.FILES,
+        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.FILES,
         component: WorkspaceFiles,
         props: true,
         meta: {
@@ -304,8 +304,8 @@ const routes: Array<RouteConfig> = [
         },
       },
       {
-        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.CMS,
         name: ROUTES_NAMES.WORKSPACE_ADMIN.CMS,
+        path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.ADMIN + ROUTES_PATH.CMS,
         component: WorkspaceAdminCMSConfig,
         props: true,
         meta: {
@@ -331,8 +331,8 @@ const routes: Array<RouteConfig> = [
     ],
   },
   {
+    name: ROUTES_NAMES.VISUALIZATION,
     path: ROUTES_PATH.WORKSPACE + '/:workspaceId' + ROUTES_PATH.VISUALIZATION,
-    name: 'WorkspaceVisualization',
     component: WorkspaceVisualization,
     props: true,
     children: [
@@ -355,8 +355,8 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
+    name: ROUTES_NAMES.ADMIN.SELF,
     path: ROUTES_PATH.ADMIN,
-    name: 'Administration',
     component: Admin,
     redirect: ROUTES_PATH.ADMIN + ROUTES_PATH.USER,
     props: true,
@@ -392,6 +392,16 @@ const routes: Array<RouteConfig> = [
               hasBurgerMenu: true,
             },
           },
+          {
+            name: ROUTES_NAMES.ADMIN.GROUP_ADD,
+            path: ROUTES_PATH.ADMIN + ROUTES_PATH.GROUP + '/add',
+            component: GroupManagement,
+            props: true,
+            meta: {
+              needAuthentication: true,
+              hasBurgerMenu: true,
+            },
+          },
         ],
       },
     ],
@@ -400,8 +410,8 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
+    name: ROUTES_NAMES.ERROR_404,
     path: '*',
-    name: '404',
     component: Page404,
   },
 ]
