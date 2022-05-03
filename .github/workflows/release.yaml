@@ -39,13 +39,13 @@ jobs:
           VUE_APP_THEME: 'locokit'
           VUE_APP_VERSION: ${{ github.ref_name }}
       - name: Tar build
-        run: tar -cvf lck-front-build-artifact.tar dist/
+        run: tar -czvf lck-front-build-artifact.tar.gz dist/
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: lck-front-build-artifact.tar
+          name: lck-front-build-artifact.tar.gz
           path: |
-            front/lck-front-build-artifact.tar
+            front/lck-front-build-artifact.tar.gz
 
   ## API Part
   api-build:
@@ -66,13 +66,13 @@ jobs:
       - name: Build API lib
         run: npm run compile
       - name: Tar build
-        run: tar -cvf lck-api-build-artifact.tar lib
+        run: tar -czvf lck-api-build-artifact.tar.gz lib
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: lck-api-build-artifact.tar
+          name: lck-api-build-artifact.tar.gz
           path: |
-            api/lck-api-build-artifact.tar
+            api/lck-api-build-artifact.tar.gz
 
   ## Documentation part
   docs-build:
@@ -92,13 +92,13 @@ jobs:
       - name: Build documentation
         run: npm run docs:build
       - name: Tar docs
-        run: tar -cvf lck-docs-build-artifact.tar docs/.vitepress/dist/
+        run: tar -czvf lck-docs-build-artifact.tar.gz docs/.vitepress/dist/
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: lck-docs-build-artifact.tar
+          name: lck-docs-build-artifact.tar.gz
           path: |
-            lck-docs-build-artifact.tar
+            lck-docs-build-artifact.tar.gz
   
   docs-push-pages:
     runs-on: ubuntu-latest
@@ -123,9 +123,9 @@ jobs:
       - name: Download docs artifact
         uses: actions/download-artifact@v2
         with: 
-          name: lck-docs-build-artifact.tar
+          name: lck-docs-build-artifact.tar.gz
       - name: Extract docs artifact
-        run: tar -xf lck-docs-build-artifact.tar
+        run: tar -xzf lck-docs-build-artifact.tar.gz
       - name: Commit & push files
         run: |
           git add .
@@ -163,24 +163,24 @@ jobs:
       - name: Download api artifact
         uses: actions/download-artifact@v2
         with: 
-          name: lck-api-build-artifact.tar
+          name: lck-api-build-artifact.tar.gz
           # path: api/lib/
       - name: Extract api artifact
-        run: tar -xf lck-api-build-artifact.tar -C api/
+        run: tar -xzf lck-api-build-artifact.tar.gz -C api/
       - name: Download front artifact
         uses: actions/download-artifact@v2
         with: 
-          name: lck-front-build-artifact.tar
+          name: lck-front-build-artifact.tar.gz
           # path: front/dist/
       - name: Extract front artifact
-        run: tar -xf lck-front-build-artifact.tar -C front/
+        run: tar -xzf lck-front-build-artifact.tar.gz -C front/
       - name: Download docs artifact
         uses: actions/download-artifact@v2
         with: 
-          name: lck-docs-build-artifact.tar
+          name: lck-docs-build-artifact.tar.gz
           # path: docs/.vitepress/dist
       - name: Extract docs artifact
-        run: tar -xf lck-docs-build-artifact.tar
+        run: tar -xzf lck-docs-build-artifact.tar.gz
       - name: LS
         run: ls -al
       - name: Login to DockerHub
@@ -204,19 +204,19 @@ jobs:
       - name: Download api artifact
         uses: actions/download-artifact@v2
         with: 
-          name: lck-api-build-artifact.tar
+          name: lck-api-build-artifact.tar.gz
       - name: Download front artifact
         uses: actions/download-artifact@v2
         with: 
-          name: lck-front-build-artifact.tar
+          name: lck-front-build-artifact.tar.gz
       - name: Download docs artifact
         uses: actions/download-artifact@v2
         with: 
-          name: lck-docs-build-artifact.tar
+          name: lck-docs-build-artifact.tar.gz
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            lck-api-build-artifact.tar
-            lck-docs-build-artifact.tar
-            lck-front-build-artifact.tar
+            lck-api-build-artifact.tar.gz
+            lck-docs-build-artifact.tar.gz
+            lck-front-build-artifact.tar.gz
