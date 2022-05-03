@@ -84,21 +84,38 @@ const mockRoutes = [
       needAuthentication: true,
       hasBurgerMenu: true,
     },
-    children: [{
-      path: ROUTES_PATH.ACLSET + '/:aclSetId',
-      name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL_DETAIL,
-      component: AclSetListing,
-      props: true,
-      meta: {
-        needAuthentication: true,
-        hasBurgerMenu: true,
+    children: [
+      {
+        path: ROUTES_PATH.ACLSET + '/:aclSetId',
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL_DETAIL,
+        component: AclSetListing,
+        props: true,
+        meta: {
+          needAuthentication: true,
+          hasBurgerMenu: true,
+        },
       },
-    }],
+      {
+        path: ROUTES_PATH.ACLSET + '/add',
+        name: ROUTES_NAMES.WORKSPACE_ADMIN.ACL_ADD,
+        component: AclSetListing,
+        props: true,
+        meta: {
+          needAuthentication: true,
+          hasBurgerMenu: true,
+        },
+      },
+    ],
   },
 ]
 
 const globalComponentParams = (workspaceId, aclSetId = null) => {
   const localVue = createLocalVue()
+  localVue.directive('focus', {
+    inserted: function (el) {
+      el.focus()
+    },
+  })
   const router = new VueRouter({ routes: mockRoutes })
   localVue.use(VueRouter)
 

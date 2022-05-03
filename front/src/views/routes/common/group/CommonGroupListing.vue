@@ -145,14 +145,27 @@ export default Vue.extend({
      * Set some default data for the new aclset and display the form.
      */
     async createGroup () {
-      await this.$router.push({
-        name: this.routeNameGroup,
+      this.selectedGroup = new LckGroup()
+      // Case for workspace/admin/group
+      if (
+        [ROUTES_NAMES.WORKSPACE_ADMIN.GROUP, ROUTES_NAMES.WORKSPACE_ADMIN.GROUP_DETAIL].includes(this.$route.name as string)
+      ) {
+        return await this.$router.push({
+          name: ROUTES_NAMES.WORKSPACE_ADMIN.GROUP_ADD,
+          params: {
+            ...this.$route.params,
+            groupId: '',
+          },
+        })
+      }
+      // Case for admin/group
+      return await this.$router.push({
+        name: ROUTES_NAMES.ADMIN.GROUP_ADD,
         params: {
           ...this.$route.params,
           groupId: '',
         },
       })
-      this.selectedGroup = new LckGroup()
     },
     /**
      * Display an error toast whose the content is based on the error code.

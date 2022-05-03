@@ -33,7 +33,7 @@
           <label class="label-field-required" for="label">
             {{ $t('pages.workspaceAdmin.acl.detail.label') }}
           </label>
-          <p-input-text id="label" v-model="aclSet.label" />
+          <p-input-text id="label" v-model="aclSet.label"  v-focus/>
           <span :class="classes" class="p-my-2">{{ errors[0] }}</span>
         </validation-provider>
 
@@ -117,7 +117,7 @@
               :key="property.label"
             >
               <template #header>
-                <i :class="property.icon" :title="$t(`pages.acl.detail.${property.label}`)"></i>
+                <i :class="property.icon" :title="$t(`pages.workspaceAdmin.acl.detail.${property.label}`)"></i>
               </template>
             </p-column>
           </p-row>

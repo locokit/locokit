@@ -25,6 +25,13 @@ async function boot () {
     i18n,
     render: h => h(App),
   }).$mount('#app')
+
+  // To handle focus, use `v-focus`
+  Vue.directive('focus', {
+    inserted: function (el) {
+      el.focus()
+    },
+  })
 }
 
 boot()

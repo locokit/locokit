@@ -21,6 +21,7 @@
       <p-input-text
         id="label"
         type="text"
+        v-focus
         v-model="processCloned.text"
         :placeholder="$t('components.process.form.text.placeholder')"
       />
