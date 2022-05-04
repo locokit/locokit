@@ -1195,7 +1195,29 @@ export default {
 </script>
 
 <style scoped>
+@media print {
+  .lck-page-content > .lck-color-title {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
 
+  .lck-container > div {
+    /*display: block;*/
+    overflow: visible;
+    height: auto;
+    /*break-after: auto;*/
+  }
+
+  .lck-layout-centered .lck-container {
+    overflow: visible;
+  }
+
+  /*.lck-block-parent {*/
+  /*  page-break-after: always;*/
+  /*}*/
+}
+</style>
+<style scoped>
 .lck-page-content {
   min-width: 20rem;
   transition-duration: 0.3s;
@@ -1232,7 +1254,7 @@ export default {
   max-width: 800px;
   margin: 0 auto;
   justify-content: space-between;
-  overflow: auto;
+  /*overflow: auto;*/
   padding: 1rem;
 }
 .lck-layout-centered .lck-block {
@@ -1249,18 +1271,18 @@ export default {
   .lck-layout-flex .lck-page-content {
     height: 100%;
     max-height: 100%;
-    overflow: hidden;
+    /*overflow: hidden;*/
   }
   .lck-layout-flex .lck-page-content .lck-container-parent {
     height: calc(100% - 5rem);
     max-height: calc(100% - 5rem);
-    overflow: hidden;
+    /*overflow: hidden;*/
   }
   .lck-layout-flex .lck-block-parent {
     min-height: 100%;
     height: 100%;
     max-height: 100%;
-    overflow: auto;
+    /*overflow: auto;*/
     display: flex;
     flex-direction: column;
   }
@@ -1278,7 +1300,7 @@ export default {
     width: 50%;
     max-width: 50%;
     padding: 0.5rem;
-    overflow: auto;
+    /*overflow: auto;*/
   }
 
   .lck-layout-flex .lck-container .lck-block.lck-media {
@@ -1297,20 +1319,20 @@ export default {
   .lck-layout-full .lck-page-content {
     height: 100%;
     min-height: 100%;
-    overflow: hidden;
+    /*overflow: hidden;*/
   }
   .lck-layout-full .lck-page-content .lck-container-parent {
     height: calc(100% - 5rem);
     max-height: calc(100% - 5rem);
     min-height: unset;
-    overflow: hidden;
+    /*overflow: hidden;*/
   }
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container,
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container .lck-block-parent,
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container .lck-block-parent .lck-block {
     height: 100%;
     min-height: 100%;
-    overflow: auto;
+    /*overflow: auto;*/
   }
 }
 </style>

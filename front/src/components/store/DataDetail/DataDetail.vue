@@ -817,6 +817,23 @@ export default Vue.extend({
 
 </style>
 
+<style scoped>
+@media print {
+  .p-field {
+    break-inside: avoid;
+    /*page-break-inside: avoid;*/
+  }
+
+  /* To remove element cross and chevron */
+  ::v-deep .p-dropdown i {
+    display: none;
+  }
+  ::v-deep .p-dropdown div {
+    display: none;
+  }
+}
+</style>
+
 <style lang="scss" scoped>
 
 .form-field-editable {

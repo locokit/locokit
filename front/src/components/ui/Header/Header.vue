@@ -129,6 +129,29 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@media print {
+  .lck-header {
+    margin-top: 17px;
+
+    > .menu-button {
+      display: none;
+    }
+
+    > div {
+      display: none;
+    }
+
+    .logo-img {
+      margin: 0;
+      display: block;
+
+      &.mobile {
+        display: none;
+      }
+    }
+  }
+}
+
 .menu-button {
   line-height: var(--header-height);
   display: block;

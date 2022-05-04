@@ -25,7 +25,7 @@
       />
     </lck-dialog>
 
-    <main class="p-d-flex p-flex-column d-flex-1 o-auto w-full">
+    <main class="print p-d-flex p-flex-column d-flex-1 o-auto w-full">
       <router-view />
     </main>
 
@@ -99,4 +99,11 @@ export default {
   border: 1px solid var(--primary-color);
   padding: 1em;
 }
+
+@media print {
+  .print {
+    overflow: visible;
+  }
+}
+
 </style>
