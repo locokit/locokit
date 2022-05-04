@@ -46,14 +46,18 @@ jobs:
         run: npm run test:unit -- tests/unit/storyshots.spec.js
         env:
           NODE_OPTIONS: --max_old_space_size=4096
+      - name: Tar image snapshots
+        run: tar -cvzf lck-front-quality-image-snapshots.tar.gz tests/unit/__image_snapshots__
+      - name: Tar storybook
+        run: tar -cvzf lck-front-quality-storybook.tar.gz storybook-static
       - name: Archive production artifacts
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: lck-front-quality
+          name: lck-front-quality.tar.gz
           path: |
-            front/tests/unit/__image_snapshots__
-            front/storybook-static
+            front/lck-front-quality-image-snapshots.tar.gz
+            front/lck-front-quality-storybook.tar.gz
 
   front-build:
 
@@ -89,12 +93,14 @@ jobs:
           VUE_APP_TITLE: 'LocoKit platform'
           VUE_APP_THEME: 'locokit'
           VUE_APP_VERSION: ${{ github.ref_name }}
+      - name: Tar build
+        run: cd dist && tar -cvzf lck-front-build-artifact.tar.gz *
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: front-build-artifact
+          name: lck-front-build-artifact.tar.gz
           path: |
-            front/dist/
+            front/dist/lck-front-build-artifact.tar.gz
 
   ## API Part
   api-quality:
@@ -153,13 +159,15 @@ jobs:
         run: npm test
         env:
           NODE_OPTIONS: --max_old_space_size=4096
+      - name: Tar coverage
+        run: tar -cvzf lck-api-quality-artifact.tar.gz coverage
       - name: Archive production artifacts
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: api-quality-artifact
+          name: lck-api-quality-artifact.tar.gz
           path: |
-            api/coverage
+            api/lck-api-quality-artifact.tar.gz
 
   api-build:
     runs-on: ubuntu-latest
@@ -178,12 +186,14 @@ jobs:
         run: npm ci
       - name: Build API lib
         run: npm run compile
+      - name: Tar build
+        run: tar -cvzf lck-api-build-artifact.tar.gz lib
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: api-build-lib-artifact
+          name: lck-api-build-artifact.tar.gz
           path: |
-            api/lib
+            api/lck-api-build-artifact.tar.gz
 
   ## Documentation part
   docs-build:
@@ -202,12 +212,14 @@ jobs:
         run: npm ci
       - name: Build documentation
         run: npm run docs:build
+      - name: Tar docs
+        run: tar -cvzf lck-docs-build-artifact.tar.gz docs/.vitepress/dist/
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: docs-build-artifact
+          name: lck-docs-build-artifact.tar.gz
           path: |
-            docs/.vitepress/dist/
+            lck-docs-build-artifact.tar.gz
   
   docs-push-pages:
     runs-on: ubuntu-latest
@@ -232,7 +244,9 @@ jobs:
       - name: Download docs artifact
         uses: actions/download-artifact@v2
         with: 
-          name: docs-build-artifact
+          name: lck-docs-build-artifact.tar.gz
+      - name: Extract docs artifact
+        run: tar -xzf lck-docs-build-artifact.tar.gz
       - name: Commit & push files
         run: |
           git add .
@@ -270,18 +284,24 @@ jobs:
       - name: Download api artifact
         uses: actions/download-artifact@v2
         with: 
-          name: api-build-lib-artifact
-          path: api/lib/
+          name: lck-api-build-artifact.tar.gz
+          # path: api/lib/
+      - name: Extract api artifact
+        run: tar -xzf lck-api-build-artifact.tar.gz -C api/
       - name: Download front artifact
         uses: actions/download-artifact@v2
         with: 
-          name: front-build-artifact
-          path: front/dist/
+          name: lck-front-build-artifact.tar.gz
+          # path: front/dist/
+      - name: Extract front artifact
+        run: mkdir -p front/dist && tar -xzf lck-front-build-artifact.tar.gz -C front/dist/
       - name: Download docs artifact
         uses: actions/download-artifact@v2
         with: 
-          name: docs-build-artifact
-          path: docs/.vitepress/dist
+          name: lck-docs-build-artifact.tar.gz
+          # path: docs/.vitepress/dist
+      - name: Extract docs artifact
+        run: tar -xzf lck-docs-build-artifact.tar.gz
       - name: LS
         run: ls -al
       - name: Login to DockerHub
