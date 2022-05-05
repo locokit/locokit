@@ -131,7 +131,7 @@ export default {
 <style lang="scss" scoped>
 @media print {
   .lck-header {
-    margin-top: 17px;
+    margin-top: 10px;
 
     > .menu-button {
       display: none;

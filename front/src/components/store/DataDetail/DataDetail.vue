@@ -821,7 +821,6 @@ export default Vue.extend({
 @media print {
   .p-field {
     break-inside: avoid;
-    /*page-break-inside: avoid;*/
   }
 
   /* To remove element cross and chevron */
@@ -830,6 +829,17 @@ export default Vue.extend({
   }
   ::v-deep .p-dropdown div {
     display: none;
+  }
+  ::v-deep .multiselect-custom .p-multiselect-trigger {
+    display: none;
+  }
+
+  /* To remove placeholder */
+  ::v-deep .p-multiselect .p-multiselect-label.p-placeholder {
+    color: transparent;
+  }
+  ::v-deep .p-dropdown .p-dropdown-label.p-placeholder {
+    color: transparent;
   }
 }
 </style>

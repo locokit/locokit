@@ -356,6 +356,13 @@ export default {
 </script>
 
 <style>
+@media print {
+  .lck-layout-content {
+    height: unset !important;
+    min-width: unset !important;
+    overflow: unset !important;
+  }
+}
 .p-grid .main-container .responsive-table-wrapper {
   background: rgb(237, 237, 237) !important;
   background: linear-gradient(

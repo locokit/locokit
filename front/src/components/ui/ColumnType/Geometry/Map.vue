@@ -882,7 +882,12 @@ export default Vue.extend({
   ::v-deep .mapboxgl-ctrl-top-right {
     display: none;
   }
+
   ::v-deep .mapboxgl-ctrl-bottom-right {
+    display: none;
+  }
+
+  ::v-deep .mapboxgl-ctrl-bottom-left {
     display: none;
   }
 }

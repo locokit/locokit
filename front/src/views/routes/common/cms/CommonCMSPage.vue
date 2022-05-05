@@ -36,7 +36,7 @@
           }"
         >
           <div v-show="page.modeNavigation === 'tab' ? container.id === currentHash : true">
-            <h2 v-if="container.display_title" class="lck-color-title">
+            <h2 v-show="container.display_title" class="lck-color-title">
               {{ container.text }}
             </h2>
             <div class="lck-block-parent">
@@ -1201,23 +1201,30 @@ export default {
     padding: 0 !important;
   }
 
+  .lck-container:not(:first-child) {
+    break-before: page;
+    break-inside: avoid;
+  }
+
+  .lck-container {
+    box-shadow: unset;
+    background-color: #FFFFFF;
+  }
+
   .lck-container > div {
-    /*display: block;*/
-    overflow: visible;
+    display: block !important;;
     height: auto;
-    /*break-after: auto;*/
   }
 
-  .lck-layout-centered .lck-container {
-    overflow: visible;
+  .lck-page-content .lck-container-parent .lck-container .lck-color-title {
+    display: block !important;
   }
 
-  /*.lck-block-parent {*/
-  /*  page-break-after: always;*/
-  /*}*/
+  .lck-block {
+    display: block !important;
+  }
 }
-</style>
-<style scoped>
+
 .lck-page-content {
   min-width: 20rem;
   transition-duration: 0.3s;
@@ -1271,18 +1278,15 @@ export default {
   .lck-layout-flex .lck-page-content {
     height: 100%;
     max-height: 100%;
-    /*overflow: hidden;*/
   }
   .lck-layout-flex .lck-page-content .lck-container-parent {
     height: calc(100% - 5rem);
     max-height: calc(100% - 5rem);
-    /*overflow: hidden;*/
   }
   .lck-layout-flex .lck-block-parent {
     min-height: 100%;
     height: 100%;
     max-height: 100%;
-    /*overflow: auto;*/
     display: flex;
     flex-direction: column;
   }
@@ -1300,7 +1304,6 @@ export default {
     width: 50%;
     max-width: 50%;
     padding: 0.5rem;
-    /*overflow: auto;*/
   }
 
   .lck-layout-flex .lck-container .lck-block.lck-media {
@@ -1319,20 +1322,17 @@ export default {
   .lck-layout-full .lck-page-content {
     height: 100%;
     min-height: 100%;
-    /*overflow: hidden;*/
   }
   .lck-layout-full .lck-page-content .lck-container-parent {
     height: calc(100% - 5rem);
     max-height: calc(100% - 5rem);
     min-height: unset;
-    /*overflow: hidden;*/
   }
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container,
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container .lck-block-parent,
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container .lck-block-parent .lck-block {
     height: 100%;
     min-height: 100%;
-    /*overflow: auto;*/
   }
 }
 </style>
