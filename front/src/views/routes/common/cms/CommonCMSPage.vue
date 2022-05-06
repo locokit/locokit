@@ -31,11 +31,12 @@
           :id="container.id"
           :key="container.id"
           class="lck-container"
-          :class="{
-            'lck-elevation': container.elevation
-          }"
         >
-          <div v-show="page.modeNavigation === 'tab' ? container.id === currentHash : true">
+          <div
+            v-show="page.modeNavigation === 'tab' ? container.id === currentHash : true"
+            class="p-px-4"
+            :class="{'lck-elevation': container.elevation}"
+          >
             <h2 v-show="container.display_title" class="lck-color-title">
               {{ container.text }}
             </h2>
@@ -1261,8 +1262,6 @@ export default {
   max-width: 800px;
   margin: 0 auto;
   justify-content: space-between;
-  /*overflow: auto;*/
-  padding: 1rem;
 }
 .lck-layout-centered .lck-block {
   display: flex;
