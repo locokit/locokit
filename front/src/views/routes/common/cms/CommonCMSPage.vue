@@ -1213,7 +1213,7 @@ export default {
   }
 
   .lck-container > div {
-    display: block !important;;
+    display: block !important;
     height: auto;
   }
 
