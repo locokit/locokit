@@ -106,6 +106,12 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+@media print {
+  .active::after {
+    content: none !important;
+  }
+}
+
 .internal-nav {
   position: sticky;
   top: 0;

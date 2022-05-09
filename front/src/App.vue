@@ -99,4 +99,11 @@ export default {
   border: 1px solid var(--primary-color);
   padding: 1em;
 }
+
+@media print {
+  main {
+    overflow: visible;
+  }
+}
+
 </style>

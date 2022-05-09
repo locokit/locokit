@@ -1,6 +1,6 @@
 <template>
   <div class="h-full p-d-flex p-flex-column">
-    <div style="text-align:center">
+    <div class="container-button">
       <p-button
         v-if="addAllowed"
         :label="addButtonTitle"
@@ -249,3 +249,15 @@ export default Vue.extend({
 
 })
 </script>
+
+<style scoped>
+.container-button {
+  text-align: center
+}
+
+@media print {
+  .container-button {
+    display: none;
+  }
+}
+</style>

@@ -31,12 +31,13 @@
           :id="container.id"
           :key="container.id"
           class="lck-container"
-          :class="{
-            'lck-elevation': container.elevation
-          }"
         >
-          <div v-show="page.modeNavigation === 'tab' ? container.id === currentHash : true">
-            <h2 v-if="container.display_title" class="lck-color-title">
+          <div
+            v-show="page.modeNavigation === 'tab' ? container.id === currentHash : true"
+            class="p-px-4"
+            :class="{'lck-elevation': container.elevation}"
+          >
+            <h2 v-show="container.display_title" class="lck-color-title">
               {{ container.text }}
             </h2>
             <div class="lck-block-parent">
@@ -1195,6 +1196,39 @@ export default {
 </script>
 
 <style scoped>
+@media print {
+  .lck-page-content > .lck-color-title {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .lck-container:not(:first-child) {
+    break-before: page;
+    break-inside: avoid;
+  }
+
+  .lck-container {
+    box-shadow: unset;
+    background-color: #FFFFFF;
+  }
+
+  .lck-container > div {
+    display: block !important;
+    height: auto;
+  }
+
+  .lck-page-content .lck-container-parent .lck-container .lck-color-title {
+    display: block !important;
+  }
+
+  .lck-block {
+    display: block !important;
+  }
+
+  .lck-layout-centered .lck-container {
+    overflow: unset !important;
+  }
+}
 
 .lck-page-content {
   min-width: 20rem;
@@ -1232,8 +1266,8 @@ export default {
   max-width: 800px;
   margin: 0 auto;
   justify-content: space-between;
-  overflow: auto;
   padding: 1rem;
+  overflow: auto;
 }
 .lck-layout-centered .lck-block {
   display: flex;
@@ -1265,7 +1299,7 @@ export default {
     flex-direction: column;
   }
   .lck-layout-flex .lck-block {
-    flex: 1 0 0%;
+    flex: 1 0 0;
     display: flex;
   }
   .lck-layout-flex .lck-page-content .lck-container-parent {

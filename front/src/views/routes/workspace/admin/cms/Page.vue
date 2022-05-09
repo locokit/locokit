@@ -39,7 +39,7 @@
           v-for="container in page.containers"
           :id="container.id"
           :key="container.id"
-          class="lck-container"
+          class="lck-container p-px-4"
           :class="{
             'editable-container': editMode,
             'lck-elevation': container.elevation

@@ -118,6 +118,7 @@ export default Vue.extend({
     const mapOptions: MapboxOptions = {
       container: this.id,
       customAttribution: '<a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>',
+      preserveDrawingBuffer: this.fixFirefoxPrint(),
       style: {
         version: 8,
         sources: {
@@ -182,6 +183,9 @@ export default Vue.extend({
     })
   },
   methods: {
+    fixFirefoxPrint () {
+      return navigator.userAgent.toLowerCase().indexOf('firefox') > -1
+    },
     hasMultiGeometry (editableGeometryTypes: Set<COLUMN_TYPE>): boolean {
       return editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_MULTIPOINT) ||
         editableGeometryTypes.has(COLUMN_TYPE.GEOMETRY_MULTILINESTRING) ||
@@ -873,6 +877,17 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+
+@media print {
+  ::v-deep .mapboxgl-ctrl-top-right {
+    display: none;
+  }
+
+  ::v-deep .mapboxgl-ctrl-bottom-right > .mapboxgl-ctrl-attrib > button {
+    display: none;
+  }
+}
+
 .map-container {
   width: 100%;
   height: 100%;

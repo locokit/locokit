@@ -124,6 +124,18 @@ export default {
   z-index: 15;
 }
 
+@media print {
+  .lck-page {
+    padding: 0;
+    margin: 0;
+    overflow: visible !important;
+    height: 100%;
+    display: block;
+    background: #FFF;
+    font-size: 12pt;
+  }
+}
+
 ::v-deep .lck-sidebar {
   background-color: var(--sidebar-app-background-color);
   width: var(--sidebar-app-width);
