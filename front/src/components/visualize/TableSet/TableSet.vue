@@ -282,4 +282,10 @@ export default {
 .lck-data-toolbar {
   border-bottom: 1px solid var(--header-border-bottom-color);
 }
+
+@media print {
+  .lck-data-toolbar {
+    display: none !important;
+  }
+}
 </style>

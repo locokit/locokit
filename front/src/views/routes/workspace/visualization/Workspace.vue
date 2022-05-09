@@ -133,8 +133,6 @@ export default {
     display: block;
     background: #FFF;
     font-size: 12pt;
-    //position: absolute;
-    //width: 100%;
   }
 }
 

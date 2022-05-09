@@ -1224,6 +1224,10 @@ export default {
   .lck-block {
     display: block !important;
   }
+
+  .lck-layout-centered .lck-container {
+    overflow: unset !important;
+  }
 }
 
 .lck-page-content {
@@ -1262,6 +1266,8 @@ export default {
   max-width: 800px;
   margin: 0 auto;
   justify-content: space-between;
+  padding: 1rem;
+  overflow: auto;
 }
 .lck-layout-centered .lck-block {
   display: flex;
@@ -1277,20 +1283,23 @@ export default {
   .lck-layout-flex .lck-page-content {
     height: 100%;
     max-height: 100%;
+    overflow: hidden;
   }
   .lck-layout-flex .lck-page-content .lck-container-parent {
     height: calc(100% - 5rem);
     max-height: calc(100% - 5rem);
+    overflow: hidden;
   }
   .lck-layout-flex .lck-block-parent {
     min-height: 100%;
     height: 100%;
     max-height: 100%;
+    overflow: auto;
     display: flex;
     flex-direction: column;
   }
   .lck-layout-flex .lck-block {
-    flex: 1 0 0%;
+    flex: 1 0 0;
     display: flex;
   }
   .lck-layout-flex .lck-page-content .lck-container-parent {
@@ -1303,6 +1312,7 @@ export default {
     width: 50%;
     max-width: 50%;
     padding: 0.5rem;
+    overflow: auto;
   }
 
   .lck-layout-flex .lck-container .lck-block.lck-media {
@@ -1321,17 +1331,20 @@ export default {
   .lck-layout-full .lck-page-content {
     height: 100%;
     min-height: 100%;
+    overflow: hidden;
   }
   .lck-layout-full .lck-page-content .lck-container-parent {
     height: calc(100% - 5rem);
     max-height: calc(100% - 5rem);
     min-height: unset;
+    overflow: hidden;
   }
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container,
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container .lck-block-parent,
   .lck-layout-full .lck-page-content .lck-container-parent .lck-container .lck-block-parent .lck-block {
     height: 100%;
     min-height: 100%;
+    overflow: auto;
   }
 }
 </style>

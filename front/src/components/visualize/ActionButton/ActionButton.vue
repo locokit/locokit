@@ -125,4 +125,12 @@ export default Vue.extend({
 .action-condition-checked {
   color: var(--color-success);
 }
+
+@media print {
+  .action-button {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+    border: 1px solid #000000;
+  }
+}
 </style>

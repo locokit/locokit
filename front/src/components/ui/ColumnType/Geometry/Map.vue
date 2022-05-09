@@ -883,11 +883,7 @@ export default Vue.extend({
     display: none;
   }
 
-  ::v-deep .mapboxgl-ctrl-bottom-right {
-    display: none;
-  }
-
-  ::v-deep .mapboxgl-ctrl-bottom-left {
+  ::v-deep .mapboxgl-ctrl-bottom-right > .mapboxgl-ctrl-attrib > button {
     display: none;
   }
 }

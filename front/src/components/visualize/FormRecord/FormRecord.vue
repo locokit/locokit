@@ -192,3 +192,11 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style scoped>
+@media print {
+  ::v-deep .lck-form-footer {
+    display: none;
+  }
+}
+</style>
