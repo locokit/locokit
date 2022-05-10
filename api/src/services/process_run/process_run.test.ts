@@ -15,11 +15,8 @@ import { dropWorkspace } from '../../utils/dropWorkspace'
 import { Paginated, Params } from '@feathersjs/feathers'
 import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
 
-async function wait (duration: number): Promise<unknown> {
-  return await new Promise(resolve => {
-    setTimeout(resolve, duration)
-  })
-}
+import { wait } from '../../utils/wait.test'
+
 describe('\'process_run\' service', () => {
   it('registered the service', () => {
     const service = app.service('process-run')
