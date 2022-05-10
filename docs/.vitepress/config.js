@@ -66,6 +66,15 @@ module.exports = {
       }, {
         text: 'Formula',
         link: 'advanced/formula.html'
+      }, {
+        text: 'Permissions',
+        link: 'advanced/permissions.html'
+      }, {
+        text: 'App builder',
+        link: 'advanced/appbuilder.html'
+      }, {
+        text: 'Processes / Workflows',
+        link: 'advanced/processes.html'
       }]
     }]
   },
