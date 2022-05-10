@@ -2,7 +2,7 @@ import app from '../../app'
 import { SetupData, builderTestEnvironment } from '../../abilities/helpers'
 import { Process, ProcessTrigger } from '../../models/process.model'
 import { Paginated, Params } from '@feathersjs/feathers'
-import { Forbidden, NotAcceptable, NotFound } from '@feathersjs/errors'
+import { Forbidden, NotAcceptable } from '@feathersjs/errors'
 import { ProcessRun, ProcessRunStatus } from '../../models/process_run.model'
 
 describe('\'process\' service', () => {
@@ -19,7 +19,6 @@ describe('\'process\' service', () => {
 
   describe('registrate', () => {
     it('registered the service', () => {
-      const service = app.service('process')
       expect(service).toBeTruthy()
     })
   })
