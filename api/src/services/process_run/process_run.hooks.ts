@@ -4,7 +4,8 @@ import { disallow, discard, fastJoin, iff, isProvider } from 'feathers-hooks-com
 import { ProcessRun, ProcessRunStatus } from '../../models/process_run.model'
 import { ProcessTrigger } from '../../models/process.model'
 import { runTheProcess } from './runTheProcess.hook'
-// Don't remove this comment. It's needed to format import lines nicely.
+import { defineAbilitiesIffHook } from '../../abilities/process_run.abilities'
+import { authorize } from 'feathers-casl/dist/hooks'
 
 const { authenticate } = authentication.hooks
 
@@ -20,9 +21,20 @@ const peResolvers = (context: HookContext) => {
 
 export default {
   before: {
-    all: [authenticate('jwt')],
-    find: [],
-    get: [],
+    all: [
+      authenticate('jwt'),
+      defineAbilitiesIffHook(),
+    ],
+    find: [
+      authorize({
+        adapter: 'feathers-objection',
+      }),
+    ],
+    get: [
+      authorize({
+        adapter: 'feathers-objection',
+      }),
+    ],
     create: [
       (context: HookContext) => {
         context.data.status = context.data.status || ProcessRunStatus.RUNNING
@@ -40,7 +52,6 @@ export default {
           (context: HookContext) => {
             return ![
               ProcessTrigger.MANUAL,
-              ProcessTrigger.CRON,
             ].includes((context.data as ProcessRun).process?.trigger as ProcessTrigger)
           },
           disallow(),
@@ -57,14 +68,23 @@ export default {
         }
       },
       discard('waitForOutput'),
+      authorize({
+        adapter: 'feathers-objection',
+      }),
     ],
     update: [
       disallow(),
     ],
     patch: [
-
+      authorize({
+        adapter: 'feathers-objection',
+      }),
     ],
-    remove: [],
+    remove: [
+      authorize({
+        adapter: 'feathers-objection',
+      }),
+    ],
   },
 
   after: {

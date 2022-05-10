@@ -6,12 +6,12 @@ import { Application } from '../declarations'
 import { ProcessRun } from './process_run.model'
 import { BaseModel } from './base.model'
 import { Table } from './table.model'
+import { Workspace } from './workspace.model'
 
 export enum ProcessTrigger {
   CREATE_ROW ='CREATE_ROW', // when a row in inserted
   UPDATE_ROW ='UPDATE_ROW', // when a row is updated, no matter which data
   UPDATE_ROW_DATA ='UPDATE_ROW_DATA', // when a data in a row is updated
-  CRON ='CRON',
   MANUAL ='MANUAL',
 }
 
@@ -25,7 +25,8 @@ export class Process extends BaseModel {
   enabled!: boolean
   maximumNumberSuccess?: number
   url!: string
-  table_id!: string
+  table_id?: string
+  workspace_id!: string
 
   static get tableName (): string {
     return 'process'
@@ -35,7 +36,9 @@ export class Process extends BaseModel {
     return {
       type: 'object',
       required: [
-        'table_id',
+        'workspace_id',
+        'url',
+        'trigger',
       ],
 
       properties: {
@@ -45,8 +48,9 @@ export class Process extends BaseModel {
         maximumNumberSuccess: { type: 'number' },
         url: { type: 'string' },
         trigger: { type: 'string' },
-        settings: { type: 'object' },
-        table_id: { type: 'string' },
+        settings: { type: ['object', 'null'] },
+        table_id: { type: ['string', 'null'] },
+        workspace_id: { type: 'string' },
       },
     }
   }
@@ -67,6 +71,14 @@ export class Process extends BaseModel {
         join: {
           from: 'process.table_id',
           to: 'table.id',
+        },
+      },
+      workspace: {
+        relation: Model.HasOneRelation,
+        modelClass: Workspace,
+        join: {
+          from: 'process.workspace_id',
+          to: 'workspace.id',
         },
       },
     }

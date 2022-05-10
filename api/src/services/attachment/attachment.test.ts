@@ -18,10 +18,6 @@ describe('\'attachment\' service', () => {
   let columnTable1File: TableColumn
   let columnTable1User: TableColumn
   let columnTable1Group: TableColumn
-  // let row1Table1: TableRow
-  // let row2Table1: TableRow
-  // let row3Table1: TableRow
-  // let row4Table1: TableRow
   let attachment1: LckAttachment
   let attachment2: LckAttachment
   const fsPath = '../fs-storage'
