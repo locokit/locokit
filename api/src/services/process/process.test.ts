@@ -370,6 +370,15 @@ describe('\'process\' service', () => {
         enabled: true,
       }) as Process
 
+      /**
+       * Allow user related to ACL 4 to create new records in table1
+       */
+      await app.services.acltable.create({
+        aclset_id: setupData.aclset4.id,
+        table_id: setupData.table1Workspace2Id,
+        create_rows: true,
+      })
+
       const record1 = await app.services.row.create({
         table_id: setupData.table1Workspace2Id,
         data: {
@@ -488,10 +497,18 @@ describe('\'process\' service', () => {
         enabled: true,
         url: 'http://localhost',
       }) as Process
+      /**
+       * Allow user related to ACL 4 to create new records in table1
+       */
+      await app.services.acltable.create({
+        aclset_id: setupData.aclset2.id,
+        table_id: setupData.table1Id,
+        create_rows: true,
+      })
 
       const record1 = await app.services.row.create({
         table_id: setupData.table1Id,
-      })
+      }, user2Params)
 
       const runs = await app.services['process-run'].find({
         query: {

@@ -437,14 +437,6 @@ export function builderTestEnvironment (prefix: string) {
       column_type_id: COLUMN_TYPE.GEOMETRY_POLYGON,
       table_id: table1.id,
     })
-    /**
-     * Allow user related to ACL 4 to create new records in table1
-     */
-    await app.services.acltable.create({
-      aclset_id: aclset2.id,
-      table_id: table1.id,
-      create_rows: true,
-    })
 
     table2 = await app.service('table').create({
       text: 'table2',
@@ -501,14 +493,6 @@ export function builderTestEnvironment (prefix: string) {
       text: 'Name',
       column_type_id: COLUMN_TYPE.STRING,
       table_id: table1Workspace2.id,
-    })
-    /**
-     * Allow user related to ACL 4 to create new records in table1
-     */
-    await app.services.acltable.create({
-      aclset_id: aclset4.id,
-      table_id: table1Workspace2.id,
-      create_rows: true,
     })
 
     row1Table1 = await app.service('row').create({

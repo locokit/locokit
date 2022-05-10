@@ -9,6 +9,7 @@ import { TableViewColumn } from '../../models/tableviewcolumn.model'
  * avoid the creation / update / patch / remove for a view blocked
  */
 export async function checkIfTableViewIsLocked (context: HookContext): Promise<HookContext> {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   let table_view_id
   const idTableViewIndex = TableViewColumn.idColumn.indexOf('table_view_id')
   switch ((context.method)) {

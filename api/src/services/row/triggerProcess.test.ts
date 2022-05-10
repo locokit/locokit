@@ -93,11 +93,15 @@ describe('\'triggerProcess\' hook', () => {
     expect.assertions(1)
 
     const processTriggerManual = await app.service('process').create({
+      workspace_id: workspace.id,
+      url: 'http://localhost',
       table_id: table1.id,
       trigger: ProcessTrigger.MANUAL,
       enabled: true,
     }) as Process
     const processTriggerCron = await app.service('process').create({
+      workspace_id: workspace.id,
+      url: 'http://localhost',
       table_id: table1.id,
       trigger: ProcessTrigger.MANUAL,
       enabled: true,
@@ -129,6 +133,8 @@ describe('\'triggerProcess\' hook', () => {
     expect.assertions(3)
 
     const processTriggerCreateRow = await app.service('process').create({
+      workspace_id: workspace.id,
+      url: 'http://localhost',
       table_id: table1.id,
       trigger: ProcessTrigger.CREATE_ROW,
       enabled: true,
@@ -163,6 +169,8 @@ describe('\'triggerProcess\' hook', () => {
     expect.assertions(4)
 
     const processTriggerCreateRow = await app.service('process').create({
+      workspace_id: workspace.id,
+      url: 'http://localhost',
       table_id: table1.id,
       trigger: ProcessTrigger.UPDATE_ROW,
       enabled: true,
@@ -204,6 +212,8 @@ describe('\'triggerProcess\' hook', () => {
     expect.assertions(5)
 
     const processTriggerCreateRow = await app.service('process').create({
+      workspace_id: workspace.id,
+      url: 'http://localhost',
       table_id: table1.id,
       trigger: ProcessTrigger.UPDATE_ROW_DATA,
       enabled: true,
@@ -268,6 +278,8 @@ describe('\'triggerProcess\' hook', () => {
     expect.assertions(4)
 
     const processTriggerCreateRow = await app.service('process').create({
+      workspace_id: workspace.id,
+      url: 'http://localhost',
       table_id: table1.id,
       trigger: ProcessTrigger.UPDATE_ROW,
       enabled: true,

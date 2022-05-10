@@ -41,13 +41,13 @@ export default {
       },
       fastJoin(peResolvers, { process: true }),
       /**
-       * Forbid access to external + trigger event !== [ MANUAL, CRON ]
+       * Forbid access to external + trigger event !== [ MANUAL ]
        */
       iff(
         isProvider('external'),
         iff(
           /**
-           * is the trigger event a MANUAL or CRON one ?
+           * is the trigger event a MANUAL one ?
            */
           (context: HookContext) => {
             return ![
