@@ -99,7 +99,7 @@ describe('\'triggerProcess\' hook', () => {
       trigger: ProcessTrigger.MANUAL,
       enabled: true,
     }) as Process
-    const processTriggerCron = await app.service('process').create({
+    const processTriggerManual = await app.service('process').create({
       workspace_id: workspace.id,
       url: 'http://localhost',
       table_id: table1.id,
