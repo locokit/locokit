@@ -279,6 +279,8 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
         >
           <!---->
            
+          <!---->
+           
           <button
             class="p-button p-component"
             disabled="disabled"
@@ -445,6 +447,8 @@ exports[`storyshots components/store/ColumnForm Single select column 1`] = `
           >
             <!---->
              
+            <!---->
+             
             <button
               class="p-button p-component"
               disabled="disabled"
@@ -596,6 +600,8 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
         <div
           class="lck-form-footer"
         >
+          <!---->
+           
           <!---->
            
           <button
@@ -765,6 +771,8 @@ exports[`storyshots components/store/ColumnForm String Column Story 1`] = `
           >
             <!---->
              
+            <!---->
+             
             <button
               class="p-button p-component"
               disabled="disabled"
@@ -916,6 +924,8 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
         <div
           class="lck-form-footer"
         >
+          <!---->
+           
           <!---->
            
           <button
@@ -1083,6 +1093,8 @@ exports[`storyshots components/store/ColumnForm String column when submitting 1`
           <div
             class="lck-form-footer"
           >
+            <!---->
+             
             <!---->
              
             <button

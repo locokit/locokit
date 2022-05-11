@@ -61,7 +61,7 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
     style="z-index: 1016;"
   >
     <div
-      aria-labelledby="pv_id_22_header"
+      aria-labelledby="pv_id_19_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       containerstyle=""
@@ -73,7 +73,7 @@ exports[`storyshots components/ui/Dialog with header and content 1`] = `
       >
         <span
           class="p-dialog-title"
-          id="pv_id_22_header"
+          id="pv_id_19_header"
         >
           This is the header
         </span>
@@ -124,7 +124,7 @@ exports[`storyshots components/ui/Dialog with header, content and actions 1`] = 
     style="z-index: 1017;"
   >
     <div
-      aria-labelledby="pv_id_23_header"
+      aria-labelledby="pv_id_20_header"
       aria-modal="true"
       class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
       containerstyle=""
@@ -136,7 +136,7 @@ exports[`storyshots components/ui/Dialog with header, content and actions 1`] = 
       >
         <span
           class="p-dialog-title"
-          id="pv_id_23_header"
+          id="pv_id_20_header"
         >
           This is the header
         </span>

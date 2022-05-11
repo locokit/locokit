@@ -189,6 +189,8 @@ exports[`storyshots components/visualize/WorkspaceForm default 1`] = `
       <div
         class="lck-form-footer"
       >
+        <!---->
+         
         <button
           class="p-button-text p-button-secondary p-button p-component"
           type="button"
@@ -433,6 +435,8 @@ exports[`storyshots components/visualize/WorkspaceForm update 1`] = `
       <div
         class="lck-form-footer"
       >
+        <!---->
+         
         <button
           class="p-button-text p-button-secondary p-button p-component"
           type="button"

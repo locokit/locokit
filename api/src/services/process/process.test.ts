@@ -291,6 +291,7 @@ describe('\'process\' service', () => {
 
       expect(run).toBeDefined()
       expect(run.status).toBe(ProcessRunStatus.RUNNING)
+      await wait(1000) // let the run finish, else we'll have NotFound errors later as the run will be patched to status "ERROR"
       await service.remove(p.id)
     })
 
@@ -399,9 +400,6 @@ describe('\'process\' service', () => {
       // expect(runs.data[0].status).toBe(ProcessRunStatus.ERROR)
       expect(runs.data[0].table_row_id).toBe(record1.id)
       expect(runs.data[0].process_id).toBe(p.id)
-      console.log(runs.data[0].id)
-      console.log(record1.id)
-      console.log(p.id)
       await wait(1000)
       await app.services['process-run'].remove(runs.data[0].id)
       await app.services.row.remove(record1.id)
@@ -525,9 +523,6 @@ describe('\'process\' service', () => {
       // the workflow need to throw an error as URL does not exist
       expect(runs.data[0].table_row_id).toBe(record1.id)
       expect(runs.data[0].process_id).toBe(p.id)
-      console.log('run', runs.data[0].id)
-      console.log('record', record1.id)
-      console.log('process', p.id)
       await wait(1000)
       await app.services['process-run'].remove(runs.data[0].id)
       await app.services.row.remove(record1.id)

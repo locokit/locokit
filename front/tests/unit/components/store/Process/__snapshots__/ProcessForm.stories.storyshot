@@ -98,72 +98,6 @@ exports[`storyshots components/store/process/ProcessForm default 1`] = `
       >
         <label
           class="label-field-required"
-          for="table"
-        >
-          
-      Table
-    
-        </label>
-         
-        <span
-          aria-haspopup="listbox"
-          aria-owns="pv_id_9_list"
-          class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
-          dropdown="true"
-          id="table"
-          suggestions=""
-          value="[object Object]"
-        >
-          <input
-            aria-autocomplete="list"
-            aria-controls="pv_id_9_list"
-            autocomplete="off"
-            class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-            id="table"
-            placeholder="Choose a table"
-            role="searchbox"
-            type="text"
-          />
-           
-          <!---->
-           
-          <!---->
-           
-          <button
-            class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
-            type="button"
-          >
-            <span
-              class="pi pi-chevron-down p-button-icon"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-               
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-           
-          <!---->
-        </span>
-         
-        <span
-          class="untouched pristine"
-        >
-          
-        </span>
-      </div>
-       
-      <div
-        class="p-field"
-      >
-        <label
-          class="label-field-required"
           for="trigger"
         >
           
@@ -218,6 +152,81 @@ exports[`storyshots components/store/process/ProcessForm default 1`] = `
         </span>
       </div>
        
+      <div
+        class="p-field"
+      >
+        <label
+          class="label-field-required"
+          for="table"
+        >
+          
+      Table
+    
+        </label>
+         
+        <span
+          aria-haspopup="listbox"
+          aria-owns="pv_id_6_list"
+          class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
+          dropdown="true"
+          id="table"
+          suggestions=""
+          value="[object Object]"
+        >
+          <input
+            aria-autocomplete="list"
+            aria-controls="pv_id_6_list"
+            autocomplete="off"
+            class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+            id="table"
+            placeholder="Choose a table"
+            role="searchbox"
+            type="text"
+          />
+           
+          <!---->
+           
+          <!---->
+           
+          <button
+            class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+            type="button"
+          >
+            <span
+              class="pi pi-chevron-down p-button-icon"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+               
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
+           
+          <!---->
+        </span>
+         
+        <small
+          class="p-text-italic"
+          id="password-rules"
+        >
+          
+      If trigger is MANUAL, table is optional.
+    
+        </small>
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
+      </div>
+       
       <!---->
        
       <div
@@ -250,6 +259,26 @@ exports[`storyshots components/store/process/ProcessForm default 1`] = `
       <div
         class="lck-form-footer"
       >
+        <button
+          class="p-button-text p-button-danger p-mr-auto p-button p-component"
+          type="button"
+        >
+          <span
+            class="bi bi-trash p-button-icon p-button-icon-left"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+            Delete
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
         <button
           class="p-button-text p-button-secondary p-button p-component"
           type="button"
@@ -393,72 +422,6 @@ exports[`storyshots components/store/process/ProcessForm submitting 1`] = `
       >
         <label
           class="label-field-required"
-          for="table"
-        >
-          
-      Table
-    
-        </label>
-         
-        <span
-          aria-haspopup="listbox"
-          aria-owns="pv_id_10_list"
-          class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
-          dropdown="true"
-          id="table"
-          suggestions=""
-          value="[object Object]"
-        >
-          <input
-            aria-autocomplete="list"
-            aria-controls="pv_id_10_list"
-            autocomplete="off"
-            class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-            id="table"
-            placeholder="Choose a table"
-            role="searchbox"
-            type="text"
-          />
-           
-          <!---->
-           
-          <!---->
-           
-          <button
-            class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
-            type="button"
-          >
-            <span
-              class="pi pi-chevron-down p-button-icon"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-               
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-           
-          <!---->
-        </span>
-         
-        <span
-          class="untouched pristine"
-        >
-          
-        </span>
-      </div>
-       
-      <div
-        class="p-field"
-      >
-        <label
-          class="label-field-required"
           for="trigger"
         >
           
@@ -513,6 +476,81 @@ exports[`storyshots components/store/process/ProcessForm submitting 1`] = `
         </span>
       </div>
        
+      <div
+        class="p-field"
+      >
+        <label
+          class="label-field-required"
+          for="table"
+        >
+          
+      Table
+    
+        </label>
+         
+        <span
+          aria-haspopup="listbox"
+          aria-owns="pv_id_7_list"
+          class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
+          dropdown="true"
+          id="table"
+          suggestions=""
+          value="[object Object]"
+        >
+          <input
+            aria-autocomplete="list"
+            aria-controls="pv_id_7_list"
+            autocomplete="off"
+            class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+            id="table"
+            placeholder="Choose a table"
+            role="searchbox"
+            type="text"
+          />
+           
+          <!---->
+           
+          <!---->
+           
+          <button
+            class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+            type="button"
+          >
+            <span
+              class="pi pi-chevron-down p-button-icon"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+               
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
+           
+          <!---->
+        </span>
+         
+        <small
+          class="p-text-italic"
+          id="password-rules"
+        >
+          
+      If trigger is MANUAL, table is optional.
+    
+        </small>
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
+      </div>
+       
       <!---->
        
       <div
@@ -545,6 +583,26 @@ exports[`storyshots components/store/process/ProcessForm submitting 1`] = `
       <div
         class="lck-form-footer"
       >
+        <button
+          class="p-button-text p-button-danger p-mr-auto p-button p-component"
+          type="button"
+        >
+          <span
+            class="bi bi-trash p-button-icon p-button-icon-left"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+            Delete
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
         <button
           class="p-button-text p-button-secondary p-button p-component"
           type="button"

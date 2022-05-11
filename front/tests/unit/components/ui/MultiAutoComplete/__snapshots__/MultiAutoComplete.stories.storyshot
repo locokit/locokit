@@ -6,7 +6,7 @@ exports[`storyshots components/ui/MultiAutoComplete default 1`] = `
 >
   <span
     aria-haspopup="listbox"
-    aria-owns="pv_id_26_list"
+    aria-owns="pv_id_23_list"
     class="p-autocomplete p-component p-inputwrapper p-autocomplete-multiple lck-multi-autocomplete-multiLine"
   >
     <!---->
@@ -20,7 +20,7 @@ exports[`storyshots components/ui/MultiAutoComplete default 1`] = `
       >
         <input
           aria-autocomplete="list"
-          aria-controls="pv_id_26_list"
+          aria-controls="pv_id_23_list"
           autocomplete="off"
           placeholder="Search"
           role="searchbox"
@@ -44,7 +44,7 @@ exports[`storyshots components/ui/MultiAutoComplete multi line with values 1`] =
 >
   <span
     aria-haspopup="listbox"
-    aria-owns="pv_id_27_list"
+    aria-owns="pv_id_24_list"
     class="p-autocomplete p-component p-inputwrapper p-autocomplete-multiple p-inputwrapper-filled lck-multi-autocomplete-multiLine"
     style="width: 400px;"
     suggestions=""
@@ -100,7 +100,7 @@ exports[`storyshots components/ui/MultiAutoComplete multi line with values 1`] =
       >
         <input
           aria-autocomplete="list"
-          aria-controls="pv_id_27_list"
+          aria-controls="pv_id_24_list"
           autocomplete="off"
           placeholder="Search"
           role="searchbox"
@@ -124,7 +124,7 @@ exports[`storyshots components/ui/MultiAutoComplete single line with values 1`] 
 >
   <span
     aria-haspopup="listbox"
-    aria-owns="pv_id_28_list"
+    aria-owns="pv_id_25_list"
     class="p-autocomplete p-component p-inputwrapper p-autocomplete-multiple p-inputwrapper-filled lck-multi-autocomplete-singleLine"
     style="width: 400px;"
     suggestions=""
@@ -180,7 +180,7 @@ exports[`storyshots components/ui/MultiAutoComplete single line with values 1`] 
       >
         <input
           aria-autocomplete="list"
-          aria-controls="pv_id_28_list"
+          aria-controls="pv_id_25_list"
           autocomplete="off"
           placeholder="Search"
           role="searchbox"
@@ -204,7 +204,7 @@ exports[`storyshots components/ui/MultiAutoComplete with suggestions 1`] = `
 >
   <span
     aria-haspopup="listbox"
-    aria-owns="pv_id_29_list"
+    aria-owns="pv_id_26_list"
     class="p-autocomplete p-component p-inputwrapper p-autocomplete-multiple p-inputwrapper-filled lck-multi-autocomplete-multiLine"
     suggestions=""
     value=""
@@ -220,7 +220,7 @@ exports[`storyshots components/ui/MultiAutoComplete with suggestions 1`] = `
       >
         <input
           aria-autocomplete="list"
-          aria-controls="pv_id_29_list"
+          aria-controls="pv_id_26_list"
           autocomplete="off"
           placeholder="Search"
           role="searchbox"

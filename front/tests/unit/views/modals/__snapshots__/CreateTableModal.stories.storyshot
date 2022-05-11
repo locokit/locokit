@@ -14,7 +14,7 @@ exports[`storyshots views/modals/CreateTableModal Create 1`] = `
           style="z-index: 1034;"
         >
           <div
-            aria-labelledby="pv_id_76_header"
+            aria-labelledby="pv_id_73_header"
             aria-modal="true"
             class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
             role="dialog"
@@ -25,7 +25,7 @@ exports[`storyshots views/modals/CreateTableModal Create 1`] = `
             >
               <span
                 class="p-dialog-title"
-                id="pv_id_76_header"
+                id="pv_id_73_header"
               >
                 Create table
               </span>

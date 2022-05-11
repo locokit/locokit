@@ -124,7 +124,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_45_list"
+          aria-owns="pv_id_42_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
           id="blockConditionalDisplayTableViewId"
@@ -132,7 +132,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_45_list"
+            aria-controls="pv_id_42_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="blockConditionalDisplayTableViewId"
@@ -182,7 +182,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_46_list"
+          aria-owns="pv_id_43_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           disabled="disabled"
           dropdown="true"
@@ -191,7 +191,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_46_list"
+            aria-controls="pv_id_43_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
             disabled="disabled"
@@ -530,7 +530,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
            
           <span
             aria-haspopup="listbox"
-            aria-owns="pv_id_47_list"
+            aria-owns="pv_id_44_list"
             class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
             dropdown="true"
             id="blockSettingsTableView"
@@ -539,7 +539,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
           >
             <input
               aria-autocomplete="list"
-              aria-controls="pv_id_47_list"
+              aria-controls="pv_id_44_list"
               autocomplete="off"
               class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
               id="blockSettingsTableView"
@@ -614,7 +614,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
           >
             <span
               class="p-panel-title"
-              id="pv_id_48_header"
+              id="pv_id_45_header"
             >
               Notification settings
             </span>
@@ -624,9 +624,9 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
             >
                
               <button
-                aria-controls="pv_id_48_content"
+                aria-controls="pv_id_45_content"
                 class="p-panel-header-icon p-panel-toggler p-link"
-                id="pv_id_48_header"
+                id="pv_id_45_header"
                 type="button"
               >
                 <span
@@ -640,9 +640,9 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
           </div>
            
           <div
-            aria-labelledby="pv_id_48_header"
+            aria-labelledby="pv_id_45_header"
             class="p-toggleable-content"
-            id="pv_id_48_content"
+            id="pv_id_45_content"
             role="region"
             style="display: none;"
           >
@@ -736,6 +736,8 @@ exports[`storyshots components/visualize/UpdateBlockForm Action Button Block Sto
       <div
         class="lck-form-footer"
       >
+        <!---->
+         
         <button
           class="p-button-text p-button-secondary p-button p-component"
           type="button"
@@ -906,7 +908,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_42_list"
+          aria-owns="pv_id_39_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
           id="blockConditionalDisplayTableViewId"
@@ -914,7 +916,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_42_list"
+            aria-controls="pv_id_39_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="blockConditionalDisplayTableViewId"
@@ -964,7 +966,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_43_list"
+          aria-owns="pv_id_40_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           disabled="disabled"
           dropdown="true"
@@ -973,7 +975,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_43_list"
+            aria-controls="pv_id_40_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
             disabled="disabled"
@@ -1062,7 +1064,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_44_list"
+          aria-owns="pv_id_41_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
           dropdown="true"
           id="blockSettingsTableView"
@@ -1071,7 +1073,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_44_list"
+            aria-controls="pv_id_41_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="blockSettingsTableView"
@@ -1117,6 +1119,8 @@ exports[`storyshots components/visualize/UpdateBlockForm Data Record Block Story
       <div
         class="lck-form-footer"
       >
+        <!---->
+         
         <button
           class="p-button-text p-button-secondary p-button p-component"
           type="button"
@@ -1287,7 +1291,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_49_list"
+          aria-owns="pv_id_46_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
           id="blockConditionalDisplayTableViewId"
@@ -1295,7 +1299,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_49_list"
+            aria-controls="pv_id_46_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="blockConditionalDisplayTableViewId"
@@ -1345,7 +1349,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_50_list"
+          aria-owns="pv_id_47_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           disabled="disabled"
           dropdown="true"
@@ -1354,7 +1358,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_50_list"
+            aria-controls="pv_id_47_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
             disabled="disabled"
@@ -1436,6 +1440,8 @@ exports[`storyshots components/visualize/UpdateBlockForm Kanban Block Story 1`] 
       <div
         class="lck-form-footer"
       >
+        <!---->
+         
         <button
           class="p-button-text p-button-secondary p-button p-component"
           type="button"
@@ -1606,7 +1612,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_51_list"
+          aria-owns="pv_id_48_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
           id="blockConditionalDisplayTableViewId"
@@ -1614,7 +1620,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_51_list"
+            aria-controls="pv_id_48_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="blockConditionalDisplayTableViewId"
@@ -1664,7 +1670,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_52_list"
+          aria-owns="pv_id_49_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           disabled="disabled"
           dropdown="true"
@@ -1673,7 +1679,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_52_list"
+            aria-controls="pv_id_49_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
             disabled="disabled"
@@ -1831,7 +1837,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                
               <span
                 aria-haspopup="listbox"
-                aria-owns="pv_id_53_list"
+                aria-owns="pv_id_50_list"
                 class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
                 dropdown="true"
                 id="source-id-0"
@@ -1840,7 +1846,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
               >
                 <input
                   aria-autocomplete="list"
-                  aria-controls="pv_id_53_list"
+                  aria-controls="pv_id_50_list"
                   autocomplete="off"
                   class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
                   id="source-id-0"
@@ -1896,7 +1902,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                
               <span
                 aria-haspopup="listbox"
-                aria-owns="pv_id_54_list"
+                aria-owns="pv_id_51_list"
                 class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                 dropdown="true"
                 id="source-aggregation-field-0"
@@ -1904,7 +1910,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
               >
                 <input
                   aria-autocomplete="list"
-                  aria-controls="pv_id_54_list"
+                  aria-controls="pv_id_51_list"
                   autocomplete="off"
                   class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
                   id="source-aggregation-field-0"
@@ -1954,7 +1960,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                
               <span
                 aria-haspopup="listbox"
-                aria-owns="pv_id_55_list"
+                aria-owns="pv_id_52_list"
                 class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                 dropdown="true"
                 id="source-field-0"
@@ -1962,7 +1968,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
               >
                 <input
                   aria-autocomplete="list"
-                  aria-controls="pv_id_55_list"
+                  aria-controls="pv_id_52_list"
                   autocomplete="off"
                   class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
                   id="source-field-0"
@@ -2174,7 +2180,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                
               <span
                 aria-haspopup="listbox"
-                aria-owns="pv_id_56_list"
+                aria-owns="pv_id_53_list"
                 class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                 dropdown="true"
                 id="source-id-1"
@@ -2182,7 +2188,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
               >
                 <input
                   aria-autocomplete="list"
-                  aria-controls="pv_id_56_list"
+                  aria-controls="pv_id_53_list"
                   autocomplete="off"
                   class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
                   id="source-id-1"
@@ -2238,7 +2244,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                
               <span
                 aria-haspopup="listbox"
-                aria-owns="pv_id_57_list"
+                aria-owns="pv_id_54_list"
                 class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                 disabled="disabled"
                 dropdown="true"
@@ -2247,7 +2253,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
               >
                 <input
                   aria-autocomplete="list"
-                  aria-controls="pv_id_57_list"
+                  aria-controls="pv_id_54_list"
                   autocomplete="off"
                   class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
                   disabled="disabled"
@@ -2299,7 +2305,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
                
               <span
                 aria-haspopup="listbox"
-                aria-owns="pv_id_58_list"
+                aria-owns="pv_id_55_list"
                 class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
                 disabled="disabled"
                 dropdown="true"
@@ -2308,7 +2314,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
               >
                 <input
                   aria-autocomplete="list"
-                  aria-controls="pv_id_58_list"
+                  aria-controls="pv_id_55_list"
                   autocomplete="off"
                   class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
                   disabled="disabled"
@@ -2510,6 +2516,8 @@ exports[`storyshots components/visualize/UpdateBlockForm Map Block Story 1`] = `
       <div
         class="lck-form-footer"
       >
+        <!---->
+         
         <button
           class="p-button-text p-button-secondary p-button p-component"
           type="button"
@@ -2680,7 +2688,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_59_list"
+          aria-owns="pv_id_56_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
           id="blockConditionalDisplayTableViewId"
@@ -2688,7 +2696,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_59_list"
+            aria-controls="pv_id_56_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="blockConditionalDisplayTableViewId"
@@ -2738,7 +2746,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_60_list"
+          aria-owns="pv_id_57_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           disabled="disabled"
           dropdown="true"
@@ -2747,7 +2755,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_60_list"
+            aria-controls="pv_id_57_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
             disabled="disabled"
@@ -2953,6 +2961,8 @@ exports[`storyshots components/visualize/UpdateBlockForm Markdown Block Story 1`
       <div
         class="lck-form-footer"
       >
+        <!---->
+         
         <button
           class="p-button-text p-button-secondary p-button p-component"
           type="button"
@@ -3123,7 +3133,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_61_list"
+          aria-owns="pv_id_58_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
           id="blockConditionalDisplayTableViewId"
@@ -3131,7 +3141,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_61_list"
+            aria-controls="pv_id_58_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="blockConditionalDisplayTableViewId"
@@ -3181,7 +3191,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_62_list"
+          aria-owns="pv_id_59_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           disabled="disabled"
           dropdown="true"
@@ -3190,7 +3200,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_62_list"
+            aria-controls="pv_id_59_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
             disabled="disabled"
@@ -3606,6 +3616,8 @@ exports[`storyshots components/visualize/UpdateBlockForm Media Block Story 1`] =
       <div
         class="lck-form-footer"
       >
+        <!---->
+         
         <button
           class="p-button-text p-button-secondary p-button p-component"
           type="button"
@@ -3776,7 +3788,7 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_63_list"
+          aria-owns="pv_id_60_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
           id="blockConditionalDisplayTableViewId"
@@ -3784,7 +3796,7 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_63_list"
+            aria-controls="pv_id_60_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="blockConditionalDisplayTableViewId"
@@ -3834,7 +3846,7 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_64_list"
+          aria-owns="pv_id_61_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           disabled="disabled"
           dropdown="true"
@@ -3843,7 +3855,7 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_64_list"
+            aria-controls="pv_id_61_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
             disabled="disabled"
@@ -3925,6 +3937,8 @@ exports[`storyshots components/visualize/UpdateBlockForm New Block Story 1`] = `
       <div
         class="lck-form-footer"
       >
+        <!---->
+         
         <button
           class="p-button-text p-button-secondary p-button p-component"
           type="button"
@@ -4095,7 +4109,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_65_list"
+          aria-owns="pv_id_62_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           dropdown="true"
           id="blockConditionalDisplayTableViewId"
@@ -4103,7 +4117,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_65_list"
+            aria-controls="pv_id_62_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
             id="blockConditionalDisplayTableViewId"
@@ -4153,7 +4167,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
          
         <span
           aria-haspopup="listbox"
-          aria-owns="pv_id_66_list"
+          aria-owns="pv_id_63_list"
           class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
           disabled="disabled"
           dropdown="true"
@@ -4162,7 +4176,7 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
         >
           <input
             aria-autocomplete="list"
-            aria-controls="pv_id_66_list"
+            aria-controls="pv_id_63_list"
             autocomplete="off"
             class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
             disabled="disabled"
@@ -4264,6 +4278,8 @@ exports[`storyshots components/visualize/UpdateBlockForm Paragraph Block Story 1
       <div
         class="lck-form-footer"
       >
+        <!---->
+         
         <button
           class="p-button-text p-button-secondary p-button p-component"
           type="button"
@@ -4366,6 +4382,548 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
           >
             
             TableSet
+        
+          </span>
+           
+          <!---->
+           
+          <div
+            aria-haspopup="listbox"
+            class="p-dropdown-trigger"
+            role="button"
+          >
+            <span
+              class="p-dropdown-trigger-icon pi pi-chevron-down"
+            />
+          </div>
+           
+          <!---->
+        </div>
+         
+        <span
+          class="untouched pristine"
+        >
+          
+        </span>
+      </div>
+       
+      <div
+        class="p-field p-d-flex p-flex-column"
+      >
+        <label
+          for="blockElevation"
+        >
+          
+      Elevation
+    
+        </label>
+         
+        <div
+          class="p-inputswitch p-component"
+          id="blockElevation"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              role="switch"
+              type="checkbox"
+            />
+          </div>
+           
+          <span
+            class="p-inputswitch-slider"
+          />
+        </div>
+      </div>
+       
+      <div
+        class="p-field p-d-flex p-flex-column"
+      >
+        <label
+          for="blockConditionalDisplayTableViewId"
+        >
+          
+      View to use for conditional display
+    
+        </label>
+         
+        <span
+          aria-haspopup="listbox"
+          aria-owns="pv_id_64_list"
+          class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+          dropdown="true"
+          id="blockConditionalDisplayTableViewId"
+          suggestions=""
+        >
+          <input
+            aria-autocomplete="list"
+            aria-controls="pv_id_64_list"
+            autocomplete="off"
+            class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+            id="blockConditionalDisplayTableViewId"
+            placeholder="Start typing for suggestions"
+            role="searchbox"
+            type="text"
+          />
+           
+          <!---->
+           
+          <!---->
+           
+          <button
+            class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+            type="button"
+          >
+            <span
+              class="pi pi-chevron-down p-button-icon"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+               
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
+           
+          <!---->
+        </span>
+      </div>
+       
+      <div
+        class="p-field p-d-flex p-flex-column"
+      >
+        <label
+          for="blockConditionalDisplayFieldId"
+        >
+          
+      View's field for conditional display (only Boolean fields or Boolean formulas)
+    
+        </label>
+         
+        <span
+          aria-haspopup="listbox"
+          aria-owns="pv_id_65_list"
+          class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+          disabled="disabled"
+          dropdown="true"
+          id="blockConditionalDisplayFieldId"
+          suggestions=""
+        >
+          <input
+            aria-autocomplete="list"
+            aria-controls="pv_id_65_list"
+            autocomplete="off"
+            class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
+            disabled="disabled"
+            id="blockConditionalDisplayFieldId"
+            placeholder="Start typing for suggestions"
+            role="searchbox"
+            type="text"
+          />
+           
+          <!---->
+           
+          <!---->
+           
+          <button
+            class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+            disabled="disabled"
+            type="button"
+          >
+            <span
+              class="pi pi-chevron-down p-button-icon"
+            />
+             
+            <span
+              class="p-button-label"
+            >
+               
+            </span>
+             
+            <!---->
+            <span
+              class="p-ink"
+            />
+          </button>
+           
+          <!---->
+        </span>
+         
+        <small
+          id="blockConditionalDisplayFieldId-help"
+        >
+          
+      It is necessary to select a view before you can enter this field.
+    
+        </small>
+      </div>
+       
+      <div
+        class="p-field p-d-flex p-flex-column"
+      >
+        <label
+          for="blockConditionalDisplayFieldValue"
+        >
+          
+      Field's value for conditional display (true / false)
+    
+        </label>
+         
+        <div
+          class="p-inputswitch p-component"
+          id="blockConditionalDisplayFieldValue"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              role="switch"
+              type="checkbox"
+            />
+          </div>
+           
+          <span
+            class="p-inputswitch-slider"
+          />
+        </div>
+      </div>
+       
+      <div>
+        <div
+          class="p-field"
+        >
+          <label
+            class="label-field-required"
+            for="blockSettingsTableView"
+          >
+            View to display
+          </label>
+           
+          <span
+            aria-haspopup="listbox"
+            aria-owns="pv_id_66_list"
+            class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
+            dropdown="true"
+            id="blockSettingsTableView"
+            suggestions=""
+            value="[object Object]"
+          >
+            <input
+              aria-autocomplete="list"
+              aria-controls="pv_id_66_list"
+              autocomplete="off"
+              class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+              id="blockSettingsTableView"
+              placeholder="Start typing for suggestions"
+              role="searchbox"
+              type="text"
+            />
+             
+            <!---->
+             
+            <!---->
+             
+            <button
+              class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+              type="button"
+            >
+              <span
+                class="pi pi-chevron-down p-button-icon"
+              />
+               
+              <span
+                class="p-button-label"
+              >
+                 
+              </span>
+               
+              <!---->
+              <span
+                class="p-ink"
+              />
+            </button>
+             
+            <!---->
+          </span>
+           
+          <span
+            class="untouched pristine"
+          >
+            
+          </span>
+        </div>
+         
+        <div
+          class="p-field"
+        >
+          <label
+            for="blockSettingsPagination"
+          >
+            Maximum allowed number of items per page
+          </label>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper p-dropdown-clearable"
+            id="blockSettingsPagination"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext p-placeholder"
+            >
+              
+            Select an option
+        
+            </span>
+             
+            <!---->
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+         
+        <div
+          class="p-field"
+        >
+          <label
+            for="blockSettingsAddAllowed"
+          >
+            Allow adding data
+          </label>
+           
+          <div
+            class="p-inputswitch p-component"
+            id="blockSettingsAddAllowed"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                role="switch"
+                type="checkbox"
+              />
+            </div>
+             
+            <span
+              class="p-inputswitch-slider"
+            />
+          </div>
+        </div>
+         
+        <div
+          class="p-field"
+        >
+          <label
+            for="blockSettingsExportAllowed"
+          >
+            Allow exporting data
+          </label>
+           
+          <div
+            class="p-inputswitch p-component p-inputswitch-checked"
+            id="blockSettingsExportAllowed"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-checked="true"
+                role="switch"
+                type="checkbox"
+              />
+            </div>
+             
+            <span
+              class="p-inputswitch-slider"
+            />
+          </div>
+        </div>
+         
+        <div
+          class="p-field"
+        >
+          <label
+            for="blockSettingsDetailPage"
+          >
+            Detail page
+          </label>
+           
+          <div
+            class="p-dropdown p-component p-inputwrapper p-dropdown-clearable p-inputwrapper-filled"
+            id="blockSettingsDetailPage"
+          >
+            <div
+              class="p-hidden-accessible"
+            >
+              <input
+                aria-haspopup="listbox"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+             
+            <!---->
+             
+            <span
+              class="p-dropdown-label p-inputtext"
+            >
+              
+            Page 1
+        
+            </span>
+             
+            <i
+              class="p-dropdown-clear-icon pi pi-times"
+            />
+             
+            <div
+              aria-haspopup="listbox"
+              class="p-dropdown-trigger"
+              role="button"
+            >
+              <span
+                class="p-dropdown-trigger-icon pi pi-chevron-down"
+              />
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </div>
+       
+      <div
+        class="lck-form-footer"
+      >
+        <!---->
+         
+        <button
+          class="p-button-text p-button-secondary p-button p-component"
+          type="button"
+        >
+          <span
+            class="pi pi-times p-button-icon p-button-icon-left"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+            Cancel
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+         
+        <button
+          class="p-button p-component"
+          disabled="disabled"
+          type="submit"
+        >
+          <span
+            class="pi pi-save p-button-icon p-button-icon-left"
+          />
+           
+          <span
+            class="p-button-label"
+          >
+            Save
+          </span>
+           
+          <!---->
+          <span
+            class="p-ink"
+          />
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Story 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="lck-update-block-form lck-color-content p-text-bold"
+  >
+    <form
+      class="p-fluid"
+    >
+      <div
+        class="p-field"
+      >
+        <label
+          for="blockTitleField"
+        >
+          Block title
+        </label>
+         
+        <input
+          class="p-inputtext p-component p-filled"
+          id="blockTitleField"
+        />
+      </div>
+       
+      <div
+        class="p-field"
+      >
+        <label
+          class="label-field-required"
+          for="blockTypeField"
+        >
+          Block type
+        </label>
+         
+        <div
+          class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
+          id="blockTypeField"
+        >
+          <div
+            class="p-hidden-accessible"
+          >
+            <input
+              aria-haspopup="listbox"
+              readonly="readonly"
+              type="text"
+            />
+          </div>
+           
+          <!---->
+           
+          <span
+            class="p-dropdown-label p-inputtext p-placeholder"
+          >
+            
+            Start typing for suggestions
         
           </span>
            
@@ -4578,551 +5136,13 @@ exports[`storyshots components/visualize/UpdateBlockForm Table Set Block Story 1
         </div>
       </div>
        
-      <div>
-        <div
-          class="p-field"
-        >
-          <label
-            class="label-field-required"
-            for="blockSettingsTableView"
-          >
-            View to display
-          </label>
-           
-          <span
-            aria-haspopup="listbox"
-            aria-owns="pv_id_69_list"
-            class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd p-inputwrapper-filled"
-            dropdown="true"
-            id="blockSettingsTableView"
-            suggestions=""
-            value="[object Object]"
-          >
-            <input
-              aria-autocomplete="list"
-              aria-controls="pv_id_69_list"
-              autocomplete="off"
-              class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-              id="blockSettingsTableView"
-              placeholder="Start typing for suggestions"
-              role="searchbox"
-              type="text"
-            />
-             
-            <!---->
-             
-            <!---->
-             
-            <button
-              class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
-              type="button"
-            >
-              <span
-                class="pi pi-chevron-down p-button-icon"
-              />
-               
-              <span
-                class="p-button-label"
-              >
-                 
-              </span>
-               
-              <!---->
-              <span
-                class="p-ink"
-              />
-            </button>
-             
-            <!---->
-          </span>
-           
-          <span
-            class="untouched pristine"
-          >
-            
-          </span>
-        </div>
-         
-        <div
-          class="p-field"
-        >
-          <label
-            for="blockSettingsPagination"
-          >
-            Maximum allowed number of items per page
-          </label>
-           
-          <div
-            class="p-dropdown p-component p-inputwrapper p-dropdown-clearable"
-            id="blockSettingsPagination"
-          >
-            <div
-              class="p-hidden-accessible"
-            >
-              <input
-                aria-haspopup="listbox"
-                readonly="readonly"
-                type="text"
-              />
-            </div>
-             
-            <!---->
-             
-            <span
-              class="p-dropdown-label p-inputtext p-placeholder"
-            >
-              
-            Select an option
-        
-            </span>
-             
-            <!---->
-             
-            <div
-              aria-haspopup="listbox"
-              class="p-dropdown-trigger"
-              role="button"
-            >
-              <span
-                class="p-dropdown-trigger-icon pi pi-chevron-down"
-              />
-            </div>
-             
-            <!---->
-          </div>
-        </div>
-         
-        <div
-          class="p-field"
-        >
-          <label
-            for="blockSettingsAddAllowed"
-          >
-            Allow adding data
-          </label>
-           
-          <div
-            class="p-inputswitch p-component"
-            id="blockSettingsAddAllowed"
-          >
-            <div
-              class="p-hidden-accessible"
-            >
-              <input
-                role="switch"
-                type="checkbox"
-              />
-            </div>
-             
-            <span
-              class="p-inputswitch-slider"
-            />
-          </div>
-        </div>
-         
-        <div
-          class="p-field"
-        >
-          <label
-            for="blockSettingsExportAllowed"
-          >
-            Allow exporting data
-          </label>
-           
-          <div
-            class="p-inputswitch p-component p-inputswitch-checked"
-            id="blockSettingsExportAllowed"
-          >
-            <div
-              class="p-hidden-accessible"
-            >
-              <input
-                aria-checked="true"
-                role="switch"
-                type="checkbox"
-              />
-            </div>
-             
-            <span
-              class="p-inputswitch-slider"
-            />
-          </div>
-        </div>
-         
-        <div
-          class="p-field"
-        >
-          <label
-            for="blockSettingsDetailPage"
-          >
-            Detail page
-          </label>
-           
-          <div
-            class="p-dropdown p-component p-inputwrapper p-dropdown-clearable p-inputwrapper-filled"
-            id="blockSettingsDetailPage"
-          >
-            <div
-              class="p-hidden-accessible"
-            >
-              <input
-                aria-haspopup="listbox"
-                readonly="readonly"
-                type="text"
-              />
-            </div>
-             
-            <!---->
-             
-            <span
-              class="p-dropdown-label p-inputtext"
-            >
-              
-            Page 1
-        
-            </span>
-             
-            <i
-              class="p-dropdown-clear-icon pi pi-times"
-            />
-             
-            <div
-              aria-haspopup="listbox"
-              class="p-dropdown-trigger"
-              role="button"
-            >
-              <span
-                class="p-dropdown-trigger-icon pi pi-chevron-down"
-              />
-            </div>
-             
-            <!---->
-          </div>
-        </div>
-      </div>
-       
-      <div
-        class="lck-form-footer"
-      >
-        <button
-          class="p-button-text p-button-secondary p-button p-component"
-          type="button"
-        >
-          <span
-            class="pi pi-times p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
-          >
-            Cancel
-          </span>
-           
-          <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
-         
-        <button
-          class="p-button p-component"
-          disabled="disabled"
-          type="submit"
-        >
-          <span
-            class="pi pi-save p-button-icon p-button-icon-left"
-          />
-           
-          <span
-            class="p-button-label"
-          >
-            Save
-          </span>
-           
-          <!---->
-          <span
-            class="p-ink"
-          />
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
-`;
-
-exports[`storyshots components/visualize/UpdateBlockForm Unknown Type Block Story 1`] = `
-<div
-  style="height: 100%;"
->
-  <div
-    class="lck-update-block-form lck-color-content p-text-bold"
-  >
-    <form
-      class="p-fluid"
-    >
-      <div
-        class="p-field"
-      >
-        <label
-          for="blockTitleField"
-        >
-          Block title
-        </label>
-         
-        <input
-          class="p-inputtext p-component p-filled"
-          id="blockTitleField"
-        />
-      </div>
-       
-      <div
-        class="p-field"
-      >
-        <label
-          class="label-field-required"
-          for="blockTypeField"
-        >
-          Block type
-        </label>
-         
-        <div
-          class="p-dropdown p-component p-inputwrapper p-inputwrapper-filled"
-          id="blockTypeField"
-        >
-          <div
-            class="p-hidden-accessible"
-          >
-            <input
-              aria-haspopup="listbox"
-              readonly="readonly"
-              type="text"
-            />
-          </div>
-           
-          <!---->
-           
-          <span
-            class="p-dropdown-label p-inputtext p-placeholder"
-          >
-            
-            Start typing for suggestions
-        
-          </span>
-           
-          <!---->
-           
-          <div
-            aria-haspopup="listbox"
-            class="p-dropdown-trigger"
-            role="button"
-          >
-            <span
-              class="p-dropdown-trigger-icon pi pi-chevron-down"
-            />
-          </div>
-           
-          <!---->
-        </div>
-         
-        <span
-          class="untouched pristine"
-        >
-          
-        </span>
-      </div>
-       
-      <div
-        class="p-field p-d-flex p-flex-column"
-      >
-        <label
-          for="blockElevation"
-        >
-          
-      Elevation
-    
-        </label>
-         
-        <div
-          class="p-inputswitch p-component"
-          id="blockElevation"
-        >
-          <div
-            class="p-hidden-accessible"
-          >
-            <input
-              role="switch"
-              type="checkbox"
-            />
-          </div>
-           
-          <span
-            class="p-inputswitch-slider"
-          />
-        </div>
-      </div>
-       
-      <div
-        class="p-field p-d-flex p-flex-column"
-      >
-        <label
-          for="blockConditionalDisplayTableViewId"
-        >
-          
-      View to use for conditional display
-    
-        </label>
-         
-        <span
-          aria-haspopup="listbox"
-          aria-owns="pv_id_70_list"
-          class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
-          dropdown="true"
-          id="blockConditionalDisplayTableViewId"
-          suggestions=""
-        >
-          <input
-            aria-autocomplete="list"
-            aria-controls="pv_id_70_list"
-            autocomplete="off"
-            class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-            id="blockConditionalDisplayTableViewId"
-            placeholder="Start typing for suggestions"
-            role="searchbox"
-            type="text"
-          />
-           
-          <!---->
-           
-          <!---->
-           
-          <button
-            class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
-            type="button"
-          >
-            <span
-              class="pi pi-chevron-down p-button-icon"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-               
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-           
-          <!---->
-        </span>
-      </div>
-       
-      <div
-        class="p-field p-d-flex p-flex-column"
-      >
-        <label
-          for="blockConditionalDisplayFieldId"
-        >
-          
-      View's field for conditional display (only Boolean fields or Boolean formulas)
-    
-        </label>
-         
-        <span
-          aria-haspopup="listbox"
-          aria-owns="pv_id_71_list"
-          class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
-          disabled="disabled"
-          dropdown="true"
-          id="blockConditionalDisplayFieldId"
-          suggestions=""
-        >
-          <input
-            aria-autocomplete="list"
-            aria-controls="pv_id_71_list"
-            autocomplete="off"
-            class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input p-disabled"
-            disabled="disabled"
-            id="blockConditionalDisplayFieldId"
-            placeholder="Start typing for suggestions"
-            role="searchbox"
-            type="text"
-          />
-           
-          <!---->
-           
-          <!---->
-           
-          <button
-            class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
-            disabled="disabled"
-            type="button"
-          >
-            <span
-              class="pi pi-chevron-down p-button-icon"
-            />
-             
-            <span
-              class="p-button-label"
-            >
-               
-            </span>
-             
-            <!---->
-            <span
-              class="p-ink"
-            />
-          </button>
-           
-          <!---->
-        </span>
-         
-        <small
-          id="blockConditionalDisplayFieldId-help"
-        >
-          
-      It is necessary to select a view before you can enter this field.
-    
-        </small>
-      </div>
-       
-      <div
-        class="p-field p-d-flex p-flex-column"
-      >
-        <label
-          for="blockConditionalDisplayFieldValue"
-        >
-          
-      Field's value for conditional display (true / false)
-    
-        </label>
-         
-        <div
-          class="p-inputswitch p-component"
-          id="blockConditionalDisplayFieldValue"
-        >
-          <div
-            class="p-hidden-accessible"
-          >
-            <input
-              role="switch"
-              type="checkbox"
-            />
-          </div>
-           
-          <span
-            class="p-inputswitch-slider"
-          />
-        </div>
-      </div>
-       
       <!---->
        
       <div
         class="lck-form-footer"
       >
+        <!---->
+         
         <button
           class="p-button-text p-button-secondary p-button p-component"
           type="button"
