@@ -55,6 +55,9 @@
         @run="triggerRun"
       />
     </div>
+
+    <confirm-dialog />
+
   </div>
 </template>
 
@@ -63,6 +66,7 @@
 import Vue from 'vue'
 import { Paginated } from '@feathersjs/feathers'
 import Button from 'primevue/button'
+import ConfirmDialog from 'primevue/confirmdialog'
 
 import { lckServices } from '@/services/lck-api'
 import { LckProcess, LckProcessRun, LckTable, LckTableColumn, PROCESS_TRIGGER } from '@/services/lck-api/definitions'
@@ -73,6 +77,7 @@ import { ROUTES_NAMES } from '@/router/paths'
 export default Vue.extend({
   name: 'ProcessListing',
   components: {
+    'confirm-dialog': ConfirmDialog,
     'p-button': Vue.extend(Button),
     'lck-process': Process,
   },
@@ -182,28 +187,33 @@ export default Vue.extend({
       this.submitting = false
     },
     async onDeleteProcess () {
-      console.log(this.currentProcess)
-      // if (this.currentProcess) {
-      this.$confirm.require({
-        message: `${this.$t('form.specificDeleteConfirmation')} ${this.currentProcess.text}`,
-        header: this.$t('form.confirmation'),
-        icon: 'pi pi-exclamation-triangle',
-        // accept: async () => {
-        //   try {
-        //     await lckServices.process.remove(this.currentProcess?.id)
-        //     this.processResult = this.processResult.filter(p => p.id !== this.currentProcess?.id)
-        //     this.currentProcess = null
-        //   } catch (error) {
-        //     this.$toast.add({
-        //       severity: 'error',
-        //       summary: this.$t('error.basic'),
-        //       detail: this.$t('error.http.' + error.code),
-        //       life: 5000,
-        //     })
-        //   }
-        // },
-      })
-      // }
+      if (this.currentProcess) {
+        this.$confirm.require({
+          message: `${this.$t('form.specificDeleteConfirmation')} ${this.currentProcess?.text}`,
+          header: this.$t('form.confirmation'),
+          icon: 'pi pi-exclamation-triangle',
+          accept: async () => {
+            try {
+              await lckServices.process.remove(this.currentProcess?.id as string)
+              this.processResult = this.processResult.filter(p => p.id !== this.currentProcess?.id)
+              this.currentProcess = null
+              this.$router.push({
+                name: ROUTES_NAMES.WORKSPACE_ADMIN.PROCESS,
+                params: {
+                  workspaceId: this.workspaceId,
+                },
+              })
+            } catch (error) {
+              this.$toast.add({
+                severity: 'error',
+                summary: this.$t('error.basic'),
+                detail: this.$t('error.http.' + error.code),
+                life: 5000,
+              })
+            }
+          },
+        })
+      }
     },
     async loadProcesses () {
       this.loading = true

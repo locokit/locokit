@@ -15,7 +15,7 @@ import { dropWorkspace } from '../../utils/dropWorkspace'
 import { Paginated, Params } from '@feathersjs/feathers'
 import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
 
-import { wait } from '../../utils/wait.test'
+import { wait } from '../../utils/wait'
 
 describe('\'process_run\' service', () => {
   it('registered the service', () => {
