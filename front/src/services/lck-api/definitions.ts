@@ -376,7 +376,6 @@ export enum PROCESS_TRIGGER {
   CREATE_ROW = 'CREATE_ROW', // when a row in inserted
   UPDATE_ROW = 'UPDATE_ROW', // when a row is updated, no matter which data
   UPDATE_ROW_DATA = 'UPDATE_ROW_DATA', // when a data in a row is updated
-  CRON = 'CRON',
   MANUAL = 'MANUAL',
 }
 

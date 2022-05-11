@@ -121,7 +121,7 @@
       />
       <small
         class="p-text-italic"
-        id="password-rules"
+        id="table"
       >
         {{ $t('components.process.form.table.helper') }}
       </small>
@@ -232,9 +232,6 @@ export default Vue.extend({
       }, {
         label: PROCESS_TRIGGER.UPDATE_ROW_DATA,
         value: PROCESS_TRIGGER.UPDATE_ROW_DATA,
-      }, {
-        label: PROCESS_TRIGGER.CRON,
-        value: PROCESS_TRIGGER.CRON,
       }, {
         label: PROCESS_TRIGGER.MANUAL,
         value: PROCESS_TRIGGER.MANUAL,

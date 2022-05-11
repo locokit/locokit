@@ -82,7 +82,7 @@ export async function createAbility (
           $eager: '[group.[aclset.[acltables]]]',
           $joinRelation: '[group.[aclset]]',
           'group:aclset.workspace_id': currentWorkspaceId,
-          'group:aclset.manager': true,
+          // 'group:aclset.manager': true,
         },
         paginate: false,
       }) as Usergroup[]
@@ -90,6 +90,11 @@ export async function createAbility (
       if (usergroups.length === 0) {
         throw new Forbidden('You do not have access to this process.')
       }
+
+      const hasManagerPrivilege: boolean = usergroups.reduce((accumulator: boolean, currentValue) => {
+        accumulator = accumulator || currentValue.group?.aclset?.manager === true
+        return accumulator
+      }, false)
 
       /**
        * find all processes for this workspace,
@@ -102,11 +107,25 @@ export async function createAbility (
         paginate: false,
       }) as Process []
 
-      can('manage', 'process-run', {
-        process_id: {
-          $in: processes.map(p => p.id),
-        },
-      })
+      /**
+       * workspace's managers can manage all on workspace's processes
+       */
+      if (hasManagerPrivilege) {
+        can('manage', 'process-run', {
+          process_id: {
+            $in: processes.map(p => p.id),
+          },
+        })
+      } else {
+        /**
+         * lambda user can only create runs (only if trigger is MANUAL)
+         */
+        can('create', 'process-run', {
+          process_id: {
+            $in: processes.map(p => p.id),
+          },
+        })
+      }
   }
 
   return makeAbilityFromRules(rules, { resolveAction }) as AppAbility

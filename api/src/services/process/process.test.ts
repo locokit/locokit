@@ -2,7 +2,7 @@ import app from '../../app'
 import { SetupData, builderTestEnvironment } from '../../abilities/helpers'
 import { Process, ProcessTrigger } from '../../models/process.model'
 import { Paginated, Params } from '@feathersjs/feathers'
-import { Forbidden, NotAcceptable } from '@feathersjs/errors'
+import { BadRequest, Forbidden, MethodNotAllowed, NotAcceptable } from '@feathersjs/errors'
 import { ProcessRun, ProcessRunStatus } from '../../models/process_run.model'
 import { wait } from '../../utils/wait'
 
@@ -21,6 +21,14 @@ describe('\'process\' service', () => {
   describe('registrate', () => {
     it('registered the service', () => {
       expect(service).toBeTruthy()
+    })
+    it('forbid to create a process trigger CREATE_ROW without table_id', async () => {
+      expect.assertions(1)
+      await expect(service.create({
+        workspace_id: setupData.workspace2Id,
+        trigger: ProcessTrigger.CREATE_ROW,
+        url: 'http://localhost',
+      })).rejects.toThrow(BadRequest)
     })
   })
 
@@ -347,18 +355,36 @@ describe('\'process\' service', () => {
       await expect(service.remove(p.id, user1Params)).rejects.toThrow(Forbidden)
       await service.remove(p.id)
     })
-    it('forbid to trigger process on a workspace user is not manager', async () => {
-      expect.assertions(1)
+    it('allow to trigger process MANUAL on a workspace user is not manager', async () => {
+      expect.assertions(2)
       const p = await service.create({
         workspace_id: setupData.workspace2Id,
         trigger: ProcessTrigger.MANUAL,
         url: 'http://localhost',
       }) as Process
 
+      const run = await app.services['process-run'].create({
+        process_id: p.id,
+      }, user1Params) as ProcessRun
+      expect(run).toBeDefined()
+      expect(run.process_id).toBe(p.id)
+      await wait(1000)
+
+      await service.remove(p.id)
+    })
+
+    it('forbid to trigger process CREATE_ROW on a workspace user is not manager', async () => {
+      expect.assertions(1)
+      const p = await service.create({
+        workspace_id: setupData.workspace2Id,
+        trigger: ProcessTrigger.CREATE_ROW,
+        url: 'http://localhost',
+        table_id: setupData.table1Workspace2Id,
+      }) as Process
+
       await expect(app.services['process-run'].create({
         process_id: p.id,
-      }, user1Params)).rejects.toThrow(Forbidden)
-
+      }, user1Params)).rejects.toThrow(MethodNotAllowed)
       await service.remove(p.id)
     })
     it('allow to trigger process on a workspace user is not manager by, eg, adding new record', async () => {
@@ -475,20 +501,6 @@ describe('\'process\' service', () => {
       await expect(service.remove(p.id, user2Params)).rejects.toThrow(Forbidden)
       await service.remove(p.id)
     })
-    it('forbid to trigger process on a workspace user has access to', async () => {
-      expect.assertions(1)
-      const p = await service.create({
-        workspace_id: setupData.workspace1Id,
-        trigger: ProcessTrigger.MANUAL,
-        url: 'http://localhost',
-      }) as Process
-
-      await expect(app.services['process-run'].create({
-        process_id: p.id,
-      }, user2Params)).rejects.toThrow(Forbidden)
-
-      await service.remove(p.id)
-    })
 
     it('allow the user to trigger a process indirectly with CREATE_ROW trigger', async () => {
       expect.assertions(4)
@@ -525,6 +537,43 @@ describe('\'process\' service', () => {
       expect(runs.data[0].process_id).toBe(p.id)
       await wait(1000)
       await app.services['process-run'].remove(runs.data[0].id)
+      await app.services.row.remove(record1.id)
+      await service.remove(p.id)
+    })
+
+    it('allow the user to trigger a process directly with MANUAL trigger', async () => {
+      expect.assertions(3)
+      const p = await service.create({
+        workspace_id: setupData.workspace1Id,
+        trigger: ProcessTrigger.MANUAL,
+        table_id: setupData.table1Id,
+        enabled: true,
+        url: 'http://localhost',
+      }) as Process
+      /**
+       * Allow user related to ACL 4 to create new records in table1
+       */
+      await app.services.acltable.create({
+        aclset_id: setupData.aclset2.id,
+        table_id: setupData.table1Id,
+        create_rows: true,
+      })
+
+      const record1 = await app.services.row.create({
+        table_id: setupData.table1Id,
+      }, user2Params)
+
+      const run1 = await app.services['process-run'].create({
+        process_id: p.id,
+        table_row_id: record1.id,
+      }, user2Params) as ProcessRun
+
+      expect(run1).toBeDefined()
+      // the workflow need to throw an error as URL does not exist
+      expect(run1.table_row_id).toBe(record1.id)
+      expect(run1.process_id).toBe(p.id)
+      await wait(1000)
+      await app.services['process-run'].remove(run1.id)
       await app.services.row.remove(record1.id)
       await service.remove(p.id)
     })

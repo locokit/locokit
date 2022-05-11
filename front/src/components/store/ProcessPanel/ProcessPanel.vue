@@ -24,11 +24,11 @@
             </div>
             <div class="p-col-2">
               <span class="p-tag p-tag-rounded p-m-auto">
-                {{ [PROCESS_TRIGGER.CRON, PROCESS_TRIGGER.MANUAL].includes(process.trigger) ? $t(`components.processPanel.${process.trigger}`) : $t('components.processPanel.automatic') }}
+                {{ PROCESS_TRIGGER.MANUAL === process.trigger ? $t(`components.processPanel.${process.trigger}`) : $t('components.processPanel.automatic') }}
               </span>
             </div>
             <div
-              v-if="[PROCESS_TRIGGER.CRON, PROCESS_TRIGGER.MANUAL].includes(process.trigger)"
+              v-if="PROCESS_TRIGGER.MANUAL === process.trigger"
               class="p-col-2 p-m-auto"
             >
               <p-button
