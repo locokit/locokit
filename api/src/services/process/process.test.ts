@@ -2,7 +2,7 @@ import app from '../../app'
 import { SetupData, builderTestEnvironment } from '../../abilities/helpers'
 import { Process, ProcessTrigger } from '../../models/process.model'
 import { Paginated, Params } from '@feathersjs/feathers'
-import { Forbidden, NotAcceptable } from '@feathersjs/errors'
+import { Forbidden, NotAcceptable, NotFound } from '@feathersjs/errors'
 import { ProcessRun, ProcessRunStatus } from '../../models/process_run.model'
 import { wait } from '../../utils/wait.test'
 
@@ -316,7 +316,7 @@ describe('\'process\' service', () => {
       p.maximumNumberSuccess = 4
       p.url = 'https://localhost:3000/'
 
-      await expect(service.update(p.id, p, user1Params)).rejects.toThrow(Forbidden)
+      await expect(service.update(p.id, p, user1Params)).rejects.toThrow(NotFound)
       await service.remove(p.id)
     })
     it('forbid to read process on a workspace user is not manager', async () => {
