@@ -232,7 +232,7 @@ exports[`storyshots components/store/process/Process default 1`] = `
                
               <small
                 class="p-text-italic"
-                id="password-rules"
+                id="table"
               >
                 
       If trigger is MANUAL, table is optional.
