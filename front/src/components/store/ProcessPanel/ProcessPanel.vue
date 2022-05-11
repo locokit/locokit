@@ -100,12 +100,9 @@
             </template>
           </p-column>
           <template #expansion="slotProps">
-            <div
-              v-if="!!slotProps.data.log"
-              class="pre"
-            >
+            <pre v-if="!!slotProps.data.log">
               {{ slotProps.data.log }}
-            </div>
+            </pre>
             <p v-else>{{ $t('components.processPanel.noLog') }}</p>
           </template>
         </p-datatable>

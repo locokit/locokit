@@ -52,6 +52,7 @@
         :suggestionsColumn="suggestionsColumn"
         @refresh-runs="onRefreshRuns"
         @cancel="resetCurrentProcess"
+        @run="triggerRun"
       />
     </div>
   </div>
@@ -151,6 +152,7 @@ export default Vue.extend({
             url: data.url || '',
             enabled: data.enabled,
             table_id: data.table_id,
+            workspace_id: this.workspaceId,
             trigger: data.trigger,
             maximumNumberSuccess: data.maximumNumberSuccess,
             settings: {
@@ -179,18 +181,38 @@ export default Vue.extend({
       }
       this.submitting = false
     },
-    async onDeleteProcess (processId: string) {
-      await lckServices.process.remove(processId)
-      this.processResult = this.processResult.filter(p => p.id !== processId)
+    async onDeleteProcess () {
+      console.log(this.currentProcess)
+      // if (this.currentProcess) {
+      this.$confirm.require({
+        message: `${this.$t('form.specificDeleteConfirmation')} ${this.currentProcess.text}`,
+        header: this.$t('form.confirmation'),
+        icon: 'pi pi-exclamation-triangle',
+        // accept: async () => {
+        //   try {
+        //     await lckServices.process.remove(this.currentProcess?.id)
+        //     this.processResult = this.processResult.filter(p => p.id !== this.currentProcess?.id)
+        //     this.currentProcess = null
+        //   } catch (error) {
+        //     this.$toast.add({
+        //       severity: 'error',
+        //       summary: this.$t('error.basic'),
+        //       detail: this.$t('error.http.' + error.code),
+        //       life: 5000,
+        //     })
+        //   }
+        // },
+      })
+      // }
     },
     async loadProcesses () {
       this.loading = true
       try {
         const processByWorkspace = await lckServices.process.find({
           query: {
-            'table:database.workspace_id': this.workspaceId,
+            workspace_id: this.workspaceId,
             $limit: 50,
-            $joinRelation: 'table.[database]',
+            $eager: 'table',
             $sort: {
               createdAt: 1,
             },
@@ -253,20 +275,36 @@ export default Vue.extend({
       this.$set(process, 'runs', processRunResult.data)
     },
     async loadProcess (processId: string) {
+      if (processId === 'add') return
       /**
        * Load the column if the process is with settings
        */
-      this.currentProcess = await lckServices.process.get(processId)
+      this.currentProcess = await lckServices.process.get(processId, {
+        query: {
+          $eager: 'table',
+        },
+      })
       if (
         this.currentProcess.trigger === PROCESS_TRIGGER.UPDATE_ROW_DATA &&
         this.currentProcess.settings?.column_id
       ) {
-        this.$set(this.currentProcess.settings, 'column', await lckServices.tableColumn.get(this.currentProcess.settings.column_id))
+        this.$set(
+          this.currentProcess.settings,
+          'column',
+          await lckServices.tableColumn.get(this.currentProcess.settings.column_id),
+        )
       }
       this.onRefreshRuns(this.currentProcess)
     },
     resetCurrentProcess () {
       this.currentProcess = null
+    },
+    async triggerRun () {
+      if (!this.currentProcess) return
+      const run = await lckServices.processRun.create({
+        process_id: this.currentProcess.id,
+      }) as LckProcessRun
+      this.$set(this.currentProcess, 'runs', [run, ...(this.currentProcess.runs || [])])
     },
   },
   mounted () {

@@ -372,6 +372,14 @@ export class MediaConfiguration {
   type?: MEDIA_TYPE.IMAGE | MEDIA_TYPE.VIDEO;
 }
 
+export enum PROCESS_TRIGGER {
+  CREATE_ROW = 'CREATE_ROW', // when a row in inserted
+  UPDATE_ROW = 'UPDATE_ROW', // when a row is updated, no matter which data
+  UPDATE_ROW_DATA = 'UPDATE_ROW_DATA', // when a data in a row is updated
+  CRON = 'CRON',
+  MANUAL = 'MANUAL',
+}
+
 /**
  * Process section
  */
@@ -387,21 +395,16 @@ export class LckProcess extends LckBaseModel {
     column?: LckTableColumn;
   };
 
+  workspace_id!: string
+
   runs?: LckProcessRun[];
   table?: LckTable;
 
   constructor () {
     super()
     this.settings = {}
+    this.trigger = PROCESS_TRIGGER.MANUAL
   }
-}
-
-export enum PROCESS_TRIGGER {
-  CREATE_ROW = 'CREATE_ROW', // when a row in inserted
-  UPDATE_ROW = 'UPDATE_ROW', // when a row is updated, no matter which data
-  UPDATE_ROW_DATA = 'UPDATE_ROW_DATA', // when a data in a row is updated
-  CRON = 'CRON',
-  MANUAL = 'MANUAL',
 }
 
 export enum PROCESS_RUN_STATUS {
