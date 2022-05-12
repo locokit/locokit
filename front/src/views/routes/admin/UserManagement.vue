@@ -6,7 +6,7 @@
 
     <div class="p-d-flex p-flex-row p-flex-wrap p-jc-start">
       <p-toolbar class="w-full p-my-4">
-        <template slot="left">
+        <template #left>
           <lck-filter-button
             class="p-ml-2"
             :definition="filterDefinition"
@@ -15,7 +15,7 @@
             @reset="onResetFilter"
           />
         </template>
-        <template slot="right">
+        <template #right>
           <p-button
             :label="$t('pages.userManagement.addNewUser')"
             icon="pi pi-plus"
@@ -205,8 +205,8 @@
           <label for="name" class="label-field-required">{{ $t("pages.userManagement.name") }}</label>
           <p-input-text
             id="name"
-            v-model.trim="user.name"
-            autofocus
+            v-model="user.name"
+            v-focus
             :class="{ 'p-invalid': submitting && !user.name }"
           />
           <span :class="classes">{{ errors[0] }}</span>
@@ -397,7 +397,7 @@ export default {
           action: 'resendVerifySignup',
           value: { email: user.email },
         })
-        this.retrieveUsersData()
+        await this.retrieveUsersData()
 
         this.$toast.add({
           severity: 'success',
@@ -424,7 +424,7 @@ export default {
           await lckClient.service('user').patch(userId, {
             name: this.user.name,
             profile: this.user.profile,
-            email: this.user.email,
+            email: (this.user.email).trim(),
           })
         } catch (error) {
           this.$toast.add({
@@ -441,7 +441,7 @@ export default {
       }
       this.submitting = false
       this.openDialog = false
-      this.retrieveUsersData()
+      await this.retrieveUsersData()
     },
     /**
      * Enable the user if its account is blocked or disable it otherwise.
@@ -477,10 +477,6 @@ export default {
         this.disableUsers[user.id].loading = false
       }
     },
-    inactiveUser (user) {
-      this.user = { ...user }
-      alert(this.user.id)
-    },
     async retrieveUsersData () {
       const ITEMS_PER_PAGE = 20
 
@@ -499,9 +495,9 @@ export default {
     },
     async onPage (event) {
       this.currentPage = event.page
-      this.retrieveUsersData()
+      await this.retrieveUsersData()
     },
-    async onSort (event) {
+    onSort (event) {
       this.sortField = event.sortField
       this.sortOrder = event.sortOrder
       this.retrieveUsersData()
@@ -517,7 +513,7 @@ export default {
     },
   },
   async mounted () {
-    this.retrieveUsersData()
+    await this.retrieveUsersData()
   },
 }
 </script>
