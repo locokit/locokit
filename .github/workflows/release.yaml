@@ -92,13 +92,13 @@ jobs:
       - name: Build documentation
         run: npm run docs:build
       - name: Tar docs
-        run: tar -czvf lck-docs-build-artifact.tar.gz docs/.vitepress/dist/
+        run: cd docs/.vitepress/dist/ && tar -czvf lck-docs-build-artifact.tar.gz *
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
           name: lck-docs-build-artifact.tar.gz
           path: |
-            lck-docs-build-artifact.tar.gz
+            docs/.vitepress/dist/lck-docs-build-artifact.tar.gz
   
   docs-push-pages:
     runs-on: ubuntu-latest
