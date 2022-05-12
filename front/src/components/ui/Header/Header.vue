@@ -185,7 +185,7 @@ export default {
   }
   width: 100%;
   max-height: calc(var(--header-height) - 0.5rem);
-  height: calc(var(--header-height) - 0.5rem);
+  height: auto;
   display: none;
 }
 

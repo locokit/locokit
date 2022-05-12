@@ -89,15 +89,12 @@ describe('\'triggerProcess\' hook', () => {
     expect(allExecutions.length).toBe(0)
   })
 
-  it('do not trigger if process triggers are MANUAL or CRON', async () => {
+  it('do not trigger if process triggers are MANUAL', async () => {
     expect.assertions(1)
 
     const processTriggerManual = await app.service('process').create({
-      table_id: table1.id,
-      trigger: ProcessTrigger.MANUAL,
-      enabled: true,
-    }) as Process
-    const processTriggerCron = await app.service('process').create({
+      workspace_id: workspace.id,
+      url: 'http://localhost',
       table_id: table1.id,
       trigger: ProcessTrigger.MANUAL,
       enabled: true,
@@ -122,13 +119,14 @@ describe('\'triggerProcess\' hook', () => {
     }) as ProcessRun[]
     expect(allExecutions.length).toBe(0)
 
-    await app.service('process').remove(processTriggerCron.id)
     await app.service('process').remove(processTriggerManual.id)
   })
   it('trigger CREATE_ROW if process triggers is enabled and well configured', async () => {
     expect.assertions(3)
 
     const processTriggerCreateRow = await app.service('process').create({
+      workspace_id: workspace.id,
+      url: 'http://localhost',
       table_id: table1.id,
       trigger: ProcessTrigger.CREATE_ROW,
       enabled: true,
@@ -163,6 +161,8 @@ describe('\'triggerProcess\' hook', () => {
     expect.assertions(4)
 
     const processTriggerCreateRow = await app.service('process').create({
+      workspace_id: workspace.id,
+      url: 'http://localhost',
       table_id: table1.id,
       trigger: ProcessTrigger.UPDATE_ROW,
       enabled: true,
@@ -204,6 +204,8 @@ describe('\'triggerProcess\' hook', () => {
     expect.assertions(5)
 
     const processTriggerCreateRow = await app.service('process').create({
+      workspace_id: workspace.id,
+      url: 'http://localhost',
       table_id: table1.id,
       trigger: ProcessTrigger.UPDATE_ROW_DATA,
       enabled: true,
@@ -268,6 +270,8 @@ describe('\'triggerProcess\' hook', () => {
     expect.assertions(4)
 
     const processTriggerCreateRow = await app.service('process').create({
+      workspace_id: workspace.id,
+      url: 'http://localhost',
       table_id: table1.id,
       trigger: ProcessTrigger.UPDATE_ROW,
       enabled: true,

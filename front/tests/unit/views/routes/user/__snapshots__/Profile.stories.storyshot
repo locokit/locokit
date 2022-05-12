@@ -722,6 +722,8 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                   >
                     <!---->
                      
+                    <!---->
+                     
                     <button
                       class="p-button p-component"
                       disabled="disabled"
@@ -924,6 +926,8 @@ exports[`storyshots views/routes/user/Profile with auth user and groups 1`] = `
                   <div
                     class="lck-form-footer"
                   >
+                    <!---->
+                     
                     <!---->
                      
                     <button

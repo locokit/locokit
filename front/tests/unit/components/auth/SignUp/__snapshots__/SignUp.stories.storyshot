@@ -64,6 +64,8 @@ exports[`storyshots components/auth/SignUp default 1`] = `
       >
         <!---->
          
+        <!---->
+         
         <button
           class="p-button p-component full-width-button"
           disabled="disabled"

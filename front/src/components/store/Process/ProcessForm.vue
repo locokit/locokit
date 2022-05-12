@@ -1,8 +1,10 @@
 <template>
   <lck-form
     @cancel="$emit('cancel')"
+    @delete="$emit('delete')"
     @submit="$emit('input', processCloned)"
     :submitting="submitting"
+    :display-delete-button="!!processCloned.id"
   >
     <validation-provider
       vid="label"
@@ -64,33 +66,6 @@
       />
     </validation-provider>
     <validation-provider
-      vid="table"
-      tag="div"
-      :name="$t('components.process.form.table.label')"
-      class="p-field"
-      rules="required"
-      v-slot="{
-        errors,
-        classes
-      }"
-    >
-      <label for="table" class="label-field-required">
-        {{ $t('components.process.form.table.label') }}
-      </label>
-      <lck-autocomplete
-        id="table"
-        :dropdown="true"
-        :placeholder="$t('components.process.form.table.placeholder')"
-        field="text"
-        :suggestions="tables"
-        @search="$emit('search-table', $event)"
-        v-model="processCloned.table"
-        @item-select="processCloned.table_id = processCloned.table.value"
-        @clear="processCloned.table_id = null"
-      />
-      <span :class="classes">{{ errors[0] }}</span>
-    </validation-provider>
-    <validation-provider
       vid="trigger"
       tag="div"
       :name="$t('components.process.form.trigger')"
@@ -115,6 +90,44 @@
       />
       <span :class="classes">{{ errors[0] }}</span>
     </validation-provider>
+    <validation-provider
+      vid="table"
+      tag="div"
+      :name="$t('components.process.form.table.label')"
+      class="p-field"
+      :rules="{
+        required: processCloned.trigger !== 'MANUAL'
+      }"
+      v-slot="{
+        errors,
+        classes
+      }"
+    >
+      <label for="table" :class="{
+        'label-field-required': processCloned.trigger !== 'MANUAL'
+      }">
+        {{ $t('components.process.form.table.label') }}
+      </label>
+      <lck-autocomplete
+        id="table"
+        :dropdown="true"
+        :placeholder="$t('components.process.form.table.placeholder')"
+        field="text"
+        :suggestions="tables"
+        @search="$emit('search-table', $event)"
+        v-model="processCloned.table"
+        @item-select="processCloned.table_id = processCloned.table.value"
+        @clear="processCloned.table_id = null"
+      />
+      <small
+        class="p-text-italic"
+        id="table"
+      >
+        {{ $t('components.process.form.table.helper') }}
+      </small>
+      <span :class="classes">{{ errors[0] }}</span>
+    </validation-provider>
+
     <validation-provider
       v-if="triggerWithSettings"
       vid="column_id"
@@ -220,9 +233,6 @@ export default Vue.extend({
         label: PROCESS_TRIGGER.UPDATE_ROW_DATA,
         value: PROCESS_TRIGGER.UPDATE_ROW_DATA,
       }, {
-        label: PROCESS_TRIGGER.CRON,
-        value: PROCESS_TRIGGER.CRON,
-      }, {
         label: PROCESS_TRIGGER.MANUAL,
         value: PROCESS_TRIGGER.MANUAL,
       }],
@@ -237,8 +247,19 @@ export default Vue.extend({
     process: {
       handler (newValue: LckProcess) {
         if (!newValue) return
-        const { id, text, trigger, settings, enabled, url, table_id, table, maximumNumberSuccess } = newValue
-        this.processCloned = { id, text, trigger, enabled: !!enabled, url, table_id, settings, table, maximumNumberSuccess: maximumNumberSuccess || 0 }
+        const {
+          id,
+          text,
+          trigger,
+          settings,
+          enabled,
+          url,
+          table_id,
+          table,
+          maximumNumberSuccess,
+          workspace_id,
+        } = newValue
+        this.processCloned = { id, text, trigger, enabled: !!enabled, url, table_id, settings, table, maximumNumberSuccess: maximumNumberSuccess || 0, workspace_id }
         if (settings?.column) {
           this.processCloned.settings = {
             ...settings,

@@ -1,4 +1,4 @@
-import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { COLUMN_TYPE, USER_PROFILE } from '@locokit/lck-glossary'
 import app from '../../app'
 import { Database } from '../../models/database.model'
 import { Process, ProcessTrigger } from '../../models/process.model'
@@ -15,11 +15,8 @@ import { dropWorkspace } from '../../utils/dropWorkspace'
 import { Paginated, Params } from '@feathersjs/feathers'
 import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
 
-async function wait (duration: number): Promise<unknown> {
-  return await new Promise(resolve => {
-    setTimeout(resolve, duration)
-  })
-}
+import { wait } from '../../utils/wait'
+
 describe('\'process_run\' service', () => {
   it('registered the service', () => {
     const service = app.service('process-run')
@@ -52,6 +49,7 @@ describe('\'process_run\' service', () => {
         name: 'Process Exec',
         password: passwordHashed,
         isVerified: true,
+        profile: USER_PROFILE.ADMIN,
       }, {})
       const auth = await app.service('authentication').create({
         strategy: 'local',
@@ -108,6 +106,8 @@ describe('\'process_run\' service', () => {
        * create an execution
        */
       const processTrigger = await app.service('process').create({
+        workspace_id: workspace.id,
+        url: 'http://localhost',
         table_id: table1.id,
         trigger: ProcessTrigger.MANUAL,
       }) as Process
@@ -128,24 +128,14 @@ describe('\'process_run\' service', () => {
       await app.service('process').remove(processTrigger.id)
     })
 
-    it('allow the creation of the execution if the provider is external and the trigger is MANUAL or CRON', async () => {
-      expect.assertions(4)
+    it('allow the creation of the execution if the provider is external and the trigger is MANUAL', async () => {
+      expect.assertions(2)
       /**
        * create an execution
        */
-      const processTriggerCRON = await app.service('process').create({
-        table_id: table1.id,
-        trigger: ProcessTrigger.CRON,
-      }) as Process
-
-      const processExecutionCRON = await app.service('process-run').create({
-        process_id: processTriggerCRON.id,
-        table_row_id: tableRow.id,
-      }, params) as ProcessRun
-      expect(processExecutionCRON).toBeTruthy()
-      expect(processExecutionCRON.status).toBe(ProcessRunStatus.RUNNING)
-
       const processTriggerMANUAL = await app.service('process').create({
+        workspace_id: workspace.id,
+        url: 'http://localhost',
         table_id: table1.id,
         trigger: ProcessTrigger.MANUAL,
       }) as Process
@@ -163,43 +153,38 @@ describe('\'process_run\' service', () => {
        * check the status
        */
       await app.service('process-run').remove(processExecutionMANUAL.id)
-      await app.service('process-run').remove(processExecutionCRON.id)
       await app.service('process').remove(processTriggerMANUAL.id)
-      await app.service('process').remove(processTriggerCRON.id)
     })
 
     it('allow the creation of the execution if the provider is not external', async () => {
-      expect.assertions(10)
+      expect.assertions(8)
       /**
        * create an execution
        */
-      const processTriggerCRON = await app.service('process').create({
-        table_id: table1.id,
-        trigger: ProcessTrigger.CRON,
-      }) as Process
       const processTriggerMANUAL = await app.service('process').create({
+        workspace_id: workspace.id,
+        url: 'http://localhost',
         table_id: table1.id,
         trigger: ProcessTrigger.MANUAL,
       }) as Process
       const processTriggerCreateRow = await app.service('process').create({
+        workspace_id: workspace.id,
+        url: 'http://localhost',
         table_id: table1.id,
         trigger: ProcessTrigger.CREATE_ROW,
       }) as Process
       const processTriggerUpdateRow = await app.service('process').create({
+        workspace_id: workspace.id,
+        url: 'http://localhost',
         table_id: table1.id,
         trigger: ProcessTrigger.UPDATE_ROW,
       }) as Process
       const processTriggerUpdateRowData = await app.service('process').create({
+        workspace_id: workspace.id,
+        url: 'http://localhost',
         table_id: table1.id,
         trigger: ProcessTrigger.UPDATE_ROW_DATA,
       }) as Process
-
-      const processExecutionCRON = await app.service('process-run').create({
-        process_id: processTriggerCRON.id,
-        table_row_id: tableRow.id,
-      }) as ProcessRun
-      expect(processExecutionCRON).toBeTruthy()
-      expect(processExecutionCRON.status).toBe(ProcessRunStatus.RUNNING)
 
       const processExecutionMANUAL = await app.service('process-run').create({
         process_id: processTriggerMANUAL.id,
@@ -238,12 +223,10 @@ describe('\'process_run\' service', () => {
       await app.service('process-run').remove(processExecutionUpdateRow.id)
       await app.service('process-run').remove(processExecutionCreateRow.id)
       await app.service('process-run').remove(processExecutionMANUAL.id)
-      await app.service('process-run').remove(processExecutionCRON.id)
       await app.service('process').remove(processTriggerUpdateRowData.id)
       await app.service('process').remove(processTriggerUpdateRow.id)
       await app.service('process').remove(processTriggerCreateRow.id)
       await app.service('process').remove(processTriggerMANUAL.id)
-      await app.service('process').remove(processTriggerCRON.id)
     })
 
     it('throw the creation of the execution if the provider is external and the trigger not MANUAL | CRON', async () => {
@@ -252,14 +235,20 @@ describe('\'process_run\' service', () => {
        * create an execution
        */
       const processTriggerCreateRow = await app.service('process').create({
+        workspace_id: workspace.id,
+        url: 'http://localhost',
         table_id: table1.id,
         trigger: ProcessTrigger.CREATE_ROW,
       }) as Process
       const processTriggerUpdateRow = await app.service('process').create({
+        workspace_id: workspace.id,
+        url: 'http://localhost',
         table_id: table1.id,
         trigger: ProcessTrigger.UPDATE_ROW,
       }) as Process
       const processTriggerUpdateRowData = await app.service('process').create({
+        workspace_id: workspace.id,
+        url: 'http://localhost',
         table_id: table1.id,
         trigger: ProcessTrigger.UPDATE_ROW_DATA,
       }) as Process
@@ -288,26 +277,13 @@ describe('\'process_run\' service', () => {
     })
 
     it('wait the end of the process if waitForOutput is sent', async () => {
-      expect.assertions(4)
+      expect.assertions(2)
       /**
        * create an execution
        */
-      const processTriggerCRON = await app.service('process').create({
-        table_id: table1.id,
-        trigger: ProcessTrigger.CRON,
-      }) as Process
-
-      // we use waitForOutput, but it is to simulate how the front would call us
-      const processExecutionCRON = await app.service('process-run').create({
-        process_id: processTriggerCRON.id,
-        table_row_id: tableRow.id,
-        // @ts-expect-error
-        waitForOutput: true,
-      }, params) as ProcessRun
-      expect(processExecutionCRON).toBeTruthy()
-      expect(processExecutionCRON.status).toBe(ProcessRunStatus.SUCCESS)
-
       const processTriggerMANUAL = await app.service('process').create({
+        workspace_id: workspace.id,
+        url: 'http://localhost',
         table_id: table1.id,
         trigger: ProcessTrigger.MANUAL,
       }) as Process
@@ -327,9 +303,7 @@ describe('\'process_run\' service', () => {
        * check the status
        */
       await app.service('process-run').remove(processExecutionMANUAL.id)
-      await app.service('process-run').remove(processExecutionCRON.id)
       await app.service('process').remove(processTriggerMANUAL.id)
-      await app.service('process').remove(processTriggerCRON.id)
     })
 
     afterEach(async () => {

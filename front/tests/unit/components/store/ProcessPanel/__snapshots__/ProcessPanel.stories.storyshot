@@ -88,9 +88,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
           >
              
             <button
-              aria-controls="pv_id_11_content"
+              aria-controls="pv_id_8_content"
               class="p-panel-header-icon p-panel-toggler p-link"
-              id="pv_id_11_header"
+              id="pv_id_8_header"
               type="button"
             >
               <span
@@ -104,9 +104,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
         </div>
          
         <div
-          aria-labelledby="pv_id_11_header"
+          aria-labelledby="pv_id_8_header"
           class="p-toggleable-content"
-          id="pv_id_11_content"
+          id="pv_id_8_content"
           role="region"
           style="display: none;"
         >
@@ -226,7 +226,7 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
                 class="p-tag p-tag-rounded p-m-auto"
               >
                 
-              Cron
+              Automatic
             
               </span>
             </div>
@@ -234,25 +234,23 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
             <div
               class="p-col-2 p-m-auto"
             >
-              <button
-                class="p-button-sm p-button p-component p-button-icon-only"
-                type="button"
+              <div
+                class="p-inputswitch p-component p-inputswitch-checked"
               >
-                <span
-                  class="pi pi-play p-button-icon"
-                />
-                 
-                <span
-                  class="p-button-label"
+                <div
+                  class="p-hidden-accessible"
                 >
-                   
-                </span>
+                  <input
+                    aria-checked="true"
+                    role="switch"
+                    type="checkbox"
+                  />
+                </div>
                  
-                <!---->
                 <span
-                  class="p-ink"
+                  class="p-inputswitch-slider"
                 />
-              </button>
+              </div>
             </div>
           </div>
            
@@ -261,9 +259,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
           >
              
             <button
-              aria-controls="pv_id_12_content"
+              aria-controls="pv_id_9_content"
               class="p-panel-header-icon p-panel-toggler p-link"
-              id="pv_id_12_header"
+              id="pv_id_9_header"
               type="button"
             >
               <span
@@ -277,9 +275,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
         </div>
          
         <div
-          aria-labelledby="pv_id_12_header"
+          aria-labelledby="pv_id_9_header"
           class="p-toggleable-content"
-          id="pv_id_12_content"
+          id="pv_id_9_content"
           role="region"
           style="display: none;"
         >
@@ -358,9 +356,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
           >
              
             <button
-              aria-controls="pv_id_13_content"
+              aria-controls="pv_id_10_content"
               class="p-panel-header-icon p-panel-toggler p-link"
-              id="pv_id_13_header"
+              id="pv_id_10_header"
               type="button"
             >
               <span
@@ -374,9 +372,9 @@ exports[`storyshots components/store/ProcessPanel with all processes according t
         </div>
          
         <div
-          aria-labelledby="pv_id_13_header"
+          aria-labelledby="pv_id_10_header"
           class="p-toggleable-content"
-          id="pv_id_13_content"
+          id="pv_id_10_content"
           role="region"
           style="display: none;"
         >

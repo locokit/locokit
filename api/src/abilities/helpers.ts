@@ -18,12 +18,15 @@ export interface SetupData {
   workspace1Id: string
   workspace2Id: string
   database1Id: string
+  database2Id: string
   columnTable1GroupId: string
   columnTable1UserId: string
   columnTable1BooleanId: string
   columnTable1FormulaId: string
   columnTable2LkdUpGroupId: string
   columnTable2LkdUpUserId: string
+  columnTable1W2Ref: string
+  columnTable1W2Name: string
   user1: User
   user2: User
   user3: User
@@ -50,6 +53,7 @@ export interface SetupData {
   aclset5: LckAclSet
   table1Id: string
   table2Id: string
+  table1Workspace2Id: string
   row1Table1: TableRow
   row2Table1: TableRow
   row3Table1: TableRow
@@ -76,6 +80,7 @@ export function builderTestEnvironment (prefix: string) {
   let workspace1: Workspace
   let workspace2: Workspace
   let database1: Database
+  let database2: Database
   let aclset1: LckAclSet
   // let acltable1: LckAclTable
   let aclset2: LckAclSet
@@ -104,6 +109,7 @@ export function builderTestEnvironment (prefix: string) {
 
   let table1: Table
   let table2: Table
+  let table1Workspace2: Table
   let columnTable1Boolean: TableColumn
   let columnTable1Number: TableColumn
   let columnTable1Date: TableColumn
@@ -128,6 +134,8 @@ export function builderTestEnvironment (prefix: string) {
   let columnTable2RelationBetweenTables: TableColumn
   let columnTable2LkdUpGroup: TableColumn
   let columnTable2LkdUpUser: TableColumn
+  let columnTable1W2Ref: TableColumn
+  let columnTable1W2Name: TableColumn
   let row1Table1: TableRow
   let row2Table1: TableRow
   let row3Table1: TableRow
@@ -156,6 +164,13 @@ export function builderTestEnvironment (prefix: string) {
       },
     }) as Paginated<Database>
     database1 = workspaceDatabases.data[0]
+    const workspace2Databases = await app.service('database').find({
+      query: {
+        workspace_id: workspace2.id,
+        $limit: 1,
+      },
+    }) as Paginated<Database>
+    database2 = workspace2Databases.data[0]
     aclset1 = await app.services.aclset.create({
       label: `[${prefix} abilities] Acl Set 1 workspace 1`,
       workspace_id: workspace1.id,
@@ -465,6 +480,20 @@ export function builderTestEnvironment (prefix: string) {
         foreignField: columnTable1Group.id,
       },
     })
+    table1Workspace2 = await app.service('table').create({
+      text: 'table1 workspace2',
+      database_id: database2.id,
+    })
+    columnTable1W2Ref = await app.service('column').create({
+      text: 'Ref',
+      column_type_id: COLUMN_TYPE.STRING,
+      table_id: table1Workspace2.id,
+    })
+    columnTable1W2Name = await app.service('column').create({
+      text: 'Name',
+      column_type_id: COLUMN_TYPE.STRING,
+      table_id: table1Workspace2.id,
+    })
 
     row1Table1 = await app.service('row').create({
       table_id: table1.id,
@@ -548,14 +577,18 @@ export function builderTestEnvironment (prefix: string) {
       workspace1Id: workspace1.id,
       workspace2Id: workspace2.id,
       database1Id: database1.id,
+      database2Id: database2.id,
       table1Id: table1.id,
       table2Id: table2.id,
+      table1Workspace2Id: table1Workspace2.id,
       columnTable1GroupId: columnTable1Group.id,
       columnTable1UserId: columnTable1User.id,
       columnTable1BooleanId: columnTable1Boolean.id,
       columnTable1FormulaId: columnTable1Formula.id,
       columnTable2LkdUpUserId: columnTable2LkdUpUser.id,
       columnTable2LkdUpGroupId: columnTable2LkdUpGroup.id,
+      columnTable1W2Ref: columnTable1W2Ref.id,
+      columnTable1W2Name: columnTable1W2Name.id,
       user1,
       user2,
       user3,

@@ -192,7 +192,8 @@
       "noLog": "Aucune information supplémentaire",
       "noDataToDisplay": "Aucune donnée à afficher",
       "successNewRun": "Le processus a éte exécuté correctement.",
-      "failedNewRun": "Le processus a échoué."
+      "failedNewRun": "Le processus a échoué.",
+      "started": "Le processus démarre... veuillez patienter..."
     },
     "process": {
       "form": {
@@ -202,7 +203,8 @@
         },
         "table": {
           "label": "Table",
-          "placeholder": "Choisissez une table"
+          "placeholder": "Choisissez une table",
+          "helper": "Si le déclencheur est MANUAL, la table peut être facultative."
         },
         "event": {
           "label": "Événement",
@@ -1043,7 +1045,6 @@
     "delete": "Supprimer",
     "reset": "Réinitialiser",
     "cancel": "Annuler",
-    "remove": "Supprimer",
     "submit": "Valider",
     "waiting": "Veuillez patienter",
     "save": "Enregistrer",

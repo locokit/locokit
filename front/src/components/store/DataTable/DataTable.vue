@@ -667,10 +667,11 @@ export default {
           {
             label: this.$t('components.processPanel.title'),
             items: this.manualProcesses.map(process => {
+              const isProcessDisabled = getDisabledProcessTrigger(process, rowId)
               return {
                 label: process.text,
-                disabled: getDisabledProcessTrigger(process, rowId),
-                icon: 'pi pi-play',
+                disabled: isProcessDisabled,
+                icon: isProcessDisabled ? 'bi bi-x-circle' : 'bi bi-play-circle',
                 command: () => {
                   this.$emit('create-process-run', {
                     rowId,

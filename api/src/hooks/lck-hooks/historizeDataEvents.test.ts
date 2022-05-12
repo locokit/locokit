@@ -424,6 +424,7 @@ describe('historizeDataEvents hook', () => {
       expect.assertions(2)
       // Create the process
       const rowUpdateProcess = await app.service('process').create({
+        workspace_id: workspace.id,
         text: 'myFirstProcess',
         table_id: table1.id,
         trigger: ProcessTrigger.UPDATE_ROW,

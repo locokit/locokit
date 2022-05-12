@@ -5,7 +5,8 @@ on:
     branches:
       - master
   pull_request:
-
+    types: [review_requested, ready_for_review, synchronize]
+    
 jobs:
 
   ## Front part
@@ -47,8 +48,10 @@ jobs:
         env:
           NODE_OPTIONS: --max_old_space_size=4096
       - name: Tar image snapshots
+        if: always()
         run: tar -cvzf lck-front-quality-image-snapshots.tar.gz tests/unit/__image_snapshots__
       - name: Tar storybook
+        if: always()
         run: tar -cvzf lck-front-quality-storybook.tar.gz storybook-static
       - name: Archive production artifacts
         if: always()

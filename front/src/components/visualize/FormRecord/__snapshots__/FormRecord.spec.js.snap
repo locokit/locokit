@@ -26,6 +26,7 @@ exports[`FormRecord could have required columns disable the submit button if the
         </label> <!----></div> <div class="form-field-editable untouched pristine required"><!----> <span class="cell-state"></span></div> <span class="untouched pristine required"></span></span></div>
 </div>
 <div class="lck-form-footer">
+  <!---->
   <!----> <button type="submit" class="p-button p-component full-width-button" disabled="disabled"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
     <!---->
   </button>
@@ -60,6 +61,7 @@ exports[`FormRecord could have required columns disable the submit button if the
         </label> <!----></div> <div class="form-field-editable untouched pristine required"><!----> <span class="cell-state"></span></div> <span class="untouched pristine required"></span></span></div>
 </div>
 <div class="lck-form-footer">
+  <!---->
   <!----> <button type="submit" class="p-button p-component full-width-button" disabled="disabled"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
     <!---->
   </button>
@@ -94,6 +96,7 @@ exports[`FormRecord could have required columns enable the submit button if all 
         </label> <!----></div> <div class="form-field-editable untouched pristine valid validated required changed passed"><!----> <span class="cell-state"></span></div> <span class="untouched pristine valid validated required changed passed"></span></span></div>
 </div>
 <div class="lck-form-footer">
+  <!---->
   <!----> <button type="submit" class="p-button p-component full-width-button"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
     <!---->
   </button>
@@ -128,6 +131,7 @@ exports[`FormRecord could have required columns enable the submit button if all 
         </label> <!----></div> <div class="form-field-editable untouched pristine valid validated required changed passed"><!----> <span class="cell-state"></span></div> <span class="untouched pristine valid validated required changed passed"></span></span></div>
 </div>
 <div class="lck-form-footer">
+  <!---->
   <!----> <button type="submit" class="p-button p-component full-width-button"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
     <!---->
   </button>
@@ -151,6 +155,7 @@ exports[`FormRecord could have required columns enable the submit button if no r
 </div>
 </div>
 <div class="lck-form-footer">
+  <!---->
   <!----> <button type="submit" class="p-button p-component full-width-button"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
     <!---->
   </button>

@@ -16,7 +16,7 @@ exports[`storyshots views/modals/HandleColumnModal Create 1`] = `
           style="z-index: 1035;"
         >
           <div
-            aria-labelledby="pv_id_77_header"
+            aria-labelledby="pv_id_74_header"
             aria-modal="true"
             class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
             role="dialog"
@@ -27,7 +27,7 @@ exports[`storyshots views/modals/HandleColumnModal Create 1`] = `
             >
               <span
                 class="p-dialog-title"
-                id="pv_id_77_header"
+                id="pv_id_74_header"
               >
                 Create column
               </span>

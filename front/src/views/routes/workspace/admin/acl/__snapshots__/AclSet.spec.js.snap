@@ -48,11 +48,13 @@ exports[`AclSetListing add a new acltable to an aclset 1`] = `
                 </transition-stub>
                 </span> <span class="p-my-2 untouched pristine"></span>
               </div>
-              <div class="lck-form-footer"><button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
+              <div class="lck-form-footer">
+                <!----> <button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
                   <!---->
                 </button> <button type="submit" class="p-button p-component" disabled="disabled"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
                   <!---->
-                </button></div>
+                </button>
+              </div>
             </form>
           </div>
           <h3>
@@ -331,11 +333,13 @@ exports[`AclSetListing create a new aclset 1`] = `
                 </transition-stub>
                 </span> <span class="p-my-2 untouched pristine"></span>
               </div>
-              <div class="lck-form-footer"><button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
+              <div class="lck-form-footer">
+                <!----> <button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
                   <!---->
                 </button> <button class="p-button p-component" type="submit"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
                   <!---->
-                </button></div>
+                </button>
+              </div>
             </form>
           </div>
           <h3>
@@ -652,11 +656,13 @@ exports[`AclSetListing patch an acltable of an aclset 1`] = `
                 </transition-stub>
                 </span> <span class="p-my-2 untouched pristine"></span>
               </div>
-              <div class="lck-form-footer"><button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
+              <div class="lck-form-footer">
+                <!----> <button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
                   <!---->
                 </button> <button type="submit" class="p-button p-component" disabled="disabled"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
                   <!---->
-                </button></div>
+                </button>
+              </div>
             </form>
           </div>
           <h3>
@@ -937,11 +943,13 @@ exports[`AclSetListing update an aclset 1`] = `
                 </transition-stub>
                 </span> <span class="p-my-2 untouched pristine"></span>
               </div>
-              <div class="lck-form-footer"><button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
+              <div class="lck-form-footer">
+                <!----> <button type="button" class="p-button-text p-button-secondary p-button p-component"><span class="pi pi-times p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.cancel</span>
                   <!---->
                 </button> <button class="p-button p-component" type="submit"><span class="pi pi-save p-button-icon p-button-icon-left"></span> <span class="p-button-label">form.save</span>
                   <!---->
-                </button></div>
+                </button>
+              </div>
             </form>
           </div>
           <h3>

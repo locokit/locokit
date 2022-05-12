@@ -10,6 +10,14 @@
 
       <div class="lck-form-footer">
         <p-button
+          v-if="displayDeleteButton"
+          class="p-button-text p-button-danger p-mr-auto"
+          :class="{ 'full-width-button': fullWidthButton }"
+          :label="$t('form.delete')"
+          icon="bi bi-trash"
+          @click="$emit('delete')"
+        />
+        <p-button
           v-if="displayCancelButton"
           class="p-button-text p-button-secondary"
           :class="{ 'full-width-button': fullWidthButton }"
@@ -57,6 +65,10 @@ export default Vue.extend({
     displayCancelButton: {
       type: Boolean,
       default: true,
+    },
+    displayDeleteButton: {
+      type: Boolean,
+      default: false,
     },
     fullWidthButton: {
       type: Boolean,

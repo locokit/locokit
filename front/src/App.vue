@@ -33,7 +33,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {
   authState,
   authenticate,
@@ -41,10 +41,12 @@ import {
 import { appState } from '@/store/app'
 import Login from '@/components/auth/Login/Login.vue'
 import Dialog from './components/ui/Dialog/Dialog.vue'
-import PopupReload from '@/components/ui/PopupReload/PopupReload'
+import PopupReload from '@/components/ui/PopupReload/PopupReload.vue'
 import Toast from 'primevue/toast'
+import Vue from 'vue'
+import { PrimeVueLocaleOptions } from 'primevue/config/PrimeVue'
 
-export default {
+export default Vue.extend({
   name: 'app',
   components: {
     'lck-dialog': Dialog,
@@ -61,18 +63,16 @@ export default {
     }
   },
   computed: {
-    displayHeader () {
+    displayHeader (): boolean {
       let result = true
-      if (this.$route.meta.needHeader !== undefined) {
+      if (this.$route?.meta?.needHeader !== undefined) {
         result = this.$route.meta.needHeader
       }
       return result
     },
   },
   methods: {
-    async authenticate (data) {
-      await authenticate(data)
-    },
+    authenticate,
   },
   created () {
     // Listen for swUpdated event and display refresh modal.
@@ -83,13 +83,13 @@ export default {
   watch: {
     '$i18n.locale': {
       handler () {
-        this.$primevue.config.locale = this.$t('localePrime')
+        this.$primevue.config.locale = this.$t('localePrime') as unknown as PrimeVueLocaleOptions
       },
       immediate: true,
     },
   },
 
-}
+})
 </script>
 
 <style lang="scss" src="@/styles/global.scss"></style>

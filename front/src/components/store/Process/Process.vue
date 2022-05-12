@@ -9,6 +9,7 @@
         :submitting="submitting"
         @input="$emit('input', $event)"
         @cancel="$emit('cancel')"
+        @delete="$emit('delete')"
         :table-id="tableId"
         :tables="suggestionsTable"
         :columns="suggestionsColumn"
@@ -17,12 +18,18 @@
       />
       <div class="p-mx-auto" v-if="process.id">
         <p-button
-          class="p-button-sm p-button-danger"
-          icon="bi bi-trash"
-          @click="$emit('delete', process.id)"
-          :disabled="process.runs && process.runs.length > 0"
-          :label="$t('components.process.removeButtonLabel')"
+          v-if="displayTriggerButton"
+          icon="bi bi-lightning"
+          @click="$emit('run')"
+          :disabled="!processTriggerable"
+          label="Déclencher"
         />
+        <p-button
+          icon="bi bi-arrow-clockwise"
+          class="p-button-outlined p-mr-2"
+          @click="$emit('refresh-runs', process)"
+        />
+
         <div v-if="process.runs && process.runs.length > 0">
           <h4 class="p-tabview-title">
             {{ $t('components.process.headerRuns') }}
@@ -30,29 +37,65 @@
               ({{ process.runs.length }})
             </span>
           </h4>
-          <p-button
-            icon="pi pi-refresh"
-            @click="$emit('refresh-runs', process)"
-            class="p-button-sm"
-            style="width: auto"
-            :label="$t('components.process.refreshButtonLabel')"
-          />
-          <p-accordion
-            :multiple="true"
+
+          <p-datatable
             v-if="process.runs && process.runs.length > 0"
+            class="
+              p-datatable-sm
+              p-d-flex
+              p-flex-column
+              justify-between
+            "
+            :value="process.runs"
+            :expandedRows.sync="expandedRows"
+            dataKey="id"
           >
-            <p-accordion-tab
-              v-for="run in process.runs"
-              :key="run.id"
+            <p-column
+              headerStyle="height: 2.5rem; width: 3rem"
+              bodyStyle="height: 2.5rem; width: 3rem"
+              :expander="true"
+            />
+            <p-column
+              headerStyle="height: 2.5rem"
+              bodyStyle="height: 2.5rem"
+              field="status"
+              :header="$t('components.processPanel.status')"
             >
-              <template #header>
-                {{ run.createdAt }} -
-                {{ run.status }} -
-                {{ run.duration }}
+              <template #body="slotProps">
+                <span
+                  class="p-tag p-tag-rounded"
+                  :class="
+                    slotProps.data.status === PROCESS_RUN_STATUS.SUCCESS && 'p-tag-success' ||
+                    slotProps.data.status === PROCESS_RUN_STATUS.WARNING && 'p-tag-warning' ||
+                    slotProps.data.status === PROCESS_RUN_STATUS.ERROR && 'p-tag-danger' ||
+                    'p-tag-info'
+                  "
+                >
+                  {{ $t(`components.processPanel.${slotProps.data.status}`) }}
+                </span>
               </template>
-              <pre>{{ run.log }}</pre>
-            </p-accordion-tab>
-          </p-accordion>
+            </p-column>
+            <p-column
+              field="createdAt"
+              :header="$t('components.processPanel.when')"
+            >
+              <template #body="slotProps">
+                <span>{{ formatDateString(slotProps.data.createdAt, $t('date.datetimeLogFormat')) }}</span>
+                <span
+                  v-if="slotProps.data.status !== PROCESS_TRIGGER.RUNNING && slotProps.data.duration"
+                >
+                  ({{ slotProps.data.duration }}ms)
+                </span>
+              </template>
+            </p-column>
+            <template #expansion="slotProps">
+              <pre v-if="!!slotProps.data.log">
+                {{ slotProps.data.log }}
+              </pre>
+              <p v-else>{{ $t('components.processPanel.noLog') }}</p>
+            </template>
+          </p-datatable>
+
         </div>
         <p v-else class="p-p-1">
           {{ $t('components.process.noRun') }}
@@ -65,13 +108,14 @@
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
 import Button from 'primevue/button'
-import Accordion from 'primevue/accordion'
-import AccordionTab from 'primevue/accordiontab'
 import ProcessForm from './ProcessForm.vue'
-import { LckProcess } from '@/services/lck-api/definitions'
+import { LckProcess, PROCESS_TRIGGER, PROCESS_RUN_STATUS } from '@/services/lck-api/definitions'
 import Card from 'primevue/card'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
+import { formatDateString } from '@/services/lck-utils/date'
 
-export default {
+export default Vue.extend({
   name: 'LckProcess',
   props: {
     process: {
@@ -102,11 +146,38 @@ export default {
   components: {
     'p-button': Vue.extend(Button),
     'p-card': Vue.extend(Card),
-    'p-accordion': Vue.extend(Accordion),
-    'p-accordion-tab': Vue.extend(AccordionTab),
+    'p-datatable': Vue.extend(DataTable),
+    'p-column': Vue.extend(Column),
     'lck-process-form': ProcessForm,
   },
-}
+  data () {
+    return {
+      PROCESS_RUN_STATUS,
+      PROCESS_TRIGGER,
+      expandedRows: [],
+    }
+  },
+  computed: {
+    processTriggerable () {
+      if (!this.process) return false
+      return (
+        this.process.trigger === PROCESS_TRIGGER.MANUAL &&
+        !this.process.table_id &&
+        this.process.enabled === true
+      )
+    },
+    displayTriggerButton () {
+      if (!this.process) return false
+      return (
+        this.process.trigger === PROCESS_TRIGGER.MANUAL &&
+        !this.process.table_id
+      )
+    },
+  },
+  methods: {
+    formatDateString,
+  },
+})
 </script>
 
 <style scoped>

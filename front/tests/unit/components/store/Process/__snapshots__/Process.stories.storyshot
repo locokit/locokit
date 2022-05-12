@@ -118,71 +118,6 @@ exports[`storyshots components/store/process/Process default 1`] = `
             >
               <label
                 class="label-field-required"
-                for="table"
-              >
-                
-      Table
-    
-              </label>
-               
-              <span
-                aria-haspopup="listbox"
-                aria-owns="pv_id_5_list"
-                class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
-                dropdown="true"
-                id="table"
-                suggestions=""
-              >
-                <input
-                  aria-autocomplete="list"
-                  aria-controls="pv_id_5_list"
-                  autocomplete="off"
-                  class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
-                  id="table"
-                  placeholder="Choose a table"
-                  role="searchbox"
-                  type="text"
-                />
-                 
-                <!---->
-                 
-                <!---->
-                 
-                <button
-                  class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
-                  type="button"
-                >
-                  <span
-                    class="pi pi-chevron-down p-button-icon"
-                  />
-                   
-                  <span
-                    class="p-button-label"
-                  >
-                     
-                  </span>
-                   
-                  <!---->
-                  <span
-                    class="p-ink"
-                  />
-                </button>
-                 
-                <!---->
-              </span>
-               
-              <span
-                class="untouched pristine"
-              >
-                
-              </span>
-            </div>
-             
-            <div
-              class="p-field"
-            >
-              <label
-                class="label-field-required"
                 for="trigger"
               >
                 
@@ -237,6 +172,80 @@ exports[`storyshots components/store/process/Process default 1`] = `
               </span>
             </div>
              
+            <div
+              class="p-field"
+            >
+              <label
+                class="label-field-required"
+                for="table"
+              >
+                
+      Table
+    
+              </label>
+               
+              <span
+                aria-haspopup="listbox"
+                aria-owns="pv_id_5_list"
+                class="lck-autocomplete p-autocomplete p-component p-inputwrapper p-autocomplete-dd"
+                dropdown="true"
+                id="table"
+                suggestions=""
+              >
+                <input
+                  aria-autocomplete="list"
+                  aria-controls="pv_id_5_list"
+                  autocomplete="off"
+                  class="p-autocomplete-input p-inputtext p-component p-autocomplete-dd-input"
+                  id="table"
+                  placeholder="Choose a table"
+                  role="searchbox"
+                  type="text"
+                />
+                 
+                <!---->
+                 
+                <!---->
+                 
+                <button
+                  class="p-autocomplete-dropdown p-button p-component p-button-icon-only"
+                  type="button"
+                >
+                  <span
+                    class="pi pi-chevron-down p-button-icon"
+                  />
+                   
+                  <span
+                    class="p-button-label"
+                  >
+                     
+                  </span>
+                   
+                  <!---->
+                  <span
+                    class="p-ink"
+                  />
+                </button>
+                 
+                <!---->
+              </span>
+               
+              <small
+                class="p-text-italic"
+                id="table"
+              >
+                
+      If trigger is MANUAL, table is optional.
+    
+              </small>
+               
+              <span
+                class="untouched pristine"
+              >
+                
+              </span>
+            </div>
+             
             <!---->
              
             <div
@@ -269,6 +278,26 @@ exports[`storyshots components/store/process/Process default 1`] = `
             <div
               class="lck-form-footer"
             >
+              <button
+                class="p-button-text p-button-danger p-mr-auto p-button p-component"
+                type="button"
+              >
+                <span
+                  class="bi bi-trash p-button-icon p-button-icon-left"
+                />
+                 
+                <span
+                  class="p-button-label"
+                >
+                  Delete
+                </span>
+                 
+                <!---->
+                <span
+                  class="p-ink"
+                />
+              </button>
+               
               <button
                 class="p-button-text p-button-secondary p-button p-component"
                 type="button"
@@ -316,19 +345,20 @@ exports[`storyshots components/store/process/Process default 1`] = `
         <div
           class="p-mx-auto"
         >
+          <!---->
+           
           <button
-            class="p-button-sm p-button-danger p-button p-component"
-            disabled="disabled"
+            class="p-button-outlined p-mr-2 p-button p-component p-button-icon-only"
             type="button"
           >
             <span
-              class="bi bi-trash p-button-icon p-button-icon-left"
+              class="bi bi-arrow-clockwise p-button-icon"
             />
              
             <span
               class="p-button-label"
             >
-              Remove
+               
             </span>
              
             <!---->
@@ -353,188 +383,88 @@ exports[`storyshots components/store/process/Process default 1`] = `
               </span>
             </h4>
              
-            <button
-              class="p-button-sm p-button p-component"
-              style="width: auto;"
-              type="button"
+            <div
+              class="
+            p-datatable-sm
+            p-d-flex
+            p-flex-column
+            justify-between
+           p-datatable p-component"
             >
-              <span
-                class="pi pi-refresh p-button-icon p-button-icon-left"
-              />
-               
-              <span
-                class="p-button-label"
-              >
-                Refresh
-              </span>
+              <!---->
                
               <!---->
-              <span
-                class="p-ink"
+               
+              <!---->
+               
+              <!---->
+               
+              <!---->
+               
+              <!---->
+               
+              <div
+                class="p-datatable-wrapper"
+              >
+                <table
+                  role="grid"
+                >
+                  <thead
+                    class="p-datatable-thead"
+                  >
+                    <tr />
+                     
+                    <!---->
+                  </thead>
+                   
+                  <tbody
+                    class="p-datatable-tbody"
+                  >
+                    <!---->
+                     
+                    <tr
+                      class=""
+                    />
+                     
+                    <!---->
+                     
+                    <!---->
+                    <!---->
+                     
+                    <tr
+                      class=""
+                    />
+                     
+                    <!---->
+                     
+                    <!---->
+                    <!---->
+                     
+                    <tr
+                      class=""
+                    />
+                     
+                    <!---->
+                     
+                    <!---->
+                  </tbody>
+                   
+                  <!---->
+                </table>
+              </div>
+               
+              <!---->
+               
+              <!---->
+               
+              <div
+                class="p-column-resizer-helper"
+                style="display: none;"
               />
-            </button>
-             
-            <div
-              class="p-accordion p-component"
-            >
-              <div
-                class="p-accordion-tab"
-              >
-                <div
-                  class="p-accordion-header"
-                >
-                  <a
-                    aria-controls="pv_id_6_content"
-                    class="p-accordion-header-link"
-                    id="pv_id_6_header"
-                    role="tab"
-                    tabindex="0"
-                  >
-                    <span
-                      class="p-accordion-toggle-icon pi pi-chevron-right"
-                    />
-                     
-                    <!---->
-                     
-               -
-              SUCCESS -
-              100
-            
-                  </a>
-                </div>
-                 
-                <div
-                  aria-labelledby="pv_id_6_header"
-                  class="p-toggleable-content"
-                  id="pv_id_6_content"
-                  role="region"
-                  style="display: none;"
-                >
-                  <div
-                    class="p-accordion-content"
-                  >
-                     
-                    <pre>
-                      
-This is the log
-
-And it is big.
-
-So big...
-
-I'm lost...
-
-At the end...
-
-Of the log...
-
-And,
-
-In
-
-Fact,
-
-This
-
-is
-
-...
-
-Game
-
-...
-
-Over.
-                    </pre>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="p-accordion-tab"
-              >
-                <div
-                  class="p-accordion-header"
-                >
-                  <a
-                    aria-controls="pv_id_7_content"
-                    class="p-accordion-header-link"
-                    id="pv_id_7_header"
-                    role="tab"
-                    tabindex="0"
-                  >
-                    <span
-                      class="p-accordion-toggle-icon pi pi-chevron-right"
-                    />
-                     
-                    <!---->
-                     
-               -
-              SUCCESS -
-              250
-            
-                  </a>
-                </div>
-                 
-                <div
-                  aria-labelledby="pv_id_7_header"
-                  class="p-toggleable-content"
-                  id="pv_id_7_content"
-                  role="region"
-                  style="display: none;"
-                >
-                  <div
-                    class="p-accordion-content"
-                  >
-                     
-                    <pre>
-                      This is the log
-                    </pre>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="p-accordion-tab"
-              >
-                <div
-                  class="p-accordion-header"
-                >
-                  <a
-                    aria-controls="pv_id_8_content"
-                    class="p-accordion-header-link"
-                    id="pv_id_8_header"
-                    role="tab"
-                    tabindex="0"
-                  >
-                    <span
-                      class="p-accordion-toggle-icon pi pi-chevron-right"
-                    />
-                     
-                    <!---->
-                     
-               -
-              SUCCESS -
-              5365
-            
-                  </a>
-                </div>
-                 
-                <div
-                  aria-labelledby="pv_id_8_header"
-                  class="p-toggleable-content"
-                  id="pv_id_8_content"
-                  role="region"
-                  style="display: none;"
-                >
-                  <div
-                    class="p-accordion-content"
-                  >
-                     
-                    <pre>
-                      This is the log
-                    </pre>
-                  </div>
-                </div>
-              </div>
+               
+              <!---->
+               
+              <!---->
             </div>
           </div>
         </div>

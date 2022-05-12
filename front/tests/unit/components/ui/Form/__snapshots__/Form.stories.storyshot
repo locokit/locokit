@@ -35,6 +35,8 @@ exports[`storyshots components/ui/Form default 1`] = `
       <div
         class="lck-form-footer"
       >
+        <!---->
+         
         <button
           class="p-button-text p-button-secondary p-button p-component"
           type="button"
@@ -116,6 +118,8 @@ exports[`storyshots components/ui/Form non-submissible form 1`] = `
       <div
         class="lck-form-footer"
       >
+        <!---->
+         
         <button
           class="p-button-text p-button-secondary p-button p-component"
           type="button"
@@ -197,6 +201,8 @@ exports[`storyshots components/ui/Form submitting 1`] = `
       <div
         class="lck-form-footer"
       >
+        <!---->
+         
         <button
           class="p-button-text p-button-secondary p-button p-component"
           type="button"
@@ -278,6 +284,8 @@ exports[`storyshots components/ui/Form with large buttons 1`] = `
       <div
         class="lck-form-footer"
       >
+        <!---->
+         
         <button
           class="p-button-text p-button-secondary p-button p-component full-width-button"
           type="button"
@@ -359,6 +367,8 @@ exports[`storyshots components/ui/Form without the cancel button 1`] = `
       <div
         class="lck-form-footer"
       >
+        <!---->
+         
         <!---->
          
         <button

@@ -1034,6 +1034,12 @@ export default {
         process_id: processId,
         waitForOutput: true,
       })
+      this.$toast.add({
+        severity: 'success',
+        summary: name,
+        detail: this.$t('components.processPanel.started'),
+        life: 5000,
+      })
       if (res && (res.code || res.status === PROCESS_RUN_STATUS.ERROR)) {
         this.$toast.add({
           severity: 'error',
