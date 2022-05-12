@@ -216,46 +216,14 @@ jobs:
       - name: Build documentation
         run: npm run docs:build
       - name: Tar docs
-        run: tar -cvzf lck-docs-build-artifact.tar.gz docs/.vitepress/dist/
+        run: cd docs/.vitepress/dist/ && tar -czvf lck-docs-build-artifact.tar.gz *
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
           name: lck-docs-build-artifact.tar.gz
           path: |
-            lck-docs-build-artifact.tar.gz
+            docs/.vitepress/dist/lck-docs-build-artifact.tar.gz
   
-  docs-push-pages:
-    runs-on: ubuntu-latest
-    needs: [docs-build]
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: gh-pages
-      - name: Rm all files
-        run: |
-          rm -rf *
-      - name: Config git
-        run: |
-          git config --global user.email "mathieu@dartic.fr"
-          git config --global user.name "mdartic"
-      - name: Config git
-        run: |
-          git add .
-          git commit -m "Remove old files"
-      - name: Create CNAME
-        run: echo "docs.locokit.io" > CNAME
-      - name: Download docs artifact
-        uses: actions/download-artifact@v2
-        with: 
-          name: lck-docs-build-artifact.tar.gz
-      - name: Extract docs artifact
-        run: tar -xzf lck-docs-build-artifact.tar.gz
-      - name: Commit & push files
-        run: |
-          git add .
-          git commit -m "Add changes"
-          git push origin gh-pages --force
-
   ## Docker part
   locokit-docker:
     runs-on: ubuntu-latest
