@@ -272,7 +272,7 @@ jobs:
           name: lck-docs-build-artifact.tar.gz
           # path: docs/.vitepress/dist
       - name: Extract docs artifact
-        run: tar -xzf lck-docs-build-artifact.tar.gz
+        run: mkdir -p docs/.vitepress/dist && tar -xzf lck-docs-build-artifact.tar.gz -C docs/.vitepress/dist
       - name: LS
         run: ls -al
       - name: Login to DockerHub
