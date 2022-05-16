@@ -93,3 +93,9 @@ export function logout () {
   lckAbilities.update([])
   return lckClient.logout()
 }
+
+export function updateUsername (username: string) {
+  if (authState.data.user) {
+    authState.data.user.name = username
+  }
+}

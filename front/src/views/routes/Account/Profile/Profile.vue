@@ -1,25 +1,27 @@
 <template>
-  <layout-with-header>
-    <div class="generic-view-container  p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto">
+    <div class="generic-view-container p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto">
       <div class="lck-color-primary p-my-4">
         <h1>{{ $t('pages.account.title') }}</h1>
       </div>
       <section class="p-mb-4">
         <p-card>
-          <template slot="title">
+          <template #title>
             <span class="icon-rounded"><i class="pi pi-user"></i></span> {{ $t('pages.account.view.profile') }}
           </template>
           <template
-            slot="content"
+            #content
             v-if="authState.data.user"
           >
-            <h4>{{ authState.data.user.name }}</h4>
+            <div class="p-inputgroup p-mb-2">
+              <p-input-text v-model="username"/>
+              <p-button icon="bi bi-save" label="Save" @click="submitUsername"/>
+            </div>
             <strong>{{ $t('pages.account.view.email') }}&nbsp;</strong>{{ authState.data.user.email }}
             <br>
             <strong>{{ $t('pages.account.view.role') }}&nbsp;</strong>{{ authState.data.user.profile }}
           </template>
           <template
-            slot="content"
+            #content
             v-else
           >
             {{ $t('pages.account.view.nodata') }}
@@ -29,30 +31,74 @@
 
       <section class="p-mb-4">
         <p-card>
-          <template slot="title">
+          <template #title>
             <span class="icon-rounded"><i class="pi pi-users"></i></span> {{ $t('pages.account.view.groups') }}
           </template>
           <template
-            slot="content"
+            #content
             v-if="authState.data.user && authState.data.user.groups"
           >
-            <p-card v-for="group in authState.data.user.groups" :key="group.id">
-              <template slot="title">
-                {{ group.name }} ({{ group.uhg_role }})
-              </template>
-              <template slot="content">
-                <router-link
-                  class="no-decoration-link"
-                  :to="`${ROUTES_PATH.WORKSPACE}/${group.aclset.workspace.id}`"
+            <lck-form
+              class="p-mb-2"
+              :displayCancelButton="false"
+              :submitting="loading"
+              @submit="submitUsername"
+            >
+              <validation-provider
+                vid="username"
+                tag="div"
+                :name="$t('pages.account.username')"
+                class="p-field p-grid p-mb-3"
+                rules="required"
+                v-slot="{
+                  errors,
+                  classes
+                }"
+              >
+                <label
+                  class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                  for="username"
                 >
-                  {{ group.aclset.workspace.text }}
-                </router-link>
-                <span v-if="group.aclset.manager">(manager)</span>
-              </template>
-            </p-card>
+                  {{ $t('pages.account.username') }}
+                </label>
+                <div class="p-col-12 p-md-8">
+                  <p-input-text id="username" v-model="username"/>
+                </div>
+                <span :class="classes" class="p-my-2">{{ errors[0] }}</span>
+              </validation-provider>
+              <validation-provider
+                vid="email"
+                tag="div"
+                :name="$t('pages.account.email')"
+                class="p-field p-grid p-mb-3"
+                rules="required|email"
+              >
+                <label
+                  class="p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                  for="email"
+                >
+                  {{ $t('pages.account.email') }}
+                </label>
+                <div class="p-col-12 p-md-8">
+                  <p class="p-text-bold"> {{ authState.data.user.email }} </p>
+                </div>
+              </validation-provider>
+              <div
+                class="p-field p-grid p-mb-3"
+              >
+                <label
+                  class="p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                >
+                  {{ $t('pages.account.role') }}
+                </label>
+                <div class="p-col-12 p-md-8">
+                  <p-tag :value="$t(`common.profiles.${authState.data.user.profile}`)"/>
+                </div>
+              </div>
+            </lck-form>
           </template>
           <template
-            slot="content"
+            #content
             v-else
           >
             {{ $t('pages.account.view.nodata') }}
@@ -62,12 +108,12 @@
 
       <section class="p-mb-4">
         <p-card>
-          <template slot="title">
+          <template #title>
             <span class="icon-rounded"><i class="pi pi-envelope"></i></span> {{ $t('pages.account.edit.email.title') }}
           </template>
 
           <template
-            slot="content"
+            content
             v-if="authState.data.user && authState.data.user.email"
           >
             <lck-form
@@ -132,7 +178,7 @@
             </lck-form>
           </template>
           <template
-            slot="content"
+            #content
             v-else
           >
             {{ $t('pages.account.view.nodata') }}
@@ -142,11 +188,11 @@
 
       <section class="p-mb-4">
         <p-card>
-          <template slot="title">
+          <template #title>
             <span class="icon-rounded"><i class="pi pi-lock"></i></span> {{ $t('pages.account.edit.title') }}
           </template>
           <template
-            slot="content"
+            #content
             v-if="authState.data.user && authState.data.user.email"
           >
             <lck-form
@@ -182,7 +228,9 @@
                 <span
                   :class="classes"
                   class="p-my-2"
-                >{{ errors[0] }}</span>
+                >
+                  {{ errors[0] }}
+                </span>
               </validation-provider>
 
               <validation-provider
@@ -228,7 +276,9 @@
                   <span
                     :class="classes"
                     class="p-my-2"
-                  >{{ errors[0] }}</span>
+                  >
+                    {{ errors[0] }}
+                  </span>
                 </div>
               </validation-provider>
 
@@ -258,13 +308,18 @@
                   />
                 </div>
 
-                <span :class="classes" class="p-my-2">{{ errors[0] }}</span>
+                <span
+                  :class="classes"
+                  class="p-my-2"
+                >
+                  {{ errors[0] }}
+                </span>
               </validation-provider>
             </lck-form>
           </template>
 
           <template
-            slot="content"
+            #content
             v-else
           >
             {{ $t('pages.account.view.nodata') }}
@@ -272,7 +327,6 @@
         </p-card>
       </section>
     </div>
-  </layout-with-header>
 </template>
 
 <script lang="ts">
@@ -280,23 +334,32 @@ import Vue from 'vue'
 
 import Card from 'primevue/card'
 import InputText from 'primevue/inputtext'
+import Tag from 'primevue/tag'
 import Password from 'primevue/password'
 import { ValidationProvider } from 'vee-validate'
 
 import LckForm from '@/components/ui/Form/Form.vue'
 
 import { lckClient } from '@/services/lck-api'
-import { authState, logout } from '@/store/auth'
+import { authState, logout, updateUsername } from '@/store/auth'
 import { ROUTES_PATH } from '@/router/paths'
 import { regexPasswordRules } from '@/services/lck-utils/regex'
-import LayoutWithHeader from '@/layouts/WithHeader.vue'
 
 export default Vue.extend({
   name: 'Profile',
+  components: {
+    'lck-form': LckForm,
+    'p-card': Vue.extend(Card),
+    'p-password': Vue.extend(Password),
+    'p-input-text': Vue.extend(InputText),
+    'p-tag': Vue.extend(Tag),
+    'validation-provider': Vue.extend(ValidationProvider),
+  },
   data () {
     return {
       authState,
       loading: false,
+      username: authState.data.user?.name,
       password: {
         oldPassword: null,
         password: null,
@@ -312,14 +375,6 @@ export default Vue.extend({
       regexPasswordRules,
       ROUTES_PATH,
     }
-  },
-  components: {
-    'layout-with-header': Vue.extend(LayoutWithHeader),
-    'lck-form': LckForm,
-    'p-card': Vue.extend(Card),
-    'p-password': Vue.extend(Password),
-    'p-input-text': Vue.extend(InputText),
-    'validation-provider': Vue.extend(ValidationProvider),
   },
   methods: {
     async submitPassword () {
@@ -349,6 +404,23 @@ export default Vue.extend({
       }
       this.loading = false
     },
+    async submitUsername () {
+      if (this.username) {
+        try {
+          await lckClient.service('user').patch(this.authState.data.user?.id, {
+            name: this.username,
+          })
+          updateUsername(this.username)
+        } catch (error) {
+          this.$toast.add({
+            severity: 'error',
+            summary: this.$t('error.impossibleOperation'),
+            detail: this.$t('error.basic'),
+            life: 5000,
+          })
+        }
+      }
+    },
     async submitEmail () {
       // The user and the new email address must be defined
       if (!authState.data.user || !this.emailEdit.newEmail) return
@@ -374,6 +446,7 @@ export default Vue.extend({
         this.$toast.add({
           severity: 'error',
           summary: this.$t('error.impossibleOperation'),
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           detail: (error as any).errors?.password
             ? this.$t('pages.account.edit.passwordIncorrect')
             : this.$t('error.basic'),
