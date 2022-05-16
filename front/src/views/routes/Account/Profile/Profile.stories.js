@@ -1,4 +1,4 @@
-import { action } from '@storybook/addon-actions'
+/* eslint-disable @typescript-eslint/camelcase */
 import { GROUP_ROLE, USER_PROFILE } from '@locokit/lck-glossary'
 import Vue from 'vue'
 import Profile from './Profile'

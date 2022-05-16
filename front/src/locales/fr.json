@@ -461,14 +461,12 @@
     },
     "account": {
       "title": "Mon compte",
-      "view": {
-        "email": "E-mail :",
-        "role": "Rôle :",
-        "profile": "Mon profil",
-        "groups": "Mes groupes",
-        "workspaces": "Mes espaces de travail",
-        "nodata": "Aucune donnée à afficher"
-      },
+      "profile": "Mon profil",
+      "groups": "Mes groupes",
+      "username": "Nom",
+      "email": "E-mail",
+      "role": "Rôle",
+      "nodata": "Aucune donnée à afficher",
       "edit": {
         "email": {
           "currentPassword": "Mot de passe actuel",
@@ -477,7 +475,7 @@
           "success": "Vous allez recevoir un message électronique pour confirmer l'utilisation de cette nouvelle adresse électronique.",
           "title": "Mettre à jour mon adresse électronique"
         },
-        "title": "Mettre à jour mon mot de passe",
+        "title": "Mettre à jour le mot de passe",
         "oldPassword": "Ancien mot de passe",
         "newPassword": "Nouveau mot de passe",
         "passwordCheck": "Mot de passe (vérification)",
@@ -522,7 +520,8 @@
       "title": "Espaces de travail",
       "noName": "(pas de nom)",
       "noWorkspace": "Aucun espace de travail à afficher",
-      "settingButtonTitle": "Administration de l'espace de travail '{workspaceText}'",
+      "adminWorkspaceLinkTitle": "Administration de l'espace de travail '{workspaceText}'",
+      "workspaceLinkTitle": "Espace de travail '{workspaceText}'",
       "created": "Créé le :",
       "updated": "Mis à jour le :",
       "noChapter": "Aucun chapitre à afficher",
@@ -1085,6 +1084,17 @@
       "right": "Droite",
       "center": "Centré",
       "justify": "Justifié"
+    },
+     "roles": {
+      "OWNER": "Propriétaire",
+      "ADMIN": "Admin",
+      "MEMBER": "Membre"
+    },
+    "profiles": {
+      "SUPERADMIN": "Super admin",
+      "ADMIN": "Admin",
+      "CREATOR": "Créateur",
+      "USER": "Utilisateur"
     }
   },
   "localePrime": {

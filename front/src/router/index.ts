@@ -46,12 +46,14 @@ import GroupManagement from '@/views/routes/admin/GroupManagement.vue'
 /**
  * User routes
  */
-import Profile from '@/views/routes/user/Profile.vue'
+import Profile from '@/views/routes/Account/Profile/Profile.vue'
 import LostPassword from '../views/routes/user/LostPassword.vue'
 import ResetPassword from '../views/routes/user/ResetPassword.vue'
 import VerifySignup from '../views/routes/user/VerifySignup.vue'
 import UpdateEmail from '../views/routes/user/UpdateEmail.vue'
 import SignUp from '../views/routes/user/SignUp.vue'
+import Account from '@/views/routes/Account/Account.vue'
+import Group from '@/views/routes/Account/Group/Group.vue'
 
 import { ROUTES_NAMES, ROUTES_PATH } from './paths'
 import { authState } from '@/store/auth'
@@ -117,12 +119,35 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    name: ROUTES_NAMES.PROFILE,
+    name: ROUTES_NAMES.PROFILE.SELF,
     path: ROUTES_PATH.PROFILE,
-    component: Profile,
+    component: Account,
     meta: {
       needAuthentication: true,
+      hasBurgerMenu: true,
     },
+    children: [
+      {
+        name: ROUTES_NAMES.PROFILE.USER,
+        path: '',
+        component: Profile,
+        props: true,
+        meta: {
+          needAuthentication: true,
+          hasBurgerMenu: true,
+        },
+      },
+      {
+        name: ROUTES_NAMES.PROFILE.GROUPS,
+        path: ROUTES_PATH.PROFILE + '/groups',
+        component: Group,
+        props: true,
+        meta: {
+          needAuthentication: true,
+          hasBurgerMenu: true,
+        },
+      },
+    ],
   },
   {
     name: ROUTES_NAMES.WORKSPACELIST,
