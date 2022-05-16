@@ -1,22 +1,23 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { GROUP_ROLE, USER_PROFILE } from '@locokit/lck-glossary'
 import Vue from 'vue'
-import Profile from './Profile'
+import Group from './Group'
 
 import { authState } from '@/store/auth'
 import '@/plugins/vee-validate'
+import Profile from '@/views/routes/Account/Profile/Profile'
 
 export default {
-  title: 'views/routes/account/profile/Profile',
-  component: Profile,
+  title: 'views/routes/account/group/Group',
+  component: Group,
 }
 
 export const defaultStory = () => ({
   data () {
     return { authState }
   },
-  components: { Profile },
-  template: '<Profile />',
+  components: { Group },
+  template: '<Group />',
   async mounted () {
     this.authState.data.user = null
     await Vue.nextTick()
@@ -32,14 +33,15 @@ export const withAuthUser = () => ({
   data () {
     return { authState }
   },
-  components: { Profile },
-  template: '<Profile />',
+  components: { Group },
+  template: '<Group />',
   async mounted () {
     this.authState.data.user = {
       id: 1,
       name: 'Mathieu DARTIGUES',
       email: 'contact@locokit.io',
       profile: USER_PROFILE.SUPERADMIN,
+      groups: [],
     }
     await Vue.nextTick()
   },
@@ -48,14 +50,14 @@ export const withAuthUser = () => ({
   },
 })
 
-withAuthUser.storyName = 'with auth user'
+withAuthUser.storyName = 'withAuthUser'
 
 export const withAuthUserAndGroup = () => ({
   data () {
     return { authState }
   },
-  components: { Profile },
-  template: '<Profile />',
+  components: { Group },
+  template: '<Group />',
   async mounted () {
     this.authState.data.user = {
       id: 1,
@@ -65,7 +67,6 @@ export const withAuthUserAndGroup = () => ({
       groups: [{
         id: 'group-id',
         name: 'An amazing group',
-        uhg_role: GROUP_ROLE.ADMIN,
         aclset: {
           manager: true,
           workspace_id: 'workspace-id',
@@ -74,6 +75,7 @@ export const withAuthUserAndGroup = () => ({
             text: 'An amazing workspace',
           },
         },
+        uhg_role: GROUP_ROLE.ADMIN,
       }],
     }
     await Vue.nextTick()

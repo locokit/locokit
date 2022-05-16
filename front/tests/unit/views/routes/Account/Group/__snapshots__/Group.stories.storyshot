@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots views/routes/account/group/Group default 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="groups-container"
+  >
+    <div
+      class="generic-view-container p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto"
+    >
+      <div
+        class="lck-color-primary p-my-4"
+      >
+        <h1>
+          My groups
+        </h1>
+      </div>
+       
+      <div>
+        <p>
+          
+        No data to display
+      
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots views/routes/account/group/Group with auth user and groups 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="groups-container"
+  >
+    <div
+      class="generic-view-container p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto"
+    >
+      <div
+        class="lck-color-primary p-my-4"
+      >
+        <h1>
+          My groups
+        </h1>
+      </div>
+       
+      <div>
+        <p>
+          
+        No data to display
+      
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots views/routes/account/group/Group withAuthUser 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="groups-container"
+  >
+    <div
+      class="generic-view-container p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto"
+    >
+      <div
+        class="lck-color-primary p-my-4"
+      >
+        <h1>
+          My groups
+        </h1>
+      </div>
+       
+      <div>
+        <p>
+          
+        No data to display
+      
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
