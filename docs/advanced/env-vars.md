@@ -65,7 +65,11 @@ CORS_ORIGIN=*
 # Helmet settings
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
 HELMET_HSTS=true
+```
 
+## Signup
+
+```
 # Signup keys
 # Is the signup allowed on the LocoKit platform
 # This will display a signup form in the front,
@@ -77,6 +81,8 @@ SIGNUP_RATE_LIMIT_MAX=5
 # If more than 5 signup during 60s
 # signups will be rejected with a 429 HTTP (TooManyRequests)
 SIGNUP_RATE_LIMIT_TIMEFRAME=60000
+# Duration for sign up email verification in days. Default is 5 days.
+SIGNUP_VERIFICATION_MAIL_DELAY_DAYS=5
 ```
 
 ## Storage keys
