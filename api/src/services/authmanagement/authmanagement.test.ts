@@ -2,7 +2,6 @@ import app from '../../app'
 import { User } from '../../models/user.model'
 
 describe('\'authManagement\' service', () => {
-  const service = app.service('authManagement')
   it('registered the service', () => {
     expect(app.service('authManagement')).toBeTruthy()
   })
