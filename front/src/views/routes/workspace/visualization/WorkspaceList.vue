@@ -46,7 +46,7 @@
               :style="{
                 color: workspace.color || 'inherit',
               }"
-              :title="$t('pages.workspace.settingButtonTitle', { workspaceText: workspace.text })"
+              :title="$t('pages.workspace.adminWorkspaceLinkTitle', { workspaceText: workspace.text })"
             >
               <i class="bi bi-sliders"></i>
             </router-link>

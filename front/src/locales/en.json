@@ -461,14 +461,12 @@
     },
     "account": {
       "title": "My account",
-      "view": {
-        "email": "E-mail:",
-        "role": "Role:",
-        "profile": "My profile",
-        "groups": "My groups",
-        "workspaces": "My workspaces",
-        "nodata": "No data to display"
-      },
+      "profile": "My profile",
+      "groups": "My groups",
+      "username": "Username",
+      "email": "E-mail",
+      "role": "Role",
+      "nodata": "No data to display",
       "edit": {
         "email": {
           "currentPassword": "Current password",
@@ -477,7 +475,7 @@
           "success": "You will receive an email message to confirm this new email.",
           "title": "Update email"
         },
-        "title": "Update my password",
+        "title": "Update password",
         "oldPassword": "Old password",
         "newPassword": "New password",
         "passwordCheck": "Password (check)",
@@ -522,7 +520,8 @@
       "title": "Workspaces",
       "noName": "(no name)",
       "noWorkspace": "No workspace to display",
-      "settingButtonTitle": "Workspace admin of '{workspaceText}'",
+      "adminWorkspaceLinkTitle": "Workspace admin of '{workspaceText}'",
+      "workspaceLinkTitle": "Workspace of '{workspaceText}'",
       "created": "Created:",
       "updated": "Updated:",
       "noChapter": "No chapter to display",
@@ -1084,6 +1083,17 @@
       "right": "Right",
       "center": "Center",
       "justify": "Justify"
+    },
+    "roles": {
+      "OWNER": "Owner",
+      "ADMIN": "Admin",
+      "MEMBER": "Member"
+    },
+    "profiles": {
+      "SUPERADMIN": "Super admin",
+      "ADMIN": "Admin",
+      "CREATOR": "Creator",
+      "USER": "User"
     }
   },
   "localePrime": {

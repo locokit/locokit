@@ -1,0 +1,1278 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots views/routes/account/profile/Profile default 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="profile-container"
+  >
+    <div
+      class="generic-view-container p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto"
+    >
+      <div
+        class="lck-color-primary p-my-4"
+      >
+        <h1>
+          My account
+        </h1>
+      </div>
+       
+      <section
+        class="p-mb-4"
+      >
+        <div
+          class="p-card p-component"
+        >
+          <!---->
+           
+          <div
+            class="p-card-body"
+          >
+            <div
+              class="p-card-title"
+            >
+              <div
+                class="p-d-flex p-flex-row"
+              >
+                <span
+                  class="icon-rounded"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="bi bi-person"
+                  />
+                </span>
+                 
+                <h2>
+                  
+              My profile
+            
+                </h2>
+              </div>
+            </div>
+             
+            <!---->
+             
+            <div
+              class="p-card-content"
+            >
+              <div
+                class="p-mb-2"
+              >
+                <form
+                  class="p-fluid"
+                >
+                  <div
+                    class="p-field p-grid p-mb-3"
+                  >
+                    <label
+                      class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                      for="username"
+                    >
+                      
+                Username
+              
+                    </label>
+                     
+                    <div
+                      class="p-col-12 p-md-8"
+                    >
+                      <input
+                        class="p-inputtext p-component p-filled"
+                        id="username"
+                      />
+                    </div>
+                     
+                    <span
+                      class="p-my-2 untouched pristine"
+                    >
+                      
+                    </span>
+                  </div>
+                   
+                  <div
+                    class="p-field p-grid p-mb-3"
+                  >
+                    <label
+                      class="p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                      for="email"
+                    >
+                      
+                E-mail
+              
+                    </label>
+                     
+                    <div
+                      class="p-col-12 p-md-8"
+                    >
+                      <p
+                        class="p-text-bold"
+                      >
+                         contact@locokit.io 
+                      </p>
+                    </div>
+                  </div>
+                   
+                  <div
+                    class="p-field p-grid p-mb-3"
+                  >
+                    <label
+                      class="p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                    >
+                      
+                Role
+              
+                    </label>
+                     
+                    <div
+                      class="p-col-12 p-md-8"
+                    >
+                      <span
+                        class="p-tag p-component"
+                      >
+                        <!---->
+                         
+                        <span
+                          class="p-tag-value"
+                        >
+                          Super admin
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                   
+                  <div
+                    class="lck-form-footer"
+                  >
+                    <!---->
+                     
+                    <!---->
+                     
+                    <button
+                      class="p-button p-component"
+                      disabled="disabled"
+                      type="submit"
+                    >
+                      <span
+                        class="pi pi-save p-button-icon p-button-icon-left"
+                      />
+                       
+                      <span
+                        class="p-button-label"
+                      >
+                        Save
+                      </span>
+                       
+                      <!---->
+                      <span
+                        class="p-ink"
+                      />
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </section>
+       
+      <section
+        class="p-mb-4"
+      >
+        <div
+          class="p-card p-component"
+        >
+          <!---->
+           
+          <div
+            class="p-card-body"
+          >
+            <div
+              class="p-card-title"
+            >
+              <div
+                class="p-d-flex p-flex-row"
+              >
+                <span
+                  class="icon-rounded"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="bi bi-envelope"
+                  />
+                </span>
+                 
+                <h2>
+                  
+              Update email
+            
+                </h2>
+              </div>
+            </div>
+             
+            <!---->
+             
+            <div
+              class="p-card-content"
+            >
+              <div>
+                <form
+                  class="p-fluid"
+                >
+                  <div
+                    class="p-field p-grid p-mb-3"
+                  >
+                    <label
+                      class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                      for="newEmail"
+                    >
+                      
+                New email
+              
+                    </label>
+                     
+                    <div
+                      class="p-col-12 p-md-8"
+                    >
+                      <input
+                        class="p-inputtext p-component"
+                        id="newEmail"
+                        placeholder="Email"
+                        type="email"
+                      />
+                    </div>
+                     
+                    <span
+                      class="p-my-2 untouched pristine"
+                    >
+                      
+                    </span>
+                  </div>
+                   
+                  <div
+                    class="p-field p-grid p-mb-4 p-mt-2"
+                  >
+                    <label
+                      class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                      for="password"
+                    >
+                      
+                Current password
+              
+                    </label>
+                     
+                    <div
+                      class="p-col-12 p-md-8"
+                    >
+                      <div
+                        class="p-password p-component p-inputwrapper p-input-icon-right"
+                        id="password"
+                      >
+                        <input
+                          class="p-inputtext p-component p-password-input"
+                          id="password"
+                          type="password"
+                        />
+                         
+                        <i
+                          class="pi pi-eye"
+                        />
+                         
+                        <!---->
+                      </div>
+                    </div>
+                     
+                    <span
+                      class="p-my-2 untouched pristine"
+                    >
+                      
+                    </span>
+                  </div>
+                   
+                  <div
+                    class="lck-form-footer"
+                  >
+                    <!---->
+                     
+                    <!---->
+                     
+                    <button
+                      class="p-button p-component"
+                      disabled="disabled"
+                      type="submit"
+                    >
+                      <span
+                        class="pi pi-save p-button-icon p-button-icon-left"
+                      />
+                       
+                      <span
+                        class="p-button-label"
+                      >
+                        Save
+                      </span>
+                       
+                      <!---->
+                      <span
+                        class="p-ink"
+                      />
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </section>
+       
+      <section
+        class="p-mb-4"
+      >
+        <div
+          class="p-card p-component"
+        >
+          <!---->
+           
+          <div
+            class="p-card-body"
+          >
+            <div
+              class="p-card-title"
+            >
+              <div
+                class="p-d-flex p-flex-row"
+              >
+                <span
+                  class="icon-rounded"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="bi bi-shield-lock"
+                  />
+                </span>
+                 
+                <h2>
+                  
+            Update password
+          
+                </h2>
+              </div>
+            </div>
+             
+            <!---->
+             
+            <div
+              class="p-card-content"
+            >
+              <div>
+                <form
+                  class="p-fluid"
+                >
+                  <div
+                    class="p-field p-grid p-mb-3"
+                  >
+                    <label
+                      class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                      for="oldPassword"
+                    >
+                      
+              Old password
+            
+                    </label>
+                     
+                    <div
+                      class="p-col-12 p-md-8"
+                    >
+                      <div
+                        class="p-password p-component p-inputwrapper p-input-icon-right"
+                        id="oldPassword"
+                      >
+                        <input
+                          class="p-inputtext p-component p-password-input"
+                          id="oldPassword"
+                          type="password"
+                        />
+                         
+                        <i
+                          class="pi pi-eye"
+                        />
+                         
+                        <!---->
+                      </div>
+                    </div>
+                     
+                    <span
+                      class="p-my-2 untouched pristine"
+                    >
+                      
+              
+            
+                    </span>
+                  </div>
+                   
+                  <div
+                    class="p-field p-grid p-mb-3"
+                  >
+                    <label
+                      class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                      for="newPassword"
+                    >
+                      
+              New password
+            
+                    </label>
+                     
+                    <div
+                      class="p-col-12 p-md-8"
+                    >
+                      <div
+                        aria-describedby="password-rules"
+                        class="p-password p-component p-inputwrapper p-input-icon-right"
+                        id="newPassword"
+                      >
+                        <input
+                          aria-describedby="password-rules"
+                          class="p-inputtext p-component p-password-input"
+                          id="newPassword"
+                          type="password"
+                        />
+                         
+                        <i
+                          class="pi pi-eye"
+                        />
+                         
+                        <!---->
+                      </div>
+                    </div>
+                     
+                    <div
+                      class="info-new-password p-col-12 p-mb-0"
+                    >
+                      <small
+                        class="p-text-italic"
+                        id="password-rules"
+                      >
+                        
+                Must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 digit and 1 special character.
+              
+                      </small>
+                       
+                      <span
+                        class="p-my-2 untouched pristine"
+                      >
+                        
+                  
+                
+                      </span>
+                    </div>
+                  </div>
+                   
+                  <div
+                    class="p-field p-grid"
+                  >
+                    <label
+                      class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                      for="passwordCheck"
+                    >
+                      
+              Password (check)
+            
+                    </label>
+                     
+                    <div
+                      class="p-col-12 p-md-8"
+                    >
+                      <div
+                        class="p-password p-component p-inputwrapper p-input-icon-right"
+                        id="passwordCheck"
+                      >
+                        <input
+                          class="p-inputtext p-component p-password-input"
+                          id="passwordCheck"
+                          type="password"
+                        />
+                         
+                        <i
+                          class="pi pi-eye"
+                        />
+                         
+                        <!---->
+                      </div>
+                    </div>
+                     
+                    <span
+                      class="p-my-2 untouched pristine"
+                    >
+                      
+              
+            
+                    </span>
+                  </div>
+                   
+                  <div
+                    class="lck-form-footer"
+                  >
+                    <!---->
+                     
+                    <!---->
+                     
+                    <button
+                      class="p-button p-component"
+                      disabled="disabled"
+                      type="submit"
+                    >
+                      <span
+                        class="pi pi-save p-button-icon p-button-icon-left"
+                      />
+                       
+                      <span
+                        class="p-button-label"
+                      >
+                        Save
+                      </span>
+                       
+                      <!---->
+                      <span
+                        class="p-ink"
+                      />
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots views/routes/account/profile/Profile with auth user 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="profile-container"
+  >
+    <div
+      class="generic-view-container p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto"
+    >
+      <div
+        class="lck-color-primary p-my-4"
+      >
+        <h1>
+          My account
+        </h1>
+      </div>
+       
+      <section
+        class="p-mb-4"
+      >
+        <div
+          class="p-card p-component"
+        >
+          <!---->
+           
+          <div
+            class="p-card-body"
+          >
+            <div
+              class="p-card-title"
+            >
+              <div
+                class="p-d-flex p-flex-row"
+              >
+                <span
+                  class="icon-rounded"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="bi bi-person"
+                  />
+                </span>
+                 
+                <h2>
+                  
+              My profile
+            
+                </h2>
+              </div>
+            </div>
+             
+            <!---->
+             
+            <div
+              class="p-card-content"
+            >
+              
+          No data to display
+        
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </section>
+       
+      <section
+        class="p-mb-4"
+      >
+        <div
+          class="p-card p-component"
+        >
+          <!---->
+           
+          <div
+            class="p-card-body"
+          >
+            <div
+              class="p-card-title"
+            >
+              <div
+                class="p-d-flex p-flex-row"
+              >
+                <span
+                  class="icon-rounded"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="bi bi-envelope"
+                  />
+                </span>
+                 
+                <h2>
+                  
+              Update email
+            
+                </h2>
+              </div>
+            </div>
+             
+            <!---->
+             
+            <div
+              class="p-card-content"
+            >
+              
+          No data to display
+        
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </section>
+       
+      <section
+        class="p-mb-4"
+      >
+        <div
+          class="p-card p-component"
+        >
+          <!---->
+           
+          <div
+            class="p-card-body"
+          >
+            <div
+              class="p-card-title"
+            >
+              <div
+                class="p-d-flex p-flex-row"
+              >
+                <span
+                  class="icon-rounded"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="bi bi-shield-lock"
+                  />
+                </span>
+                 
+                <h2>
+                  
+            Update password
+          
+                </h2>
+              </div>
+            </div>
+             
+            <!---->
+             
+            <div
+              class="p-card-content"
+            >
+              
+        No data to display
+      
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots views/routes/account/profile/Profile with auth user and groups 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="profile-container"
+  >
+    <div
+      class="generic-view-container p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto"
+    >
+      <div
+        class="lck-color-primary p-my-4"
+      >
+        <h1>
+          My account
+        </h1>
+      </div>
+       
+      <section
+        class="p-mb-4"
+      >
+        <div
+          class="p-card p-component"
+        >
+          <!---->
+           
+          <div
+            class="p-card-body"
+          >
+            <div
+              class="p-card-title"
+            >
+              <div
+                class="p-d-flex p-flex-row"
+              >
+                <span
+                  class="icon-rounded"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="bi bi-person"
+                  />
+                </span>
+                 
+                <h2>
+                  
+              My profile
+            
+                </h2>
+              </div>
+            </div>
+             
+            <!---->
+             
+            <div
+              class="p-card-content"
+            >
+              <div
+                class="p-mb-2"
+              >
+                <form
+                  class="p-fluid"
+                >
+                  <div
+                    class="p-field p-grid p-mb-3"
+                  >
+                    <label
+                      class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                      for="username"
+                    >
+                      
+                Username
+              
+                    </label>
+                     
+                    <div
+                      class="p-col-12 p-md-8"
+                    >
+                      <input
+                        class="p-inputtext p-component p-filled"
+                        id="username"
+                      />
+                    </div>
+                     
+                    <span
+                      class="p-my-2 untouched pristine"
+                    >
+                      
+                    </span>
+                  </div>
+                   
+                  <div
+                    class="p-field p-grid p-mb-3"
+                  >
+                    <label
+                      class="p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                      for="email"
+                    >
+                      
+                E-mail
+              
+                    </label>
+                     
+                    <div
+                      class="p-col-12 p-md-8"
+                    >
+                      <p
+                        class="p-text-bold"
+                      >
+                         contact@locokit.io 
+                      </p>
+                    </div>
+                  </div>
+                   
+                  <div
+                    class="p-field p-grid p-mb-3"
+                  >
+                    <label
+                      class="p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                    >
+                      
+                Role
+              
+                    </label>
+                     
+                    <div
+                      class="p-col-12 p-md-8"
+                    >
+                      <span
+                        class="p-tag p-component"
+                      >
+                        <!---->
+                         
+                        <span
+                          class="p-tag-value"
+                        >
+                          Super admin
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                   
+                  <div
+                    class="lck-form-footer"
+                  >
+                    <!---->
+                     
+                    <!---->
+                     
+                    <button
+                      class="p-button p-component"
+                      disabled="disabled"
+                      type="submit"
+                    >
+                      <span
+                        class="pi pi-save p-button-icon p-button-icon-left"
+                      />
+                       
+                      <span
+                        class="p-button-label"
+                      >
+                        Save
+                      </span>
+                       
+                      <!---->
+                      <span
+                        class="p-ink"
+                      />
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </section>
+       
+      <section
+        class="p-mb-4"
+      >
+        <div
+          class="p-card p-component"
+        >
+          <!---->
+           
+          <div
+            class="p-card-body"
+          >
+            <div
+              class="p-card-title"
+            >
+              <div
+                class="p-d-flex p-flex-row"
+              >
+                <span
+                  class="icon-rounded"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="bi bi-envelope"
+                  />
+                </span>
+                 
+                <h2>
+                  
+              Update email
+            
+                </h2>
+              </div>
+            </div>
+             
+            <!---->
+             
+            <div
+              class="p-card-content"
+            >
+              <div>
+                <form
+                  class="p-fluid"
+                >
+                  <div
+                    class="p-field p-grid p-mb-3"
+                  >
+                    <label
+                      class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                      for="newEmail"
+                    >
+                      
+                New email
+              
+                    </label>
+                     
+                    <div
+                      class="p-col-12 p-md-8"
+                    >
+                      <input
+                        class="p-inputtext p-component"
+                        id="newEmail"
+                        placeholder="Email"
+                        type="email"
+                      />
+                    </div>
+                     
+                    <span
+                      class="p-my-2 untouched pristine"
+                    >
+                      
+                    </span>
+                  </div>
+                   
+                  <div
+                    class="p-field p-grid p-mb-4 p-mt-2"
+                  >
+                    <label
+                      class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                      for="password"
+                    >
+                      
+                Current password
+              
+                    </label>
+                     
+                    <div
+                      class="p-col-12 p-md-8"
+                    >
+                      <div
+                        class="p-password p-component p-inputwrapper p-input-icon-right"
+                        id="password"
+                      >
+                        <input
+                          class="p-inputtext p-component p-password-input"
+                          id="password"
+                          type="password"
+                        />
+                         
+                        <i
+                          class="pi pi-eye"
+                        />
+                         
+                        <!---->
+                      </div>
+                    </div>
+                     
+                    <span
+                      class="p-my-2 untouched pristine"
+                    >
+                      
+                    </span>
+                  </div>
+                   
+                  <div
+                    class="lck-form-footer"
+                  >
+                    <!---->
+                     
+                    <!---->
+                     
+                    <button
+                      class="p-button p-component"
+                      disabled="disabled"
+                      type="submit"
+                    >
+                      <span
+                        class="pi pi-save p-button-icon p-button-icon-left"
+                      />
+                       
+                      <span
+                        class="p-button-label"
+                      >
+                        Save
+                      </span>
+                       
+                      <!---->
+                      <span
+                        class="p-ink"
+                      />
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </section>
+       
+      <section
+        class="p-mb-4"
+      >
+        <div
+          class="p-card p-component"
+        >
+          <!---->
+           
+          <div
+            class="p-card-body"
+          >
+            <div
+              class="p-card-title"
+            >
+              <div
+                class="p-d-flex p-flex-row"
+              >
+                <span
+                  class="icon-rounded"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="bi bi-shield-lock"
+                  />
+                </span>
+                 
+                <h2>
+                  
+            Update password
+          
+                </h2>
+              </div>
+            </div>
+             
+            <!---->
+             
+            <div
+              class="p-card-content"
+            >
+              <div>
+                <form
+                  class="p-fluid"
+                >
+                  <div
+                    class="p-field p-grid p-mb-3"
+                  >
+                    <label
+                      class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                      for="oldPassword"
+                    >
+                      
+              Old password
+            
+                    </label>
+                     
+                    <div
+                      class="p-col-12 p-md-8"
+                    >
+                      <div
+                        class="p-password p-component p-inputwrapper p-input-icon-right"
+                        id="oldPassword"
+                      >
+                        <input
+                          class="p-inputtext p-component p-password-input"
+                          id="oldPassword"
+                          type="password"
+                        />
+                         
+                        <i
+                          class="pi pi-eye"
+                        />
+                         
+                        <!---->
+                      </div>
+                    </div>
+                     
+                    <span
+                      class="p-my-2 untouched pristine"
+                    >
+                      
+              
+            
+                    </span>
+                  </div>
+                   
+                  <div
+                    class="p-field p-grid p-mb-3"
+                  >
+                    <label
+                      class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                      for="newPassword"
+                    >
+                      
+              New password
+            
+                    </label>
+                     
+                    <div
+                      class="p-col-12 p-md-8"
+                    >
+                      <div
+                        aria-describedby="password-rules"
+                        class="p-password p-component p-inputwrapper p-input-icon-right"
+                        id="newPassword"
+                      >
+                        <input
+                          aria-describedby="password-rules"
+                          class="p-inputtext p-component p-password-input"
+                          id="newPassword"
+                          type="password"
+                        />
+                         
+                        <i
+                          class="pi pi-eye"
+                        />
+                         
+                        <!---->
+                      </div>
+                    </div>
+                     
+                    <div
+                      class="info-new-password p-col-12 p-mb-0"
+                    >
+                      <small
+                        class="p-text-italic"
+                        id="password-rules"
+                      >
+                        
+                Must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 digit and 1 special character.
+              
+                      </small>
+                       
+                      <span
+                        class="p-my-2 untouched pristine"
+                      >
+                        
+                  
+                
+                      </span>
+                    </div>
+                  </div>
+                   
+                  <div
+                    class="p-field p-grid"
+                  >
+                    <label
+                      class="label-field-required p-col-12 p-mb-2 p-md-4 p-mb-md-0"
+                      for="passwordCheck"
+                    >
+                      
+              Password (check)
+            
+                    </label>
+                     
+                    <div
+                      class="p-col-12 p-md-8"
+                    >
+                      <div
+                        class="p-password p-component p-inputwrapper p-input-icon-right"
+                        id="passwordCheck"
+                      >
+                        <input
+                          class="p-inputtext p-component p-password-input"
+                          id="passwordCheck"
+                          type="password"
+                        />
+                         
+                        <i
+                          class="pi pi-eye"
+                        />
+                         
+                        <!---->
+                      </div>
+                    </div>
+                     
+                    <span
+                      class="p-my-2 untouched pristine"
+                    >
+                      
+              
+            
+                    </span>
+                  </div>
+                   
+                  <div
+                    class="lck-form-footer"
+                  >
+                    <!---->
+                     
+                    <!---->
+                     
+                    <button
+                      class="p-button p-component"
+                      disabled="disabled"
+                      type="submit"
+                    >
+                      <span
+                        class="pi pi-save p-button-icon p-button-icon-left"
+                      />
+                       
+                      <span
+                        class="p-button-label"
+                      >
+                        Save
+                      </span>
+                       
+                      <!---->
+                      <span
+                        class="p-ink"
+                      />
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+             
+            <!---->
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+`;

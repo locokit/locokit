@@ -1,79 +1,79 @@
-import { action } from '@storybook/addon-actions'
+/* eslint-disable @typescript-eslint/camelcase */
 import { GROUP_ROLE, USER_PROFILE } from '@locokit/lck-glossary'
 import Vue from 'vue'
-import Profile from './Profile'
+import Group from './Group'
 
 import { authState } from '@/store/auth'
 import '@/plugins/vee-validate'
 
 export default {
-  title: 'views/routes/user/Profile',
-  component: Profile,
+  title: 'views/routes/account/group/Group',
+  component: Group,
 }
 
 export const defaultStory = () => ({
   data () {
     return { authState }
   },
-  components: { Profile },
-  template: '<Profile @submit="this.submit" />',
-  methods: { submit: action('submit') },
+  components: { Group },
+  template: '<Group />',
   async mounted () {
     this.authState.data.user = null
     await Vue.nextTick()
   },
+  beforeDestroy () {
+    this.authState.data.user = null
+  },
 })
 
 defaultStory.storyName = 'default'
-// defaultStory.parameters = { storyshots: { disable: true } }
 
 export const withAuthUser = () => ({
   data () {
     return { authState }
   },
-  components: { Profile },
-  template: '<Profile @submit="this.submit" />',
-  methods: { submit: action('submit') },
+  components: { Group },
+  template: '<Group />',
   async mounted () {
     this.authState.data.user = {
       id: 1,
       name: 'Mathieu DARTIGUES',
-      email: 'mathieu.dartigues@makina-corpus.com',
+      email: 'contact@locokit.io',
       profile: USER_PROFILE.SUPERADMIN,
+      groups: [],
     }
     await Vue.nextTick()
   },
+  beforeDestroy () {
+    this.authState.data.user = null
+  },
 })
 
-withAuthUser.storyName = 'with auth user'
-// withAuthUser.parameters = { storyshots: { disable: true } }
+withAuthUser.storyName = 'withAuthUser'
 
 export const withAuthUserAndGroup = () => ({
   data () {
     return { authState }
   },
-  components: { Profile },
-  template: '<Profile @submit="this.submit" />',
-  methods: { submit: action('submit') },
+  components: { Group },
+  template: '<Group />',
   async mounted () {
     this.authState.data.user = {
       id: 1,
       name: 'Mathieu DARTIGUES',
-      email: 'mathieu.dartigues@makina-corpus.com',
+      email: 'contact@locokit.io',
       profile: USER_PROFILE.SUPERADMIN,
       groups: [{
         id: 'group-id',
         name: 'An amazing group',
         aclset: {
           manager: true,
-          // eslint-disable-next-line @typescript-eslint/camelcase
           workspace_id: 'workspace-id',
           workspace: {
             id: 'uuid-v4',
             text: 'An amazing workspace',
           },
         },
-        // eslint-disable-next-line @typescript-eslint/camelcase
         uhg_role: GROUP_ROLE.ADMIN,
       }],
     }
@@ -85,4 +85,3 @@ export const withAuthUserAndGroup = () => ({
 })
 
 withAuthUserAndGroup.storyName = 'with auth user and groups'
-// withAuthUserAndGroup.parameters = { storyshots: { disable: true } }

@@ -46,7 +46,11 @@ export const ROUTES_NAMES = {
   LOSTPASSWORD: 'LostPassword',
   VERIFYSIGNUP: 'VerifySignup',
   RESETPASSWORD: 'ResetPassword',
-  PROFILE: 'Profile',
+  PROFILE: {
+    SELF: 'Profile',
+    USER: 'User',
+    GROUPS: 'Groups',
+  },
   UPDATEEMAIL: 'UpdateEmail',
   SIGNUP: 'SignUp',
 
