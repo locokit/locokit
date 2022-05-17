@@ -46,6 +46,8 @@ export function authManagementSettings (app: Application) {
     if (hash) link += '?token=' + hash
     return link
   }
+  const signupConfig = app.get('authentication').signup
+  const delayInDays = parseInt(signupConfig.verificationMailDelayDays, 10) || 5
 
   const actionOptions: Record<AuthenticationManagementAction, {
     templateFile: string
@@ -163,5 +165,6 @@ export function authManagementSettings (app: Application) {
         html: emailHTML,
       })
     },
+    delay: delayInDays * 24 * 60 * 60 * 1000, // 5 days by default
   }
 }

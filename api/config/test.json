@@ -37,7 +37,8 @@
       "rateLimit": {
         "max": "5",
         "timeframe": "60000"
-      }
+      },
+      "verificationMailDelayDays": "10"
     }
   }
 }

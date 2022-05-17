@@ -47,7 +47,8 @@
       "rateLimit": {
         "max": "SIGNUP_RATE_LIMIT_MAX",
         "timeframe": "SIGNUP_RATE_LIMIT_TIMEFRAME"
-      }
+      },
+      "verificationMailDelayDays": "SIGNUP_VERIFICATION_MAIL_DELAY_DAYS"
     }
   },
   "postgres": {
