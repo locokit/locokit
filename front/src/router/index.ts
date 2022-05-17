@@ -420,18 +420,21 @@ const routes: Array<RouteConfig> = [
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const scrollBehavior = (to: Route, from: Route, savedPosition: any) => {
   // savedPosition is only available for popstate navigations.
+  const position: { selector?: string; offset?: { x: number; y: number } } = {}
   if (savedPosition) {
+    // Force scroll to anchor by returning the selector
+    if (to.hash) {
+      position.selector = to.hash
+      return position
+    }
     return savedPosition
   } else {
-    const position: { selector?: string; offset?: { x: number; y: number } } = {}
     // scroll to anchor by returning the selector
     if (to.hash) {
       position.selector = to.hash
-      // specify offset of the element
-      // position.offset = { y: 100 }
       return position
     }
-    // if the returned position is falsy or an empty object,F
+    // if the returned position is falsy or an empty object,
     // will retain current scroll position.
     return false
   }

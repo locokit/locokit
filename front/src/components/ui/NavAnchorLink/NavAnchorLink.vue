@@ -102,6 +102,13 @@ export default Vue.extend({
       return this.containers.filter(container => container.displayed_in_navbar)
     },
   },
+  watch: {
+    containers: {
+      handler: function () {
+        this.anchorContainerActive = this.containers && `#${this.containers[0].id}`
+      },
+    },
+  },
 })
 </script>
 
