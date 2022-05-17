@@ -15,7 +15,7 @@
               class="lck-nav-item"
             >
               <router-link :to="item.to" class="lck-nav-item-link" exact>
-                <i :class="`bi ${item.icon}`" />
+                <i :class="`bi ${item.icon}`" aria-hidden="true" />
               </router-link>
             </li>
           </ul>
@@ -40,13 +40,13 @@ export default Vue.extend({
   computed: {
     menuItems () {
       return [{
-        label: 'Mon profile',
+        label: this.$t('pages.account.profile'),
         icon: 'bi-person',
         to: {
           name: ROUTES_NAMES.PROFILE.USER,
         },
       }, {
-        label: 'Mes groupes',
+        label: this.$t('pages.account.groups'),
         icon: 'bi-people',
         to: {
           name: ROUTES_NAMES.PROFILE.GROUPS,
@@ -56,7 +56,3 @@ export default Vue.extend({
   },
 })
 </script>
-
-<style scoped>
-
-</style>

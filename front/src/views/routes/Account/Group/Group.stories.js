@@ -5,7 +5,6 @@ import Group from './Group'
 
 import { authState } from '@/store/auth'
 import '@/plugins/vee-validate'
-import Profile from '@/views/routes/Account/Profile/Profile'
 
 export default {
   title: 'views/routes/account/group/Group',

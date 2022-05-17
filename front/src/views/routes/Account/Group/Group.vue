@@ -28,7 +28,7 @@
                        class="icon-rounded"
                        :style="{ 'background-color': workspace.backgroundColor, color: workspace.color }"
                      >
-                      <i :class="workspace.icon || 'bi bi-table'"/>
+                      <i :class="workspace.icon || 'bi bi-table'" aria-hidden="true"/>
                      </span>
                     <h2>
                       {{ workspace.name }}
@@ -46,7 +46,7 @@
                 >
                   <template #title>
                     <div class="p-d-flex p-flex-row">
-                      <i class="bi bi-people"/>
+                      <i class="bi bi-people" aria-hidden="true"/>
                       <h3>{{ group.name }}</h3>
                       <span v-if="group.manager" class="status-mark">M</span>
                     </div>

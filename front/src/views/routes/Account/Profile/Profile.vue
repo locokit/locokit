@@ -9,7 +9,7 @@
           <template #title>
             <div class="p-d-flex p-flex-row">
               <span class="icon-rounded">
-                <i class="bi bi-person"/>
+                <i class="bi bi-person" aria-hidden="true"/>
               </span>
               <h2>
                 {{ $t('pages.account.profile') }}
@@ -92,7 +92,7 @@
           <template #title>
             <div class="p-d-flex p-flex-row">
               <span class="icon-rounded">
-                <i class="bi bi-envelope"/>
+                <i class="bi bi-envelope" aria-hidden="true"/>
               </span>
               <h2>
                 {{ $t('pages.account.edit.email.title') }}
@@ -177,7 +177,7 @@
         <template #title>
           <div class="p-d-flex p-flex-row">
              <span class="icon-rounded">
-              <i class="bi bi-shield-lock"/>
+              <i class="bi bi-shield-lock" aria-hidden="true"/>
             </span>
             <h2>
               {{ $t('pages.account.edit.title') }}
