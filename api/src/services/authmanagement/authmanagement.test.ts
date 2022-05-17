@@ -4,7 +4,7 @@ import { User } from '../../models/user.model'
 describe('\'authManagement\' service', () => {
   const service = app.service('authManagement')
   it('registered the service', () => {
-    expect(service).toBeTruthy()
+    expect(app.service('authManagement')).toBeTruthy()
   })
 
   it('register a new user and set the verifyExpires accordingly setting', async () => {
