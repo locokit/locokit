@@ -39,6 +39,7 @@ exports[`storyshots views/routes/account/profile/Profile default 1`] = `
                   class="icon-rounded"
                 >
                   <i
+                    aria-hidden="true"
                     class="bi bi-person"
                   />
                 </span>
@@ -199,6 +200,7 @@ exports[`storyshots views/routes/account/profile/Profile default 1`] = `
                   class="icon-rounded"
                 >
                   <i
+                    aria-hidden="true"
                     class="bi bi-envelope"
                   />
                 </span>
@@ -348,6 +350,7 @@ exports[`storyshots views/routes/account/profile/Profile default 1`] = `
                   class="icon-rounded"
                 >
                   <i
+                    aria-hidden="true"
                     class="bi bi-shield-lock"
                   />
                 </span>
@@ -590,6 +593,7 @@ exports[`storyshots views/routes/account/profile/Profile with auth user 1`] = `
                   class="icon-rounded"
                 >
                   <i
+                    aria-hidden="true"
                     class="bi bi-person"
                   />
                 </span>
@@ -638,6 +642,7 @@ exports[`storyshots views/routes/account/profile/Profile with auth user 1`] = `
                   class="icon-rounded"
                 >
                   <i
+                    aria-hidden="true"
                     class="bi bi-envelope"
                   />
                 </span>
@@ -686,6 +691,7 @@ exports[`storyshots views/routes/account/profile/Profile with auth user 1`] = `
                   class="icon-rounded"
                 >
                   <i
+                    aria-hidden="true"
                     class="bi bi-shield-lock"
                   />
                 </span>
@@ -756,6 +762,7 @@ exports[`storyshots views/routes/account/profile/Profile with auth user and grou
                   class="icon-rounded"
                 >
                   <i
+                    aria-hidden="true"
                     class="bi bi-person"
                   />
                 </span>
@@ -916,6 +923,7 @@ exports[`storyshots views/routes/account/profile/Profile with auth user and grou
                   class="icon-rounded"
                 >
                   <i
+                    aria-hidden="true"
                     class="bi bi-envelope"
                   />
                 </span>
@@ -1065,6 +1073,7 @@ exports[`storyshots views/routes/account/profile/Profile with auth user and grou
                   class="icon-rounded"
                 >
                   <i
+                    aria-hidden="true"
                     class="bi bi-shield-lock"
                   />
                 </span>
