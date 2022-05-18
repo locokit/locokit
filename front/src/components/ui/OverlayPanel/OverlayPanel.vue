@@ -75,4 +75,9 @@ export default {
 ::v-deep .p-button {
   width: auto;
 }
+
+::v-deep .p-overlaypanel-content > div {
+  max-height: 350px;
+  overflow: auto;
+}
 </style>

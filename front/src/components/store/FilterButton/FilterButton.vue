@@ -364,7 +364,7 @@ input,
 .save-filter-button {
   position: absolute;
   top: 0;
-  right: 0.5rem;
+  right: 1.5rem;
 }
 
 </style>

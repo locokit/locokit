@@ -1,28 +1,26 @@
 import { COLUMN_TYPE } from '@locokit/lck-glossary'
 import FilterButton from './FilterButton'
+import Vue from 'vue'
 
 export default {
   title: 'components/store/FilterButton',
   component: FilterButton,
 }
 
-export const defaultStory = () => (
-  {
-    components: { FilterButton },
-    template: '<FilterButton />',
-  }
-)
+const Template = (args, { argTypes }) => ({
+  components: { FilterButton },
+  props: Object.keys(argTypes),
+  template: '<FilterButton v-bind="$props" />',
+})
 
-defaultStory.storyName = 'default'
+export const DefaultStory = Template.bind({})
+DefaultStory.storyName = 'default'
 
-export const crudModeStory = () => (
-  {
-    components: { FilterButton },
-    template: '<FilterButton :crudMode="true" />',
-  }
-)
-
-crudModeStory.storyName = 'crud mode'
+export const CrudModeStory = Template.bind({})
+CrudModeStory.storyName = 'crud mode'
+CrudModeStory.args = {
+  crudMode: true,
+}
 
 /* eslint-disable @typescript-eslint/camelcase */
 const definitionColumn = {
@@ -124,45 +122,56 @@ const columnsDropdownOptions = {
   ],
 }
 
-export const selectedColumnAndActionOverlayOpenedStory = () => (
-  {
-    components: { FilterButton },
-    data () {
-      return { definitionColumn, columnsDropdownOptions }
-    },
-    template: '<FilterButton ref="fb" :definition="definitionColumn" :columnsDropdownOptions="columnsDropdownOptions"/>',
-    async mounted () {
-      // Open the panel
-      await this.$refs.fb.$el.querySelector('button').click()
+const TemplateWithRef = (args, { argTypes }) => ({
+  components: { FilterButton },
+  props: Object.keys(argTypes),
+  template: '<FilterButton ref="fb" v-bind="$props" />',
+  async mounted () {
+    // Open the panel
+    this.$refs.fb.$el.querySelector('button').click()
+    // Delay
+    await Vue.nextTick()
+    // Add a new filter
+    await document.body.querySelector('button > .bi.bi-plus-circle').click()
+    await document.body.querySelector('#column .p-dropdown-trigger').click()
+    await document.body.querySelector('#column .p-dropdown-item').click()
+    await document.body.querySelector('#action .p-dropdown-trigger').click()
+    await document.body.querySelector('#action .p-dropdown-item').click()
+  },
+})
 
-      // Add a new filter
-      await document.body.querySelector('button > .bi.bi-plus-circle').click()
-      await document.body.querySelector('#column .p-dropdown-trigger').click()
-      await document.body.querySelector('#column .p-dropdown-item').click()
-      await document.body.querySelector('#action .p-dropdown-trigger').click()
-      await document.body.querySelector('#action .p-dropdown-item').click()
-    },
-  }
-)
-
-selectedColumnAndActionOverlayOpenedStory.storyName = 'overlay opened with specified column and action'
-selectedColumnAndActionOverlayOpenedStory.args = {
-  waitForSelector: '.p-overlaypanel',
+export const SelectedColumnAndActionOverlayOpenedStory = TemplateWithRef.bind({})
+SelectedColumnAndActionOverlayOpenedStory.storyName = 'overlay opened with specified column and action'
+SelectedColumnAndActionOverlayOpenedStory.args = {
+  definition: definitionColumn,
+  columnsDropdownOptions,
 }
 
-export const overlayOpenedStory = () => (
-  {
-    components: { FilterButton },
-    template: '<FilterButton ref="fb" />',
-    async mounted () {
-      await this.$refs.fb.$el.querySelector('button').click()
-      await document.body.querySelector('button > .bi.bi-plus-circle').click()
-      await document.body.querySelector('button > .bi.bi-plus-circle').click()
-    },
-  }
-)
+const TemplateWithManyFiltersOpened = (args, { argTypes }) => ({
+  components: { FilterButton },
+  props: Object.keys(argTypes),
+  template: '<FilterButton ref="fb" v-bind="$props" />',
+  async mounted () {
+    // Open the panel
+    this.$refs.fb.$el.querySelector('button').click()
+    // Delay
+    await Vue.nextTick()
+    // Add a new filter
+    await document.body.querySelector('button > .bi.bi-plus-circle').click()
+    await document.body.querySelector('button > .bi.bi-plus-circle').click()
+    await document.body.querySelector('button > .bi.bi-plus-circle').click()
+    await document.body.querySelector('button > .bi.bi-plus-circle').click()
+    await document.body.querySelector('button > .bi.bi-plus-circle').click()
+    await document.body.querySelector('button > .bi.bi-plus-circle').click()
+    await document.body.querySelector('button > .bi.bi-plus-circle').click()
+    await document.body.querySelector('button > .bi.bi-plus-circle').click()
+    await document.body.querySelector('button > .bi.bi-plus-circle').click()
+  },
+})
 
-overlayOpenedStory.storyName = 'overlay opened'
-overlayOpenedStory.args = {
-  waitForSelector: '.p-inputtext:nth-child(2)',
+export const OverlayOpenedStory = TemplateWithManyFiltersOpened.bind({})
+OverlayOpenedStory.storyName = 'overlay opened'
+OverlayOpenedStory.args = {
+  definition: definitionColumn,
+  columnsDropdownOptions,
 }
