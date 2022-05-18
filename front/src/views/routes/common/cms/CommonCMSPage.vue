@@ -28,14 +28,17 @@
       <div class="lck-container-parent p-mx-2">
         <div
           v-for="container in page.containers"
+          v-show="page.modeNavigation === 'tab' ? container.id === currentHash : true"
           :id="container.id"
           :key="container.id"
           class="lck-container"
         >
           <div
-            v-show="page.modeNavigation === 'tab' ? container.id === currentHash : true"
             class="p-px-4"
-            :class="{'lck-elevation': container.elevation}"
+            :class="{
+              'lck-elevation': container.elevation,
+              'lck-container-active': page.modeNavigation === 'tab' && container.id === currentHash,
+            }"
           >
             <h2 v-show="container.display_title" class="lck-color-title">
               {{ container.text }}
@@ -1210,11 +1213,23 @@ export default {
   .lck-container {
     box-shadow: unset;
     background-color: #FFFFFF;
+    display: block !important;
   }
 
   .lck-container > div {
-    display: block !important;
     height: auto;
+    box-shadow: unset;
+  }
+
+  /*
+  * Because of "display: none" on other container, map canvas is set with default size values.
+  * We need to display map's container with the same width/height of map canvas
+  * Otherwise the map's container is too big compared to map canvas. So attribution and scale information is mal placed.
+  */
+  .lck-container > :not(.lck-container-active) ::v-deep .map-container {
+    width: 400px !important;
+    height: 300px !important;
+    min-height: unset !important;
   }
 
   .lck-page-content .lck-container-parent .lck-container .lck-color-title {
