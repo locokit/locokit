@@ -143,6 +143,7 @@ const TemplateWithRef = (args, { argTypes }) => ({
 export const SelectedColumnAndActionOverlayOpenedStory = TemplateWithRef.bind({})
 SelectedColumnAndActionOverlayOpenedStory.storyName = 'overlay opened with specified column and action'
 SelectedColumnAndActionOverlayOpenedStory.args = {
+  waitForSelector: '.p-inputtext:nth-child(2)',
   definition: definitionColumn,
   columnsDropdownOptions,
 }
@@ -172,6 +173,7 @@ const TemplateWithManyFiltersOpened = (args, { argTypes }) => ({
 export const OverlayOpenedStory = TemplateWithManyFiltersOpened.bind({})
 OverlayOpenedStory.storyName = 'overlay opened'
 OverlayOpenedStory.args = {
+  waitForSelector: '.p-inputtext:nth-child(9)',
   definition: definitionColumn,
   columnsDropdownOptions,
 }

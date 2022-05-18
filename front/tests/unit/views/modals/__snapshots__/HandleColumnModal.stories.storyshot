@@ -13,14 +13,14 @@ exports[`storyshots views/modals/HandleColumnModal Create 1`] = `
       <form>
         <div
           class="p-fluid p-dialog-mask p-component-overlay p-component-overlay-enter"
-          style="z-index: 1035;"
+          style="z-index: 1038;"
         >
           <div
             aria-labelledby="pv_id_74_header"
             aria-modal="true"
             class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
             role="dialog"
-            style="z-index: 1036; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
+            style="z-index: 1039; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
           >
             <div
               class="p-dialog-header"

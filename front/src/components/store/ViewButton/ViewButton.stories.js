@@ -37,10 +37,14 @@ const TemplateWithRef = (args, { argTypes }) => ({
 
 export const OverlayOpenedStory = TemplateWithRef.bind({})
 OverlayOpenedStory.storyName = 'overlay opened'
+OverlayOpenedStory.args = {
+  waitForSelector: '.p-overlaypanel',
+}
 
 export const OverlayOpenedStoryWithViews = TemplateWithRef.bind({})
 OverlayOpenedStoryWithViews.storyName = 'overlay opened with views'
 OverlayOpenedStoryWithViews.args = {
+  waitForSelector: '.p-overlaypanel',
   views: createViews(3),
   value: '1',
 }
@@ -48,6 +52,7 @@ OverlayOpenedStoryWithViews.args = {
 export const OverlayOpenedStoryWithManyViews = TemplateWithRef.bind({})
 OverlayOpenedStoryWithManyViews.storyName = 'overlay opened with many views'
 OverlayOpenedStoryWithManyViews.args = {
+  waitForSelector: '.p-overlaypanel',
   views: createViews(12),
   value: '1',
 }

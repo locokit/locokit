@@ -52,6 +52,7 @@ const TemplateWithRef = (args, { argTypes }) => ({
 export const WithValueAndColumnsStory = TemplateWithRef.bind({})
 WithValueAndColumnsStory.storyName = 'with value and columns'
 WithValueAndColumnsStory.args = {
+  waitForSelector: '.p-overlaypanel',
   value,
   columns: createOptions(5),
 }
@@ -59,6 +60,7 @@ WithValueAndColumnsStory.args = {
 export const WithValueAndManyColumnsStory = TemplateWithRef.bind({})
 WithValueAndManyColumnsStory.storyName = 'with value and columns'
 WithValueAndManyColumnsStory.args = {
+  waitForSelector: '.p-overlaypanel',
   value,
   columns: createOptions(12),
 }
