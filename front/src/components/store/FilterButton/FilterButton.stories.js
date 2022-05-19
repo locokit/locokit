@@ -173,7 +173,7 @@ const TemplateWithManyFiltersOpened = (args, { argTypes }) => ({
 export const OverlayOpenedStory = TemplateWithManyFiltersOpened.bind({})
 OverlayOpenedStory.storyName = 'overlay opened'
 OverlayOpenedStory.args = {
-  waitForSelector: '.p-inputtext:nth-child(9)',
+  waitForSelector: '.p-inputtext:nth-child(2)',
   definition: definitionColumn,
   columnsDropdownOptions,
 }
