@@ -46,6 +46,7 @@
               :options="operators"
               optionLabel="label"
               optionValue="value"
+              appendTo="body"
               v-model="filter.operator"
               v-if="index > 0"
               :disabled="index > 1"
@@ -68,6 +69,7 @@
               :options="supportedColumns"
               dataKey="value"
               optionLabel="label"
+              appendTo="body"
               :placeholder="$t('components.datatable.toolbar.filters.form.placeholder')"
               @change="onChangeColumn(index)"
               v-model="filter.column"
@@ -80,6 +82,7 @@
             <p-dropdown
               id="action"
               type="text"
+              appendTo="body"
               :options="filter.column && columnFiltersConfig[filter.column.originalType].actions || []"
               :disabled="!filter.column"
               optionLabel="label"

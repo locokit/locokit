@@ -134,9 +134,11 @@ const TemplateWithRef = (args, { argTypes }) => ({
     // Add a new filter
     await document.body.querySelector('button > .bi.bi-plus-circle').click()
     await document.body.querySelector('#column .p-dropdown-trigger').click()
-    await document.body.querySelector('#column .p-dropdown-item').click()
-    await document.body.querySelector('#action .p-dropdown-trigger').click()
-    await document.body.querySelector('#action .p-dropdown-item').click()
+    await Vue.nextTick()
+
+    // await document.body.querySelector('#column .p-dropdown-item').click()
+    // await document.body.querySelector('#action .p-dropdown-trigger').click()
+    // await document.body.querySelector('#action .p-dropdown-item').click()
   },
 })
 

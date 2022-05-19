@@ -8,14 +8,14 @@ exports[`storyshots components/visualize/PageDialog page create 1`] = `
     <form>
       <div
         class="p-fluid p-dialog-mask p-component-overlay p-component-overlay-enter"
-        style="z-index: 1029;"
+        style="z-index: 1028;"
       >
         <div
           aria-labelledby="pv_id_30_header"
           aria-modal="true"
           class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
           role="dialog"
-          style="z-index: 1030; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
+          style="z-index: 1029; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
         >
           <div
             class="p-dialog-header"
@@ -305,14 +305,14 @@ exports[`storyshots components/visualize/PageDialog page edit 1`] = `
     <form>
       <div
         class="p-fluid p-dialog-mask p-component-overlay p-component-overlay-enter"
-        style="z-index: 1030;"
+        style="z-index: 1029;"
       >
         <div
           aria-labelledby="pv_id_31_header"
           aria-modal="true"
           class="p-dialog p-component p-dialog-enter p-dialog-enter-active"
           role="dialog"
-          style="z-index: 1031; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
+          style="z-index: 1030; visibility: visible; display: none; transform-origin: top; top: 0px; left: 0px;"
         >
           <div
             class="p-dialog-header"
