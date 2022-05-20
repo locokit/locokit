@@ -1,5 +1,5 @@
 <template>
-  <div class='lck-overlay-panel' @click="onOverlayPanelClick">
+  <div id="lck-generic-overlay" class='lck-overlay-panel' @click="onOverlayPanelClick">
     <p-button
       type="button"
       :class="classButton"
@@ -62,8 +62,11 @@ export default {
       this.$refs.overlayPanel.toggle(event)
     },
     onOverlayPanelClick (event) {
-      // event.stopPropagation()
+      // Allow to prevent close overlay when we use appendTo
       if (event?.target?.className.indexOf('p-datepicker') > -1) {
+        event.stopPropagation()
+      }
+      if (event?.target?.className.indexOf('p-dropdown-item') > -1) {
         event.stopPropagation()
       }
     },

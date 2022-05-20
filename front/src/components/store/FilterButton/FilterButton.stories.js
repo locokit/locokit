@@ -132,13 +132,10 @@ const TemplateWithRef = (args, { argTypes }) => ({
     // Delay
     await Vue.nextTick()
     // Add a new filter
-    await document.body.querySelector('button > .bi.bi-plus-circle').click()
-    await document.body.querySelector('#column .p-dropdown-trigger').click()
-    await Vue.nextTick()
+    await document.body.querySelector('button > .bi.bi-plus-circle').parentElement.click()
 
-    // await document.body.querySelector('#column .p-dropdown-item').click()
-    // await document.body.querySelector('#action .p-dropdown-trigger').click()
-    // await document.body.querySelector('#action .p-dropdown-item').click()
+    await document.body.querySelector('#column.p-dropdown').click()
+    await document.body.querySelector('.p-dropdown-items-wrapper > .p-dropdown-items > .p-dropdown-item').click()
   },
 })
 
@@ -160,15 +157,15 @@ const TemplateWithManyFiltersOpened = (args, { argTypes }) => ({
     // Delay
     await Vue.nextTick()
     // Add a new filter
-    await document.body.querySelector('button > .bi.bi-plus-circle').click()
-    await document.body.querySelector('button > .bi.bi-plus-circle').click()
-    await document.body.querySelector('button > .bi.bi-plus-circle').click()
-    await document.body.querySelector('button > .bi.bi-plus-circle').click()
-    await document.body.querySelector('button > .bi.bi-plus-circle').click()
-    await document.body.querySelector('button > .bi.bi-plus-circle').click()
-    await document.body.querySelector('button > .bi.bi-plus-circle').click()
-    await document.body.querySelector('button > .bi.bi-plus-circle').click()
-    await document.body.querySelector('button > .bi.bi-plus-circle').click()
+    await document.body.querySelector('button > .bi.bi-plus-circle').parentElement.click()
+    await document.body.querySelector('button > .bi.bi-plus-circle').parentElement.click()
+    await document.body.querySelector('button > .bi.bi-plus-circle').parentElement.click()
+    await document.body.querySelector('button > .bi.bi-plus-circle').parentElement.click()
+    await document.body.querySelector('button > .bi.bi-plus-circle').parentElement.click()
+    await document.body.querySelector('button > .bi.bi-plus-circle').parentElement.click()
+    await document.body.querySelector('button > .bi.bi-plus-circle').parentElement.click()
+    await document.body.querySelector('button > .bi.bi-plus-circle').parentElement.click()
+    await document.body.querySelector('button > .bi.bi-plus-circle').parentElement.click()
   },
 })
 

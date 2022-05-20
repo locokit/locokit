@@ -6,6 +6,7 @@ exports[`storyshots components/store/View/ViewColumnButton default 1`] = `
 >
   <div
     class="lck-overlay-panel"
+    id="lck-generic-overlay"
   >
     <button
       class="p-button p-component p-button-outlined p-button-secondary"
@@ -38,6 +39,7 @@ exports[`storyshots components/store/View/ViewColumnButton disabled 1`] = `
 >
   <div
     class="lck-overlay-panel"
+    id="lck-generic-overlay"
   >
     <button
       class="p-button p-component p-button-outlined p-button-secondary"
@@ -71,6 +73,7 @@ exports[`storyshots components/store/View/ViewColumnButton with value and column
 >
   <div
     class="lck-overlay-panel"
+    id="lck-generic-overlay"
     waitforselector=".p-overlaypanel"
   >
     <button
@@ -104,6 +107,7 @@ exports[`storyshots components/store/View/ViewColumnButton with value and column
 >
   <div
     class="lck-overlay-panel"
+    id="lck-generic-overlay"
     waitforselector=".p-overlaypanel"
   >
     <button
