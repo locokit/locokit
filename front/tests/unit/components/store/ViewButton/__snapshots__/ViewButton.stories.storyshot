@@ -6,6 +6,7 @@ exports[`storyshots components/store/View/ViewButton default 1`] = `
 >
   <div
     class="lck-overlay-panel"
+    id="lck-generic-overlay"
   >
     <button
       class="p-button p-component p-button-outlined p-button-secondary"
@@ -38,6 +39,8 @@ exports[`storyshots components/store/View/ViewButton overlay opened 1`] = `
 >
   <div
     class="lck-overlay-panel"
+    id="lck-generic-overlay"
+    waitforselector=".p-overlaypanel"
   >
     <button
       class="p-button p-component p-button-outlined p-button-secondary"
@@ -64,12 +67,48 @@ exports[`storyshots components/store/View/ViewButton overlay opened 1`] = `
 </div>
 `;
 
+exports[`storyshots components/store/View/ViewButton overlay opened with many views 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="lck-overlay-panel"
+    id="lck-generic-overlay"
+    waitforselector=".p-overlaypanel"
+  >
+    <button
+      class="p-button p-component p-button-outlined p-button-secondary"
+      type="button"
+    >
+      <span
+        class="pi pi-list p-button-icon p-button-icon-left"
+      />
+       
+      <span
+        class="p-button-label"
+      >
+        No button label
+      </span>
+       
+      <!---->
+      <span
+        class="p-ink"
+      />
+    </button>
+     
+    <!---->
+  </div>
+</div>
+`;
+
 exports[`storyshots components/store/View/ViewButton overlay opened with views 1`] = `
 <div
   style="height: 100%;"
 >
   <div
     class="lck-overlay-panel"
+    id="lck-generic-overlay"
+    waitforselector=".p-overlaypanel"
   >
     <button
       class="p-button p-component p-button-outlined p-button-secondary"

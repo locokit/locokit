@@ -6,75 +6,61 @@ export default {
   component: ViewColumnButton,
 }
 
-export const defaultStory = () => (
-  {
-    components: { ViewColumnButton },
-    template: '<ViewColumnButton />',
+const Template = (args, { argTypes }) => ({
+  components: { ViewColumnButton },
+  props: Object.keys(argTypes),
+  template: '<ViewColumnButton v-bind="$props" />',
+})
+
+export const DefaultStory = Template.bind({})
+DefaultStory.storyName = 'default'
+
+export const DisabledStory = Template.bind({})
+DisabledStory.storyName = 'disabled'
+DisabledStory.args = {
+  disabled: true,
+}
+
+const createOptions = (nbr) => {
+  const data = []
+  for (let i = 1; i <= nbr; i++) {
+    data.push({
+      id: i.toString(),
+      text: `Option ${i}`,
+      postion: i,
+    })
   }
-)
-
-defaultStory.storyName = 'default'
-
-export const disabledStory = () => (
-  {
-    components: { ViewColumnButton },
-    template: '<ViewColumnButton :disabled="true" />',
-  }
-)
-
-disabledStory.storyName = 'disabled'
+  return data
+}
 
 const value = [
-  'e40fd54c-f330-48e3-8f32-6e0a7939b0ed',
-  'a20915a9-0420-4bbe-be12-b73f81829a69',
-  '3d5681a5-9242-40a7-9e4c-21a6cbd5b5f4',
-  '9bd06fa9-a221-4c1e-ad86-01687dbd3364',
+  '1',
+  '2',
+  '3',
+  '4',
 ]
-const columns = [{
-  id: 'e6c04798-93a8-4b3e-a3bd-42833cf0c3f6',
-  text: 'First name',
-  position: 0,
-}, {
-  id: '9bd06fa9-a221-4c1e-ad86-01687dbd3364',
-  text: 'Tel',
-  position: 1,
-}, {
-  id: 'a20915a9-0420-4bbe-be12-b73f81829a69',
-  text: 'Last name',
-  position: 2,
-}, {
-  id: 'e40fd54c-f330-48e3-8f32-6e0a7939b0ed',
-  text: 'e-mail',
-  position: 3,
-}, {
-  id: '3d5681a5-9242-40a7-9e4c-21a6cbd5b5f4',
-  text: 'User',
-  position: 4,
-}]
 
-export const withValueAndColumnsStory = () => (
-  {
-    components: { ViewColumnButton },
-    data () {
-      return {
-        value,
-        columns,
-      }
-    },
-    template: `
-      <ViewColumnButton
-        ref="vcb"
-        :value="value"
-        :columns="columns"
-      />
-    `,
-    async mounted () {
-      await this.$refs.vcb.$el.querySelector('button').click()
-    },
-  }
-)
+const TemplateWithRef = (args, { argTypes }) => ({
+  components: { ViewColumnButton },
+  props: Object.keys(argTypes),
+  template: '<ViewColumnButton ref="vcb" v-bind="$props" />',
+  async mounted () {
+    await this.$refs.vcb.$el.querySelector('button').click()
+  },
+})
 
-withValueAndColumnsStory.storyName = 'with value and columns'
-withValueAndColumnsStory.args = {
+export const WithValueAndColumnsStory = TemplateWithRef.bind({})
+WithValueAndColumnsStory.storyName = 'with value and columns'
+WithValueAndColumnsStory.args = {
   waitForSelector: '.p-overlaypanel',
+  value,
+  columns: createOptions(5),
+}
+
+export const WithValueAndManyColumnsStory = TemplateWithRef.bind({})
+WithValueAndManyColumnsStory.storyName = 'with value and columns'
+WithValueAndManyColumnsStory.args = {
+  waitForSelector: '.p-overlaypanel',
+  value,
+  columns: createOptions(12),
 }

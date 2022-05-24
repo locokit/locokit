@@ -6,6 +6,7 @@ exports[`storyshots components/ui/OverlayPanel default 1`] = `
 >
   <div
     class="lck-overlay-panel"
+    id="lck-generic-overlay"
   >
     <button
       class="p-button p-component"
@@ -38,6 +39,7 @@ exports[`storyshots components/ui/OverlayPanel overlay opened 1`] = `
 >
   <div
     class="lck-overlay-panel"
+    id="lck-generic-overlay"
   >
     <button
       class="p-button p-component"

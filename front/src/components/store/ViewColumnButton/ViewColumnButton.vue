@@ -17,9 +17,6 @@
           border: 'unset',
           width: '400px',
         }"
-        :listStyle="{
-          'max-height': '350px'
-        }"
         v-on="$listeners"
       >
         <template #option="slotProps">
@@ -49,7 +46,7 @@ export default {
   name: 'LckViewColumnButton',
   components: {
     'p-listbox': Vue.extend(Listbox),
-    'lck-overlaypanel': Vue.extend(OverlayPanel),
+    'lck-overlaypanel': OverlayPanel,
   },
   props: {
     columns: {
@@ -71,7 +68,7 @@ export default {
 </script>
 
 <style scoped>
-/deep/ .p-overlaypanel.p-overlaypanel-content {
+::v-deep .p-overlaypanel.p-overlaypanel-content {
   padding: unset;
 }
 </style>

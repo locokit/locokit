@@ -7,6 +7,7 @@ exports[`storyshots components/store/FilterButton crud mode 1`] = `
   <div
     class="lck-overlay-panel"
     crudmode="true"
+    id="lck-generic-overlay"
   >
     <button
       class="p-button p-component p-button-outlined p-button-secondary"
@@ -39,6 +40,7 @@ exports[`storyshots components/store/FilterButton default 1`] = `
 >
   <div
     class="lck-overlay-panel"
+    id="lck-generic-overlay"
   >
     <button
       class="p-button p-component p-button-outlined p-button-secondary"
@@ -71,6 +73,8 @@ exports[`storyshots components/store/FilterButton overlay opened 1`] = `
 >
   <div
     class="lck-overlay-panel"
+    id="lck-generic-overlay"
+    waitforselector=".p-inputtext:nth-child(2)"
   >
     <button
       class="p-button p-component p-button-outlined p-button-secondary"
@@ -103,6 +107,8 @@ exports[`storyshots components/store/FilterButton overlay opened with specified 
 >
   <div
     class="lck-overlay-panel"
+    id="lck-generic-overlay"
+    waitforselector=".p-inputtext:nth-child(2)"
   >
     <button
       class="p-button p-component p-button-outlined p-button-secondary"

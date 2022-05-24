@@ -46,6 +46,7 @@
               :options="operators"
               optionLabel="label"
               optionValue="value"
+              appendTo="lck-generic-overlay"
               v-model="filter.operator"
               v-if="index > 0"
               :disabled="index > 1"
@@ -68,6 +69,7 @@
               :options="supportedColumns"
               dataKey="value"
               optionLabel="label"
+              appendTo="lck-generic-overlay"
               :placeholder="$t('components.datatable.toolbar.filters.form.placeholder')"
               @change="onChangeColumn(index)"
               v-model="filter.column"
@@ -80,6 +82,7 @@
             <p-dropdown
               id="action"
               type="text"
+              appendTo="lck-generic-overlay"
               :options="filter.column && columnFiltersConfig[filter.column.originalType].actions || []"
               :disabled="!filter.column"
               optionLabel="label"
@@ -364,7 +367,7 @@ input,
 .save-filter-button {
   position: absolute;
   top: 0;
-  right: 0.5rem;
+  right: 1.5rem;
 }
 
 </style>

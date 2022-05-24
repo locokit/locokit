@@ -109,21 +109,25 @@ export default {
 </script>
 
 <style scoped>
-/deep/ .handle i {
+::v-deep .handle i {
   cursor: move;
 }
-/deep/ .handle,
+
+::v-deep .handle,
 .p-button.p-button-icon-only.p-button-sm {
   width: 1.5rem;
   padding: 0.5rem;
 }
-/deep/ .p-datatable-wrapper .p-datatable-thead > tr > th {
+
+::v-deep .p-datatable-wrapper .p-datatable-thead > tr > th {
   background-color: transparent;
 }
-/deep/ .p-datatable-wrapper .p-datatable-tbody > tr > td.fit {
+
+::v-deep .p-datatable-wrapper .p-datatable-tbody > tr > td.fit {
   width: 1%;
   text-align: right;
 }
+
 .create-view-button {
   width: 100%;
 }
