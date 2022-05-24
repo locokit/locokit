@@ -156,7 +156,7 @@ const TemplateWithManyFiltersOpened = (args, { argTypes }) => ({
     this.$refs.fb.$el.querySelector('button').click()
     // Delay
     await Vue.nextTick()
-    // Add a new filter
+    // Add several new filters
     await document.body.querySelector('button > .bi.bi-plus-circle').parentElement.click()
     await document.body.querySelector('button > .bi.bi-plus-circle').parentElement.click()
     await document.body.querySelector('button > .bi.bi-plus-circle').parentElement.click()
