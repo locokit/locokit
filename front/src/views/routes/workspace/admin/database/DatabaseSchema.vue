@@ -12,10 +12,10 @@
 
     <div
       v-if="tables && tables.length === 0"
-      class="schema-info"
+      class="schema-info info-message"
     >
-      <big><div class="bi bi-info-circle p-m-4"></div></big>
-      {{ $t('pages.databaseSchema.noTable') }}
+      <div class="bi bi-info-circle p-m-4"/>
+      <p>{{ $t('pages.databaseSchema.noTable') }}</p>
     </div>
     <div
       v-else-if="!errorLoadTables"
@@ -23,10 +23,13 @@
       v-html="nomnomlSVG"
       @click="onClickTable"
     />
-    <p v-else class="schema-info">
-      <big><div class="bi bi-exclamation-circle p-m-4"></div></big>
-      {{ $t('pages.databaseSchema.noSchema') }}
-    </p>
+    <div
+      v-else
+      class="schema-info info-message"
+    >
+      <div class="bi bi-exclamation-circle p-m-4"/>
+      <p>{{ $t('pages.databaseSchema.noSchema') }}</p>
+    </div>
     <create-table-modal
       :visible="showCreateTableModal"
       :databaseId="databaseId"
@@ -71,7 +74,10 @@ export default Vue.extend({
     'p-button': Vue.extend(Button),
   },
   props: {
-    databaseId: String,
+    databaseId: {
+      type: String,
+      required: true,
+    },
   },
   data () {
     return {
@@ -244,43 +250,48 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.schema-info {
+  color: var(--text-color);
+  margin: auto;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.info-message {
+  > p,div {
+    font-size: 1.5rem;
+  }
+}
+
 .container {
   height: 100%;
   max-height: 100%;
   display: flex;
   flex-direction: column;
   position: relative;
-}
-</style>
 
-<style>
-#svg-container {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
+  #svg-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 
-#svg-container svg {
-  width: 100%;
-  height: 100%;
-  cursor: move;
-  user-select: none;
-}
+    ::v-deep > svg {
+      width: 100%;
+      height: 100%;
+      cursor: move;
+      user-select: none;
+    }
+  }
 
-rect[data-name]:hover {
-  fill: #e5e5e5 !important;
-  cursor: pointer;
-}
+  rect[data-name]:hover {
+    fill: #e5e5e5 !important;
+    cursor: pointer;
+  }
 
-text[data-name],
-path {
-  pointer-events: none;
-}
-.schema-info {
-  color: var(--text-color);
-  margin: auto;
-  text-align: center;
-  font-size: 1.5rem;
+  text[data-name],
+  path {
+    pointer-events: none;
+  }
 }
 </style>
