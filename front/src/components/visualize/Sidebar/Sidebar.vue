@@ -1,13 +1,13 @@
 <template>
   <p-accordion
     :multiple="true"
-    class="lck-sidebar"
-    :class="{'lck-sidebar--active': sidebarActive}"
+    :class="{'lck-sidebar': !sidebarActive}"
     :activeIndex="[0]"
   >
     <p-accordion-tab
       v-for="item in items"
       :key="item.id"
+      :active="item.active"
     >
       <template #header>
         <span class="lck-sidebar-link-label">{{item.label}}</span>
@@ -43,7 +43,7 @@
             v-if="displayEditActions"
             class="bi bi-grip-vertical handle"
           />
-          <span class="lck-sidebar-link-label">{{subitem.label}}</span>
+          <span class="lck-sidebar-link-label p-pl-2">{{subitem.label}}</span>
           <span
             class="action-subset"
             v-if="displayEditActions"
