@@ -1,7 +1,7 @@
 <template>
   <p-sidebar
     class="p-sidebar-update-table p-fluid"
-    :position="'right'"
+    position="right"
     :visible="showUpdateTableSidebar"
     :modal="false"
     :dismissable="false"
@@ -30,8 +30,17 @@
             classes
           }"
         >
-          <label for="table-name" class="label-field-required">{{ $t('pages.databaseSchema.updateTableSidebar.tableName') }}</label>
-          <p-input-text id="table-name" type="text" v-model="currentTableToUpdate.text" />
+          <label
+            for="table-name"
+            class="label-field-required"
+          >
+            {{ $t('pages.databaseSchema.updateTableSidebar.tableName') }}
+          </label>
+          <p-input-text
+            id="table-name"
+            type="text"
+            v-model="currentTableToUpdate.text"
+          />
           <span :class="classes">{{ errors[0] }}</span>
         </validation-provider>
         <validation-provider
@@ -64,7 +73,7 @@
             type="text"
             v-model="currentTableToUpdate.slug"
           />
-          <small>{{ $t('pages.databaseSchema.updateTableSidebar.tableSlugInfo') }}</small>
+          <small>{{ $t('pages.databaseSchema.updateTableSidebar.tableSlugInfo') }} {{ $t('pages.databaseSchema.updateTableSidebar.editSlug') }}</small>
           <span :class="classes">{{ errors[0] }}</span>
         </validation-provider>
 
@@ -140,7 +149,6 @@ export default {
   components: {
     'lck-form': LckForm,
     'handle-column-modal': () => import(/* webpackChunkName: "lck-sidebar-schema-monaco-editor" */'@/views/modals/HandleColumnModal'),
-
     'p-button': Vue.extend(Button),
     'p-sidebar': Vue.extend(Sidebar),
     'p-input-text': Vue.extend(InputText),
@@ -148,7 +156,6 @@ export default {
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'validation-provider': Vue.extend(ValidationProvider),
-
   },
   props: {
     databaseId: String,

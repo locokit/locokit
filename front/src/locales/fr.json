@@ -726,7 +726,7 @@
         "createTable": "Créer une table",
         "tableName": "Nom de la table",
         "tableSlug": "Slug de la table",
-        "tableSlugInfo": "Nom utilisé pour générer la vue SQL, en snake_case",
+        "tableSlugInfo": "Nom utilisé pour générer la vue SQL, en snake_case.",
         "tableDoc": "Documentation de la table",
         "cancel": "Annuler",
         "create": "Créer"
@@ -735,7 +735,8 @@
         "updateTable": "Modifier une table",
         "tableName": "Nom de la table",
         "tableSlug": "Slug de la table",
-        "tableSlugInfo": "Nom utilisé pour générer la vue SQL, en snake_case",
+        "tableSlugInfo": "Nom utilisé pour générer la vue SQL, en snake_case.",
+        "editSlug": "Attention, la modification de ce champ peut avoir des répercussions sur les applications tiers qui utilise cette table.",
         "tableDoc": "Documentation de la table",
         "columnName": "Nom de la colonne",
         "columnType": "Type de colonne",
