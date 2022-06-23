@@ -53,7 +53,7 @@
       <p-input-text
         id="table-slug"
         type="text"
-        :value="slug"
+        :value="autogenerateSlug"
         disabled
       />
       <small>{{ $t('pages.databaseSchema.createTableModal.tableSlugInfo') }}</small>
@@ -73,17 +73,8 @@ import { lckServices } from '@/services/lck-api'
 import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
-import { LckTableColumn, LckTableView } from '@/services/lck-api/definitions'
+import { LckTable } from '@/services/lck-api/definitions'
 import { createSlug } from '@/services/lck-utils/transformText'
-
-interface LckTable {
-  text: string;
-  documentation: string;
-  slug: string;
-  database_id: string;
-  columns: LckTableColumn[];
-  views: LckTableView[];
-}
 
 export default Vue.extend({
   name: 'CreateTableModal',
@@ -111,18 +102,17 @@ export default Vue.extend({
     }
   },
   computed: {
-    slug (): null|string {
+    autogenerateSlug (): null|string {
       if (this.name) return createSlug(this.name)
       return null
     },
   },
   methods: {
-    closeCreateTableModal () {
+    closeCreateTableModal (reloadParent = false) {
       this.name = null
       this.documentation = null
-      this.slug = null
       this.errorMessage = null
-      this.$emit('close', false)
+      this.$emit('close', reloadParent)
     },
     async confirmCreateTableModal () {
       try {
@@ -131,14 +121,10 @@ export default Vue.extend({
           database_id: this.databaseId,
           text: this.name,
           documentation: this.documentation,
-          slug: this.slug,
+          slug: this.autogenerateSlug,
         } as LckTable)
         if (createTableResponse) {
-          this.name = null
-          this.documentation = null
-          this.slug = null
-          this.errorMessage = null
-          this.$emit('close', true)
+          this.closeCreateTableModal(true)
         }
       } catch (error) {
         if (error instanceof Error) this.errorMessage = error.message
