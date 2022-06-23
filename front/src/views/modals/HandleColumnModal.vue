@@ -37,7 +37,7 @@
         {{ $t('pages.databaseSchema.handleColumnModal.columnName') }}
       </label>
       <p-input-text
-        v-model="columnNameToHandle"
+        v-model="columnName"
         id="column-name"
         type="text"
         autofocus
@@ -61,20 +61,29 @@
     <validation-provider
       vid="column-slug"
       tag="div"
-      class="p-field"
+      class="p-field p-d-flex p-flex-column"
       rules="required|snakeCase"
+      :name="$t('pages.databaseSchema.handleColumnModal.columnSlug')"
       v-slot="{
         errors,
         classes
       }"
     >
-      <label for="column-slug">
+      <label for="column-slug" :class="{'label-field-required': columnToHandle && columnToHandle.slug }">
         {{ $t('pages.databaseSchema.handleColumnModal.columnSlug') }}
       </label>
       <p-input-text
+        v-if="columnToHandle && columnToHandle.slug"
         v-model="columnSlug"
         id="column-slug"
         type="text"
+      />
+      <p-input-text
+        v-else
+        id="column-slug"
+        type="text"
+        :value="autogenerateSlug"
+        disabled
       />
       <small>{{ $t('pages.databaseSchema.handleColumnModal.columnSlugInfo') }}</small>
       <span :class="classes">{{ errors[0] }}</span>
@@ -83,30 +92,32 @@
       <label class="p-mr-2">
         {{ $t('pages.databaseSchema.handleColumnModal.reference') }}
       </label>
-      <validation-provider
-        vid="referenceToHandle-isActive"
-        tag="div"
-        class="p-mr-2"
-      >
-        <p-input-switch
-          id="referenceToHandle-isActive"
-          v-model="referenceToHandle.isActive"
-        />
-      </validation-provider>
-      <validation-provider
-        vid="referenceToHandle-position"
-        tag="div"
-        class="input-number-reference"
-      >
-        <p-input-number
-          id="referenceToHandle-position"
-          v-model="referenceToHandle.position"
-          :showButtons="true"
-          :min="0"
-          :maxFractionDigits="0"
-          :disabled="!referenceToHandle.isActive"
-        />
-      </validation-provider>
+      <div class="p-d-flex">
+        <validation-provider
+          vid="referenceToHandle-isActive"
+          tag="div"
+          class="p-mr-2 p-d-flex p-as-center"
+        >
+          <p-input-switch
+            id="referenceToHandle-isActive"
+            v-model="referenceToHandle.isActive"
+          />
+        </validation-provider>
+        <validation-provider
+          vid="referenceToHandle-position"
+          tag="div"
+          class="input-number-reference"
+        >
+          <p-input-number
+            id="referenceToHandle-position"
+            v-model="referenceToHandle.position"
+            :showButtons="true"
+            :min="0"
+            :maxFractionDigits="0"
+            :disabled="!referenceToHandle.isActive"
+          />
+        </validation-provider>
+      </div>
     </div>
     <div>
       {{ $t('pages.databaseSchema.handleColumnModal.validation') }}
@@ -242,14 +253,17 @@
 
 </template>
 
-<script>
-import Vue from 'vue'
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
 
 import { ValidationProvider } from 'vee-validate'
-import { COLUMN_TYPE, columnsType } from '@locokit/lck-glossary'
+import { COLUMN_TYPE } from '@locokit/lck-glossary'
+import { TranslateResult } from 'vue-i18n'
 
 import { lckServices } from '@/services/lck-api'
 import { formulaColumnsNamesToIds, formulaColumnsIdsToNames } from '@/services/lck-utils/formula'
+import { transformColumnsType } from '@/services/lck-utils/temporary'
+import { createSlug } from '@/services/lck-utils/transformText'
 
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
@@ -263,8 +277,9 @@ import SelectTypeColumn from '@/components/admin/database/SelectTypeColumn/Selec
 import ColumnValidation from '@/components/admin/database/ColumnValidation/ColumnValidation.vue'
 import RelationBetweenTablesTypeColumn from '@/views/modals/RelationBetweenTablesTypeColumn.vue'
 import LookedUpTypeColumn from '@/views/modals/LookedUpTypeColumn.vue'
+import { LckTableColumn, SelectValue, SelectValueWithId } from '@/services/lck-api/definitions'
 
-export default {
+export default Vue.extend({
   name: 'HandleColumnModal',
   components: {
     'lck-dialog-form': DialogForm,
@@ -286,97 +301,100 @@ export default {
       type: Boolean,
       default: false,
     },
-    databaseId: String,
-    tableId: String,
+    tableId: {
+      type: String,
+      required: true,
+    },
     columnToHandle: {
       type: Object,
       required: false,
-    },
+    } as PropOptions<LckTableColumn>,
     tableColumns: {
       type: Array,
       required: false,
       default: () => [],
-    },
+    } as PropOptions<LckTableColumn[]>,
   },
   data () {
     return {
-      COLUMN_TYPE: columnsType,
-      columnNameToHandle: null,
-      columnDocumentation: null,
-      columnSlug: null,
-      columnValidation: {},
+      COLUMN_TYPE,
+      columnName: null as string|null,
+      columnDocumentation: null as string|null|undefined,
+      columnSlug: null as string|null,
+      /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+      columnValidation: {} as Record<string, any>,
       referenceToHandle: { isActive: false, position: 0 },
-      selectedColumnTypeIdToHandle: null,
-      errorHandleColumn: null,
-      settings: {},
+      selectedColumnTypeIdToHandle: null as COLUMN_TYPE|null,
+      errorHandleColumn: null as string|null,
+      /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+      settings: {} as Record<string, any>,
     }
   },
   computed: {
-    isSelectColumnType () {
+    autogenerateSlug (): null|string {
+      if (this.columnName) return createSlug(this.columnName)
+      return null
+    },
+    isSelectColumnType (): boolean {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.SINGLE_SELECT || this.selectedColumnTypeIdToHandle === COLUMN_TYPE.MULTI_SELECT
     },
-    columnTypes () {
-      return Object.keys(COLUMN_TYPE).map((key) => ({
-        id: COLUMN_TYPE[key],
-        description: this.$t(`pages.databaseSchema.columnType.${key}.description`),
-        name: this.$t(`pages.databaseSchema.columnType.${key}.name`),
-      }))
+    columnTypes (): {id: number; description: string|TranslateResult; name: string|TranslateResult}[] {
+      return Object.keys(transformColumnsType()).map((key: string) => {
+        return ({
+          id: COLUMN_TYPE[key as keyof typeof COLUMN_TYPE],
+          description: this.$t(`pages.databaseSchema.columnType.${key}.description`),
+          name: this.$t(`pages.databaseSchema.columnType.${key}.name`),
+        })
+      })
     },
-    isRelationBetweenTablesType () {
+    isRelationBetweenTablesType (): boolean {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.RELATION_BETWEEN_TABLES
     },
-    isLookedUpType () {
+    isLookedUpType (): boolean {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.LOOKED_UP_COLUMN ||
         this.selectedColumnTypeIdToHandle === COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN
     },
-    isFormulaType () {
+    isFormulaType (): boolean {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.FORMULA
     },
-    isBooleanType () {
+    isBooleanType (): boolean {
       return this.selectedColumnTypeIdToHandle === COLUMN_TYPE.BOOLEAN
-    },
-    cannotBeUsedAsReference () {
-      switch (this.selectedColumnTypeIdToHandle) {
-        case COLUMN_TYPE.FORMULA:
-        case COLUMN_TYPE.VIRTUAL_LOOKED_UP_COLUMN:
-          return true
-      }
-      return false
     },
   },
   methods: {
-    closeHandleColumnModal () {
-      this.columnNameToHandle = null
+    closeHandleColumnModal (reloadParent = false): void {
+      this.columnName = null
       this.columnDocumentation = null
+      this.columnSlug = null
       this.selectedColumnTypeIdToHandle = null
       this.columnValidation = {}
-      this.$emit('close', false)
+      this.referenceToHandle = { isActive: false, position: 0 }
+      this.settings = {}
+      this.$emit('close', reloadParent)
     },
     async confirmHandleColumnModal () {
       try {
-        if (this.columnNameToHandle && this.selectedColumnTypeIdToHandle) {
+        if (this.columnName && this.selectedColumnTypeIdToHandle) {
           if (this.columnToHandle) {
             await lckServices.tableColumn.patch(this.columnToHandle.id, {
               // eslint-disable-next-line @typescript-eslint/camelcase
               table_id: this.tableId,
-              text: this.columnNameToHandle,
+              text: this.columnName,
               documentation: this.columnDocumentation,
               slug: this.columnSlug,
               reference: this.referenceToHandle.isActive,
               // eslint-disable-next-line @typescript-eslint/camelcase
               reference_position: Number(this.referenceToHandle.position),
-              // eslint-disable-next-line @typescript-eslint/camelcase
-              // column_type_id: this.selectedColumnTypeIdToHandle,
               settings: this.getSettings(),
               validation: this.columnValidation,
-            })
+            } as LckTableColumn)
           } else {
             await lckServices.tableColumn.create({
               // eslint-disable-next-line @typescript-eslint/camelcase
               table_id: this.tableId,
-              text: this.columnNameToHandle,
+              text: this.columnName,
               documentation: this.columnDocumentation,
-              slug: this.columnSlug,
+              slug: this.autogenerateSlug,
               reference: this.referenceToHandle.isActive,
               // eslint-disable-next-line @typescript-eslint/camelcase
               reference_position: Number(this.referenceToHandle.position),
@@ -384,19 +402,12 @@ export default {
               column_type_id: this.selectedColumnTypeIdToHandle,
               settings: this.getSettings(),
               validation: this.columnValidation,
-            })
+            } as LckTableColumn)
           }
-          this.columnNameToHandle = null
-          this.columnDocumentation = null
-          this.columnSlug = null
-          this.selectedColumnTypeIdToHandle = null
-          this.columnValidation = {}
-          this.$emit('close', true)
-        } else {
-          throw new Error(this.$t('pages.databaseSchema.handleColumnModal.errorNoData'))
+          this.closeHandleColumnModal(true)
         }
       } catch (errorHandleColumn) {
-        this.errorHandleColumn = errorHandleColumn
+        if (errorHandleColumn instanceof Error) this.errorHandleColumn = errorHandleColumn.message
       }
     },
     getSettings () {
@@ -412,35 +423,37 @@ export default {
       this.settings = {}
     },
 
-    getSelectedColumnTypeDisplayDescription (selectedColumnTypeIdToHandle) {
-      return this.columnTypes.find((columnType) => columnType.id === selectedColumnTypeIdToHandle).description
+    getSelectedColumnTypeDisplayDescription (selectedColumnTypeIdToHandle: number) {
+      return this.columnTypes.find((columnType) => columnType.id === selectedColumnTypeIdToHandle)?.description
     },
 
-    selectTypeValuesChange (data) {
+    selectTypeValuesChange (data: SelectValueWithId[]) {
       let settings = {}
       data.forEach((selectTypeValue) => {
-        const newSelectTypeValue = {}
-        newSelectTypeValue[selectTypeValue.id] = { ...selectTypeValue }
+        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+        const newSelectTypeValue: Record<string, any> = {}
+        newSelectTypeValue[selectTypeValue.id] = { ...selectTypeValue } as SelectValue
         delete newSelectTypeValue[selectTypeValue.id].id
         settings = { ...settings, ...newSelectTypeValue }
       })
       this.settings = { values: settings, default: this.settings.default }
     },
-    defaultSelectTypeValueIdChange (data) {
-      this.settings.default = data
+    defaultSelectTypeValueIdChange (uuid: string) {
+      this.settings.default = uuid
     },
-    tableIdChange (data) {
-      this.settings.tableId = data
+    tableIdChange (uuid: string) {
+      this.settings.tableId = uuid
     },
-    localFieldIdChange (data) {
-      this.settings.localField = data
+    localFieldIdChange (uuid: string) {
+      this.settings.localField = uuid
     },
-    foreignFieldIdChange (data) {
-      this.settings.foreignField = data
+    foreignFieldIdChange (uuid: string) {
+      this.settings.foreignField = uuid
     },
-    formulaChange (data, validate) {
-      validate(data)
-      this.$refs['vp-column-formula-content'].setFlags({
+    formulaChange (data: string, validate: Function) {
+      validate(data);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any,no-unused-expressions
+      (this.$refs['vp-column-formula-content'] as any)?.setFlags({
         pristine: false,
         dirty: true,
         touched: true,
@@ -457,7 +470,7 @@ export default {
   watch: {
     columnToHandle: function () {
       if (this.columnToHandle) {
-        this.columnNameToHandle = this.columnToHandle.text
+        this.columnName = this.columnToHandle.text
         this.columnDocumentation = this.columnToHandle.documentation
         this.columnSlug = this.columnToHandle.slug
         if (Object.prototype.hasOwnProperty.call(this.columnToHandle, 'reference')) {
@@ -481,7 +494,7 @@ export default {
       this.errorHandleColumn = null
     },
   },
-}
+})
 </script>
 
 <style scoped>
