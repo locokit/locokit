@@ -25,6 +25,7 @@
       </label>
       <p-input-text
         id="viewTextField"
+        v-focus
         v-model="currentData.text"
       />
       <span :class="classes">{{ errors[0] }}</span>
