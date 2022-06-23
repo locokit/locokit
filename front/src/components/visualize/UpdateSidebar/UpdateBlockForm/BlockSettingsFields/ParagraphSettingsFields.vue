@@ -45,4 +45,8 @@ export default {
 .p-field textarea {
   resize: vertical;
 }
+
+form label {
+  font-weight: 700;
+}
 </style>

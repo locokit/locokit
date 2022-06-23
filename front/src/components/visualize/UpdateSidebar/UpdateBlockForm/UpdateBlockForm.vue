@@ -3,7 +3,7 @@
     :submitting="submitting"
     @submit="onFormSubmit"
     @cancel="$emit('close')"
-    class="lck-update-block-form lck-color-content p-text-bold"
+    class="lck-update-block-form lck-color-content"
   >
     <validation-provider
       vid="blockTitleField"
@@ -436,3 +436,9 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style scoped>
+form label {
+  font-weight: 700;
+}
+</style>

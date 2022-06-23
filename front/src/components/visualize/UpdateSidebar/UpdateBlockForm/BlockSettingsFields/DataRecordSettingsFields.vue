@@ -79,3 +79,9 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style scoped>
+form label {
+  font-weight: 700;
+}
+</style>
