@@ -7,10 +7,9 @@
       class="internal-nav-content"
     >
       <!-- Navbar with no Anchor Link -->
-      <div v-if="editMode && containersToDisplayed.length === 0">
-        {{ $t('pages.workspace.page.navigationSubject') }}
-        <br/>
-        {{ $t('pages.workspace.page.navigationExplain') }}
+      <div v-if="editMode && containersToDisplayed.length === 0" class="p-d-flex p-flex-column internal-nav-content--without-data">
+        <p>{{ $t('pages.workspace.page.navigationSubject') }}</p>
+        <p>{{ $t('pages.workspace.page.navigationExplain') }}</p>
       </div>
       <!-- Navbar with Anchor Link -->
       <ul
@@ -40,16 +39,14 @@
           </a>
         </li>
       </ul>
+      <p-button
+        v-if="editMode"
+        :title="$t('pages.workspace.page.navigationEditButton')"
+        class="p-button-lg p-button-text edit-container-button"
+        icon="bi bi-pencil"
+        @click="$emit('edit-nav')"
+      />
     </div>
-    <span class="edit-mode-toggle">
-    <p-button
-      v-if="editMode"
-      :title="$t('pages.workspace.page.navigationEditButton')"
-      class="p-button-lg p-button-text edit-container-button"
-      icon="bi bi-pencil"
-      @click="$emit('edit-nav')"
-    />
-  </span>
   </div>
 </template>
 
@@ -112,7 +109,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 @media print {
   .active::after {
     content: none !important;
@@ -130,11 +127,23 @@ export default Vue.extend({
   display: flex;
   justify-content: space-between;
   border: 1px solid var(--primary-color);
-  height: 3rem;
 }
 
 .internal-nav-content {
+  display: flex;
+  width: 100%;
   flex: 1;
+}
+
+.internal-nav-content--without-data {
+  width: calc(100% - 2.357rem);
+
+  p {
+    margin: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
 
 .page-nav {
