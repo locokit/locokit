@@ -68,7 +68,6 @@ exports[`storyshots views/modals/CreateTableModal Create 1`] = `
                 </label>
                  
                 <input
-                  autofocus="autofocus"
                   class="p-inputtext p-component"
                   id="table-name"
                   type="text"
@@ -111,6 +110,7 @@ exports[`storyshots views/modals/CreateTableModal Create 1`] = `
                  
                 <input
                   class="p-inputtext p-component"
+                  disabled="disabled"
                   id="table-slug"
                   type="text"
                 />
@@ -118,12 +118,6 @@ exports[`storyshots views/modals/CreateTableModal Create 1`] = `
                 <small>
                   Name used to generate the SQL view, in snake case.
                 </small>
-                 
-                <span
-                  class="untouched pristine"
-                >
-                  
-                </span>
               </div>
                
               <!---->

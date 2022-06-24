@@ -601,7 +601,7 @@ exports[`storyshots components/visualize/UpdateSidebar when creating a new block
               role="tabpanel"
             >
               <div
-                class="lck-update-block-form lck-color-content p-text-bold"
+                class="lck-update-block-form lck-color-content"
               >
                 <form
                   class="p-fluid"
@@ -2429,7 +2429,7 @@ exports[`storyshots components/visualize/UpdateSidebar when updating a block 1`]
               role="tabpanel"
             >
               <div
-                class="lck-update-block-form lck-color-content p-text-bold"
+                class="lck-update-block-form lck-color-content"
               >
                 <form
                   class="p-fluid"
