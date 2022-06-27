@@ -84,21 +84,20 @@ export async function createAbility (
         paginate: false,
       }) as LckAclSet[]
       cannot('manage', 'workspace')
-      cannot('create', 'workspace')
       const workspaceIdsManagerUSER = aclsetsUSER.filter(aclset => aclset.manager).map(aclset => aclset.workspace_id)
       const workspaceIdsUSER = aclsetsUSER.map(aclset => aclset.workspace_id)
       const uniqueWorkspacesIds = [...new Set(workspaceIdsUSER)]
+      if (workspaceIdsUSER.length > 0) {
+        can('read', 'workspace', {
+          [withJoin ? 'workspace.id' : 'id']: {
+            $in: uniqueWorkspacesIds,
+          },
+        })
+      }
       if (workspaceIdsManagerUSER.length > 0) {
         can(['read', 'update', 'delete'], 'workspace', {
           [withJoin ? 'workspace.id' : 'id']: {
             $in: workspaceIdsManagerUSER,
-          },
-        })
-      }
-      if (workspaceIdsUSER.length > 0) {
-        can(['read', 'update'], 'workspace', {
-          [withJoin ? 'workspace.id' : 'id']: {
-            $in: uniqueWorkspacesIds,
           },
         })
       }
