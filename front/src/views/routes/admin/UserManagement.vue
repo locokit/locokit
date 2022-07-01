@@ -311,8 +311,8 @@ export default {
         value: key,
       })),
       currentPage: 0,
-      sortField: 'id',
-      sortOrder: 1,
+      sortField: 'createdAt',
+      sortOrder: -1,
       resendVerifySignupUsers: {},
       disableUsers: {},
     }
