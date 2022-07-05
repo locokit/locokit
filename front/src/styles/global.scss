@@ -246,3 +246,10 @@ p.failed, span.failed {
   color: var(--color-error);
   font-weight: 500;
 }
+
+/*
+  Custom cursor for vuedraggable
+*/
+.handle, .handle-block {
+  cursor: move !important;
+}
