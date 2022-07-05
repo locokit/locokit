@@ -352,7 +352,7 @@ export default Vue.extend({
   props: {
     blockId: {
       type: String,
-      required: true,
+      default: '',
     },
     autocompleteSuggestions: {
       type: Array, //  as { label: string; value: number }[]

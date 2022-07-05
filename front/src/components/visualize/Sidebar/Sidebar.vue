@@ -1,13 +1,13 @@
 <template>
   <p-accordion
     :multiple="true"
-    class="lck-sidebar"
-    :class="{'lck-sidebar--active': sidebarActive}"
+    :class="{'lck-sidebar': !sidebarActive}"
     :activeIndex="[0]"
   >
     <p-accordion-tab
       v-for="item in items"
       :key="item.id"
+      :active="item.active"
     >
       <template #header>
         <span class="lck-sidebar-link-label">{{item.label}}</span>
@@ -35,13 +35,16 @@
           v-for="subitem in item.subitems"
           :key="subitem.id"
           :to="subitem.to"
-          class="lck-sidebar-link p-ml-4"
+          class="lck-sidebar-link"
+          :class="{
+            'p-ml-4': !displayEditActions
+          }"
           @click.native="$emit('click-sidebar-item')"
           v-show="displayEditActions || subitem.hidden !== true"
         >
           <span
             v-if="displayEditActions"
-            class="bi bi-grip-vertical handle"
+            class="bi bi-grip-vertical handle p-p-1"
           />
           <span class="lck-sidebar-link-label">{{subitem.label}}</span>
           <span
@@ -131,6 +134,7 @@ export default {
   },
 }
 </script>
+
 <style scoped lang="scss">
 .lck-sidebar-link {
   position: relative;
@@ -144,11 +148,5 @@ export default {
 
 .action-button {
   margin: 0 var(--spacing-sm);
-}
-
-.handle {
-  cursor: move;
-  position: absolute;
-  left: 0.5rem;
 }
 </style>

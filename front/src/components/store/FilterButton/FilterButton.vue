@@ -107,6 +107,7 @@
             </label>
             <component
               id="pattern"
+              appendTo="lck-generic-overlay"
               v-if="
                 columnFiltersConfig[filter.column.originalType].patternComponent ||
                 getComponentEditorCellForColumnType(filter.column.originalType)

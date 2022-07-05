@@ -21,9 +21,9 @@
       </label>
       <p-input-text
         id="table-name"
-        :class="{ 'p-invalid': errorTableNameToCreate }"
+        v-focus
         type="text"
-        v-model="tableNameToCreate" autofocus
+        v-model="name"
       />
       <span :class="classes">{{ errors[0] }}</span>
     </validation-provider>
@@ -37,7 +37,7 @@
       </label>
       <p-textarea
         id="table-documentation"
-        v-model="tableDocumentation"
+        v-model="documentation"
         :autoResize="true"
       />
     </validation-provider>
@@ -46,10 +46,6 @@
       tag="div"
       class="p-field p-mt-4"
       rules="required|snakeCase"
-      v-slot="{
-        errors,
-        classes
-      }"
     >
       <label for="table-slug">
         {{ $t('pages.databaseSchema.createTableModal.tableSlug') }}
@@ -57,14 +53,14 @@
       <p-input-text
         id="table-slug"
         type="text"
-        v-model="tableSlug"
+        :value="autogenerateSlug"
+        disabled
       />
       <small>{{ $t('pages.databaseSchema.createTableModal.tableSlugInfo') }}</small>
-      <span :class="classes">{{ errors[0] }}</span>
     </validation-provider>
-    <div v-if="errorTableNameToCreate" class="p-invalid">
+    <div v-if="errorMessage" class="p-invalid">
       <small id="table-name-invalid" class="p-invalid">
-        {{ errorTableNameToCreate }}
+        {{ errorMessage }}
       </small>
     </div>
   </lck-dialog-form>
@@ -77,6 +73,8 @@ import { lckServices } from '@/services/lck-api'
 import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
 import DialogForm from '@/components/ui/DialogForm/DialogForm.vue'
+import { LckTable } from '@/services/lck-api/definitions'
+import { createSlug } from '@/services/lck-utils/transformText'
 
 export default Vue.extend({
   name: 'CreateTableModal',
@@ -91,44 +89,45 @@ export default Vue.extend({
       type: Boolean,
       default: false,
     } as PropOptions<boolean>,
-    databaseId: String as PropOptions<string>,
+    databaseId: {
+      type: String,
+      required: true,
+    } as PropOptions<string>,
   },
   data () {
     return {
-      tableNameToCreate: null as string | null,
-      tableDocumentation: null as string | null,
-      tableSlug: null as string | null,
-      errorTableNameToCreate: null as boolean | null,
+      name: null as string | null,
+      documentation: null as string | null,
+      errorMessage: null as string | null,
     }
   },
+  computed: {
+    autogenerateSlug (): null|string {
+      if (this.name) return createSlug(this.name)
+      return null
+    },
+  },
   methods: {
-    closeCreateTableModal () {
-      this.tableNameToCreate = null
-      this.tableDocumentation = null
-      this.tableSlug = null
-      this.errorTableNameToCreate = null
-      this.$emit('close', false)
+    closeCreateTableModal (reloadParent = false) {
+      this.name = null
+      this.documentation = null
+      this.errorMessage = null
+      this.$emit('close', reloadParent)
     },
     async confirmCreateTableModal () {
       try {
         const createTableResponse = await lckServices.table.create({
-          // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-          // @ts-ignore
           // eslint-disable-next-line @typescript-eslint/camelcase
           database_id: this.databaseId,
-          text: this.tableNameToCreate,
-          documentation: this.tableDocumentation,
-          slug: this.tableSlug,
-        })
+          text: this.name,
+          documentation: this.documentation,
+          slug: this.autogenerateSlug,
+        } as LckTable)
         if (createTableResponse) {
-          this.tableNameToCreate = null
-          this.tableDocumentation = null
-          this.tableSlug = null
-          this.errorTableNameToCreate = false
-          this.$emit('close', true)
+          this.closeCreateTableModal(true)
         }
-      } catch (errorCreateTable) {
-        this.errorTableNameToCreate = (errorCreateTable as any).message
+      } catch (error) {
+        if (error instanceof Error) this.errorMessage = error.message
       }
     },
   },

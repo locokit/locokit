@@ -37,7 +37,7 @@ describe('Workspace abilities', () => {
       text: '[workspace-abilities] Workspace 1',
     })
     workspace2 = await app.services.workspace.create({
-      text: '[workspace-abilities] Workspace 1',
+      text: '[workspace-abilities] Workspace 2',
     })
     aclset1 = await app.services.aclset.create({
       label: '[workspace-abilities] Acl Set 1',
@@ -168,7 +168,7 @@ describe('Workspace abilities', () => {
       expect(ability.can('read', workspace1)).toBe(true)
       expect(ability.can('read', workspace2)).toBe(true)
     })
-    it('cannot update workspace1 but workspace2 because it is a USER', () => {
+    it('cannot update workspace1 because it is a USER but can update workspace2 because it is a manager', () => {
       expect.assertions(2)
       expect(ability.can('update', workspace2)).toBe(true)
       expect(ability.cannot('update', workspace1)).toBe(true)

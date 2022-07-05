@@ -452,4 +452,8 @@ export default Vue.extend({
     background-color: var(--primary-color);
   }
 }
+
+form label {
+  font-weight: 700;
+}
 </style>

@@ -175,7 +175,11 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.p-inputswitch {
+::v-deep.p-inputswitch {
   display: block;
+}
+
+form label {
+  font-weight: 700;
 }
 </style>

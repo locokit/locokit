@@ -103,9 +103,10 @@ exports[`storyshots views/modals/HandleColumnModal Create 1`] = `
               </div>
                
               <div
-                class="p-field"
+                class="p-field p-d-flex p-flex-column"
               >
                 <label
+                  class=""
                   for="column-slug"
                 >
                   
@@ -115,6 +116,7 @@ exports[`storyshots views/modals/HandleColumnModal Create 1`] = `
                  
                 <input
                   class="p-inputtext p-component"
+                  disabled="disabled"
                   id="column-slug"
                   type="text"
                 />
@@ -142,90 +144,94 @@ exports[`storyshots views/modals/HandleColumnModal Create 1`] = `
                 </label>
                  
                 <div
-                  class="p-mr-2"
+                  class="p-d-flex"
                 >
                   <div
-                    class="p-inputswitch p-component"
-                    id="referenceToHandle-isActive"
+                    class="p-mr-2 p-d-flex p-as-center"
                   >
                     <div
-                      class="p-hidden-accessible"
+                      class="p-inputswitch p-component"
+                      id="referenceToHandle-isActive"
                     >
-                      <input
-                        role="switch"
-                        type="checkbox"
+                      <div
+                        class="p-hidden-accessible"
+                      >
+                        <input
+                          role="switch"
+                          type="checkbox"
+                        />
+                      </div>
+                       
+                      <span
+                        class="p-inputswitch-slider"
                       />
                     </div>
-                     
-                    <span
-                      class="p-inputswitch-slider"
-                    />
                   </div>
-                </div>
-                 
-                <div
-                  class="input-number-reference"
-                >
-                  <span
-                    class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled p-inputnumber-buttons-stacked"
+                   
+                  <div
+                    class="input-number-reference"
                   >
-                    <input
-                      aria-valumin="0"
-                      class="p-inputtext p-component p-filled p-inputnumber-input"
-                      disabled="disabled"
-                      id="referenceToHandle-position"
-                    />
-                     
                     <span
-                      class="p-inputnumber-button-group"
+                      class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled p-inputnumber-buttons-stacked"
                     >
-                      <button
-                        class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-up"
+                      <input
+                        aria-valumin="0"
+                        class="p-inputtext p-component p-filled p-inputnumber-input"
                         disabled="disabled"
-                        type="button"
-                      >
-                        <span
-                          class="pi pi-angle-up p-button-icon"
-                        />
-                         
-                        <span
-                          class="p-button-label"
-                        >
-                           
-                        </span>
-                         
-                        <!---->
-                        <span
-                          class="p-ink"
-                        />
-                      </button>
+                        id="referenceToHandle-position"
+                      />
                        
-                      <button
-                        class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-down"
-                        disabled="disabled"
-                        type="button"
+                      <span
+                        class="p-inputnumber-button-group"
                       >
-                        <span
-                          class="pi pi-angle-down p-button-icon"
-                        />
-                         
-                        <span
-                          class="p-button-label"
+                        <button
+                          class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-up"
+                          disabled="disabled"
+                          type="button"
                         >
-                           
-                        </span>
+                          <span
+                            class="pi pi-angle-up p-button-icon"
+                          />
+                           
+                          <span
+                            class="p-button-label"
+                          >
+                             
+                          </span>
+                           
+                          <!---->
+                          <span
+                            class="p-ink"
+                          />
+                        </button>
                          
-                        <!---->
-                        <span
-                          class="p-ink"
-                        />
-                      </button>
+                        <button
+                          class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-down"
+                          disabled="disabled"
+                          type="button"
+                        >
+                          <span
+                            class="pi pi-angle-down p-button-icon"
+                          />
+                           
+                          <span
+                            class="p-button-label"
+                          >
+                             
+                          </span>
+                           
+                          <!---->
+                          <span
+                            class="p-ink"
+                          />
+                        </button>
+                      </span>
+                       
+                      <!---->
+                       
+                      <!---->
                     </span>
-                     
-                    <!---->
-                     
-                    <!---->
-                  </span>
+                  </div>
                 </div>
               </div>
                

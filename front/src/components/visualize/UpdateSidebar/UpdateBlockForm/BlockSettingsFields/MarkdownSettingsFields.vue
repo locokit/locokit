@@ -124,4 +124,8 @@ export default Vue.extend({
 .p-field textarea {
   resize: vertical;
 }
+
+form label {
+  font-weight: 700;
+}
 </style>

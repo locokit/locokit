@@ -5,7 +5,7 @@ exports[`storyshots components/visualize/Sidebar default 1`] = `
   style="height: 100%;"
 >
   <div
-    class="p-accordion p-component lck-sidebar lck-sidebar--active"
+    class="p-accordion p-component"
   >
     <div
       class="p-accordion-tab p-accordion-tab-active"
@@ -72,7 +72,7 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
   style="height: 100%;"
 >
   <div
-    class="p-accordion p-component lck-sidebar lck-sidebar--active"
+    class="p-accordion p-component"
   >
     <div
       class="p-accordion-tab p-accordion-tab-active"
@@ -126,10 +126,10 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
            
           <div>
             <a
-              class="mock-link lck-sidebar-link p-ml-4"
+              class="mock-link lck-sidebar-link"
             >
               <span
-                class="bi bi-grip-vertical handle"
+                class="bi bi-grip-vertical handle p-p-1"
               />
                
               <span
@@ -151,10 +151,10 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
               </span>
             </a>
             <a
-              class="mock-link lck-sidebar-link p-ml-4"
+              class="mock-link lck-sidebar-link"
             >
               <span
-                class="bi bi-grip-vertical handle"
+                class="bi bi-grip-vertical handle p-p-1"
               />
                
               <span
@@ -255,10 +255,10 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
            
           <div>
             <a
-              class="mock-link lck-sidebar-link p-ml-4"
+              class="mock-link lck-sidebar-link"
             >
               <span
-                class="bi bi-grip-vertical handle"
+                class="bi bi-grip-vertical handle p-p-1"
               />
                
               <span
@@ -280,10 +280,10 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
               </span>
             </a>
             <a
-              class="mock-link lck-sidebar-link p-ml-4"
+              class="mock-link lck-sidebar-link"
             >
               <span
-                class="bi bi-grip-vertical handle"
+                class="bi bi-grip-vertical handle p-p-1"
               />
                
               <span
@@ -365,7 +365,7 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
   style="height: 100%;"
 >
   <div
-    class="p-accordion p-component lck-sidebar lck-sidebar--active"
+    class="p-accordion p-component"
   >
     <div
       class="p-accordion-tab p-accordion-tab-active"
@@ -536,7 +536,7 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
   style="height: 100%;"
 >
   <div
-    class="p-accordion p-component lck-sidebar lck-sidebar--active"
+    class="p-accordion p-component"
   >
     <div
       class="p-accordion-tab p-accordion-tab-active"
@@ -616,6 +616,7 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
       </div>
     </div>
     <div
+      active="true"
       class="p-accordion-tab"
     >
       <div

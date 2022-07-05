@@ -69,6 +69,9 @@ export default {
       if (event?.target?.className.indexOf('p-dropdown-item') > -1) {
         event.stopPropagation()
       }
+      if (event?.target?.className.indexOf('p-multiselect-item') > -1 || event?.target?.className.indexOf('p-multiselect-header')) {
+        event.stopPropagation()
+      }
     },
   },
 }

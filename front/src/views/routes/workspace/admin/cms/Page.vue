@@ -45,7 +45,12 @@
             'lck-elevation': container.elevation
           }"
         >
-          <h2 v-if="container.display_title && !editMode" class="lck-color-title">{{ container.text }}</h2>
+          <h2
+            v-if="container.display_title && !editMode"
+            class="lck-color-title"
+          >
+            {{ container.text }}
+          </h2>
           <div v-if="editMode" class="edit-container-line">
             <h2 class="lck-color-title">{{ container.text }}</h2>
             <span class="p-buttonset">
@@ -536,10 +541,6 @@ export default Vue.extend({
 
   .edit-container-line .p-buttonset {
     flex-shrink: 0;
-  }
-
-  .edit-container-line .handle {
-    cursor: move;
   }
 
   .lck-container.editable-container .edit-container-line {

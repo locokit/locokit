@@ -84,19 +84,23 @@ export async function createAbility (
         paginate: false,
       }) as LckAclSet[]
       cannot('manage', 'workspace')
-      cannot('create', 'workspace')
       const workspaceIdsManagerUSER = aclsetsUSER.filter(aclset => aclset.manager).map(aclset => aclset.workspace_id)
       const workspaceIdsUSER = aclsetsUSER.map(aclset => aclset.workspace_id)
-      can(['read', 'update', 'delete'], 'workspace', {
-        [withJoin ? 'workspace.id' : 'id']: {
-          $in: workspaceIdsManagerUSER,
-        },
-      })
-      can('read', 'workspace', {
-        [withJoin ? 'workspace.id' : 'id']: {
-          $in: workspaceIdsUSER,
-        },
-      })
+      const uniqueWorkspacesIds = [...new Set(workspaceIdsUSER)]
+      if (workspaceIdsUSER.length > 0) {
+        can('read', 'workspace', {
+          [withJoin ? 'workspace.id' : 'id']: {
+            $in: uniqueWorkspacesIds,
+          },
+        })
+      }
+      if (workspaceIdsManagerUSER.length > 0) {
+        can(['read', 'update', 'delete'], 'workspace', {
+          [withJoin ? 'workspace.id' : 'id']: {
+            $in: workspaceIdsManagerUSER,
+          },
+        })
+      }
   }
   return makeAbilityFromRules(rules, { resolveAction }) as AppAbility
 }
@@ -112,7 +116,7 @@ export async function defineAbilities (context: HookContext): Promise<HookContex
   const ability: AppAbility = await createAbility(
     context.params.user as User,
     context.app.services,
-    context.params.query?.$eager || context.params.query?.$joinRelation,
+    context.params.query?.$eager || context.params.query?.$joinRelation || context.params.query?.$modify,
   )
   context.params.ability = ability
   context.params.rules = ability.rules

@@ -199,10 +199,6 @@ export default Vue.extend({
   padding-left: 0.5rem;
 }
 
-.handle-block {
-  cursor: move;
-}
-
 .edit-block-line .p-button {
   height: 100%;
   color: var(--primary-color-dark);

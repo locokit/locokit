@@ -109,10 +109,6 @@ export default {
 </script>
 
 <style scoped>
-::v-deep .handle i {
-  cursor: move;
-}
-
 ::v-deep .handle,
 .p-button.p-button-icon-only.p-button-sm {
   width: 1.5rem;

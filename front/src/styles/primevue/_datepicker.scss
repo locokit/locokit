@@ -8,6 +8,7 @@
   color: var(--text-color);
   border: var(--border);
   border-radius: var(--border-radius);
+  font-size: 1rem;
 }
 
 .p-datepicker:not(.p-datepicker-inline) {
@@ -81,7 +82,7 @@
 }
 
 .p-datepicker table th {
-  padding: 0.5rem;
+  padding: 0;
 }
 
 .p-datepicker table th>span {
@@ -90,7 +91,7 @@
 }
 
 .p-datepicker table td {
-  padding: 0.5rem;
+  padding: 0;
 }
 
 .p-datepicker table td>span {
@@ -134,12 +135,12 @@
 
 .p-datepicker .p-timepicker {
   border-top: 1px solid var(--secondary-color-lighten);
-  padding: 0.5rem;
+  padding: 0;
 }
 
 .p-datepicker .p-timepicker button {
-  width: 2rem;
-  height: 2rem;
+  width: 1.5rem;
+  height: 1.5rem;
   color: #6c757d;
   border: 0 none;
   background: transparent;
@@ -164,11 +165,11 @@
 }
 
 .p-datepicker .p-timepicker span {
-  font-size: 1.25rem;
+  font-size: 1rem;
 }
 
 .p-datepicker .p-timepicker>div {
-  padding: 0 0.5rem;
+  padding: 0;
 }
 
 .p-datepicker.p-datepicker-timeonly .p-timepicker {

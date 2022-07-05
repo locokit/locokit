@@ -1,7 +1,7 @@
 <template>
   <p-sidebar
     class="p-sidebar-update-table p-fluid"
-    :position="'right'"
+    position="right"
     :visible="showUpdateTableSidebar"
     :modal="false"
     :dismissable="false"
@@ -30,8 +30,17 @@
             classes
           }"
         >
-          <label for="table-name" class="label-field-required">{{ $t('pages.databaseSchema.updateTableSidebar.tableName') }}</label>
-          <p-input-text id="table-name" type="text" v-model="currentTableToUpdate.text" />
+          <label
+            for="table-name"
+            class="label-field-required"
+          >
+            {{ $t('pages.databaseSchema.updateTableSidebar.tableName') }}
+          </label>
+          <p-input-text
+            id="table-name"
+            type="text"
+            v-model="currentTableToUpdate.text"
+          />
           <span :class="classes">{{ errors[0] }}</span>
         </validation-provider>
         <validation-provider
@@ -49,8 +58,9 @@
         <validation-provider
           vid="table-slug"
           tag="div"
-          class="p-field p-mt-4"
+          class="p-field p-mt-4 p-d-flex p-flex-column"
           rules="required|snakeCase"
+          :name="$t('pages.databaseSchema.updateTableSidebar.tableSlug')"
           v-slot="{
             errors,
             classes
@@ -64,7 +74,7 @@
             type="text"
             v-model="currentTableToUpdate.slug"
           />
-          <small>{{ $t('pages.databaseSchema.updateTableSidebar.tableSlugInfo') }}</small>
+          <small>{{ $t('pages.databaseSchema.updateTableSidebar.tableSlugInfo') }} {{ $t('pages.databaseSchema.updateTableSidebar.editSlug') }}</small>
           <span :class="classes">{{ errors[0] }}</span>
         </validation-provider>
 
@@ -117,7 +127,7 @@
     </div>
   </p-sidebar>
 </template>
-<script>
+<script lang="ts">
 import Vue from 'vue'
 
 import { ValidationProvider } from 'vee-validate'
@@ -134,13 +144,15 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 
 import LckForm from '@/components/ui/Form/Form.vue'
+import { TranslateResult } from 'vue-i18n'
+import { LckTable, LckTableColumn } from '@/services/lck-api/definitions'
+import { transformColumnsType } from '@/services/lck-utils/temporary'
 
-export default {
+export default Vue.extend({
   name: 'UpdateTableSidebar',
   components: {
     'lck-form': LckForm,
-    'handle-column-modal': () => import(/* webpackChunkName: "lck-sidebar-schema-monaco-editor" */'@/views/modals/HandleColumnModal'),
-
+    'handle-column-modal': () => import(/* webpackChunkName: "lck-sidebar-schema-monaco-editor" */'@/views/modals/HandleColumnModal.vue'),
     'p-button': Vue.extend(Button),
     'p-sidebar': Vue.extend(Sidebar),
     'p-input-text': Vue.extend(InputText),
@@ -148,7 +160,6 @@ export default {
     'p-datatable': Vue.extend(DataTable),
     'p-column': Vue.extend(Column),
     'validation-provider': Vue.extend(ValidationProvider),
-
   },
   props: {
     databaseId: String,
@@ -161,24 +172,24 @@ export default {
       default: false,
     },
   },
+  data () {
+    return {
+      showHandleColumnModal: false,
+      columnToHandle: null as LckTableColumn|null,
+    }
+  },
   computed: {
-    currentTableToUpdate () {
+    currentTableToUpdate (): LckTable {
       return JSON.parse(JSON.stringify(this.currentTable))
     },
-    columnTypes () {
-      return Object.keys(COLUMN_TYPE).map((key) => {
+    columnTypes (): {id: number; name: string|TranslateResult}[] {
+      return Object.keys(transformColumnsType()).map((key: string) => {
         return ({
-          id: COLUMN_TYPE[key],
+          id: COLUMN_TYPE[key as keyof typeof COLUMN_TYPE],
           name: this.$t(`pages.databaseSchema.columnType.${key}.name`),
         })
       })
     },
-  },
-  data () {
-    return {
-      showHandleColumnModal: false,
-      columnToHandle: null,
-    }
   },
   methods: {
     async updateTableName () {
@@ -186,39 +197,34 @@ export default {
         await lckServices.table.patch(this.currentTable.id, {
           text: this.currentTableToUpdate.text,
           documentation: this.currentTableToUpdate.documentation,
-        })
+          slug: this.currentTableToUpdate.slug,
+        } as LckTable)
         this.$emit('reload-tables')
       } catch (errorUpdateTable) {
-        console.error(errorUpdateTable.message)
+        if (errorUpdateTable instanceof Error) console.error(errorUpdateTable.message)
       }
     },
     createColumn () {
       this.showHandleColumnModal = true
     },
-    updateColumn (column) {
+    updateColumn (column: LckTableColumn|null) {
       this.columnToHandle = column
       this.showHandleColumnModal = true
     },
-    onCloseHandleColumnModal (shouldReloadTable) {
+    onCloseHandleColumnModal (shouldReloadTable: boolean) {
       if (shouldReloadTable) {
         this.$emit('reload-tables')
       }
       this.columnToHandle = null
       this.showHandleColumnModal = false
     },
-    onCloseDeleteColumnModal (shouldReloadTable) {
-      if (shouldReloadTable) {
-        this.$emit('reload-tables')
-      }
-      this.columnToHandle = null
-      this.showDeleteColumnModal = false
-    },
-    getColumnType (columnTypeId) {
-      return this.columnTypes.find((columnType) => columnType.id === columnTypeId).name
+    getColumnType (columnTypeId: number) {
+      return this.columnTypes.find((columnType) => columnType.id === columnTypeId)?.name
     },
   },
-}
+})
 </script>
+
 <style scoped>
 .p-sidebar {
   top: 60px;

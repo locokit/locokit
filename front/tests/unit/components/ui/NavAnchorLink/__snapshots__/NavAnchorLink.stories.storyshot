@@ -1,0 +1,527 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storyshots components/ui/NavAnchorLink default 1`] = `
+<div
+  style="height: 100%;"
+>
+  <!---->
+</div>
+`;
+
+exports[`storyshots components/ui/NavAnchorLink edit mode with containers and icon 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="internal-nav sticky-top-nav"
+  >
+    <div
+      class=" internal-nav-content--edit-mode"
+    >
+      <ul
+        class="page-nav--edit-mode"
+      >
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#1"
+          >
+            <i
+              class="p-mr-1 bi bi-rainbow primary"
+            />
+             
+            <span>
+              
+            Hello
+          
+            </span>
+          </a>
+        </li>
+      </ul>
+       
+      <button
+        class="p-button-lg p-button-text edit-container-button p-button p-component p-button-icon-only"
+        title="Update navigation"
+        type="button"
+      >
+        <span
+          class="bi bi-pencil p-button-icon"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+           
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/ui/NavAnchorLink edit mode with containers not display in navbar 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="internal-nav sticky-top-nav"
+  >
+    <div
+      class=" internal-nav-content--edit-mode"
+    >
+      <div
+        class="p-d-flex p-flex-column internal-nav-content--without-data"
+      >
+        <p>
+          This is the nav bar for container. It allows the user to navigate through the container's page.
+        </p>
+         
+        <p>
+          To configure the page navigation, you must edit each desired container.
+        </p>
+      </div>
+       
+      <button
+        class="p-button-lg p-button-text edit-container-button p-button p-component p-button-icon-only"
+        title="Update navigation"
+        type="button"
+      >
+        <span
+          class="bi bi-pencil p-button-icon"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+           
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/ui/NavAnchorLink edit mode with nav anchor active 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="internal-nav sticky-top-nav"
+  >
+    <div
+      class=" internal-nav-content--edit-mode"
+    >
+      <ul
+        class="page-nav--edit-mode"
+      >
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#1"
+          >
+            <!---->
+             
+            <span>
+              
+            Hello
+          
+            </span>
+          </a>
+        </li>
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#2"
+          >
+            <!---->
+             
+            <span>
+              
+            there
+          
+            </span>
+          </a>
+        </li>
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#3"
+          >
+            <!---->
+             
+            <span>
+              
+            !
+          
+            </span>
+          </a>
+        </li>
+      </ul>
+       
+      <button
+        class="p-button-lg p-button-text edit-container-button p-button p-component p-button-icon-only"
+        title="Update navigation"
+        type="button"
+      >
+        <span
+          class="bi bi-pencil p-button-icon"
+        />
+         
+        <span
+          class="p-button-label"
+        >
+           
+        </span>
+         
+        <!---->
+        <span
+          class="p-ink"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/ui/NavAnchorLink nav anchor active 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="internal-nav sticky-top-nav"
+  >
+    <div
+      class="internal-nav-content"
+    >
+      <ul
+        class="page-nav"
+      >
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#1"
+          >
+            <!---->
+             
+            <span>
+              
+            Hello
+          
+            </span>
+          </a>
+        </li>
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#2"
+          >
+            <!---->
+             
+            <span>
+              
+            there
+          
+            </span>
+          </a>
+        </li>
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#3"
+          >
+            <!---->
+             
+            <span>
+              
+            !
+          
+            </span>
+          </a>
+        </li>
+      </ul>
+       
+      <!---->
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/ui/NavAnchorLink nav anchor active with long label 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="internal-nav sticky-top-nav"
+  >
+    <div
+      class="internal-nav-content"
+    >
+      <ul
+        class="page-nav"
+      >
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#1"
+          >
+            <!---->
+             
+            <span>
+              
+            I am a little too long for this box
+          
+            </span>
+          </a>
+        </li>
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#2"
+          >
+            <!---->
+             
+            <span>
+              
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ut nibh vel neque auctor gravida. Donec volutpat mauris rutrum blandit sagittis.
+          
+            </span>
+          </a>
+        </li>
+      </ul>
+       
+      <!---->
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/ui/NavAnchorLink nav anchor active with long label and icon 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="internal-nav sticky-top-nav"
+  >
+    <div
+      class="internal-nav-content"
+    >
+      <ul
+        class="page-nav"
+      >
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#1"
+          >
+            <i
+              class="p-mr-1 bi bi-rainbow success"
+            />
+             
+            <span>
+              
+            I am a little too long for this box
+          
+            </span>
+          </a>
+        </li>
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#2"
+          >
+            <i
+              class="p-mr-1 bi bi-rainbow success"
+            />
+             
+            <span>
+              
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ut nibh vel neque auctor gravida. Donec volutpat mauris rutrum blandit sagittis.
+          
+            </span>
+          </a>
+        </li>
+      </ul>
+       
+      <!---->
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storyshots components/ui/NavAnchorLink nav anchor active with meny containers 1`] = `
+<div
+  style="height: 100%;"
+>
+  <div
+    class="internal-nav sticky-top-nav"
+  >
+    <div
+      class="internal-nav-content"
+    >
+      <ul
+        class="page-nav"
+      >
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#1"
+          >
+            <i
+              class="p-mr-1 bi bi-rainbow primary"
+            />
+             
+            <span>
+              
+            Hello
+          
+            </span>
+          </a>
+        </li>
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#2"
+          >
+            <i
+              class="p-mr-1 bi bi-rainbow secondary"
+            />
+             
+            <span>
+              
+            Bonjour
+          
+            </span>
+          </a>
+        </li>
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#3"
+          >
+            <i
+              class="p-mr-1 bi bi-rainbow success"
+            />
+             
+            <span>
+              
+            Ciao
+          
+            </span>
+          </a>
+        </li>
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#4"
+          >
+            <i
+              class="p-mr-1 bi bi-rainbow warning"
+            />
+             
+            <span>
+              
+            Hola
+          
+            </span>
+          </a>
+        </li>
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#5"
+          >
+            <i
+              class="p-mr-1 bi bi-rainbow danger"
+            />
+             
+            <span>
+              
+            Hallo
+          
+            </span>
+          </a>
+        </li>
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#6"
+          >
+            <i
+              class="p-mr-1 bi bi-rainbow primary"
+            />
+             
+            <span>
+              
+            Saluton
+          
+            </span>
+          </a>
+        </li>
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#7"
+          >
+            <i
+              class="p-mr-1 bi bi-rainbow secondary"
+            />
+             
+            <span>
+              
+            Olá
+          
+            </span>
+          </a>
+        </li>
+        <li
+          class="page-nav-item anchor-link-container"
+        >
+          <a
+            href="#8"
+          >
+            <i
+              class="p-mr-1 bi bi-rainbow danger"
+            />
+             
+            <span>
+              
+            On me voit plus
+          
+            </span>
+          </a>
+        </li>
+      </ul>
+       
+      <!---->
+    </div>
+  </div>
+</div>
+`;

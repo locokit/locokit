@@ -4,18 +4,17 @@
     class="internal-nav sticky-top-nav"
   >
     <div
-      class="internal-nav-content"
+      :class="editMode ?' internal-nav-content--edit-mode' : 'internal-nav-content'"
     >
       <!-- Navbar with no Anchor Link -->
-      <div v-if="editMode && containersToDisplayed.length === 0">
-        {{ $t('pages.workspace.page.navigationSubject') }}
-        <br/>
-        {{ $t('pages.workspace.page.navigationExplain') }}
+      <div v-if="editMode && containersToDisplayed.length === 0" class="p-d-flex p-flex-column internal-nav-content--without-data">
+        <p>{{ $t('pages.workspace.page.navigationSubject') }}</p>
+        <p>{{ $t('pages.workspace.page.navigationExplain') }}</p>
       </div>
       <!-- Navbar with Anchor Link -->
       <ul
         v-else
-        class="page-nav"
+         :class="editMode ? 'page-nav--edit-mode' : 'page-nav'"
       >
         <li
           v-for="container in containersToDisplayed"
@@ -40,16 +39,14 @@
           </a>
         </li>
       </ul>
+      <p-button
+        v-if="editMode"
+        :title="$t('pages.workspace.page.navigationEditButton')"
+        class="p-button-lg p-button-text edit-container-button"
+        icon="bi bi-pencil"
+        @click="$emit('edit-nav')"
+      />
     </div>
-    <span class="edit-mode-toggle">
-    <p-button
-      v-if="editMode"
-      :title="$t('pages.workspace.page.navigationEditButton')"
-      class="p-button-lg p-button-text edit-container-button"
-      icon="bi bi-pencil"
-      @click="$emit('edit-nav')"
-    />
-  </span>
   </div>
 </template>
 
@@ -112,7 +109,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 @media print {
   .active::after {
     content: none !important;
@@ -134,7 +131,35 @@ export default Vue.extend({
 }
 
 .internal-nav-content {
-  flex: 1;
+  width: 100%;
+
+  &--edit-mode {
+    width: 100%;
+    display: flex;
+    flex: 1;
+  }
+}
+
+.internal-nav-content--without-data {
+  width: calc(100% - 2.357rem);
+
+  p {
+    margin: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
+
+.page-nav--edit-mode {
+  width: calc(100% - 2.357rem);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  height: 100%;
 }
 
 .page-nav {
@@ -163,7 +188,13 @@ export default Vue.extend({
   border-left: unset;
 }
 
+.anchor-link-container {
+  min-width: 0;
+  flex: 1;
+}
+
 .anchor-link-container > a {
+  margin: auto;
   width: 100%;
   height: 100%;
   display: flex;
@@ -171,11 +202,14 @@ export default Vue.extend({
 }
 
 .anchor-link-container > a > span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  height: 100%;
+  margin: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.anchor-link-container > a > i + span {
+  margin: auto auto auto 0;
 }
 
 .page-nav-item > a > i {

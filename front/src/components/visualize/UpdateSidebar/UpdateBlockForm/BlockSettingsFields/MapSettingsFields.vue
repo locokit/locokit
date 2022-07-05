@@ -743,4 +743,7 @@ export default Vue.extend({
   }
 }
 
+form label {
+  font-weight: 700;
+}
 </style>

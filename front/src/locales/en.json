@@ -736,6 +736,7 @@
         "tableName": "Table name",
         "tableSlug": "Table slug",
         "tableSlugInfo": "Name used to generate the SQL view, in snake case.",
+        "editSlug": "Please note that changing this field may affect third party applications that use this table.",
         "tableDoc": "Table documentation",
         "columnName": "Column name",
         "columnType": "Column type",
