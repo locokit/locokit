@@ -42,13 +42,6 @@ EditModeWithContainers.args = {
 }
 EditModeWithContainers.storyName = 'edit mode with containers not display in navbar'
 
-export const NavAnchorWithContainersNotDisplayed = Template.bind({})
-NavAnchorWithContainersNotDisplayed.args = {
-  ...EditModeWithContainers.args,
-  editMode: false,
-}
-NavAnchorWithContainersNotDisplayed.storyName = 'with containers not display in navbar'
-
 export const NavAnchorActive = Template.bind({})
 NavAnchorActive.args = {
   containers: [

@@ -126,14 +126,14 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
            
           <div>
             <a
-              class="mock-link lck-sidebar-link p-ml-4"
+              class="mock-link lck-sidebar-link"
             >
               <span
-                class="bi bi-grip-vertical handle"
+                class="bi bi-grip-vertical handle p-p-1"
               />
                
               <span
-                class="lck-sidebar-link-label p-pl-2"
+                class="lck-sidebar-link-label"
               >
                 First subitem
               </span>
@@ -151,14 +151,14 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
               </span>
             </a>
             <a
-              class="mock-link lck-sidebar-link p-ml-4"
+              class="mock-link lck-sidebar-link"
             >
               <span
-                class="bi bi-grip-vertical handle"
+                class="bi bi-grip-vertical handle p-p-1"
               />
                
               <span
-                class="lck-sidebar-link-label p-pl-2"
+                class="lck-sidebar-link-label"
               >
                 Second subitem
               </span>
@@ -255,14 +255,14 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
            
           <div>
             <a
-              class="mock-link lck-sidebar-link p-ml-4"
+              class="mock-link lck-sidebar-link"
             >
               <span
-                class="bi bi-grip-vertical handle"
+                class="bi bi-grip-vertical handle p-p-1"
               />
                
               <span
-                class="lck-sidebar-link-label p-pl-2"
+                class="lck-sidebar-link-label"
               >
                 Third subitem
               </span>
@@ -280,14 +280,14 @@ exports[`storyshots components/visualize/Sidebar with edition and props items 1`
               </span>
             </a>
             <a
-              class="mock-link lck-sidebar-link p-ml-4"
+              class="mock-link lck-sidebar-link"
             >
               <span
-                class="bi bi-grip-vertical handle"
+                class="bi bi-grip-vertical handle p-p-1"
               />
                
               <span
-                class="lck-sidebar-link-label p-pl-2"
+                class="lck-sidebar-link-label"
               >
                 Fourth subitem
               </span>
@@ -414,7 +414,7 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
               <!---->
                
               <span
-                class="lck-sidebar-link-label p-pl-2"
+                class="lck-sidebar-link-label"
               >
                 First subitem
               </span>
@@ -427,7 +427,7 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
               <!---->
                
               <span
-                class="lck-sidebar-link-label p-pl-2"
+                class="lck-sidebar-link-label"
               >
                 Second subitem
               </span>
@@ -491,7 +491,7 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
               <!---->
                
               <span
-                class="lck-sidebar-link-label p-pl-2"
+                class="lck-sidebar-link-label"
               >
                 Third subitem
               </span>
@@ -504,7 +504,7 @@ exports[`storyshots components/visualize/Sidebar with props items 1`] = `
               <!---->
                
               <span
-                class="lck-sidebar-link-label p-pl-2"
+                class="lck-sidebar-link-label"
               >
                 Fourth subitem
               </span>
@@ -585,7 +585,7 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
               <!---->
                
               <span
-                class="lck-sidebar-link-label p-pl-2"
+                class="lck-sidebar-link-label"
               >
                 First subitem
               </span>
@@ -598,7 +598,7 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
               <!---->
                
               <span
-                class="lck-sidebar-link-label p-pl-2"
+                class="lck-sidebar-link-label"
               >
                 Second subitem
               </span>
@@ -663,7 +663,7 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
               <!---->
                
               <span
-                class="lck-sidebar-link-label p-pl-2"
+                class="lck-sidebar-link-label"
               >
                 Third subitem
               </span>
@@ -676,7 +676,7 @@ exports[`storyshots components/visualize/Sidebar with props items and active 1`]
               <!---->
                
               <span
-                class="lck-sidebar-link-label p-pl-2"
+                class="lck-sidebar-link-label"
               >
                 Fourth subitem
               </span>
