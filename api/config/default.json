@@ -1,0 +1,68 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "public": "./public/",
+  "paginate": {
+    "default": 10,
+    "max": 50
+  },
+  "sqlite": {
+    "client": "sqlite3",
+    "connection": "locokit-api.sqlite",
+    "useNullAsDefault": true
+  },
+  "authentication": {
+    "entity": "user",
+    "service": "users",
+    "secret": "/jZiG6MPLaMr6JBptahMA+pxZh0A4XgX",
+    "authStrategies": [
+      "jwt",
+      "local"
+    ],
+    "jwtOptions": {
+      "header": {
+        "typ": "access"
+      },
+      "audience": "https://yourdomain.com",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "usernameField": "email",
+      "passwordField": "password"
+    },
+    "oauth": {
+      "redirect": "/",
+      "auth0": {
+        "key": "<Client ID>",
+        "secret": "<Client secret>"
+      }
+    }
+  },
+  "locokit-providers": [
+    {
+      "name": "fs-nutri",
+      "type": "sqlite3",
+      "options": {
+        "filename": "./nutrieduc13.db"
+      }
+    },
+    {
+      "name": "locokit",
+      "type": "pg",
+      "options": "postgres://postgres:pouicpouic@localhost:5432/public"
+    },
+    {
+      "name": "baserow-mda",
+      "type": "baserow",
+      "options": {
+        "apiURL": "https://api.baserow.io/",
+        "tableIds": [
+          12796,
+          12797
+        ],
+        "token": "REUYxF8xqzStcc478r8LAyfB8I6UpCLC"
+      }
+    }
+  ]
+}

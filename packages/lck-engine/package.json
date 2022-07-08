@@ -1,0 +1,19 @@
+{
+  "name": "@locokit/lck-engine",
+  "version": "0.8.0",
+  "description": "LocoKit API over SQL/API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.makina-corpus.net:lck/locokit.git"
+  },
+  "keywords": [
+    "lowcode",
+    "nocode"
+  ],
+  "author": "Mathieu Dartigues",
+  "license": "MIT"
+}

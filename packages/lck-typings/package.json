@@ -1,0 +1,11 @@
+{
+  "name": "@locokit/typings",
+  "version": "0.8.0",
+  "description": "LocoKit common typings",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mathieu Dartigues",
+  "license": "MIT"
+}

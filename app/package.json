@@ -1,0 +1,11 @@
+{
+  "name": "@locokit/app",
+  "version": "0.8.0",
+  "description": "LocoKit application, based on Nuxt v3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mathieu Dartigues",
+  "license": "MIT"
+}

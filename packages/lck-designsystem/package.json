@@ -1,0 +1,11 @@
+{
+  "name": "@locokit/designsystem",
+  "version": "0.8.0",
+  "description": "LocoKit Design System, components",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mathieu Dartigues",
+  "license": "MIT"
+}
