@@ -139,7 +139,7 @@
       >
         <lck-data-detail
           :crudMode="crudMode"
-          :definition="block.definition"
+          :definition="displayColumnsView"
           :row="row"
           :cellState="cellState"
           :workspaceId="workspaceId"
@@ -361,6 +361,10 @@ export default {
     }
   },
   computed: {
+    /**
+     * Action avail
+     * @returns {*[]|*}
+     */
     avalaibleActions () {
       if (this.views && this.selectedViewId) {
         const view = this.views.find(({ id }) => this.selectedViewId === id)
@@ -368,17 +372,36 @@ export default {
       }
       return []
     },
+    /**
+     * Exclude column auto computed in creation of a new row/record
+     * @returns {{columns: *}|*[]}
+     */
     filteredDefinitionColumns () {
-      if (!this.block.definition.columns) return []
+      if (!this.currentView?.columns) return []
       return {
-        columns: this.block.definition.columns.filter((column) =>
+        columns: this.currentView.columns.filter((column) =>
           !READ_ONLY_COLUMNS_TYPES.has(column.column_type_id),
         ),
       }
     },
+    /**
+     * Sort columns according to their position in the current view
+     * In DataTable and DataRecord
+     * @returns {{columns: *}|{columns: *[]}}
+     */
+    displayColumnsView () {
+      if (!this.currentView) return { columns: [] }
+      const columns = this.currentView.columns.slice(0).sort((a, b) => a.position - b.position)
+      return { columns }
+    },
+    /**
+     * Retrieve all option information for each SINGLE_SELECT and MULTI_SELECT's column on the current view
+     * @returns {{}}
+     */
     currentBlockDropdownOptions () {
       const result = {}
-      this.block.definition.columns.forEach(currentColumn => {
+      if (!this.currentView) return result
+      this.currentView.columns.forEach(currentColumn => {
         const originalColumn = getOriginalColumn(currentColumn)
         if (
           originalColumn.column_type_id === COLUMN_TYPE.SINGLE_SELECT ||
@@ -392,30 +415,37 @@ export default {
       })
       return result
     },
-    editableColumns () {
-      if (!this.block.definition.columns) return []
-      return this.block.definition.columns.filter(c => this.isEditableColumn(this.crudMode, c))
-    },
+    /**
+     * Get the current view with table_actions and columns
+     * @returns {null|*}
+     */
     currentView () {
       if (!this.selectedViewId) return null
       return this.views.find(({ id }) => this.selectedViewId === id)
     },
-    displayColumnsView () {
-      if (!this.currentView) return { columns: [] }
-      const columns = this.currentView.columns.slice(0).sort((a, b) => a.position - b.position)
-      return { columns }
-    },
+    /**
+     * Retrieve all ids of the current sorted view
+     * @returns {*[]|*}
+     */
     viewColumnsIds () {
-      if (!this.displayColumnsView.columns) return {}
+      if (!this.displayColumnsView.columns) return []
       return this.displayColumnsView.columns.map(c => c.id)
     },
+    /**
+     * Check if data or column available in the current view
+     * @returns {boolean}
+     */
     hasDataToDisplay () {
       return this.displayColumnsView.columns.length > 0 && this.block?.content?.total > 0
     },
+    /**
+     * Transform in object where key = id and value = data
+     * @returns {Record<string, object>|{}}
+     */
     columnsObject () {
       // Get an object containing the columns as values and their ids as keys
-      if (!this.block.definition.columns) return {}
-      return objectFromArray(this.block.definition.columns, 'id')
+      if (!this.currentView?.columns) return {}
+      return objectFromArray(this.currentView.columns, 'id')
     },
 
   },
@@ -430,9 +460,15 @@ export default {
     searchItems: lckHelpers.searchItems,
     searchBooleanColumnsFromTableView: lckHelpers.searchBooleanColumnsFromTableView,
     searchPageWithChapter: lckHelpers.searchPageWithChapter,
+    /**
+     * Update current row displayed in DataRecord
+     */
     async onUpdateRow ({ columnId, newValue }) {
       this.$set(this.newRow.data, columnId, newValue)
     },
+    /**
+     * Reset specific source from geometry column
+     */
     resetSecondarySources (tableViewId = null) {
       if (tableViewId) {
         if (this.secondarySources[tableViewId]) {
@@ -442,6 +478,10 @@ export default {
         this.secondarySources = {}
       }
     },
+    /**
+     * Retrieve others view from geometry column
+     * For now only Geometry column use it
+     */
     async getSecondarySources (tableViewIds) {
       const newSecondarySources = {}
       const tableViewDefinitionsToGet = []
@@ -469,6 +509,9 @@ export default {
       }))
       this.secondarySources = newSecondarySources
     },
+    /**
+     * Reset all data to default
+     */
     resetToDefault () {
       this.block = {
         loading: false,
@@ -494,18 +537,26 @@ export default {
       this.resetColumnEdit()
       this.resetSecondarySources()
     },
+    /**
+     * Retrieve records according to page wanted
+     */
     onUpdateContent (pageIndexToGo) {
       this.currentPageIndex = pageIndexToGo
       this.loadCurrentTableData()
     },
+    /**
+     * Retrieve view with action and column
+     */
     async loadTableAndProcess () {
       this.block.loading = true
       this.block.content = {
         total: 0,
         data: null,
       }
+      // Legacy: doesn't use anymore
       this.block.definition.table_id = this.currentTableId
       this.block.definition.columns = await retrieveTableColumns(this.currentTableId)
+
       this.views = await retrieveTableViews(this.currentTableId)
       if (this.views.length > 0) {
         this.selectedViewId = this.views[0].id
@@ -513,8 +564,12 @@ export default {
       }
       this.block.loading = false
       await this.loadCurrentTableData()
+      // Retrieve actions/processes from table
       this.manualProcesses = await retrieveManualProcessWithRuns(this.currentTableId)
     },
+    /**
+     * Retrieve records according to current page, filters and sort
+     */
     async loadCurrentTableData () {
       this.block.loading = true
       this.block.content = await retrieveTableRowsWithSkipAndLimit(
@@ -527,9 +582,12 @@ export default {
           filters: this.getCurrentFilters(this.currentDatatableFilters),
         },
       )
-      lckHelpers.convertDateInRecords(this.block.content.data, this.block.definition.columns)
+      lckHelpers.convertDateInRecords(this.block.content.data, this.currentView.columns)
       this.block.loading = false
     },
+    /**
+     * Update row/records + Send error notification if something wrong
+     */
     async saveRow () {
       this.submitting = true
       const data = lckHelpers.formatRowData(this.newRow.data, this.columnsObject)
@@ -551,19 +609,31 @@ export default {
         this.submitting = false
       }
     },
+    /**
+     * Transform data and then sort records in this view according to it
+     */
     onSort ({ field, order }) {
       this.currentDatatableSort = {
         [`ref(data:${field})`]: order,
       }
       this.loadCurrentTableData()
     },
+    /**
+     * Apply filters on records in this view
+     */
     onSubmitFilter () {
       this.loadCurrentTableData()
     },
+    /**
+     * Reset filters on records in this view
+     */
     onResetFilter () {
       this.currentDatatableFilters = []
       this.loadCurrentTableData()
     },
+    /**
+     * Apply a permanent filters on records in this view
+     */
     async onSaveFilters (hasChanged) {
       if (!this.currentView) return
       if (this.currentView.locked) {
@@ -597,11 +667,14 @@ export default {
         })
       }
     },
+    /**
+     * Reset and Prepare fields and open modal to create new record
+     */
     onClickAddButton () {
       this.newRow = {
         data: {},
       }
-      this.block.definition.columns.forEach(c => {
+      this.currentView.columns.forEach(c => {
         if (
           [COLUMN_TYPE.SINGLE_SELECT, COLUMN_TYPE.BOOLEAN].includes(c.column_type_id) &&
           c.settings?.default
@@ -613,6 +686,10 @@ export default {
       this.multipleAutocompleteInput = {}
       this.displayNewDialog = true
     },
+    /**
+     * Export current view according to current filters in CSV
+     * Todo: Do the same for sort!
+     */
     async onClickExportButtonCSV () {
       if (!this.selectedViewId) return
       this.exporting = true
@@ -623,6 +700,10 @@ export default {
       )
       this.exporting = false
     },
+    /**
+     * Export current view according to current filters in XLS
+     * Todo: Do the same for sort!
+     */
     async onClickExportButtonXLS () {
       if (!this.selectedViewId) return
       this.exporting = true
@@ -634,8 +715,7 @@ export default {
       this.exporting = false
     },
     /**
-     * When the user update the column's listing of the current view,
-     * we update accordingly the view on the backend side (add/remove column in the view)
+     * Update columns/fields in the current view (CRUD)
      */
     async onChangeViewColumns ({ value }) {
       /**
@@ -693,7 +773,11 @@ export default {
       )
       this.resetSecondarySources(this.selectedViewId)
     },
+    /**
+     * Change the current view with desired one
+     */
     async onSelectView () {
+      // The current view is updated by v-model
       this.resetColumnEdit()
       // Update the data with the table view filters only if necessary
       if (this.currentView && (this.currentView.filter || this.currentDatatableFilters.length > 0)) {
@@ -701,14 +785,25 @@ export default {
         await this.loadCurrentTableData()
       }
     },
+    /**
+     * Reset + Open modal to create new view
+     */
     async onCreateView () {
       this.viewDialogData = {}
       this.displayViewDialog = true
     },
+    /**
+     * Display modal to update view
+     */
     async onUpdateView (viewToUpdate) {
       this.viewDialogData = viewToUpdate
       this.displayViewDialog = true
     },
+    /**
+     * Confirm removal on the selected view
+     * And change current view if was the previous one
+     * And send notification to user
+     */
     async onConfirmationView (viewToRemove) {
       this.$confirm.require({
         message: `${this.$t('form.specificDeleteConfirmation')} ${viewToRemove.text}`,
@@ -719,8 +814,8 @@ export default {
             await lckServices.tableView.remove(viewToRemove.id)
             this.views = await retrieveTableViews(this.currentTableId)
             /**
-        * We change the view if the previous one is the one that has been removed
-        */
+             * We change the view if the previous one is the one that has been removed
+             */
             if (viewToRemove.id === this.selectedViewId) {
               this.selectedViewId = this.views[0].id
               this.resetColumnEdit()
@@ -743,7 +838,9 @@ export default {
         },
       })
     },
-
+    /**
+     * Update view order in list
+     */
     async onReorderView ({ value: views }) {
       this.views = views
       await Promise.all(
@@ -753,6 +850,9 @@ export default {
       )
       this.views = await retrieveTableViews(this.currentTableId)
     },
+    /**
+     * Create an new view or Update it
+     */
     async saveView (view) {
       if (view.id) {
         await lckServices.tableView.patch(view.id, {
@@ -772,9 +872,12 @@ export default {
       }
       this.displayViewDialog = false
     },
+    /**
+     * Update with of selected column in this view
+     */
     async onColumnResize (newWidth, columnId) {
       // first, find the column related
-      const currentColumn = this.block.definition.columns.find(c => c.id === columnId)
+      const currentColumn = this.currentView.columns.find(c => c.id === columnId)
       if (!currentColumn) return
       const newColumn = await lckServices.tableViewColumn.patch(
         `${this.selectedViewId},${columnId}`, {
@@ -787,6 +890,9 @@ export default {
       // replace existing definition with new column
       currentColumn.style = newColumn.style
     },
+    /**
+     * Order columns in this view
+     */
     async onColumnReorder ({
       fromIndex,
       toIndex,
@@ -824,6 +930,11 @@ export default {
       await Promise.all(updatePromises)
       this.views = await retrieveTableViews(this.currentTableId)
     },
+    /**
+     * Update column properties in this table
+     * And update this information for each view using it
+     * And send error notification if something wrong
+     */
     async onColumnEdit (editedColumnData) {
       this.submitting = true
       if (this.currentColumnToEdit?.id) {
@@ -835,10 +946,10 @@ export default {
           )
           // Update the table column
           if (Array.isArray(this.block?.definition?.columns)) {
-            const localTableColumnIndex = this.block.definition.columns.findIndex(
+            const localTableColumnIndex = this.currentView.columns.findIndex(
               column => column.id === this.currentColumnToEdit.id,
             )
-            this.block.definition.columns.splice(localTableColumnIndex, 1, updatedColumn)
+            this.currentView.columns.splice(localTableColumnIndex, 1, updatedColumn)
           }
           // Update the column of each table view of the table
           this.views.forEach(view => {
@@ -860,6 +971,10 @@ export default {
         }
       }
     },
+    /**
+     * Update column action on this view
+     * And send error notification if something wrong
+     */
     async onActionColumnEdit (dataForm) {
       this.submitting = true
       if (this.currentActionColumnToEdit.id) {
@@ -892,23 +1007,38 @@ export default {
         }
       }
     },
+    /**
+     * Open menu to select a functionality (update column, sort…)
+     */
     onColumnSelect (selectedColumn) {
       this.currentColumnToEdit = selectedColumn
-      this.currentAction = null
       this.showEditColumnSidebar = false
     },
+    /**
+     * Open modal to update table action configuration
+     */
     onActionColumnSelect (action) {
       this.currentActionColumnToEdit = action
       this.currentColumnToEdit = null
       this.showEditColumnSidebar = false
     },
+    /**
+     * Open sidebar to update current column information
+     */
     onDisplayColumnSidebar () {
       this.showEditColumnSidebar = true
     },
+    /**
+     * Reset column information and Close sidebar
+     */
     resetColumnEdit () {
       this.currentColumnToEdit = null
       this.showEditColumnSidebar = false
     },
+    /**
+     * Update column properties in this view
+     * And send error notification if something wrong
+     */
     async onTableViewColumnEdit (editedColumn) {
       this.submitting = true
       if (this.currentColumnToEdit?.id) {
@@ -935,6 +1065,9 @@ export default {
         }
       }
     },
+    /**
+     * Delete a record + Send error notification if something wrong
+     */
     async onRowDelete (row) {
       try {
         await lckServices.tableRow.remove(row.id)
@@ -948,6 +1081,9 @@ export default {
         })
       }
     },
+    /**
+     * Duplicate a record + Send error notification if something wrong
+     */
     async onRowDuplicate ({ data }) {
       const duplicatedData = lckHelpers.formatRowData(data, this.columnsObject, true)
       try {
@@ -962,17 +1098,30 @@ export default {
       }
       this.loadCurrentTableData()
     },
+    /**
+     * Open modal to visualise or edit this record
+     * Retrieve information on selected record
+     */
     async onOpenDetail ({ rowId }) {
       this.displayRowDialog = true
       this.row = await this.block.content.data.find(({ id }) => id === rowId)
       this.processesByRow = await retrieveProcessesByRow(this.currentTableId, rowId)
     },
+    /**
+     * Search available views
+     */
     async updateTableViewSuggestions ({ query }) {
       this.autocompleteSuggestions = await this.searchBooleanColumnsFromTableView(query, this.selectedViewId)
     },
+    /**
+     * Search available pages
+     */
     async updatePageSuggestions ({ query, filters }) {
       this.autocompleteSuggestions = await this.searchPageWithChapter(query, filters)
     },
+    /**
+     * Search item
+     */
     async updateLocalAutocompleteSuggestions ({ columnTypeId, settings, filter }, { query }) {
       this.autocompleteSuggestions = await this.searchItems({
         columnTypeId,
@@ -982,6 +1131,9 @@ export default {
         filter,
       })
     },
+    /**
+     * Search item
+     */
     async updateCRUDAutocompleteSuggestions ({ columnTypeId, settings, filter }, { query }) {
       this.crudAutocompleteItems = await this.searchItems({
         columnTypeId,
@@ -991,6 +1143,9 @@ export default {
         filter,
       })
     },
+    /**
+     * Update a cell from record + Send error notification if something wrong
+     */
     async onUpdateCell ({ rowId, columnId, newValue }) {
       const currentRow = this.block.content.data.find(({ id }) => id === rowId)
       this.cellState = {
@@ -1007,7 +1162,7 @@ export default {
           data,
         })
         this.cellState.isValid = true
-        lckHelpers.convertDateInRecords(res, this.block.definition.columns)
+        lckHelpers.convertDateInRecords(res, this.currentView.columns)
         currentRow.text = res.text
         currentRow.data = res.data
       } catch (error) {
@@ -1021,6 +1176,9 @@ export default {
       }
       this.cellState.waiting = false
     },
+    /**
+     * Enable or Disable a process on this table
+     */
     async onUpdateProcessTrigger ({ processId, enabled }) {
       const res = await patchProcess(processId, { enabled })
       const indexProcessRow = this.processesByRow.findIndex(process => process.id === processId)
@@ -1028,6 +1186,9 @@ export default {
         this.processesByRow[indexProcessRow].enabled = res.enabled
       }
     },
+    /**
+     * Trigger selected process + Send notification
+     */
     async onTriggerProcess ({ rowId, processId, name }) {
       const res = await createProcessRun({
         table_row_id: rowId,
@@ -1069,6 +1230,10 @@ export default {
         }
       }
     },
+    /**
+     * Send notification to inform expected behavior to the administrator
+     * This feature is not available on Database (only for Visu)
+     */
     async goToPage () {
       this.$toast.add({
         severity: 'info',
@@ -1077,9 +1242,9 @@ export default {
         life: 5000,
       })
     },
-    async onMultipleAutocompleteEditNewRow (columnId) {
-      this.newRow.data[columnId] = this.multipleAutocompleteInput[columnId].map(item => item.value)
-    },
+    /**
+     * Add new file for this record
+     */
     async onUploadFiles ({ rowId, columnId, fileList }, newRow) {
       const currentRow = newRow || this.block.content.data.find(({ id }) => id === rowId)
       this.cellState = {
@@ -1111,7 +1276,7 @@ export default {
             },
           })
           this.cellState.isValid = true
-          lckHelpers.convertDateInRecords(res, this.block.definition.columns)
+          lckHelpers.convertDateInRecords(res, this.currentView.columns)
           currentRow.data = res.data
         }
       } catch (error) {
@@ -1125,6 +1290,10 @@ export default {
       }
       this.cellState.waiting = false
     },
+    /**
+     * Remove an attachment
+     * The file is still available in S3
+     */
     async onRemoveAttachment ({ rowId, columnId, attachmentId }, newRow) {
       this.cellState = {
         rowId,
@@ -1154,7 +1323,7 @@ export default {
             },
           })
           this.cellState.isValid = true
-          lckHelpers.convertDateInRecords(res, this.block.definition.columns)
+          lckHelpers.convertDateInRecords(res, this.currentView.columns)
           currentRow.data = res.data
         } catch (error) {
           this.cellState.isValid = false
@@ -1168,9 +1337,15 @@ export default {
       }
       this.cellState.waiting = false
     },
+    /**
+     * Download an attachment
+     */
     async onDownloadAttachment ({ url, filename, mime }) {
       lckHelpers.downloadAttachment(url, filename, mime)
     },
+    /**
+     * Navigate to another table
+     */
     async goToSpecificTable (tableId) {
       // Go to another table page
       await this.$router.replace({
@@ -1187,7 +1362,7 @@ export default {
   },
   async mounted () {
     this.database = await retrieveDatabaseTableAndViewsDefinitions(this.databaseId)
-    // load the table whose the id is in the url (or the first one if no one is specified)
+    // load the table whose id is in the url (or the first one if no one is specified)
     if (this.database.tables.length > 0) {
       this.currentTableId = this.tableId || this.database.tables[0].id
       this.goToSpecificTable(this.currentTableId)
@@ -1195,7 +1370,7 @@ export default {
     }
   },
   async beforeRouteUpdate (to, from, next) {
-    // Load the data related to the table whose the id is specified in the url
+    // Load the data related to the table whose id is specified in the url
     if (to.params.tableId !== from.params.tableId) {
       this.currentTableId = to.params.tableId
       this.resetToDefault()
@@ -1221,7 +1396,7 @@ export default {
 }
 
 .lck-database-toolbar {
-  border-bottom: 1px solid var(--secondary-lighten);
+  border-bottom: 1px solid var(--secondary-color-lighten);
   background-color: var(--color-white);
 }
 
