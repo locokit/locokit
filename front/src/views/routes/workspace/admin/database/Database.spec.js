@@ -348,8 +348,6 @@ describe('Database', () => {
         expect(wrapper.vm.views[0].columns[0].validation).toEqual(updatedColumnData.validation)
         expect(wrapper.vm.views[1].columns[0].text).toBe(updatedColumnData.text)
         expect(wrapper.vm.views[1].columns[0].validation).toEqual(updatedColumnData.validation)
-        expect(wrapper.vm.block.definition.columns[0].text).toBe(updatedColumnData.text)
-        expect(wrapper.vm.block.definition.columns[0].validation).toEqual(updatedColumnData.validation)
       })
 
       it('Don\'t create a form if no column is selected', async () => {
