@@ -112,7 +112,7 @@ exports[`storyshots views/routes/workspace/admin/WorkspaceSettings default 1`] =
                 <textarea
                   class="p-mb-2 p-inputtextarea p-inputtext p-component p-inputtextarea-resizable "
                   id="documentation"
-                  placeholder="Add a description of your workspace, a documentation, ..."
+                  placeholder="Add a description of your workspace, a documentation, …"
                 />
                  
                 <!---->
