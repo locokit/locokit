@@ -9,8 +9,8 @@ import '../src/plugins/primevue'
 import { DocsPage, DocsContainer } from '@storybook/addon-docs'
 import { lckServicesDecorator } from '../src/services/lck-api/__mocks__/services'
 
-i18n.locale = 'en'
-i18n.fallbackLocale = 'en'
+i18n.locale = 'en-US'
+i18n.fallbackLocale = 'en-US'
 
 addParameters({
   docs: {
