@@ -1,107 +1,68 @@
 import Sidebar from './Sidebar'
 import StoryRouter from '../../../../.storybook/storyRouterDecorator.js'
+import { linkTo } from '@storybook/addon-links'
 
 export default {
   title: 'components/visualize/Sidebar',
   component: Sidebar,
   decorators: [
-    StoryRouter(),
+    StoryRouter({ initialEntry: '/2-2' }),
   ],
 }
 
 const items = [{
-  id: 1,
+  id: '1',
   label: 'First item',
   subitems: [{
-    id: 1,
+    id: '1-1',
     label: 'First subitem',
     to: '/first-link',
   }, {
-    id: 2,
+    id: '1-2',
     label: 'Second subitem',
     to: '/second-link',
   }],
 }, {
-  id: 2,
+  id: '2',
   label: 'Second item',
   subitems: [{
-    id: 3,
+    id: '2-1',
     label: 'Third subitem',
     to: '/third-link',
   }, {
-    id: 4,
+    id: '2-2',
     label: 'Fourth subitem',
     to: '/fourth-link',
   }],
 }]
 
-const items1 = [{
-  id: 1,
-  label: 'First item',
-  subitems: [{
-    id: 1,
-    label: 'First subitem',
-    to: '/first-link',
-  }, {
-    id: 2,
-    label: 'Second subitem',
-    to: '/second-link',
-  }],
-}, {
-  id: 2,
-  label: 'Second item',
-  active: true,
-  subitems: [{
-    id: 3,
-    label: 'Third subitem',
-    to: '/third-link',
-  }, {
-    id: 4,
-    label: 'Fourth subitem',
-    to: '/fourth-link',
-    active: true,
-  }],
-}]
+// Active item is supported by vue-router not sidebar
+// Accordion opens according to the router's params: pageId if it exists else it is the first one
 
-export const defaultStory = () => ({
+export const DefaultStory = () => ({
   components: { Sidebar },
   template: '<Sidebar />',
 })
+DefaultStory.storyName = 'default'
 
-defaultStory.storyName = 'default'
-
-export const withPropsStory = () => ({
+const Template = (args, { argTypes }) => ({
   components: { Sidebar },
-  data () {
-    return {
-      items,
-    }
-  },
-  template: '<Sidebar :items="items" />',
+  props: Object.keys(argTypes),
+  template: '<Sidebar v-bind="$props" />',
+  decorators: [
+    StoryRouter({ initialEntry: '/2-2' }),
+  ],
 })
 
-withPropsStory.storyName = 'with props items'
+export const WithPropsStory = Template.bind({})
+WithPropsStory.args = {
+  items,
+}
+WithPropsStory.storyName = 'with props items'
 
-export const withPropsAndSubItemActiveStory = () => ({
-  components: { Sidebar },
-  data () {
-    return {
-      items: items1,
-    }
-  },
-  template: '<Sidebar :items="items" />',
-})
-
-withPropsAndSubItemActiveStory.storyName = 'with props items and active'
-
-export const withEditionAndPropsStory = () => ({
-  components: { Sidebar },
-  data () {
-    return {
-      items,
-    }
-  },
-  template: '<Sidebar :items="items" :displayEditActions="true" />',
-})
-
-withEditionAndPropsStory.storyName = 'with edition and props items'
+export const WithEditionAndPropsStory = Template.bind({})
+WithEditionAndPropsStory.args = {
+  items: items,
+  displayEditActions: true,
+}
+WithEditionAndPropsStory.storyName = 'with edition and props items'
