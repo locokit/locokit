@@ -200,6 +200,7 @@
               'height': '2.5rem',
               'max-height': '2.5rem',
             }"
+            :bodyClass="{'no-editable-field': !isEditableColumn(crudMode, column)}"
             :sortable="isSortableColumn(column)"
           >
           <template #header>
@@ -230,7 +231,10 @@
               />
             </div>
           </template>
-          <template #editor="slotProps" v-if="getComponentEditorCellForColumnType(column) && isEditableColumn(crudMode, column)">
+          <template
+            #editor="slotProps"
+            v-if="getComponentEditorCellForColumnType(column) && isEditableColumn(crudMode, column)"
+          >
             <lck-autocomplete
               v-if="getComponentEditorCellForColumnType(column) === 'lck-autocomplete'"
               :dropdown="true"
@@ -357,7 +361,9 @@
               @input="onInputFile(slotProps.data.id, column.id, $event)"
               @remove-attachment="onRemoveAttachment(slotProps.data.id, column.id, $event)"
             />
-            <span v-else>
+            <span
+              v-else
+            >
               {{ getColumnDisplayValue(column, slotProps.data.data[column.id]) }}
             </span>
 
