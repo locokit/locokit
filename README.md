@@ -13,9 +13,15 @@ and several packages. (only `glossary` actually).
 
 ## Getting started
 
+Before all, you need to use the version of node indicates in `.nvmrc`:
+
+```bash
+npm use
+```
+
 Initialize node modules:
 
-For each directory (`api`, `front`, `docs`, `glossary`), you need to:
+For each directory (`api`, `front`, `docs`, `packages/glossary`), you need to:
 
 ```bash
 npm ci # install deps
@@ -212,14 +218,13 @@ You should also start your commit message with **one** applicable emoji. This do
 Emoji | Description
 ------|------------
 :tada: `:tada:` | When you added a cool new feature.
+:sparkles: `:sparkles:` | When you added a little but necessary feature.
 :wrench: `:wrench:` | When you refactored / improved a small piece of code.
 :hammer: `:hammer:` | When you refactored / improved large parts of the code.
-:sparkles: `:sparkles:` | When you applied clang-format.
 :art: `:art:` | When you improved / added assets like themes.
 :rocket: `:rocket:` | When you improved performance.
 :memo: `:memo:` | When you wrote documentation.
 :beetle: `:beetle:` | When you fixed a bug.
-:twisted_rightwards_arrows: `:twisted_rightwards_arrows:` | When you merged a branch.
 :fire: `:fire:` | When you removed something.
 :truck: `:truck:` | When you moved / renamed something.
 
