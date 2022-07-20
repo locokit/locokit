@@ -88,7 +88,7 @@ exports[`storyshots components/visualize/WorkspaceForm default 1`] = `
         <textarea
           class="p-mb-2 p-inputtextarea p-inputtext p-component p-inputtextarea-resizable "
           id="documentation"
-          placeholder="Add a description of your workspace, a documentation, ..."
+          placeholder="Add a description of your workspace, a documentation, …"
         />
          
         <!---->
@@ -325,7 +325,7 @@ exports[`storyshots components/visualize/WorkspaceForm update 1`] = `
         <textarea
           class="p-mb-2 p-inputtextarea p-inputtext p-component p-filled p-inputtextarea-resizable "
           id="documentation"
-          placeholder="Add a description of your workspace, a documentation, ..."
+          placeholder="Add a description of your workspace, a documentation, …"
         />
          
         <!---->

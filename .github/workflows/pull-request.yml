@@ -105,6 +105,19 @@ jobs:
           path: |
             front/dist/lck-front-build-artifact.tar.gz
 
+  front-translation:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: front
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run script to check keys in translation files
+        run: |
+          chmod +x ./scripts/compareFileTranslation.sh
+          ./scripts/compareFileTranslation.sh
+        shell: bash
   ## API Part
   api-quality:
 

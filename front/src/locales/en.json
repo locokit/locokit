@@ -193,7 +193,7 @@
       "noDataToDisplay": "No data to display",
       "successNewRun": "Process has run correctly.",
       "failedNewRun": "Process has failed.",
-      "started": "Process is starting... please wait..."
+      "started": "Process is starting… please wait…"
     },
     "process": {
       "form": {
@@ -339,11 +339,11 @@
         "textPlaceholder": "Workspace's name",
         "textLabel": "Name",
         "generateLabel": "Automatic generation of SQL views",
-        "generateHelp": "Generate automatically a SQL database for interoperability purpose with tools like SuperSet, Redash, ...",
+        "generateHelp": "Generate automatically a SQL database for interoperability purpose with tools like SuperSet, Redash, …",
         "slugPlaceholder": "Workspace's slug",
         "slugLabel": "slug",
         "slugHelp": "SQL database name, dedicated to your workspace. In snake case, only lower case and underscore '_' char.",
-        "docPlaceholder": "Add a description of your workspace, a documentation, ...",
+        "docPlaceholder": "Add a description of your workspace, a documentation, …",
         "docLabel": "Documentation",
         "colorLabel": "Color",
         "colorPlaceholder": "Select a color",
@@ -356,8 +356,8 @@
   },
   "pages": {
     "404": {
-      "title": "Whooops ?!... sounds you're lost... Sorry. Really.",
-      "link": "Please, please... come back home."
+      "title": "Whooops ?!… sounds you're lost… Sorry. Really.",
+      "link": "Please, please… come back home."
     },
     "workspaceAdmin": {
       "acl": {
@@ -429,7 +429,7 @@
       "subtitle": ""
     },
     "lostpassword": {
-      "title": "Password... where are you ?!",
+      "title": "Password… where are you ?!",
       "subtitle": "Do you lose your password ? Enter your email to receive a mail with a temporary link. Open it, and update your password !",
       "sendResetOK": "Mail sent ! Please now check your mailbox to open the email we've just sent. Please click on the link.",
       "homelink": "Go back to home page"
@@ -455,7 +455,7 @@
     },
     "updateEmail": {
       "title": "Email update",
-      "loading": "The process is currently in progress...",
+      "loading": "The process is currently in progress…",
       "updateOK": "The process has been successfully completed. You can now log in with the new email.",
       "updateKO": "Unfortunately, the process could not be completed. If the problem persists, contact the administrator."
     },
@@ -1020,6 +1020,7 @@
       "500": "An error occured…"
     },
     "lck": {
+      "undefined": "An unknown error has occured… No further information is available.",
       "ROW_DUPLICATE": "An error occured when duplicating the row.",
       "ROW_DELETION": "An error occured when deleting the row.",
       "ROW_SAVE": "An error occured when saving the row.",
@@ -1171,6 +1172,8 @@
   "validations": {
     "messages": {
       "required": "The '{_field_}' field is required.",
+      "required_if": "@:validation.messages.required",
+      "snakeCase": "The field '{_field_}' must be composed of lower case letters a to z, and the character _",
       "email": "The '{_field_}' field does not match the expected format (email).",
       "regex": "The '{_field_}' field does not match the expected format.",
       "passwordConfirm": "The passwords in the '{_field_}' and '{target}' fields are not identical.",
