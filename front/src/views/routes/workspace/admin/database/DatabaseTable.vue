@@ -362,7 +362,7 @@ export default {
   },
   computed: {
     /**
-     * Action avail
+     * Available actions for this view
      * @returns {*[]|*}
      */
     avalaibleActions () {
@@ -373,7 +373,7 @@ export default {
       return []
     },
     /**
-     * Exclude column auto computed in creation of a new row/record
+     * Columns without auto-computed columns in creation of a new row/record
      * @returns {{columns: *}|*[]}
      */
     filteredDefinitionColumns () {
@@ -385,7 +385,7 @@ export default {
       }
     },
     /**
-     * Sort columns according to their position in the current view
+     * Sorted columns according to their position in the current view
      * In DataTable and DataRecord
      * @returns {{columns: *}|{columns: *[]}}
      */
@@ -395,7 +395,7 @@ export default {
       return { columns }
     },
     /**
-     * Retrieve all option information for each SINGLE_SELECT and MULTI_SELECT's column on the current view
+     * All option information for each SINGLE_SELECT and MULTI_SELECT's column on the current view
      * @returns {{}}
      */
     currentBlockDropdownOptions () {
@@ -416,7 +416,7 @@ export default {
       return result
     },
     /**
-     * Get the current view with table_actions and columns
+     * Current view with table_actions and columns
      * @returns {null|*}
      */
     currentView () {
@@ -424,7 +424,7 @@ export default {
       return this.views.find(({ id }) => this.selectedViewId === id)
     },
     /**
-     * Retrieve all ids of the current sorted view
+     * All column ids of the current sorted view
      * @returns {*[]|*}
      */
     viewColumnsIds () {
@@ -439,7 +439,7 @@ export default {
       return this.displayColumnsView.columns.length > 0 && this.block?.content?.total > 0
     },
     /**
-     * Transform in object where key = id and value = data
+     * Columns of current view transformed in object where key = id and value = data
      * @returns {Record<string, object>|{}}
      */
     columnsObject () {
