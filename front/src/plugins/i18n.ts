@@ -3,6 +3,14 @@ import VueI18n, { LocaleMessages } from 'vue-i18n'
 
 Vue.use(VueI18n)
 
+export const browserLang = () => {
+  const userLang = navigator.language || 'en-US'
+  if (userLang.match('fr')) return 'fr-FR'
+  if (userLang.match('en')) return 'en-US'
+  // fallback if navigator language is not supported
+  return 'en-US'
+}
+
 function loadLocaleMessages (): LocaleMessages {
   const locales = require.context('../locales', true, /[A-Za-z0-9-_,\s]+\.json$/i)
   const messages: LocaleMessages = {}
@@ -17,7 +25,7 @@ function loadLocaleMessages (): LocaleMessages {
 }
 
 export default new VueI18n({
-  locale: navigator.language || 'en',
-  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
+  locale: browserLang(),
+  fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en-US',
   messages: loadLocaleMessages(),
 })
