@@ -1,6 +1,5 @@
 import Sidebar from './Sidebar'
 import StoryRouter from '../../../../.storybook/storyRouterDecorator.js'
-import { linkTo } from '@storybook/addon-links'
 
 export default {
   title: 'components/visualize/Sidebar',
@@ -39,20 +38,14 @@ const items = [{
 // Active item is supported by vue-router not sidebar
 // Accordion opens according to the router's params: pageId if it exists else it is the first one
 
-export const DefaultStory = () => ({
-  components: { Sidebar },
-  template: '<Sidebar />',
-})
-DefaultStory.storyName = 'default'
-
 const Template = (args, { argTypes }) => ({
   components: { Sidebar },
   props: Object.keys(argTypes),
   template: '<Sidebar v-bind="$props" />',
-  decorators: [
-    StoryRouter({ initialEntry: '/2-2' }),
-  ],
 })
+
+export const DefaultStory = Template.bind({})
+DefaultStory.storyName = 'default'
 
 export const WithPropsStory = Template.bind({})
 WithPropsStory.args = {

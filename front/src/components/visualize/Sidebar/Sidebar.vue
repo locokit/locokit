@@ -119,10 +119,10 @@ interface MenuItems {
 export default Vue.extend({
   name: 'Sidebar',
   components: {
-    'p-accordion': Vue.extend(Accordion),
-    'p-accordion-tab': Vue.extend(AccordionTab),
-    'p-button': Vue.extend(Button),
-    draggable: Vue.extend(draggable),
+    'p-accordion': Accordion,
+    'p-accordion-tab': AccordionTab,
+    'p-button': Button,
+    draggable: draggable,
   },
   props: {
     items: {
