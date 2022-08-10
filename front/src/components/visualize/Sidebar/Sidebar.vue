@@ -1,13 +1,13 @@
 <template>
   <p-accordion
+    v-if="!isItemsEmpty"
     :multiple="true"
     :class="{'lck-sidebar': !sidebarActive}"
-    :activeIndex="[0]"
+    :activeIndex.sync="activeAccordions"
   >
     <p-accordion-tab
       v-for="item in items"
       :key="item.id"
-      :active="item.active"
     >
       <template #header>
         <span class="lck-sidebar-link-label">{{item.label}}</span>
@@ -69,7 +69,7 @@
       <div class="p-m-1">
         <p-button
           v-if="displayEditActions"
-          :label="createSubItemLabel"
+          :label="createSubItemLabel || $t('pages.workspace.createElement')"
           icon="pi pi-plus"
           iconPos="right"
           class="p-button-sm w-full"
@@ -80,7 +80,7 @@
     <div class="p-m-1">
       <p-button
         v-if="displayEditActions"
-        :label="createItemLabel"
+        :label="createItemLabel || $t('pages.workspace.createElement')"
         iconPos="right"
         icon="pi pi-plus"
         class="p-button-sm w-full"
@@ -88,51 +88,95 @@
       />
     </div>
   </p-accordion>
+  <p
+    v-else
+    class="p-pl-3"
+  >
+    {{ this.$t('pages.workspace.noChapter') }}
+  </p>
 </template>
 
-<script>
-import Vue from 'vue'
+<script lang="ts">
+import Vue, { PropOptions } from 'vue'
+import { TranslateResult } from 'vue-i18n'
+import draggable from 'vuedraggable'
+
 import Accordion from 'primevue/accordion'
 import AccordionTab from 'primevue/accordiontab'
 import Button from 'primevue/button'
-import draggable from 'vuedraggable'
 
-export default {
+interface MenuItems {
+  id: string|null;
+  label: string|TranslateResult;
+  subitems?: {
+    hidden: null|boolean;
+    id: string|null;
+    label: string|TranslateResult;
+    to: string;
+  }[];
+}
+
+export default Vue.extend({
   name: 'Sidebar',
+  components: {
+    'p-accordion': Accordion,
+    'p-accordion-tab': AccordionTab,
+    'p-button': Button,
+    draggable: draggable,
+  },
   props: {
     items: {
       type: Array,
-      default () {
-        return [{
-          label: this.$t('pages.workspace.noChapter'),
-          subitems: [],
-        }]
-      },
-    },
+    } as PropOptions<MenuItems[]>,
     displayEditActions: {
       type: Boolean,
       default: false,
     },
     createItemLabel: {
       type: String,
-      default () { return this.$t('pages.workspace.createElement') },
-    },
+    } as PropOptions<string|TranslateResult>,
     createSubItemLabel: {
       type: String,
-      default () { return this.$t('pages.workspace.createElement') },
-    },
+    } as PropOptions<string|TranslateResult>,
     sidebarActive: {
       type: Boolean,
       default: true,
     },
   },
-  components: {
-    'p-accordion': Vue.extend(Accordion),
-    'p-accordion-tab': Vue.extend(AccordionTab),
-    'p-button': Vue.extend(Button),
-    draggable: Vue.extend(draggable),
+  data () {
+    return {
+      activeAccordions: [0] as number[],
+    }
   },
-}
+  computed: {
+    isItemsEmpty (): boolean {
+      return !this.items || this.items.length === 0
+    },
+  },
+  methods: {
+    findActiveAccordion () {
+      if (this.$route.params.pageId && this.items) {
+        this.activeAccordions = this.items.reduce((acc, item, index) => {
+          if (item.subitems) {
+            const currentPage = item.subitems.find(({ id }) => id === this.$route.params.pageId)
+            if (currentPage) {
+              acc.push(index)
+            }
+          }
+          return acc
+        }, [] as number[])
+      }
+    },
+  },
+  mounted () {
+    this.findActiveAccordion()
+  },
+  watch: {
+    items: function () {
+      this.findActiveAccordion()
+    },
+  },
+})
 </script>
 
 <style scoped lang="scss">
