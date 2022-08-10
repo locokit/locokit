@@ -9,7 +9,7 @@ exports[`storyshots views/routes/404 default 1`] = `
     style="background-image: url(/themes/locokit/img/logo.svg); position: relative;"
   >
     <h1>
-      Whooops ?!... sounds you're lost... Sorry. Really.
+      Whooops ?!… sounds you're lost… Sorry. Really.
     </h1>
      
     <br />
@@ -18,7 +18,7 @@ exports[`storyshots views/routes/404 default 1`] = `
       class="mock-link"
     >
       
-    Please, please... come back home.
+    Please, please… come back home.
   
     </a>
   </div>

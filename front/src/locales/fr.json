@@ -193,7 +193,7 @@
       "noDataToDisplay": "Aucune donnée à afficher",
       "successNewRun": "Le processus a éte exécuté correctement.",
       "failedNewRun": "Le processus a échoué.",
-      "started": "Le processus démarre... veuillez patienter..."
+      "started": "Le processus démarre… veuillez patienter…"
     },
     "process": {
       "form": {
@@ -339,11 +339,11 @@
         "textPlaceholder": "Nom de l'espace de travail",
         "textLabel": "Nom",
         "generateLabel": "Génération automatique de vues SQL",
-        "generateHelp": "Génère automatiquement une base SQL interopérable avec des outils type SuperSet, Redash, ...",
+        "generateHelp": "Génère automatiquement une base SQL interopérable avec des outils type SuperSet, Redash, …",
         "slugPlaceholder": "slug de votre espace de travail",
         "slugLabel": "slug",
         "slugHelp": "Nom de votre base de donnée SQL dédiée à votre espace de travail. Il doit respecter la casse 'snake', uniquement des minuscules et le caractère '_' (souligné bas).",
-        "docPlaceholder": "Ajoutez une description de votre espace de travail, une documentation...",
+        "docPlaceholder": "Ajoutez une description de votre espace de travail, une documentation…",
         "docLabel": "Documentation",
         "colorLabel": "Couleur",
         "colorPlaceholder": "Sélectionnez une couleur dans la liste",
@@ -356,7 +356,7 @@
   },
   "pages": {
     "404": {
-      "title": "Oh oh ?!... on dirait que vous êtes perdu... Désolé. Vraiment.",
+      "title": "Oh oh ?!… on dirait que vous êtes perdu… Désolé. Vraiment.",
       "link": "Vous pouvez tenter de revenir sur la page d'accueil ?"
     },
     "workspaceAdmin": {
@@ -455,7 +455,7 @@
     },
     "updateEmail": {
       "title": "Mise à jour de votre adresse électronique",
-      "loading": "L'opération est actuellement en cours...",
+      "loading": "L'opération est actuellement en cours…",
       "updateOK": "L'opération s'est bien déroulée. Vous pouvez maintenant vous connecter avec la nouvelle adresse électronique.",
       "updateKO": "Malheureusement, l'opération n'a pas pu aboutir. Si le problème persiste, contactez l'administrateur du site."
     },
@@ -1020,7 +1020,7 @@
       "500": "Une erreur a eu lieu…"
     },
     "lck": {
-      "undefined": "Une erreur inconnue est survenue... Aucune information à afficher.",
+      "undefined": "Une erreur inconnue est survenue… Aucune information supplémentaire  est disponible.",
       "ROW_DUPLICATE": "Une erreur est survenue lors la duplication de la ligne.",
       "ROW_DELETION": "Une erreur est survenue lors la suppression de la ligne.",
       "ROW_SAVE": "Une erreur est survenue lors de l'enregistrement de la ligne.",
@@ -1172,7 +1172,7 @@
   "validations": {
     "messages": {
       "required": "Le champ '{_field_}' est requis.",
-      "required_if": "Le champ '{_field_}' est requis.",
+      "required_if": "@:validation.messages.required",
       "snakeCase": "Le champ '{_field_}' est obligatoirement composé des lettres minuscules de a à z, et du caractère _",
       "email": "L'adresse électronique du champ '{_field_}' ne correspond pas au format attendu.",
       "regex": "Le champ '{_field_}' ne correspond pas au format attendu.",
