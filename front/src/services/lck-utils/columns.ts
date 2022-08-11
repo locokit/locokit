@@ -214,8 +214,7 @@ export function getOriginalColumn (column: LckTableColumn): LckTableColumn {
 }
 
 export function getColumnClass (column: LckTableViewColumn): string {
-  const columnClass = getColumnTypeId(column)
-  switch (columnClass) {
+  switch (column.column_type_id) {
     case COLUMN_TYPE.BOOLEAN:
       return 'bi bi-check2-square'
     case COLUMN_TYPE.STRING:

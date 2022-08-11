@@ -253,3 +253,13 @@ p.failed, span.failed {
 .handle, .handle-block {
   cursor: move !important;
 }
+
+/*
+  Fields no editable
+*/
+.no-editable-field {
+  cursor: not-allowed !important;
+  .p-checkbox {
+      cursor: not-allowed !important;
+  }
+}
