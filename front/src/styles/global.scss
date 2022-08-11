@@ -259,4 +259,7 @@ p.failed, span.failed {
 */
 .no-editable-field {
   cursor: not-allowed !important;
+  .p-checkbox {
+      cursor: not-allowed !important;
+  }
 }

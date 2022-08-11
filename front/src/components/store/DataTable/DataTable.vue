@@ -200,7 +200,7 @@
               'height': '2.5rem',
               'max-height': '2.5rem',
             }"
-            :bodyClass="{'no-editable-field': !isEditableColumn(crudMode, column)}"
+            :bodyClass="addClassNotEditableColumn(crudMode, column)"
             :sortable="isSortableColumn(column)"
           >
           <template #header>
@@ -666,6 +666,9 @@ export default {
     },
     getComponentDisplayCellForColumnType (column) {
       return getComponentDisplayCellForColumnType(getColumnTypeId(column))
+    },
+    addClassNotEditableColumn (crudMode, column) {
+      if (!isEditableColumn(crudMode, column)) return 'no-editable-field'
     },
     formatManualProcesses (rowId) {
       if (this.manualProcesses.length > 0) {
