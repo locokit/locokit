@@ -800,7 +800,7 @@
           "description": "Permet de sélectionner plusieurs utilisateurs dans une liste prédéfinie"
         },
         "MULTI_GROUP": {
-          "name": "Groupe d'utilisateurs",
+          "name": "Multi groupe d'utilisateurs",
           "description": "Permet de sélectionner plusieurs groupes d'utilisateurs dans une liste prédéfinie"
         },
         "RELATION_BETWEEN_TABLES": {
