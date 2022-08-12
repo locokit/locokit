@@ -118,7 +118,8 @@
               "endWith": "finit par",
               "isLoggedInUser": "est l'utilisateur connecté",
               "isLoggedInUserGroup": "est le groupe de l'utilisateur connecté",
-              "containsLoggedInUser": "contient l'utilisateur connecté"
+              "containsLoggedInUser": "contient l'utilisateur connecté",
+              "containsLoggedInUserGroup": "contient le groupe de l'utilisateur connecté"
             }
           }
         }

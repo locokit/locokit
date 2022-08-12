@@ -118,7 +118,8 @@
               "endWith": "end with",
               "isLoggedInUser": "is the logged-in user",
               "isLoggedInUserGroup": "is the group of the logged-in user",
-              "containsLoggedInUser": "contains the logged-in user"
+              "containsLoggedInUser": "contains the logged-in user",
+              "containsLoggedInUserGroup": "contains group of the logged-in user"
             }
           }
         }

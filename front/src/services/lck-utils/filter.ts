@@ -155,6 +155,11 @@ export const ACTIONS: Record<string, FilterAction> = {
     value: '$contains',
     predefinedPattern: ['{userId}'],
   },
+  CONTAINS_LOGGED_USER_GROUP: {
+    label: 'containsLoggedInUserGroup',
+    value: '$contains',
+    predefinedPattern: ['{groupId}'],
+  },
 }
 
 // Filterable types
@@ -313,6 +318,11 @@ export const COLUMN_FILTERS_CONFIG: Record<number, {
         ACTIONS.CONTAINS_LOGGED_USER,
       ],
     },
+    [COLUMN_TYPE.MULTI_GROUP]: {
+      actions: [
+        ACTIONS.CONTAINS_LOGGED_USER_GROUP,
+      ],
+    },
   }
 
 /**
@@ -394,6 +404,7 @@ export function getCurrentFilters (filters: Filter[], wildCards: Record<string, 
           case COLUMN_TYPE.USER:
           case COLUMN_TYPE.GROUP:
           case COLUMN_TYPE.MULTI_USER:
+          case COLUMN_TYPE.MULTI_GROUP:
             return `[data][${filter.column!.value}.reference]`
           default:
             return `[data][${filter.column!.value}]`
