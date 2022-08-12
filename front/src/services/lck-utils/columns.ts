@@ -30,6 +30,7 @@ export function getComponentEditorCellForColumnType (columnTypeId: number) {
     case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
       return 'lck-autocomplete'
     case COLUMN_TYPE.MULTI_USER:
+    case COLUMN_TYPE.MULTI_GROUP:
       return 'lck-multi-autocomplete'
     case COLUMN_TYPE.NUMBER:
       return 'p-input-number'
@@ -92,6 +93,7 @@ export function getComponentEditorDetailForColumnType (columnTypeId: number) {
     case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
       return 'lck-autocomplete'
     case COLUMN_TYPE.MULTI_USER:
+    case COLUMN_TYPE.MULTI_GROUP:
       return 'lck-multi-autocomplete'
     case COLUMN_TYPE.NUMBER:
       return 'p-input-number'
@@ -332,6 +334,7 @@ export function getColumnDisplayValue (
         }
         return data as string
       case COLUMN_TYPE.MULTI_USER:
+      case COLUMN_TYPE.MULTI_GROUP:
         return (data as LCKTableRowMultiDataComplex).value.join(', ')
       case COLUMN_TYPE.SINGLE_SELECT:
         const currentValue = (column.settings.values?.[data as string]) as SelectValue

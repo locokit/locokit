@@ -732,6 +732,7 @@ export default Vue.extend({
                     )
                     break
                   case COLUMN_TYPE.MULTI_USER:
+                  case COLUMN_TYPE.MULTI_GROUP:
                     this.$set(
                       this.multipleAutocompleteInput,
                       columnId,

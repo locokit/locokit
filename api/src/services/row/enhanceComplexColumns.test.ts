@@ -17,6 +17,7 @@ describe('enhanceComplexColumns hook', () => {
   let columnTable1Ref: TableColumn
   let columnTable1User: TableColumn
   let columnTable1MultiUser: TableColumn
+  let columnTable1MultiGroup: TableColumn
   let columnTable2Ref: TableColumn
   let columnTable2RelationBetweenTable1: TableColumn
   let columnTable2LookedUpColumnTable1User: TableColumn
@@ -24,6 +25,7 @@ describe('enhanceComplexColumns hook', () => {
   let rowTable1: TableRow
   let rowTable2: TableRow
   let rowTable3: TableRow
+  let rowTable4: TableRow
 
   beforeAll(async () => {
     workspace = await app.service('workspace').create({ text: 'pouet' })
@@ -55,6 +57,11 @@ describe('enhanceComplexColumns hook', () => {
     columnTable1MultiUser = await app.service('column').create({
       text: 'MultiUser',
       column_type_id: COLUMN_TYPE.MULTI_USER,
+      table_id: table1.id,
+    })
+    columnTable1MultiGroup = await app.service('column').create({
+      text: 'MultiGroup',
+      column_type_id: COLUMN_TYPE.MULTI_GROUP,
       table_id: table1.id,
     })
     columnTable2Ref = await app.service('column').create({
@@ -129,7 +136,27 @@ describe('enhanceComplexColumns hook', () => {
     expect((rowTable3.data[columnTable1MultiUser.id] as { reference: string, value: string }).value).toEqual(['User 1'])
     expect((rowTable3.data[columnTable1MultiUser.id] as { reference: string, value: string }).reference).toEqual([user1.id])
   })
+  it('enhance group data field with the group names in value when creating a row with a MULTI_GROUP column type', async () => {
+    const service = app.service('row')
+    const groupA = await app.service('group')
+      .create({
+        name: 'Group A',
+      })
+    rowTable4 = await service.create({
+      table_id: table1.id,
+      text: 'table 1 ref multi',
+      data: {
+        [columnTable1MultiGroup.id]: [groupA.id],
+      },
+    })
+    expect.assertions(3)
+    expect(rowTable4).toBeTruthy()
+    expect((rowTable4.data[columnTable1MultiGroup.id] as { reference: string, value: string }).value).toEqual(['Group A'])
+    expect((rowTable4.data[columnTable1MultiGroup.id] as { reference: string, value: string }).reference).toEqual([groupA.id])
+    await app.service('group').remove(groupA.id)
+  })
   afterAll(async () => {
+    await app.service('row').remove(rowTable4.id)
     await app.service('row').remove(rowTable3.id)
     await app.service('row').remove(rowTable2.id)
     await app.service('row').remove(rowTable1.id)
@@ -142,6 +169,7 @@ describe('enhanceComplexColumns hook', () => {
 
     await app.service('column').remove(columnTable1User.id)
     await app.service('column').remove(columnTable1MultiUser.id)
+    await app.service('column').remove(columnTable1MultiGroup.id)
     await app.service('column').remove(columnTable1Ref.id)
     await app.service('table').remove(table1.id)
 

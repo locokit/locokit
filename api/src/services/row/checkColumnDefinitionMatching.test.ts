@@ -1391,7 +1391,7 @@ describe('checkColumnDefinitionMatching hook', () => {
     await expect(app.service('row')
       .create({
         data: {
-          [columnTable1MultiGroup.id]: 123456,
+          [columnTable1MultiGroup.id]: 'uuid',
         },
         table_id: table1.id,
       }))
@@ -1410,6 +1410,44 @@ describe('checkColumnDefinitionMatching hook', () => {
     expect(rowTable1).toBeTruthy()
     expect(rowTable1.data).toBeDefined()
     await app.service('row').remove(rowTable1.id)
+  })
+
+  it('accept an empty array value for a MULTI_GROUP column type', async () => {
+    expect.assertions(2)
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1MultiGroup.id]: [],
+        },
+        table_id: table1.id,
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    await app.service('row').remove(rowTable1.id)
+  })
+
+  it('accept a number array corresponding to existing group for a MULTI_GROUP column type', async () => {
+    expect.assertions(2)
+    const groupA = await app.service('group')
+      .create({
+        name: 'Group A',
+      })
+    const groupB = await app.service('group')
+      .create({
+        name: 'Group B',
+      })
+    const rowTable1 = await app.service('row')
+      .create({
+        data: {
+          [columnTable1MultiGroup.id]: [groupA.id, groupB.id],
+        },
+        table_id: table1.id,
+      })
+    expect(rowTable1).toBeTruthy()
+    expect(rowTable1.data).toBeDefined()
+    await app.service('row').remove(rowTable1.id)
+    await app.service('group').remove(groupA.id)
+    await app.service('group').remove(groupB.id)
   })
 
   it('throw an error if a URL column receive a number value', async () => {

@@ -60,7 +60,7 @@ export async function searchItems ({
       label: d.name,
       value: d.id,
     }))
-  } else if (columnTypeId === COLUMN_TYPE.GROUP) {
+  } else if (columnTypeId === COLUMN_TYPE.GROUP || columnTypeId === COLUMN_TYPE.MULTI_GROUP) {
     const result = await lckServices.group.find({
       query: {
         name: {

@@ -813,6 +813,7 @@ export default {
         case COLUMN_TYPE.USER:
         case COLUMN_TYPE.MULTI_USER:
         case COLUMN_TYPE.GROUP:
+        case COLUMN_TYPE.MULTI_GROUP:
         case COLUMN_TYPE.FILE:
           /**
            * For these type of column
@@ -855,6 +856,7 @@ export default {
           this.autocompleteInput = data.data[field]?.value || null
           break
         case COLUMN_TYPE.MULTI_USER:
+        case COLUMN_TYPE.MULTI_GROUP:
           this.multipleAutocompleteInput = zipArrays(data.data[field]?.reference, data.data[field]?.value, 'value', 'label')
           break
       }
