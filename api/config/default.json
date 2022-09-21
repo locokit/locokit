@@ -15,10 +15,7 @@
     "entity": "user",
     "service": "users",
     "secret": "/jZiG6MPLaMr6JBptahMA+pxZh0A4XgX",
-    "authStrategies": [
-      "jwt",
-      "local"
-    ],
+    "authStrategies": ["jwt", "local", "api-key", "github"],
     "jwtOptions": {
       "header": {
         "typ": "access"
@@ -32,11 +29,27 @@
       "passwordField": "password"
     },
     "oauth": {
-      "redirect": "/",
-      "auth0": {
-        "key": "<Client ID>",
-        "secret": "<Client secret>"
+      "redirect": "http://localhost:3000/github",
+      "github": {
+        "key": "7e52d97dd4f7c2252de3",
+        "secret": "ebeb2acf10fb479ebef4a21277e7c0153f439024",
+        "scope": ["openid", "profile", "email"]
       }
+    },
+    "api-key": {
+      "header": "x-api-key",
+      "service": "apikey"
+    },
+    "cookie": {
+      "enabled": true,
+      "name": "locokit-next",
+      "httpOnly": false,
+      "secure": false
+    },
+    "github": {
+      "key": "7e52d97dd4f7c2252de3",
+      "secret": "ebeb2acf10fb479ebef4a21277e7c0153f439024",
+      "scope": ["openid", "profile", "email"]
     }
   },
   "locokit-providers": [
@@ -57,12 +70,16 @@
       "type": "baserow",
       "options": {
         "apiURL": "https://api.baserow.io/",
-        "tableIds": [
-          12796,
-          12797
-        ],
+        "tableIds": [12796, 12797],
         "token": "REUYxF8xqzStcc478r8LAyfB8I6UpCLC"
       }
     }
-  ]
+  ],
+  "helmet": {
+    "isEnabled": "true",
+    "hstsEnabled": "true"
+  },
+  "cors": {
+    "origin": "*"
+  }
 }

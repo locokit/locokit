@@ -1,0 +1,17 @@
+{
+  "name": "@locokit/sdk",
+  "version": "0.8.0",
+  "license": "MIT",
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "dev": "tsc src/index.ts",
+    "dev:build": "nuxi build playground",
+    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground"
+  },
+  "dependencies": {
+    "@feathersjs/feathers": "^5.0.0-pre.28",
+    "@feathersjs/rest-client": "^5.0.0-pre.28",
+    "@feathersjs/authentication-client": "^5.0.0-pre.28"
+  }
+}

@@ -1,27 +1,26 @@
 import { schema, querySyntax } from '@feathersjs/schema'
 import type { Infer } from '@feathersjs/schema'
-  
+
 // Schema for the basic data model (e.g. creating new entries)
 export const usersDataSchema = schema({
   $id: 'UsersData',
   type: 'object',
   additionalProperties: false,
-  required: [ 'email', 'password' ],
+  required: ['email', 'password'],
   properties: {
     email: {
-      type: 'string'
+      type: 'string',
     },
     password: {
-      type: 'string'
+      type: 'string',
     },
     auth0Id: {
-      type: 'string'
-    }
-  }
+      type: 'string',
+    },
+  },
 } as const)
 
 export type UsersData = Infer<typeof usersDataSchema>
-
 
 // Schema for making partial updates
 export const usersPatchSchema = schema({
@@ -30,8 +29,8 @@ export const usersPatchSchema = schema({
   additionalProperties: false,
   required: [],
   properties: {
-    ...usersDataSchema.properties
-  }
+    ...usersDataSchema.properties,
+  },
 } as const)
 
 export type UsersPatch = Infer<typeof usersPatchSchema>
@@ -41,13 +40,13 @@ export const usersResultSchema = schema({
   $id: 'UsersResult',
   type: 'object',
   additionalProperties: false,
-  required: [ 'id' ],
+  required: ['id'],
   properties: {
     ...usersDataSchema.properties,
     id: {
-      type: 'string'
-    }
-  }
+      type: 'string',
+    },
+  },
 } as const)
 
 export type UsersResult = Infer<typeof usersResultSchema>
@@ -61,8 +60,8 @@ export const usersQuerySchema = schema({
   type: 'object',
   additionalProperties: false,
   properties: {
-    ...querySyntax(usersQueryProperties)
-  }
+    ...querySyntax(usersQueryProperties),
+  },
 } as const)
 
 export type UsersQuery = Infer<typeof usersQuerySchema>

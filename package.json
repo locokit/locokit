@@ -9,8 +9,12 @@
   "workspaces": [
     "api",
     "app",
+    "docs",
+    "packages/feathers-locokit",
     "packages/lck-engine",
     "packages/lck-designsystem",
+    "packages/nuxt-locokit",
+    "packages/sdk",
     "packages/lck-typings"
   ],
   "repository": {
@@ -23,8 +27,12 @@
   ],
   "author": "Mathieu Dartigues",
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
+    "eslint": "^8.22.0",
+    "prettier": "^2.7.1",
     "ts-node": "^10.8.2",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "vite": "^3.0.9",
+    "vitest": "^0.22.1"
   }
 }

@@ -1,0 +1,91 @@
+# This docker-compose is for testing purpose only
+# For a deployment, you'll need to set a mail server
+# and security with helmet environment variables,
+# maybe a nginx for serving front and reverse proxy to the api and the file storage.
+version: '3'
+services:
+  lck-db:
+    image: postgis/postgis:14-master
+    environment:
+      POSTGRES_DB: public
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourPostgresPassword
+    # restart: always
+    volumes:
+      - lck-db-data:/var/lib/postgresql/data
+      - ./dumps:/dumps
+    container_name: lck-db
+
+  lck-mail:
+    image: mailhog/mailhog:latest
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /home/mailhog
+    volumes:
+      - mailhog:/home/mailhog/
+    ports:
+      # - 1025:1025
+      - 8025:8025
+    container_name: lck-mail
+
+  lck-api:
+    image: ./api
+    environment:
+      LCK_PORT: "8002"
+      LCK_HOST: localhost
+      LCK_PUBLIC_URL: http://localhost:8002
+      LCK_PUBLIC_PORTAL_NAME: Locokit
+      LCK_AUTH_SECRET: putYourAuthSecretHereAndChangeItPlease!
+      LCK_DATABASE_URL: postgres://postgres:yourPostgresPassword@lck-db:5432/public
+      OBJECTION_DEBUG: "false"
+
+      MAIL_PORT: "1025"
+      MAIL_SERVER: lck-mail
+      MAIL_DEFAULT_FROM: contact@locokit.io
+      MAIL_SECURE: "false"
+
+      CORS_ORIGIN: "*"
+
+      # Signup keys
+      # Is the signup allowed on the LocoKit platform
+      # This will display a signup form in the front,
+      # and the signup endpoint will be registered
+      SIGNUP_ALLOWED: "true"
+      # How many tries are authorized
+      SIGNUP_RATE_LIMIT_MAX: "5"
+      # Within a time frame of xxx milliseconds
+      # If more than 5 signup during 60s
+      # signups will be rejected with a 429 HTTP (TooManyRequests)
+      SIGNUP_RATE_LIMIT_TIMEFRAME: "60000"
+
+      HELMET_ENABLED: "false"
+      HELMET_HSTS: "false"
+
+      # Storage keys
+      # type can be one of : s3 (s3 compatible object storage), fs (file system)
+      STORAGE_TYPE: fs
+      # public path can be one of : /s3-storage (s3 compatible object storage), /fs-storage (file system)
+      # these paths depend on your configuration (nginx or other)
+      STORAGE_PUBLIC_PATH: /fs-storage
+      STORAGE_FS_PATH: ./fs-storage
+      STORAGE_MAX_UPLOAD_SIZE: 20mb
+    ports:
+      - "8002:8002"
+    depends_on:
+      - lck-mail
+    container_name: lck-api
+    volumes:
+      - lck-fs-storage:/code/fs-storage/
+
+  lck-app:
+    image: ./app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - lck-app
+    container_name: lck-app
+
+volumes:
+  lck-db-data:
+  mailhog:
+  lck-fs-storage:

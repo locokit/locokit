@@ -1,8 +1,8 @@
 {
   "name": "@locokit/lck-engine",
   "version": "0.8.0",
-  "description": "LocoKit API over SQL/API",
-  "main": "index.js",
+  "description": "LocoKit engine, allow access to several datasources : SQL, APIs, ... ?",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -12,5 +12,5 @@ export const sqlite = (app: Application) => {
   const config = app.get('sqlite')
   const db = knex(config!)
 
-  app.set('sqliteClient', db);
+  app.set('sqliteClient', db)
 }

@@ -6,7 +6,7 @@ export const configurationSchema = schema({
   $id: 'ApplicationConfiguration',
   type: 'object',
   additionalProperties: false,
-  required: [ 'host', 'port', 'public', 'paginate' ],
+  required: ['host', 'port', 'public', 'paginate'],
   properties: {
     host: { type: 'string' },
     port: { type: 'number' },
@@ -15,18 +15,18 @@ export const configurationSchema = schema({
       type: 'object',
       properties: {
         client: { type: 'string' },
-        connection: { type: 'string' }
-      }
+        connection: { type: 'string' },
+      },
     },
     authentication: authenticationSettingsSchema,
     paginate: {
       type: 'object',
       additionalProperties: false,
-      required: [ 'default', 'max' ],
+      required: ['default', 'max'],
       properties: {
         default: { type: 'number' },
-        max: { type: 'number' }
-      }
+        max: { type: 'number' },
+      },
     },
     'locokit-providers': {
       type: 'array',
@@ -36,64 +36,77 @@ export const configurationSchema = schema({
         required: ['type', 'options', 'name'],
         properties: {
           name: { type: 'string' },
-          type: { 
-            enum: ['pg', 'sqlite3', 'baserow']
+          type: {
+            enum: ['pg', 'sqlite3', 'baserow'],
           },
         },
         allOf: [
           {
             if: {
               properties: {
-                type: { const: 'pg' }
-              }
+                type: { const: 'pg' },
+              },
             },
             then: {
               properties: {
-                options: { type: 'string' }
-              }
-            }
+                options: { type: 'string' },
+              },
+            },
           }, {
             if: {
               properties: {
-                type: { const: 'sqlite3' }
-              }
+                type: { const: 'sqlite3' },
+              },
             },
             then: {
               properties: {
                 options: {
-                   type: 'object',
-                   properties: { filename: { type: 'string' } } 
+                  type: 'object',
+                  properties: { filename: { type: 'string' } },
                 },
-              }
-            }
+              },
+            },
           }, {
             if: {
               properties: {
-                type: { const: 'baserow' }
-              }
+                type: { const: 'baserow' },
+              },
             },
             then: {
               properties: {
-                options: { 
+                options: {
                   type: 'object',
                   properties: {
                     apiURL: { type: 'string' },
                     tableIds: {
                       type: 'array',
                       items: {
-                        type: 'integer'
-                      }
+                        type: 'integer',
+                      },
                     },
-                    token: { type: 'string'}
-                  }
-                }
-              }
-            }
-          }
-        ]
-      }
-    }
-  }
+                    token: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+        ],
+      },
+    },
+    helmet: {
+      type: 'object',
+      properties: {
+        isEnabled: { type: 'string', enum: ['true', 'false'] },
+        hstsEnabled: { type: 'string', enum: ['true', 'false'] },
+      },
+    },
+    cors: {
+      type: 'object',
+      properties: {
+        origin: { type: 'string' },
+      },
+    },
+  },
 } as const, new Ajv())
 
 export type ConfigurationSchema = Infer<typeof configurationSchema>

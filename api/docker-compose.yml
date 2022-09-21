@@ -1,0 +1,20 @@
+version: '3'
+services:
+  lck-db:
+    image: postgis/postgis:12-3.0
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: public
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourPostgresPassword
+      TZ: 'UTC'
+      PGTZ: 'UTC'
+    # restart: always
+    volumes:
+      - lck-db-data:/var/lib/postgresql/data
+      - ./dumps:/dumps
+    container_name: lck-db
+
+volumes:
+  lck-db-data:

@@ -1,0 +1,22 @@
+{
+  "name": "@locokit/feathers-locokit",
+  "version": "0.8.0",
+  "description": "LocoKit FeathersJS service",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.makina-corpus.net:lck/locokit.git"
+  },
+  "keywords": [
+    "lowcode",
+    "nocode"
+  ],
+  "author": "Mathieu Dartigues",
+  "license": "MIT",
+  "dependencies": {
+    "@locokit/lck-engine": "^0.8.0"
+  }
+}

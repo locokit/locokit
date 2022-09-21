@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "@nuxtjs/eslint-config-typescript",
+    "standard-with-typescript"
+  ],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": [
+      "off"
+    ],
+    "comma-dangle": ["error", "always-multiline"],
+    "@typescript-eslint/comma-dangle": ["error", "always-multiline"],
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/no-unnecessary-type-assertion": "off",
+    "no-case-declarations": "off"
+  }
+}

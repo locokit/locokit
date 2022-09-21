@@ -1,4 +1,4 @@
-import { feathers } from '@feathersjs/feathers'
+import { Application, feathers } from '@feathersjs/feathers'
 import type {
   UsersData,
   UsersResult,
@@ -11,7 +11,7 @@ export interface ServiceTypes {
   'users': Service<UsersData, UsersResult, Params<UsersQuery>>
 }
 
-export const createClient = <Configuration = any> (connection: TransportConnection<ServiceTypes>) => {
+export const createClient = <Configuration = any> (connection: TransportConnection<ServiceTypes>): Application<ServiceTypes, Configuration> => {
   const client = feathers<ServiceTypes, Configuration>()
 
   client.configure(connection)

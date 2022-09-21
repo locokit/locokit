@@ -1,0 +1,84 @@
+.p-paginator {
+  background: #ffffff;
+  color: #6c757d;
+  border: solid #e9ecef;
+  border-width: 0;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+}
+
+.p-paginator .p-paginator-first,
+.p-paginator .p-paginator-prev,
+.p-paginator .p-paginator-next,
+.p-paginator .p-paginator-last {
+  background-color: transparent;
+  border: 0 none;
+  color: #6c757d;
+  min-width: 2.357rem;
+  height: 2.357rem;
+  margin: 0.143rem;
+  transition: box-shadow 0.2s;
+  border-radius: var(--border-radius);
+}
+
+.p-paginator .p-paginator-first:not(.p-disabled):not(.p-highlight):hover,
+.p-paginator .p-paginator-prev:not(.p-disabled):not(.p-highlight):hover,
+.p-paginator .p-paginator-next:not(.p-disabled):not(.p-highlight):hover,
+.p-paginator .p-paginator-last:not(.p-disabled):not(.p-highlight):hover {
+  background: #e9ecef;
+  border-color: transparent;
+  color: var(--text-color);
+}
+
+.p-paginator .p-paginator-first {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.p-paginator .p-paginator-last {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.p-paginator .p-dropdown {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  height: 2.357rem;
+}
+
+.p-paginator .p-dropdown .p-dropdown-label {
+  padding-right: 0;
+}
+
+.p-paginator .p-paginator-current {
+  background-color: transparent;
+  border: 0 none;
+  color: #6c757d;
+  min-width: 2.357rem;
+  height: 2.357rem;
+  margin: 0.143rem;
+  padding: 0 0.5rem;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page {
+  background-color: transparent;
+  border: 0 none;
+  color: #6c757d;
+  min-width: 2.357rem;
+  height: 2.357rem;
+  margin: 0.143rem;
+  transition: box-shadow 0.2s;
+  border-radius: var(--border-radius);
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+  background: var(--primary-color-lighten);
+  border-color: var(--primary-color-lighten);
+  color: var(--text-color);
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page:not(.p-highlight):hover {
+  background: #e9ecef;
+  border-color: transparent;
+  color: var(--text-color);
+}

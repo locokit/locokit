@@ -1,0 +1,241 @@
+.p-calendar.p-invalid.p-component>.p-inputtext {
+  border-color: #f44336;
+}
+
+.p-datepicker {
+  padding: 0.5rem;
+  background: #ffffff;
+  color: var(--text-color);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+}
+
+.p-datepicker:not(.p-datepicker-inline) {
+  background: #ffffff;
+  border: 0 none;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.p-datepicker:not(.p-datepicker-inline) .p-datepicker-header {
+  background: #ffffff;
+}
+
+.p-datepicker .p-datepicker-header {
+  padding: 0.5rem;
+  color: var(--text-color);
+  background: #ffffff;
+  font-weight: 600;
+  margin: 0;
+  border-bottom: 1px solid var(--secondary-color-lighten);
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+}
+
+.p-datepicker .p-datepicker-header .p-datepicker-prev,
+.p-datepicker .p-datepicker-header .p-datepicker-next {
+  width: 2rem;
+  height: 2rem;
+  color: #6c757d;
+  border: 0 none;
+  background: transparent;
+  border-radius: 50%;
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.p-datepicker .p-datepicker-header .p-datepicker-prev:enabled:hover,
+.p-datepicker .p-datepicker-header .p-datepicker-next:enabled:hover {
+  color: var(--text-color);
+  border-color: transparent;
+  background: #e9ecef;
+}
+
+.p-datepicker .p-datepicker-header .p-datepicker-prev:focus,
+.p-datepicker .p-datepicker-header .p-datepicker-next:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.2rem var(--primary-color-lighten);
+}
+
+.p-datepicker .p-datepicker-header .p-datepicker-title {
+  line-height: 2rem;
+}
+
+.p-datepicker .p-datepicker-header .p-datepicker-title select {
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.p-datepicker .p-datepicker-header .p-datepicker-title select:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.2rem var(--primary-color-lighten);
+  border-color: #2196F3;
+}
+
+.p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month {
+  margin-right: 0.5rem;
+}
+
+.p-datepicker table {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+.p-datepicker table th {
+  padding: 0;
+}
+
+.p-datepicker table th>span {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.p-datepicker table td {
+  padding: 0;
+}
+
+.p-datepicker table td>span {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  transition: box-shadow 0.2s;
+  border: 1px solid transparent;
+}
+
+.p-datepicker table td>span.p-highlight {
+  color: var(--text-color);
+  background: var(--primary-color-lighten);
+}
+
+.p-datepicker table td>span:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.2rem var(--primary-color-lighten);
+}
+
+.p-datepicker table td.p-datepicker-today>span {
+  background: #ced4da;
+  color: var(--text-color);
+  border-color: transparent;
+}
+
+.p-datepicker table td.p-datepicker-today>span.p-highlight {
+  color: var(--text-color);
+  background: var(--primary-color-lighten);
+}
+
+.p-datepicker .p-datepicker-buttonbar {
+  padding: 1rem 0;
+  border-top: 1px solid var(--secondary-color-lighten);
+}
+
+.p-datepicker .p-datepicker-buttonbar .p-button {
+  width: auto;
+}
+
+.p-datepicker .p-timepicker {
+  border-top: 1px solid var(--secondary-color-lighten);
+  padding: 0;
+}
+
+.p-datepicker .p-timepicker button {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #6c757d;
+  border: 0 none;
+  background: transparent;
+  border-radius: 50%;
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.p-datepicker .p-timepicker button:enabled:hover {
+  color: var(--text-color);
+  border-color: transparent;
+  background: #e9ecef;
+}
+
+.p-datepicker .p-timepicker button:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.2rem var(--primary-color-lighten);
+}
+
+.p-datepicker .p-timepicker button:last-child {
+  margin-top: 0.2em;
+}
+
+.p-datepicker .p-timepicker span {
+  font-size: 1rem;
+}
+
+.p-datepicker .p-timepicker>div {
+  padding: 0;
+}
+
+.p-datepicker.p-datepicker-timeonly .p-timepicker {
+  border-top: 0 none;
+}
+
+.p-datepicker .p-monthpicker {
+  margin: 0.5rem 0;
+}
+
+.p-datepicker .p-monthpicker .p-monthpicker-month {
+  padding: 0.5rem;
+  transition: box-shadow 0.2s;
+  border-radius: var(--border-radius);
+}
+
+.p-datepicker .p-monthpicker .p-monthpicker-month.p-highlight {
+  color: var(--text-color);
+  background: var(--primary-color-lighten);
+}
+
+.p-datepicker.p-datepicker-multiple-month .p-datepicker-group {
+  border-right: 1px solid var(--secondary-color-lighten);
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.p-datepicker.p-datepicker-multiple-month .p-datepicker-group:first-child {
+  padding-left: 0;
+}
+
+.p-datepicker.p-datepicker-multiple-month .p-datepicker-group:last-child {
+  padding-right: 0;
+  border-right: 0 none;
+}
+
+.p-datepicker:not(.p-disabled) table td span:not(.p-highlight):not(.p-disabled):hover {
+  background: #e9ecef;
+}
+
+.p-datepicker:not(.p-disabled) table td span:not(.p-highlight):not(.p-disabled):focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.2rem var(--primary-color-lighten);
+}
+
+.p-datepicker:not(.p-disabled) .p-monthpicker .p-monthpicker-month:not(.p-highlight):not(.p-disabled):hover {
+  background: #e9ecef;
+}
+
+.p-datepicker:not(.p-disabled) .p-monthpicker .p-monthpicker-month:not(.p-highlight):not(.p-disabled):focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.2rem var(--primary-color-lighten);
+}
+
+.p-datepicker-mask.p-component-overlay {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+@media screen and (max-width: 769px) {
+
+  .p-datepicker table th,
+  .p-datepicker table td {
+    padding: 0;
+  }
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!-- Important: must specify -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <!-- Important: rapi-doc uses utf8 charecters -->
+    <script
+      type="module"
+      src="https://unpkg.com/rapidoc/dist/rapidoc-min.js"
+    ></script>
+    <style type="text/css">
+      rapi-doc::part(section-navbar) {
+        /* <<< targets navigation bar */
+        /*background: linear-gradient(90deg, #3d4e70, #29264F);*/
+        background-color: #29264f;
+      }
+    </style>
+  </head>
+  <body>
+    <rapi-doc
+      spec-url="./swagger.json"
+      primary-color="#65b084"
+      show-header="false"
+    >
+      <!-- provide slot attribute to place an element at desired location -->
+      <img slot="nav-logo" src="/logo-dark.svg" style="height: 75px" />
+    </rapi-doc>
+  </body>
+</html>
