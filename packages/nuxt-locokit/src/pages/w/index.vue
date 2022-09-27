@@ -22,14 +22,18 @@
         {{ $t('pages.workspace.noWorkspace') }}
       </p>
 
-      <div v-for="workspace in workspaces" :key="workspace.id" class="p-col-12 p-md-4 p-lg-3 workspaces-item">
+      <div
+        v-for="workspace in workspaces"
+        :key="workspace.id"
+        class="p-col-12 p-md-4 p-lg-3 workspaces-item"
+      >
         <div
           class="workspaces-button p-mr-2"
           :style="{
-            backgroundColor: workspace.settings.backgroundColor || 'inherit'
+            backgroundColor: workspace.settings.backgroundColor || 'inherit',
           }"
         >
-<!--           <router-link
+          <!--           <router-link
             class="workspaces-detail"
             :to="`${ROUTES.WORKSPACE}/${workspace.id}`"
             :style="{
@@ -51,17 +55,27 @@
             <i class="bi bi-sliders"></i>
           </router-link>
  -->
-          <i v-if="workspace.icon" class="workspaces-icon bi" :class="workspace.icon" />
+          <i
+            v-if="workspace.icon"
+            class="workspaces-icon bi"
+            :class="workspace.icon"
+          />
         </div>
       </div>
 
-<!--         v-if="$can('create', 'workspace')"
- -->  <div
-        :class="'p-col-12 p-md-4 p-lg-3 workspaces-item' + ( !loading && workspaces.length === 0 ? ' p-mx-auto' : '')"
+      <!--         v-if="$can('create', 'workspace')"
+ -->
+      <div
+        :class="
+          'p-col-12 p-md-4 p-lg-3 workspaces-item' +
+          (!loading && workspaces.length === 0 ? ' p-mx-auto' : '')
+        "
       >
         <button class="workspaces-new" @click="dialogVisible = true">
           <i class="bi bi-file-plus workspaces-new-icon"></i>
-          <p class="p-button p-button-sm">{{ $t('pages.workspace.form.new') }}</p>
+          <p class="p-button p-button-sm">
+            {{ $t('pages.workspace.form.new') }}
+          </p>
         </button>
       </div>
 
@@ -71,16 +85,14 @@
         :visible="dialogVisible"
         @update:visible="dialogVisible = false"
       >
-
+        <!--
         <lck-workspace-form
           :submitting="submitting"
           @cancel="dialogVisible = false"
           @input="createWorkspace"
-        />
-
+        /> -->
       </lck-dialog>
     </div>
-
   </div>
 </template>
 
@@ -95,7 +107,7 @@ import { Ref, ref } from 'vue'
 import { ROUTES } from '../paths'
 
 import { useStoreWorkspaces } from '../../store/workspaces'
-import { computed } from '@vue/reactivity';
+import { computed } from '@vue/reactivity'
 
 const storeWorkspaces = useStoreWorkspaces()
 
@@ -141,13 +153,12 @@ const newWorkspace = ref({
 // newWorkspace: Partial<LckWorkspace>;
 // newWorkspaceColorScheme: ColorScheme | null;
 // newWorkspaceColorScheme: null,
-
 </script>
 
 <style lang="scss" scoped>
 .workspaces {
   &-item {
-    padding: .75rem;
+    padding: 0.75rem;
   }
 
   &-button {
@@ -165,7 +176,7 @@ const newWorkspace = ref({
     border-radius: var(--border-radius);
     color: var(--text-color);
     box-shadow: 0 1px 3px 2px rgba(141, 27, 27, 0.04);
-    transition: box-shadow .3s;
+    transition: box-shadow 0.3s;
     font-weight: var(--font-weight-bold);
   }
 
@@ -206,7 +217,7 @@ const newWorkspace = ref({
       opacity: 0.1;
       bottom: -1.125rem;
       right: -3.25rem;
-      transition: ease opacity .5s;
+      transition: ease opacity 0.5s;
       background-color: currentColor;
     }
 
@@ -220,10 +231,10 @@ const newWorkspace = ref({
   &-icon {
     position: absolute;
     z-index: 1;
-    left: -.75rem;
-    bottom: -.75rem;
+    left: -0.75rem;
+    bottom: -0.75rem;
     font-size: 8rem;
-    opacity: .1;
+    opacity: 0.1;
   }
 
   &-new {
