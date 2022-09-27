@@ -3,9 +3,7 @@ module.exports = {
     es6: true,
     node: true,
   },
-  extends: [
-    'standard-with-typescript',
-  ],
+  extends: ['standard-with-typescript', 'prettier'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -14,24 +12,18 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
-    project: './tsconfig.json'
+    project: './tsconfig.json',
   },
-  plugins: [
-    '@typescript-eslint',
-  ],
+  plugins: ['prettier', '@typescript-eslint'],
   rules: {
-    'comma-dangle': ['error', 'always-multiline'],
-    '@typescript-eslint/comma-dangle': ['error', 'always-multiline'],
     '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/no-unnecessary-type-assertion': 'off',
     'no-case-declarations': 'off',
+    'prettier/prettier': 'error',
   },
   overrides: [
     {
-      files: [
-        '**/__tests__/*.{j,t}s?(x)',
-        '**/*.{spec,test}.{j,t}s?(x)',
-      ],
+      files: ['**/__tests__/*.{j,t}s?(x)', '**/*.{spec,test}.{j,t}s?(x)'],
       env: {
         jest: true,
         node: true,
