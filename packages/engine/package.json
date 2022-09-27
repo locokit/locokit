@@ -1,14 +1,10 @@
 {
-  "name": "@locokit/lck-engine",
+  "name": "@locokit/engine",
   "version": "0.8.0",
   "description": "LocoKit engine, allow access to several datasources : SQL, APIs, ... ?",
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@gitlab.makina-corpus.net:lck/locokit.git"
   },
   "keywords": [
     "lowcode",

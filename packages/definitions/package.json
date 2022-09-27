@@ -1,8 +1,8 @@
 {
-  "name": "@locokit/typings",
+  "name": "@locokit/definitions",
   "version": "0.8.0",
-  "description": "LocoKit common typings",
-  "main": "index.js",
+  "description": "LocoKit definitions & feathers schemas",
+  "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -28,7 +28,7 @@ export function createSDK (options: SDKOptions): SDK {
   return {
     client: sdkClient,
     services: {
-      workspace: sdkClient.service('workspace'),
+      workspace: sdkClient.service('w'),
       user: sdkClient.service('user'),
       group: sdkClient.service('group'),
     },

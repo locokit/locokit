@@ -1,5 +1,5 @@
 {
-  "name": "@locokit/feathers-locokit",
+  "name": "feathers-locokit",
   "version": "0.8.0",
   "description": "LocoKit FeathersJS service",
   "main": "index.ts",

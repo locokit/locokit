@@ -4,27 +4,26 @@ import { schema } from '@feathersjs/schema'
 import { HookContext, Id, Params } from '@feathersjs/feathers'
 import type { Application } from '../../declarations'
 import { app } from '../../app'
-import serveStatic from 'koa-static'
 
 class WorkspaceService {
-  async find (params: Params) {
+  async find(params: Params): Promise<String[]> {
     console.log('find', params)
-    return []
+    return ['pouic', 'pouet']
   }
 
-  async get (id: Id, params: Params) {
+  async get(id: Id, params: Params): Promise<{}> {
     console.log('get', id, params)
     return {}
   }
 }
 
 class DataProviderService {
-  async find (params: Params) {
+  async find(params: Params) {
     console.log('pouet', params)
     return app.get('locokit-providers')
   }
 
-  async get (id: Id, params: Params) {
+  async get(id: Id, params: Params) {
     const dpParams = app
       .get('locokit-providers')
       ?.find((dp: any) => dp.name === id) as {
@@ -38,7 +37,7 @@ class DataProviderService {
 }
 
 class TableService {
-  async find (params: Params) {
+  async find(params: Params) {
     console.log('find', params)
     const slugDP = params.route?.slug_dp as string
     const dpParams = app
@@ -52,7 +51,7 @@ class TableService {
     return await adapter.retrieveTables()
   }
 
-  async get (id: Id, params: Params) {
+  async get(id: Id, params: Params) {
     console.log('get', params)
     const slugDP = params.route?.slug_dp as string
     const dpParams = app
@@ -68,7 +67,7 @@ class TableService {
 }
 
 class RecordService {
-  async get (id: string | number, params: Params) {
+  async get(id: string | number, params: Params) {
     console.log('get', id, params)
     const slugDP = params.route?.slug_dp as string
     const slugTable = params.route?.slug_t as string
@@ -84,7 +83,7 @@ class RecordService {
     return results
   }
 
-  async find (params: Params) {
+  async find(params: Params) {
     console.log('find', params)
     const slugDP = params.route?.slug_dp as string
     const slugTable = params.route?.slug_t as string
@@ -100,7 +99,7 @@ class RecordService {
     return results
   }
 
-  async create (data: any, params: Params) {
+  async create(data: any, params: Params) {
     console.log('create', data, params)
     const slugDP = params.route?.slug_dp as string
     const slugTable = params.route?.slug_t as string
@@ -116,7 +115,7 @@ class RecordService {
     return await dbAdapter.createRecord(slugTable, data)
   }
 
-  async patch (id: string, data: any, params: Params) {
+  async patch(id: string, data: any, params: Params) {
     console.log('patch', id, data, params)
     const slugDP = params.route?.slug_dp as string
     const slugTable = params.route?.slug_t as string
@@ -132,7 +131,7 @@ class RecordService {
     return await dbAdapter.patchRecord(slugTable, id, data)
   }
 
-  async update (id: string, data: any, params: Params) {
+  async update(id: string, data: any, params: Params) {
     console.log('update', id, data, params)
     const slugDP = params.route?.slug_dp as string
     const slugTable = params.route?.slug_t as string
@@ -148,7 +147,7 @@ class RecordService {
     return await dbAdapter.updateRecord(slugTable, id, data)
   }
 
-  async remove (id: string, params: Params) {
+  async remove(id: string, params: Params) {
     console.log('remove', id, params)
     const slugDP = params.route?.slug_dp as string
     const slugTable = params.route?.slug_t as string
@@ -166,7 +165,7 @@ class RecordService {
 }
 
 class SwaggerService {
-  async find (params: Params) {
+  async find(params: Params) {
     console.log('find', params)
     const slugWS = params.route?.slug_ws as string
     const slugDP = params.route?.slug_dp as string
@@ -188,7 +187,7 @@ class SwaggerService {
 }
 
 class GraphQLService {
-  async find (params: Params) {
+  async find(params: Params) {
     console.log('find', params)
     const slugWS = params.route?.slug_ws as string
     const slugDP = params.route?.slug_dp as string
@@ -207,7 +206,7 @@ class GraphQLService {
   }
 }
 
-export function workspaces (app: Application) {
+export function workspaces(app: Application) {
   app.use('w', new WorkspaceService(), {
     methods: ['find', 'get'],
   })
@@ -242,7 +241,7 @@ export function workspaces (app: Application) {
   app.service('w/:slug_ws/dp/:slug_dp/t/:slug_t/r').hooks({
     before: {
       create: [
-        async function checkSchema (
+        async function checkSchema(
           context: HookContext<Application, RecordService>,
         ) {
           console.log('checkSchema', context.data, context.params)

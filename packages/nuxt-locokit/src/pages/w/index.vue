@@ -1,8 +1,9 @@
 <template>
-  <div>
-    <h1 class="my-4 text-primary">
+  <div class="container mx-auto">
+    <h1 class="my-4 text-primary text-4xl">
       {{ $t('pages.workspace.title') }}
     </h1>
+
     <div class="p-grid">
       <div v-if="loading" class="p-col-12 p-md-4 p-lg-3 workspaces-item">
         <div class="workspaces-button">
@@ -15,7 +16,8 @@
           </div>
         </div>
       </div>
-<!--
+      <p-button @click="storeWorkspaces.fetch">Reload</p-button>
+
       <p v-if="!loading && workspaces.length === 0" class="p-col-12">
         {{ $t('pages.workspace.noWorkspace') }}
       </p>
@@ -24,57 +26,83 @@
         <div
           class="workspaces-button p-mr-2"
           :style="{
-            backgroundColor: workspace.backgroundColor || 'inherit'
+            backgroundColor: workspace.settings.backgroundColor || 'inherit'
           }"
         >
-          <router-link
+<!--           <router-link
             class="workspaces-detail"
-            :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}`"
+            :to="`${ROUTES.WORKSPACE}/${workspace.id}`"
             :style="{
               color: workspace.color || 'inherit'
             }"
           >
-            <p class="workspaces-detail-title">{{ workspace.text || $t('pages.workspace.noName') }}</p>
+            <p class="workspaces-detail-title">{{ workspace.name || $t('pages.workspace.noName') }}</p>
           </router-link>
 
           <router-link
             v-if="workspace.isManager"
             class="workspaces-admin"
-            :to="`${ROUTES_PATH.WORKSPACE}/${workspace.id}${ROUTES_PATH.ADMIN}`"
+            :to="`${ROUTES.WORKSPACE}/${workspace.id}${ROUTES.ADMIN}`"
             :style="{
               color: workspace.color || 'inherit',
             }"
-            :title="$t('pages.workspace.adminWorkspaceLinkTitle', { workspaceText: workspace.text })"
+            :title="$t('pages.workspace.adminWorkspaceLinkTitle', { workspaceText: workspace.name })"
           >
             <i class="bi bi-sliders"></i>
           </router-link>
-
+ -->
           <i v-if="workspace.icon" class="workspaces-icon bi" :class="workspace.icon" />
         </div>
       </div>
 
-      <div
-        v-if="$can('create', 'workspace')"
+<!--         v-if="$can('create', 'workspace')"
+ -->  <div
         :class="'p-col-12 p-md-4 p-lg-3 workspaces-item' + ( !loading && workspaces.length === 0 ? ' p-mx-auto' : '')"
       >
         <button class="workspaces-new" @click="dialogVisible = true">
           <i class="bi bi-file-plus workspaces-new-icon"></i>
           <p class="p-button p-button-sm">{{ $t('pages.workspace.form.new') }}</p>
         </button>
-      </div> -->
+      </div>
+
+      <lck-dialog
+        :header="$t('pages.workspace.form.create')"
+        :modal="true"
+        :visible="dialogVisible"
+        @update:visible="dialogVisible = false"
+      >
+
+        <lck-workspace-form
+          :submitting="submitting"
+          @cancel="dialogVisible = false"
+          @input="createWorkspace"
+        />
+
+      </lck-dialog>
     </div>
 
   </div>
 </template>
 
 <script setup lang="ts">
-// import { ROUTES_PATH, ROUTES_NAMES } from '@/router/paths'
+// import { ROUTES, ROUTES_NAMES } from '@/router/paths'
 // import { AuthState, authState } from '@/store/auth'
 // import { ColorScheme, COLOR_SCHEME } from '@/services/lck-utils/color'
 
 import PSkeleton from 'primevue/skeleton'
+import PButton from 'primevue/button'
 import { Ref, ref } from 'vue'
-import { ROUTES_PATH } from '../paths'
+import { ROUTES } from '../paths'
+
+import { useStoreWorkspaces } from '../../store/workspaces'
+import { computed } from '@vue/reactivity';
+
+const storeWorkspaces = useStoreWorkspaces()
+
+await storeWorkspaces.fetch()
+
+const loading = computed(() => storeWorkspaces.loading)
+const workspaces = computed(() => storeWorkspaces.workspaces?.data)
 
 // import WorkspaceForm from '@/components/visualize/WorkspaceForm/WorkspaceForm.vue'
 // import Dialog from '@/components/ui/Dialog/Dialog.vue'
@@ -82,25 +110,24 @@ import { ROUTES_PATH } from '../paths'
 // import { lckServices } from '@/services/lck-api'
 // import { LckDatabase, LckWorkspace } from '@/services/lck-api/definitions'
 
-const WORKSPACE_ROLE = {
-  OWNER: 'OWNER',
-  ADMIN: 'ADMIN',
-  MEMBER: 'MEMBER',
-}
+// const WORKSPACE_ROLE = {
+//   OWNER: 'OWNER',
+//   ADMIN: 'ADMIN',
+//   MEMBER: 'MEMBER',
+// }
 
-const loading = ref(false)
-const submitting = ref(false)
-const dialogVisible = ref(false)
+// const submitting = ref(false)
+// const dialogVisible = ref(false)
 
-const workspaces: Ref<{
-  id: string;
-  text: string;
-  documentation?: string;
-  color?: string | null;
-  backgroundColor?: string | null;
-  icon?: string | null;
-  isManager: boolean;
-}[]> = ref([])
+// const workspaces: Ref<{
+//   id: string;
+//   text: string;
+//   documentation?: string;
+//   color?: string | null;
+//   backgroundColor?: string | null;
+//   icon?: string | null;
+//   isManager: boolean;
+// }[]> = ref([])
 
 const newWorkspace = ref({
   text: '',

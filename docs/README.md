@@ -140,7 +140,7 @@ qui serait "fixe", il connaîtrait d'avance la structure du workspace.
 * [x] découpage du projet en packages
   * [x] lck-engine, réutilisable dans le backend et possiblement ailleurs ?
   * [ ] lck-designsystem, contiendrait également un storybook / basé sur histoire ?
-  * [ ] nuxt-locokit, contient le module nuxt, avec les composants, layouts, pages, styles... du design system ? (ou alors tout est ici)
+  * [x] nuxt-locokit, contient le module nuxt, avec les composants, layouts, pages, styles... du design system ? (ou alors tout est ici)
 * [ ] création d'une API dynamique selon les sources de données
   * [ ] avec un Swagger dynamique
   * [ ] avec du GraphQL

@@ -1,15 +1,19 @@
-import { schema, querySyntax } from '@feathersjs/schema'
+import { querySyntax } from '@feathersjs/schema'
 import type { Infer } from '@feathersjs/schema'
+import { defaultDataSchema, lckSchema } from './default.schema'
+// import ajv from './ajv'
 
 // Schema for the basic data model (e.g. creating new entries)
-export const usersDataSchema = schema({
+export const usersDataSchema = lckSchema({
   $id: 'UsersData',
   type: 'object',
   additionalProperties: false,
   required: ['email', 'password'],
   properties: {
+    ...defaultDataSchema.properties,
     email: {
       type: 'string',
+      format: 'email',
     },
     password: {
       type: 'string',
@@ -23,7 +27,7 @@ export const usersDataSchema = schema({
 export type UsersData = Infer<typeof usersDataSchema>
 
 // Schema for making partial updates
-export const usersPatchSchema = schema({
+export const usersPatchSchema = lckSchema({
   $id: 'UsersPatch',
   type: 'object',
   additionalProperties: false,
@@ -36,7 +40,7 @@ export const usersPatchSchema = schema({
 export type UsersPatch = Infer<typeof usersPatchSchema>
 
 // Schema for the data that is being returned
-export const usersResultSchema = schema({
+export const usersResultSchema = lckSchema({
   $id: 'UsersResult',
   type: 'object',
   additionalProperties: false,
@@ -55,7 +59,7 @@ export type UsersResult = Infer<typeof usersResultSchema>
 const { password, ...usersQueryProperties } = usersResultSchema.properties
 
 // Schema for allowed query properties
-export const usersQuerySchema = schema({
+export const usersQuerySchema = lckSchema({
   $id: 'UsersQuery',
   type: 'object',
   additionalProperties: false,

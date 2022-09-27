@@ -27,27 +27,27 @@ import {
 } from './definitions'
 
 interface ServiceUpload {
-  create (data: Partial<{
-    uri: string;
-    fileName: string;
-    ext: FileExtension;
-    mime: MimeType;
-  }>, params?: Params): Promise<LckAttachment>;
+  create: (data: Partial<{
+    uri: string
+    fileName: string
+    ext: FileExtension
+    mime: MimeType
+  }>, params?: Params) => Promise<LckAttachment>
 }
 
 interface SettingsService {
-  find: () => Promise<LckSettings>;
+  find: () => Promise<LckSettings>
 }
 
 interface SignUpService {
-  create: (credentials: LckSignUp) => Promise<LckSignUp>;
+  create: (credentials: LckSignUp) => Promise<LckSignUp>
 }
 
 export const lckServices = {
   /**
    * Workspace
    */
-  workspace: lckClient.service('workspace') as Service<LckWorkspace>,
+  workspace: lckClient.service('w') as Service<LckWorkspace>,
   /**
    * Storage
    */

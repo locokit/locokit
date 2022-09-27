@@ -39,10 +39,12 @@
 <script setup lang="ts">
 import { Ref, ref } from 'vue'
 import PCard from 'primevue/card'
-import { useRouter } from 'vue-router';
 import { useStoreAuth } from '../../store/auth';
+import { ROUTES } from '../paths';
+import { useRouter } from 'vue-router';
 
 const authStore = useStoreAuth()
+const router = useRouter()
 
 const authState = ref({
   loading: false,
@@ -67,13 +69,13 @@ const version = LCK_VERSION
 
 
 const authenticate = async function (data: Ref<{ email: string; password: string }>) {
-  await authStore.authenticate(data)
-  // await
-  // if (user is authenticated) {
-  //   router.push({
-  //     name: ROUTES.WORKSPACE.HOME
-  //   })
-  // }
+  console.log(data)
+  await authStore.authenticate(data.value)
+  if (authStore.isAuthenticated) {
+    router.push({
+      name: ROUTES.WORKSPACE.HOME
+    })
+  }
 }
 
 </script>

@@ -1,4 +1,4 @@
-import { schema, Ajv } from '@feathersjs/schema'
+import { schema } from '@feathersjs/schema'
 import type { Infer } from '@feathersjs/schema'
 import { authenticationSettingsSchema } from '@feathersjs/authentication'
 
@@ -30,7 +30,6 @@ export const configurationSchema = schema({
     },
     'locokit-providers': {
       type: 'array',
-      additionalProperties: false,
       items: {
         type: 'object',
         required: ['type', 'options', 'name'],
@@ -52,7 +51,8 @@ export const configurationSchema = schema({
                 options: { type: 'string' },
               },
             },
-          }, {
+          },
+          {
             if: {
               properties: {
                 type: { const: 'sqlite3' },
@@ -66,7 +66,8 @@ export const configurationSchema = schema({
                 },
               },
             },
-          }, {
+          },
+          {
             if: {
               properties: {
                 type: { const: 'baserow' },
@@ -107,6 +108,6 @@ export const configurationSchema = schema({
       },
     },
   },
-} as const, new Ajv())
+} as const)
 
 export type ConfigurationSchema = Infer<typeof configurationSchema>

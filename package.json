@@ -2,33 +2,29 @@
   "name": "locokit",
   "version": "0.8.0",
   "description": "LocoKit, the low-code platform",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "workspaces": [
     "api",
     "app",
     "docs",
+    "packages/definitions",
+    "packages/designsystem",
+    "packages/engine",
     "packages/feathers-locokit",
-    "packages/lck-engine",
-    "packages/lck-designsystem",
     "packages/nuxt-locokit",
-    "packages/sdk",
-    "packages/lck-typings"
+    "packages/sdk"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git@gitlab.makina-corpus.net:lck/locokit.git"
-  },
   "keywords": [
     "lowcode",
-    "nocode"
+    "nocode",
+    "locokit",
+    "lcap"
   ],
   "author": "Mathieu Dartigues",
   "license": "MIT",
   "devDependencies": {
     "eslint": "^8.22.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.7.1",
     "ts-node": "^10.8.2",
     "typescript": "^4.7.4",
