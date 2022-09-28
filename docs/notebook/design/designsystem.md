@@ -1,43 +1,58 @@
 Le design system au sein de LocoKit.
 
-LocoKit permet de fabriquer des interfaces d'application.
+LocoKit permet de fabriquer des applications,
+depuis la base de données jusqu'aux interfaces d'application
+en passant par la gestion des permissions.
 
-Pour cela, il doit disposer d'un ensemble de composants,
-et nous essayons de savoir où les créer.
+Pour ses interfaces, nous avons un ensemble de composants
+à assembler.
 
-# Nuxt modules vs design system dédié ?
+Jusqu'alors, les composants faisaient parti du projet principal,
+à savoir le dossier `/front`.
+
+Pour cette nouvelle itération de LocoKit,
+nous réfléchissons à la manière de les créer,
+tester et maintenir au moyen-long terme.
 
 Nous avons réfléchi sur la question suivante :
 
-Devons nous fabriquer un design system dans un `package` dédié
-pour qu'il puisse être utilisé dans une application VueJS,
-ou bien encore dans le module nuxt de manière indépendante,
+Devons nous fabriquer un design system dans un `package` (paquet npm) dédié
+pour qu'il puisse être utilisé librement,
+* dans une application VueJS,
+* ou dans le module nuxt de manière indépendante,
 et ainsi disposer de ses propres tests, stories,
 
 Ou devons nous juste rajouter les tests unitaires,
 et les stories des composants dans le module nuxt ?
 
+# Nuxt modules vs design system dédié ?
+
 Nous avons essayé d'avoir un design system, dans un `package` dédié.
 
-Cela implique que nous devons gérer la traduction, tailwind et PrimeVue.
+Cela implique que nous devons gérer la traduction, tailwind et PrimeVue,
+au sein de ce paquet.
 
-Il y a une question également sur le composant `nuxt-link` ou `router-link`.
+Il y a également un sujet sur les liens,
+à savoir les composants `nuxt-link` et `router-link`,
+qui nécessitent respectivement Nuxt ou vue-router.
 
-Côté traduction, nous nous sommes posés la question suivante :
+## Concernant les traductions
+
+Nous nous sommes posés la question suivante :
 
 Devons nous intégrer la bibliothèque vue-i18n avec des fichiers de localisation ?
-Ou devons nous transformer nos composants pour qu'ils disposent
+Ou bien, devons nous transformer nos composants pour qu'ils disposent
 des propriétés de label à afficher dans les composants ?
 
-Nous avons réussi à injecter vue-i18n, et en mettant le fichier de traduction, ça passe.
+Nous avons réussi à injecter vue-i18n,
+et en mettant à disposition le fichier de traduction,
+les composants affichent la langue par défaut au seins des stories.
 
 Si on garde le designsystem en `package`, il serait possible de créer également
 un package de traduction, qui contiendrait les fichiers de traductions actuels, `en.json` et `fr.json`.
 Ce paquet serait utilisé à la fois par `designsystem` et `nuxt-locokit`.
 Ainsi, la traduction serait centralisée.
 
-
-## Concernant les traductions
 
 Dans le cas où un client souhaiterait surcharger les traductions,
 que ce soit pour une application VueJS qui utiliserait l'hypothétique `designsystem`

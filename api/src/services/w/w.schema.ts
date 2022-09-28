@@ -1,7 +1,6 @@
 import { querySyntax } from '@feathersjs/schema'
 import type { Infer } from '@feathersjs/schema'
 import { defaultDataSchema, lckSchema } from '../../schemas/default.schema'
-// import ajv from '../../schemas/ajv'
 
 // Schema for the basic data model (e.g. creating new entries)
 export const wDataSchema = lckSchema({

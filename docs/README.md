@@ -1,23 +1,3 @@
-Documentation de LocoKit Next.
-
-Cette documentation vise à expliciter les cibles à atteindre
-pour LocoKit, sur une évolution en profondeur de l'outil.
-
-# Constat
-
-À ce jour, LocoKit est un outil fonctionnel, qui est capable de :
-* permettre la modélisation d'un ou plusieurs modèles de données à travers une UI nocode
-* gérer la donnée à travers une UI "type" tableur
-* créer des interfaces de visualisation / modification de la donnée
-* gérer au niveau ligne les permissions
-* déclencher des webhooks à partir de la modification/création de la donnée
-
-Le stockage de la donnée est propre à LocoKit.
-Il n'a pas à ce jour la compétence de se greffer à une base déjà existante.
-Si un utilisateur souhaite utiliser de la donnée existante,
-nous devons soit créer un modèle qui mime sa base existante et importer
-la donnée, soit introduire des mécanismes de synchronisation
-potentiellement lourd, dangereux et coûteux.
 
 Nous rencontrons des clients actuellement qui ont des besoins
 de partager la donnée avec une gestion fine des permissions,
@@ -209,7 +189,36 @@ qui serait "fixe", il connaîtrait d'avance la structure du workspace.
   * [ ] tests unitaires back
   * [ ] tests unitaires nuxt
   * [ ] eslint + prettier
-
+* [ ] imports de fichier
+* [ ] import / export de template (modèle / module) (nécessite slug d'abord ?)
+* [ ] noeud n8n
+* [ ] essais de génération de base, tables / colonnes et insertion des données
+* [ ] Impersonation
+* [ ] meilleurs layouts pour la partie cms (flex, 2 columns, 2 columns scroll, ... ?) avec iconographie => plusieurs type de layouts, avec un en mode dashboard
+* [ ] supprimer une table
+* [ ] supprimer un workspace en entier
+* [ ] créer un workspace "vierge", ou avec le template "Task" (à augmenter avec les droits des users ?)
+* [ ] configuration "avancée" pour la carte, les champs (validation, affichage pour la carte), et pour ?
+* [ ] enlever CRON des triggers de processus, du glossaire et de l'API
+* [ ] masquer le choix des tables côté acls quand on crée un nouvel acl
+* [ ] permettre la fusion d'enregistrements (doit travailler avec les relation from / to)
+* [ ] faire une synchro de schéma
+* [ ] gérer les permissions au niveau record
+* [ ] gérer les permissions au niveau field
+* [ ] gérer l'import d'un fichier avec création automatique du schéma, et des données
+* [ ] gérer l'association de données à travers un fichier (via des ids ?)
+* [ ] avoir une IHM réduite mais fonctionnelle basée sur Nuxt ?
+* [ ] disposer d'un swagger
+* [ ] disposer de GraphQL
+* [ ] disposer d'auths différenciées, JWT, password, apikey, OAuth
+* [ ] disposer d'un storybook rapide => Histoire
+* [ ] avoir les tests unitaires fonctionnels ET rapides
+* [ ] penser modularité pour permettre l'extensibilité de la p/f
+* [ ] penser consommation électrique en permettant la mesure de données "tangibles" sur un scénario ou autre
+* [ ] architecturer avec docker pour pouvoir juste faire un docker-compose up, et ça builde l'engine (npm ci), le front, ...
+* [ ] écrire la documentation / spécification en premier, puis instancier les projets
+* [ ] se câbler sur une base SQLite pour voir si ça pourrait fonctionner (en mode fichier)
+* [ ] voir si on pourrait l'avoir en standalone ? avec un Tauri ?
 
 Concernant les instances de déploiement de ces expériences,
 si elles sont concluantes, nous pouvons organiser l'architecture comme ceci :
