@@ -11,7 +11,7 @@ import ConfirmationService from 'primevue/confirmationservice'
 import PrimeVue from 'primevue/config'
 import ToastService from 'primevue/toastservice' // theme
 
-export function definePluginPrimeHistoire (app: App): void {
+export function definePluginPrimeHistoire(app: App): void {
   app.use(PrimeVue)
   app.use(ToastService)
   app.use(ConfirmationService)

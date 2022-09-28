@@ -23,9 +23,9 @@
         :feedback="false"
       />
 
-      <nuxt-link :to="lostpasswordRoute" class="mt-2 block ml-auto">
+      <a :href="lostpasswordRoute" class="mt-2 block ml-auto">
         {{ $t('components.login.lostpassword') }}
-      </nuxt-link>
+      </a>
     </div>
 
     <div v-if="error" class="mb-2 text-error">
@@ -46,9 +46,9 @@
     </div>
 
     <div v-if="!logInAgain" class="footer-links">
-      <nuxt-link v-if="displaySignUpLink" :to="signupRoute">
+      <a v-if="displaySignUpLink" :href="signupRoute">
         {{ $t('components.login.signup') }}
-      </nuxt-link>
+      </a>
     </div>
   </form>
 </template>

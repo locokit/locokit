@@ -11,7 +11,8 @@
     "packages/engine",
     "packages/feathers-locokit",
     "packages/nuxt-locokit",
-    "packages/sdk"
+    "packages/sdk",
+    "packages/i18n"
   ],
   "keywords": [
     "lowcode",

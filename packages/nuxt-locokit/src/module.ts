@@ -1,8 +1,20 @@
 import { fileURLToPath } from 'node:url'
-import { defineNuxtModule, addComponentsDir, installModule, addPlugin, createResolver, useModuleContainer } from '@nuxt/kit'
+import {
+  defineNuxtModule,
+  addComponentsDir,
+  installModule,
+  addPlugin,
+  createResolver,
+  useModuleContainer,
+} from '@nuxt/kit'
 import { Nuxt, NuxtOptions, NuxtPage, ModuleContainer } from '@nuxt/schema'
 import { ROUTES } from './pages/paths'
-import { getAuthPages, getBackofficePages, getFrontofficePages, getUserPages } from './routes'
+import {
+  getAuthPages,
+  getBackofficePages,
+  getFrontofficePages,
+  getUserPages,
+} from './routes'
 
 const { resolve } = createResolver(import.meta.url)
 
@@ -40,10 +52,12 @@ export interface ModuleOptions {
     }
   }
   extends: {
-    layouts: [{
-      name: string
-      component: string
-    }]
+    layouts: [
+      {
+        name: string
+        component: string
+      },
+    ]
     pages: {
       home: {
         layout: string
@@ -85,10 +99,12 @@ const defaultOptions: ModuleOptions = {
     },
   },
   extends: {
-    layouts: [{
-      name: 'pouet',
-      component: 'pouic',
-    }],
+    layouts: [
+      {
+        name: 'pouet',
+        component: 'pouic',
+      },
+    ],
     pages: {
       home: {
         layout: 'pouet',
@@ -97,7 +113,9 @@ const defaultOptions: ModuleOptions = {
   },
 }
 
-export type NuxtLocokit = Nuxt & { options: NuxtOptions & { locokit: ModuleOptions }}
+export type NuxtLocokit = Nuxt & {
+  options: NuxtOptions & { locokit: ModuleOptions }
+}
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -109,7 +127,7 @@ export default defineNuxtModule<ModuleOptions>({
     },
   },
   defaults: defaultOptions,
-  async setup (options, nuxt) {
+  async setup(options, nuxt) {
     console.log('[nuxt-module] setup...')
     const componentsDir = fileURLToPath(
       new URL('../src/components', import.meta.url),
@@ -170,9 +188,12 @@ export default defineNuxtModule<ModuleOptions>({
 
     console.log('[nuxt-module]', nuxt.options.layouts)
 
-    module.addLayout({
-      src: resolve(layoutsDir, './with-background.vue'),
-    }, 'with-background')
+    module.addLayout(
+      {
+        src: resolve(layoutsDir, './with-background.vue'),
+      },
+      'with-background',
+    )
 
     module.extendRoutes(function (pages: NuxtPage[]) {
       // console.log('extending routes', pages)
@@ -189,24 +210,24 @@ export default defineNuxtModule<ModuleOptions>({
       })
 
       /**
-         * Register auth pages
-         */
+       * Register auth pages
+       */
       if (submodules.auth.enabled) {
         const prefix = submodules.auth.prefix
         pages.push(...getAuthPages(prefix))
       }
 
       /**
-         * Register user pages
-         */
+       * Register user pages
+       */
       if (submodules.user.enabled) {
         const prefix = submodules.user.prefix
         pages.push(...getUserPages(prefix))
       }
 
       /**
-         * Register workspace pages
-         */
+       * Register workspace pages
+       */
       pages.push({
         name: ROUTES.WORKSPACE.HOME,
         path: ROUTES.WORKSPACE.HOME,
@@ -219,16 +240,16 @@ export default defineNuxtModule<ModuleOptions>({
       })
 
       /**
-         * Register back office pages
-         */
+       * Register back office pages
+       */
       if (submodules.backoffice.enabled) {
         const prefix = submodules.backoffice.prefix
         pages.push(...getBackofficePages(prefix))
       }
 
       /**
-         * Register front office pages
-         */
+       * Register front office pages
+       */
       if (submodules.frontoffice.enabled) {
         const prefix = submodules.frontoffice.prefix
         pages.push(...getFrontofficePages(prefix))

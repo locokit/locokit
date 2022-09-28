@@ -4,9 +4,7 @@ const srcDir = fileURLToPath(new URL('../', import.meta.url))
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    srcDir + '/**/*.vue',
-  ],
+  content: [srcDir + '/**/*.vue'],
   theme: {
     extend: {
       colors: {
