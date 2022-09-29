@@ -1,14 +1,15 @@
-Welcome on the LocoKit's design notebook.
+Bienvenue sur le cahier de conception de LocoKit.
 
-This section try to explain
-some choices that the team has made,
-by listing discussion moments, arguments,
-pros and cons, hesitations
-that drive us to make these choices.
+Cette partie, en Français, vise à préciser
+certains choix que l'équipe à effectuer,
+en recensant sur le moment les discussions,
+les arguments, pour, contre, les hésitations,
+qui ont amené à faire ces choix.
 
-This notebook is about the LocoKit's `next` version,
-which is a big step foreward
-in terms of use cases and usability.
+Ce cahier concerne la version "next" de LocoKit,
+qui se veut être un gros step en avant
+en terme de cas d'usage,
+mais aussi d'utilisabilité.
 
 # Constat
 

@@ -8,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /getting-started.html
+      link: /guide/getting-started.html
     - theme: alt
       text: View on GitHub
       link: https://github.com/locokit/locokit
@@ -16,22 +16,21 @@ hero:
 features:
   - icon: ✨
     title: Data flexibility
-    details: Create your data model and visualize your database schema
+    details: Craft your data model and visualize your database schema
   - icon: ❤️
     title: AirTable like
-    details: Update your data with a spreadsheet-like UI
+    details: Manage your data with a spreadsheet-like UI
+  - icon: 🔒
+    title: Permissions
+    details: Manage user / group permissions at record level
   - icon: ⚙️
     title: Automation
-    details: Call webhooks with record level triggers, like record creation, record update, or field level (field update)
-  - icon: 🔒
-    title: ACLs
-    details: Manage user / group permissions at record level (soon field !)
+    details: Call webhooks with record level triggers, like record creation, record update, or field level
   - icon: 🎉
-    title: App builder
-    details: Create a dedicated app for your users with pages and blocks
+    title: App designer
+    details: Design a dedicated app for your users by assembling UI blocks and data blocks
   - icon: 📁
-    title: Files
+    title: Files manager
     details: Manage files with S3 storage or file storage
 
-footer: MIT Licensed | Copyright © 2020-present Autonomens
 ---
