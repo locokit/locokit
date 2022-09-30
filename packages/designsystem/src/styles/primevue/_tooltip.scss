@@ -1,0 +1,23 @@
+.p-tooltip .p-tooltip-text {
+  background: var(--text-color);
+  color: rgba(255, 255, 255, 0.87);
+  padding: 0.5rem 0.75rem;
+  box-shadow: none;
+  border-radius: 4px;
+}
+
+.p-tooltip.p-tooltip-right .p-tooltip-arrow {
+  border-right-color: var(--text-color);
+}
+
+.p-tooltip.p-tooltip-left .p-tooltip-arrow {
+  border-left-color: var(--text-color);
+}
+
+.p-tooltip.p-tooltip-top .p-tooltip-arrow {
+  border-top-color: var(--text-color);
+}
+
+.p-tooltip.p-tooltip-bottom .p-tooltip-arrow {
+  border-bottom-color: var(--text-color);
+}

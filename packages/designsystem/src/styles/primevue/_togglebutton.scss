@@ -1,0 +1,48 @@
+.p-togglebutton.p-button {
+  background: #6c757d;
+  border: 1px solid #6c757d;
+  color: var(--text-color);
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.p-togglebutton.p-button .p-button-icon-left,
+.p-togglebutton.p-button .p-button-icon-right {
+  color: var(--text-color);
+}
+
+.p-togglebutton.p-button:not(.p-disabled):not(.p-highlight):hover {
+  background: #5a6268;
+  border-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+.p-togglebutton.p-button:not(.p-disabled):not(.p-highlight):hover .p-button-icon-left,
+.p-togglebutton.p-button:not(.p-disabled):not(.p-highlight):hover .p-button-icon-right {
+  color: var(--text-color);
+}
+
+.p-togglebutton.p-button.p-highlight {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+.p-togglebutton.p-button.p-highlight .p-button-icon-left,
+.p-togglebutton.p-button.p-highlight .p-button-icon-right {
+  color: var(--text-color);
+}
+
+.p-togglebutton.p-button.p-highlight:hover {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+.p-togglebutton.p-button.p-highlight:hover .p-button-icon-left,
+.p-togglebutton.p-button.p-highlight:hover .p-button-icon-right {
+  color: var(--text-color);
+}
+
+.p-togglebutton.p-button.p-invalid > .p-button {
+  border-color: #f19ea6;
+}

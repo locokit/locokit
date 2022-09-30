@@ -1,0 +1,33 @@
+.p-tag {
+  background: var(--primary-color);
+  color: #151515;
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-bold);
+  padding: 0.25rem 0.4rem;
+  border-radius: var(--border-radius);
+}
+
+.p-tag.p-tag-success {
+  background-color: #9fdaa8;
+  color: #151515;
+}
+
+.p-tag.p-tag-info {
+  background-color: var(--primary-color);
+  color: #151515;
+}
+
+.p-tag.p-tag-warning {
+  background-color: #ffe082;
+  color: #151515;
+}
+
+.p-tag.p-tag-danger {
+  background-color: #f19ea6;
+  color: #151515;
+}
+
+.p-tag .p-tag-icon {
+  margin-right: 0.25rem;
+  font-size: 0.75rem;
+}

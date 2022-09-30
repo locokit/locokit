@@ -1,20 +1,27 @@
+require('@rushstack/eslint-patch/modern-module-resolution')
+
 module.exports = {
   env: {
     es6: true,
     node: true,
   },
-  extends: ['standard-with-typescript', 'prettier'],
+  extends: [
+    'standard-with-typescript',
+    'plugin:vue/essential',
+    '@vue/standard',
+    '@vue/typescript/recommended',
+    'prettier',
+  ],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
-  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
     project: './tsconfig.json',
   },
-  plugins: ['prettier', '@typescript-eslint'],
+  plugins: ['prettier'],
   rules: {
     '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/no-unnecessary-type-assertion': 'off',

@@ -1,0 +1,84 @@
+.p-listbox {
+  background: var(--background-color);
+  color: var(--text-color);
+  border: 1px solid #3f4b5b;
+  border-radius: var(--border-radius);
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.p-listbox .p-listbox-header {
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid #3f4b5b;
+  color: var(--text-color);
+  background: var(--background-color);
+  margin: 0;
+  border-top-right-radius: var(--border-radius);
+  border-top-left-radius: var(--border-radius);
+}
+
+.p-listbox .p-listbox-header .p-listbox-filter {
+  padding-right: 1.75rem;
+}
+
+.p-listbox .p-listbox-header .p-listbox-filter-icon {
+  right: 0.75rem;
+  color: var(--text-color);
+}
+
+.p-listbox .p-listbox-list {
+  padding: 0.5rem 0;
+  outline: 0 none;
+}
+
+.p-listbox .p-listbox-list .p-listbox-item {
+  margin: 0;
+  padding: 0.5rem 1.5rem;
+  border: 0 none;
+  color: var(--text-color);
+  transition: box-shadow 0.15s;
+  border-radius: 0;
+}
+
+.p-listbox .p-listbox-list .p-listbox-item.p-highlight {
+  color: var(--text-color);
+  background: var(--primary-color-lighten);
+}
+
+.p-listbox .p-listbox-list .p-listbox-item-group {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  color: var(--text-color);
+  background: var(--background-color);
+  font-weight: 600;
+}
+
+.p-listbox .p-listbox-list .p-listbox-empty-message {
+  padding: 0.5rem 1.5rem;
+  color: var(--text-color);
+  background: transparent;
+}
+
+.p-listbox:not(.p-disabled) .p-listbox-item.p-highlight.p-focus {
+  background: #64bfff;
+}
+
+.p-listbox:not(.p-disabled) .p-listbox-item:not(.p-highlight):not(.p-disabled).p-focus {
+  color: var(--text-color);
+  background: var(--primary-color-lighten);
+}
+
+.p-listbox:not(.p-disabled) .p-listbox-item:not(.p-highlight):not(.p-disabled):hover {
+  color: var(--text-color);
+  background: var(--primary-color-lighten);
+}
+
+.p-listbox.p-focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 1px var(--primary-color-lighten);
+  border-color: #8dd0ff;
+}
+
+.p-listbox.p-invalid {
+  border-color: var(--color-error);
+}

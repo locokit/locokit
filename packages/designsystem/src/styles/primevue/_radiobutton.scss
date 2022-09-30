@@ -1,0 +1,71 @@
+.p-radiobutton {
+  width: 20px;
+  height: 20px;
+}
+
+.p-radiobutton .p-radiobutton-box {
+  border: 1px solid #3f4b5b;
+  background: #20262e;
+  width: 20px;
+  height: 20px;
+  color: var(--text-color);
+  border-radius: 50%;
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.p-radiobutton .p-radiobutton-box:not(.p-disabled):not(.p-highlight):hover {
+  border-color: #3f4b5b;
+}
+
+.p-radiobutton .p-radiobutton-box:not(.p-disabled).p-focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 1px var(--primary-color-light);
+  border-color: var(--primary-color);
+}
+
+.p-radiobutton .p-radiobutton-box .p-radiobutton-icon {
+  width: 12px;
+  height: 12px;
+  transition-duration: 0.15s;
+  background-color: #151515;
+}
+
+.p-radiobutton .p-radiobutton-box.p-highlight {
+  border-color: var(--primary-color);
+  background: var(--primary-color);
+}
+
+.p-radiobutton .p-radiobutton-box.p-highlight:not(.p-disabled):hover {
+  border-color: var(--primary-color-dark);
+  background: var(--primary-color-dark);
+  color: #151515;
+}
+
+.p-radiobutton.p-invalid > .p-radiobutton-box {
+  border-color: var(--color-error);
+}
+
+.p-radiobutton:focus {
+  outline: 0 none;
+}
+
+.p-input-filled .p-radiobutton .p-radiobutton-box {
+  background-color: #3f4b5b;
+}
+
+.p-input-filled .p-radiobutton .p-radiobutton-box:not(.p-disabled):hover {
+  background-color: #3f4b5b;
+}
+
+.p-input-filled .p-radiobutton .p-radiobutton-box.p-highlight {
+  background: var(--primary-color);
+}
+
+.p-input-filled .p-radiobutton .p-radiobutton-box.p-highlight:not(.p-disabled):hover {
+  background: #1dadff;
+}
+
+.p-highlight .p-radiobutton .p-radiobutton-box {
+  border-color: #151515;
+}

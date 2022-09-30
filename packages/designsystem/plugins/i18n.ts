@@ -12,13 +12,13 @@ export function definePluginI18n(app: App): void {
     messages: {
       en: {
         ...en,
-        components: {
-          ...en.components,
-          login: {
-            ...en.components.login,
-            email: 'pouet',
-          },
-        },
+        // components: {
+        //   ...en.components,
+        //   login: {
+        //     ...en.components.login,
+        //     email: 'pouet',
+        //   },
+        // },
       },
       fr,
     },
