@@ -24,4 +24,12 @@
       }
     }
   }
+  @media screen and (max-width: 900px) {
+    .p-accordion-content {
+      background-color: var(--sidebar-background-color);
+      .lck-sidebar-link-label {
+        color: var(--sidebar-text-color) ;
+      }
+    }
+  }
 }
