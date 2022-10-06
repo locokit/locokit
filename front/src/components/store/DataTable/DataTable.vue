@@ -2,7 +2,7 @@
   <div
     v-if="definition"
     class="p-d-flex p-flex-column d-flex-1 o-auto p-jc-between"
-    style="margin-bottom:2rem"
+    style="min-height: 30rem"
   >
     <!--
     :scrollable="true"
