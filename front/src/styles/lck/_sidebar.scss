@@ -82,7 +82,7 @@
   }
 
   @media screen and (min-width: 900px) {
-    position: relative;
+    position: fixed;
     display: block;
 
     .lck-layout--with-nav & {

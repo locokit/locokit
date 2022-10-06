@@ -34,7 +34,7 @@
           class="lck-container"
         >
           <div
-            class="p-px-4"
+            class="p-px-4 w-full-without-px-4"
             :class="{
               'lck-elevation': container.elevation,
               'lck-container-active': page.modeNavigation === 'tab' && container.id === currentHash,
@@ -1264,6 +1264,10 @@ export default {
   padding-left: 1.5rem;
 }
 
+.w-full-without-px-4 {
+  width: calc(100% - 3rem);
+}
+
 /**
  * Layouts
  */
@@ -1310,8 +1314,6 @@ export default {
     height: 100%;
     max-height: 100%;
     overflow: auto;
-    display: flex;
-    flex-direction: column;
   }
   .lck-layout-flex .lck-block {
     flex: 1 0 0;
@@ -1328,6 +1330,7 @@ export default {
     max-width: 50%;
     padding: 0.5rem;
     overflow: auto;
+    display:flex;
   }
 
   .lck-layout-flex .lck-container .lck-block.lck-media {
