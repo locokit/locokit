@@ -5,25 +5,16 @@ export default defineConfig({
   theme: {
     title: 'LocoKit',
     logoHref: 'https://locokit.io',
-    favicon: './favicon.ico',
   },
   tree: {
     groups: [
       {
-        id: 'top',
-        title: '', // No toggle
-      },
-      {
-        title: 'My Group',
-        include: (file) => /Code gen|Controls|Docs/.test(file.title),
-      },
-      {
         title: 'Components',
-        include: (file) => !file.title.includes('Serialize'),
+        include: (file) => file.path.includes('components'),
       },
       {
         title: 'Layouts',
-        include: (file) => !file.title.includes('Serialize'),
+        include: (file) => file.path.includes('layouts'),
       },
       {
         title: 'Others',

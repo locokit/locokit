@@ -11,17 +11,19 @@
   "author": "Mathieu Dartigues",
   "license": "MIT",
   "devDependencies": {
-    "@histoire/plugin-vue": "^0.10.7",
+    "@histoire/plugin-vue": "^0.11.3",
     "@locokit/i18n": "0.8.0",
-    "@vitejs/plugin-vue": "^3.0.3",
+    "@vitejs/plugin-vue": "^3.1.2",
     "autoprefixer": "^10.4.8",
-    "histoire": "^0.10.7",
-    "postcss": "^8.4.16",
+    "histoire": "^0.11.3",
+    "postcss": "^8.4.17",
     "tailwindcss": "^3.1.8",
-    "vue": "^3.2.37"
+    "vue": "^3.2.40"
   },
   "dependencies": {
+    "@vee-validate/rules": "^4.7.0",
     "primeicons": "^6.0.1",
-    "primevue": "^3.17.0"
+    "primevue": "^3.17.0",
+    "vee-validate": "^4.7.0"
   }
 }
