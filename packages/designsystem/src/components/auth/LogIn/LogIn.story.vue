@@ -1,7 +1,7 @@
 <template>
   <Story title="Authentication/Login Form" icon="prime:user">
     <Variant title="default">
-      <LoginForm @submit="logEvent('submit', $event)" />
+      <LogIn @submit="logEvent('submit', $event)" />
     </Variant>
   </Story>
 </template>
@@ -9,11 +9,11 @@
 <script setup lang="ts">
 import { logEvent } from 'histoire/client'
 
-import LoginForm from './LoginForm.vue'
+import LogIn from './LogIn.vue'
 </script>
 
 <docs lang="md">
-### LoginForm
+### LogIn
 
 Form which allow an user to log in if his account is already created.
 

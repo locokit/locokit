@@ -43,7 +43,7 @@
           inputId="password"
           v-model="form.password"
           v-bind="field"
-          :inputProps="{ required: true }"
+          required
           :toggleMask="true"
           :feedback="false"
         />
