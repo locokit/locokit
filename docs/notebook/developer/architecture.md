@@ -32,6 +32,10 @@ We could imagine that, in the future, the `engine` would be able
 to connect to an API (eg AirTable, Open Data sources, API-based tools),
 CSV/XLS files, or anything containing data.
 
+Above the `engine`, so in the `feathers-locokit` service,
+a security layer is available to manage users / groups,
+and add datasource filters to restrict data accessibility. (in read or write mode)
+
 On the frontend side, the Nuxt App
 use the `nuxt-locokit` module.
 
@@ -99,3 +103,23 @@ and has not been toughly tested.
 If you want to help us, or need help,
 please create an issue for this topic and ping us !
 :::
+
+## Monorepo
+
+LocoKit was - at the beginning - a polyrepo.
+
+One repo for the backend, one for the frontend, and one last for shared typings.
+
+After several months, we decide to switch to a monorepo.
+But, because we didn't start in a monorepo at first,
+we encounter some difficulties between TypeScript versions, eslint rules...
+
+In this new version, LocoKit has been reboot, directly in a monorepo.
+
+TypeScript version, linting (eslint, prettier), and other shared
+dependencies are now the same.
+
+This approach allow us also to maintain our work
+in the `packages` directory, and shared them between our `api` and `app`.
+
+https://www.robinwieruch.de/javascript-monorepos/
