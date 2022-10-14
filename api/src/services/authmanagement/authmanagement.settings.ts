@@ -1,53 +1,67 @@
 /* eslint-disable no-case-declarations */
 import { Application } from '../../declarations'
-import { User as LckUser } from '../../models/user.model'
 import ejs from 'ejs'
 import path from 'path'
-import makeDebug from 'debug'
 import { marked } from 'marked'
+import {
+  NotificationType,
+  NotifierOptions,
+  User,
+} from 'feathers-authentication-management'
 
-const debug = makeDebug('lck:service:authMgnt:settings')
+// const debug = makeDebug('lck:service:authMgnt:settings')
 
-export enum AuthenticationManagementAction {
-  verifySignup = 'verifySignup',
-  resendVerifySignup = 'resendVerifySignup',
-  verifySignupSetPassword = 'verifySignupSetPassword',
-  sendResetPwd = 'sendResetPwd',
-  resetPwd = 'resetPwd',
-  passwordChange = 'passwordChange',
-  identityChange = 'identityChange',
-  // The following values are not in the official documentation
+export type AuthenticationManagementAction =
+  /**
+   * 'verifySignup' |
+   * 'resendVerifySignup' |
+   * 'verifySignupSetPassword' |
+   * 'sendResetPwd' |
+   * 'resetPwd' |
+   * 'passwordChange' |
+   * 'identityChange'
+   */
+  | NotificationType
   /**
    * We use it when a user is created to send him/her the welcome email
    * telling him/her to verify email + set password
    */
-  sendVerifySignup = 'sendVerifySignup',
+  | 'sendVerifySignup'
   /**
    * We use it when the superadmin updates user email address
    * to send him/her the new configured email address.
    */
-  sendUpdatedEmailAddress = 'sendUpdatedEmailAddress',
+  | 'sendUpdatedEmailAddress'
   /**
    * We use it to inform a user that its email has been used to create / update another account.
    */
-  informUserConflict = 'informUserConflict',
+  | 'informUserConflict'
   /**
    * We use them when a user is enabled / disabled to inform him/her with an email.
    */
-  enableUser = 'enableUser',
-  disableUser = 'disableUser',
-}
+  | 'enableUser'
+  | 'disableUser'
+
+export type LocokitNotifier = (
+  type: AuthenticationManagementAction,
+  user: Partial<User>,
+  notifierOptions?: NotifierOptions,
+) => any
 
 const templateFolder = '/templates/mails'
 
-export function authManagementSettings(app: Application) {
+export function authManagementSettings(app: Application): {
+  notifier: LocokitNotifier
+  delay: number
+} {
   function getLink(type: string, hash?: string): string {
-    let link = (app.get('publicUrl') as string) + '/' + type
+    let link = (app.get('publicURL') as string) + '/' + type
     if (hash) link += '?token=' + hash
     return link
   }
-  const signupConfig = app.get('authentication').signup
-  const delayInDays = parseInt(signupConfig.verificationMailDelayDays, 10) || 5
+
+  // previously, need to be tested with ENV vars : parseInt(config.verificationMailDelayDays, 10)
+  const delayInDays = app.get('settings').signup?.verificationMailDelayDays ?? 5
 
   const actionOptions: Record<
     AuthenticationManagementAction,
@@ -61,7 +75,7 @@ export function authManagementSettings(app: Application) {
     /**
      * Mails including a link (verify or reset)
      */
-    [AuthenticationManagementAction.sendResetPwd]: {
+    sendResetPwd: {
       templateFile: path.join(
         process.cwd(),
         templateFolder,
@@ -73,7 +87,7 @@ export function authManagementSettings(app: Application) {
         '/sendResetPwd/title.ejs',
       ),
     },
-    [AuthenticationManagementAction.sendVerifySignup]: {
+    sendVerifySignup: {
       templateFile: path.join(
         process.cwd(),
         templateFolder,
@@ -85,7 +99,7 @@ export function authManagementSettings(app: Application) {
         '/sendVerifySignup/title.ejs',
       ),
     },
-    [AuthenticationManagementAction.resendVerifySignup]: {
+    resendVerifySignup: {
       templateFile: path.join(
         process.cwd(),
         templateFolder,
@@ -100,7 +114,7 @@ export function authManagementSettings(app: Application) {
     /**
      * Mails for account information (enabled, password updated, or identity change)
      */
-    [AuthenticationManagementAction.verifySignup]: {
+    verifySignup: {
       templateFile: path.join(
         process.cwd(),
         templateFolder,
@@ -112,7 +126,7 @@ export function authManagementSettings(app: Application) {
         '/verifySignup/title.ejs',
       ),
     },
-    [AuthenticationManagementAction.verifySignupSetPassword]: {
+    verifySignupSetPassword: {
       templateFile: path.join(
         process.cwd(),
         templateFolder,
@@ -124,7 +138,7 @@ export function authManagementSettings(app: Application) {
         '/verifySignupSetPassword/title.ejs',
       ),
     },
-    [AuthenticationManagementAction.resetPwd]: {
+    resetPwd: {
       templateFile: path.join(
         process.cwd(),
         templateFolder,
@@ -136,7 +150,7 @@ export function authManagementSettings(app: Application) {
         '/passwordChange/title.ejs',
       ),
     },
-    [AuthenticationManagementAction.passwordChange]: {
+    passwordChange: {
       templateFile: path.join(
         process.cwd(),
         templateFolder,
@@ -148,7 +162,7 @@ export function authManagementSettings(app: Application) {
         '/passwordChange/title.ejs',
       ),
     },
-    [AuthenticationManagementAction.identityChange]: {
+    identityChange: {
       templateFile: path.join(
         process.cwd(),
         templateFolder,
@@ -160,7 +174,7 @@ export function authManagementSettings(app: Application) {
         '/identityChange/title.ejs',
       ),
     },
-    [AuthenticationManagementAction.sendUpdatedEmailAddress]: {
+    sendUpdatedEmailAddress: {
       templateFile: path.join(
         process.cwd(),
         templateFolder,
@@ -172,7 +186,7 @@ export function authManagementSettings(app: Application) {
         '/sendUpdatedEmailAddress/title.ejs',
       ),
     },
-    [AuthenticationManagementAction.enableUser]: {
+    enableUser: {
       templateFile: path.join(
         process.cwd(),
         templateFolder,
@@ -184,7 +198,7 @@ export function authManagementSettings(app: Application) {
         '/enableUser/title.ejs',
       ),
     },
-    [AuthenticationManagementAction.disableUser]: {
+    disableUser: {
       templateFile: path.join(
         process.cwd(),
         templateFolder,
@@ -196,7 +210,7 @@ export function authManagementSettings(app: Application) {
         '/disableUser/title.ejs',
       ),
     },
-    [AuthenticationManagementAction.informUserConflict]: {
+    informUserConflict: {
       templateFile: path.join(
         process.cwd(),
         templateFolder,
@@ -211,48 +225,47 @@ export function authManagementSettings(app: Application) {
   }
 
   return {
-    service: '/user',
     async notifier(
       type: AuthenticationManagementAction,
-      user: LckUser,
+      user: Partial<User>,
       notifierOptions?: {
         emailAddress?: string
       },
     ) {
-      debug('notifier', type, user)
+      // debug('notifier', type, user)
       const currentActionOption = actionOptions[type]
       const currentTemplateVars: {
         portalLink: string
-        user: LckUser
+        user: Partial<User>
         verifySignupLink?: string
         resetPasswordLink?: string
         lostPasswordLink?: string
         identityChangeLink?: string
       } = {
-        portalLink: app.get('publicUrl'),
+        portalLink: app.get('publicURL'),
         user,
       }
       switch (type) {
-        case AuthenticationManagementAction.resendVerifySignup:
-        case AuthenticationManagementAction.sendVerifySignup:
+        case 'resendVerifySignup':
+        case 'sendVerifySignup':
           currentTemplateVars.verifySignupLink = getLink(
             'verify-signup',
             user.verifyToken as string,
           )
           break
-        case AuthenticationManagementAction.sendResetPwd:
+        case 'sendResetPwd':
           currentTemplateVars.resetPasswordLink = getLink(
             'reset-password',
             user.resetToken as string,
           )
           break
-        case AuthenticationManagementAction.identityChange:
+        case 'identityChange':
           currentTemplateVars.identityChangeLink = getLink(
             'update-email',
             user.verifyToken as string,
           )
           break
-        case AuthenticationManagementAction.informUserConflict:
+        case 'informUserConflict':
           currentTemplateVars.lostPasswordLink = getLink('lost-password')
           break
       }
@@ -268,7 +281,7 @@ export function authManagementSettings(app: Application) {
         portalName: app.get('publicPortalName'),
       })
 
-      return app.service('mailer').create({
+      return await app.service('mailer').create({
         to: notifierOptions?.emailAddress ?? user.email, // Use the specified email address or the user one
         subject: emailSubject,
         text: emailText,

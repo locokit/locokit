@@ -6,7 +6,7 @@ import { WService, wHooks } from './w.class'
 export function w(app: Application): void {
   const options = {
     paginate: app.get('paginate'),
-    Model: app.get('sqliteClient'),
+    Model: app.get('db'),
     name: 'w',
     // Service options will go here
   }

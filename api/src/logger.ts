@@ -9,10 +9,7 @@ export const logger = createLogger({
   transports: [new transports.Console()],
 })
 
-export const logErrorHook = async (
-  context: HookContext,
-  next: NextFunction,
-) => {
+export const logErrorHook = async (_context: HookContext, next: NextFunction): Promise<void> => {
   try {
     await next()
   } catch (error) {

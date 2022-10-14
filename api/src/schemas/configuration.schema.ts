@@ -6,16 +6,91 @@ export const configurationSchema = schema({
   $id: 'ApplicationConfiguration',
   type: 'object',
   additionalProperties: false,
-  required: ['host', 'port', 'public', 'paginate'],
+  required: [
+    'host',
+    'port',
+    'public',
+    'paginate',
+    'publicURL',
+    'settings',
+    'mail',
+  ],
   properties: {
     host: { type: 'string' },
     port: { type: 'number' },
     public: { type: 'string' },
-    sqlite: {
+    publicURL: {
+      type: 'string',
+    },
+    publicPortalName: {
+      type: 'string',
+    },
+    mail: {
       type: 'object',
+      required: ['host', 'port', 'secure', 'from', 'needAuth'],
       properties: {
-        client: { type: 'string' },
-        connection: { type: 'string' },
+        host: { type: 'string' },
+        port: { type: 'number' },
+        secure: { type: 'boolean', default: false },
+        needAuth: { type: 'boolean', default: false },
+        user: { type: 'string' },
+        pass: { type: 'string' },
+        from: { type: 'string', default: 'contact@locokit.io' },
+      },
+    },
+    settings: {
+      type: 'object',
+      additionalProperties: false,
+      required: ['db', 'passwordPolicy'],
+      properties: {
+        db: {
+          type: 'object',
+          required: ['client', 'connection'],
+          properties: {
+            client: { type: 'string' },
+            connection: { type: 'string' },
+          },
+        },
+        signup: {
+          type: 'object',
+          properties: {
+            allowed: {
+              type: 'boolean',
+              default: true,
+            },
+            verificationMailDelayDays: {
+              type: 'number',
+              default: 5,
+            },
+            rateLimitMax: {
+              type: 'number',
+              default: 5,
+            },
+            rateLimitDuration: {
+              type: 'number',
+              default: 6000,
+            },
+          },
+        },
+        passwordPolicy: {
+          type: 'object',
+          required: [
+            'minLength',
+            'maxLength',
+            'uppercase',
+            'lowercase',
+            'digits',
+            'symbols',
+          ],
+          properties: {
+            minLength: { type: 'number', default: 8 },
+            maxLength: { type: 'number', default: 128 },
+            uppercase: { type: 'boolean', default: true },
+            lowercase: { type: 'boolean', default: true },
+            digits: { type: 'boolean', default: true },
+            symbols: { type: 'boolean', default: true },
+          },
+        },
       },
     },
     authentication: authenticationSettingsSchema,

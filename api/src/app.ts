@@ -18,16 +18,14 @@ import helmet from 'koa-helmet'
 import type { Application } from './declarations'
 import { configurationSchema } from './schemas/configuration.schema'
 import { logErrorHook } from './logger'
-import { sqlite } from './sqlite'
-import { authentication } from './authentication'
-import { services } from './services/index'
+import { db } from './db'
+import { services } from './services'
 import { channels } from './channels'
 
 dotenv.config()
 
 const app: Application = koa(feathers())
-app.use(cors({
-}))
+app.use(cors({}))
 
 // Load our app configuration (see config/ folder)
 app.configure(configuration(configurationSchema))
@@ -40,23 +38,24 @@ app.use(bodyParser())
 
 const helmetSettings = app.get('helmet')
 if (helmetSettings?.isEnabled === 'true') {
-  app.use(helmet({
-    contentSecurityPolicy: {
-      useDefaults: true,
-      // directives: {
-      //   'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://unpkg.com'],
-      //   'worker-src': ['blob:'], // needed by redoc swagger
-      // },
-    },
-    hsts: helmetSettings?.hstsEnabled === 'true',
-  }))
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        useDefaults: true,
+        // directives: {
+        //   'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://unpkg.com'],
+        //   'worker-src': ['blob:'], // needed by redoc swagger
+        // },
+      },
+      hsts: helmetSettings?.hstsEnabled === 'true',
+    }),
+  )
 }
 
 // Configure services and transports
 app.configure(rest())
 app.configure(socketio())
-app.configure(sqlite)
-app.configure(authentication)
+app.configure(db)
 app.configure(services)
 app.configure(channels)
 

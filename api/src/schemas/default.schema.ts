@@ -1,6 +1,6 @@
 import { JSONSchemaDefinition, schema, SchemaWrapper } from '@feathersjs/schema'
 import type { Infer } from '@feathersjs/schema'
-import ajv from './ajv'
+import { dataValidator } from './validators'
 
 // Schema for the basic data model (e.g. creating new entries)
 export const defaultDataSchema = schema(
@@ -18,7 +18,7 @@ export const defaultDataSchema = schema(
       },
     },
   } as const,
-  ajv,
+  dataValidator,
 )
 
 export type DefaultData = Infer<typeof defaultDataSchema>
@@ -27,5 +27,5 @@ export function lckSchema<S extends JSONSchemaDefinition>(
   definition: S,
 ): SchemaWrapper<S> {
   // @ts-expect-error
-  return new SchemaWrapper(definition, ajv)
+  return new SchemaWrapper(definition, dataValidator)
 }

@@ -1,9 +1,9 @@
-import app from '../../app'
-import { User } from '../../models/user.model'
+import { app } from '../../app'
+import { UsersResult } from '../users/users.schema'
 
-describe('\'authManagement\' service', () => {
+describe("'authManagement' service", () => {
   it('registered the service', () => {
-    expect(app.service('authManagement')).toBeTruthy()
+    expect(app.service('auth-management')).toBeTruthy()
   })
 
   it('register a new user and set the verifyExpires accordingly setting', async () => {
@@ -15,11 +15,17 @@ describe('\'authManagement\' service', () => {
      */
     expect.assertions(1)
     const d = new Date()
-    const user = await app.service('user').create({
+    const user = (await app.service('users').create({
       email: 'authmanagement+verifyExpires@locokit.io',
-      name: 'Auth management user test for verifyExpires',
-    }) as User
-    const diffDays = Math.trunc((new Date(user.verifyExpires as string).valueOf() - d.valueOf()) / 1000 / 60 / 60 / 24)
+      // name: 'Auth management user test for verifyExpires',
+    })) as UsersResult
+    const diffDays = Math.trunc(
+      (new Date(user.verifyExpires as string).valueOf() - d.valueOf()) /
+        1000 /
+        60 /
+        60 /
+        24,
+    )
     expect(diffDays).toBe(10)
   })
 })

@@ -4,13 +4,13 @@ import type { Application } from './declarations'
 
 declare module './declarations' {
   interface Configuration {
-    sqliteClient: Knex
+    db: Knex
   }
 }
 
-export const sqlite = (app: Application) => {
-  const config = app.get('sqlite')
-  const db = knex(config!)
+export function db(app: Application): void {
+  const config = app.get('settings').db
+  const db = knex(config)
 
-  app.set('sqliteClient', db)
+  app.set('db', db)
 }
