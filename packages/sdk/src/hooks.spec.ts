@@ -34,7 +34,7 @@ describe('Hooks', () => {
 
     // Register a dummy custom service
     app.use('/unknown', {
-      async find () {
+      async find() {
         return mockServiceFind()
       },
     })
@@ -56,12 +56,11 @@ describe('Hooks', () => {
 
     it('update the authentication state if the token has expired', async () => {
       // Simulate an expired token error
-      mockServiceFind.mockRejectedValue(new NotAuthenticated(
-        'expired token',
-        {
+      mockServiceFind.mockRejectedValue(
+        new NotAuthenticated('expired token', {
           name: 'TokenExpiredError',
-        },
-      ))
+        }),
+      )
       try {
         // API call
         expect(await myService.find()).rejects.toThrow()
@@ -74,9 +73,9 @@ describe('Hooks', () => {
 
     it('do not update the authentication state if a not authenticated error throws but the token has not expired', async () => {
       // Simulate an expired token error
-      mockServiceFind.mockRejectedValue(new NotAuthenticated(
-        'need authentication',
-      ))
+      mockServiceFind.mockRejectedValue(
+        new NotAuthenticated('need authentication'),
+      )
       // User is authentified
       authState.data.isAuthenticated = true
       try {

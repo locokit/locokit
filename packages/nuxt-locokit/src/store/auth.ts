@@ -9,11 +9,11 @@ export const useStoreAuth = defineStore('auth', {
     error: {
       code: null,
       content: null,
-    } as Error | null | { code: string | null, content: string | null },
+    } as Error | null | { code: string | null; content: string | null },
     user: null,
   }),
   actions: {
-    async authenticate (data: { email: string, password: string }) {
+    async authenticate(data: { email: string; password: string }) {
       this.loading = true
       this.error = null
       try {
