@@ -1,0 +1,21 @@
+# This docker-compose is for testing purpose only
+# For a deployment, you'll need to set a mail server
+# and security with helmet environment variables,
+# maybe a nginx for serving front and reverse proxy to the api and the file storage.
+version: '3'
+services:
+
+  lck-mail:
+    image: mailhog/mailhog:latest
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /home/mailhog
+    volumes:
+      - mailhog:/home/mailhog/
+    ports:
+      - 1025:1025
+      - 8025:8025
+    container_name: lck-mail
+
+volumes:
+  mailhog:

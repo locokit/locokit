@@ -4,17 +4,17 @@
 # maybe a nginx for serving front and reverse proxy to the api and the file storage.
 version: '3'
 services:
-  lck-db:
-    image: postgis/postgis:14-master
-    environment:
-      POSTGRES_DB: public
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: yourPostgresPassword
-    # restart: always
-    volumes:
-      - lck-db-data:/var/lib/postgresql/data
-      - ./dumps:/dumps
-    container_name: lck-db
+  # lck-db:
+  #   image: postgis/postgis:15-master
+  #   environment:
+  #     POSTGRES_DB: public
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: yourPostgresPassword
+  #   # restart: always
+  #   volumes:
+  #     - lck-db-data:/var/lib/postgresql/data
+  #     - ./dumps:/dumps
+  #   container_name: lck-db
 
   lck-mail:
     image: mailhog/mailhog:latest

@@ -18,6 +18,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/no-unnecessary-type-assertion': 'off',
+    '@typescript-eslint/no-empty-interface': 'off',
     'no-case-declarations': 'off',
     'prettier/prettier': 'error',
   },
