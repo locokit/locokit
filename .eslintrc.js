@@ -1,17 +1,9 @@
-require('@rushstack/eslint-patch/modern-module-resolution')
-
 module.exports = {
   env: {
     es6: true,
     node: true,
   },
-  extends: [
-    'standard-with-typescript',
-    'plugin:vue/essential',
-    '@vue/standard',
-    '@vue/typescript/recommended',
-    'prettier',
-  ],
+  extends: ['standard-with-typescript', 'prettier'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
