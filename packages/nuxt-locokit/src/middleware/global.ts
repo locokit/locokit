@@ -1,11 +1,12 @@
 import { RouteLocationNormalized } from 'vue-router'
 import { ROUTES } from '../pages/paths'
 import { useStoreAuth } from '../store/auth'
+import { navigateTo } from '#imports'
 
 /**
  * Check if the route need authentication and the user is authenticated.
  */
-export function checkPathAvailable (
+export function checkPathAvailable(
   needAuthentication: boolean,
   needAnonymous: boolean,
   isAuthenticated: boolean,
@@ -27,11 +28,11 @@ export function checkPathAvailable (
  * we let the router pass or redirect the user to another route
  *
  */
-export default function globalMiddleware(
+export default async function globalMiddleware(
   to: RouteLocationNormalized,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   from: RouteLocationNormalized,
-): void {
-  console.log('global middleware', to, from)
+): Promise<any> {
   const storeAuth = useStoreAuth()
 
   // To handle children routes (to get meta from parents), Vuejs recommend to use to.matched
@@ -54,13 +55,13 @@ export default function globalMiddleware(
    * In this first case, according to user and route's meta info,
    * the path is not available for the current logged/anonymous user
    */
-  console.log(needAuthentication, needAnonymous, isAuthenticated)
+  // console.log(needAuthentication, needAnonymous, isAuthenticated)
   if (!checkPathAvailable(needAuthentication, needAnonymous, isAuthenticated)) {
-    console.log(
-      'navigate to ',
-      isAuthenticated ? ROUTES.WORKSPACE.HOME : ROUTES.HOME,
-    )
-    navigateTo({
+    // console.log(
+    //   'navigate to ',
+    //   isAuthenticated ? ROUTES.WORKSPACE.HOME : ROUTES.HOME,
+    // )
+    await navigateTo({
       path: isAuthenticated ? ROUTES.WORKSPACE.HOME : ROUTES.HOME,
     })
     // } else if (
@@ -71,5 +72,4 @@ export default function globalMiddleware(
     // ) {
     //   next({ path: '/not-found' })
   }
-  console.log('do nothing')
 }

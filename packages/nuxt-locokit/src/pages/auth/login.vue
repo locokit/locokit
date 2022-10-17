@@ -13,10 +13,10 @@
         <template #content>
           <lck-login
             class="p-mt-4"
-            @submit="authenticate"
             :loading="authState.loading"
             :error="authState.error"
-            :displaySignUpLink="appState.allowSignUp"
+            :display-sign-up-link="appState.allowSignUp"
+            @submit="authenticate"
           />
         </template>
       </p-card>
@@ -31,10 +31,10 @@
 <script setup lang="ts">
 import { Ref, ref } from 'vue'
 import PCard from 'primevue/card'
+// import LckLogin from '..//designsystem/src/components/auth/LogIn/LoginForm.vue'
+import { useRouter } from 'vue-router'
 import { useStoreAuth } from '../../store/auth'
 import { ROUTES } from '../paths'
-import { useRouter } from 'vue-router'
-import LckLogin from '@locokit/designsystem/src/components/auth/lck-login.vue'
 
 const authStore = useStoreAuth()
 const router = useRouter()

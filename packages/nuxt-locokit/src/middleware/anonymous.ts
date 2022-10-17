@@ -7,13 +7,18 @@ import { useStoreAuth } from '../store/auth'
  *
  * Then, let the router pass, or abort the navigation
  */
-export default function anonymousMiddleware (to: RouteLocationNormalized, from: RouteLocationNormalized): void {
+export default function anonymousMiddleware(
+  to: RouteLocationNormalized,
+  from: RouteLocationNormalized,
+): void {
   const storeAuth = useStoreAuth()
 
   const needAnonymous: boolean = to.meta.anonymous as boolean
   const isAuthenticated = storeAuth.isAuthenticated
 
   if (needAnonymous && isAuthenticated) {
-    abortNavigation(new Error('Route is only available for anonymous users.'))
+    // abortNavigation(new Error('Route is only available for anonymous users.'))
   }
 }
+
+// Todo : remove
