@@ -1,7 +1,7 @@
 <template>
   <Story title="Authentication/SignUp" icon="prime:user">
     <Variant title="default">
-      <SignUp @submit="logEvent('submit', $event)" />
+      <SignUpForm @submit="logEvent('submit', $event)" />
     </Variant>
   </Story>
 </template>
@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { logEvent } from 'histoire/client'
 
-import SignUp from './SignUp.vue'
+import SignUpForm from './SignUpForm.vue'
 </script>
 
 <docs lang="md">

@@ -1,16 +1,16 @@
 <template>
   <Form
-    @submit="onSubmit"
     v-slot="{ meta: { valid } }"
     class="text-left p-fluid"
+    @submit="onSubmit"
   >
     <Field
+      v-slot="{ field, errorMessage }"
+      v-model="email"
       name="email"
       as="div"
-      v-slot="{ field, errorMessage }"
       rules="required"
       class="mb-4 p-field"
-      v-model="email"
     >
       <label for="email">{{ $t('components.lostPassword.email') }}</label>
       <PrimeInputText

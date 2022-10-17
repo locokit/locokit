@@ -1,26 +1,28 @@
 <template>
   <div>
     <Form
-      @submit="onSubmit"
       v-slot="{ meta: { valid } }"
       class="text-left p-fluid"
+      @submit="onSubmit"
     >
       <Field
-        name="email"
+        v-slot="{ field, errorMessage }"
+        v-model="form.email"
+        name="emailLoginForm"
         class="mb-4"
         as="div"
-        v-model="form.email"
-        v-slot="{ field, errorMessage }"
         rules="required"
       >
-        <label for="email">{{ $t('components.loginForm.email') }}</label>
+        <label class="font-bold" for="email">{{
+          $t('components.loginForm.email')
+        }}</label>
         <PrimeInputText
           id="email"
           v-bind="field"
+          v-focus
           type="email"
           required
           autocomplete="email"
-          v-focus
         />
         <span
           v-if="errorMessage"
@@ -32,19 +34,19 @@
         </span>
       </Field>
       <Field
+        v-slot="{ field, errorMessage, meta }"
         name="password"
         class="mb-4"
         as="div"
-        v-slot="{ field, errorMessage, meta }"
         rules="required"
       >
         <label for="password">{{ $t('components.loginForm.password') }}</label>
         <PrimePassword
-          inputId="password"
           v-model="form.password"
+          input-id="password"
           v-bind="field"
           required
-          :toggleMask="true"
+          :toggle-mask="true"
           :feedback="false"
         />
         <span
@@ -108,7 +110,7 @@ const props = withDefaults(
     loading?: boolean
     logInAgain?: boolean
     displaySignUpLink?: boolean
-    error?: Error
+    error?: Error | null
     signupRoute?: string
     lostPasswordRoute?: string
   }>(),

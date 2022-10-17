@@ -60,7 +60,7 @@
 
 .p-input-icon-right > i:last-of-type {
   right: 0.75rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: #6c757d; // Custom
 }
 
 .p-input-icon-right > .p-inputtext {
@@ -68,19 +68,19 @@
 }
 
 ::-webkit-input-placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: #6c757d; // Custom
 }
 
 :-moz-placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: #6c757d; // Custom
 }
 
 ::-moz-placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: #6c757d; // Custom
 }
 
 :-ms-input-placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: #6c757d; // Custom
 }
 
 .p-input-filled .p-inputtext {

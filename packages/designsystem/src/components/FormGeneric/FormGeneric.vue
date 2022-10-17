@@ -1,11 +1,11 @@
 <template>
   <Form
-    class="p-fluid"
-    @submit="onSubmit"
     v-slot="{ isSubmitting, handleReset, meta: { valid, touched } }"
-    @reset="handleReset"
     ref="lck-form-record"
+    class="p-fluid"
     :validation-schema="schema"
+    @submit="onSubmit"
+    @reset="handleReset"
   >
     <slot />
     <div class="lck-form-footer text-right mb-4">
@@ -38,7 +38,6 @@
 
 <script setup lang="ts">
 import PrimeButton from 'primevue/button'
-import { defineProps } from 'vue'
 import { Form } from 'vee-validate'
 
 const emit = defineEmits(['submit', 'cancel'])

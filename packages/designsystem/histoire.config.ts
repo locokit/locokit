@@ -13,10 +13,6 @@ export default defineConfig({
         include: (file) => file.path.includes('components'),
       },
       {
-        title: 'Layouts',
-        include: (file) => file.path.includes('layouts'),
-      },
-      {
         title: 'Others',
         include: (file) => true,
       },

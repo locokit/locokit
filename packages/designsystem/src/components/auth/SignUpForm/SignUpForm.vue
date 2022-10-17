@@ -1,19 +1,19 @@
 <template>
   <FormGeneric
-    :displayCancelButton="false"
-    :fullWidthButton="true"
-    :labelButtonSave="$t('components.signUp.signup')"
+    :display-cancel-button="false"
+    :full-width-button="true"
+    :label-button-save="$t('components.signUp.signup')"
     :loading="loading"
-    @submit="onSubmit"
     :error="error"
+    @submit="onSubmit"
   >
     <Field
+      v-slot="{ field, errorMessage }"
+      v-model="form.name"
       class="mb-4"
       name="name"
       rules="required"
       as="div"
-      v-slot="{ field, errorMessage }"
-      v-model="form.name"
     >
       <label for="name" class="label-field-required">
         {{ $t('components.signUp.name') }}
@@ -30,12 +30,12 @@
     </Field>
 
     <Field
+      v-slot="{ field, errorMessage }"
+      v-model="form.email"
       class="mb-4"
       name="email"
       rules="required|email"
       as="div"
-      v-slot="{ field, errorMessage }"
-      v-model="form.email"
     >
       <label for="email" class="label-field-required">
         {{ $t('components.signUp.email') }}

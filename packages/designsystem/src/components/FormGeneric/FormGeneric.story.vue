@@ -3,29 +3,29 @@
     <Variant title="default">
       <FormGeneric @submit="logEvent('submit', $event)">
         <Field
-          name="name"
+          v-slot="{ field, meta: { valid, touched } }"
           v-model="name"
+          name="name"
           type="input"
           rules="required"
-          v-slot="{ field, meta: { valid, touched } }"
           class="mb-4"
           as="div"
         >
           <PrimeInput
+            v-focus
             v-bind="field"
             placeholder="name"
-            v-focus
             :required="true"
             :class="{ 'p-invalid': !valid && touched }"
           />
           <ErrorMessage name="name" />
         </Field>
         <Field
+          v-slot="{ field }"
+          v-model="pseudo"
           class="mb-4"
           name="pseudo"
-          v-model="pseudo"
           type="input"
-          v-slot="{ field }"
           as="div"
         >
           <PrimeInput v-bind="field" placeholder="pseudo" />

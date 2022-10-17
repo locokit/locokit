@@ -1,13 +1,13 @@
 <template>
   <Form
-    @submit="onSubmit"
     v-slot="{ meta: { valid } }"
     class="text-left p-fluid"
+    @submit="onSubmit"
   >
     <Field
+      v-slot="{ field, errorMessage }"
       name="password"
       as="div"
-      v-slot="{ field, errorMessage }"
       :rules="{ required: true, regex: `${regexPasswordRules}(?=.{8,})` }"
       class="mb-4 flex flex-col"
     >
@@ -15,17 +15,17 @@
         $t('components.resetPassword.password')
       }}</label>
       <PrimePassword
-        inputId="password"
         v-model="password"
+        input-id="password"
         v-bind="field"
         :feedback="true"
         :toggleMask="true"
-        :mediumRegex="`${regexPasswordRules}(?=.{8,})`"
-        :strongRegex="`${regexPasswordRules}(?=.{12,})`"
-        :weakLabel="$t('components.resetPassword.passwordStrength.weak')"
-        :mediumLabel="$t('components.resetPassword.passwordStrength.medium')"
-        :strongLabel="$t('components.resetPassword.passwordStrength.strong')"
-        :promptLabel="$t('components.resetPassword.prompt')"
+        :medium-regex="`${regexPasswordRules}(?=.{8,})`"
+        :strong-regex="`${regexPasswordRules}(?=.{12,})`"
+        :weak-label="$t('components.resetPassword.passwordStrength.weak')"
+        :medium-label="$t('components.resetPassword.passwordStrength.medium')"
+        :strong-label="$t('components.resetPassword.passwordStrength.strong')"
+        :prompt-label="$t('components.resetPassword.prompt')"
         required
         aria-describedby="password-rules"
         autocomplete="new-password"
@@ -34,7 +34,7 @@
         autocapitalize="none"
         :pattern="regexPasswordRules"
       />
-      <small class="italic" id="password-rules">
+      <small id="password-rules" class="italic">
         {{ $t('components.resetPassword.rules') }}
       </small>
       <span
@@ -47,21 +47,21 @@
       </span>
     </Field>
     <Field
+      v-slot="{ field, errorMessage }"
       name="passwordCheck"
       as="div"
-      v-slot="{ field, errorMessage }"
       rules="required|confirmed:password"
       class="mb-4 flex flex-col"
-      v-model="passwordCheck"
     >
       <label for="passwordCheck" class="label-field-required">{{
         $t('components.resetPassword.passwordCheck')
       }}</label>
       <PrimePassword
-        inputId="passwordCheck"
+        v-model="passwordCheck"
+        input-id="passwordCheck"
         v-bind="field"
         :feedback="false"
-        :toggleMask="true"
+        :toggle-mask="true"
         required
         spellcheck="false"
         autocorrect="off"
