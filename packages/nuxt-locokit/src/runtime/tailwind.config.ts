@@ -10,7 +10,8 @@ const locokitDesignSystemDir = fileURLToPath(
 export default {
   content: [
     srcDir + '/**/*.vue',
-    locokitDesignSystemDir + '/src/**/^[^.]+.vue',
+    // locokitDesignSystemDir + '/src/**/^(?!.*.story.vue$).*.vue$',
+    locokitDesignSystemDir + '/src/**/*.vue',
   ],
   theme: {
     extend: {

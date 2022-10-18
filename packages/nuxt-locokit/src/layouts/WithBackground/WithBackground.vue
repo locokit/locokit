@@ -6,7 +6,7 @@
     }"
   >
     <slot />
-    <div class="absolute bottom-0 right-0">
+    <div class="absolute bottom-2 right-2 text-white text-xs">
       {{ version }}
     </div>
   </div>
@@ -17,10 +17,10 @@
 const props = withDefaults(
   defineProps<{
     backgroundImage: string
-    version: string
+    version?: string
   }>(),
   {
-    version: '0.0.17',
+    version: 'v0.0.17',
   },
 )
 </script>

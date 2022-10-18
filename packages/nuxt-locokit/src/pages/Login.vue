@@ -1,7 +1,9 @@
 <template>
   <WithBackground background-image="assets/dog.jpg">
-    <PrimeCard>
-      <template #title> Bouh</template>
+    <PrimeCard class="flex-grow p-2 max-w-2xl">
+      <template #title>
+        <h1 class="text-center">{{ $t('pages.login.title') }}</h1>
+      </template>
       <template #content>
         <LoginForm
           :loading="false"

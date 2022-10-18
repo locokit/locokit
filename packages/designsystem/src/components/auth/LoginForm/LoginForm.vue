@@ -55,7 +55,7 @@
         >
           {{ errorMessage }}
         </span>
-        <a :href="lostPasswordRoute" class="my-4 block ml-auto">
+        <a :href="lostPasswordRoute" class="my-4 block ml-auto text-xs primary">
           {{ $t('components.loginForm.forgottenPassword') }}
         </a>
       </Field>
@@ -82,7 +82,7 @@
     </Form>
 
     <div v-if="!logInAgain" class="footer-links flex flex-wrap justify-center">
-      <a v-if="displaySignUpLink" :href="signupRoute">
+      <a v-if="displaySignUpLink" :href="signupRoute" class="text-md">
         {{ $t('components.loginForm.signup') }}
       </a>
     </div>
@@ -133,9 +133,9 @@ const onSubmit = () => {
 </script>
 
 <style scoped lang="scss">
-a {
-  font-size: var(--font-size-md);
-}
+//a {
+//  font-size: var(--font-size-md);
+//}
 
 .footer-links {
   margin: 1em 0.5em 0 2.5em;

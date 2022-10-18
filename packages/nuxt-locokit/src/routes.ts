@@ -15,7 +15,7 @@ export function getAuthPages(prefix: string): NuxtPage[] {
     {
       name: ROUTES.AUTH.LOGIN,
       path: prefix + ROUTES.AUTH.LOGIN,
-      file: resolve('./pages/LogIn.vue'),
+      file: resolve('./pages/Login.vue'),
       meta: {
         anonymous: true,
         protected: false,

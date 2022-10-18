@@ -41,6 +41,11 @@
       "cancel": "Cancel"
     }
   },
+  "pages": {
+    "login": {
+      "title": "Welcome"
+    }
+  },
   "formulas": {
     "formula": "Formula",
     "column": "Columns",

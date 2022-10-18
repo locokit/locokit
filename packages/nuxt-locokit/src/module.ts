@@ -199,7 +199,7 @@ export default defineNuxtModule<ModuleOptions>({
       pages.push({
         name: 'home',
         path: '/',
-        file: resolve(pagesDir, './LogIn.vue'),
+        file: resolve(pagesDir, './Login.vue'),
         meta: {
           needAuthentification: false,
         },
