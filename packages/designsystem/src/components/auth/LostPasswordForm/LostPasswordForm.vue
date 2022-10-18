@@ -7,12 +7,12 @@
     <Field
       v-slot="{ field, errorMessage }"
       v-model="email"
-      name="email"
+      name="lostPasswordForm.email"
       as="div"
       rules="required"
       class="mb-4 p-field"
     >
-      <label for="email">{{ $t('components.lostPassword.email') }}</label>
+      <label for="email">{{ $t('components.lostPasswordForm.email') }}</label>
       <PrimeInputText
         id="email"
         v-bind="field"
@@ -33,7 +33,7 @@
       <PrimeButton
         type="submit"
         :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
-        :label="$t('components.lostPassword.submit')"
+        :label="$t('components.lostPasswordForm.submit')"
         :disabled="loading || !valid"
         class="p-mb-2"
       />
@@ -43,7 +43,7 @@
         role="alert"
         aria-live="assertive"
       >
-        {{ $t('components.lostPassword.error') }}
+        {{ $t('components.lostPasswordForm.error') }}
       </span>
     </div>
   </Form>
@@ -63,10 +63,11 @@ const emit = defineEmits<{
 const props = withDefaults(
   defineProps<{
     loading?: boolean
-    error?: Error
+    error?: Error | null
   }>(),
   {
     loading: () => false,
+    error: () => null,
   },
 )
 

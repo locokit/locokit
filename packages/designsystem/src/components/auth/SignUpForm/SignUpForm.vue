@@ -2,7 +2,7 @@
   <FormGeneric
     :display-cancel-button="false"
     :full-width-button="true"
-    :label-button-save="$t('components.signUp.signup')"
+    :label-button-save="$t('components.signUpForm.signup')"
     :loading="loading"
     :error="error"
     @submit="onSubmit"
@@ -11,12 +11,12 @@
       v-slot="{ field, errorMessage }"
       v-model="form.name"
       class="mb-4"
-      name="name"
+      name="signUpForm.name"
       rules="required"
       as="div"
     >
       <label for="name" class="label-field-required">
-        {{ $t('components.signUp.name') }}
+        {{ $t('components.signUpForm.name') }}
       </label>
       <PrimeInputText id="name" v-bind="field" v-focus required />
       <span
@@ -33,12 +33,12 @@
       v-slot="{ field, errorMessage }"
       v-model="form.email"
       class="mb-4"
-      name="email"
+      name="signUpForm.email"
       rules="required|email"
       as="div"
     >
       <label for="email" class="label-field-required">
-        {{ $t('components.signUp.email') }}
+        {{ $t('components.signUpForm.email') }}
       </label>
       <PrimeInputText id="email" v-bind="field" required />
       <span
@@ -67,10 +67,11 @@ const emit = defineEmits<{
 const props = withDefaults(
   defineProps<{
     loading?: boolean
-    error?: Error
+    error?: Error | null
   }>(),
   {
     loading: () => false,
+    error: () => null,
   },
 )
 
@@ -83,9 +84,3 @@ const onSubmit = () => {
   emit('submit', form)
 }
 </script>
-
-<style scoped>
-.invalid {
-  color: var(--color-error);
-}
-</style>

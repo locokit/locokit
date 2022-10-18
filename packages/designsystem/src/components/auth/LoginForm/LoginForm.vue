@@ -8,14 +8,12 @@
       <Field
         v-slot="{ field, errorMessage }"
         v-model="form.email"
-        name="emailLoginForm"
+        name="loginForm.email"
         class="mb-4"
         as="div"
         rules="required"
       >
-        <label class="font-bold" for="email">{{
-          $t('components.loginForm.email')
-        }}</label>
+        <label for="email">{{ $t('components.loginForm.email') }}</label>
         <PrimeInputText
           id="email"
           v-bind="field"
@@ -35,7 +33,7 @@
       </Field>
       <Field
         v-slot="{ field, errorMessage, meta }"
-        name="password"
+        name="loginForm.password"
         class="mb-4"
         as="div"
         rules="required"
@@ -118,6 +116,9 @@ const props = withDefaults(
     loading: () => false,
     logInAgain: () => false,
     displaySignUpLink: () => false,
+    error: () => null,
+    signupRoute: () => '',
+    lostPasswordRoute: () => '',
   },
 )
 
