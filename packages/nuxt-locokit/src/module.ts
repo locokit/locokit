@@ -199,19 +199,19 @@ export default defineNuxtModule<ModuleOptions>({
       pages.push({
         name: 'home',
         path: '/',
-        file: resolve(pagesDir, './Login.vue'),
+        file: resolve(pagesDir, './index.vue'),
         meta: {
           needAuthentification: false,
         },
       })
 
-      // /**
-      //  * Register auth pages
-      //  */
-      // if (submodules.auth.enabled) {
-      //   const prefix = submodules.auth.prefix
-      //   pages.push(...getAuthPages(prefix))
-      // }
+      /**
+       * Register auth pages
+       */
+      if (submodules.auth.enabled) {
+        const prefix = submodules.auth.prefix
+        pages.push(...getAuthPages(prefix))
+      }
 
       // /**
       //  * Register user pages

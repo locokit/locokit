@@ -15,7 +15,7 @@ export function getAuthPages(prefix: string): NuxtPage[] {
     {
       name: ROUTES.AUTH.LOGIN,
       path: prefix + ROUTES.AUTH.LOGIN,
-      file: resolve('./pages/Login.vue'),
+      file: resolve('./pages/auth/LoginPage.vue'),
       meta: {
         anonymous: true,
         protected: false,
@@ -24,7 +24,7 @@ export function getAuthPages(prefix: string): NuxtPage[] {
     {
       name: ROUTES.AUTH.LOSTPASSWORD,
       path: prefix + ROUTES.AUTH.LOSTPASSWORD,
-      file: resolve('./pages/auth/lost-password.vue'),
+      file: resolve('./pages/auth/LostPassword.vue'),
       meta: {
         anonymous: true,
         protected: false,
@@ -33,7 +33,7 @@ export function getAuthPages(prefix: string): NuxtPage[] {
     {
       name: ROUTES.AUTH.VERIFYSIGNUP,
       path: prefix + ROUTES.AUTH.VERIFYSIGNUP,
-      file: resolve('./pages/auth/verify-signup.vue'),
+      file: resolve('./pages/auth/VerifySignup.vue'),
       meta: {
         anonymous: true,
         protected: false,
@@ -42,7 +42,7 @@ export function getAuthPages(prefix: string): NuxtPage[] {
     {
       name: ROUTES.AUTH.RESETPASSWORD,
       path: prefix + ROUTES.AUTH.RESETPASSWORD,
-      file: resolve('./pages/auth/reset-password.vue'),
+      file: resolve('./pages/auth/ResetPassword.vue'),
       meta: {
         anonymous: true,
         protected: false,
@@ -51,7 +51,7 @@ export function getAuthPages(prefix: string): NuxtPage[] {
     {
       name: ROUTES.AUTH.SIGNUP,
       path: prefix + ROUTES.AUTH.SIGNUP,
-      file: resolve('./pages/auth/signup.vue'),
+      file: resolve('./pages/auth/SignUp.vue'),
       meta: {
         anonymous: true,
         protected: false,

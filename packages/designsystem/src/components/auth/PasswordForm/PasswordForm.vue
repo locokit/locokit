@@ -6,13 +6,13 @@
   >
     <Field
       v-slot="{ field, errorMessage }"
-      name="resetPasswordForm.password"
+      name="passwordForm.password"
       as="div"
       :rules="{ required: true, regex: `${regexPasswordRules}(?=.{8,})` }"
       class="mb-4 flex flex-col"
     >
       <label for="password" class="label-field-required">{{
-        $t('components.resetPasswordForm.password')
+        $t('components.passwordForm.password')
       }}</label>
       <PrimePassword
         v-model="password"
@@ -22,14 +22,10 @@
         :toggle-mask="true"
         :medium-regex="`${regexPasswordRules}(?=.{8,})`"
         :strong-regex="`${regexPasswordRules}(?=.{12,})`"
-        :weak-label="$t('components.resetPasswordForm.passwordStrength.weak')"
-        :medium-label="
-          $t('components.resetPasswordForm.passwordStrength.medium')
-        "
-        :strong-label="
-          $t('components.resetPasswordForm.passwordStrength.strong')
-        "
-        :prompt-label="$t('components.resetPasswordForm.prompt')"
+        :weak-label="$t('components.passwordForm.passwordStrength.weak')"
+        :medium-label="$t('components.passwordForm.passwordStrength.medium')"
+        :strong-label="$t('components.passwordForm.passwordStrength.strong')"
+        :prompt-label="$t('components.passwordForm.prompt')"
         required
         aria-describedby="password-rules"
         autocomplete="new-password"
@@ -39,7 +35,7 @@
         :pattern="regexPasswordRules"
       />
       <small id="password-rules" class="italic">
-        {{ $t('components.resetPasswordForm.rules') }}
+        {{ $t('components.passwordForm.rules') }}
       </small>
       <span
         v-if="errorMessage"
@@ -52,13 +48,13 @@
     </Field>
     <Field
       v-slot="{ field, errorMessage }"
-      name="resetPasswordForm.passwordCheck"
+      name="passwordForm.passwordCheck"
       as="div"
       rules="required|confirmed:password"
       class="mb-4 flex flex-col"
     >
       <label for="passwordCheck" class="label-field-required">{{
-        $t('components.resetPasswordForm.passwordCheck')
+        $t('components.passwordForm.passwordCheck')
       }}</label>
       <PrimePassword
         v-model="passwordCheck"
@@ -83,11 +79,7 @@
     <PrimeButton
       type="submit"
       :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
-      :label="
-        reset
-          ? $t('components.resetPasswordForm.resetSubmit')
-          : $t('components.resetPasswordForm.setSubmit')
-      "
+      :label="labelSubmit"
       :disabled="loading || !valid"
       class="mb-2"
     />
@@ -120,12 +112,11 @@ const props = withDefaults(
   defineProps<{
     loading?: boolean
     error?: Error | null
-    reset?: boolean
+    labelSubmit: string
   }>(),
   {
     loading: () => false,
     error: () => null,
-    reset: () => true,
   },
 )
 const password = ref('')

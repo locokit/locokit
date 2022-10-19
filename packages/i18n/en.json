@@ -14,11 +14,9 @@
       "submit": "Submit and get a temporary link to choose your new password.",
       "error": "Something goes wrong. Please try again later."
     },
-    "resetPasswordForm": {
+    "passwordForm": {
       "password": "Password",
       "passwordCheck": "Password (check)",
-      "resetSubmit": "Reset the password",
-      "setSubmit": "Set the password",
       "weakLabel": "Passwords mismatch",
       "passwordMismatch": "Passwords mismatch",
       "prompt": "Enter a password",
@@ -44,6 +42,32 @@
   "pages": {
     "login": {
       "title": "Welcome"
+    },
+    "lostPassword": {
+      "title": "Password… where are you?!",
+      "description": "Do you lose your password ? Enter your email to receive a mail with a temporary link. Open it, and update your password !",
+      "sendMailConfirmed": "Mail sent ! Please now check your mailbox to open the email we've just sent. Please click on the link.",
+      "homeLink": "Go back to home page"
+    },
+    "resetPassword": {
+      "title": "Password reset",
+      "description": "You can reset your password.",
+      "resetOK": "Password reset. You can use this new password.",
+      "homeLink": "Go back to home page",
+      "labelSubmit": "Reset the password"
+    },
+    "signUp": {
+      "title": "Sign up",
+      "description": "Complete this form to initiate your registration.",
+      "signUpOk": "Your registration request has been taken into account. You will receive an email with instructions on how to finalize it.",
+      "homeLink": "Go back to home page"
+    },
+    "verifySignup": {
+      "title": "Email verification and set password",
+      "description": "Please set your password before we authorize you to connect.",
+      "verifyOk": "Email verification and password update OK ! You can now log in on the portal.",
+      "homeLink": "Go back to home page",
+      "labelSubmit": "Set the password"
     }
   },
   "formulas": {
@@ -248,7 +272,7 @@
       "lostPasswordForm": {
         "email": "@:components.lostPasswordForm.email"
       },
-      "resetPasswordForm": {
+      "passwordForm": {
         "password": "@:components.resetPasswordForm.password",
         "passwordCheck": "@:components.resetPasswordForm.passwordCheck"
       },
@@ -261,7 +285,7 @@
       "required": "The field '{field}' is required.",
       "email": "The field '{field}' does not match the expected format (email).",
       "regex": "The field '{field}' does not match the expected format.",
-      "passwordConfirm": "The field passwords in the '{field}' and '{target}' fields are not identical.",
+      "confirmed": "The value in '{field}' doesn't correspond to the upper field.",
       "isFalseOrOtherTrue": "The field '{field}' field can only be checked if the '{target}' field is also checked.",
       "minDate": "The field '{field}' must be after {fromDate}.",
       "dateValid": "The field '{field}' does not match the expected format.",
