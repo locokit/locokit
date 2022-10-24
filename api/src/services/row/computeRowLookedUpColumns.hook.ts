@@ -42,7 +42,7 @@ export function computeRowLookedUpColumns (): Hook {
               // If the value is an object, we retrieve the sub property of value
               currentColumnData.reference = dataValueReference?.reference
               if (
-                foreignColumnTypeId === COLUMN_TYPE.MULTI_USER &&
+                [COLUMN_TYPE.MULTI_USER, COLUMN_TYPE.MULTI_GROUP].includes(foreignColumnTypeId) &&
                 Array.isArray(dataValueReference?.value)
               ) {
                 currentColumnData.value = dataValueReference.value.join(', ')

@@ -118,7 +118,8 @@
               "endWith": "finit par",
               "isLoggedInUser": "est l'utilisateur connecté",
               "isLoggedInUserGroup": "est le groupe de l'utilisateur connecté",
-              "containsLoggedInUser": "contient l'utilisateur connecté"
+              "containsLoggedInUser": "contient l'utilisateur connecté",
+              "containsLoggedInUserGroup": "contient le groupe de l'utilisateur connecté"
             }
           }
         }
@@ -799,7 +800,7 @@
           "description": "Permet de sélectionner plusieurs utilisateurs dans une liste prédéfinie"
         },
         "MULTI_GROUP": {
-          "name": "Groupe d'utilisateurs",
+          "name": "Multi groupe d'utilisateurs",
           "description": "Permet de sélectionner plusieurs groupes d'utilisateurs dans une liste prédéfinie"
         },
         "RELATION_BETWEEN_TABLES": {

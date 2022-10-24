@@ -8,6 +8,7 @@ import { User } from '../../models/user.model'
 import { Workspace } from '../../models/workspace.model'
 import { Paginated } from '@feathersjs/feathers'
 import { dropWorkspace } from '../../utils/dropWorkspace'
+import { Group } from '../../models/group.model'
 
 describe('computeRowLookedUpColumns hook', () => {
   let workspace: Workspace
@@ -17,16 +18,21 @@ describe('computeRowLookedUpColumns hook', () => {
   let table3: Table
   let columnTable1Ref: TableColumn
   let columnTable1User: TableColumn
+  let columnTable1Group: TableColumn
   let columnTable1MultiUser: TableColumn
+  let columnTable1MultiGroup: TableColumn
   let columnTable2Ref: TableColumn
   let columnTable2RelationBetweenTable1: TableColumn
   let columnTable2RelationBetweenTable1Bis: TableColumn
   let columnTable2LookedUpColumnTable1User: TableColumn
+  let columnTable2LookedUpColumnTable1Group: TableColumn
   let columnTable2LookedUpColumnTable1MultiUser: TableColumn
+  let columnTable2LookedUpColumnTable1MultiGroup: TableColumn
   let columnTable2LookedUpColumnTable1UserBis: TableColumn
   let columnTable3LookedUpColumnTable1RBT2: TableColumn
   let columnTable3RelationBetweenTable2: TableColumn
   let user1: User
+  let groupA: Group
   let rowTable1: TableRow
   let rowTable1Bis: TableRow
   let rowTable2: TableRow
@@ -63,9 +69,19 @@ describe('computeRowLookedUpColumns hook', () => {
       column_type_id: COLUMN_TYPE.USER,
       table_id: table1.id,
     })
+    columnTable1Group = await app.service('column').create({
+      text: 'Group',
+      column_type_id: COLUMN_TYPE.GROUP,
+      table_id: table1.id,
+    })
     columnTable1MultiUser = await app.service('column').create({
       text: 'MultiUser',
       column_type_id: COLUMN_TYPE.MULTI_USER,
+      table_id: table1.id,
+    })
+    columnTable1MultiGroup = await app.service('column').create({
+      text: 'MultiGroup',
+      column_type_id: COLUMN_TYPE.MULTI_GROUP,
       table_id: table1.id,
     })
     columnTable2Ref = await app.service('column').create({
@@ -99,6 +115,16 @@ describe('computeRowLookedUpColumns hook', () => {
         foreignField: columnTable1User.id,
       },
     })
+    columnTable2LookedUpColumnTable1Group = await app.service('column').create({
+      text: 'LUC to Table1 - Group A',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      table_id: table2.id,
+      settings: {
+        tableId: table1.id,
+        localField: columnTable2RelationBetweenTable1.id,
+        foreignField: columnTable1Group.id,
+      },
+    })
     columnTable2LookedUpColumnTable1MultiUser = await app.service('column').create({
       text: 'LUC to Table1 - MultiUser',
       column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
@@ -107,6 +133,16 @@ describe('computeRowLookedUpColumns hook', () => {
         tableId: table1.id,
         localField: columnTable2RelationBetweenTable1.id,
         foreignField: columnTable1MultiUser.id,
+      },
+    })
+    columnTable2LookedUpColumnTable1MultiGroup = await app.service('column').create({
+      text: 'LUC to Table1 - MultiGroup',
+      column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
+      table_id: table2.id,
+      settings: {
+        tableId: table1.id,
+        localField: columnTable2RelationBetweenTable1.id,
+        foreignField: columnTable1MultiGroup.id,
       },
     })
     columnTable2LookedUpColumnTable1UserBis = await app.service('column').create({
@@ -143,6 +179,10 @@ describe('computeRowLookedUpColumns hook', () => {
       email: 'user1-row-lkdpup@locokit.io',
       password: 'locokit',
     })
+
+    groupA = await app.service('group').create({
+      name: 'Group A',
+    })
   })
 
   beforeEach(async () => {
@@ -153,6 +193,8 @@ describe('computeRowLookedUpColumns hook', () => {
       data: {
         [columnTable1User.id]: user1.id,
         [columnTable1MultiUser.id]: [user1.id],
+        [columnTable1Group.id]: groupA.id,
+        [columnTable1MultiGroup.id]: [groupA.id],
       },
     })
     rowTable1Bis = await service.create({
@@ -161,6 +203,8 @@ describe('computeRowLookedUpColumns hook', () => {
       data: {
         [columnTable1User.id]: user1.id,
         [columnTable1MultiUser.id]: [user1.id],
+        [columnTable1Group.id]: groupA.id,
+        [columnTable1MultiGroup.id]: [groupA.id],
       },
     })
     rowTable2 = await service.create({
@@ -174,7 +218,7 @@ describe('computeRowLookedUpColumns hook', () => {
   })
 
   it('compute the lookedup column of the currentRow', async () => {
-    expect.assertions(14)
+    expect.assertions(18)
     const spyOnGetForeignColumn = jest.spyOn(app.service('column'), 'get').mockClear()
     expect(rowTable2.data[columnTable2RelationBetweenTable1.id]).toBeNull()
     // Update the relation between tables value
@@ -183,13 +227,17 @@ describe('computeRowLookedUpColumns hook', () => {
         [columnTable2RelationBetweenTable1.id]: rowTable1.id,
       },
     })
-    expect(spyOnGetForeignColumn).toHaveBeenCalledTimes(2)
+    expect(spyOnGetForeignColumn).toHaveBeenCalledTimes(4)
     expect(newRowTable2.data[columnTable2RelationBetweenTable1.id].reference).toBe(rowTable1.id)
     expect(newRowTable2.data[columnTable2RelationBetweenTable1.id].value).toBe('table 1 ref')
     expect(newRowTable2.data[columnTable2LookedUpColumnTable1User.id].value).toBe('User 1')
     expect(newRowTable2.data[columnTable2LookedUpColumnTable1User.id].reference).toBe(user1.id)
     expect(newRowTable2.data[columnTable2LookedUpColumnTable1MultiUser.id].value).toBe('User 1')
     expect(newRowTable2.data[columnTable2LookedUpColumnTable1MultiUser.id].reference).toEqual([user1.id])
+    expect(newRowTable2.data[columnTable2LookedUpColumnTable1Group.id].value).toBe('Group A')
+    expect(newRowTable2.data[columnTable2LookedUpColumnTable1Group.id].reference).toBe(groupA.id)
+    expect(newRowTable2.data[columnTable2LookedUpColumnTable1MultiGroup.id].value).toBe('Group A')
+    expect(newRowTable2.data[columnTable2LookedUpColumnTable1MultiGroup.id].reference).toEqual([groupA.id])
 
     // Check the update of a LOOKED_UP_COLUMN linked to a RELATION_BETWEEN_TABLES column
     spyOnGetForeignColumn.mockClear()
@@ -238,13 +286,18 @@ describe('computeRowLookedUpColumns hook', () => {
 
   afterAll(async () => {
     await app.service('user').remove(user1.id)
+    await app.service('group').remove(groupA.id)
     await app.service('column').remove(columnTable2LookedUpColumnTable1User.id)
+    await app.service('column').remove(columnTable2LookedUpColumnTable1Group.id)
     await app.service('column').remove(columnTable2LookedUpColumnTable1UserBis.id)
     await app.service('column').remove(columnTable3LookedUpColumnTable1RBT2.id)
     await app.service('column').remove(columnTable2LookedUpColumnTable1MultiUser.id)
+    await app.service('column').remove(columnTable2LookedUpColumnTable1MultiGroup.id)
 
     await app.service('column').remove(columnTable1User.id)
+    await app.service('column').remove(columnTable1Group.id)
     await app.service('column').remove(columnTable1MultiUser.id)
+    await app.service('column').remove(columnTable1MultiGroup.id)
     await app.service('column').remove(columnTable1Ref.id)
     await app.service('column').remove(columnTable2Ref.id)
     await app.service('column').remove(columnTable2RelationBetweenTable1.id)

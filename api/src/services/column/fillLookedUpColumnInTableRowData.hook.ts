@@ -61,6 +61,7 @@ export function fillLookedUpColumnInTableRowData (): Hook {
             `
             break
           case COLUMN_TYPE.MULTI_USER:
+          case COLUMN_TYPE.MULTI_GROUP:
             newDataForCurrentColumn = `
             ('{
               "${context.result.id}": {

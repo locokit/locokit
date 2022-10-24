@@ -351,7 +351,42 @@ export function checkColumnDefinitionMatching (): Hook {
               }
             }
             break
-
+          case COLUMN_TYPE.MULTI_GROUP:
+            if (!(currentColumnValue instanceof Array)) {
+              checkErrors.push({
+                columnName: currentColumn.text,
+                columnError: `The current value is not an array of values (received: ${currentColumnValue as string})`,
+              })
+            } else if (currentColumnValue.length > 0) {
+              // Check is value is a string/UUID
+              if (!currentColumnValue.every((groupID: string | any) => typeof groupID === 'string')) {
+                checkErrors.push({
+                  columnName: currentColumn.text,
+                  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                  columnError: `The current value is not an array of group references (received: ${currentColumnValue})`,
+                })
+              } else {
+                /**
+                 * We have to check that all group exist
+                 */
+                const groups = await context.app.service('group').find({
+                  query: {
+                    id: {
+                      $in: currentColumnValue,
+                      $limit: -1,
+                    },
+                  },
+                })
+                if (currentColumnValue.length !== groups.total) {
+                  checkErrors.push({
+                    columnName: currentColumn.text,
+                    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                    columnError: `The current value is not an array of existing and distinct group references (received: ${currentColumnValue})`,
+                  })
+                }
+              }
+            }
+            break
           case COLUMN_TYPE.MULTI_USER:
             /**
              * A multi user is sent as a number array
@@ -489,7 +524,6 @@ export function checkColumnDefinitionMatching (): Hook {
               }
             }
             break
-          case COLUMN_TYPE.MULTI_GROUP:
           default:
             checkErrors.push({
               columnName: currentColumn.text,

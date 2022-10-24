@@ -21,56 +21,56 @@ const mockColumns: Record<string, LckTableColumn> = {
   number: {
     id: 'C10',
     text: 'Number',
-    slug: 'Number',
+    slug: 'number',
     column_type_id: COLUMN_TYPE.NUMBER,
     ...defaultParamsColumn,
   },
   firstName: {
     id: 'C11',
     text: 'First name',
-    slug: 'First name',
+    slug: 'first_name',
     column_type_id: COLUMN_TYPE.STRING,
     ...defaultParamsColumn,
   },
   lastName: {
     id: 'C12',
     text: 'Last name',
-    slug: 'Last name',
+    slug: 'last_name',
     column_type_id: COLUMN_TYPE.STRING,
     ...defaultParamsColumn,
   },
   boolean: {
     id: 'C13',
     text: 'Boolean',
-    slug: 'Boolean',
+    slug: 'boolean',
     column_type_id: COLUMN_TYPE.BOOLEAN,
     ...defaultParamsColumn,
   },
   date: {
     id: 'C14',
     text: 'Date',
-    slug: 'Date',
+    slug: 'date',
     column_type_id: COLUMN_TYPE.DATE,
     ...defaultParamsColumn,
   },
   datetime: {
     id: 'C15',
     text: 'Datetime',
-    slug: 'Datetime',
+    slug: 'datetime',
     column_type_id: COLUMN_TYPE.DATETIME,
     ...defaultParamsColumn,
   },
   luc: {
     id: 'C16',
     text: 'Looked up column',
-    slug: 'Looked up column',
+    slug: 'looked_up_column',
     column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
     ...defaultParamsColumn,
     parents: [
       {
         id: 'C22',
         text: 'Not supported column',
-        slug: 'Not supported column',
+        slug: 'not_supported_column',
         createdAt: '2020-11-02T16:11:03.109Z',
         updatedAt: '2020-11-02T16:11:03.109Z',
         settings: {},
@@ -86,42 +86,42 @@ const mockColumns: Record<string, LckTableColumn> = {
   rbt: {
     id: 'C17',
     text: 'Relation between tables',
-    slug: 'Relation between tables',
+    slug: 'relation_between_tables',
     column_type_id: COLUMN_TYPE.RELATION_BETWEEN_TABLES,
     ...defaultParamsColumn,
   },
   user: {
     id: 'C18',
     text: 'User',
-    slug: 'User',
+    slug: 'user',
     column_type_id: COLUMN_TYPE.USER,
     ...defaultParamsColumn,
   },
   group: {
     id: 'C19',
     text: 'Group',
-    slug: 'Group',
+    slug: 'group',
     column_type_id: COLUMN_TYPE.GROUP,
     ...defaultParamsColumn,
   },
   multiUser: {
     id: 'C20',
     text: 'Multi user',
-    slug: 'Multi user',
+    slug: 'multi_user',
     column_type_id: COLUMN_TYPE.MULTI_USER,
     ...defaultParamsColumn,
   },
   userLuc: {
     id: 'C21',
     text: 'User looked up column',
-    slug: 'User looked up column',
+    slug: 'user_looked_up_column',
     column_type_id: COLUMN_TYPE.LOOKED_UP_COLUMN,
     ...defaultParamsColumn,
     parents: [
       {
         id: 'C23',
         text: 'Other user column',
-        slug: 'Other user column',
+        slug: 'other_user_column',
         createdAt: '2020-11-02T16:11:03.109Z',
         updatedAt: '2020-11-02T16:11:03.109Z',
         settings: {},
@@ -134,7 +134,13 @@ const mockColumns: Record<string, LckTableColumn> = {
       },
     ],
   },
-
+  multiGroup: {
+    id: 'C24',
+    text: 'Multi group',
+    slug: 'multi_group',
+    column_type_id: COLUMN_TYPE.MULTI_GROUP,
+    ...defaultParamsColumn,
+  },
 }
 
 const mockAllColumns = [
@@ -149,6 +155,7 @@ const mockAllColumns = [
   mockColumns.user,
   mockColumns.group,
   mockColumns.multiUser,
+  mockColumns.multiGroup,
 ]
 
 describe('Filter utils', () => {
@@ -530,12 +537,23 @@ describe('Filter utils', () => {
           action: ACTIONS.EQUAL,
           pattern: null,
         },
-
+        // Valid value (multi group column with the use of a specific key in the pattern)
+        {
+          operator: '$and',
+          column: {
+            label: mockColumns.multiGroup.text,
+            originalType: mockColumns.multiGroup.column_type_id,
+            type: mockColumns.multiGroup.column_type_id,
+            value: mockColumns.multiGroup.id,
+          },
+          action: ACTIONS.EQUAL,
+          pattern: ['another', '{groupId}'],
+        },
       ])
 
       expect(resultFilters).toBeDefined()
       expect(resultFilters!.operator).toBe('$and')
-      expect(resultFilters!.values).toHaveLength(8)
+      expect(resultFilters!.values).toHaveLength(9)
       // Valid value (string column)
       expect(resultFilters!.values[0]).toEqual({
         action: ACTIONS.EQUAL.label,
@@ -591,6 +609,13 @@ describe('Filter utils', () => {
         column: mockColumns.multiUser.id,
         dbAction: ACTIONS.EQUAL.value,
         pattern: ['1', '{userId}', '2'],
+      })
+      // Valid value (multi group column with the use of a specific key in the pattern)
+      expect(resultFilters!.values[8]).toEqual({
+        action: ACTIONS.EQUAL.label,
+        column: mockColumns.multiGroup.id,
+        dbAction: ACTIONS.EQUAL.value,
+        pattern: ['another', '{groupId}'],
       })
     })
   })
@@ -782,6 +807,18 @@ describe('Filter utils', () => {
         action: ACTIONS.EQUAL,
         pattern: 1,
       },
+      // Multi group column
+      {
+        operator: '$and',
+        column: {
+          label: mockColumns.multiGroup.text,
+          originalType: mockColumns.multiGroup.column_type_id,
+          type: mockColumns.multiGroup.column_type_id,
+          value: mockColumns.multiGroup.id,
+        },
+        action: ACTIONS.CONTAINS_LOGGED_USER_GROUP,
+        pattern: ['another', '{groupId}'],
+      },
 
     ], {
       '{userId}': 10,
@@ -804,6 +841,7 @@ describe('Filter utils', () => {
       '$and[20][data][C19.reference][$eq]': '1',
       '$and[21][data][C19.reference][$eq]': 'group-1',
       '$and[22][data][C20.reference][$contains]': [1, 10, 2],
+      '$and[24][data][C24.reference][$contains]': ['another', 'group-1'],
       '$and[23][data][C21.reference][$eq]': 1,
       '$and[3][data][C11][$ne]': 'John',
       '$and[4][data][C11][$in]': 'John',

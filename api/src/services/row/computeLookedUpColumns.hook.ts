@@ -136,6 +136,7 @@ function getLookedUpColumnsPatchPromisesAndFormulaToUpdate (
           }
           break
         case COLUMN_TYPE.MULTI_USER:
+        case COLUMN_TYPE.MULTI_GROUP:
           newData['data:' + c.columnIdOfChildRow] = {
             reference: (currentValue as unknown as { reference: string, value: string[] }).reference,
             value: (currentValue as unknown as { reference: string, value: string[] }).value.join(', '),
