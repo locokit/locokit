@@ -10,7 +10,7 @@ exports[`Page Create new records (blocks Set) match snapshot and display all blo
     <!---->
     <div class="lck-container-parent p-mx-2">
       <div id="16" class="lck-container">
-        <div class="p-px-4">
+        <div class="p-px-4 w-full-without-px-4">
           <h2 class="lck-color-title" style="display: none;">
             Main container
           </h2>

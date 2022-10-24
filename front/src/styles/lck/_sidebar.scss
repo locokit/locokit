@@ -84,6 +84,8 @@
   @media screen and (min-width: 900px) {
     position: relative;
     display: block;
+    flex-basis: var(--sidebar-app-width);
+    flex-shrink: 0;
 
     .lck-layout--with-nav & {
       left: 0;
