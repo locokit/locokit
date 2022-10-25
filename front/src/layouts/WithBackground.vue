@@ -16,16 +16,16 @@
       style="max-width: 600px"
     >
       <router-link
+        v-if="logoBgPrimaryURL"
         class="p-d-block p-text-center"
         to="/"
       >
         <img
           alt="logo"
-          :src="logoBgPrimaryURL"
           class="p-mb-4 p-mx-auto"
+          :src="logoBgPrimaryURL"
         />
       </router-link>
-
       <p-card class="p-col">
         <template slot="title">
           <slot name="title"></slot>
