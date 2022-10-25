@@ -15,18 +15,17 @@
       class="p-col"
       style="max-width: 600px"
     >
-      <div v-if="logoBgPrimaryURL">
-        <router-link
-          class="p-d-block p-text-center"
-          to="/"
-        >
-          <img
-            alt="logo"
-            class="p-mb-4 p-mx-auto"
-            :src="logoBgPrimaryURL"
-          />
-        </router-link>
-      </div>
+      <router-link
+        v-if="logoBgPrimaryURL"
+        class="p-d-block p-text-center"
+        to="/"
+      >
+        <img
+          alt="logo"
+          class="p-mb-4 p-mx-auto"
+          :src="logoBgPrimaryURL"
+        />
+      </router-link>
       <p-card class="p-col">
         <template slot="title">
           <slot name="title"></slot>
