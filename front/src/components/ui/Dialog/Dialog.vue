@@ -64,4 +64,9 @@ export default Vue.extend({
 ::v-deep .p-dialog {
   width: 600px;
   max-width: min(600px, 100%);
+}
+@media screen and (max-width: 768px) {
+  div[role="dialog"][aria-modal="true"] {
+    width: min(500px , 90%)
+  }
 }</style>
