@@ -11,7 +11,7 @@ export default {
   content: [
     srcDir + '/**/*.vue',
     // locokitDesignSystemDir + '/src/**/^(?!.*.story.vue$).*.vue$',
-    locokitDesignSystemDir + '/src/**/*.vue',
+    // locokitDesignSystemDir + '/src/**/*.vue', // Todo: Issue WIP https://github.com/histoire-dev/histoire/issues/300
   ],
   theme: {
     extend: {
