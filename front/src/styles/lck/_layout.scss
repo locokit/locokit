@@ -31,8 +31,8 @@
     display: grid;
     grid-template-columns: auto 1fr;
     &-content {
-      display: grid;
-      grid-template-columns: auto 1fr;
+      display: flex;
+      flex: 1;
     }
   }
 }
