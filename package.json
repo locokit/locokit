@@ -49,12 +49,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.40.1",
     "@typescript-eslint/parser": "^5.40.1",
     "eslint": "^8.25.0",
-    "@rushstack/eslint-patch": "^1.2.0",
-    "@vue/eslint-config-standard": "^8.0.1",
-    "@vue/eslint-config-typescript": "^11.0.2",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard-with-typescript": "^23.0.0",
     "eslint-plugin-prettier": "^4.2.1",

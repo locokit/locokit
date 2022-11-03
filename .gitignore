@@ -6,6 +6,7 @@ node_modules
 
 # Build
 dist
+lib
 
 # Storage
 fs-storage

@@ -1,11 +1,11 @@
 import { Params } from '@feathersjs/feathers'
-import { LocoKitEngine } from '@locokit/lck-engine'
-import { Connexion } from '@locokit/lck-engine/adapters/interface'
-import { getJSONTypeFromSQLType } from '@locokit/lck-engine/utils/sqlTypeConverter'
+import { LocoKitEngine } from '@locokit/engine'
+import { Connexion } from '@locokit/engine/adapters/interface'
+import { getJSONTypeFromSQLType } from '@locokit/engine/utils/sqlTypeConverter'
 
 export class SwaggerService {
-  private connexion: Connexion
-  private baseURL: string
+  private readonly connexion: Connexion
+  private readonly baseURL: string
 
   constructor(connexion: Connexion, baseURL: string) {
     this.connexion = connexion
@@ -62,12 +62,15 @@ export class SwaggerService {
           currentTable.fields.filter((c) => !c.is_nullable).map((c) => c.name),
         ],
         tags: [currentTable.name],
-        properties: currentTable.fields.reduce((result, c) => {
-          result[c.name] = {
-            type: getJSONTypeFromSQLType(c.data_type),
-          }
-          return result
-        }, {} as Record<string, any>),
+        properties: currentTable.fields.reduce<Record<string, any>>(
+          (result, c) => {
+            result[c.name] = {
+              type: getJSONTypeFromSQLType(c.data_type),
+            }
+            return result
+          },
+          {},
+        ),
       }
     })
 
@@ -107,7 +110,7 @@ export class SwaggerService {
           ? 'qb_' + currentTable.name
           : currentTable.name
       resolvers.Query[resolverName] = async () => {
-        return adapter.queryTable(currentTable.name)
+        return await adapter.queryTable(currentTable.name)
       }
       schema += `
         type LCK_${currentTable.name} {
@@ -116,7 +119,7 @@ export class SwaggerService {
             (f) =>
               `    ${f.name}: String${
                 '' /* f.is_nullable === true ? '' : '!' */
-              }`
+              }`,
           )
           .join('\n')}
         }
