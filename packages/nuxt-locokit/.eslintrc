@@ -19,6 +19,14 @@
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/no-unnecessary-type-assertion": "off",
     "no-case-declarations": "off",
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "vue/multi-word-component-names": [
+      "error",
+      {
+        "ignores": [
+          "index"
+        ]
+      }
+    ]
   }
 }
