@@ -44,7 +44,7 @@ export const usersDataSchema = lckSchema({
     },
     verifyExpires: {
       type: 'number',
-      // format: 'date-time',
+      format: 'date-time',
     },
     verifyChanges: {
       type: 'object',
@@ -56,7 +56,11 @@ export const usersDataSchema = lckSchema({
       type: 'string',
     },
     resetExpires: {
-      type: 'string',
+      type: 'number',
+      format: 'date-time',
+    },
+    resetAttempts: {
+      type: 'number',
     },
   },
 } as const)
@@ -105,7 +109,12 @@ export const usersPatchSchema = lckSchema({
     },
     resetExpires: {
       readOnly: true,
-      type: 'string',
+      type: 'number',
+      format: 'date-time',
+    },
+    resetAttempts: {
+      readOnly: true,
+      type: 'number',
     },
   },
 } as const)
