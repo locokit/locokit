@@ -1,0 +1,63 @@
+
+.p-inline-message {
+  padding: 0.5rem 0.75rem;
+  margin: 0;
+  border-radius: 4px;
+}
+
+.p-inline-message.p-inline-message-info {
+  background: #cce5ff;
+  border: solid #b8daff;
+  border-width: 0px;
+  color: #004085;
+}
+
+.p-inline-message.p-inline-message-info .p-inline-message-icon {
+  color: #004085;
+}
+
+.p-inline-message.p-inline-message-success {
+  background: #d4edda;
+  border: solid #c3e6cb;
+  border-width: 0px;
+  color: #155724;
+}
+
+.p-inline-message.p-inline-message-success .p-inline-message-icon {
+  color: #155724;
+}
+
+.p-inline-message.p-inline-message-warn {
+  background: #fff3cd;
+  border: solid #ffeeba;
+  border-width: 0px;
+  color: #856404;
+}
+
+.p-inline-message.p-inline-message-warn .p-inline-message-icon {
+  color: #856404;
+}
+
+.p-inline-message.p-inline-message-error {
+  background: #f8d7da;
+  border: solid #f5c6cb;
+  border-width: 0px;
+  color: var(--color-error);
+}
+
+.p-inline-message.p-inline-message-error .p-inline-message-icon {
+  color: var(--color-error);
+}
+
+.p-inline-message .p-inline-message-icon {
+  font-size: 1rem;
+  margin-right: 0.5rem;
+}
+
+.p-inline-message .p-inline-message-text {
+  font-size: 1rem;
+}
+
+.p-inline-message.p-inline-message-icon-only .p-inline-message-icon {
+  margin-right: 0;
+}
