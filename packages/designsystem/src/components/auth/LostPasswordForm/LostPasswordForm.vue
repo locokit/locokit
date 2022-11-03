@@ -37,14 +37,20 @@
         :disabled="loading || !valid"
         class="p-mb-2"
       />
-      <span
+      <div
         v-if="error"
-        class="mt-4 p-text-error"
+        class="flex flex-col mt-4 p-text-error"
         role="alert"
         aria-live="assertive"
       >
-        {{ $t('components.lostPasswordForm.error') }}
-      </span>
+        <p v-if="error.name === 'BadRequest'">
+          {{ $t('error.badRequest.lostPassword') }}
+        </p>
+        <p v-else>
+          {{ $t('error.basic') }}
+        </p>
+        <p>{{ $t(`error.redundantError`) }}</p>
+      </div>
     </div>
   </Form>
 </template>

@@ -1,7 +1,10 @@
 <template>
   <Story title="FormGeneric" icon="bi:wrench-adjustable">
     <Variant title="default">
-      <FormGeneric @submit="logEvent('submit', $event)">
+      <FormGeneric
+        @cancel="logEvent('cancel', $event)"
+        @submit="logEvent('submit', $event)"
+      >
         <Field
           v-slot="{ field, meta: { valid, touched } }"
           v-model="name"
@@ -38,7 +41,6 @@
 <script setup lang="ts">
 import FormGeneric from './FormGeneric.vue'
 import PrimeInput from 'primevue/inputtext'
-import PrimePassword from 'primevue/password'
 import { Field, ErrorMessage } from 'vee-validate'
 import { ref } from 'vue'
 import { logEvent } from 'histoire/client'

@@ -70,14 +70,20 @@
           "
           :disabled="loading || !valid"
         />
-        <span
+        <div
           v-if="error"
-          class="mt-4 p-text-error"
+          class="flex flex-col mt-4 p-text-error"
           role="alert"
           aria-live="assertive"
         >
-          {{ $t('components.loginForm.error') }}
-        </span>
+          <p v-if="error.name === 'NotAuthenticated'">
+            {{ $t('error.notAuthenticated.login') }}
+          </p>
+          <p v-else>
+            {{ $t('error.basic') }}
+          </p>
+          <p>{{ $t(`error.redundantError`) }}</p>
+        </div>
       </div>
     </Form>
 
@@ -133,10 +139,6 @@ const onSubmit = () => {
 </script>
 
 <style scoped lang="scss">
-//a {
-//  font-size: var(--font-size-md);
-//}
-
 .footer-links {
   margin: 1em 0.5em 0 2.5em;
 }

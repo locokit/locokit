@@ -50,12 +50,12 @@
       v-slot="{ field, errorMessage }"
       name="passwordForm.passwordCheck"
       as="div"
-      rules="required|confirmed:password"
+      rules="required|confirmed:passwordForm.password"
       class="mb-4 flex flex-col"
     >
-      <label for="passwordCheck" class="label-field-required">{{
-        $t('components.passwordForm.passwordCheck')
-      }}</label>
+      <label for="passwordCheck" class="label-field-required">
+        {{ $t('components.passwordForm.passwordCheck') }}
+      </label>
       <PrimePassword
         v-model="passwordCheck"
         input-id="passwordCheck"
@@ -83,14 +83,17 @@
       :disabled="loading || !valid"
       class="mb-2"
     />
-    <span
+    <div
       v-if="error"
-      class="mt-4 p-text-error"
+      class="flex flex-col mt-4 p-text-error"
       role="alert"
       aria-live="assertive"
     >
-      {{ $t('components.resetPasswordForm.error') }}
-    </span>
+      <p>
+        {{ $t('error.basic') }}
+      </p>
+      <p>{{ $t(`error.redundantError`) }}</p>
+    </div>
   </Form>
 </template>
 

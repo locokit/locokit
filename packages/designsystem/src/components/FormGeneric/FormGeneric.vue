@@ -1,11 +1,10 @@
 <template>
   <Form
-    v-slot="{ isSubmitting, handleReset, meta: { valid, touched } }"
-    ref="lck-form-record"
+    v-slot="{ isSubmitting, meta: { valid, touched } }"
+    ref="refForm"
     class="p-fluid"
     :validation-schema="schema"
     @submit="onSubmit"
-    @reset="handleReset"
   >
     <slot />
     <div class="lck-form-footer text-right mb-4">
@@ -15,7 +14,7 @@
         :label="$t('components.formGeneric.cancel')"
         icon="pi pi-times"
         :class="{ 'full-width-button': fullWidthButton }"
-        @click="$emit('cancel')"
+        @click="onCancel"
       />
       <PrimeButton
         type="submit"
@@ -39,6 +38,7 @@
 <script setup lang="ts">
 import PrimeButton from 'primevue/button'
 import { Form } from 'vee-validate'
+import { ref } from 'vue'
 
 const emit = defineEmits(['submit', 'cancel'])
 
@@ -52,20 +52,31 @@ const props = withDefaults(
     labelButtonSave?: string
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     schema?: any
-    error?: Error
+    error?: Error | null
   }>(),
   {
     loading: () => false,
     displayCancelButton: () => true,
     fullWidthButton: () => false,
     reset: () => false,
+    error: () => null,
+    schema: () => ({}),
+    labelButtonSave: () => '',
   },
 )
 
-// Necessary because the submitted data is dependent on the parent component.
+const refForm = ref()
+
+// Type any: is necessary because the submitted data is dependent on the parent component.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const onSubmit = (values: any) => {
   emit('submit', values)
+  refForm.value.resetForm()
+}
+
+const onCancel = () => {
+  refForm.value.resetForm()
+  emit('cancel')
 }
 
 // Todo: To check if this is still necessary

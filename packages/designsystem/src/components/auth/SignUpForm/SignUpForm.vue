@@ -40,7 +40,13 @@
       <label for="email" class="label-field-required">
         {{ $t('components.signUpForm.email') }}
       </label>
-      <PrimeInputText id="email" v-bind="field" required />
+      <PrimeInputText
+        id="email"
+        v-bind="field"
+        required
+        autocomplete="email"
+        type="email"
+      />
       <span
         v-if="errorMessage"
         class="p-text-error"
