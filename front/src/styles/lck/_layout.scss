@@ -32,6 +32,7 @@
     grid-template-columns: auto 1fr;
     &-content {
       display: flex;
+      flex: 1;
     }
   }
 }
