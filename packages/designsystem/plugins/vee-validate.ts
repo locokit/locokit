@@ -17,7 +17,11 @@ defineRule('regex', regex)
 
 // Todo: Find a fix or fix it
 defineRule('confirmed', (value, [target], ctx) => {
-  return value === ctx.form[target]
+  // To interpret string keypath: "toto.ro" -> toto.ro
+  const result = target.split('.').reduce((acc: never, current: string) => {
+    return acc[current]
+  }, ctx.form)
+  return value === result
 })
 
 // defineRule('dateValid', {
