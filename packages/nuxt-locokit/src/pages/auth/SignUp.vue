@@ -1,24 +1,28 @@
 <template>
-  <WithBackground background-image="../../assets/dog.jpg">
+  <WithBackground background-image="../../dog.jpg">
     <PrimeCard class="flex-grow p-2 max-w-2xl">
       <template #title>
-        {{ $t('pages.signUp.title') }}
+        <h1 class="text-center mb-4">{{ $t('pages.signUp.title') }}</h1>
       </template>
       <template #content>
-        <div v-if="!signUpOk">
+        <div v-if="!formSentAndValid">
           <p class="mb-4">{{ $t('pages.signUp.description') }}</p>
           <SignUpForm :error="error" :loading="loading" @submit="signUp" />
         </div>
         <div v-else class="text-center">
-          <div class="flex items-center px-3 pb-3">
+          <div class="flex items-center px-3 pt-4 pb-6">
             <i
-              style="font-size: 2em"
-              class="pi pi-check-circle p-text-success mr-4"
-            ></i>
-            <p class="text-justify">{{ $t('pages.signUp.signUpOk') }}</p>
+              class="pi pi-check-circle p-text-success mr-4 icon-with-text-aside"
+            />
+            <p class="text-justify">
+              {{ $t('pages.signUp.sendMailToCompleteAccount') }}
+            </p>
           </div>
-          <NuxtLink to="/">
-            {{ $t('pages.signUp.homeLink') }}
+          <NuxtLink
+            class="no-decoration-link"
+            :to="{ name: ROUTES_NAMES.HOME }"
+          >
+            {{ $t('pages.lostPassword.homeLink') }}
           </NuxtLink>
         </div>
       </template>
@@ -29,14 +33,20 @@
 <script setup lang="ts">
 import PrimeCard from 'primevue/card'
 import { SignUpForm } from '@locokit/designsystem'
+import { storeToRefs } from 'pinia'
 import WithBackground from '../../layouts/WithBackground/WithBackground.vue'
+import { ROUTES_NAMES } from '../paths'
+import { useStoreAuth } from '../../stores/auth'
 import { ref } from '#imports'
 
-const error = ref()
-const loading = ref(false) // check if necessary with vee-validate
-const signUpOk = ref(false)
+const authStore = useStoreAuth()
 
-const signUp = () => {
-  console.log('Bouh')
+const { error } = storeToRefs(authStore)
+const loading = ref(false) // check if necessary with vee-validate
+const formSentAndValid = ref(false)
+
+const signUp = async (data: { email: string; name: string }) => {
+  await authStore.signUp(data)
+  formSentAndValid.value = !error.value
 }
 </script>

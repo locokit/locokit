@@ -1,6 +1,6 @@
 import { createResolver } from '@nuxt/kit'
 import { NuxtPage } from '@nuxt/schema'
-import { ROUTES } from './pages/paths'
+import { ROUTES_NAMES, ROUTES_PATH } from './pages/paths'
 
 const { resolve } = createResolver(import.meta.url)
 
@@ -13,8 +13,8 @@ const { resolve } = createResolver(import.meta.url)
 export function getAuthPages(prefix: string): NuxtPage[] {
   return [
     {
-      name: ROUTES.AUTH.LOGIN,
-      path: prefix + ROUTES.AUTH.LOGIN,
+      name: ROUTES_NAMES.AUTH.LOGIN,
+      path: prefix + ROUTES_PATH.AUTH.LOGIN,
       file: resolve('./pages/auth/LoginPage.vue'),
       meta: {
         anonymous: true,
@@ -22,8 +22,8 @@ export function getAuthPages(prefix: string): NuxtPage[] {
       },
     },
     {
-      name: ROUTES.AUTH.LOSTPASSWORD,
-      path: prefix + ROUTES.AUTH.LOSTPASSWORD,
+      name: ROUTES_NAMES.AUTH.LOST_PASSWORD,
+      path: prefix + ROUTES_PATH.AUTH.LOSTPASSWORD,
       file: resolve('./pages/auth/LostPassword.vue'),
       meta: {
         anonymous: true,
@@ -31,8 +31,8 @@ export function getAuthPages(prefix: string): NuxtPage[] {
       },
     },
     {
-      name: ROUTES.AUTH.VERIFYSIGNUP,
-      path: prefix + ROUTES.AUTH.VERIFYSIGNUP,
+      name: ROUTES_NAMES.AUTH.VERIFY_SIGNUP,
+      path: prefix + ROUTES_PATH.AUTH.VERIFYSIGNUP,
       file: resolve('./pages/auth/VerifySignup.vue'),
       meta: {
         anonymous: true,
@@ -40,8 +40,8 @@ export function getAuthPages(prefix: string): NuxtPage[] {
       },
     },
     {
-      name: ROUTES.AUTH.RESETPASSWORD,
-      path: prefix + ROUTES.AUTH.RESETPASSWORD,
+      name: ROUTES_NAMES.AUTH.RESET_PASSWORD,
+      path: prefix + ROUTES_PATH.AUTH.RESETPASSWORD,
       file: resolve('./pages/auth/ResetPassword.vue'),
       meta: {
         anonymous: true,
@@ -49,8 +49,8 @@ export function getAuthPages(prefix: string): NuxtPage[] {
       },
     },
     {
-      name: ROUTES.AUTH.SIGNUP,
-      path: prefix + ROUTES.AUTH.SIGNUP,
+      name: ROUTES_NAMES.AUTH.SIGN_UP,
+      path: prefix + ROUTES_PATH.AUTH.SIGNUP,
       file: resolve('./pages/auth/SignUp.vue'),
       meta: {
         anonymous: true,
@@ -60,71 +60,71 @@ export function getAuthPages(prefix: string): NuxtPage[] {
   ]
 }
 
-/**
- * Build Nuxt Pages for user submodule
- *
- * @param prefix Prefix to add to auth pages paths
- * @returns
- */
-export function getUserPages(prefix: string): NuxtPage[] {
-  return [
-    {
-      name: ROUTES.USER.PROFILE,
-      path: prefix + ROUTES.USER.PROFILE,
-      file: resolve('./pages/user/profile.vue'),
-      meta: {
-        anonymous: false,
-        protected: true,
-      },
-    },
-    {
-      name: ROUTES.USER.UPDATEEMAIL,
-      path: prefix + ROUTES.USER.UPDATEEMAIL,
-      file: resolve('./pages/user/update-email.vue'),
-      meta: {
-        anonymous: false,
-        protected: true,
-      },
-    },
-  ]
-}
-
-/**
- * Build Nuxt Pages for backoffice submodule
- *
- * @param prefix Prefix to add to auth pages paths
- * @returns
- */
-export function getBackofficePages(prefix: string): NuxtPage[] {
-  return [
-    {
-      name: ROUTES.WORKSPACE.ADMIN.HOME,
-      path: prefix + ROUTES.WORKSPACE.ADMIN.HOME,
-      file: resolve('./pages/w/admin/index.vue'),
-      meta: {
-        anonymous: false,
-        protected: true,
-      },
-    },
-  ]
-}
-
-/**
- * Build Nuxt Pages for frontoffice submodule
- *
- * @param prefix Prefix to add to auth pages paths
- * @returns
- */
-export function getFrontofficePages(prefix: string): NuxtPage[] {
-  return [
-    {
-      name: ROUTES.WORKSPACE.APP.HOME,
-      path: prefix + ROUTES.WORKSPACE.APP.HOME,
-      file: resolve('./pages/w/app/index.vue'),
-      meta: {
-        anonymous: false,
-        protected: false,
-      },
-    },
-  ]
-}
+// /**
+//  * Build Nuxt Pages for user submodule
+//  *
+//  * @param prefix Prefix to add to auth pages paths
+//  * @returns
+//  */
+// export function getUserPages(prefix: string): NuxtPage[] {
+//   return [
+//     {
+//       name: ROUTES_NAMES.USER.PROFILE,
+//       path: prefix + ROUTES_PATH.USER.PROFILE,
+//       file: resolve('./pages/user/profile.vue'),
+//       meta: {
+//         anonymous: false,
+//         protected: true,
+//       },
+//     },
+//     {
+//       name: ROUTES_NAMES.USER.UPDATEEMAIL,
+//       path: prefix + ROUTES_PATH.USER.UPDATEEMAIL,
+//       file: resolve('./pages/user/update-email.vue'),
+//       meta: {
+//         anonymous: false,
+//         protected: true,
+//       },
+//     },
+//   ]
+// }
+//
+// /**
+//  * Build Nuxt Pages for backoffice submodule
+//  *
+//  * @param prefix Prefix to add to auth pages paths
+//  * @returns
+//  */
+// export function getBackofficePages(prefix: string): NuxtPage[] {
+//   return [
+//     {
+//       name: ROUTES_NAMES.WORKSPACE.ADMIN.HOME,
+//       path: prefix + ROUTES_PATH.WORKSPACE.ADMIN.HOME,
+//       file: resolve('./pages/w/admin/index.vue'),
+//       meta: {
+//         anonymous: false,
+//         protected: true,
+//       },
+//     },
+//   ]
+// }
+//
+// /**
+//  * Build Nuxt Pages for frontoffice submodule
+//  *
+//  * @param prefix Prefix to add to auth pages paths
+//  * @returns
+//  */
+// export function getFrontofficePages(prefix: string): NuxtPage[] {
+//   return [
+//     {
+//       name: ROUTES_NAMES.WORKSPACE.APP.HOME,
+//       path: prefix + ROUTES_PATH.WORKSPACE.APP.HOME,
+//       file: resolve('./pages/w/app/index.vue'),
+//       meta: {
+//         anonymous: false,
+//         protected: false,
+//       },
+//     },
+//   ]
+// }

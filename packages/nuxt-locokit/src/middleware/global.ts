@@ -1,6 +1,6 @@
 import { RouteLocationNormalized } from 'vue-router'
-import { ROUTES } from '../pages/paths'
-import { useStoreAuth } from '../store/auth'
+import { ROUTES_PATH } from '../pages/paths'
+import { useStoreAuth } from '../stores/auth'
 import { navigateTo } from '#imports'
 
 /**
@@ -61,8 +61,9 @@ export default async function globalMiddleware(
     //   'navigate to ',
     //   isAuthenticated ? ROUTES.WORKSPACE.HOME : ROUTES.HOME,
     // )
+    console.log('Hello')
     await navigateTo({
-      path: isAuthenticated ? ROUTES.WORKSPACE.HOME : ROUTES.HOME,
+      path: isAuthenticated ? ROUTES_PATH.WORKSPACE.HOME : ROUTES_PATH.HOME,
     })
     // } else if (
     //   !profileAlwaysAuthorized.includes(userProfile) &&

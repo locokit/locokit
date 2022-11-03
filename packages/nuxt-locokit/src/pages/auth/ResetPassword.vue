@@ -1,26 +1,33 @@
 <template>
-  <WithBackground background-image="../../assets/dog.jpg">
+  <WithBackground background-image="../../dog.jpg">
     <PrimeCard class="flex-grow p-2 max-w-2xl">
       <template #title>
-        <h1 class="text-center">{{ $t('pages.resetPassword.title') }}</h1>
+        <h1 class="text-center mb-4">{{ $t('pages.resetPassword.title') }}</h1>
       </template>
       <template #content>
-        <div v-if="!resetOK">
+        <div v-if="!formSentAndValid">
           <p class="mb-4">{{ $t('pages.resetPassword.description') }}</p>
           <PasswordForm
-            class="p-mt-4"
             :loading="loading"
             :error="error"
             :label-submit="$t('pages.resetPassword.labelSubmit')"
             @submit="resetPassword"
           />
         </div>
-        <div v-else>
-          <p>
-            {{ $t('pages.resetPassword.resetOK') }}
-          </p>
+        <div v-else class="text-center">
+          <div class="flex items-center px-3 pt-4 pb-6">
+            <i
+              class="pi pi-check-circle p-text-success mr-4 icon-with-text-aside"
+            />
+            <p class="text-justify">
+              {{ $t('pages.resetPassword.updatedPassword') }}
+            </p>
+          </div>
 
-          <NuxtLink to="/">
+          <NuxtLink
+            class="no-decoration-link"
+            :to="{ name: ROUTES_NAMES.HOME }"
+          >
             {{ $t('pages.resetPassword.homeLink') }}
           </NuxtLink>
         </div>
@@ -32,14 +39,24 @@
 <script setup lang="ts">
 import PrimeCard from 'primevue/card'
 import { PasswordForm } from '@locokit/designsystem'
+import { storeToRefs } from 'pinia'
 import WithBackground from '../../layouts/WithBackground/WithBackground.vue'
-import { ref } from '#imports'
+import { useStoreAuth } from '../../stores/auth'
+import { ROUTES_NAMES } from '../paths'
+import { ref, useRoute } from '#imports'
 
-const error = ref(null)
+const authStore = useStoreAuth()
+const route = useRoute()
+
+const { error } = storeToRefs(authStore)
 const loading = ref(false) // check if necessary with vee-validate
-const resetOK = ref(false)
+const formSentAndValid = ref(false)
 
-const resetPassword = () => {
-  console.log('Bouh')
+const resetPassword = async (data: string) => {
+  await authStore.resetPasswordLong({
+    token: route.query?.token as string,
+    password: data,
+  })
+  formSentAndValid.value = !error.value
 }
 </script>

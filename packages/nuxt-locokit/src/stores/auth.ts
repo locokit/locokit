@@ -5,11 +5,7 @@ export const useStoreAuth = defineStore('auth', {
   state: () => ({
     loading: false,
     isAuthenticated: false,
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    error: {
-      code: null,
-      content: null,
-    } as Error | null | { code: string | null; content: string | null },
+    error: null as Error | null,
     user: null,
   }),
   actions: {
@@ -22,14 +18,69 @@ export const useStoreAuth = defineStore('auth', {
           email: data.email,
           password: data.password,
         })
-        console.log(result)
         this.user = result.user
         // if (result.user.rules) lckAbilities.update(result.user.rules)
         this.isAuthenticated = true
       } catch (error) {
         console.error(error)
         this.isAuthenticated = false
-        this.error = error as Error
+        this.error = error
+      }
+      this.loading = false
+    },
+    async sendLinkToResetPassword(data: { email: string }) {
+      this.loading = true
+      this.error = null
+      try {
+        await sdk.client.service('auth-management').create({
+          action: 'sendResetPwd',
+          value: data,
+        })
+      } catch (error) {
+        console.error(error)
+        this.error = error
+      }
+      this.loading = false
+    },
+    async resetPasswordLong(data: { token: string; password: string }) {
+      this.loading = true
+      this.error = null
+      try {
+        await sdk.client.service('auth-management').create({
+          action: 'resetPwdLong',
+          value: data,
+        })
+      } catch (error) {
+        console.error(error)
+        this.error = error
+      }
+      this.loading = false
+    },
+    async verifySignupAndSetPassword(data: {
+      token: string
+      password: string
+    }) {
+      this.loading = true
+      this.error = null
+      try {
+        await sdk.client.service('auth-management').create({
+          action: 'verifySignupSetPasswordLong',
+          value: data,
+        })
+      } catch (error) {
+        console.error(error)
+        this.error = error
+      }
+      this.loading = false
+    },
+    async signUp(data: { name: string; email: string }) {
+      this.loading = true
+      this.error = null
+      try {
+        await sdk.client.service('signup').create(data)
+      } catch (error) {
+        console.error(error)
+        this.error = error
       }
       this.loading = false
     },

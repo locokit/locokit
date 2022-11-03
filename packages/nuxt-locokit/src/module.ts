@@ -8,7 +8,7 @@ import {
   useModuleContainer,
 } from '@nuxt/kit'
 import { Nuxt, NuxtOptions, NuxtPage, ModuleContainer } from '@nuxt/schema'
-import { ROUTES } from './pages/paths'
+import { ROUTES_NAMES, ROUTES_PATH } from './pages/paths'
 import {
   getAuthPages,
   getBackofficePages,
@@ -79,7 +79,7 @@ const defaultOptions: ModuleOptions = {
     auth: {
       enabled: true,
       prefix: '',
-      redirectUserAfterLogin: ROUTES.WORKSPACE.HOME,
+      redirectUserAfterLogin: ROUTES_PATH.WORKSPACE.HOME,
     },
     user: {
       enabled: true,
@@ -161,7 +161,7 @@ export default defineNuxtModule<ModuleOptions>({
      * Add local styles
      */
     nuxt.options.css = nuxt.options.css ?? []
-    nuxt.options.css.push('primevue/resources/themes/tailwind-light/theme.css')
+    // nuxt.options.css.push('primevue/resources/themes/tailwind-light/theme.css')
     nuxt.options.css.push('primevue/resources/primevue.css')
     nuxt.options.css.push('primeicons/primeicons.css')
     nuxt.options.css.push(resolve(__dirname, '../src/styles/theme.css'))
@@ -197,8 +197,8 @@ export default defineNuxtModule<ModuleOptions>({
       const { submodules, api, theme } = options
 
       pages.push({
-        name: 'home',
-        path: '/',
+        name: ROUTES_NAMES.HOME,
+        path: ROUTES_PATH.HOME,
         file: resolve(pagesDir, './index.vue'),
         meta: {
           needAuthentification: false,
