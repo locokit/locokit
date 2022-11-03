@@ -1443,5 +1443,10 @@ export default {
   ::v-deep .p-button .p-button-label {
     display: none;
   }
+  ::v-deep .lck-dropdownbutton-menu {
+    left: initial !important;
+    right: 0;
+    width: auto !important;
+  }
 }
 </style>
