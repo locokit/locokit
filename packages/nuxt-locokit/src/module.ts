@@ -161,12 +161,10 @@ export default defineNuxtModule<ModuleOptions>({
      * Add local styles
      */
     nuxt.options.css = nuxt.options.css ?? []
-    // nuxt.options.css.push('primevue/resources/themes/tailwind-light/theme.css')
     nuxt.options.css.push('primevue/resources/primevue.css')
     nuxt.options.css.push('primeicons/primeicons.css')
     nuxt.options.css.push(resolve(__dirname, '../src/styles/theme.css'))
     nuxt.options.css.push(resolve(__dirname, '../src/styles/index.scss'))
-    // nuxt.options.css.push(resolve(__dirname, '../src/index.css')) // Todo: Do we need to keep it?
 
     nuxt.options.build.transpile.push('primevue')
 
