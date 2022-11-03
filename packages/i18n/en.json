@@ -46,26 +46,26 @@
     "lostPassword": {
       "title": "Password… where are you?!",
       "description": "Do you lose your password ? Enter your email to receive a mail with a temporary link. Open it, and update your password !",
-      "sendMailConfirmed": "Mail sent ! Please now check your mailbox to open the email we've just sent. Please click on the link.",
+      "sendMailToResetPassword": "Check your email and click on the link to create a new password.",
       "homeLink": "Go back to home page"
     },
     "resetPassword": {
       "title": "Password reset",
       "description": "You can reset your password.",
-      "resetOK": "Password reset. You can use this new password.",
+      "updatedPassword": "Your password has been reset. You can now login to the app with this new password.",
       "homeLink": "Go back to home page",
       "labelSubmit": "Reset the password"
     },
     "signUp": {
       "title": "Sign up",
       "description": "Complete this form to initiate your registration.",
-      "signUpOk": "Your registration request has been taken into account. You will receive an email with instructions on how to finalize it.",
+      "sendMailToCompleteAccount": "Your application has been processed. You will receive an email with instructions to complete it.",
       "homeLink": "Go back to home page"
     },
     "verifySignup": {
       "title": "Email verification and set password",
       "description": "Please set your password before we authorize you to connect.",
-      "verifyOk": "Email verification and password update OK ! You can now log in on the portal.",
+      "accountComplete": "Your account is complete. You can now login to the app.",
       "homeLink": "Go back to home page",
       "labelSubmit": "Set the password"
     }
@@ -153,7 +153,16 @@
     }
   },
   "error": {
-    "basic": "An error has occurred.",
+    "basic": "Something goes wrong. Please try again later.",
+    "redundantError": "If this issue keeps happening, contact the app administrator.",
+    "notAuthenticated": {
+      "name": "Invalid login",
+      "login": "Unable to log in with this information. Can you please check your input?"
+    },
+    "badRequest": {
+      "name": "Bad Request",
+      "lostPassword": "Unable to retrieve an user account with this information so we cannot send you a link to generate a new password."
+    },
     "http": {
       "undefined": "Unknown error",
       "400": "Bad request",
@@ -273,8 +282,8 @@
         "email": "@:components.lostPasswordForm.email"
       },
       "passwordForm": {
-        "password": "@:components.resetPasswordForm.password",
-        "passwordCheck": "@:components.resetPasswordForm.passwordCheck"
+        "password": "@:components.passwordForm.password",
+        "passwordCheck": "@:components.passwordForm.passwordCheck"
       },
       "signUpForm": {
         "email": "@:components.signUpForm.email",
