@@ -1,5 +1,5 @@
 <template>
-  <WithBackground background-image="../../dog.jpg">
+  <WithBackground>
     <PrimeCard class="flex-grow p-2 max-w-2xl">
       <template #title>
         <h1 class="text-center mb-4">{{ $t('pages.resetPassword.title') }}</h1>

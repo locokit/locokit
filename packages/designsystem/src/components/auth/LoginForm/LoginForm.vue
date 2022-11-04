@@ -46,6 +46,9 @@
           required
           :toggle-mask="true"
           :feedback="false"
+          spellcheck="false"
+          autocorrect="off"
+          autocapitalize="none"
         />
         <span
           v-if="errorMessage && meta.touched"

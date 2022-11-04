@@ -5,7 +5,16 @@
       'background-image': 'url(' + backgroundImage + ')',
     }"
   >
-    <slot />
+    <div class="flex-grow max-w-2xl">
+      <NuxtLink
+        v-if="backgroundLogo"
+        class="text-center"
+        :to="{ name: ROUTES_NAMES.HOME }"
+      >
+        <img alt="logo" :src="backgroundLogo" aria-hidden="true" />
+      </NuxtLink>
+      <slot />
+    </div>
     <div class="absolute bottom-2 right-2 text-white text-xs">
       {{ version }}
     </div>
@@ -13,14 +22,33 @@
 </template>
 
 <script setup lang="ts">
+import { ROUTES_NAMES } from '../../pages/paths'
+import { computed, useRuntimeConfig } from '#imports'
+
+// To retrieve config and environment variables
+const runtimeConfig = useRuntimeConfig()
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
   defineProps<{
-    backgroundImage: string
+    backgroundImage?: string | null
+    backgroundLogo?: string | null
     version?: string
   }>(),
   {
     version: 'v0.0.17',
+    backgroundImage: null,
+    backgroundLogo: null,
   },
+)
+
+// Needed "computed" to initialise this var
+const backgroundImage = computed(
+  () => props.backgroundImage ?? runtimeConfig.public.HOME_BACKGROUND_IMAGE_URL,
+)
+
+// Needed "computed" to initialise this var
+const backgroundLogo = computed(
+  () => props.backgroundLogo ?? runtimeConfig.public.LOGO_BG_PRIMARY_URL,
 )
 </script>

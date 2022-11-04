@@ -1,6 +1,6 @@
 <template>
-  <WithBackground background-image="../../dog.jpg">
-    <PrimeCard class="flex-grow p-2 max-w-2xl">
+  <WithBackground>
+    <PrimeCard class="p-2">
       <template #title>
         <h1 class="text-center">{{ $t('pages.login.title') }}</h1>
       </template>
@@ -9,7 +9,7 @@
           :loading="false"
           :error="error"
           :display-sign-up-link="false"
-          lost-password-route="lost-password"
+          :lost-password-route="ROUTES_PATH.AUTH.LOSTPASSWORD"
           @submit="authenticate"
         />
       </template>
@@ -23,7 +23,7 @@ import { LoginForm } from '@locokit/designsystem'
 import { storeToRefs } from 'pinia'
 import WithBackground from '../../layouts/WithBackground/WithBackground.vue'
 import { useStoreAuth } from '../../stores/auth'
-import { ROUTES_NAMES } from '../paths'
+import { ROUTES_PATH, ROUTES_NAMES } from '../paths'
 import { useRouter } from '#imports'
 
 const router = useRouter()

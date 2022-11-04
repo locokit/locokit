@@ -1,6 +1,6 @@
 <template>
-  <WithBackground background-image="../../dog.jpg">
-    <PrimeCard class="flex-grow p-2 max-w-2xl">
+  <WithBackground>
+    <PrimeCard class="p-2">
       <template #title>
         <h1 class="text-center mb-4">{{ $t('pages.lostPassword.title') }}</h1>
       </template>
