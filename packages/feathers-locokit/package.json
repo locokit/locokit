@@ -2,7 +2,7 @@
   "name": "feathers-locokit",
   "version": "0.8.0",
   "description": "LocoKit FeathersJS service",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

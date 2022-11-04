@@ -23,11 +23,11 @@ export class SQLAdapter implements GenericAdapter {
     /**
      * Check the type is well known for SQL
      */
-    if (implementedEngines.indexOf(connexion.type) === -1)
+    if (!implementedEngines.includes(connexion.type))
       throw new Error(
         'This engine is unknown. Please use one of ' +
           implementedEngines.concat(', ') +
-          '.'
+          '.',
       )
     this.database = knex({
       client: connexion.type,
@@ -40,11 +40,11 @@ export class SQLAdapter implements GenericAdapter {
    * Init the adapter by retrieving sql schema,
    * create objection model according table + columns schema
    */
-  async boot() {
+  async boot(): Promise<void> {
     console.log(
       'booting SQL adapter',
       this.database.client,
-      this.database.schema
+      this.database.schema,
     )
     Model.knex(this.database)
 
@@ -65,7 +65,7 @@ export class SQLAdapter implements GenericAdapter {
         ...accumulator,
         [current]: { name: current, columns: [], relations: [] },
       }),
-      {}
+      {},
     )
     /**
      * Fetch also all column info for all of the table
@@ -80,7 +80,7 @@ export class SQLAdapter implements GenericAdapter {
             c.name,
             c.foreign_key_column,
             c.foreign_key_schema,
-            c.foreign_key_table
+            c.foreign_key_table,
           )
           /**
            * is this column linked to a foreign ?
@@ -110,7 +110,7 @@ export class SQLAdapter implements GenericAdapter {
              */
           }
         })
-      })
+      }),
     )
     const allModels = this.databaseObjectionModel
 
@@ -119,11 +119,11 @@ export class SQLAdapter implements GenericAdapter {
       console.log('adding table objection model for ', tableName, ' table')
       const idColumns = t.columns.filter((c) => c.is_primary_key)
       allModels[tableName] = class extends Model {
-        static get tableName() {
+        static get tableName(): string {
           return tableName
         }
 
-        static get idColumn() {
+        static get idColumn(): string {
           if (idColumns) {
             if (idColumns.length === 1) return idColumns[0].name
             return idColumns.map((c) => c.name)
@@ -184,7 +184,7 @@ export class SQLAdapter implements GenericAdapter {
         'model generated for table ',
         tableName,
         ' : ',
-        this.databaseObjectionModel[tableName]
+        this.databaseObjectionModel[tableName],
       )
     })
 
@@ -214,7 +214,7 @@ export class SQLAdapter implements GenericAdapter {
           name: tableName,
           fields: columnInfos,
         })
-      })
+      }),
     )
     return result
   }
@@ -323,9 +323,9 @@ export class SQLAdapter implements GenericAdapter {
     }
 
     objectify(totalQuery, realQuery)
-    const total = (await totalQuery) as unknown as {
+    const total = (await totalQuery) as unknown as Array<{
       count: string
-    }[]
+    }>
     result.total = parseInt(total[0].count, 10)
 
     console.log(realQuery, $select)
@@ -336,7 +336,7 @@ export class SQLAdapter implements GenericAdapter {
     return result
   }
 
-  async getRecord<T>(tableName: string, id: string | number) {
+  async getRecord<T>(tableName: string, id: string | number): Promise<T> {
     console.log(tableName, id, this.databaseObjectionModel)
     const result = await this.databaseObjectionModel[tableName]
       .query()
@@ -344,11 +344,11 @@ export class SQLAdapter implements GenericAdapter {
     return result as unknown as T
   }
 
-  async createRecord<T>(tableName: string, data: Partial<T>) {
+  async createRecord<T>(tableName: string, data: Partial<T>): Promise<T> {
     console.log('createRecord lck engine', tableName, data)
     console.log(
       'createRecord lck engine',
-      this.databaseObjectionModel[tableName]
+      this.databaseObjectionModel[tableName],
     )
     console.log(this.databaseObjectionModel[tableName])
 
@@ -360,12 +360,12 @@ export class SQLAdapter implements GenericAdapter {
   async patchRecord<T>(
     tableName: string,
     id: string | number,
-    record: Partial<T>
-  ) {
+    record: Partial<T>,
+  ): Promise<T> {
     console.log('patchRecord lck engine', tableName, id, record)
     console.log(
       'patchRecord lck engine',
-      this.databaseObjectionModel[tableName]
+      this.databaseObjectionModel[tableName],
     )
     const object = await this.databaseObjectionModel[tableName]
       .query()
@@ -383,12 +383,12 @@ export class SQLAdapter implements GenericAdapter {
   async updateRecord<T>(
     tableName: string,
     id: string | number,
-    record: Partial<T>
-  ) {
+    record: Partial<T>,
+  ): Promise<T> {
     console.log('updateRecord lck engine', tableName, id, record)
     console.log(
       'updateRecord lck engine',
-      this.databaseObjectionModel[tableName]
+      this.databaseObjectionModel[tableName],
     )
     const object = await this.databaseObjectionModel[tableName]
       .query()
@@ -403,11 +403,11 @@ export class SQLAdapter implements GenericAdapter {
       .updateAndFetchById(id, record)) as unknown as T
   }
 
-  async deleteRecord(tableName: string, id: string | number) {
+  async deleteRecord(tableName: string, id: string | number): Promise {
     console.log('deleteRecord lck engine', tableName, id)
     console.log(
       'deleteRecord lck engine',
-      this.databaseObjectionModel[tableName]
+      this.databaseObjectionModel[tableName],
     )
     const object = await this.databaseObjectionModel[tableName]
       .query()
