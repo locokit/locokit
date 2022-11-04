@@ -58,6 +58,7 @@
         >
           {{ errorMessage }}
         </span>
+        <!-- NOSONAR -->
         <a :href="lostPasswordRoute" class="my-4 block ml-auto text-xs primary">
           {{ $t('components.loginForm.forgottenPassword') }}
         </a>
@@ -91,6 +92,7 @@
     </Form>
 
     <div v-if="!logInAgain" class="footer-links flex flex-wrap justify-center">
+      <!-- NOSONAR -->
       <a v-if="displaySignUpLink" :href="signupRoute" class="text-md">
         {{ $t('components.loginForm.signup') }}
       </a>
