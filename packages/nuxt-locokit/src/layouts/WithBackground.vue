@@ -22,8 +22,9 @@
 </template>
 
 <script setup lang="ts">
-import { ROUTES_NAMES } from '../../pages/paths'
+import { ROUTES_NAMES } from '../pages/paths'
 import { computed, useRuntimeConfig } from '#imports'
+import { version } from '../../package.json'
 
 // To retrieve config and environment variables
 const runtimeConfig = useRuntimeConfig()
@@ -33,10 +34,8 @@ const props = withDefaults(
   defineProps<{
     backgroundImage?: string | null
     backgroundLogo?: string | null
-    version?: string
   }>(),
   {
-    version: 'v0.0.17',
     backgroundImage: null,
     backgroundLogo: null,
   },

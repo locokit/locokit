@@ -35,7 +35,7 @@
 import PrimeCard from 'primevue/card'
 import { SignUpForm } from '@locokit/designsystem'
 import { storeToRefs } from 'pinia'
-import WithBackground from '../../layouts/WithBackground/WithBackground.vue'
+import WithBackground from '../../layouts/WithBackground.vue'
 import { ROUTES_NAMES } from '../paths'
 import { useStoreAuth } from '../../stores/auth'
 import { ref } from '#imports'

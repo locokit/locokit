@@ -10,6 +10,7 @@
           <LostPasswordForm
             :loading="loading"
             :error="error"
+            sign-in-route="/auth/signin"
             @submit="sendResetPasswordLink"
           />
         </div>
@@ -39,7 +40,7 @@
 import PrimeCard from 'primevue/card'
 import { LostPasswordForm } from '@locokit/designsystem'
 import { storeToRefs } from 'pinia'
-import WithBackground from '../../layouts/WithBackground/WithBackground.vue'
+import WithBackground from '../../layouts/WithBackground.vue'
 import { useStoreAuth } from '../../stores/auth'
 import { ROUTES_NAMES } from '../paths'
 import { ref } from '#imports'

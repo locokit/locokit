@@ -170,7 +170,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     console.log('[nuxt-locokit][plugin-locokit] Registering components...')
 
-    // const layoutsDir = fileURLToPath(new URL('../src/layouts', import.meta.url))
+    const layoutsDir = fileURLToPath(new URL('../src/layouts', import.meta.url))
     const pagesDir = fileURLToPath(new URL('../src/pages', import.meta.url))
 
     // for (const name in components) {
@@ -183,12 +183,18 @@ export default defineNuxtModule<ModuleOptions>({
 
     const module: ModuleContainer = useModuleContainer()
 
-    // module.addLayout(
-    //   {
-    //     src: resolve(layoutsDir, './WithBackground/WithBackground.vue'),
-    //   },
-    //   'WithBackground',
-    // )
+    module.addLayout(
+      {
+        src: resolve(layoutsDir, './WithBackground.vue'),
+      },
+      'WithBackground',
+    )
+    module.addLayout(
+      {
+        src: resolve(layoutsDir, './WithBanner.vue'),
+      },
+      'WithBanner',
+    )
 
     module.extendRoutes(function (pages: NuxtPage[]) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

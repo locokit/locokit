@@ -56,11 +56,19 @@
             </NuxtLink>
 
             <NuxtLink
-              to="/auth/login"
+              to="/auth/signin"
               class="font-medium p-2 rounded-sm text-primary hover:bg-primary hover:text-gray-100"
               :lol="toggleMenu"
             >
-              Log in
+              Sign in
+            </NuxtLink>
+
+            <NuxtLink
+              to="/auth/signup"
+              class="font-medium p-2 rounded-sm text-primary hover:bg-primary hover:text-gray-100"
+              :lol="toggleMenu"
+            >
+              Sign up
             </NuxtLink>
           </div>
         </nav>
@@ -123,11 +131,19 @@
             </NuxtLink>
 
             <NuxtLink
-              to="/auth/login"
+              to="/auth/signin"
               class="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-primary hover:bg-gray-100"
               @click="toggleMenu"
             >
-              Log in
+              Sign in
+            </NuxtLink>
+
+            <NuxtLink
+              to="/auth/signup"
+              class="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-primary hover:bg-gray-100"
+              @click="toggleMenu"
+            >
+              Sign up
             </NuxtLink>
           </div>
         </div>
@@ -141,4 +157,8 @@
 import { ref } from 'vue'
 
 const menuOpened = ref(false)
+
+function toggleMenu() {
+  menuOpened.value = !menuOpened.value
+}
 </script>
