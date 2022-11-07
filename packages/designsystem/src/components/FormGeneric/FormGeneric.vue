@@ -30,7 +30,11 @@
       role="alert"
       aria-live="assertive"
     >
-      {{ $t('components.signUp.error') }}
+      {{ $t('error.basic') }}
+
+      <pre>
+        {{ error.name }} : {{ error.message }}
+      </pre>
     </span>
   </Form>
 </template>
@@ -71,7 +75,6 @@ const refForm = ref()
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const onSubmit = (values: any) => {
   emit('submit', values)
-  refForm.value.resetForm()
 }
 
 const onCancel = () => {
