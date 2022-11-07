@@ -53,16 +53,6 @@ export const usersPatchResolver = resolve<UsersPatch, HookContext>({
     email: async (email) => {
       return email?.trim().toLowerCase()
     },
-    /**
-     * Generate a password randomly
-     * respecting password policy.
-     * Because we don't take in consideration the user password at the creation.
-     * It will be defined by the user himself after the signup verification.
-     */
-    // password: async (_password, data, context) => {
-    //   const p = generatePassword(context.app.get('settings').passwordPolicy)
-    //   return await passwordHash({ strategy: 'local' })(p, data, context)
-    // },
   },
 })
 
