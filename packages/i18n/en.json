@@ -39,6 +39,10 @@
     }
   },
   "pages": {
+     "404": {
+      "title": "Whooops ?!… sounds you're lost… Sorry. Really.",
+      "link": "Please, please… come back home."
+    },
     "signIn": {
       "title": "Welcome"
     },
