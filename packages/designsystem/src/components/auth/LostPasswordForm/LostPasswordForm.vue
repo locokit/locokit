@@ -37,6 +37,10 @@
         :disabled="loading || !valid"
         class="p-mb-2"
       />
+      {{ $t('components.lostPasswordForm.signInHelp') }}
+      <a :href="signInRoute">
+        {{ $t('components.lostPasswordForm.signIn') }}
+      </a>
       <div
         v-if="error"
         class="flex flex-col mt-4 p-text-error"
@@ -70,10 +74,12 @@ const props = withDefaults(
   defineProps<{
     loading?: boolean
     error?: Error | null
+    signInRoute: string
   }>(),
   {
     loading: () => false,
     error: () => null,
+    signInURL: () => '/signin',
   },
 )
 
