@@ -7,14 +7,15 @@ import url from 'url'
 import { Server } from 'http'
 
 const port = app.get('port') || 8998
-const getUrl = (pathname?: string): string => url.format({
-  hostname: app.get('host') || 'localhost',
-  protocol: 'http',
-  port,
-  pathname,
-})
+const getUrl = (pathname?: string): string =>
+  url.format({
+    hostname: app.get('host') || 'localhost',
+    protocol: 'http',
+    port,
+    pathname,
+  })
 
-describe('\'signup\' service', () => {
+describe("'signup' service", () => {
   const credentials = {
     name: 'Signup user',
     email: 'signupuser@locokit.io',
@@ -23,13 +24,13 @@ describe('\'signup\' service', () => {
   const originalMailerCreateFunction = app.service('mailer').create
   let server: Server
 
-  beforeAll(done => {
+  beforeAll((done) => {
     app.service('mailer').create = jest.fn()
     server = app.listen(port)
     server.once('listening', () => done())
   })
 
-  afterAll(done => {
+  afterAll((done) => {
     server.close(done)
   })
 
@@ -39,9 +40,9 @@ describe('\'signup\' service', () => {
 
   afterEach(async () => {
     // Clean DB
-    const usersToRemove = await app.service('user').find({
+    const usersToRemove = (await app.service('user').find({
       query: credentials,
-    }) as Paginated<User>
+    })) as Paginated<User>
     if (usersToRemove.total === 1) {
       await app.service('user').remove(usersToRemove.data[0].id)
     }
@@ -58,16 +59,18 @@ describe('\'signup\' service', () => {
     await app.service('signup').create(credentials)
 
     // Check that the user is created with the right properties
-    const users = await app.service('user').find({
+    const users = (await app.service('user').find({
       query: credentials,
-    }) as Paginated<User>
+    })) as Paginated<User>
 
     expect(users.total).toBe(1)
-    expect(users.data[0]).toEqual(expect.objectContaining({
-      ...credentials,
-      profile: USER_PROFILE.CREATOR,
-      isVerified: false,
-    }))
+    expect(users.data[0]).toEqual(
+      expect.objectContaining({
+        ...credentials,
+        profile: USER_PROFILE.CREATOR,
+        isVerified: false,
+      }),
+    )
   })
 
   it('if a user is already using the emitted email address, inform him', async () => {
@@ -82,25 +85,30 @@ describe('\'signup\' service', () => {
     await app.service('signup').create(credentials)
 
     // Check that the user is created with the right properties
-    const users = await app.service('user').find({
+    const users = (await app.service('user').find({
       query: {
         email: credentials.email,
       },
-    }) as Paginated<User>
+    })) as Paginated<User>
 
     expect(users.total).toBe(1)
     expect(users.data[0].id).toBe(previousUser.id)
 
     expect(spyOnMailer).toHaveBeenCalledTimes(1)
-    expect(spyOnMailer).toHaveBeenCalledWith(expect.objectContaining({
-      subject: '[LCK_PUBLIC_PORTAL_NAME] Your email address has been used',
-      to: 'signupuser@locokit.io',
-    }))
+    expect(spyOnMailer).toHaveBeenCalledWith(
+      expect.objectContaining({
+        subject: '[LCK_PUBLIC_PORTAL_NAME] Your email address has been used',
+        to: 'signupuser@locokit.io',
+      }),
+    )
   })
 
   it('throw a 429 if too many signups are registered', async () => {
     expect.assertions(1)
-    const maxTries = parseInt(app.get('authentication').signup.rateLimit.max, 10)
+    const maxTries = parseInt(
+      app.get('authentication').signup.rateLimit.max,
+      10,
+    )
     for (let i = 0; i < maxTries; i++) {
       await axios.post(getUrl('signup'), {
         name: `Signup user n°${i}`,

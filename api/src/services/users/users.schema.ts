@@ -33,47 +33,6 @@ export const usersDataSchema = lckSchema({
       default: false,
     },
     isVerified: {
-      type: 'boolean',
-      default: false,
-    },
-    verifyToken: {
-      type: 'string',
-    },
-    verifyShortToken: {
-      type: 'string',
-    },
-    verifyExpires: {
-      type: 'number',
-      // format: 'date-time',
-    },
-    verifyChanges: {
-      type: 'object',
-    },
-    resetToken: {
-      type: 'string',
-    },
-    resetShortToken: {
-      type: 'string',
-    },
-    resetExpires: {
-      type: 'string',
-    },
-  },
-} as const)
-
-export type UsersData = Infer<typeof usersDataSchema> & {
-  profile: PROFILE
-}
-
-// Schema for making partial updates
-export const usersPatchSchema = lckSchema({
-  $id: 'UsersPatch',
-  type: 'object',
-  additionalProperties: false,
-  required: [],
-  properties: {
-    ...usersDataSchema.properties,
-    isVerified: {
       readOnly: true,
       type: 'boolean',
       default: false,
@@ -105,8 +64,28 @@ export const usersPatchSchema = lckSchema({
     },
     resetExpires: {
       readOnly: true,
-      type: 'string',
+      type: 'number',
+      format: 'date-time',
     },
+    resetAttempts: {
+      readOnly: true,
+      type: 'number',
+    },
+  },
+} as const)
+
+export type UsersData = Infer<typeof usersDataSchema> & {
+  profile: PROFILE
+}
+
+// Schema for making partial updates
+export const usersPatchSchema = lckSchema({
+  $id: 'UsersPatch',
+  type: 'object',
+  additionalProperties: false,
+  required: [],
+  properties: {
+    ...usersDataSchema.properties,
   },
 } as const)
 

@@ -1,5 +1,11 @@
 import type { Knex } from 'knex'
 
+/**
+ * These fields are added according to feathers authentication management package
+ *
+ * https://feathers-a-m.netlify.app/configuration.html#user-model-fields
+ */
+
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.alterTable('users', function (table) {
     table.string('name')
@@ -11,6 +17,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string('resetToken')
     table.string('resetShortToken')
     table.dateTime('resetExpires')
+    table.integer('resetAttempts')
   })
 }
 
@@ -25,5 +32,6 @@ export async function down(knex: Knex): Promise<void> {
     table.dropColumn('resetToken')
     table.dropColumn('resetShortToken')
     table.dropColumn('resetExpires')
+    table.dropColumn('resetAttempts')
   })
 }
