@@ -4,7 +4,10 @@
     icon="fluent:shield-person-20-filled"
   >
     <Variant title="default">
-      <PasswordForm @submit="logEvent('submit', { email: $event })" />
+      <PasswordForm
+        label-submit="Change password"
+        @submit="logEvent('submit', { email: $event })"
+      />
     </Variant>
   </Story>
 </template>
@@ -19,4 +22,9 @@ import { logEvent } from 'histoire/client'
 ### PasswordForm
 
 Form which allow an user to reset his password.
+
+This form is actually used for the reset password and the verify signup page.
+
+This is the main reason the submit button has a props
+specifying its label.
 </docs>

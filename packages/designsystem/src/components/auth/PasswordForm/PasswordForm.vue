@@ -92,7 +92,7 @@
       <p>
         {{ $t('error.basic') }}
       </p>
-      <p>{{ $t(`error.redundantError`) }}</p>
+      <p>{{ $t('error.redundantError') }}</p>
     </div>
   </Form>
 </template>
