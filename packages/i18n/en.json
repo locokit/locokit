@@ -6,13 +6,15 @@
       "signIn": "Sign in",
       "signInAgain": "Sign in again",
       "forgottenPassword": "Forgot your password ?",
-      "signUp": "Sign up"
+      "signUp": "Sign up",
+      "error": "Unable to sign in. Please contact the administrator or try again later."
     },
     "lostPasswordForm": {
       "email": "Email",
       "submit": "Submit and get a temporary link to choose your new password.",
       "signInHelp": "Already have login and password ?",
-      "signIn": "Sign in"
+      "signIn": "Sign in",
+      "feedback": "Your request has been processed. If your email was found, you will receive an email with a link to reset your password. If not, please check your spam folder."
     },
     "passwordForm": {
       "password": "Password",

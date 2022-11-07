@@ -237,7 +237,8 @@ i.icon-with-text-aside {
 }
 
 .label-field-required:after {
-  content: ' *';
+  content: '*';
+  padding-left: 0.25rem;
   color: var(--color-error);
   font-size: 1rem;
 }

@@ -9,7 +9,7 @@
       v-model="email"
       name="lostPasswordForm.email"
       as="div"
-      rules="required"
+      rules="required|email"
       class="mb-4 p-field"
     >
       <label for="email">{{ $t('components.lostPasswordForm.email') }}</label>
@@ -29,18 +29,20 @@
         {{ errorMessage }}
       </span>
     </Field>
-    <div class="p-d-flex p-flex-column">
+    <div class="flex flex-col">
       <PrimeButton
         type="submit"
         :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
         :label="$t('components.lostPasswordForm.submit')"
         :disabled="loading || !valid"
-        class="p-mb-2"
+        class="mb-4"
       />
-      {{ $t('components.lostPasswordForm.signInHelp') }}
-      <a :href="signInRoute">
-        {{ $t('components.lostPasswordForm.signIn') }}
-      </a>
+      <span>
+        {{ $t('components.lostPasswordForm.signInHelp') }}
+        <a class :href="signInRoute">
+          {{ $t('components.lostPasswordForm.signIn') }}
+        </a>
+      </span>
       <div
         v-if="error"
         class="flex flex-col mt-4 p-text-error"
@@ -79,7 +81,7 @@ const props = withDefaults(
   {
     loading: () => false,
     error: () => null,
-    signInURL: () => '/signin',
+    signInRoute: () => '/signin',
   },
 )
 
