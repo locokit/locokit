@@ -9,16 +9,7 @@ export const i18n = createI18n({
   globalInjection: true,
   locale: 'en',
   messages: {
-    en: {
-      ...en,
-      // components: {
-      //   ...en.components,
-      //   login: {
-      //     ...en.components.login,
-      //     email: 'pouet',
-      //   },
-      // },
-    },
+    en,
     fr,
   },
 })
