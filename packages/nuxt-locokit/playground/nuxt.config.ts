@@ -2,9 +2,6 @@ import { defineNuxtConfig } from 'nuxt/config'
 import LocoKitModule from '..'
 
 export default defineNuxtConfig({
-  // build: {
-  //   transpile: ['vee-validate, @vee-validate/rules'],
-  // },
   runtimeConfig: {
     public: {
       HOME_BACKGROUND_IMAGE_URL: '/theme/default/img/dog.jpg',
