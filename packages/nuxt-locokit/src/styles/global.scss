@@ -14,7 +14,6 @@ textarea {
   font-family: var(--font-family);
 }
 
-
 @media screen and (min-device-width: 1400px) {
   html {
     font-size: 100%;
@@ -32,7 +31,6 @@ body,
   margin: 0;
   padding: 0;
 }
-
 
 // Typos
 
@@ -62,7 +60,7 @@ h2 {
 }
 
 h3 {
-  font-size: 1.20rem;
+  font-size: 1.2rem;
 }
 
 h4 {
@@ -99,7 +97,6 @@ a.no-decoration-link {
 i.icon-with-text-aside {
   font-size: 1.5em;
 }
-
 
 /* fast-helper */
 .h-full {
@@ -240,12 +237,13 @@ i.icon-with-text-aside {
 }
 
 .label-field-required:after {
-  content: "*";
+  content: ' *';
   color: var(--color-error);
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
-p.failed, span.failed {
+p.failed,
+span.failed {
   color: var(--color-error);
   font-weight: 500;
 }
@@ -253,7 +251,8 @@ p.failed, span.failed {
 /*
   Custom cursor for vuedraggable
 */
-.handle, .handle-block {
+.handle,
+.handle-block {
   cursor: move !important;
 }
 
