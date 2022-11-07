@@ -1,0 +1,49 @@
+.p-steps .p-steps-item .p-menuitem-link {
+  background: transparent;
+  transition: box-shadow 0.15s;
+  border-radius: var(--border-radius);
+}
+
+.p-steps .p-steps-item .p-menuitem-link .p-steps-number {
+  color: var(--text-color);
+  border: 1px solid #3f4b5b;
+  background: transparent;
+  min-width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  font-size: 1.143rem;
+  z-index: 1;
+  border-radius: var(--border-radius);
+}
+
+.p-steps .p-steps-item .p-menuitem-link .p-steps-title {
+  margin-top: 0.5rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.p-steps .p-steps-item .p-menuitem-link:not(.p-disabled):focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 1px var(--primary-color-light);
+}
+
+.p-steps .p-steps-item.p-highlight .p-steps-number {
+  background: var(--primary-color-lighten);
+  color: #151515;
+}
+
+.p-steps .p-steps-item.p-highlight .p-steps-title {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color);
+}
+
+.p-steps .p-steps-item:before {
+  content: " ";
+  border-top: 1px solid var(--secondary-color-lighten);
+  width: 100%;
+  top: 50%;
+  left: 0;
+  display: block;
+  position: absolute;
+  margin-top: -1rem;
+}

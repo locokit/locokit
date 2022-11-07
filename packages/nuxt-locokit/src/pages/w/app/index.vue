@@ -1,7 +1,7 @@
 <template>
-  App welcome {{ $route }}
+  <main>App welcome {{ route }}</main>
 </template>
 
 <script setup lang="ts">
-  const route = useRoute()
+const route = useRoute()
 </script>

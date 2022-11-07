@@ -1,4 +1,20 @@
-export const ROUTES = {
+export const ROUTES_NAMES = {
+  HOME: 'Home',
+
+  /**
+   * Auth paths
+   */
+  AUTH: {
+    LOST_PASSWORD: 'LostPassword',
+    VERIFY_SIGNUP: 'VerifySignup',
+    RESET_PASSWORD: 'ResetPassword',
+    UPDATE_EMAIL: 'UpdateEmail',
+    SIGN_UP: 'SignUp',
+    SIGNIN: 'SignIn',
+  },
+}
+
+export const ROUTES_PATH = {
   HOME: '/',
 
   /**
@@ -9,7 +25,7 @@ export const ROUTES = {
     VERIFYSIGNUP: '/auth/verify-signup',
     RESETPASSWORD: '/auth/reset-password',
     SIGNUP: '/auth/signup',
-    LOGIN: '/auth/login',
+    SIGNIN: '/auth/signin',
   },
 
   /**

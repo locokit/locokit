@@ -1,17 +1,16 @@
 .p-toast {
-  opacity: 0.9;
-  z-index: 1101;
+  opacity: 1;
 }
 
 .p-toast .p-toast-message {
   margin: 0 0 1rem 0;
-  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
   border-radius: var(--border-radius);
 }
 
 .p-toast .p-toast-message .p-toast-message-content {
   padding: 1rem;
-  border-width: 0 0 0 6px;
+  border-width: 0;
 }
 
 .p-toast .p-toast-message .p-toast-message-content .p-toast-message-text {
@@ -35,7 +34,7 @@
   height: 2rem;
   border-radius: 50%;
   background: transparent;
-  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+  transition: color 0.15s, box-shadow 0.15s;
 }
 
 .p-toast .p-toast-message .p-toast-icon-close:hover {
@@ -45,13 +44,12 @@
 .p-toast .p-toast-message .p-toast-icon-close:focus {
   outline: 0 none;
   outline-offset: 0;
-  box-shadow: 0 0 0 0.2rem var(--primary-color-light);
+  box-shadow: 0 0 0 1px var(--primary-color-light);
 }
 
 .p-toast .p-toast-message.p-toast-message-info {
-  background: #B3E5FC;
-  border: solid var(--primary-color);
-  border-width: 0 0 0 6px;
+  background: #cce5ff;
+  border: 1px solid var(--primary-color);
   color: var(--primary-color-dark);
 }
 
@@ -61,37 +59,37 @@
 }
 
 .p-toast .p-toast-message.p-toast-message-success {
-  background: #C8E6C9;
-  border: solid #439446;
-  border-width: 0 0 0 6px;
-  color: #224a23;
+  background: #d4edda;
+  border: solid #c3e6cb;
+  border-width: 1px;
+  color: #155724;
 }
 
 .p-toast .p-toast-message.p-toast-message-success .p-toast-message-icon,
 .p-toast .p-toast-message.p-toast-message-success .p-toast-icon-close {
-  color: #224a23;
+  color: #155724;
 }
 
 .p-toast .p-toast-message.p-toast-message-warn {
-  background: #FFECB3;
-  border: solid #d9a300;
-  border-width: 0 0 0 6px;
-  color: #6d5100;
+  background: #fff3cd;
+  border: solid #ffeeba;
+  border-width: 1px;
+  color: #856404;
 }
 
 .p-toast .p-toast-message.p-toast-message-warn .p-toast-message-icon,
 .p-toast .p-toast-message.p-toast-message-warn .p-toast-icon-close {
-  color: #6d5100;
+  color: #856404;
 }
 
 .p-toast .p-toast-message.p-toast-message-error {
-  background: #FFCDD2;
-  border: solid #e60017;
-  border-width: 0 0 0 6px;
-  color: #73000c;
+  background: #f8d7da;
+  border: solid #f5c6cb;
+  border-width: 1px;
+  color: #721c24;
 }
 
 .p-toast .p-toast-message.p-toast-message-error .p-toast-message-icon,
 .p-toast .p-toast-message.p-toast-message-error .p-toast-icon-close {
-  color: #73000c;
+  color: #721c24;
 }

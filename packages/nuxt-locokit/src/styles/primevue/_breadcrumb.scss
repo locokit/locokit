@@ -1,34 +1,38 @@
 .p-breadcrumb {
-  background: #ffffff;
-  /*border: 1px solid #dee2e6;*/
-  border: unset;
-  border-bottom: 1px solid #dee2e6;
-  /*border-radius: var(--border-radius);*/
-  border-radius: unset;
+  background: #343e4d;
+  border: 0 none;
+  border-radius: 4px;
   padding: 1rem;
 }
+
 .p-breadcrumb ul li .p-menuitem-link {
-  transition: box-shadow 0.2s;
+  transition: box-shadow 0.15s;
   border-radius: var(--border-radius);
 }
+
 .p-breadcrumb ul li .p-menuitem-link:focus {
   outline: 0 none;
   outline-offset: 0;
-  box-shadow: 0 0 0 0.2rem #a6d5fa;
+  box-shadow: 0 0 0 1px #e3f3fe;
 }
+
 .p-breadcrumb ul li .p-menuitem-link .p-menuitem-text {
-  color: #495057;
+  color: #8dd0ff;
 }
+
 .p-breadcrumb ul li .p-menuitem-link .p-menuitem-icon {
-  color: #6c757d;
+  color: #8dd0ff;
 }
+
 .p-breadcrumb ul li.p-breadcrumb-chevron {
   margin: 0 0.5rem 0 0.5rem;
-  color: #495057;
+  color: rgba(255, 255, 255, 0.87);
 }
+
 .p-breadcrumb ul li:last-child .p-menuitem-text {
-  color: #495057;
+  color: rgba(255, 255, 255, 0.87);
 }
+
 .p-breadcrumb ul li:last-child .p-menuitem-icon {
-  color: #6c757d;
+  color: rgba(255, 255, 255, 0.87);
 }

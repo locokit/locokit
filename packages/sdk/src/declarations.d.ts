@@ -2,7 +2,7 @@ import { Application, Service } from '@feathersjs/feathers'
 
 export interface SDKOptions {
   apiURL: string
-  socketEnabled?: boolean = false
+  socketEnabled?: boolean
   fetch: Function
 }
 

@@ -1,3 +1,41 @@
 node_modules
+
+# Database
 *.sqlite
 *.db
+
+# Build
+dist
+lib
+
+# Storage
+fs-storage
+
+# Legacy
+front/public/config.js
+
+# Test
+*/coverage
+junit.xml
+
+# Local env files
+.env
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Others
+.DS_Store

@@ -1,9 +1,9 @@
 .p-overlaypanel {
-  background: #ffffff;
+  background: #2a323d;
   color: var(--text-color);
-  border: 0 none;
+  border: 1px solid #3f4b5b;
   border-radius: var(--border-radius);
-  box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+  box-shadow: none;
 }
 
 .p-overlaypanel .p-overlaypanel-content {
@@ -12,10 +12,10 @@
 
 .p-overlaypanel .p-overlaypanel-close {
   background: var(--primary-color);
-  color: #ffffff;
+  color: #151515;
   width: 2rem;
   height: 2rem;
-  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+  transition: color 0.15s, box-shadow 0.15s;
   border-radius: 50%;
   position: absolute;
   top: -1rem;
@@ -24,25 +24,25 @@
 
 .p-overlaypanel .p-overlaypanel-close:enabled:hover {
   background: var(--primary-color);
-  color: #ffffff;
+  color: #151515;
 }
 
 .p-overlaypanel:after {
   border: solid transparent;
-  border-color: rgba(255, 255, 255, 0);
-  border-bottom-color: #ffffff;
+  border-color: rgba(42, 50, 61, 0);
+  border-bottom-color: #2a323d;
 }
 
 .p-overlaypanel:before {
   border: solid transparent;
-  border-color: rgba(255, 255, 255, 0);
-  border-bottom-color: #ffffff;
+  border-color: rgba(63, 75, 91, 0);
+  border-bottom-color: #3c4756;
 }
 
 .p-overlaypanel.p-overlaypanel-flipped:after {
-  border-top-color: #ffffff;
+  border-top-color: #2a323d;
 }
 
 .p-overlaypanel.p-overlaypanel-flipped:before {
-  border-top-color: #ffffff;
+  border-top-color: #3f4b5b;
 }

@@ -1,1016 +1,84 @@
 {
   "components": {
-    "asyncimage": {
-      "noimage": "Pas d'image à afficher",
-      "error": "Erreur pendant le chargement"
-    },
-    "login": {
+    "signInForm": {
       "email": "E-mail",
       "password": "Mot de passe",
-      "login": "Se connecter",
-      "loginAgain": "Se reconnecter",
-      "passwordHelper": "Renseignez votre mot de passe",
-      "lostpassword": "Mot de passe perdu ?",
-      "signup": "S'inscrire"
+      "signIn": "S'identifier",
+      "signInAgain": "Se reconnecter",
+      "forgottenPassword": "Vous avez oublié votre mot de passe ?",
+      "signUp": "S'inscrire",
+      "error": "Impossible de vous connecter. Merci de contacter l'administrateur ou essayez à nouveau un peu plus tard."
     },
-    "lostpassword": {
+    "lostPasswordForm": {
       "email": "E-mail",
-      "submit": "Obtenir un lien temporaire"
+      "submit": "Validez et obtenez un lien temporaire pour choisir votre nouveau mot de passe.",
+      "signInHelp": "Vous avez déjà un compte et un mot de passe ?",
+      "signIn": "S'identifier",
+      "feedback": "Votre demande a bien été prise en compte. Si votre e-mail a été trouvé, vous allez recevoir un courriel contenant un lien de réinitialisation de votre mot de passe. Dans le cas contraire, merci de vérifier votre dossier Spam."
     },
-    "dropdownButton": {
-      "noOption": "Aucune action disponible",
-      "label": "Choisissez une action"
-    },
-    "resetpassword": {
+    "passwordForm": {
       "password": "Mot de passe",
       "passwordCheck": "Mot de passe (vérification)",
-      "resetSubmit": "Réinitialiser le mot de passe",
-      "setSubmit": "Définir le mot de passe",
-      "passwordMismatch": "Les mots de passe ne sont pas identiques."
+      "passwordMismatch": "Les mots de passe ne sont pas identiques.",
+      "prompt": "Définir mon mot de passe",
+      "rules": "Doit contenir au moins 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial.",
+      "passwordStrength": {
+        "weak": "Faible",
+        "medium": "Moyen",
+        "strong": "Fort"
+      }
     },
-    "signup": {
+    "signUpForm": {
       "email": "E-mail",
       "name": "Nom",
       "signup": "S'inscrire"
     },
-    "paginator": {
-      "currentPageReportTemplate": "De {first} à {last} sur {totalRecords} résultat(s)",
-      "selectPagePlaceholder": "Aller à la page"
-    },
-    "datatable": {
-      "noDataToDisplay": "Aucune donnée à afficher",
-      "loading": "En cours de chargement… veuillez patienter…",
-      "placeholder": "Sélectionnez une option",
-      "autoCompletePlaceholder": "Commencez la saisie pour afficher une suggestion",
-      "noDefinitionAvailable": "Aucune définition disponible. Vérifier la configuration de votre bloc.",
-      "detail": "Détail d'une ligne",
-      "addNewRow": "Ajouter une ligne",
-      "notifWarningRedirectionAction": {
-        "detail": "Cette action de type redirection est réalisable uniquemnet depuis la partie visualisation.",
-        "summary": "Impossible d'effectuer cette action"
-      },
-      "openDetail": "Ouvrir le détail",
-      "toolbar": {
-        "export": {
-          "label": "Exporter",
-          "exportXLS": "en XLS",
-          "exportCSV": "en CSV"
-        },
-        "lists": {
-          "label": "aucune colonne | {n} colonne | {n} colonnes"
-        },
-        "views": {
-          "noview": "Aucune vue. Merci d'en créer une.",
-          "createLabel": "Créer une nouvelle vue",
-          "editLabel": "Modifier la vue",
-          "removeLabel": "Supprimer la vue",
-          "viewTextLabel": "Nom",
-          "viewLockedLabel": "Verrouillée",
-          "viewLockedLabelOff": "Déverrouillée",
-          "viewLockedLabelOn": "Verrouillée"
-        },
-        "filters": {
-          "label": "aucun filtre | {n} filtre | {n} filtres",
-          "noFilters": "Aucun filtre n'est appliqué.",
-          "form": {
-            "operator": "Opérateur",
-            "column": "Colonne",
-            "action": "Action",
-            "pattern": "Motif",
-            "placeholder": "Sélectionner une option"
-          },
-          "action": {
-            "addFilter": "Ajouter un filtre",
-            "close": "Fermer",
-            "saveFilters": "Enregistrer les filtres"
-          },
-          "updateSuccess": "Les filtres par défaut ont bien été enregistrés.",
-          "resetSuccess": "Les filtres par défaut ont bien été réinitialisés.",
-          "updateError": "Une erreur est survenue lors de l'enregistrement des filtres.",
-          "viewIsLocked": "Vous ne pouvez pas modifier les filtres par défaut déjà définis.",
-          "select": {
-            "operator": {
-              "$or": "OU",
-              "$and": "ET"
-            },
-            "action": {
-              "match": "contient",
-              "doesNotMatch": "ne contient pas",
-              "isEqualTo": "est égal à",
-              "isDifferentFrom": "est différent de",
-              "in": "est compris dans",
-              "notIn": "n'est pas compris dans",
-              "all": "contient tous les éléments",
-              "any": "contient au-moins un élément",
-              "isEmpty": "est vide",
-              "isNotEmpty": "n'est pas vide",
-              "isTrue": "est vrai",
-              "isFalse": "est faux",
-              "isGreaterThan": "est supérieur à",
-              "isLowerThan": "est inférieur à",
-              "isGreaterThanOrEqualTo": "est supérieur ou égal à",
-              "isLowerThanOrEqualTo": "est inférieur ou égal à",
-              "isLaterThan": "est postérieur à",
-              "isEarlierThan": "est antérieur à",
-              "isEarlierThanOrEqualTo": "est antérieur ou égal à",
-              "isLaterThanOrEqualTo": "est postérieur ou égal à",
-              "startWith": "commence par",
-              "endWith": "finit par",
-              "isLoggedInUser": "est l'utilisateur connecté",
-              "isLoggedInUserGroup": "est le groupe de l'utilisateur connecté",
-              "containsLoggedInUser": "contient l'utilisateur connecté"
-            }
-          }
-        }
-      },
-      "contextmenu": {
-        "duplicate": "Dupliquer",
-        "duplicateConfirm": "Confirmez la duplication (cliquez encore)",
-        "delete": "Supprimer",
-        "deleteConfirm": "Confirmez la suppression (cliquez encore)"
-      },
-      "actionColumn": {
-        "title": "Action",
-        "edit": "Modifier l'action"
-      },
-      "column": {
-        "edit": "Modifier la colonne",
-        "hide": "Cacher la colonne côté visualisation",
-        "display": "Afficher la colonne côté visualisation",
-        "ascOrder": "Ordre croissant",
-        "descOrder": "Ordre décroissant",
-        "globalConfiguration": "Configuration globale",
-        "visualizationConfiguration": "Configuration pour la partie visualisation",
-        "title": "Titre de la colonne",
-        "id": "UUID de la colonne (non modifiable)",
-        "doc": "Documentation",
-        "values": "Valeurs de la colonne",
-        "displayed": "Colonne affichée",
-        "editable": "Colonne modifiable",
-        "required": "Colonne requise",
-        "transmitted": "Colonne transmise"
-      }
-    },
-    "overlayPanel": {
-      "defaultLabel": "Pas de texte de bouton"
-    },
-    "dialog": {
-      "defaultHeader": "En-tête de la boîte de dialogue"
-    },
-    "datadetail": {
-      "nodata": "Aucune donnée à afficher"
-    },
-    "jsonField": {
-      "placeholder": "Saisissez une valeur au format JSON."
-    },
-    "detailview": {
-      "goback": "Retourner aux résultats"
-    },
-    "URLInput": {
-      "openTheLink": "Ouvrir le lien dans une page externe"
-    },
-    "fileInput": {
-      "listing": "Liste des pièces jointes",
-      "noattachment": "Pas de pièce jointe pour cette cellule.",
-      "upload": "Téléverser de nouvelles pièces jointes"
-    },
-    "multiAutocomplete": {
-      "placeholder": "Rechercher",
-      "error": "La recherche n'a pas aboutie."
-    },
-    "processPanel": {
-      "title": "Processus",
-      "automatic": "Automatique",
-      "MANUAL": "Manuel",
-      "CRON": "Cron",
-      "SUCCESS": "SUCCÈS",
-      "WARNING": "ATTENTION",
-      "RUNNING": "EN COURS",
-      "ERROR": "ERREUR",
-      "status": "Statut",
-      "when": "Executé le",
-      "noLog": "Aucune information supplémentaire",
-      "noDataToDisplay": "Aucune donnée à afficher",
-      "successNewRun": "Le processus a éte exécuté correctement.",
-      "failedNewRun": "Le processus a échoué.",
-      "started": "Le processus démarre... veuillez patienter..."
-    },
-    "process": {
-      "form": {
-        "text": {
-          "label": "Nom",
-          "placeholder": "Saisir un nom"
-        },
-        "table": {
-          "label": "Table",
-          "placeholder": "Choisissez une table",
-          "helper": "Si le déclencheur est MANUAL, la table peut être facultative."
-        },
-        "event": {
-          "label": "Événement",
-          "placeholder": "Choisissez l'événement déclencheur"
-        },
-        "column": {
-          "label": "Colonne",
-          "placeholder": "Choisissez la colonne concernée"
-        },
-        "enabled": "Activé",
-        "trigger": "Déclencheur",
-        "url": "URL",
-        "maximumNumberSuccessLabel": "Nombre de succès maximum (0 si infini)"
-      },
-      "removeButtonLabel": "Supprimer",
-      "refreshButtonLabel": "Rafraîchir",
-      "duplicateButtonLabel": "Dupliquer",
-      "noRun": "Pas encore d'exécution pour ce processus.",
-      "headerProperties": "Propriétés",
-      "headerRuns": "50 dernières exécutions",
-      "chooseTableFirst": "Merci de sélectionner une table.",
-      "createTitle": "Nouveau processus"
-    },
-    "synthesis": {
-      "title": "Métriques utilisation du vélo",
-      "resultByWeek": "{resultByWeek} CO2 / Semaine",
-      "noResultByWeek": "Aucun résultat"
-    },
-    "mapview": {
-      "noGeoData": "Aucune donnée géométrique n'est disponible.",
-      "textDetailPage": "Voir le détail",
-      "noReference": "Référence inconnue",
-      "noRowData": "Information inconnue",
-      "noSelectedFeature": "Merci de sélectionner un élément",
-      "onlyOneSelectedFeature": "Merci de ne sélectionner qu'un seul élément"
-    },
-    "formulas": {
-      "formula": "Formule",
-      "column": "Colonnes",
-      "categories": {
-        "DATE": "Fonctions de date",
-        "LOGIC": "Fonctions logiques",
-        "NUMERIC": "Fonctions numériques",
-        "TEXT": "Fonctions textuelles"
-      },
-      "functions": {
-        "DATE": {
-          "DATEADD": "Retourne une nouvelle date correspondant à la date originale à laquelle on a ajouté ou retiré un intervalle de temps (unités disponibles : 'year' pour l'année, 'month' pour le mois,'week' pour la semaine, 'day' pour le jour, 'hour' pour l'heure, 'minute' pour la minute et 'second' pour la seconde).",
-          "DAY": "Retourne un nombre correspondant au jour dans le mois de la date spécifiée.",
-          "DAYS": "Retourne le nombre de jours qu'il y a entre deux dates.",
-          "EARLIER": "Retourne vrai si la première date est antérieure à la seconde, sinon retourne faux.",
-          "EQUAL": "Retourne vrai si les deux dates sont égales, sinon retourne faux.",
-          "EOMONTH": "Retourne la date du dernier jour d'un mois, un certain nombre de mois avant ou après la date originale.",
-          "HOUR": "Retourne un nombre correspondant à l'heure dans la journée de la date.",
-          "LATER": "Retourne vrai si la première date est postérieure à la seconde, sinon retourne faux.",
-          "MINUTE": "Retourne un nombre correspondant aux minutes dans l'heure de la date spécifiée.",
-          "MONTH": "Retourne un nombre correspondant au mois de l'année de la date spécifiée.",
-          "MONTHS": "Retourne le nombre de mois qu'il y a entre deux dates.",
-          "SECOND": "Retourne un nombre correspondant aux secondes dans la minute de la date spécifiée.",
-          "WEEKDAY": "Retourne un nombre correspondant au jour dans la semaine de la date spécifiée.",
-          "WEEKNUM": "Retourne un nombre correpondant au numéro de la semaine dans l'année de la date spécifiée.",
-          "YEAR": "Retourne un nombre correspondant à l'année de la date spécifiée.",
-          "YEARS": "Retourne le nombre d'années qu'il y a entre deux dates."
-        },
-        "LOGIC": {
-          "AND": "Retourne vrai si toutes les conditions sont vraies, sinon retourne faux.",
-          "FALSE": "Retourne la valeur logique correspondant à faux.",
-          "IF": "Retourne le premier résultat si la condition est vraie, sinon retourne le second résultat.",
-          "IFS": "Retourne le résultat associé à la première condition vraie.",
-          "NOT": "Retourne faux si la condition est vraie, sinon retourne vrai.",
-          "OR": "Retourne vrai si au-moins une des conditions est vraie, sinon retourne faux.",
-          "SWITCH": "Retourne le résultat associé à la première valeur égale à l'expression spécifiée, sinon retourne la valeur par défaut.",
-          "TRUE": "Retourne la valeur logique correspondant à vrai"
-        },
-        "NUMERIC": {
-          "ABS": "Retourne la valeur absolue du nombre spécifié.",
-          "AVERAGE": "Retourne la valeur moyenne des nombres spécifiés.",
-          "CEILING": "Arrondi le nombre spécifié à la valeur entière supérieure si c'est un nombre décimal, sinon retourne simplement le nombre si c'est un entier.",
-          "DIVIDE": "Retourne le résultat de la division des nombres spécifiés.",
-          "E": "Retourne la valeur du nombre d'Euler.",
-          "EQUAL": "Retourne vrai si les deux nombres sont égaux, sinon retourne faux.",
-          "FLOOR": "Arrondi le nombre spécifié à la valeur entière inférieure si c'est un nombre décimal, sinon retourne simplement le nombre si c'est un entier.",
-          "GREATER": "Retourne vrai si le premier nombre est supérieur au second, sinon retourne faux.",
-          "GREATEREQ": "Retourne vrai si le premier nombre est supérieur ou égal au second, sinon retourne faux.",
-          "INT": "Arrondi le nombre spécifié à la valeur entière la plus proche.",
-          "LESS": "Retourne vrai si le premier nombre est inférieur au second, sinon retourne faux.",
-          "LESSEQ": "Retourne vrai si le premier nombre est inférieur ou égal au second, sinon retourne faux.",
-          "LOG": "Retourne le logarithme d'un nombre dans la base spécifiée.",
-          "MAX": "Retourne la plus grande valeur parmi les nombres spécifiés.",
-          "MIN": "Retourne la plus petite valeur parmi les nombres spécifiés.",
-          "MOD": "Retourne le reste de la division entre deux nombres.",
-          "PI": "Retourne la valeur du nombre PI.",
-          "PRODUCT": "Retourne le résultat du produit des nombres spécifiés.",
-          "ROUND": "Arrondi le nombre spécifié à un certain nombre de décimales.",
-          "SIGN": "Retourne -1 si le nombre spécifié est négatif, 0 s'il est nul et 1 s'il est positif.",
-          "SQRT": "Retourne la racine carrée du nombre spécifié.",
-          "SUBTRACT": "Retourne le résultat de la soustraction des nombres spécifiés.",
-          "SUM": "Retourne le résultat de l'addition des nombres spécifiés.",
-          "UNEQUAL": "Retourne vrai si les deux nombres ne sont pas égaux, sinon retourne faux."
-        },
-        "TEXT": {
-          "CONCAT": "Retourne la concaténation des textes spécifiés.",
-          "EXACT": "Retourne vrai si les deux textes sont égaux, sinon retourne faux.",
-          "FIND": "Retourne la position de la première occurrence du texte recherché dans un autre texte, ou 0 si le texte recherché n'est pas trouvé.",
-          "LEFT": "Retourne les premiers caractères du texte spécifié.",
-          "LEN": "Retourne le nombre de caractères qu'il y a dans le texte.",
-          "LOWER": "Retourne le texte spécifié en minuscules.",
-          "MID": "Retourne un certain nombre de caractères contenus dans un texte, à partir d'une position spécifiée.",
-          "REPLACE": "Retourne un nouveau texte dans lequel un certain nombre de caractères ont été remplacés par une nouvelle expression dans un texte donné.",
-          "REPT": "Retourne un texte contenant un certain nombre de fois le texte spécifié.",
-          "RIGHT": "Retourne les derniers caractères du texte spécifié.",
-          "SUBSTITUTE": "Retourne un nouveau texte dans lequel une expression a été remplacée par une autre dans un texte donné.",
-          "TEXTJOIN": "Retourne la concaténation des textes spécifiés, séparés par une expression donnée.",
-          "TRIM": "Retourne un nouveau texte correspondant au texte donné dans lequel les espaces en début et en fin ont été supprimés.",
-          "UPPER": "Retourne le texte spécifié en majuscules."
-        }
-      }
-    },
-    "userGroupForm": {
-      "createTitle": "Nouveau groupe",
-      "fields": {
-        "name": "Nom",
-        "namePlaceholder": "Exemple: Le groupe d'utilisateur client",
-        "aclSet": "Rôle",
-        "aclSetPlaceholder": "Assignez un rôle de votre espace de travail",
-        "chapter": "Chapitre",
-        "chapterPlaceholder": "Ce groupe d'utilisateurs pourra accéder à votre application à travers ce chapitre"
-      }
-    },
-    "workspaceForm": {
-      "fields": {
-        "textPlaceholder": "Nom de l'espace de travail",
-        "textLabel": "Nom",
-        "generateLabel": "Génération automatique de vues SQL",
-        "generateHelp": "Génère automatiquement une base SQL interopérable avec des outils type SuperSet, Redash, ...",
-        "slugPlaceholder": "slug de votre espace de travail",
-        "slugLabel": "slug",
-        "slugHelp": "Nom de votre base de donnée SQL dédiée à votre espace de travail. Il doit respecter la casse 'snake', uniquement des minuscules et le caractère '_' (souligné bas).",
-        "docPlaceholder": "Ajoutez une description de votre espace de travail, une documentation...",
-        "docLabel": "Documentation",
-        "colorLabel": "Couleur",
-        "colorPlaceholder": "Sélectionnez une couleur dans la liste",
-        "colorHelp": "Cette couleur sera utilisée en fond sur la page d'accueil des espaces de travail",
-        "iconLabel": "Icône",
-        "iconPlaceholder": "bi-cart",
-        "iconHelp": "Renseignez l'identifiant de l'icône souhaitée, liste disponible sur "
-      }
+    "formGeneric": {
+      "save": "Enregistrer",
+      "cancel": "Annuler"
     }
   },
   "pages": {
-    "404": {
-      "title": "Oh oh ?!... on dirait que vous êtes perdu... Désolé. Vraiment.",
-      "link": "Vous pouvez tenter de revenir sur la page d'accueil ?"
+    "signIn": {
+      "title": "Page d'identification"
     },
-    "workspaceAdmin": {
-      "acl": {
-        "common": {
-          "title": "Rôles et permissions",
-          "manager": "Est manager du workspace"
-        },
-        "detail": {
-          "aclTablesExplanation": "Permissions sur les tables",
-          "aclTableFilters": "Filtres",
-          "aclTableName": "Nom de la table",
-          "aclTableRecord": "Enregistrement",
-          "chapter": "Chapitre",
-          "create_rows": "Création d'un enregistrement",
-          "delete_filter": "Filtre appliqué lors d'une suppression",
-          "delete_rows": "Suppression d'un enregistrement",
-          "createTitle": "Création d'un nouveau rôle",
-          "editTitle": "Édition d'un rôle",
-          "filterError": "Le filtre spécifié n'est pas au format souhaité (JSON).",
-          "noAclTable": "Aucune table",
-          "label": "Nom du rôle",
-          "properties": "Propriétés",
-          "read_rows": "Lecture d'un enregistrement",
-          "read_filter": "Filtre appliqué lors d'une lecture",
-          "update_filter": "Filtre appliqué lors d'une mise à jour",
-          "update_rows": "Mise à jour d'un enregistrement"
-        },
-        "listing": {
-          "aclSetError": "Impossible de récupérer les rôles associés à l'espace de travail courant.",
-          "noAclSet": "Aucun rôle créé",
-          "title": "Tous les rôles"
-        }
-      },
-      "group": {
-        "common": {
-          "title": "Groupes"
-        },
-        "listing": {
-          "groupError": "Impossible de récupérer les groupes associés à l'espace de travail courant.",
-          "noGroup": "Aucun groupe créé"
-        }
-      },
-      "settings": {
-        "title": "Paramètres"
-      },
-      "files": {
-        "title": "Fichiers et contenus multimédias",
-        "columns": {
-          "filename": "Fichier",
-          "size": "Taille",
-          "createdAt": "Créé le",
-          "updatedAt": "Mis à jour le"
-        },
-        "removeConfirmationDialog": {
-          "message": "Êtes-vous sûr de vouloir supprimer le fichier {file} ? Il sera également déréférencé des lignes de votre base de données.",
-          "header": "Confirmation de suppression"
-        },
-        "removeSuccessToast": {
-          "summary": "Le fichier {file} a bien été supprimé"
-        },
-        "removeErrorToast": {
-          "summary": "Le fichier {file} n'a pas pu être supprimé",
-          "detail": "L'erreur suivante s'est produite : {error}"
-        }
-      }
-    },
-    "home": {
-      "title": "Bienvenue",
-      "subtitle": ""
-    },
-    "login": {
-      "title": "Page de connexion",
-      "subtitle": "Veuillez entrer vos identifiants de connexion."
-    },
-    "lostpassword": {
+    "lostPassword": {
       "title": "Mot de passe, où es tu ?",
-      "subtitle": "Vous avez perdu votre mot de passe ? Renseignez votre email pour recevoir un mail avec un lien temporaire. Cliquez dessus, et vous pourrez changer votre mot de passe !",
-      "sendResetOK": "Mail envoyé ! Merci de vérifier vos mails, d'ouvrir le mail que nous venons de vous envoyer, et d'ouvrir le lien indiqué.",
-      "homelink": "Retour à la page d'accueil"
+      "description": "Vous avez perdu votre mot de passe ? Renseignez votre email pour recevoir un mail avec un lien temporaire. Cliquez dessus, et vous pourrez changer votre mot de passe !",
+      "sendMailToResetPassword": "Merci de vérifier vos e-mails, d'ouvrir le mail que nous venons de vous envoyer, et de cliquer sur le lien pour redéfinir votre mot de passe.",
+      "homeLink": "Retour à la page d'accueil"
     },
-    "resetpassword": {
+    "resetPassword": {
       "title": "Réinitialisation du mot de passe",
-      "subtitle": "Vous pouvez réinitialiser votre mot de passe.",
-      "resetOK": "Mot de passe réinitialisé. Vous pouvez vous connecter avec ce nouveau mot de passe.",
-      "homelink": "Retour à la page d'accueil"
+      "description": "Vous pouvez réinitialiser votre mot de passe.",
+      "updatedPassword": "Mot de passe réinitialisé. Vous pouvez vous identifier avec ce nouveau mot de passe.",
+      "homeLink": "Retour à la page d'accueil",
+      "labelSubmit": "Réinitialiser le mot de passe"
     },
-    "signup": {
-      "forbid": "Il n'est pas possible de s'inscrire.",
-      "homelink": "Retour à la page d'accueil",
-      "signUpOk": "Votre demande d'inscription a bien été prise en compte. Vous allez recevoir un message électronique contenant la démarche à suivre pour finaliser votre inscription.",
-      "subtitle": "Complétez ce formulaire pour initialiser votre inscription.",
-      "title": "Inscription"
+    "signUp": {
+      "title": "Inscription",
+      "description": "Complete this form to initiate your registration.",
+      "sendMailToCompleteAccount": "Votre inscription a été prise en compte. Vous allez recevoir un e-mail avec des instructions pour finaliser votre inscription.",
+      "homeLink": "Retour à la page d'accueil"
     },
-    "verifysignup": {
-      "title": "Vérification de votre email et enregistrement du mot de passe",
-      "subtitle": "Merci de renseigner votre mot de passe pour pouvoir ensuite vous connecter.",
-      "verifyOK": "Vérification de votre mail et enregistrement de votre mot de passe OK ! Vous pouvez dès à présent vous connecter sur la plateforme.",
-      "homelink": "Retour à la page d'accueil"
-    },
-    "updateEmail": {
-      "title": "Mise à jour de votre adresse électronique",
-      "loading": "L'opération est actuellement en cours...",
-      "updateOK": "L'opération s'est bien déroulée. Vous pouvez maintenant vous connecter avec la nouvelle adresse électronique.",
-      "updateKO": "Malheureusement, l'opération n'a pas pu aboutir. Si le problème persiste, contactez l'administrateur du site."
-    },
-    "account": {
-      "title": "Mon compte",
-      "profile": "Mon profil",
-      "groups": "Mes groupes",
-      "username": "Nom",
-      "email": "E-mail",
-      "role": "Rôle",
-      "nodata": "Aucune donnée à afficher",
-      "edit": {
-        "email": {
-          "currentPassword": "Mot de passe actuel",
-          "email": "Adresse électronique",
-          "new": "Nouvelle adresse électronique",
-          "success": "Vous allez recevoir un message électronique pour confirmer l'utilisation de cette nouvelle adresse électronique.",
-          "title": "Mettre à jour mon adresse électronique"
-        },
-        "title": "Mettre à jour le mot de passe",
-        "oldPassword": "Ancien mot de passe",
-        "newPassword": "Nouveau mot de passe",
-        "passwordCheck": "Mot de passe (vérification)",
-        "passwordMismatch": "Les mots de passe ne sont pas identiques.",
-        "passwordIncorrect": "Le mot de passe actuel est incorrect.",
-        "passwordRules": {
-          "rules": "Doit contenir au moins 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial.",
-          "error": "Le mot de passe ne respecte pas les règles suivantes :",
-          "min": "Minimum 8 caractères",
-          "uppercase": "Une majuscule",
-          "lowercase": "Une minuscule",
-          "digits": "Un chiffre",
-          "symbols": "Un caractère spécial tel que : !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
-        },
-        "prompt": "Saisissez un mot de passe",
-        "passwordStrength": {
-          "weak": "Faible",
-          "medium": "Moyen",
-          "strong": "Fort"
-        }
-      }
-    },
-    "workspace": {
-      "form": {
-        "create": "Créer un nouvel espace de travail",
-        "new": "Nouvel espace de travail",
-        "createdSummary": "Votre espace de travail a été créé !",
-        "createdDetail": "Votre espace de travail a été créé, vous pouvez désormais le configurer."
-      },
-      "menu": {
-        "databases": "Bases de données",
-        "tables": "Tables",
-        "schema": "Schéma",
-        "visualization": "Visualization",
-        "process": "Processus",
-        "cms": "CMS",
-        "acl": "Permissions",
-        "groups": "Groupes d'utilisateurs",
-        "settings": "Paramètres",
-        "files": "Fichiers et contenus multimédias"
-      },
-      "title": "Espaces de travail",
-      "noName": "(pas de nom)",
-      "noWorkspace": "Aucun espace de travail à afficher",
-      "adminWorkspaceLinkTitle": "Administration de l'espace de travail '{workspaceText}'",
-      "workspaceLinkTitle": "Espace de travail '{workspaceText}'",
-      "created": "Créé le :",
-      "updated": "Mis à jour le :",
-      "noChapter": "Aucun chapitre à afficher",
-      "errorTypeBlock": "Ce type de block {blockType} n'existe pas.",
-      "notYetImplementedBlock": "Ce type de block {blockType} n'est pas encore implémenté.",
-      "errorUnknownTypeBlock": "Le type de block n'existe pas.",
-      "buttonDatabase": "Base de données",
-      "buttonSchema": "Schéma",
-      "buttonVisualization": "Visualisation",
-      "buttonProcess": "Processus",
-      "buttonAcl": "Permissions",
-      "createChapter": "Créer un nouveau chapitre",
-      "editChapter": "Modifier un chapitre",
-      "chapter": "Chapitre",
-      "chapterName": "Nom du chapitre",
-      "editMode": "Mode édition",
-      "createElement": "Créer un nouvel élément",
-      "page": {
-        "title": "Page",
-        "name": "Titre de la page",
-        "create": "Créer une nouvelle page",
-        "edit": "Modifier une page",
-        "pageName": "Nom de la page",
-        "pageHidden": "Cacher la page",
-        "layout": {
-          "title": "Disposition",
-          "classic": "Mise en page classique",
-          "center": "Mise en page centrée",
-          "flex": "Mise en page flexible",
-          "full": "Mise en page pleine"
-        },
-        "pagePosition": "Position de la page",
-        "pageConfiguration": "Configuration de la page",
-        "list": "Liste des conteneurs",
-        "noContainers": "Aucun conteneur trouvé",
-        "navigationSubject": "Ceci est la barre de navigation des conteneurs. Cela permet à l'utilisateur de naviguer à travers les conteneurs de la page.",
-        "navigationExplain": "Pour configurer la navigation de la page, vous devez modifier chaque conteneur souhaité.",
-        "navigationEditButton": "Modifier la barre de navigation",
-        "mode_navigation": {
-          "title": "Mode de navigation :",
-          "anchor": "Par ancre (navigue jusqu'au conteneur)",
-          "tab": "Par onglet (affiche le conteneur courant, masque les autres)"
-        }
-      },
-      "container": {
-        "title": "Conteneur",
-        "name": "Titre du conteneur",
-        "displayTitle": "Afficher le titre",
-        "create": "Créer un nouveau conteneur",
-        "edit": "Modifier le conteneur",
-        "delete": "Supprimer le conteneur",
-        "drag": "Déplacer le conteneur",
-        "containerConfiguration": "Configuration du conteneur",
-        "list": "Liste des blocs",
-        "noBlocks": "Aucun bloc trouvé",
-        "displayedInNavbar": "Navigation activée",
-        "navigationExplain": "Configuration de la navigation pour ce conteneur",
-        "elevation": "Élévation",
-        "elevationExplain": "Affichage d'une ombre portée au niveau du conteneur",
-        "anchor": {
-          "label": "Libellé",
-          "icon": "Icône",
-          "class": {
-            "title": "Style de l'icône",
-            "danger": "@:common.colorClass.danger",
-            "warning": "@:common.colorClass.warning",
-            "success": "@:common.colorClass.success",
-            "primary": "@:common.colorClass.primary",
-            "secondary": "@:common.colorClass.secondary"
-          },
-          "order": "Ordre"
-        }
-      },
-      "block": {
-        "title": "Bloc",
-        "name": "Titre du bloc",
-        "type": "Type du bloc",
-        "content": "Contenu",
-        "displayMode": "Mode d'affichage",
-        "selectType": "Sélectionner un type de bloc",
-        "create": "Créer un nouveau bloc",
-        "edit": "Modifier le bloc",
-        "delete": "Supprimer le bloc",
-        "drag": "Déplacer le bloc",
-        "addMedia": "Ajouter un nouveau média",
-        "removeMedia": "Supprimer le média",
-        "mediaName": "Nom du média",
-        "mediaSrcURL": "URL de la source du média",
-        "mediaType": "Type du média",
-        "addAllowed": "Autoriser l'ajout de données",
-        "pagination": "Nombre maximum autorisé d'éléments par page",
-        "exportAllowed": "Autoriser l'exportation des données",
-        "tableView": "Vue à afficher",
-        "elevation": "Élévation",
-        "elevationExplain": "Affichage d'une ombre portée au niveau du bloc",
-        "markdown": {
-          "textAlign": "Position du texte",
-          "textColor": "Couleur du texte"
-        },
-        "conditionalDisplayTableView": "Vue à utiliser pour conditionner l'affichage",
-        "conditionalDisplayField": "Champ de la vue à utiliser (uniquement des Booléens ou des formules Booléennes)",
-        "conditionalDisplayFieldValue": "Valeur de champ (true / false)",
-        "conditionalDisplayFieldHelp": "Il est nécessaire de sélectionner une vue avant de pouvoir saisir ce champ.",
-        "labelButton": "Libellé du bouton",
-        "classButton": {
-          "title": "Style du bouton",
-          "danger": "@:pages.workspace.container.anchor.class.danger",
-          "warning": "@:pages.workspace.container.anchor.class.warning",
-          "success": "@:pages.workspace.container.anchor.class.success",
-          "primary": "@:pages.workspace.container.anchor.class.primary",
-          "secondary": "@:pages.workspace.container.anchor.class.secondary"
-        },
-        "markdownField": {
-          "textAlign": "@:pages.workspace.block.markdown.textAlign",
-          "textColor": "@:pages.workspace.block.markdown.textColor",
-          "displayField": "Afficher le texte de ce champ"
-        },
-        "actionButton": {
-          "labelButton": "Libellé du bouton",
-          "classButton": {
-            "title": "Style du bouton",
-            "danger": "@:common.colorClass.danger",
-            "warning": "@:common.colorClass.warning",
-            "success": "@:common.colorClass.success",
-            "primary": "@:common.colorClass.primary",
-            "secondary": "@:common.colorClass.secondary"
-          },
-          "icon": "Icône du bouton",
-          "trigger": {
-            "type": "Action du bouton",
-            "process_trigger": "Déclenche une action/processus",
-            "page_detail_to": "Aller sur une page"
-          },
-          "processId": "Nom de l'action/processus",
-          "typePageTo": "Redirection vers une page",
-          "page": "Page accessible",
-          "pageDetail": "Page cachée",
-          "pageId": "Nom de la page",
-          "pageDetailId": "Nom de la page cachée",
-          "pageQueryFieldId": "Nom de la colonne lié à la page",
-          "helpPageQueryFieldId": "Cas spécifique pour se déplacer sur page ayant un bloc MarkdownItemView",
-          "tableView": "Vue utilisée pour l'activation du bouton",
-          "displayFieldId": "Activer le bouton selon ce champ",
-          "displayFieldConditionQuery": "Activer le bouton si la valeur équivaut à",
-          "notification": {
-            "settings": "Configuration de la notification",
-            "explain": "Une notification sera affichée lorsqu'un utilisateur clique sur le bouton. Il vous est possible de modifier son contenu selon si l'action a bien fonctionné ou si cette dernière a échoué.",
-            "success": {
-              "info": "Lorsque l'action a réussi :",
-              "title": "Titre de la notification",
-              "description": "Description de la notification"
-            },
-            "error": {
-              "info": "Lorsque l'action a échoué :",
-              "title": "Titre de la notification",
-              "description": "Description de la notification"
-            }
-          }
-        },
-        "detailPage": "Page de détail",
-        "map": {
-          "addButtonTitle": "Label du bouton de création",
-          "addGeoSource": "Ajouter une nouvelle source de données géographiques",
-          "addSourceId": "Vue à utiliser dans le formulaire de création",
-          "aggregationField": "Champ optionnel d'agrégation",
-          "deletePopupField": "Retirer le champ de la pop-up",
-          "deleteSource": "Supprimer la source",
-          "field": "Champ géographique à afficher",
-          "forbidden": "Zone interdite",
-          "forbiddenHelp": "Empêcher les interactions de l'utilisateur sur, et autour des éléments géographiques de cette source.",
-          "noConfiguredSource": "Aucune source configurée",
-          "noSelectedView": "Aucune vue sélectionnée pour cette source",
-          "popup": "Afficher une pop-up",
-          "popupAddField": "Ajouter un champ",
-          "popupDetailPage": "Page de détails vers laquelle rediriger l'utilisateur",
-          "popupField": "Champ",
-          "popupFields": "Champs à afficher dans la pop-up",
-          "popupFieldStyle": "Style à appliquer",
-          "popupHover": "Afficher la pop-up au survol",
-          "popupTitle": "Champ qui sera affiché comme titre de la pop-up",
-          "radius": "Rayon de la zone interdite",
-          "radiusHelp": "Rayon, en kilomètres, de la zone non interactive autour des éléments géographiques de cette source.",
-          "selectable": "Rendre la source sélectionnable",
-          "selectOneSource": "Sélectionnez une des sources",
-          "source": "Source",
-          "sources": "Sources",
-          "tableView": "Vue à afficher"
-        }
-      }
-    },
-    "database": {
-      "title": "Base de données",
-      "noDatabase": "Aucune base de données existante. Veuillez en créer une.",
-      "addNewRow": "Ajouter une ligne"
-    },
-    "databaseSchema": {
-      "title": "Schéma de la base de données",
-      "noSchema": "Aucun schéma à afficher. Veuillez créer une base de données.",
-      "noTable": "La base de données ne contient aucune table. Veuillez créer une première table.",
-      "addTable": "Ajouter une table",
-      "createTableModal": {
-        "createTable": "Créer une table",
-        "tableName": "Nom de la table",
-        "tableSlug": "Slug de la table",
-        "tableSlugInfo": "Nom utilisé pour générer la vue SQL, en snake_case.",
-        "tableDoc": "Documentation de la table",
-        "cancel": "Annuler",
-        "create": "Créer"
-      },
-      "updateTableSidebar": {
-        "updateTable": "Modifier une table",
-        "tableName": "Nom de la table",
-        "tableSlug": "Slug de la table",
-        "tableSlugInfo": "Nom utilisé pour générer la vue SQL, en snake_case.",
-        "editSlug": "Attention, la modification de ce champ peut avoir des répercussions sur les applications tiers qui utilise cette table.",
-        "tableDoc": "Documentation de la table",
-        "columnName": "Nom de la colonne",
-        "columnType": "Type de colonne",
-        "createColumn": "Créer une colonne",
-        "updateColumn": "Modifier",
-        "close": "Fermer"
-      },
-      "handleColumnModal": {
-        "createColumn": "Créer une colonne",
-        "updateColumn": "Modifier une colonne",
-        "columnName": "Nom de la colonne",
-        "columnSlug": "Slug de la colonne",
-        "columnSlugInfo": "Nom utilisé pour la colonne dans la vue SQL, en snake_case",
-        "columnDoc": "Documentation",
-        "reference": "Référence",
-        "columnType": "Type de colonne",
-        "selectColumnType": "Sélectionner un type de colonne",
-        "errorNoData": "Veuillez renseigner les champs",
-        "validation": "Règles de validation"
-      },
-      "columnType": {
-        "BOOLEAN": {
-          "name": "Booléen",
-          "description": "Permet de cocher des valeurs vrai/faux dans une cellule"
-        },
-        "STRING": {
-          "name": "Texte sur une ligne",
-          "description": "Champ de texte sur une seule ligne"
-        },
-        "TEXT": {
-          "name": "Texte long",
-          "description": "Champ de texte sur une plusieurs lignes"
-        },
-        "NUMBER": {
-          "name": "Entier",
-          "description": "Type de champ prévu pour contenir des nombres entiers"
-        },
-        "FLOAT": {
-          "name": "Flottant",
-          "description": "Type de champ prévu pour contenir des nombres décimaux"
-        },
-        "DATE": {
-          "name": "Date",
-          "description": "Un widget de calendrier vous permet de saisir une date facilement"
-        },
-        "DATETIME": {
-          "name": "Date et heure",
-          "description": "Un widget de calendrier permet de saisir une date et une heure facilement"
-        },
-        "USER": {
-          "name": "Utilisateur",
-          "description": "Permet de sélectionner un utilisateur dans une liste prédéfinie"
-        },
-        "GROUP": {
-          "name": "Groupe d'utilisateurs",
-          "description": "Permet de sélectionner un groupe d'utilisateurs dans une liste prédéfinie"
-        },
-        "MULTI_USER": {
-          "name": "Multi Utilisateurs",
-          "description": "Permet de sélectionner plusieurs utilisateurs dans une liste prédéfinie"
-        },
-        "MULTI_GROUP": {
-          "name": "Groupe d'utilisateurs",
-          "description": "Permet de sélectionner plusieurs groupes d'utilisateurs dans une liste prédéfinie"
-        },
-        "RELATION_BETWEEN_TABLES": {
-          "name": "Lien vers une table",
-          "description": "Permet d'afficher les valeurs de la première colonne d'une autre table"
-        },
-        "LOOKED_UP_COLUMN": {
-          "name": "Lien vers les valeurs de champ d'une autre table",
-          "description": "Permet d'afficher la valeur d'un champ provenant d'une table liée"
-        },
-        "VIRTUAL_LOOKED_UP_COLUMN": {
-          "name": "Lien vers les valeurs de champ virtuel d'une autre table",
-          "description": "Permet d'afficher la valeur d'un champ virtuel provenant d'une table liée"
-        },
-        "SINGLE_SELECT": {
-          "name": "Sélection simple",
-          "description": "Permet de sélectionner une seule valeur dans une liste prédéfinie"
-        },
-        "MULTI_SELECT": {
-          "name": "Sélection multiple",
-          "description": "Permet de sélectionner plusieurs valeurs dans une liste prédéfinie"
-        },
-        "FORMULA": {
-          "name": "Formule",
-          "description": "Permet de calculer une valeur pour chaque cellule d'un champ"
-        },
-        "FILE": {
-          "name": "Fichier",
-          "description": "Permet de joindre un ou plusieurs fichiers à une cellule d'un champ"
-        },
-        "URL": {
-          "name": "URL",
-          "description": "Champ prévu pour stocker une URL par cellule"
-        },
-        "GEOMETRY_POINT": {
-          "name": "Géometrie de point",
-          "description": "Champ prévu pour stocker une géométrie ponctuelle en WKT"
-        },
-        "GEOMETRY_POLYGON": {
-          "name": "Géométrie de polygone",
-          "description": "Champ prévu pour stocker une géométrie polygonale en WKT"
-        },
-        "GEOMETRY_LINESTRING": {
-          "name": "Géométrie de ligne",
-          "description": "Champ prévu pour stocker une géométrie linéraire en WKT"
-        },
-        "GEOMETRY_MULTIPOINT": {
-          "name": "Géométrie multi-points",
-          "description": "Champ prévu pour stocker une géométrie de multi-points en WKT"
-        },
-        "GEOMETRY_MULTIPOLYGON": {
-          "name": "Géométrie multi-polygones",
-          "description": "Champ prévu pour stocker une géométrie de multi-polygones en WKT"
-        },
-        "GEOMETRY_MULTILINESTRING": {
-          "name": "Géométrie multi-lignes",
-          "description": "Champ prévu pour stocker une géométrie de multi-lignes en WKT"
-        }
-      },
-      "selectType": {
-        "addValue": "Ajouter une valeur",
-        "deleteValue": "Supprimer une valeur",
-        "deleteConfirmation": "Êtes-vous sûr de vouloir supprimer la valeur \"{label}\" ?",
-        "noData": "Aucune donnée",
-        "label": "Label",
-        "color": "Couleur",
-        "backgroundColor": "Couleur de fond",
-        "selectColor": "Choisir une couleur",
-        "position": "Position",
-        "defaultValue": "Valeur par défaut",
-        "defaultValuePlaceholder": "Choisir une valeur par défaut"
-      },
-      "validation": {
-        "required": "Colonne requise"
-      },
-      "relationBetweenTablesType": {
-        "relationTable": "En relation avec la table",
-        "relationTablePlaceholder": "Choisir une table"
-      },
-      "lookedUpType": {
-        "localField": "Colonne locale",
-        "localFieldPlaceholder": "Choisir une colonne",
-        "foreignField": "Colonne étrangère",
-        "foreignFieldPlaceholder": "Choisir une colonne"
-      },
-      "deleteColumnModal": {
-        "deleteColumn": "Supprimer une colonne",
-        "deleteConfirmation": "Êtes-vous sûr de vouloir supprimer la colonne \"{columnName}\" ?"
-      },
-      "displayUuid": {
-        "uuid": "UUID :"
-      }
-    },
-    "admin": {
-      "title": "Administration",
-      "sidebar": {
-        "usersAndGroups": "Utilisateurs & Groupes"
-      }
-    },
-    "userManagement": {
-      "title": "Gestion des utilisateurs",
-      "noUser": "Il n'y a aucun utilisateur existant. Veuillez en créer un.",
-      "noUserFound": "Aucun utilisateur trouvé",
-      "addNewUser": "Créer un utilisateur",
-      "id": "id",
-      "name": "Nom",
-      "email": "E-mail",
-      "isVerified": "Vérifié",
-      "blocked": "Bloqué",
-      "password": "Mot de passe",
-      "profile": "Profil",
-      "selectProfile": "Sélectionnez un profil",
-      "createdAt": "Date création",
-      "userDetails": "Compte utilisateur",
-      "createUserDetails": "Créer un utilisateur",
-      "editUserDetails": "Modifier un utilisateur",
-      "isRequired": "Ce champ est requis",
-      "editUser": "Modifier l'utilisateur",
-      "enableUser": {
-        "enable": "Activer le compte utilisateur",
-        "success": "Le compte utilisateur a bien été activé."
-      },
-      "disableUser": {
-        "disable": "Désactiver le compte utilisateur",
-        "disabled": "Bloqué",
-        "success": "Le compte utilisateur a bien été désactivé."
-      },
-      "resendVerifySignup": "Renvoyer le lien de vérification de compte",
-      "editOwnEmailAddress": "Merci de passer par votre profil pour modifier votre adresse électronique personnelle.",
-      "notification": {
-        "success": {
-          "summary": "E-mail envoyé !",
-          "detail": "L'email de vérification de compte a bien été envoyé"
-        },
-        "error": {
-          "summary": "Message non envoyé !",
-          "detail": "L'email de vérification de compte n'a pas été envoyé"
-        }
-      },
-      "buttons": {
-        "newUser": "Enregistrer",
-        "editUser": "Mettre à jour"
-      }
-    },
-    "groupManagement": {
-      "title": "Gestion des groupes",
-      "form": {
-        "action": {
-          "addNewGroup": "Créer un groupe",
-          "editGroup": "Modifier un groupe",
-          "deleteGroup": "Supprimer un groupe",
-          "addNewUserInGroup": "Ajouter un utilisateur",
-          "editUserInGroup": "Modifier un utilisateur",
-          "deleteUserInGroup": "Supprimer un utilisateur"
-        },
-        "input": {
-          "user": "Utilisateur",
-          "group": "Groupe",
-          "role": "Rôle"
-        },
-        "text": {
-          "aclset": "Rôle",
-          "chapter": "Chapitre",
-          "selectUser": "Sélectionnez un utilisateur",
-          "selectRole": "Sélectionnez un rôle",
-          "addNewUserInGroup": "Ajouter un utilisateur dans {groupName}",
-          "editUserInGroup": "Modifier l'utilisateur {userName} du groupe {groupName}",
-          "confirmationDeleteUser": "Merci de confirmer la suppression de l'utilisateur {userName} dans ce groupe {groupName}.",
-          "workspace": "Espace de travail"
-        }
-      }
-    },
-    "process": {
-      "title": "Processus",
-      "allProcessesHeader": "Tous les processus",
-      "oneProcessHeader": "Détail d'un processus",
-      "noProcess": "Aucun processus créé pour l'instant. Vous pouvez en créer un en cliquant sur le bouton \"Ajouter\".",
-      "defaultTriggerName": "Nom du déclencheur par défaut",
-      "eventTrigger": {
-        "UPDATE_ROW_DATA": "Mise à jour d'une donnée",
-        "UPDATE_ROW": "Mise à jour",
-        "CREATE_ROW": "Création",
-        "MANUAL": "Manuel",
-        "CRON": "Cron"
-      }
-    },
-    "cms": {
-      "title": "CMS / Application"
+    "verifySignup": {
+      "title": "Vérification de votre email et définition du mot de passe",
+      "description": "Merci de renseigner votre mot de passe pour pouvoir ensuite vous connecter.",
+      "accountComplete": "Votre compte st finalisé. Vous pouvez désormais vous identifier.",
+      "homeLink": "Retour à la page d'accueil",
+      "labelSubmit": "Définir le mot de passe"
     }
   },
-  "media": {
-    "IMAGE": "Image",
-    "VIDEO": "Vidéo",
-    "GALLERY": "Galerie",
-    "CAROUSEL": "Carrousel"
-  },
-  "dialog": {
-    "close": "Fermez cette fenêtre"
-  },
-  "success": {
-    "basic": "Votre demande à bien été enregistrée.",
-    "removed": "L'élément a bien été supprimé.",
-    "updated": "L'élément a bien été mis à jour.",
-    "save": "Enregistrement réussi"
-  },
   "error": {
-    "basic": "Une erreur est survenue.",
+    "basic": "Quelque chose s'est ma passé. Merci de essayer à nouveau plus tard.",
+    "redundantError": "Si ce problème continue de se produire, merci de contacter l'administrateur de l'application.",
+    "notAuthenticated": {
+      "name": "Identifiants incorrects",
+      "login": "Impossible de vous identifier avec ces informations. Merci de vérifier votre saisie."
+    },
+    "badRequest": {
+      "name": "Requête incorrecte"
+    },
     "http": {
       "undefined": "Erreur inconnue",
       "400": "Requête incorrecte",
@@ -1023,83 +91,9 @@
       "429": "Nombre maximal de requêtes dépassé",
       "500": "Une erreur a eu lieu…"
     },
-    "lck": {
-      "undefined": "Une erreur inconnue est survenue... Aucune information à afficher.",
-      "ROW_DUPLICATE": "Une erreur est survenue lors la duplication de la ligne.",
-      "ROW_DELETION": "Une erreur est survenue lors la suppression de la ligne.",
-      "ROW_SAVE": "Une erreur est survenue lors de l'enregistrement de la ligne.",
-      "VIEW_LOCKED": "La vue est verrouillée.",
-      "VIEW_USED_IN_BLOCK": "La vue est toujours utilisée dans un bloc. Merci de supprimer le bloc au préalable."
-    },
-    "cms": {
-      "blockMultiConflictSummary": "Conflit au niveau des sources partagées",
-      "blockMultiConflictDetail": "Certaines sources partagées de blocs sont à la fois multi et mono donnée. Merci de vérifier la configuration de vos blocs."
-    },
-    "impossibleOperation": "Opération impossible",
     "expiredToken": {
       "header": "Votre session a expiré",
       "message": "Merci de vous reconnecter pour poursuivre votre navigation sur le site."
-    },
-    "filters": {
-      "viewIsLocked": "La vue est verrouillée."
-    }
-  },
-  "form": {
-    "add": "Ajouter",
-    "delete": "Supprimer",
-    "reset": "Réinitialiser",
-    "cancel": "Annuler",
-    "submit": "Valider",
-    "waiting": "Veuillez patienter",
-    "save": "Enregistrer",
-    "update": "Mettre à jour",
-    "submitting": "En cours…",
-    "isRequired": "Ce champ est requis",
-    "yes": "Oui",
-    "no": "Non",
-    "confirmation": "Confirmation",
-    "deleteConfirmation": "Confirmer la suppression.",
-    "specificDeleteConfirmation": "Confirmer la suppression de l'élément suivant :"
-  },
-  "date": {
-    "dateFormat": "dd/MM/yyyy",
-    "dateFormatPrime": "dd/mm/yy",
-    "datetimeFormat": "dd/MM/yyyy HH:mm",
-    "datetimeLogFormat": "dd/MM/yyyy HH:mm:ss"
-  },
-  "sw": {
-    "newVersion": "Nouvelle version disponible",
-    "message": " Une nouvelle version de la plate-forme est disponible. Pour en bénéficier, vous devez recharger votre navigateur.",
-    "update": "Mettre à jour",
-    "cancel": "Annuler"
-  },
-  "common": {
-    "loading": "Chargement en cours…",
-    "logout": "Se déconnecter",
-    "colorClass": {
-      "danger": "Danger",
-      "warning": "Alerte",
-      "success": "Succès",
-      "primary": "Couleur principale",
-      "secondary": "Couleur secondaire",
-      "black": "Noir"
-    },
-    "alignClass": {
-      "left": "Gauche",
-      "right": "Droite",
-      "center": "Centré",
-      "justify": "Justifié"
-    },
-     "roles": {
-      "OWNER": "Propriétaire",
-      "ADMIN": "Admin",
-      "MEMBER": "Membre"
-    },
-    "profiles": {
-      "SUPERADMIN": "Super admin",
-      "ADMIN": "Admin",
-      "CREATOR": "Créateur",
-      "USER": "Utilisateur"
     }
   },
   "localePrime": {
@@ -1174,17 +168,32 @@
     "passwordPrompt": "Saisissez un mot de passe"
   },
   "validations": {
+    "fieldNames": {
+      "loginForm": {
+        "email": "@:components.loginForm.email",
+        "password": "@:components.loginForm.password"
+      },
+      "lostPasswordForm": {
+        "email": "@:components.lostPasswordForm.email"
+      },
+      "passwordForm": {
+        "password": "@:components.passwordForm.password",
+        "passwordCheck": "@:components.passwordForm.passwordCheck"
+      },
+      "signUpForm": {
+        "email": "@:components.signUpForm.email",
+        "name": "@:components.signUpForm.name"
+      }
+    },
     "messages": {
-      "required": "Le champ '{_field_}' est requis.",
-      "required_if": "Le champ '{_field_}' est requis.",
-      "snakeCase": "Le champ '{_field_}' est obligatoirement composé des lettres minuscules de a à z, et du caractère _",
-      "email": "L'adresse électronique du champ '{_field_}' ne correspond pas au format attendu.",
-      "regex": "Le champ '{_field_}' ne correspond pas au format attendu.",
-      "passwordConfirm": "Les mots de passe du champ '{_field_}' et du champ '{target}' ne sont pas identiques.",
-      "isFalseOrOtherTrue": "Le champ '{_field_}' ne peut être coché que si le champ '{target}' l'est également.",
-      "minDate": "La date du champ '{_field_}' doit être après {fromDate}.",
-      "dateValid": "La date du champ '{_field_}' ne correspond pas au format attendu.",
-      "reference": "La valeur du champ '{_field_}' est invalide : veuillez sélectionnez une valeur dans la liste."
+      "required": "Le champ '{field}' est requis.",
+      "email": "L'adresse électronique du champ '{field}' ne correspond pas au format attendu.",
+      "regex": "Le champ '{field}' ne correspond pas au format attendu.",
+      "confirmed": "Les mots de passe du champ '{field}' et du champ '{target}' ne sont pas identiques.",
+      "isFalseOrOtherTrue": "Le champ '{field}' ne peut être coché que si le champ '{target}' l'est également.",
+      "minDate": "La date du champ '{field}' doit être après {fromDate}.",
+      "dateValid": "La date du champ '{field}' ne correspond pas au format attendu.",
+      "reference": "La valeur du champ '{field}' est invalide : veuillez sélectionnez une valeur dans la liste."
     }
   }
 }

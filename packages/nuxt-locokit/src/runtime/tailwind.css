@@ -1,5 +1,6 @@
+@import url('../styles/theme.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('../styles/theme.css');

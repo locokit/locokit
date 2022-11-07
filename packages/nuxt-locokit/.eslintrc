@@ -1,16 +1,32 @@
 {
   "extends": [
     "@nuxtjs/eslint-config-typescript",
-    "standard-with-typescript"
+    "plugin:nuxt/recommended",
+    "plugin:vue/vue3-recommended",
+    "@vue/typescript/recommended",
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "prettier",
+    "@typescript-eslint"
   ],
   "rules": {
-    "@typescript-eslint/no-unused-vars": [
-      "off"
-    ],
-    "comma-dangle": ["error", "always-multiline"],
-    "@typescript-eslint/comma-dangle": ["error", "always-multiline"],
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/no-unnecessary-type-assertion": "off",
-    "no-case-declarations": "off"
+    "no-case-declarations": "off",
+    "prettier/prettier": "error",
+    "vue/multi-word-component-names": [
+      "error",
+      {
+        "ignores": [
+          "index"
+        ]
+      }
+    ]
   }
 }
