@@ -2,9 +2,9 @@ import { fileURLToPath } from 'node:url'
 import colors from 'tailwindcss/colors'
 
 const srcDir = fileURLToPath(new URL('../', import.meta.url))
-const locokitDesignSystemDir = fileURLToPath(
-  new URL('../../../designsystem', import.meta.url),
-)
+// const locokitDesignSystemDir = fileURLToPath(
+//   new URL('../../../designsystem', import.meta.url),
+// )
 
 /** @type {import('tailwindcss').Config} */
 export default {

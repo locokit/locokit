@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { createI18n } from 'vue-i18n'
 
 import en from '@locokit/i18n/en.json'

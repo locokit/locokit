@@ -23,8 +23,8 @@
 
 <script setup lang="ts">
 import { ROUTES_NAMES } from '../pages/paths'
-import { computed, useRuntimeConfig } from '#imports'
 import { version } from '../../package.json'
+import { computed, useRuntimeConfig } from '#imports'
 
 // To retrieve config and environment variables
 const runtimeConfig = useRuntimeConfig()

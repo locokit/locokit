@@ -30,9 +30,8 @@ export function checkPathAvailable(
  */
 export default async function globalMiddleware(
   to: RouteLocationNormalized,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  from: RouteLocationNormalized,
-): Promise<any> {
+  _from: RouteLocationNormalized,
+): Promise<void> {
   const storeAuth = useStoreAuth()
 
   // To handle children routes (to get meta from parents), Vuejs recommend to use to.matched
@@ -61,7 +60,6 @@ export default async function globalMiddleware(
     //   'navigate to ',
     //   isAuthenticated ? ROUTES.WORKSPACE.HOME : ROUTES.HOME,
     // )
-    console.log('Hello')
     await navigateTo({
       path: isAuthenticated ? ROUTES_PATH.WORKSPACE.HOME : ROUTES_PATH.HOME,
     })

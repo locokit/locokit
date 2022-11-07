@@ -60,5 +60,5 @@ const pseudo = ref()
 Form generic which allow to propose some current action like submit or cancel.
 
 Allow to remain homogeneous between the different forms proposed in the application.
-It's just a form wrapper.
+It's a form wrapper.
 </docs>

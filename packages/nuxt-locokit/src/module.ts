@@ -1,7 +1,8 @@
+/* eslint-disable no-console */
 import { fileURLToPath } from 'node:url'
 import {
   defineNuxtModule,
-  addComponentsDir,
+  // addComponentsDir,
   installModule,
   addPlugin,
   createResolver,
@@ -11,9 +12,9 @@ import { Nuxt, NuxtOptions, NuxtPage, ModuleContainer } from '@nuxt/schema'
 import { ROUTES_NAMES, ROUTES_PATH } from './pages/paths'
 import {
   getAuthPages,
-  getBackofficePages,
-  getFrontofficePages,
-  getUserPages,
+  // getBackofficePages,
+  // getFrontofficePages,
+  // getUserPages,
 } from './routes'
 
 const { resolve } = createResolver(import.meta.url)
@@ -130,9 +131,9 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: defaultOptions,
   async setup(options, nuxt) {
     console.log('[nuxt-module] setup...')
-    const componentsDir = fileURLToPath(
-      new URL('../src/components', import.meta.url),
-    )
+    // const componentsDir = fileURLToPath(
+    //   new URL('../src/components', import.meta.url),
+    // )
     const runtimeDir = fileURLToPath(new URL('../src/runtime', import.meta.url))
     const pluginsDir = fileURLToPath(new URL('../src/plugins', import.meta.url))
     await installModule('@nuxtjs/tailwindcss', {

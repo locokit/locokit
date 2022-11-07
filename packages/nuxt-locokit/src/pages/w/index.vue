@@ -103,18 +103,17 @@
 
 import PSkeleton from 'primevue/skeleton'
 import PButton from 'primevue/button'
-import { Ref, ref } from 'vue'
-import { ROUTES } from '../paths'
+import { ref, computed } from 'vue'
+// import { ROUTES } from '../paths'
 
-import { useStoreWorkspaces } from '../../store/workspaces'
-import { computed } from '@vue/reactivity'
+import { useStoreWorkspaces } from '../../stores/workspaces'
 
 const storeWorkspaces = useStoreWorkspaces()
 
 await storeWorkspaces.fetch()
 
 const loading = computed(() => storeWorkspaces.loading)
-const workspaces = computed(() => storeWorkspaces.workspaces?.data)
+const workspaces = computed(() => storeWorkspaces.workspaces)
 
 // import WorkspaceForm from '@/components/visualize/WorkspaceForm/WorkspaceForm.vue'
 // import Dialog from '@/components/ui/Dialog/Dialog.vue'
@@ -129,7 +128,7 @@ const workspaces = computed(() => storeWorkspaces.workspaces?.data)
 // }
 
 // const submitting = ref(false)
-// const dialogVisible = ref(false)
+const dialogVisible = ref(false)
 
 // const workspaces: Ref<{
 //   id: string;
@@ -141,11 +140,11 @@ const workspaces = computed(() => storeWorkspaces.workspaces?.data)
 //   isManager: boolean;
 // }[]> = ref([])
 
-const newWorkspace = ref({
-  text: '',
-  documentation: '',
-  settings: {},
-})
+// const newWorkspace = ref({
+//   text: '',
+//   documentation: '',
+//   settings: {},
+// })
 
 // authState: AuthState;
 // colorScheme: ColorScheme[];

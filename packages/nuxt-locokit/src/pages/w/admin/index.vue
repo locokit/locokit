@@ -1,3 +1,0 @@
-<template>
-  Workspace admin
-</template>
