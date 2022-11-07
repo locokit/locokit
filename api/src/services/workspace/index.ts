@@ -1,5 +1,6 @@
-import { LocoKitEngine } from '@locokit/lck-engine'
-import { SwaggerService as LocokitSwaggerService } from '@locokit/feathers-locokit'
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+import { LocoKitEngine } from '@locokit/engine'
+import { SwaggerService as LocokitSwaggerService } from 'feathers-locokit'
 import { schema } from '@feathersjs/schema'
 import { HookContext, Id, Params } from '@feathersjs/feathers'
 import type { Application } from '../../declarations'

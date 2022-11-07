@@ -1,16 +1,13 @@
 import assert from 'assert'
 import axios from 'axios'
-import type { Server } from 'http'
 import { app } from './app'
 
 const port = app.get('port')
 const appUrl = `http://${app.get('host')}:${port}`
 
 describe('Feathers application tests', () => {
-  let server: Server
-
   beforeAll(async () => {
-    server = await app.listen(port)
+    await app.listen(port)
   })
 
   afterAll(async () => {

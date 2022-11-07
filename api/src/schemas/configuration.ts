@@ -9,10 +9,13 @@ export const configurationSchema = Type.Intersect([
   Type.Object({
     host: Type.String(),
     port: Type.Number(),
-    public: Type.String()
-  })
+    public: Type.String(),
+  }),
 ])
 
 export type ApplicationConfiguration = Static<typeof configurationSchema>
 
-export const configurationValidator = jsonSchema.getValidator(configurationSchema, dataValidator)
+export const configurationValidator = jsonSchema.getValidator(
+  configurationSchema,
+  dataValidator,
+)
