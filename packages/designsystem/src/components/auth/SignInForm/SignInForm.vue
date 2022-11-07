@@ -8,12 +8,12 @@
       <Field
         v-slot="{ field, errorMessage }"
         v-model="form.email"
-        name="loginForm.email"
+        name="signInForm.email"
         class="mb-4"
         as="div"
-        rules="required"
+        rules="required|email"
       >
-        <label for="email">{{ $t('components.loginForm.email') }}</label>
+        <label for="email">{{ $t('components.signInForm.email') }}</label>
         <PrimeInputText
           id="email"
           v-bind="field"
@@ -33,12 +33,12 @@
       </Field>
       <Field
         v-slot="{ field, errorMessage, meta }"
-        name="loginForm.password"
+        name="signInForm.password"
         class="mb-4"
         as="div"
         rules="required"
       >
-        <label for="password">{{ $t('components.loginForm.password') }}</label>
+        <label for="password">{{ $t('components.signInForm.password') }}</label>
         <PrimePassword
           v-model="form.password"
           input-id="password"
@@ -60,7 +60,7 @@
         </span>
         <!-- NOSONAR -->
         <a :href="lostPasswordRoute" class="my-4 block ml-auto text-xs primary">
-          {{ $t('components.loginForm.forgottenPassword') }}
+          {{ $t('components.signInForm.forgottenPassword') }}
         </a>
       </Field>
       <div class="flex flex-col">
@@ -69,8 +69,8 @@
           :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
           :label="
             logInAgain
-              ? $t('components.loginForm.loginAgain')
-              : $t('components.loginForm.login')
+              ? $t('components.signInForm.signInAgain')
+              : $t('components.signInForm.signIn')
           "
           :disabled="loading || !valid"
         />
@@ -81,7 +81,7 @@
           aria-live="assertive"
         >
           <p v-if="error.name === 'NotAuthenticated'">
-            {{ $t('error.notAuthenticated.login') }}
+            {{ $t('error.notAuthenticated.signIn') }}
           </p>
           <p v-else>
             {{ $t('error.basic') }}
@@ -94,7 +94,7 @@
     <div v-if="!logInAgain" class="footer-links flex flex-wrap justify-center">
       <!-- NOSONAR -->
       <a v-if="displaySignUpLink" :href="signupRoute" class="text-md">
-        {{ $t('components.loginForm.signup') }}
+        {{ $t('components.signInForm.signup') }}
       </a>
     </div>
   </div>

@@ -2,10 +2,10 @@
   <WithBackground>
     <PrimeCard class="p-2">
       <template #title>
-        <h1 class="text-center">{{ $t('pages.login.title') }}</h1>
+        <h1 class="text-center">{{ $t('pages.signIn.title') }}</h1>
       </template>
       <template #content>
-        <LoginForm
+        <SignInForm
           :loading="false"
           :error="error"
           :display-sign-up-link="false"
@@ -19,9 +19,8 @@
 
 <script setup lang="ts">
 import PrimeCard from 'primevue/card'
-import { LoginForm } from '@locokit/designsystem'
+import { SignInForm } from '@locokit/designsystem'
 import { storeToRefs } from 'pinia'
-import WithBackground from '../../layouts/WithBackground/WithBackground.vue'
 import { useStoreAuth } from '../../stores/auth'
 import { ROUTES_PATH, ROUTES_NAMES } from '../paths'
 import { useRouter } from '#imports'

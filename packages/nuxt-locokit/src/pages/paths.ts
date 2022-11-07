@@ -10,7 +10,7 @@ export const ROUTES_NAMES = {
     RESET_PASSWORD: 'ResetPassword',
     UPDATE_EMAIL: 'UpdateEmail',
     SIGN_UP: 'SignUp',
-    LOGIN: 'Login',
+    SIGNIN: 'SignIn',
   },
 }
 
@@ -25,7 +25,7 @@ export const ROUTES_PATH = {
     VERIFYSIGNUP: '/auth/verify-signup',
     RESETPASSWORD: '/auth/reset-password',
     SIGNUP: '/auth/signup',
-    LOGIN: '/auth/login',
+    SIGNIN: '/auth/signin',
   },
 
   /**
