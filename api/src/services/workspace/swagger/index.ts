@@ -1,5 +1,3 @@
-class WorkspaceSwagger {
-  generateOpenAPISpec (workspace: Workspace) {
-
-  }
+export class WorkspaceSwagger {
+  generateOpenAPISpec(_workspace: Workspace): void {}
 }
