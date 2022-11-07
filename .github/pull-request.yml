@@ -1,0 +1,217 @@
+name: pull_request
+
+on:
+  push:
+    branches:
+      - master
+      - next
+  pull_request:
+    types: [review_requested, ready_for_review, synchronize]
+
+jobs:
+
+  ## Design system
+  design-system-quality:
+    runs-on: ubuntu-latest
+    container: node:18
+    defaults:
+      run:
+        working-directory: packages/designsystem
+    steps:
+      - uses: actions/checkout@v2
+      - name: NPM Version
+        run: npm -v
+      - name: Install dependencies
+        run: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
+      - name: lint
+        run: npm run lint
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
+
+  ## nuxt-locokit
+  nuxt-locokit-quality:
+
+  nuxt-locokit-build:
+
+  ## app part
+  app-quality:
+
+  app-build:
+
+  app-docker:
+
+  ## api
+  api-quality:
+    runs-on: ubuntu-latest
+    container: node:18
+    defaults:
+      run:
+        working-directory: api
+    env:
+      # LCK_PORT: 3030
+      # LCK_HOST: localhost
+      # LCK_DATABASE_URL_TEST: postgres://postgres:yourPostgresPassword@lck-db:5432/postgres
+
+      # OBJECTION_DEBUG: 'false'
+      # NODE_ENV: test
+
+      # STORAGE_TYPE: fs
+      # STORAGE_PUBLIC_PATH: /storage
+      # STORAGE_FS_PATH: ../fs-storage
+      # STORAGE_S3_URL: http://lck-s3:9000
+      # STORAGE_S3_ACCESS_KEY: minio
+      # STORAGE_S3_SECRET_KEY: notsecret
+      # STORAGE_S3_PATH_STYLE: 1
+      # STORAGE_S3_SIGNATURE_VERSION: v4
+      # STORAGE_S3_DEFAULT_BUCKET: public
+
+      NODE_OPTIONS: --max_old_space_size=4096
+
+    # services:
+    #   lck-db:
+    #     image: postgis/postgis:12-3.0
+    #     env:
+    #       POSTGRES_DB: postgres
+    #       POSTGRES_USER: postgres
+    #       POSTGRES_PASSWORD: yourPostgresPassword
+
+    #   lck-s3:
+    #     image: minio/minio:latest
+    #     env:
+    #       MINIO_ACCESS_KEY: minio
+    #       MINIO_SECRET_KEY: notsecret
+        # options: server /data
+    steps:
+      - uses: actions/checkout@v2
+      - name: NPM Version
+        run: npm -v
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint code
+        run: npm run lint
+      # - name: Unit tests
+      #   run: npm test
+      #   env:
+      #     NODE_OPTIONS: --max_old_space_size=4096
+      # - name: Tar coverage
+      #   run: tar -cvzf lck-api-quality-artifact.tar.gz coverage
+      # - name: Archive production artifacts
+      #   if: always()
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: lck-api-quality-artifact.tar.gz
+      #     path: |
+      #       api/lck-api-quality-artifact.tar.gz
+
+  api-build:
+    runs-on: ubuntu-latest
+    container: node:18
+    defaults:
+      run:
+        working-directory: api
+    steps:
+      - uses: actions/checkout@v2
+      - name: NPM Version
+        run: npm -v
+      - name: Install dependencies
+        run: npm ci
+      - name: Build API lib
+        run: npm run compile
+      - name: Tar build
+        run: tar -cvzf lck-api-build-artifact.tar.gz lib
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: lck-api-build-artifact.tar.gz
+          path: |
+            api/lck-api-build-artifact.tar.gz
+
+  api-docker:
+
+  ## Documentation part
+  docs-build:
+    runs-on: ubuntu-latest
+    env:
+      BASE_URL: '/'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Build documentation
+        run: npm run docs:build
+      - name: Tar docs
+        run: cd docs/.vitepress/dist/ && tar -czvf lck-docs-build-artifact.tar.gz *
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: lck-docs-build-artifact.tar.gz
+          path: |
+            docs/.vitepress/dist/lck-docs-build-artifact.tar.gz
+
+  ## Docker part
+  # locokit-docker:
+  #   runs-on: ubuntu-latest
+  #   needs: [front-build, api-build, docs-build]
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: Docker meta
+  #       id: meta
+  #       uses: docker/metadata-action@v3
+  #       with:
+  #         # list of Docker images to use as base name for tags
+  #         images: |
+  #           locokit/locokit
+  #         # generate Docker tags based on the following events/attributes
+  #         tags: |
+  #           type=schedule
+  #           type=ref,event=branch
+  #           type=ref,event=pr
+  #           type=semver,pattern={{version}}
+  #           type=semver,pattern={{major}}.{{minor}}
+  #           type=semver,pattern={{major}}
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v1
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v1
+  #     - name: Print GITHUB REF
+  #       run: echo $GITHUB_REF
+  #     - name: Download api artifact
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: lck-api-build-artifact.tar.gz
+  #         # path: api/lib/
+  #     - name: Extract api artifact
+  #       run: tar -xzf lck-api-build-artifact.tar.gz -C api/
+  #     - name: Download front artifact
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: lck-front-build-artifact.tar.gz
+  #         # path: front/dist/
+  #     - name: Extract front artifact
+  #       run: mkdir -p front/dist && tar -xzf lck-front-build-artifact.tar.gz -C front/dist/
+  #     - name: Download docs artifact
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: lck-docs-build-artifact.tar.gz
+  #         # path: docs/.vitepress/dist
+  #     - name: Extract docs artifact
+  #       run: mkdir -p docs/.vitepress/dist && tar -xzf lck-docs-build-artifact.tar.gz -C docs/.vitepress/dist
+  #     - name: LS
+  #       run: ls -al
+  #     - name: Login to DockerHub
+  #       uses: docker/login-action@v1
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+  #     - name: Build and push
+  #       uses: docker/build-push-action@v2
+  #       with:
+  #         context: .
+  #         push: true
+  #         tags: ${{ steps.meta.outputs.tags }}
+  #         labels: ${{ steps.meta.outputs.labels }}
