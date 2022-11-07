@@ -33,33 +33,42 @@ export const usersDataSchema = lckSchema({
       default: false,
     },
     isVerified: {
+      readOnly: true,
       type: 'boolean',
       default: false,
     },
     verifyToken: {
+      readOnly: true,
       type: 'string',
     },
     verifyShortToken: {
+      readOnly: true,
       type: 'string',
     },
     verifyExpires: {
+      readOnly: true,
       type: 'number',
       format: 'date-time',
     },
     verifyChanges: {
+      readOnly: true,
       type: 'object',
     },
     resetToken: {
+      readOnly: true,
       type: 'string',
     },
     resetShortToken: {
+      readOnly: true,
       type: 'string',
     },
     resetExpires: {
+      readOnly: true,
       type: 'number',
       format: 'date-time',
     },
     resetAttempts: {
+      readOnly: true,
       type: 'number',
     },
   },
@@ -77,45 +86,6 @@ export const usersPatchSchema = lckSchema({
   required: [],
   properties: {
     ...usersDataSchema.properties,
-    isVerified: {
-      readOnly: true,
-      type: 'boolean',
-      default: false,
-    },
-    verifyToken: {
-      readOnly: true,
-      type: 'string',
-    },
-    verifyShortToken: {
-      readOnly: true,
-      type: 'string',
-    },
-    verifyExpires: {
-      readOnly: true,
-      type: 'number',
-      format: 'date-time',
-    },
-    verifyChanges: {
-      readOnly: true,
-      type: 'object',
-    },
-    resetToken: {
-      readOnly: true,
-      type: 'string',
-    },
-    resetShortToken: {
-      readOnly: true,
-      type: 'string',
-    },
-    resetExpires: {
-      readOnly: true,
-      type: 'number',
-      format: 'date-time',
-    },
-    resetAttempts: {
-      readOnly: true,
-      type: 'number',
-    },
   },
 } as const)
 
