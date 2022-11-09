@@ -2,7 +2,9 @@
   <WithBackground>
     <PrimeCard class="p-2">
       <template #title>
-        <h1 class="text-center mb-4">{{ $t('pages.lostPassword.title') }}</h1>
+        <h1 class="text-center mb-4">
+          {{ $t('pages.lostPassword.alternativeTitle') }}
+        </h1>
       </template>
       <template #content>
         <div v-if="!formSentAndValid">
@@ -40,10 +42,13 @@
 import PrimeCard from 'primevue/card'
 import { LostPasswordForm } from '@locokit/designsystem'
 import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
 import WithBackground from '../../layouts/WithBackground.vue'
 import { useStoreAuth } from '../../stores/auth'
 import { ROUTES_NAMES } from '../paths'
-import { ref } from '#imports'
+import { ref, useHead } from '#imports'
+
+const { t } = useI18n({ useScope: 'global' })
 
 const authStore = useStoreAuth()
 
@@ -55,4 +60,8 @@ const sendResetPasswordLink = async (data: string) => {
   await authStore.sendLinkToResetPassword({ email: data })
   formSentAndValid.value = !error.value
 }
+
+useHead({
+  titleTemplate: `${t('pages.lostPassword.title')} | %s`,
+})
 </script>

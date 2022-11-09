@@ -41,10 +41,13 @@
 import PrimeCard from 'primevue/card'
 import { PasswordForm } from '@locokit/designsystem'
 import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
 import WithBackground from '../../layouts/WithBackground.vue'
 import { ROUTES_NAMES } from '../paths'
 import { useStoreAuth } from '../../stores/auth'
-import { ref, useRoute } from '#imports'
+import { ref, useHead, useRoute } from '#imports'
+
+const { t } = useI18n({ useScope: 'global' })
 
 const authStore = useStoreAuth()
 const route = useRoute()
@@ -60,4 +63,8 @@ const verifySignupAndSetPassword = async (data) => {
   })
   formSentAndValid.value = !error.value
 }
+
+useHead({
+  titleTemplate: `${t('pages.verifySignup.title')} | %s`,
+})
 </script>

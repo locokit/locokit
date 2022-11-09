@@ -23,7 +23,7 @@
             class="no-decoration-link"
             :to="{ name: ROUTES_NAMES.HOME }"
           >
-            {{ $t('pages.lostPassword.homeLink') }}
+            {{ $t('pages.signUp.homeLink') }}
           </NuxtLink>
         </div>
       </template>
@@ -35,12 +35,15 @@
 import PrimeCard from 'primevue/card'
 import { SignUpForm } from '@locokit/designsystem'
 import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
 import WithBackground from '../../layouts/WithBackground.vue'
 import { ROUTES_NAMES } from '../paths'
 import { useStoreAuth } from '../../stores/auth'
-import { ref } from '#imports'
+import { ref, useHead } from '#imports'
 
 const authStore = useStoreAuth()
+
+const { t } = useI18n({ useScope: 'global' })
 
 const { error } = storeToRefs(authStore)
 const loading = ref(false) // check if necessary with vee-validate
@@ -50,4 +53,8 @@ const signUp = async (data: { email: string; name: string }) => {
   await authStore.signUp(data)
   formSentAndValid.value = !error.value
 }
+
+useHead({
+  titleTemplate: `${t('pages.signUp.title')} | %s`,
+})
 </script>
