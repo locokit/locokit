@@ -2,6 +2,11 @@ import { defineNuxtConfig } from 'nuxt/config'
 import LocoKitModule from '..'
 
 export default defineNuxtConfig({
+  app: {
+    head: {
+      title: 'Locokit',
+    },
+  },
   runtimeConfig: {
     public: {
       HOME_BACKGROUND_IMAGE_URL: '/theme/default/img/dog.jpg',

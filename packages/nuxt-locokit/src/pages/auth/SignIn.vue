@@ -21,13 +21,17 @@
 import PrimeCard from 'primevue/card'
 import { SignInForm } from '@locokit/designsystem'
 import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
 import WithBackground from '../../layouts/WithBackground.vue'
 import { useStoreAuth } from '../../stores/auth'
 import { ROUTES_PATH, ROUTES_NAMES } from '../paths'
-import { useRouter } from '#imports'
+import { useHead, useRouter } from '#imports'
+
+const { t } = useI18n({ useScope: 'global' })
 
 const router = useRouter()
 const authStore = useStoreAuth()
+
 const { error } = storeToRefs(authStore)
 
 const authenticate = async (data) => {
@@ -38,4 +42,8 @@ const authenticate = async (data) => {
     })
   }
 }
+
+useHead({
+  titleTemplate: `${t('pages.signIn.title')} | %s`,
+})
 </script>
