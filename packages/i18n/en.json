@@ -43,7 +43,8 @@
       "title": "Welcome"
     },
     "lostPassword": {
-      "title": "Password… where are you?!",
+      "title": "Lost password",
+      "alternativeTitle": "Password… where are you?!",
       "description": "Do you lose your password ? Enter your email to receive a mail with a temporary link. Open it, and update your password !",
       "sendMailToResetPassword": "Check your email and click on the link to create a new password.",
       "homeLink": "Go back to home page"

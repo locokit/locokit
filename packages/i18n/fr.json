@@ -43,7 +43,8 @@
       "title": "Page d'identification"
     },
     "lostPassword": {
-      "title": "Mot de passe, où es tu ?",
+      "title": "Mot de passe perdu",
+      "alternativeTitle": "Mot de passe, où es-tu ?",
       "description": "Vous avez perdu votre mot de passe ? Renseignez votre email pour recevoir un mail avec un lien temporaire. Cliquez dessus, et vous pourrez changer votre mot de passe !",
       "sendMailToResetPassword": "Merci de vérifier vos e-mails, d'ouvrir le mail que nous venons de vous envoyer, et de cliquer sur le lien pour redéfinir votre mot de passe.",
       "homeLink": "Retour à la page d'accueil"
@@ -57,7 +58,7 @@
     },
     "signUp": {
       "title": "Inscription",
-      "description": "Complete this form to initiate your registration.",
+      "description": "Complétez ce formulaire pour initialiser votre inscription.",
       "sendMailToCompleteAccount": "Votre inscription a été prise en compte. Vous allez recevoir un e-mail avec des instructions pour finaliser votre inscription.",
       "homeLink": "Retour à la page d'accueil"
     },
@@ -169,9 +170,9 @@
   },
   "validations": {
     "fieldNames": {
-      "loginForm": {
-        "email": "@:components.loginForm.email",
-        "password": "@:components.loginForm.password"
+      "signInForm": {
+        "email": "@:components.signInForm.email",
+        "password": "@:components.signInForm.password"
       },
       "lostPasswordForm": {
         "email": "@:components.lostPasswordForm.email"
