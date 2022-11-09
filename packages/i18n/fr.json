@@ -58,7 +58,7 @@
     },
     "signUp": {
       "title": "Inscription",
-      "description": "Complétez ce formulaire pour initialiser votre inscription.",
+      "description": "Complétez ce formulaire pour initier votre inscription.",
       "sendMailToCompleteAccount": "Votre inscription a été prise en compte. Vous allez recevoir un e-mail avec des instructions pour finaliser votre inscription.",
       "homeLink": "Retour à la page d'accueil"
     },
