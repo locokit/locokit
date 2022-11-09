@@ -52,6 +52,11 @@ export default defineNuxtPlugin((_nuxtApp) => {
   // })
 
   configure({
+    bails: false,
+    validateOnBlur: true,
+    validateOnChange: false,
+    validateOnInput: false,
+    validateOnModelUpdate: false,
     generateMessage: (context) => {
       // console.log(context)
       const field = i18n.global.t(
