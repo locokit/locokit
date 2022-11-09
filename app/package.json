@@ -12,6 +12,6 @@
     "@nuxtjs/tailwindcss": "^5.3.2",
     "eslint-plugin-nuxt": "^3.2.0",
     "nuxt": "^3.0.0-rc.9",
-    "nuxt-locokit": "^1.0.0"
+    "nuxt-locokit": "^1.0.0-alpha.0"
   }
 }
