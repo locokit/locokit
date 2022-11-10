@@ -1,24 +1,40 @@
 <template>
-  <WithBackground>
-    <div
-      class="p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 text-center"
-    >
-      <h1
-        class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+  <div
+    class="h-screen bg-cover bg-no-repeat bg-center"
+    :style="{
+      background:
+        'bottom center / contain no-repeat url' +
+        '(' +
+        runtimeConfig.public.ERROR_BACKGROUND_IMAGE_URL +
+        ')' +
+        'var(--color-primary)',
+    }"
+  >
+    <div class="container mx-auto text-center justify-center flex-1">
+      <span class="text-white pt-8 mb-2 text-3xl text-9xl font-black sr-only"
+        >404</span
       >
+      <h1 class="text-white pt-8 mb-2 text-3xl font-bold tracking-tight">
         {{ $t('pages.404.title') }}
       </h1>
-      <router-link to="/" class="p-button p-component">
+      <NuxtLink
+        :to="{ name: ROUTES_NAMES.HOME }"
+        class="inline-block mt-4 p-component bg-green-600 hover:bg-green-800 text-white rounded-lg p-4 cursor-pointer ease-out hover:ease-in duration-500 border-solid border border-green-800"
+      >
         <span
-          class="pi pi-sign-in p-button-icon p-button-icon-left"
+          class="pi pi-home p-button-icon p-button-icon-left px-4"
           aria-hidden="true"
         ></span>
         <span class="p-button-label">{{ $t('pages.404.link') }}</span>
-      </router-link>
+      </NuxtLink>
     </div>
-  </WithBackground>
+  </div>
 </template>
 
 <script setup lang="ts">
-import WithBackground from '../../src/layouts/WithBackground/WithBackground.vue'
+import { ROUTES_NAMES } from '../../src/pages/paths'
+import { useRuntimeConfig } from '#imports'
+
+// To retrieve config and environment variables
+const runtimeConfig = useRuntimeConfig()
 </script>
