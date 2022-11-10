@@ -19,7 +19,9 @@
                   aria-expanded="false"
                   @click="toggleMenu"
                 >
-                  <span class="sr-only">Open main menu</span>
+                  <span class="sr-only">
+                    {{ $t('layouts.withBanner.openMenu') }}
+                  </span>
                   <!-- Heroicon name: outline/bars-3 -->
                   <svg
                     class="h-6 w-6"
@@ -45,14 +47,14 @@
               to="/"
               class="font-medium p-2 rounded-sm text-gray-500 hover:bg-primary hover:text-gray-100"
             >
-              Home
+              {{ $t('layouts.withBanner.home') }}
             </NuxtLink>
 
             <NuxtLink
               to="/w"
               class="font-medium p-2 rounded-sm text-gray-500 hover:bg-primary hover:text-gray-100"
             >
-              Workspaces
+              {{ $t('layouts.withBanner.workspaces') }}
             </NuxtLink>
 
             <NuxtLink
@@ -60,7 +62,7 @@
               class="font-medium p-2 rounded-sm text-primary hover:bg-primary hover:text-gray-100"
               :lol="toggleMenu"
             >
-              Sign in
+              {{ $t('layouts.withBanner.signIn') }}
             </NuxtLink>
 
             <NuxtLink
@@ -68,7 +70,7 @@
               class="font-medium p-2 rounded-sm text-primary hover:bg-primary hover:text-gray-100"
               :lol="toggleMenu"
             >
-              Sign up
+              {{ $t('layouts.withBanner.signUp') }}
             </NuxtLink>
           </div>
         </nav>
@@ -94,7 +96,9 @@
                 class="inline-flex items-center justify-center rounded-sm bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
                 @click="toggleMenu"
               >
-                <span class="sr-only">Close main menu</span>
+                <span class="sr-only">
+                  {{ $t('layouts.withBanner.closeMenu') }}
+                </span>
                 <svg
                   class="h-6 w-6"
                   xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +123,7 @@
               class="block rounded-sm px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
               @click="toggleMenu"
             >
-              Home
+              {{ $t('layouts.withBanner.home') }}
             </NuxtLink>
 
             <NuxtLink
@@ -127,7 +131,7 @@
               class="block rounded-sm px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
               @click="toggleMenu"
             >
-              Workspaces
+              {{ $t('layouts.withBanner.workspaces') }}
             </NuxtLink>
 
             <NuxtLink
@@ -135,7 +139,7 @@
               class="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-primary hover:bg-gray-100"
               @click="toggleMenu"
             >
-              Sign in
+              {{ $t('layouts.withBanner.signIn') }}
             </NuxtLink>
 
             <NuxtLink
@@ -143,7 +147,7 @@
               class="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-primary hover:bg-gray-100"
               @click="toggleMenu"
             >
-              Sign up
+              {{ $t('layouts.withBanner.signUp') }}
             </NuxtLink>
           </div>
         </div>
