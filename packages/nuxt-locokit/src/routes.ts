@@ -13,7 +13,7 @@ const { resolve } = createResolver(import.meta.url)
 export function getAuthPages(prefix: string): NuxtPage[] {
   return [
     {
-      name: ROUTES_NAMES.AUTH.SIGNIN,
+      name: ROUTES_NAMES.AUTH.SIGN_IN,
       path: prefix + ROUTES_PATH.AUTH.SIGNIN,
       file: resolve('./pages/auth/SignIn.vue'),
       meta: {

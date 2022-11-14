@@ -44,21 +44,21 @@
           </div>
           <div class="hidden md:ml-auto md:block md:space-x-8 md:pr-4">
             <NuxtLink
-              to="/"
+              :to="{ name: ROUTES_NAMES.HOME }"
               class="font-medium p-2 rounded-sm text-gray-500 hover:bg-primary hover:text-gray-100"
             >
               {{ $t('layouts.withBanner.home') }}
             </NuxtLink>
 
             <NuxtLink
-              to="/w"
+              :to="{ name: ROUTES_NAMES.WORKSPACE.HOME }"
               class="font-medium p-2 rounded-sm text-gray-500 hover:bg-primary hover:text-gray-100"
             >
               {{ $t('layouts.withBanner.workspaces') }}
             </NuxtLink>
 
             <NuxtLink
-              to="/auth/signin"
+              :to="{ name: ROUTES_NAMES.AUTH.SIGN_IN }"
               class="font-medium p-2 rounded-sm text-primary hover:bg-primary hover:text-gray-100"
               :lol="toggleMenu"
             >
@@ -66,7 +66,7 @@
             </NuxtLink>
 
             <NuxtLink
-              to="/auth/signup"
+              :to="{ name: ROUTES_NAMES.AUTH.SIGN_UP }"
               class="font-medium p-2 rounded-sm text-primary hover:bg-primary hover:text-gray-100"
               :lol="toggleMenu"
             >
@@ -119,7 +119,7 @@
           </div>
           <div class="space-y-1 px-2 pt-2 pb-3">
             <NuxtLink
-              to="/"
+              :to="{ name: ROUTES_NAMES.HOME }"
               class="block rounded-sm px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
               @click="toggleMenu"
             >
@@ -127,7 +127,7 @@
             </NuxtLink>
 
             <NuxtLink
-              to="/w"
+              :to="{ name: ROUTES_NAMES.WORKSPACE.HOME }"
               class="block rounded-sm px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
               @click="toggleMenu"
             >
@@ -135,7 +135,7 @@
             </NuxtLink>
 
             <NuxtLink
-              to="/auth/signin"
+              :to="{ name: ROUTES_NAMES.AUTH.SIGN_IN }"
               class="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-primary hover:bg-gray-100"
               @click="toggleMenu"
             >
@@ -143,7 +143,7 @@
             </NuxtLink>
 
             <NuxtLink
-              to="/auth/signup"
+              :to="{ name: ROUTES_NAMES.AUTH.SIGN_UP }"
               class="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-primary hover:bg-gray-100"
               @click="toggleMenu"
             >
@@ -159,6 +159,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { ROUTES_NAMES } from '../pages/paths'
 
 const menuOpened = ref(false)
 
