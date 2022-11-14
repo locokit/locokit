@@ -39,6 +39,10 @@
     }
   },
   "pages": {
+    "404": {
+      "title": "Oups ?!… Il semble que vous êtes perdus … Désolé. Vraiment.",
+      "link": "Retourner sur la page d'accueil."
+    },
     "signIn": {
       "title": "Page d'identification"
     },
