@@ -31,7 +31,8 @@
   "scripts": {
     "vite:dev": "vite",
     "vite:build": "tsc && vite build --outDir dist/server --ssr src/app.ts",
-    "dev": "nodemon -x ts-node src/index.ts",
+    "debug": "DEBUG=* ts-node-dev --no-notify --files src/",
+    "dev": "ts-node-dev --no-notify --files src/",
     "compile": "shx rm -rf lib/ && tsc",
     "lint": "eslint src",
     "jest": "NODE_ENV=test jest --forceExit",
@@ -111,6 +112,7 @@
     "nodemon": "^2.0.18",
     "shx": "^0.3.4",
     "ts-jest": "^29.0.3",
+    "ts-node-dev": "^2.0.0",
     "vite-node": "^0.22.1"
   }
 }
