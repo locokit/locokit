@@ -3,8 +3,10 @@ import type { Infer } from '@feathersjs/schema'
 import { defaultDataSchema, lckSchema } from '../../schemas/default.schema'
 
 // Schema for the basic data model (e.g. creating new entries)
-export const wDataSchema = lckSchema({
-  $id: 'WData',
+// export const workspaceDataJSONSchema: JSONSchemaDefinition =
+
+export const workspaceDataSchema = lckSchema({
+  $id: 'Workspace',
   type: 'object',
   additionalProperties: false,
   required: ['name'],
@@ -49,48 +51,52 @@ export const wDataSchema = lckSchema({
         },
       },
     },
+    createdBy: {
+      type: 'number',
+      description: "Workspace's user creator",
+    },
   },
 } as const)
 
-export type WData = Infer<typeof wDataSchema>
+export type WorkspaceData = Infer<typeof workspaceDataSchema>
 
 // Schema for making partial updates
-export const wPatchSchema = lckSchema({
+export const workspacePatchSchema = lckSchema({
   $id: 'WPatch',
   type: 'object',
   additionalProperties: false,
   required: [],
   properties: {
-    ...wDataSchema.properties,
+    ...workspaceDataSchema.properties,
   },
 } as const)
 
-export type WPatch = Infer<typeof wPatchSchema>
+export type WorkspacePatch = Infer<typeof workspacePatchSchema>
 
 // Schema for the data that is being returned
-export const wResultSchema = lckSchema({
+export const workspaceResultSchema = lckSchema({
   $id: 'WResult',
   type: 'object',
   additionalProperties: false,
-  required: [...wDataSchema.required, 'id'],
+  required: [...workspaceDataSchema.required, 'id'],
   properties: {
-    ...wDataSchema.properties,
+    ...workspaceDataSchema.properties,
     id: {
       type: 'number',
     },
   },
 } as const)
 
-export type WResult = Infer<typeof wResultSchema>
+export type WorkspaceResult = Infer<typeof workspaceResultSchema>
 
 // Schema for allowed query properties
-export const wQuerySchema = lckSchema({
+export const workspaceQuerySchema = lckSchema({
   $id: 'WQuery',
   type: 'object',
   additionalProperties: false,
   properties: {
-    ...querySyntax(wResultSchema.properties),
+    ...querySyntax(workspaceResultSchema.properties),
   },
 } as const)
 
-export type WQuery = Infer<typeof wQuerySchema>
+export type WorkspaceQuery = Infer<typeof workspaceQuerySchema>
