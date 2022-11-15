@@ -5,17 +5,33 @@
 version: '3'
 services:
 
-  lck-mail:
+  lck-mail-next:
     image: mailhog/mailhog:latest
     environment:
       MH_STORAGE: maildir
       MH_MAILDIR_PATH: /home/mailhog
     volumes:
-      - mailhog:/home/mailhog/
+      - mailhog-next:/home/mailhog/
     ports:
       - "1025:1025"
       - "8025:8025"
-    container_name: lck-mail
+    container_name: lck-mail-next
+
+  lck-db-next:
+    image: postgis/postgis:15-3.3-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: locokit
+      POSTGRES_USER: locokitmaster
+      POSTGRES_PASSWORD: locokitMasterPassWORD
+      TZ: 'UTC'
+      PGTZ: 'UTC'
+    # restart: always
+    volumes:
+      - lck-db-next-data:/var/lib/postgresql/data
+    container_name: lck-db-next
 
 volumes:
-  mailhog:
+  mailhog-next:
+  lck-db-next-data:
