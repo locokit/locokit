@@ -20,6 +20,7 @@ module.exports = {
     '@typescript-eslint/no-empty-interface': 'off',
     'no-case-declarations': 'off',
     'prettier/prettier': 'error',
+    '@typescript-eslint/explicit-function-return-type': 'off',
   },
   overrides: [
     {
