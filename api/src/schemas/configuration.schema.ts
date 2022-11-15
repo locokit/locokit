@@ -14,6 +14,7 @@ export const configurationSchema = schema({
     'publicURL',
     'settings',
     'mail',
+    'authentication',
   ],
   properties: {
     host: { type: 'string' },
@@ -47,7 +48,7 @@ export const configurationSchema = schema({
           type: 'object',
           required: ['client', 'connection'],
           properties: {
-            client: { type: 'string' },
+            client: { enum: ['pg', 'sqlite3'] },
             connection: { type: 'string' },
           },
         },
@@ -103,7 +104,7 @@ export const configurationSchema = schema({
         max: { type: 'number' },
       },
     },
-    'locokit-providers': {
+    datasources: {
       type: 'array',
       items: {
         type: 'object',
@@ -124,6 +125,44 @@ export const configurationSchema = schema({
             then: {
               properties: {
                 options: { type: 'string' },
+                credentials: {
+                  type: 'object',
+                  properties: {
+                    read: {
+                      type: 'object',
+                      properties: {
+                        username: {
+                          type: 'string',
+                        },
+                        password: {
+                          type: 'string',
+                        },
+                      },
+                    },
+                    write: {
+                      type: 'object',
+                      properties: {
+                        username: {
+                          type: 'string',
+                        },
+                        password: {
+                          type: 'string',
+                        },
+                      },
+                    },
+                    alter: {
+                      type: 'object',
+                      properties: {
+                        username: {
+                          type: 'string',
+                        },
+                        password: {
+                          type: 'string',
+                        },
+                      },
+                    },
+                  },
+                },
               },
             },
           },

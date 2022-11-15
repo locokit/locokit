@@ -20,19 +20,27 @@ const formats: FormatsPluginOptions = [
   'regex',
 ]
 
-export const dataValidator = ajvErrors(
-  addFormats(new Ajv({ allErrors: true }), formats),
+export const dataValidator: Ajv = ajvErrors(
+  addFormats(
+    new Ajv({
+      allErrors: true,
+      coerceTypes: true,
+      allowUnionTypes: true,
+    }),
+    formats,
+  ),
 )
 dataValidator.addFormat('user-profile', {
   type: 'string',
   validate: (x: string) => Object.keys(PROFILE).includes(x),
 })
 
-export const queryValidator = ajvErrors(
+export const queryValidator: Ajv = ajvErrors(
   addFormats(
     new Ajv({
       allErrors: true,
       coerceTypes: true,
+      allowUnionTypes: true,
     }),
     formats,
   ),
