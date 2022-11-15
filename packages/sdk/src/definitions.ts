@@ -1,5 +1,13 @@
 import { Paginated } from '@feathersjs/feathers'
-import { BLOCK_TYPE, COLUMN_TYPE, EXTERNAL_APP_URL_PART_TYPE, GROUP_ROLE, MapSourceSettings, MediaSettings, MEDIA_TYPE } from '@locokit/lck-glossary'
+import {
+  BLOCK_TYPE,
+  COLUMN_TYPE,
+  EXTERNAL_APP_URL_PART_TYPE,
+  GROUP_ROLE,
+  MapSourceSettings,
+  MediaSettings,
+  MEDIA_TYPE,
+} from '@locokit/definitions'
 
 export class LckBaseModel {
   /**
@@ -32,7 +40,7 @@ export class LckWorkspace extends LckBaseModel {
   slug?: string
   settings?: LckWorkspaceSettings
 
-  constructor () {
+  constructor() {
     super()
     this.settings = {}
   }
@@ -108,7 +116,7 @@ export class LckTableColumn extends LckBaseModel {
     query?: {
       select: string[]
       where: Record<string, {}>
-      sort: Array<{ field: string, order: string}>
+      sort: Array<{ field: string; order: string }>
       limit: number
       skip: number
       aggregate: string // count, avg, sum, min, max, count distinct
@@ -157,19 +165,21 @@ export class LckTableViewColumn extends LckTableColumn {
   /**
    * Value which specify a data/template in order to parameterize a behaviour
    */
-  default?: {
-    /**
-     * The default value for the field, or magic strings
-     */
-    value?: string | number | boolean | '{rowId}' | '{userId}' | '{groupId}'
-    /**
-     * Id of the field this field will take the initial value.
-     * On the front side, as soon as the fieldId value is mutated,
-     * we set the value of the current field if unset.
-     * On the back side, the current field value is set to the field value with fieldId.
-     */
-    fieldId?: string
-  } | Record<string, unknown>
+  default?:
+    | {
+        /**
+         * The default value for the field, or magic strings
+         */
+        value?: string | number | boolean | '{rowId}' | '{userId}' | '{groupId}'
+        /**
+         * Id of the field this field will take the initial value.
+         * On the front side, as soon as the fieldId value is mutated,
+         * we set the value of the current field if unset.
+         * On the back side, the current field value is set to the field value with fieldId.
+         */
+        fieldId?: string
+      }
+    | Record<string, unknown>
 
   /**
    * Style css rules
@@ -187,7 +197,7 @@ export class LckTableViewColumn extends LckTableColumn {
   display_conditions?: Array<{
     field_id: string
     operator: '$eq' | '$in' | '$ne'
-    value: string | number | string[] | number []
+    value: string | number | string[] | number[]
   }>
 }
 
@@ -196,7 +206,11 @@ export enum SORT_COLUMN {
   DESC = 'DESC',
 }
 
-export type LckTableViewFilterPattern = boolean | number | string | Array<string | number>
+export type LckTableViewFilterPattern =
+  | boolean
+  | number
+  | string
+  | Array<string | number>
 
 export interface LckTableViewFilterValue {
   action: string
@@ -253,15 +267,16 @@ export class LCKTableRowMultiDataComplex {
   value!: string[]
 }
 
-export type LckTableRowData = Date
-| string[]
-| string
-| number
-| LckTableRowDataComplex
-| LCKTableRowMultiDataComplex
-| null
-| boolean
-| LckAttachment[]
+export type LckTableRowData =
+  | Date
+  | string[]
+  | string
+  | number
+  | LckTableRowDataComplex
+  | LCKTableRowMultiDataComplex
+  | null
+  | boolean
+  | LckAttachment[]
 
 export class LckTableRow extends LckBaseModel {
   text!: string
@@ -314,21 +329,23 @@ export class LckBlockExtended extends LckBaseModel {
   type!: BLOCK_TYPE
   title?: string
   position!: number
-  settings: {
-    id?: string
-    addSourceId?: string
-    sources: LckBlockSource[]
-    pagination?: number
-    parts: Array<{
-      type: EXTERNAL_APP_URL_PART_TYPE
-      id: string
-    }>
-    pageDetailId?: string
-    redirectPageId?: string
-  } | MediaSettings = {
-      sources: [],
-      parts: [],
-    }
+  settings:
+    | {
+        id?: string
+        addSourceId?: string
+        sources: LckBlockSource[]
+        pagination?: number
+        parts: Array<{
+          type: EXTERNAL_APP_URL_PART_TYPE
+          id: string
+        }>
+        pageDetailId?: string
+        redirectPageId?: string
+      }
+    | MediaSettings = {
+    sources: [],
+    parts: [],
+  }
 
   elevation?: boolean
   conditionalDisplayTableViewId?: string
@@ -343,14 +360,20 @@ export class LckBlockExtended extends LckBaseModel {
   pageLoaded?: boolean
 }
 
-export type LckBlockSecondarySource = Record<string, {
-  definition?: LckTableView
-  content?: LckTableRow[]
-}>
+export type LckBlockSecondarySource = Record<
+  string,
+  {
+    definition?: LckTableView
+    content?: LckTableRow[]
+  }
+>
 
-export type LckBlockGeoSource = Record<string, {
-  definition?: Record<string, LckTableView>
-}>
+export type LckBlockGeoSource = Record<
+  string,
+  {
+    definition?: Record<string, LckTableView>
+  }
+>
 
 export interface LckBlockSource {
   id: string
@@ -399,7 +422,7 @@ export class LckProcess extends LckBaseModel {
   runs?: LckProcessRun[]
   table?: LckTable
 
-  constructor () {
+  constructor() {
     super()
     this.settings = {}
     this.trigger = PROCESS_TRIGGER.MANUAL
@@ -471,7 +494,7 @@ export class LckAclTable extends LckBaseModel {
   delete_filter: object = {}
   table?: LckTable
 
-  constructor (aclSetId: string, table: LckTable | undefined) {
+  constructor(aclSetId: string, table: LckTable | undefined) {
     super()
     this.aclset_id = aclSetId
     if (table) {
@@ -500,7 +523,7 @@ export class LckAclSet extends LckBaseModel {
   groups?: LckGroup[]
   acltables?: LckAclTable[]
 
-  constructor (label = '', workspaceId = '', manager = false) {
+  constructor(label = '', workspaceId = '', manager = false) {
     super()
     this.label = label
     this.manager = manager
