@@ -7,7 +7,7 @@ import type { Knex } from 'knex'
  */
 
 export async function up(knex: Knex): Promise<void> {
-  await knex.schema.alterTable('users', function (table) {
+  await knex.schema.alterTable('user', function (table) {
     table.string('name')
     table.boolean('isVerified').defaultTo(false)
     table.string('verifyToken')
@@ -22,7 +22,7 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(knex: Knex): Promise<void> {
-  await knex.schema.alterTable('users', function (table) {
+  await knex.schema.alterTable('user', function (table) {
     table.dropColumn('name')
     table.dropColumn('isVerified')
     table.dropColumn('verifyToken')
