@@ -1,11 +1,11 @@
 import { querySyntax } from '@feathersjs/schema'
 import { PROFILE } from '@locokit/definitions'
 import type { Infer } from '@feathersjs/schema'
-import { defaultDataSchema, lckSchema } from '../../schemas/default.schema'
+import { defaultDataSchema, lckSchema } from '../../../schemas/default.schema'
 
 // Schema for the basic data model (e.g. creating new entries)
-export const usersDataSchema = lckSchema({
-  $id: 'UsersData',
+export const userDataSchema = lckSchema({
+  $id: 'UserData',
   type: 'object',
   additionalProperties: false,
   required: ['email'],
@@ -47,8 +47,17 @@ export const usersDataSchema = lckSchema({
     },
     verifyExpires: {
       readOnly: true,
-      type: 'number',
-      format: 'date-time',
+      type: ['string', 'number'],
+      anyOf: [
+        {
+          type: 'string',
+          format: 'date-time',
+        },
+        {
+          type: 'number',
+        },
+      ],
+      nullable: true,
     },
     verifyChanges: {
       readOnly: true,
@@ -64,8 +73,17 @@ export const usersDataSchema = lckSchema({
     },
     resetExpires: {
       readOnly: true,
-      type: 'number',
-      format: 'date-time',
+      type: ['string', 'number'],
+      anyOf: [
+        {
+          type: 'string',
+          format: 'date-time',
+        },
+        {
+          type: 'number',
+        },
+      ],
+      nullable: true,
     },
     resetAttempts: {
       readOnly: true,
@@ -74,56 +92,56 @@ export const usersDataSchema = lckSchema({
   },
 } as const)
 
-export type UsersData = Infer<typeof usersDataSchema> & {
+export type UserData = Infer<typeof userDataSchema> & {
   profile: PROFILE
 }
 
 // Schema for making partial updates
-export const usersPatchSchema = lckSchema({
-  $id: 'UsersPatch',
+export const userPatchSchema = lckSchema({
+  $id: 'UserPatch',
   type: 'object',
   additionalProperties: false,
   required: [],
   properties: {
-    ...usersDataSchema.properties,
+    ...userDataSchema.properties,
   },
 } as const)
 
-export type UsersPatch = Infer<typeof usersPatchSchema> & {
+export type UserPatch = Infer<typeof userPatchSchema> & {
   profile: PROFILE
 }
 
 // Schema for the data that is being returned
-export const usersResultSchema = lckSchema({
-  $id: 'UsersResult',
+export const userResultSchema = lckSchema({
+  $id: 'UserResult',
   type: 'object',
   additionalProperties: false,
   required: ['id'],
   properties: {
-    ...usersDataSchema.properties,
+    ...userDataSchema.properties,
     id: {
       type: 'string',
     },
   },
 } as const)
 
-export type UsersResult = Infer<typeof usersResultSchema> & {
+export type UserResult = Infer<typeof userResultSchema> & {
   profile: PROFILE
 }
 
 // Queries shouldn't allow doing anything with the password
-const { password, ...usersQueryProperties } = usersResultSchema.properties
+const { password, ...userQueryProperties } = userResultSchema.properties
 
 // Schema for allowed query properties
-export const usersQuerySchema = lckSchema({
-  $id: 'UsersQuery',
+export const userQuerySchema = lckSchema({
+  $id: 'UserQuery',
   type: 'object',
   additionalProperties: false,
   properties: {
-    ...querySyntax(usersQueryProperties),
+    ...querySyntax(userQueryProperties),
   },
 } as const)
 
-export type UsersQuery = Infer<typeof usersQuerySchema> & {
+export type UserQuery = Infer<typeof userQuerySchema> & {
   profile: PROFILE
 }

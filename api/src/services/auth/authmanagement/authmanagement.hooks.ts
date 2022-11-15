@@ -2,7 +2,7 @@ import { authenticate } from '@feathersjs/authentication'
 import { HookOptions } from '@feathersjs/feathers'
 import { AuthenticationManagementService } from 'feathers-authentication-management/dist'
 import { iff, lowerCase, ContextFunction } from 'feathers-hooks-common'
-import { Application, HookContext } from '../../declarations'
+import { Application, HookContext } from '../../../declarations'
 import { enforcePasswordPolicy } from './enforcePasswordPolicy.hook'
 
 const isAction =

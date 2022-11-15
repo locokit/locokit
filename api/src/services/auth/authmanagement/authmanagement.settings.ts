@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { Application } from '../../declarations'
+import { Application } from '../../../declarations'
 import ejs from 'ejs'
 import path from 'path'
 import { marked } from 'marked'
@@ -53,6 +53,7 @@ const templateFolder = '/templates/mails'
 export function authManagementSettings(app: Application): {
   notifier: LocokitNotifier
   delay: number
+  service: string
 } {
   function getLink(type: string, hash?: string): string {
     let link = (app.get('publicURL') as string) + '/' + type
@@ -225,6 +226,7 @@ export function authManagementSettings(app: Application): {
   }
 
   return {
+    service: app.get('authentication').service ?? 'user',
     async notifier(
       type: AuthenticationManagementAction,
       user: Partial<User>,

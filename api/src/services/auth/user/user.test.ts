@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { app } from '../../app'
+import { app } from '../../../app'
 
 describe('users service', () => {
   it('registered the service', () => {

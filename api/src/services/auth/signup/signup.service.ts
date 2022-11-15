@@ -1,11 +1,12 @@
 // Initializes the `signup` service on path `/signup`
-import { Application } from '../../declarations'
+import { API_PATH } from '@locokit/definitions'
+import { Application } from '../../../declarations'
 import { SignUpService } from './signup.class'
 
 // Add this service to the service type index
-declare module '../../declarations' {
+declare module '../../../declarations' {
   interface ServiceTypes {
-    signup: SignUpService
+    [API_PATH.AUTH.SIGNUP]: SignUpService
   }
 }
 
@@ -13,6 +14,6 @@ export function signup(app: Application): void {
   const signupConfig = app.get('settings').signup
   if (signupConfig?.allowed === true) {
     // Initialize our service with any options it requires
-    app.use('signup', new SignUpService(app))
+    app.use(API_PATH.AUTH.SIGNUP, new SignUpService(app))
   }
 }

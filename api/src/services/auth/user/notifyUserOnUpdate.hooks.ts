@@ -1,4 +1,4 @@
-import { Application } from '../../declarations'
+import { Application } from '../../../declarations'
 import { HookContext } from '@feathersjs/feathers'
 import { authManagementSettings } from '../authmanagement/authmanagement.settings'
 import { User } from 'feathers-authentication-management'

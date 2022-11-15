@@ -1,4 +1,8 @@
+import { AbilityBuilder, MongoAbility } from '@casl/ability'
 import {
+  // AuthenticationBase,
+  AuthenticationParams,
+  AuthenticationRequest,
   AuthenticationService,
   JWTStrategy,
   // AuthenticationBaseStrategy,
@@ -7,10 +11,15 @@ import {
   // AuthenticationResult,
 } from '@feathersjs/authentication'
 import { LocalStrategy } from '@feathersjs/authentication-local'
+import { PROFILE, API_PATH } from '@locokit/definitions'
+import { AppAbility, resolveAction } from '../../../abilities/definitions'
+import makeAbilityFromRules from '../../../abilities/makeAbilityFromRules'
 // import { NotAuthenticated } from '@feathersjs/errors/lib'
 // import { IncomingMessage } from 'http'
 
-import type { Application } from '../../declarations'
+import type { Application } from '../../../declarations'
+import { UserResult } from '../user/user.schema'
+import { hooks } from './authentication.hooks'
 // import { logger } from '../../logger'
 // import { configurationSchema } from '../../schemas/configuration.schema'
 // import { ApikeyService } from '../apikey/apikey.class'
@@ -64,7 +73,7 @@ import type { Application } from '../../declarations'
 //     })
 //     if (apikey) const match = token === 'POUET'
 //     if (!match) throw new NotAuthenticated('Bad API Key')
-//     const user = await this.app?.service('users').get(1)
+//     const user = await this.app?.service('user').get(1)
 //     apikeyLogger.info('match / user', match, user)
 //     return {
 //       authentication: { strategy: this.name },
@@ -72,18 +81,80 @@ import type { Application } from '../../declarations'
 //     }
 //   }
 // }
-declare module '../../declarations' {
+declare module '../../../declarations' {
   interface ServiceTypes {
-    authentication: AuthenticationService
+    [API_PATH.AUTH.ROOT]: AuthenticationService
+  }
+}
+
+function defineAbilities(user: UserResult): MongoAbility {
+  // also see https://casl.js.org/v5/en/guide/define-rules
+  const { can, rules } = new AbilityBuilder(AppAbility)
+
+  /**
+   * TODO: add public rules for anonymous (e.g., read public workspaces ?)
+   */
+  switch (user?.profile) {
+    case PROFILE.ADMIN:
+      can('manage', 'all')
+      break
+    case PROFILE.CREATOR:
+      can('create', 'workspace')
+      can('read', 'workspace')
+      // can('manage', 'user', { id: user.id })
+      break
+    /**
+     * User connected can
+     * * find their groups
+     * * find workspace of their groups
+     */
+    case PROFILE.MEMBER:
+      can('read', 'workspace')
+      // can('manage', 'user', { id: user.id })
+      break
+  }
+
+  return makeAbilityFromRules(rules, { resolveAction })
+}
+
+class JWTStrategyEnhanced extends JWTStrategy {
+  async authenticate(
+    authentication: AuthenticationRequest,
+    params: AuthenticationParams,
+  ): Promise<{
+    accessToken: any
+    authentication: {
+      strategy: string
+      accessToken: any
+      payload: any
+    }
+    user: UserResult
+    ability: MongoAbility
+  }> {
+    const superResult = (await super.authenticate(authentication, params)) as {
+      accessToken: any
+      authentication: {
+        strategy: string
+        accessToken: any
+        payload: any
+      }
+      user: UserResult
+    }
+    const result = {
+      ...superResult,
+      ability: defineAbilities(superResult.user) as MongoAbility,
+    }
+    return result
   }
 }
 
 export const authentication = (app: Application): void => {
   const authentication = new AuthenticationService(app)
 
-  authentication.register('jwt', new JWTStrategy())
+  authentication.register('jwt', new JWTStrategyEnhanced())
   authentication.register('local', new LocalStrategy())
   // authentication.register('api-key', new ApiKeyStrategy())
 
-  app.use('authentication', authentication)
+  app.use(API_PATH.AUTH.ROOT, authentication)
+  app.service(API_PATH.AUTH.ROOT).hooks(hooks)
 }

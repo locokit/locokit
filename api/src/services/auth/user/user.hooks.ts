@@ -1,6 +1,6 @@
-import { resolveAll } from '@feathersjs/schema'
+import { resolveAll, resolveData } from '@feathersjs/schema'
 import { authenticate } from '@feathersjs/authentication'
-import { usersResolvers } from './users.resolver'
+import { userResolvers, userDataResolver } from './user.resolver'
 import {
   disallow,
   iff,
@@ -8,25 +8,31 @@ import {
   preventChanges,
 } from 'feathers-hooks-common'
 import { addVerification } from 'feathers-authentication-management'
-import { isAdminProfile } from '../../hooks/profile.hooks'
+import { isAdminProfile } from '../../../hooks/profile.hooks'
 import { HookOptions } from '@feathersjs/feathers'
-import type { Application, HookContext } from '../../declarations'
-import { UsersService } from './users.service'
+import type { Application, HookContext } from '../../../declarations'
+import { UserService } from './user.service'
 import { authManagementSettings } from '../authmanagement/authmanagement.settings'
 
-export const hooks: HookOptions<Application, UsersService> = {
+export const hooks: HookOptions<Application, UserService> = {
   around: {
-    all: [authenticate('api-key', 'jwt'), resolveAll(usersResolvers)],
+    all: [
+      authenticate('api-key', 'jwt'),
+      resolveAll<HookContext>(userResolvers),
+    ],
   },
   before: {
     create: [
       /**
        * We disable the creation of user
-       * from external calls and users not admin
+       * from external calls and user not admin
        */
       iff((context: HookContext) => {
         return isProvider('external')(context) && !isAdminProfile(context)
-      }, disallow()).else(addVerification('auth-management')),
+      }, disallow()).else(
+        addVerification('auth-management'),
+        resolveData(userDataResolver),
+      ),
     ],
     /**
      * We forbid the update method
@@ -68,7 +74,7 @@ export const hooks: HookOptions<Application, UsersService> = {
     ],
     remove: [
       /**
-       * Users not admin can't remove users
+       * User not admin can't remove user
        */
       iff(!isAdminProfile, disallow()),
     ],

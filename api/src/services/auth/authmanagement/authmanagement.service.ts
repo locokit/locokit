@@ -1,17 +1,18 @@
 // Initializes the `authmanagement` service on path `/authmanagement`
 // import { Service, ServiceAddons } from '@feathersjs/feathers'
-import { Application } from '../../declarations'
+import { Application } from '../../../declarations'
 import { hooks } from './authmanagement.hooks'
 import { AuthenticationManagementService } from 'feathers-authentication-management'
 import { authManagementSettings } from './authmanagement.settings'
+import { API_PATH } from '@locokit/definitions'
 
 export function authmanagement(app: Application): void {
   app.use(
-    'auth-management',
+    API_PATH.AUTH.MANAGEMENT,
     new AuthenticationManagementService(app, authManagementSettings(app)),
   )
   // Get our initialized service so that we can register hooks and filters
-  const service = app.service('auth-management')
+  const service = app.service(API_PATH.AUTH.MANAGEMENT)
 
   service.hooks(hooks)
 }
@@ -49,8 +50,8 @@ export function authmanagement(app: Application): void {
 //   )
 
 // Add this service to the service type index
-declare module '../../declarations' {
+declare module '../../../declarations' {
   interface ServiceTypes {
-    'auth-management': AuthenticationManagementService
+    [API_PATH.AUTH.MANAGEMENT]: AuthenticationManagementService
   }
 }

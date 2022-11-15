@@ -1,11 +1,12 @@
 /* eslint-disable no-duplicate-case */
 import { PROFILE } from '@locokit/definitions'
-import { AbilityBuilder, makeAbilityFromRules } from 'feathers-casl'
 
-import { AppAbility, resolveAction } from '../../abilities/definitions'
+import { AppAbility, resolveAction } from '../../../abilities/definitions'
 import { HookContext } from '@feathersjs/feathers'
-import type { UsersResult } from './users.schema'
+import type { UserResult } from './user.schema'
 import { iff, IffHook, isProvider } from 'feathers-hooks-common'
+import makeAbilityFromRules from '../../../abilities/makeAbilityFromRules'
+import { AbilityBuilder } from '@casl/ability'
 
 /**
  * Define abilities for group
@@ -14,7 +15,7 @@ import { iff, IffHook, isProvider } from 'feathers-hooks-common'
  * @param user from Hook context, provided by FeathersJS
  * @returns Promise<HookContext>
  */
-export async function createAbility(user: UsersResult): Promise<AppAbility> {
+export async function createAbility(user: UserResult): Promise<AppAbility> {
   // also see https://casl.js.org/v5/en/guide/define-rules
   const { can, rules } = new AbilityBuilder(AppAbility)
 
@@ -23,7 +24,7 @@ export async function createAbility(user: UsersResult): Promise<AppAbility> {
    */
   switch (user?.profile) {
     /**
-     * ADMIN can manage all users
+     * ADMIN can manage all user
      */
     case PROFILE.ADMIN:
       can('manage', 'user')
@@ -48,7 +49,7 @@ export async function createAbility(user: UsersResult): Promise<AppAbility> {
  */
 async function defineAbilities(context: HookContext): Promise<HookContext> {
   const ability: AppAbility = await createAbility(
-    context.params.user as UsersResult,
+    context.params.user as UserResult,
   )
   context.params.ability = ability
   context.params.rules = ability.rules

@@ -5,7 +5,7 @@
  */
 import { NotAcceptable } from '@feathersjs/errors'
 import PasswordValidator from 'password-validator'
-import { HookContext } from '../../declarations'
+import { HookContext } from '../../../declarations'
 
 export class PasswordValidatorRules {
   minLength!: number

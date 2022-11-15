@@ -5,8 +5,8 @@ import { ServiceSwaggerOptions } from 'feathers-swagger'
 import { JSONSchema } from 'objection'
 import { RateLimiterMemory } from 'rate-limiter-flexible'
 
-import { Application } from '../../declarations'
-import { logger } from '../../logger'
+import { Application } from '../../../declarations'
+import { logger } from '../../../logger'
 import { authManagementSettings } from '../authmanagement/authmanagement.settings'
 
 class SignUpModel {
@@ -43,7 +43,6 @@ export class SignUpService {
   }
 
   async create(credentials: SignUpModel, params: Params): Promise<SignUpModel> {
-    console.log(params.headers)
     try {
       await this.rateLimiter.consume(params.headers?.ip as string)
     } catch (rejRes) {
@@ -64,7 +63,7 @@ export class SignUpService {
 
     try {
       logger.debug('[signup] Creating user...')
-      await this.app.service('users').create({
+      await this.app.service('user').create({
         name: credentials.name,
         email: credentials.email,
         profile: PROFILE.CREATOR, // we set to CREATOR to allow the user create new workspace

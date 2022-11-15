@@ -1,5 +1,5 @@
 import { NotAcceptable, BadRequest, Forbidden } from '@feathersjs/errors'
-import { app } from '../../app'
+import { app } from '../../../app'
 import { UsersResult } from '../users/users.schema'
 
 /**
