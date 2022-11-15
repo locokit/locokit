@@ -16,14 +16,14 @@ export interface Table {
 }
 
 /**
- * Record for a datasource's table
+ * TableRecord for a datasource's table
  *
  * Match
  * * a row for a SQL database
  * * a record for an API
  * * a line for a spreadsheet
  */
-export type Record<T> = {
+export type TableRecord<T> = {
   [Property in keyof T]: T[Property]
 }
 
@@ -65,7 +65,7 @@ export interface PaginatedResult<T> {
   /**
    * Array of records
    */
-  records: Record<T>[]
+  records: Array<TableRecord<T>>
 }
 
 export interface GenericAdapter {
@@ -92,7 +92,7 @@ export interface GenericAdapter {
 
   queryTable: <T>(
     tableName: string,
-    params?: Params
+    params?: Params & { query: Record<string, any> },
   ) => Promise<PaginatedResult<T>>
 
   createRecord: <T>(tableName: string, record: Partial<T>) => Promise<T>
@@ -102,13 +102,13 @@ export interface GenericAdapter {
   patchRecord: <T>(
     tableName: string,
     id: string | number,
-    record: Partial<T>
+    record: Partial<T>,
   ) => Promise<T>
 
   updateRecord: <T>(
     tableName: string,
     id: string | number,
-    record: Partial<T>
+    record: Partial<T>,
   ) => Promise<T>
 
   deleteRecord: (tableName: string, id: string | number) => Promise<number>

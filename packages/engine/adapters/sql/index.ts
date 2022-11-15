@@ -1,8 +1,15 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import { Params } from '@feathersjs/feathers'
 import knex, { Knex } from 'knex'
 import schemaInspector from 'knex-schema-inspector'
 import { Column } from 'knex-schema-inspector/dist/types/column'
-import { ConnexionSQL, GenericAdapter, Field, Table } from '../interface'
+import {
+  ConnexionSQL,
+  GenericAdapter,
+  Field,
+  Table,
+  PaginatedResult,
+} from '../interface'
 import {
   Model,
   JSONSchema,
@@ -25,6 +32,7 @@ export class SQLAdapter implements GenericAdapter {
      */
     if (!implementedEngines.includes(connexion.type))
       throw new Error(
+        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         'This engine is unknown. Please use one of ' +
           implementedEngines.concat(', ') +
           '.',
@@ -92,6 +100,7 @@ export class SQLAdapter implements GenericAdapter {
              */
             tables[tableName].relations[relationName] = {
               from: tableName + '.' + c.name,
+              // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
               to: relationName + '.' + c.foreign_key_column,
               type: Model.BelongsToOneRelation,
               model: relationName,
@@ -100,6 +109,7 @@ export class SQLAdapter implements GenericAdapter {
              * And also the has many relation
              */
             tables[relationName].relations[tableName] = {
+              // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
               from: relationName + '.' + c.foreign_key_column,
               to: tableName + '.' + c.name,
               type: Model.HasManyRelation,
@@ -123,7 +133,7 @@ export class SQLAdapter implements GenericAdapter {
           return tableName
         }
 
-        static get idColumn(): string {
+        static get idColumn(): string | string[] {
           if (idColumns) {
             if (idColumns.length === 1) return idColumns[0].name
             return idColumns.map((c) => c.name)
@@ -134,6 +144,7 @@ export class SQLAdapter implements GenericAdapter {
         static get jsonSchema(): JSONSchema {
           const schema = {
             type: 'object',
+            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
             properties: {} as {
               [key: string]: JSONSchemaDefinition
             },
@@ -241,14 +252,20 @@ export class SQLAdapter implements GenericAdapter {
     return result
   }
 
-  async queryTable<T>(tableName: string, params?: Params) {
+  async queryTable<T>(
+    tableName: string,
+    params?: Params,
+  ): Promise<PaginatedResult<T>> {
+    console.log('queryTable', tableName, params?.query)
     const {
       $limit = 20,
       $offset = 0,
       $relations,
       $select,
       ...realQuery
-    } = params?.query || {}
+    } = params?.query ?? {}
+
+    console.log($limit, $offset, $relations)
     const result = {
       total: 0,
       limit: $limit,
@@ -319,6 +336,7 @@ export class SQLAdapter implements GenericAdapter {
 
     if ($select) {
       const selectFields = Array.isArray($select) ? $select : [$select]
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       query.select(selectFields)
     }
 
@@ -332,7 +350,6 @@ export class SQLAdapter implements GenericAdapter {
     objectify(query, realQuery)
 
     result.records = (await query) as unknown as T[]
-    console.log(result)
     return result
   }
 
@@ -403,7 +420,7 @@ export class SQLAdapter implements GenericAdapter {
       .updateAndFetchById(id, record)) as unknown as T
   }
 
-  async deleteRecord(tableName: string, id: string | number): Promise {
+  async deleteRecord(tableName: string, id: string | number): Promise<number> {
     console.log('deleteRecord lck engine', tableName, id)
     console.log(
       'deleteRecord lck engine',

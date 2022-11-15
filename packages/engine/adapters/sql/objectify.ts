@@ -27,7 +27,7 @@ export function objectify<T extends Model>(
     string | keyof typeof METHODS,
     Object | string | number | null
   > = {},
-  parentKey?: string
+  parentKey?: string,
 ): QueryBuilder<T, T[]> {
   return Object.keys(query || {}).reduce((currentQuery, key) => {
     const value = query[key]
@@ -36,11 +36,11 @@ export function objectify<T extends Model>(
       return objectify(
         currentQuery,
         value as Record<string, Object | string | number | null>,
-        key
+        key,
       )
     }
 
-    const column = parentKey || key
+    const column = parentKey ?? key
     const method = METHODS[key as keyof typeof METHODS]
 
     if (method) {
