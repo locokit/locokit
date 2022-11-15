@@ -9,7 +9,7 @@ import '@feathersjs/transport-commons'
 import { Application as FeathersApplication } from '@feathersjs/koa'
 import { ConfigurationSchema } from './schemas/configuration.schema'
 
-import { UsersResult } from './services/users/users.schema'
+import { UserResult } from './services/auth/user/user.schema'
 
 export { NextFunction }
 
@@ -28,6 +28,6 @@ export type HookFunction<S = any> = FeathersHookFunction<Application, S>
 // Add the user as an optional property to all params
 declare module '@feathersjs/feathers' {
   interface Params {
-    user?: UsersResult
+    user?: UserResult
   }
 }
