@@ -40,8 +40,9 @@
   },
   "pages": {
      "404": {
-      "title": "Whooops ?!… sounds you're lost… Sorry. Really.",
-      "link": "Please, please… come back home."
+      "title": "Page not found",
+      "alternativeTitle": "Whooops ?!… sounds you're lost…",
+      "link": "Come back home"
     },
     "signIn": {
       "title": "Welcome"

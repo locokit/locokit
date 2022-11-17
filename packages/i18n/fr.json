@@ -40,8 +40,9 @@
   },
   "pages": {
     "404": {
-      "title": "Oups ?!… Il semble que vous êtes perdus … Désolé. Vraiment.",
-      "link": "Retourner sur la page d'accueil."
+      "title": "Page non trouvée",
+      "alternativeTitle": "Oups ! … On dirait que vous êtes perdus",
+      "link": "Retourner sur la page d'accueil"
     },
     "signIn": {
       "title": "Page d'identification"
