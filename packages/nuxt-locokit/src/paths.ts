@@ -12,12 +12,14 @@ export const ROUTES_NAMES = {
     SIGN_UP: 'SignUp',
     SIGN_IN: 'SignIn',
   },
+
   WORKSPACE: {
     HOME: 'Workspace',
   },
 
-  WORKSPACE: {
-    HOME: 'Workspace',
+  PROFILE: {
+    HOME: 'Profile',
+    UPDATE_EMAIL: 'UpdateEmail',
   },
 }
 
@@ -28,19 +30,19 @@ export const ROUTES_PATH = {
    * Auth paths
    */
   AUTH: {
-    LOSTPASSWORD: '/auth/lost-password',
-    VERIFYSIGNUP: '/auth/verify-signup',
-    RESETPASSWORD: '/auth/reset-password',
-    SIGNUP: '/auth/signup',
-    SIGNIN: '/auth/signin',
+    LOST_PASSWORD: '/auth/lost-password',
+    VERIFY_SIGNUP: '/auth/verify-signup',
+    RESET_PASSWORD: '/auth/reset-password',
+    SIGN_UP: '/auth/signup',
+    SIGN_IN: '/auth/signin',
   },
 
   /**
    * User paths
    */
-  USER: {
-    PROFILE: '/user/profile',
-    UPDATEEMAIL: '/user/update-email',
+  PROFILE: {
+    HOME: '/user/profile',
+    UPDATE_EMAIL: '/user/update-email',
   },
 
   /**
