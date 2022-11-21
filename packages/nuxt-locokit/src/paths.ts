@@ -15,6 +15,10 @@ export const ROUTES_NAMES = {
   WORKSPACE: {
     HOME: 'Workspace',
   },
+
+  WORKSPACE: {
+    HOME: 'Workspace',
+  },
 }
 
 export const ROUTES_PATH = {

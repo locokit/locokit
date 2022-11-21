@@ -27,11 +27,11 @@
     "@locokit/sdk": "^0.8.0",
     "@nuxt/kit": "^3.0.0-rc.13",
     "@pinia/nuxt": "^0.4.2",
-    "@vee-validate/rules": "^4.7.2",
+    "@vee-validate/rules": "^4.7.3",
     "pinia": "^2.0.23",
-    "primevue": "^3.18.1",
+    "primevue": "^3.19.0",
     "tailwindcss": "^3.2.2",
-    "vee-validate": "^4.7.2",
+    "vee-validate": "^4.7.3",
     "vue-i18n": "^9.3.0-beta.6"
   },
   "devDependencies": {
@@ -42,7 +42,7 @@
     "@typescript-eslint/parser": "^5.40.0",
     "@vue/eslint-config-typescript": "^11.0.2",
     "eslint": "^8.25.0",
-    "eslint-plugin-nuxt": "^3.2.0",
+    "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-vue": "^9.6.0",
     "nuxt": "^3.0.0-rc.13",
     "prettier": "^2.7.1",
