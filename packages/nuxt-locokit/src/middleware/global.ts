@@ -1,5 +1,5 @@
 import { RouteLocationNormalized } from 'vue-router'
-import { ROUTES_PATH } from '../pages/paths'
+import { ROUTES_PATH } from '../paths'
 import { useStoreAuth } from '../stores/auth'
 import { navigateTo } from '#imports'
 

@@ -1,6 +1,6 @@
 import { createResolver } from '@nuxt/kit'
 import { NuxtPage } from '@nuxt/schema'
-import { ROUTES_NAMES, ROUTES_PATH } from './pages/paths'
+import { ROUTES_NAMES, ROUTES_PATH } from './paths'
 
 const { resolve } = createResolver(import.meta.url)
 
@@ -14,7 +14,7 @@ export function getAuthPages(prefix: string): NuxtPage[] {
   return [
     {
       name: ROUTES_NAMES.AUTH.SIGN_IN,
-      path: prefix + ROUTES_PATH.AUTH.SIGNIN,
+      path: prefix + ROUTES_PATH.AUTH.SIGN_IN,
       file: resolve('./pages/auth/SignIn.vue'),
       meta: {
         anonymous: true,
@@ -23,7 +23,7 @@ export function getAuthPages(prefix: string): NuxtPage[] {
     },
     {
       name: ROUTES_NAMES.AUTH.LOST_PASSWORD,
-      path: prefix + ROUTES_PATH.AUTH.LOSTPASSWORD,
+      path: prefix + ROUTES_PATH.AUTH.LOST_PASSWORD,
       file: resolve('./pages/auth/LostPassword.vue'),
       meta: {
         anonymous: true,
@@ -32,7 +32,7 @@ export function getAuthPages(prefix: string): NuxtPage[] {
     },
     {
       name: ROUTES_NAMES.AUTH.VERIFY_SIGNUP,
-      path: prefix + ROUTES_PATH.AUTH.VERIFYSIGNUP,
+      path: prefix + ROUTES_PATH.AUTH.VERIFY_SIGNUP,
       file: resolve('./pages/auth/VerifySignup.vue'),
       meta: {
         anonymous: true,
@@ -41,7 +41,7 @@ export function getAuthPages(prefix: string): NuxtPage[] {
     },
     {
       name: ROUTES_NAMES.AUTH.RESET_PASSWORD,
-      path: prefix + ROUTES_PATH.AUTH.RESETPASSWORD,
+      path: prefix + ROUTES_PATH.AUTH.RESET_PASSWORD,
       file: resolve('./pages/auth/ResetPassword.vue'),
       meta: {
         anonymous: true,
@@ -50,7 +50,7 @@ export function getAuthPages(prefix: string): NuxtPage[] {
     },
     {
       name: ROUTES_NAMES.AUTH.SIGN_UP,
-      path: prefix + ROUTES_PATH.AUTH.SIGNUP,
+      path: prefix + ROUTES_PATH.AUTH.SIGN_UP,
       file: resolve('./pages/auth/SignUp.vue'),
       meta: {
         anonymous: true,

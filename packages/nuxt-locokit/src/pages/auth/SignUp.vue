@@ -37,7 +37,7 @@ import { SignUpForm } from '@locokit/designsystem'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import WithBackground from '../../layouts/WithBackground.vue'
-import { ROUTES_NAMES } from '../paths'
+import { ROUTES_NAMES } from '../../paths'
 import { useStoreAuth } from '../../stores/auth'
 import { ref, useHead } from '#imports'
 

@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { ROUTES_NAMES } from '../pages/paths'
+import { ROUTES_NAMES } from '../paths'
 import { version } from '../../package.json'
 import { computed, useRuntimeConfig } from '#imports'
 

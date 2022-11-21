@@ -9,7 +9,7 @@
           :loading="false"
           :error="error"
           :display-sign-up-link="false"
-          :lost-password-route="ROUTES_PATH.AUTH.LOSTPASSWORD"
+          :lost-password-route="ROUTES_PATH.AUTH.LOST_PASSWORD"
           @submit="authenticate"
         />
       </template>
@@ -24,7 +24,7 @@ import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import WithBackground from '../../layouts/WithBackground.vue'
 import { useStoreAuth } from '../../stores/auth'
-import { ROUTES_PATH, ROUTES_NAMES } from '../paths'
+import { ROUTES_PATH, ROUTES_NAMES } from '../../paths'
 import { useHead, useRouter } from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })
@@ -34,11 +34,11 @@ const authStore = useStoreAuth()
 
 const { error } = storeToRefs(authStore)
 
-const authenticate = async (data) => {
+const authenticate = async (data: { email: string; password: string }) => {
   await authStore.authenticate(data)
   if (authStore.isAuthenticated) {
     await router.push({
-      name: ROUTES_NAMES.HOME, // Todo: ROUTES.WORKSPACE.HOME,
+      name: ROUTES_NAMES.WORKSPACE.HOME,
     })
   }
 }

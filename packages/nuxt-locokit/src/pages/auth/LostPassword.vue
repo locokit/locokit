@@ -45,7 +45,7 @@ import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import WithBackground from '../../layouts/WithBackground.vue'
 import { useStoreAuth } from '../../stores/auth'
-import { ROUTES_NAMES } from '../paths'
+import { ROUTES_NAMES } from '../../paths'
 import { ref, useHead } from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })
