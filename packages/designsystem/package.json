@@ -12,10 +12,10 @@
   "license": "MIT",
   "dependencies": {
     "@locokit/i18n": "0.8.0",
-    "@vee-validate/rules": "^4.7.2",
+    "@vee-validate/rules": "^4.7.3",
     "primeicons": "^6.0.1",
-    "primevue": "^3.18.1",
-    "vee-validate": "^4.7.2"
+    "primevue": "^3.19.0",
+    "vee-validate": "^4.7.3"
   },
   "devDependencies": {
     "@histoire/plugin-vue": "^0.11.6",
