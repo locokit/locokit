@@ -5,14 +5,11 @@ export const useStoreWorkspaces = defineStore('workspaces', {
   state: () => ({
     loading: false,
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    error: {
-      code: null,
-      content: null,
-    } as Error | null | { code: string | null; content: string | null },
+    error: null as Error | null,
     workspaces: [],
   }),
   actions: {
-    async fetch(params?) {
+    async getWorkspaces(params) {
       this.loading = true
       this.error = null
       try {

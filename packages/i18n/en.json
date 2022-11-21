@@ -96,6 +96,28 @@
       "accountComplete": "Your account is complete. You can now login to the app.",
       "homeLink": "Go back to home page",
       "labelSubmit": "Set the password"
+    },
+    "workspace": {
+      "title": "Workspaces",
+      "newWorkspace": "New workspace",
+      "public": "Public",
+      "form": {
+        "title": "Create a new workspace",
+        "name": "Name",
+        "slug": "Slug",
+        "slugHelp": "SQL database name, dedicated to your workspace. In snake case, only lower case and underscore '_' char.",
+        "summary": "Summary",
+        "summaryPlaceholder": "Add a description of your workspace, a documentation…",
+        "color": "Color",
+        "colorHelp": "This color is used in workspace listing page.",
+        "icon": "Icon",
+        "iconPlaceholder": "e.g. pi-cart",
+        "iconHelp": "Fill with icon id, list is available on Prime.",
+        "activeSQL": "Automatic generation of SQL views",
+        "activeSQLHelp": "Generate automatically a SQL database for interoperability purpose with tools like SuperSet, Redash…",
+        "cancel": "Cancel",
+        "submit": "Submit"
+      }
     }
   },
   "error": {
