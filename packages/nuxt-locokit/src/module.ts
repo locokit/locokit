@@ -7,9 +7,10 @@ import {
   addPlugin,
   createResolver,
   useModuleContainer,
+  addTemplate,
 } from '@nuxt/kit'
 import { Nuxt, NuxtOptions, NuxtPage, ModuleContainer } from '@nuxt/schema'
-import { ROUTES_NAMES, ROUTES_PATH } from './pages/paths'
+import { ROUTES_NAMES, ROUTES_PATH } from './paths'
 import {
   getAuthPages,
   // getBackofficePages,
@@ -46,25 +47,6 @@ export interface ModuleOptions {
   api: {
     url: string
   }
-  theme: {
-    colors: {
-      primary: string
-      secondary: string
-    }
-  }
-  extends: {
-    layouts: [
-      {
-        name: string
-        component: string
-      },
-    ]
-    pages: {
-      home: {
-        layout: string
-      }
-    }
-  }
 }
 
 const defaultOptions: ModuleOptions = {
@@ -94,25 +76,6 @@ const defaultOptions: ModuleOptions = {
   api: {
     url: 'http://localhost:3030',
   },
-  theme: {
-    colors: {
-      primary: 'red',
-      secondary: 'yellow',
-    },
-  },
-  extends: {
-    layouts: [
-      {
-        name: 'pouet',
-        component: 'pouic',
-      },
-    ],
-    pages: {
-      home: {
-        layout: 'pouet',
-      },
-    },
-  },
 }
 
 export type NuxtLocokit = Nuxt & {
@@ -140,7 +103,7 @@ export default defineNuxtModule<ModuleOptions>({
       configPath: resolve(runtimeDir, 'tailwind.config'),
     })
     await installModule('@pinia/nuxt')
-    nuxt.options.build.transpile.push(runtimeDir)
+    // nuxt.options.build.transpile.push(runtimeDir)
 
     // addPlugin(resolve(runtimeDir, 'tailwind.config'))
     addPlugin(resolve(pluginsDir, 'primevue'))
@@ -164,12 +127,13 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.css = nuxt.options.css ?? []
     nuxt.options.css.push('primevue/resources/primevue.css')
     nuxt.options.css.push('primeicons/primeicons.css')
-    nuxt.options.css.push(resolve(__dirname, '../src/styles/theme.css'))
     nuxt.options.css.push(resolve(__dirname, '../src/styles/index.scss'))
+    nuxt.options.css.push(resolve(__dirname, '../src/styles/theme.css'))
 
+    //
     nuxt.options.build.transpile.push('primevue')
-
-    console.log('[nuxt-locokit][plugin-locokit] Registering components...')
+    //
+    // console.log('[nuxt-locokit][plugin-locokit] Registering components...')
 
     const layoutsDir = fileURLToPath(new URL('../src/layouts', import.meta.url))
     const pagesDir = fileURLToPath(new URL('../src/pages', import.meta.url))
@@ -184,22 +148,56 @@ export default defineNuxtModule<ModuleOptions>({
 
     const module: ModuleContainer = useModuleContainer()
 
-    module.addLayout(
-      {
-        src: resolve(layoutsDir, './WithBackground.vue'),
-      },
-      'WithBackground',
-    )
+    // module.addLayout(
+    //   {
+    //     src: resolve(layoutsDir, './WithBackground.vue'),
+    //   },
+    //   'WithBackground',
+    // )
     module.addLayout(
       {
         src: resolve(layoutsDir, './WithBanner.vue'),
       },
       'WithBanner',
     )
-
+    module.addLayout(
+      {
+        src: resolve(layoutsDir, './WithAsideNavAndSidebar.vue'),
+      },
+      'WithAsideNavAndSidebar',
+    )
+    module.addLayout(
+      {
+        src: resolve(layoutsDir, './WithAsideNav.vue'),
+      },
+      'WithAsideNav',
+    )
+    module.addLayout(
+      {
+        src: resolve(layoutsDir, './WithThinNav.vue'),
+      },
+      'WithThinNav',
+    )
+    module.addLayout(
+      {
+        src: resolve(layoutsDir, './WithThinNavAndSidebar.vue'),
+      },
+      'WithThinNav',
+    )
+    // module.addLayout(
+    //   {
+    //     src: resolve(layoutsDir, './WithTwoSide.vue'),
+    //   },
+    //   'WithTwoSide',
+    // )
+    // const tpl = addTemplate({
+    //   src: resolve(layoutsDir, 'WithTwoSide.vue'),
+    //   write: true,
+    // })
+    // module.addLayout(tpl, 'WithTwoSide')
     module.extendRoutes(function (pages: NuxtPage[]) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { submodules, api, theme } = options
+      const { submodules, api } = options
 
       pages.push({
         name: ROUTES_NAMES.HOME,
@@ -226,13 +224,13 @@ export default defineNuxtModule<ModuleOptions>({
       //   pages.push(...getUserPages(prefix))
       // }
       //
-      // /**
-      //  * Register workspace pages
-      //  */
+      /**
+       * Register workspace pages
+       */
       pages.push({
         name: ROUTES_NAMES.WORKSPACE.HOME,
         path: ROUTES_PATH.WORKSPACE.HOME,
-        file: resolve(pagesDir, './w/index.vue'),
+        file: resolve(pagesDir, './workspace/index.vue'),
       })
       // pages.push({
       //   name: ROUTES.WORKSPACE.DETAIL,

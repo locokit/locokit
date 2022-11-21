@@ -24,7 +24,7 @@ export const useStoreAuth = defineStore('auth', {
       } catch (error) {
         console.error(error)
         this.isAuthenticated = false
-        this.error = error
+        this.error = error as Error
       }
       this.loading = false
     },
@@ -38,7 +38,7 @@ export const useStoreAuth = defineStore('auth', {
         })
       } catch (error) {
         console.error(error)
-        this.error = error
+        this.error = error as Error
       }
       this.loading = false
     },
@@ -52,7 +52,7 @@ export const useStoreAuth = defineStore('auth', {
         })
       } catch (error) {
         console.error(error)
-        this.error = error
+        this.error = error as Error
       }
       this.loading = false
     },
@@ -69,7 +69,7 @@ export const useStoreAuth = defineStore('auth', {
         })
       } catch (error) {
         console.error(error)
-        this.error = error
+        this.error = error as Error
       }
       this.loading = false
     },
@@ -80,8 +80,15 @@ export const useStoreAuth = defineStore('auth', {
         await sdk.client.service('signup').create(data)
       } catch (error) {
         console.error(error)
-        this.error = error
+        this.error = error as Error
       }
+      this.loading = false
+    },
+    async logout() {
+      this.loading = true
+      await sdk.client.logout()
+      this.isAuthenticated = false
+      this.user = null
       this.loading = false
     },
   },

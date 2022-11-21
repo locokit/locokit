@@ -1,271 +1,283 @@
 <template>
-  <div class="container mx-auto">
-    <h1 class="my-4 text-primary text-4xl">
-      {{ $t('pages.workspace.title') }}
-    </h1>
-
-    <div class="p-grid">
-      <div v-if="loading" class="p-col-12 p-md-4 p-lg-3 workspaces-item">
-        <div class="workspaces-button">
-          <div class="workspaces-detail">
-            <p-skeleton
-              class="workspaces-detail-title"
-              width="10rem"
-              height="2rem"
-            ></p-skeleton>
+  <WithThinNavAndSidebar
+    v-model:open-panel="openPanelToAddNewWorkspace"
+    :can-manage-close-sidebar="false"
+  >
+    <template v-if="navMenuItems.length > 0" #navMenu>
+      <NuxtLink
+        v-for="navMenuItem in navMenuItems"
+        :key="navMenuItem.label"
+        :aria-label="navMenuItem.label"
+      >
+        <PrimeButton :icon="navMenuItem.icon" />
+      </NuxtLink>
+    </template>
+    <template #main>
+      <div
+        class="max-w-4xl xl:max-w-6xl mx-auto mt-8"
+        @keyup.esc="handlePanelForm(false)"
+      >
+        <h1 class="text-primary font-medium">
+          {{ $t('pages.workspace.title') }}
+        </h1>
+        <div class="mt-12">
+          <h2 class="text-primary">Mes Workspaces</h2>
+          <div class="flex lg:gap-4 xl:gap-6 mt-8 flex-wrap shrink-0">
+            <div
+              v-for="workspace in test"
+              :key="workspace"
+              class="md-4 box-border lg:w-52 xl:w-56 rounded h-40"
+              :class="`${workspace.settings?.backgroundColor} hover:!${workspace.settings?.backgroundColor}`"
+            >
+              <div
+                class="relative overflow-hidden flex flex-col h-full justify-center text-center font-bold cursor-pointer"
+              >
+                <NuxtLink :class="workspace.settings?.color">
+                  <p class="text-2xl">
+                    {{ workspace.name }}
+                  </p>
+                </NuxtLink>
+                <i
+                  class="absolute -left-3 -bottom-3 text-9xl opacity-10"
+                  :class="`pi ${workspace.settings?.icon}`"
+                />
+                <span
+                  v-if="workspace.public"
+                  class="px-2 max-w-fit rounded absolute bottom-2 right-2 bg-gray-300 text-black text-sm"
+                >
+                  {{ $t('pages.workspace.public') }}
+                </span>
+              </div>
+            </div>
+            <PrimeButton
+              class="md-4 h-40 p-button-link box-border lg:w-52 xl:w-56 !border-dashed !border-2 !border-gray-300 rounded !p-0 hover:!border-primary"
+              @click="handlePanelForm(true)"
+            >
+              <div
+                class="relative overflow-hidden flex flex-col justify-center text-center font-bold w-full"
+              >
+                <i class="pi pi-plus-circle block text-2xl" />
+                <p class="block mx-autotext-primary mt-4">
+                  {{ $t('pages.workspace.newWorkspace') }}
+                </p>
+              </div>
+            </PrimeButton>
           </div>
         </div>
       </div>
-      <p-button @click="storeWorkspaces.fetch">Reload</p-button>
-
-      <p v-if="!loading && workspaces.length === 0" class="p-col-12">
-        {{ $t('pages.workspace.noWorkspace') }}
-      </p>
-
-      <div
-        v-for="workspace in workspaces"
-        :key="workspace.id"
-        class="p-col-12 p-md-4 p-lg-3 workspaces-item"
-      >
-        <div
-          class="workspaces-button p-mr-2"
-          :style="{
-            backgroundColor: workspace.settings.backgroundColor || 'inherit',
-          }"
+    </template>
+    <template #panelHeader>
+      <h2>
+        {{ $t('pages.workspace.form.title') }}
+      </h2>
+    </template>
+    <template #panelContent>
+      <div class="m-4">
+        <Form
+          v-slot="{ meta: { valid } }"
+          class="text-left p-fluid"
+          @submit="onSubmit"
         >
-          <!--           <router-link
-            class="workspaces-detail"
-            :to="`${ROUTES.WORKSPACE}/${workspace.id}`"
-            :style="{
-              color: workspace.color || 'inherit'
-            }"
+          <Field
+            v-slot="{ field, errorMessage }"
+            v-model="name"
+            class="mb-4"
+            name="workspace.name"
+            rules="required"
+            as="div"
           >
-            <p class="workspaces-detail-title">{{ workspace.name || $t('pages.workspace.noName') }}</p>
-          </router-link>
-
-          <router-link
-            v-if="workspace.isManager"
-            class="workspaces-admin"
-            :to="`${ROUTES.WORKSPACE}/${workspace.id}${ROUTES.ADMIN}`"
-            :style="{
-              color: workspace.color || 'inherit',
-            }"
-            :title="$t('pages.workspace.adminWorkspaceLinkTitle', { workspaceText: workspace.name })"
+            <label for="name" class="label-field-required">
+              {{ $t('pages.workspace.form.name') }}
+            </label>
+            <PrimeInputText id="name" v-bind="field" v-focus required />
+            <span
+              v-if="errorMessage"
+              class="p-text-error"
+              role="alert"
+              aria-live="assertive"
+            >
+              {{ errorMessage }}
+            </span>
+          </Field>
+          <Field
+            v-slot="{ field, errorMessage }"
+            v-model="slug"
+            class="mb-4"
+            name="workspace.slug"
+            rules="required"
+            as="div"
           >
-            <i class="bi bi-sliders"></i>
-          </router-link>
- -->
-          <i
-            v-if="workspace.icon"
-            class="workspaces-icon bi"
-            :class="workspace.icon"
-          />
-        </div>
+            <label for="slug" class="label-field-required">
+              {{ $t('pages.workspace.form.slug') }}
+            </label>
+            <PrimeInputText id="slug" :value="autogenerateSlug" />
+            <!--            <PrimeInputText id="slug" v-bind="field" />-->
+            <small id="icon-slug">
+              {{ $t('pages.workspace.form.slugHelp') }}
+            </small>
+            <span
+              v-if="errorMessage"
+              class="p-text-error"
+              role="alert"
+              aria-live="assertive"
+            >
+              {{ errorMessage }}
+            </span>
+          </Field>
+          <Field
+            v-slot="{ field }"
+            v-model="summary"
+            class="mb-4"
+            name="workspace.summary"
+            as="div"
+          >
+            <label for="summary">
+              {{ $t('pages.workspace.form.summary') }}
+            </label>
+            <PrimeTextarea id="summary" :auto-resize="true" v-bind="field" />
+          </Field>
+          <Field
+            v-slot="{ field }"
+            v-model="color"
+            class="mb-4"
+            name="workspace.color"
+            as="div"
+          >
+            <label for="color">
+              {{ $t('pages.workspace.form.color') }}
+            </label>
+            <PrimeInputText id="color" v-bind="field" required />
+          </Field>
+          <Field
+            v-slot="{ field }"
+            v-model="icon"
+            class="mb-4"
+            name="workspace.icon"
+            as="div"
+          >
+            <label for="icon">
+              {{ $t('pages.workspace.form.icon') }}
+            </label>
+            <PrimeInputText id="icon" v-bind="field" />
+            <small id="icon-help">
+              {{ $t('pages.workspace.form.iconHelp') }}
+            </small>
+          </Field>
+          <span class="block border-gray-300 border-solid border-2 mb-4" />
+          <Field
+            v-slot="{ field }"
+            v-model="activeSQL"
+            class="mb-4"
+            name="workspace.activeSQL"
+            as="div"
+          >
+            <div class="flex">
+              <PrimeCheckbox id="activeSQL" v-bind="field" />
+              <label for="activeSQL" class="mb-0 ml-2">
+                {{ $t('pages.workspace.form.activeSQL') }}
+              </label>
+            </div>
+            <small id="activeSQL-help" class="flex">
+              {{ $t('pages.workspace.form.activeSQLHelp') }}
+            </small>
+          </Field>
+          <div class="flex flex-col">
+            <PrimeButton
+              type="submit"
+              :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
+              :label="$t('pages.workspace.form.submit')"
+              :disabled="loading || !valid"
+            />
+          </div>
+        </Form>
       </div>
-
-      <!--         v-if="$can('create', 'workspace')"
- -->
-      <div
-        :class="
-          'p-col-12 p-md-4 p-lg-3 workspaces-item' +
-          (!loading && workspaces.length === 0 ? ' p-mx-auto' : '')
-        "
-      >
-        <button class="workspaces-new" @click="dialogVisible = true">
-          <i class="bi bi-file-plus workspaces-new-icon"></i>
-          <p class="p-button p-button-sm">
-            {{ $t('pages.workspace.form.new') }}
-          </p>
-        </button>
-      </div>
-
-      <lck-dialog
-        :header="$t('pages.workspace.form.create')"
-        :modal="true"
-        :visible="dialogVisible"
-        @update:visible="dialogVisible = false"
-      >
-        <!--
-        <lck-workspace-form
-          :submitting="submitting"
-          @cancel="dialogVisible = false"
-          @input="createWorkspace"
-        /> -->
-      </lck-dialog>
-    </div>
-  </div>
+    </template>
+  </WithThinNavAndSidebar>
 </template>
 
 <script setup lang="ts">
-// import { ROUTES, ROUTES_NAMES } from '@/router/paths'
-// import { AuthState, authState } from '@/store/auth'
-// import { ColorScheme, COLOR_SCHEME } from '@/services/lck-utils/color'
+import PrimeButton from 'primevue/button'
+import PrimeTextarea from 'primevue/textarea'
+import PrimeCheckbox from 'primevue/checkbox'
+import PrimeSkeleton from 'primevue/skeleton'
+import { useI18n } from 'vue-i18n'
+import PrimeInputText from 'primevue/inputtext'
+import { Form, Field } from 'vee-validate'
+import { ROUTES_NAMES } from '../../paths'
+import WithThinNavAndSidebar from '../../layouts/WithThinNavAndSidebar.vue'
+import { createSlug } from '../../helpers/transformText'
+import { computed, ref, useHead } from '#imports'
 
-import PSkeleton from 'primevue/skeleton'
-import PButton from 'primevue/button'
-import { ref, computed } from 'vue'
-// import { ROUTES } from '../paths'
+const { t } = useI18n({ useScope: 'global' })
+// const storeWorkspaces = useStoreWorkspaces()
 
-import { useStoreWorkspaces } from '../../stores/workspaces'
+const openPanelToAddNewWorkspace = ref(false)
+const name = ref()
+const slug = ref()
+const summary = ref()
+const color = ref()
+const icon = ref()
+const activeSQL = ref(false)
 
-const storeWorkspaces = useStoreWorkspaces()
+const autogenerateSlug = computed(() => {
+  if (name.value) return createSlug(name.value)
+  return null
+})
 
-await storeWorkspaces.fetch()
-
-const loading = computed(() => storeWorkspaces.loading)
-const workspaces = computed(() => storeWorkspaces.workspaces)
-
-// import WorkspaceForm from '@/components/visualize/WorkspaceForm/WorkspaceForm.vue'
-// import Dialog from '@/components/ui/Dialog/Dialog.vue'
-
-// import { lckServices } from '@/services/lck-api'
-// import { LckDatabase, LckWorkspace } from '@/services/lck-api/definitions'
-
-// const WORKSPACE_ROLE = {
-//   OWNER: 'OWNER',
-//   ADMIN: 'ADMIN',
-//   MEMBER: 'MEMBER',
-// }
-
-// const submitting = ref(false)
-const dialogVisible = ref(false)
-
-// const workspaces: Ref<{
-//   id: string;
-//   text: string;
-//   documentation?: string;
-//   color?: string | null;
-//   backgroundColor?: string | null;
-//   icon?: string | null;
-//   isManager: boolean;
-// }[]> = ref([])
-
-// const newWorkspace = ref({
-//   text: '',
-//   documentation: '',
-//   settings: {},
-// })
-
-// authState: AuthState;
-// colorScheme: ColorScheme[];
-// WORKSPACE_ROLE: typeof WORKSPACE_ROLE;
-// newWorkspace: Partial<LckWorkspace>;
-// newWorkspaceColorScheme: ColorScheme | null;
-// newWorkspaceColorScheme: null,
-</script>
-
-<style lang="scss" scoped>
-.workspaces {
-  &-item {
-    padding: 0.75rem;
-  }
-
-  &-button {
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: var(--spacing);
-    min-height: 10rem;
-    box-sizing: border-box;
-    background: var(--color-white);
-    align-content: center;
-    text-align: center;
-    border-radius: var(--border-radius);
-    color: var(--text-color);
-    box-shadow: 0 1px 3px 2px rgba(141, 27, 27, 0.04);
-    transition: box-shadow 0.3s;
-    font-weight: var(--font-weight-bold);
-  }
-
-  &-detail {
-    position: relative;
-    z-index: 2;
-    text-decoration: none;
-    cursor: pointer;
-
-    &-title {
-      margin: 0 auto;
-      font-size: 1.6rem;
-      word-wrap: break-word;
-    }
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  &-admin {
-    position: absolute;
-    z-index: 3;
-    top: var(--spacing);
-    right: var(--spacing);
-    cursor: pointer;
-    text-decoration: none;
-
-    &:before {
-      position: absolute;
-      content: '';
-      display: block;
-      width: 1.25rem;
-      height: 1.25rem;
-      border-radius: 3rem;
-      border: 2px solid currentColor;
-      padding: 2rem;
-      opacity: 0.1;
-      bottom: -1.125rem;
-      right: -3.25rem;
-      transition: ease opacity 0.5s;
-      background-color: currentColor;
-    }
-
-    &:hover {
-      &:before {
-        opacity: 0.5;
-      }
-    }
-  }
-
-  &-icon {
-    position: absolute;
-    z-index: 1;
-    left: -0.75rem;
-    bottom: -0.75rem;
-    font-size: 8rem;
-    opacity: 0.1;
-  }
-
-  &-new {
-    padding: var(--spacing);
-    width: 100%;
-    min-height: 10rem;
-    width: 100%;
-    border-radius: var(--border-radius);
-    border: dashed 2px var(--secondary-color-light);
-    cursor: pointer;
-    background-color: transparent;
-    color: var(--primary-color);
-
-    &-icon {
-      font-size: 2rem;
-      display: block;
-      margin-bottom: 1rem;
-    }
-
-    &:hover {
-      border-color: var(--primary-color);
-      background-color: var(--primary-color-lighten);
-    }
-
-    &:focus {
-      outline: none;
-      background-color: var(--primary-color-lighten);
-
-      .p-button {
-        background-color: var(--primary-color-dark);
-      }
-    }
-  }
+const onSubmit = () => {}
+const handlePanelForm = (value: boolean) => {
+  openPanelToAddNewWorkspace.value = value
 }
-</style>
+const loading = true
+
+const navMenuItems = [
+  {
+    label: 'Test',
+    icon: 'pi pi-home',
+    routeName: ROUTES_NAMES.HOME,
+  },
+]
+
+const test = [
+  {
+    name: 'Centre de ressources',
+    slug: 'centre_de_ressources',
+    documentation: 'blabla',
+    public: true,
+    settings: {
+      color: 'text-yellow-600',
+      backgroundColor: 'bg-sky-600',
+      icon: ' pi pi-home',
+    },
+  },
+  {
+    name: 'CaPeL',
+    slug: 'capel',
+    documentation: 'blabla',
+    public: false,
+    settings: null,
+  },
+  {
+    name: 'Aperture',
+    slug: 'aperture',
+    documentation: 'blabla',
+    public: false,
+    settings: {
+      color: '#ffd859',
+      backgroundColor: '#111827',
+      icon: ' pi pi-home',
+    },
+  },
+  {
+    name: 'Nobu',
+    slug: 'nobu',
+    documentation: 'blabla',
+    public: false,
+    settings: null,
+  },
+]
+// await storeWorkspaces.fetch()
+useHead({
+  titleTemplate: `${t('pages.workspace.title')} | %s`,
+})
+</script>
