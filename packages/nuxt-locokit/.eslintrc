@@ -20,6 +20,7 @@
     "@typescript-eslint/no-unnecessary-type-assertion": "off",
     "no-case-declarations": "off",
     "prettier/prettier": "error",
+    "vue/no-v-model-argument": "off",
     "vue/multi-word-component-names": [
       "error",
       {
@@ -28,3 +29,5 @@
     ]
   }
 }
+
+// Todo: remove rule `vue/no-v-model-argument` when compatibility with nuxt3 have been improved
