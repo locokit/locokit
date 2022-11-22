@@ -11,6 +11,7 @@ declare module './declarations' {
 
 export function db(app: Application): void {
   const config = app.get('settings').db
+
   const db = knex({
     client: config.client,
     useNullAsDefault: false,
@@ -18,6 +19,9 @@ export function db(app: Application): void {
     connection: {
       connectionString: config.connection,
       application_name: 'LocoKit',
+    },
+    migrations: {
+      schemaName: 'public',
     },
     // debug: process.env.OBJECTION_DEBUG === 'true' || false,
     // pool: { min: 0, max: 20 },

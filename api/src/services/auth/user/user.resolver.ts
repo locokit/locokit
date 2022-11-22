@@ -3,17 +3,11 @@ import { resolve } from '@feathersjs/schema'
 import { passwordHash } from '@feathersjs/authentication-local'
 import type { HookContext } from '../../../declarations'
 import type { UserData, UserPatch, UserResult, UserQuery } from './user.schema'
-import {
-  userDataSchema,
-  userPatchSchema,
-  userResultSchema,
-  userQuerySchema,
-} from './user.schema'
 import { generatePassword } from '../../../utils/password'
 
 // Resolver for the basic data model (e.g. creating new entries)
 export const userDataResolver = resolve<UserData, HookContext>({
-  schema: userDataSchema,
+  // schema: userDataSchema,
   validate: 'before',
   properties: {
     /**
@@ -55,7 +49,7 @@ export const userDataResolver = resolve<UserData, HookContext>({
 
 // Resolver for making partial updates
 export const userPatchResolver = resolve<UserPatch, HookContext>({
-  schema: userPatchSchema,
+  // schema: userPatchSchema,
   validate: 'before',
   properties: {
     /**
@@ -81,7 +75,7 @@ export const userPatchResolver = resolve<UserPatch, HookContext>({
 
 // Resolver for the data that is being returned
 export const userResultResolver = resolve<UserResult, HookContext>({
-  schema: userResultSchema,
+  // schema: userSchema,
   validate: false,
   properties: {
     verifyChanges: async (verifyChanges) => {
@@ -94,7 +88,7 @@ export const userResultResolver = resolve<UserResult, HookContext>({
 
 // Resolver for the "safe" version that external clients are allowed to see
 export const userDispatchResolver = resolve<UserResult, HookContext>({
-  schema: userResultSchema,
+  // schema: userSchema,
   validate: false,
   properties: {
     // The password should never be visible externally
@@ -104,7 +98,7 @@ export const userDispatchResolver = resolve<UserResult, HookContext>({
 
 // Resolver for allowed query properties
 export const userQueryResolver = resolve<UserQuery, HookContext>({
-  schema: userQuerySchema,
+  // schema: userQuerySchema,
   validate: 'before',
   properties: {
     // If there is a user (e.g. with authentication), they are only allowed to see their own data

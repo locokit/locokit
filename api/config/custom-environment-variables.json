@@ -1,0 +1,18 @@
+{
+  "host": "LCK_HOST",
+  "port": {
+    "__name": "LCK_PORT",
+    "__format": "number"
+  },
+  "publicURL": "LCK_PUBLIC_URL",
+  "settings": {
+    "db": {
+      "client": "LCK_DATABASE_CLIENT",
+      "connection": "LCK_DATABASE_URL"
+    }
+  },
+  "datasources": {
+    "__name": "LCK_DATASOURCES",
+    "__format": "json"
+  }
+}

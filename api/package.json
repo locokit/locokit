@@ -30,7 +30,7 @@
   "browser": "dist/client",
   "scripts": {
     "vite:dev": "vite",
-    "vite:build": "tsc && vite build --outDir dist/server --ssr src/app.ts",
+    "vite:build": "vite build --outDir dist/server --ssr src/index.ts",
     "debug": "DEBUG=* ts-node-dev --no-notify --files src/",
     "dev": "ts-node-dev --no-notify --files src/",
     "compile": "shx rm -rf lib/ && tsc",
@@ -61,6 +61,7 @@
     "@feathersjs/transport-commons": "^5.0.0-pre.33",
     "@feathersjs/typebox": "^5.0.0-pre.33",
     "@koa/cors": "^3.4.1",
+    "@locokit/definitions": "^0.8.0",
     "@locokit/engine": "^0.8.0",
     "ajv-errors": "^3.0.0",
     "ajv-formats": "^2.1.1",
@@ -86,7 +87,6 @@
     "winston": "^3.8.1"
   },
   "devDependencies": {
-    "@locokit/definitions": "^0.8.0",
     "@types/ejs": "^3.1.1",
     "@types/jest": "^29.1.0",
     "@types/koa__cors": "^3.3.0",
