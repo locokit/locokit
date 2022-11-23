@@ -41,16 +41,16 @@ BEGIN
 
   RAISE NOTICE 'Schema ''%'' dropped.', v_schema;
 
-  -- REVOKE access to core.user
-  EXECUTE format('REVOKE ALL ON core.user FROM %I', v_role_readonly);
-  EXECUTE format('REVOKE ALL ON core.user FROM %I', v_role_readwrite);
-
-  -- DROP roles
-  EXECUTE format('DROP ROLE %I', v_role_readonly);
-  RAISE NOTICE 'Role ''%'' dropped.', v_role_readonly;
-
+  -- DROP v_role_readwrite as it inherit from v_role_readonly
   EXECUTE format('DROP ROLE %I', v_role_readwrite);
   RAISE NOTICE 'Role ''%'' dropped.', v_role_readwrite;
+
+  -- REVOKE access to core.user
+  EXECUTE format('REVOKE ALL ON core.user FROM %I', v_role_readonly);
+  EXECUTE format('REVOKE USAGE ON SCHEMA core FROM %I', v_role_readonly);
+
+  EXECUTE format('DROP ROLE %I', v_role_readonly);
+  RAISE NOTICE 'Role ''%'' dropped.', v_role_readonly;
 
 RAISE NOTICE 'End of drop of the workspace ''%''.', v_schema;
 

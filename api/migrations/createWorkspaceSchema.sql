@@ -57,16 +57,18 @@ BEGIN
     TO %I'
   , v_schema, v_role_readonly);
 
+  -- GRANT access to core.user
+  EXECUTE format('GRANT USAGE ON SCHEMA core TO %I', v_role_readonly);
+  EXECUTE format('GRANT SELECT (id, name, profile) ON core.user TO %I', v_role_readonly);
+
   -- GRANT access to readwrite (manager of the workspace)
+  EXECUTE format('GRANT %I TO %I', v_role_readonly, v_role_readwrite);
+
   EXECUTE format('
-  GRANT SELECT, INSERT, UPDATE, DELETE
+  GRANT INSERT, UPDATE, DELETE
     ON ALL TABLES IN SCHEMA %I
     TO %I'
   , v_schema, v_role_readwrite);
-
-  -- GRANT access to core.user
-  EXECUTE format('GRANT SELECT (id, name, profile) ON core.user TO %I', v_role_readonly);
-  EXECUTE format('GRANT SELECT (id, name, profile) ON core.user TO %I', v_role_readwrite);
 
   RAISE NOTICE 'Role ''%'' set up.', v_role_readonly;
   RAISE NOTICE 'Role ''%'' set up.', v_role_readwrite;
