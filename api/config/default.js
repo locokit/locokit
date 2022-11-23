@@ -1,38 +1,34 @@
 const defaultDatasources = [
   {
     name: 'fs-nutri',
-    type: 'sqlite3',
-    options: {
-      filename: './nutrieduc13.db',
-    },
+    client: 'sqlite3',
+    connection: './nutrieduc13.db',
   },
   {
     name: 'locokit',
-    type: 'pg',
-    options: 'postgres://postgres:pouicpouic@localhost:5432/public',
+    client: 'pg',
+    connection: 'postgres://localhost:5432/public',
     credentials: {
-      read: {
-        username: '',
-        password: '',
+      readonly: {
+        username: 'postgres',
+        password: 'pouicpouic',
       },
-      write: {
-        username: '',
-        password: '',
+      readwrite: {
+        username: 'postgres',
+        password: 'pouicpouic',
       },
       alter: {
-        username: '',
-        password: '',
+        username: 'postgres',
+        password: 'pouicpouic',
       },
     },
   },
   {
     name: 'baserow-mda',
-    type: 'baserow',
-    options: {
-      apiURL: 'https://api.baserow.io/',
-      tableIds: [12796, 12797],
-      token: 'REUYxF8xqzStcc478r8LAyfB8I6UpCLC',
-    },
+    client: 'baserow',
+    connection: 'https://api.baserow.io/',
+    tableIds: [12796, 12797],
+    token: 'REUYxF8xqzStcc478r8LAyfB8I6UpCLC',
   },
 ]
 
@@ -41,6 +37,7 @@ module.exports = {
   port: 3030,
   publicURL: 'http://localhost:3000',
   public: './public/',
+  publicPortalName: 'LocoKit dev',
   paginate: {
     default: 10,
     max: 50,
@@ -71,21 +68,21 @@ module.exports = {
         scope: ['openid', 'profile', 'email'],
       },
     },
-    apikey: {
-      header: 'x-api-key',
-      service: 'apikey',
-    },
-    cookie: {
-      enabled: true,
-      name: 'locokit-next',
-      httpOnly: false,
-      secure: false,
-    },
-    github: {
-      key: '7e52d97dd4f7c2252de3',
-      secret: 'ebeb2acf10fb479ebef4a21277e7c0153f439024',
-      scope: ['openid', 'profile', 'email'],
-    },
+    // apikey: {
+    //   header: 'x-api-key',
+    //   service: 'apikey',
+    // },
+    // cookie: {
+    //   enabled: true,
+    //   name: 'locokit-next',
+    //   httpOnly: false,
+    //   secure: false,
+    // },
+    // github: {
+    //   key: '7e52d97dd4f7c2252de3',
+    //   secret: 'ebeb2acf10fb479ebef4a21277e7c0153f439024',
+    //   scope: ['openid', 'profile', 'email'],
+    // },
   },
   datasources: defaultDatasources,
   helmet: {

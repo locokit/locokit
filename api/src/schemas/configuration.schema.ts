@@ -77,11 +77,13 @@ const authenticationSettingsSchema = Type.Object({
   oauth: Type.Optional(
     Type.Object({
       redirect: Type.String(),
-      origins: Type.Array(Type.String()),
-      defaults: Type.Object({
-        key: Type.String(),
-        secret: Type.String(),
-      }),
+      origins: Type.Optional(Type.Array(Type.String())),
+      defaults: Type.Optional(
+        Type.Object({
+          key: Type.String(),
+          secret: Type.String(),
+        }),
+      ),
     }),
   ),
 })
@@ -117,10 +119,36 @@ export const configurationSchema = Type.Object(
           symbols: Type.Boolean({ default: true }),
         }),
         signup: Type.Object({
-          allowed: Type.Boolean({ default: true }),
-          verificationMailDelayDays: Type.Number({ default: 5 }),
-          rateLimitMax: Type.Number({ default: 5 }),
-          rateLimitDuration: Type.Number({ default: 6000 }),
+          allowed: Type.Boolean({
+            default: true,
+            description: 'Is the signup allowed on the platform ?',
+          }),
+          verificationMailDelayDays: Type.Optional(
+            Type.Number({
+              default: 5,
+              description:
+                'Period in days during the user can confirm its email after signup',
+            }),
+          ),
+          rateLimitMax: Type.Optional(
+            Type.Number({
+              default: 5,
+              description: 'Maximum signup allowed during the duration',
+            }),
+          ),
+          rateLimitDuration: Type.Optional(
+            Type.Number({
+              default: 6000,
+              description: 'Period within we count the number of signup',
+            }),
+          ),
+          rateLimitBlockDuration: Type.Optional(
+            Type.Number({
+              default: 12000,
+              description:
+                'Blocking duration when the user reach the rate limit',
+            }),
+          ),
         }),
       },
       {
@@ -138,41 +166,60 @@ export const configurationSchema = Type.Object(
       },
     ),
     datasources: Type.Array(
-      Type.Intersect([
-        Type.Object({
-          name: Type.String(),
-          client: Type.String({ pattern: 'pg' }),
-          // client: StringEnum(['pg', 'sqlite3', 'baserow']),
-          connection: Type.String(),
-          credentials: Type.Object({
-            read: Type.Object({
-              username: Type.String(),
-              password: Type.String(),
-            }),
-            readwrite: Type.Object({
-              username: Type.String(),
-              password: Type.String(),
-            }),
-            alter: Type.Object({
-              username: Type.String(),
-              password: Type.String(),
-            }),
-          }),
-        }),
+      Type.Union([
         Type.Object({
           name: Type.String(),
           client: Type.String({ pattern: 'sqlite3' }),
           // client: StringEnum(['pg', 'sqlite3', 'baserow']),
-          connection: Type.String(),
+          connection: Type.String({
+            description: 'Connection string to the database or URL for APIs',
+          }),
+        }),
+        Type.Object({
+          name: Type.String(),
+          client: Type.String({ pattern: 'pg' }),
+          // client: StringEnum(['pg', 'sqlite3', 'baserow']),
+          connection: Type.String({
+            description: 'Connection string to the database or URL for APIs',
+          }),
+          credentials: Type.Optional(
+            Type.Object(
+              {
+                readonly: Type.Object({
+                  username: Type.String(),
+                  password: Type.String(),
+                }),
+                readwrite: Type.Object({
+                  username: Type.String(),
+                  password: Type.String(),
+                }),
+                alter: Type.Object({
+                  username: Type.String(),
+                  password: Type.String(),
+                }),
+              },
+              {
+                description:
+                  'Credentials to use for readonly/readwrite/alter permissions on PostGreSQL DB',
+              },
+            ),
+          ),
         }),
         Type.Object({
           name: Type.String(),
           client: Type.String({ pattern: 'baserow' }),
           // client: StringEnum(['pg', 'sqlite3', 'baserow']),
-          connection: Type.String(),
-          apiURL: Type.String(),
-          tableIds: Type.Array(Type.Integer()),
-          token: Type.String(),
+          connection: Type.String({
+            description: 'Connection string to the database or URL for APIs',
+          }),
+          tableIds: Type.Array(
+            Type.Integer({
+              description: 'Ids of table to expose (baserow API)',
+            }),
+          ),
+          token: Type.String({
+            description: 'Token to access the API (baserow actually)',
+          }),
         }),
       ]),
     ),

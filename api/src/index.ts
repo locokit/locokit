@@ -8,8 +8,6 @@ import { logger } from './logger'
 
 const app = createApp()
 
-console.log(app.get('settings'))
-
 const port = app.get('port')
 const host = app.get('host')
 
