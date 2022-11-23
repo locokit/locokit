@@ -44,6 +44,7 @@ export async function up(knex: Knex): Promise<void> {
         .references('id')
         .inTable('core.workspace')
       table.index('workspaceId', 'IDX_role_workspaceId')
+      table.boolean('manager').notNullable().defaultTo(false)
     })
 
     /**
