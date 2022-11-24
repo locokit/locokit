@@ -39,6 +39,11 @@
     }
   },
   "pages": {
+    "404": {
+      "title": "Page non trouvée",
+      "alternativeTitle": "Oups ! … On dirait que vous êtes perdus",
+      "link": "Retourner sur la page d'accueil"
+    },
     "signIn": {
       "title": "Page d'identification"
     },
