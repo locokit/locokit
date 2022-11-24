@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TagLabel
+    <SingleTag
       v-for="option in options"
       :key="`${option.label}-${option.value}`"
       :background-color="option.backgroundColor"
@@ -12,12 +12,16 @@
 
 <script setup lang="ts">
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { SelectValue } from '@/interface/interface'
-import TagLabel from '@/components/TagLabel/TagLabel.vue'
+import SingleTag from '../SingleTag/SingleTag.vue'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
   defineProps<{
-    options: SelectValue[]
+    options: {
+      label: string
+      color: string
+      backgroundColor: string
+      position: number
+    }[]
   }>(),
   {
     options: () => [],
