@@ -10,7 +10,10 @@ export const ROUTES_NAMES = {
     RESET_PASSWORD: 'ResetPassword',
     UPDATE_EMAIL: 'UpdateEmail',
     SIGN_UP: 'SignUp',
-    SIGNIN: 'SignIn',
+    SIGN_IN: 'SignIn',
+  },
+  WORKSPACE: {
+    HOME: 'Workspace',
   },
 }
 

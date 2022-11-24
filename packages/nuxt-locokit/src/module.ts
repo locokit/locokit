@@ -229,11 +229,11 @@ export default defineNuxtModule<ModuleOptions>({
       // /**
       //  * Register workspace pages
       //  */
-      // pages.push({
-      //   name: ROUTES.WORKSPACE.HOME,
-      //   path: ROUTES.WORKSPACE.HOME,
-      //   file: resolve(pagesDir, './w/index.vue'),
-      // })
+      pages.push({
+        name: ROUTES_NAMES.WORKSPACE.HOME,
+        path: ROUTES_PATH.WORKSPACE.HOME,
+        file: resolve(pagesDir, './w/index.vue'),
+      })
       // pages.push({
       //   name: ROUTES.WORKSPACE.DETAIL,
       //   path: ROUTES.WORKSPACE.DETAIL,
