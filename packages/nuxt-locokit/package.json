@@ -25,7 +25,7 @@
     "@locokit/designsystem": "^0.8.0",
     "@locokit/i18n": "0.8.0",
     "@locokit/sdk": "^0.8.0",
-    "@nuxt/kit": "^3.0.0-rc.13",
+    "@nuxt/kit": "^3.0.0",
     "@pinia/nuxt": "^0.4.2",
     "@vee-validate/rules": "^4.7.3",
     "pinia": "^2.0.23",
@@ -44,7 +44,7 @@
     "eslint": "^8.25.0",
     "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-vue": "^9.6.0",
-    "nuxt": "^3.0.0-rc.13",
+    "nuxt": "^3.0.0",
     "prettier": "^2.7.1",
     "sass": "^1.54.9"
   }

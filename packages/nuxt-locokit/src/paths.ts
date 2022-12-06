@@ -15,6 +15,7 @@ export const ROUTES_NAMES = {
 
   WORKSPACE: {
     HOME: 'Workspace',
+    CREATE: 'Create Workspace',
   },
 
   PROFILE: {
@@ -50,6 +51,7 @@ export const ROUTES_PATH = {
    */
   WORKSPACE: {
     HOME: '/w',
+    CREATE: '/w/create',
     DETAIL: '/w/:w',
     /**
      * Front office
