@@ -25,6 +25,12 @@ export default {
         'secondary-light': 'var(--color-secondary-light)',
         'secondary-dark': 'var(--color-secondary-dark)',
         error: colors.red['500'],
+        // 'oyster-bay': 'var(--color-oyster-bay)',
+        theme: {
+          DEFAULT: 'var(--theme-bg-color)',
+          hover: 'var(--theme-bg-color-hover)',
+          text: 'var(--theme-text-color)',
+        },
       },
       screens: {
         sm: '640px',

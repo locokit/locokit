@@ -102,3 +102,19 @@
   --header-background-color: #FAF9F9;
   --header-border-bottom-color: #cccccc;
 }
+
+:root *[data-theme="test"] {
+  --theme-text-color: #484848;
+  --theme-bg-color: #dffbff;
+  --theme-dark-bg-color: #A2F3FF;
+  --theme-light-bg-color: #EEFDFF;
+  --theme-bg-color-hover: var(--theme-dark-bg-color);
+}
+
+:root *[data-theme="malibu"] {
+  --theme-text-color: #ffffff;
+  --theme-bg-color: #55b3fe;
+  --theme-dark-bg-color: #1D9AFE;
+  --theme-light-bg-color: #7EC5FE;
+  --theme-bg-color-hover: var(--theme-dark-bg-color);
+}
