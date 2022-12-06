@@ -100,6 +100,8 @@
     "workspace": {
       "title": "Workspaces",
       "newWorkspace": "New workspace",
+      "myWorkspace": "My workspaces",
+      "publicWorkspace": "All public workspaces",
       "public": "Public",
       "form": {
         "title": "Create a new workspace",
@@ -234,6 +236,10 @@
       "signUpForm": {
         "email": "@:components.signUpForm.email",
         "name": "@:components.signUpForm.name"
+      },
+      "workspace": {
+        "name": "@:pages.workspace.form.name",
+        "slug": "@:pages.workspace.form.slug"
       }
     },
     "messages": {
