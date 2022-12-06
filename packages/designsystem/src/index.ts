@@ -5,6 +5,7 @@ import SignUpForm from './components/auth/SignUpForm/SignUpForm.vue'
 import FormGeneric from './components/FormGeneric/FormGeneric.vue'
 import SingleTag from './components/SingleTag/SingleTag.vue'
 import MultiTags from './components/MultiTags/MultiTags.vue'
+import WorkspaceForm from './components/WorkspaceForm/WorkspaceForm.vue'
 
 export {
   SignInForm,
@@ -14,4 +15,5 @@ export {
   FormGeneric,
   SingleTag,
   MultiTags,
+  WorkspaceForm,
 }

@@ -1,12 +1,13 @@
 import { RouteLocationNormalized } from 'vue-router'
-import { ROUTES_PATH } from '../paths'
+// import { abortNavigation } from '#app/composables/router'
+import { ROUTES_NAMES, ROUTES_PATH } from '../paths'
 import { useStoreAuth } from '../stores/auth'
-import { navigateTo } from '#imports'
+import { navigateTo, abortNavigation } from '#imports'
 
 /**
  * Check if the route need authentication and the user is authenticated.
  */
-export function checkPathAvailable(
+function checkPathAvailable(
   needAuthentication: boolean,
   needAnonymous: boolean,
   isAuthenticated: boolean,
@@ -31,7 +32,7 @@ export function checkPathAvailable(
 export default async function globalMiddleware(
   to: RouteLocationNormalized,
   _from: RouteLocationNormalized,
-): Promise<void> {
+) {
   const storeAuth = useStoreAuth()
 
   // To handle children routes (to get meta from parents), Vuejs recommend to use to.matched
@@ -42,7 +43,7 @@ export default async function globalMiddleware(
   const needAnonymous: boolean = to.matched.some((m) => m.meta.anonymous)
 
   const isAuthenticated = storeAuth.isAuthenticated
-  // const userProfile = storeAuth?.user?.profile as USER_PROFILE
+  // const userProfile = storeAuth?.user?.profile
 
   // TODO : manage user profile for admin routes
   // const userGroupsRole = storeAuth?.groups[0].aclset?.ugh_role
@@ -60,9 +61,22 @@ export default async function globalMiddleware(
     //   'navigate to ',
     //   isAuthenticated ? ROUTES.WORKSPACE.HOME : ROUTES.HOME,
     // )
-    await navigateTo({
-      path: isAuthenticated ? ROUTES_PATH.WORKSPACE.HOME : ROUTES_PATH.HOME,
-    })
+    if (isAuthenticated) {
+      await navigateTo({
+        name: ROUTES_NAMES.WORKSPACE.HOME,
+      })
+    } else if (to.name === ROUTES_NAMES.WORKSPACE.CREATE) {
+      abortNavigation()
+      // eslint-disable-next-line @typescript-eslint/return-await
+      return navigateTo(
+        {
+          name: ROUTES_NAMES.AUTH.SIGN_IN,
+        },
+        { redirectCode: 301 },
+      )
+    } else {
+      abortNavigation({ statusCode: 404, statusMessage: 'not connected' })
+    }
     // } else if (
     //   !profileAlwaysAuthorized.includes(userProfile) &&
     //   // Be careful /admin is accessible only with profile Admin - SuperAdmin

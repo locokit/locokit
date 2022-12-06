@@ -11,8 +11,14 @@
         <!-- Logo -->
         <div class="flex-shrink-0 mb-4">
           <NuxtLink class="h-16 inline-block" :to="{ name: ROUTES_NAMES.HOME }">
-            <span class="sr-only">{{ runtimeConfig.public.PROJECT_NAME }}</span>
-            <img alt="logo" class="h-16" src="/assets/logo-mobile-alt.svg" />
+            <span class="sr-only">
+              {{ runtimeConfig.public.PROJECT_NAME }}
+            </span>
+            <img
+              alt="logo"
+              class="w-10 w-xs"
+              src="/assets/logo-mobile-alt.svg"
+            />
           </NuxtLink>
         </div>
         <div class="flex flex-col flex-1 space-y-4">
@@ -55,7 +61,9 @@
         >
           <div class="absolute left-0 p-2 transform -translate-x-full">
             <PrimeButton
-              icon="pi pi-angle-double-right"
+              :icon="
+                canManageClosePanel ? 'pi pi-angle-double-right' : 'pi pi-times'
+              "
               @click="handleSettingsPanel"
             />
           </div>
@@ -94,6 +102,7 @@ const props = withDefaults(
 const isSettingsPanelOpen = ref(false)
 
 const handleSettingsPanel = () => {
+  console.log(isSettingsPanelOpen.value)
   isSettingsPanelOpen.value = !isSettingsPanelOpen.value
   emit('update:openPanel', isSettingsPanelOpen.value)
 }
@@ -102,7 +111,6 @@ watch(
   () => props.openPanel,
   (openPanel) => {
     isSettingsPanelOpen.value = openPanel
-    console.log(openPanel, isSettingsPanelOpen.value)
   },
 )
 

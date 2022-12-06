@@ -8,8 +8,10 @@
         >
           <div class="flex flex-shrink-0 flex-grow items-center lg:flex-grow-0">
             <div class="flex w-full items-center justify-between md:w-auto">
-              <NuxtLink class="h-16" to="/">
-                <span class="sr-only">LocoKit</span>
+              <NuxtLink class="h-16" :to="{ name: ROUTES_NAMES.HOME }">
+                <span class="sr-only">
+                  { runtimeConfig.public.PROJECT_NAME }}
+                </span>
                 <img alt="logo" class="h-16" src="/assets/logo.png" />
               </NuxtLink>
               <div class="-mr-2 flex items-center md:hidden">
@@ -42,35 +44,23 @@
               </div>
             </div>
           </div>
-          <div class="hidden md:ml-auto md:block md:space-x-8 md:pr-4">
+          <div
+            v-if="navlinks && navlinks.length > 0"
+            class="hidden md:ml-auto md:flex md:space-x-8 md:pr-4 md:flex-row"
+          >
             <NuxtLink
-              :to="{ name: ROUTES_NAMES.HOME }"
-              class="font-medium p-2 rounded-sm text-gray-500 hover:bg-primary hover:text-gray-100"
+              v-for="navlink in navlinks"
+              :key="navlink.namePath"
+              :to="{ name: navlink.namePath }"
+              class="font-medium p-2 rounded text-gray-500 hover:bg-primary hover:text-gray-100 flex flex-row items-center"
+              @click="toggleMenu"
             >
-              {{ $t('layouts.withBanner.home') }}
-            </NuxtLink>
-
-            <NuxtLink
-              :to="{ name: ROUTES_NAMES.WORKSPACE.HOME }"
-              class="font-medium p-2 rounded-sm text-gray-500 hover:bg-primary hover:text-gray-100"
-            >
-              {{ $t('layouts.withBanner.workspaces') }}
-            </NuxtLink>
-
-            <NuxtLink
-              :to="{ name: ROUTES_NAMES.AUTH.SIGN_IN }"
-              class="font-medium p-2 rounded-sm text-primary hover:bg-primary hover:text-gray-100"
-              :lol="toggleMenu"
-            >
-              {{ $t('layouts.withBanner.signIn') }}
-            </NuxtLink>
-
-            <NuxtLink
-              :to="{ name: ROUTES_NAMES.AUTH.SIGN_UP }"
-              class="font-medium p-2 rounded-sm text-primary hover:bg-primary hover:text-gray-100"
-              :lol="toggleMenu"
-            >
-              {{ $t('layouts.withBanner.signUp') }}
+              <i
+                v-if="navlink.icon"
+                :class="'pi ' + navlink.icon"
+                class="mr-1"
+              />
+              <p>{{ $t('layouts.withBanner.' + navlink.title) }}</p>
             </NuxtLink>
           </div>
         </nav>
@@ -117,37 +107,23 @@
               </button>
             </div>
           </div>
-          <div class="space-y-1 px-2 pt-2 pb-3">
+          <div
+            v-if="navlinks && navlinks.length > 0"
+            class="space-y-1 px-2 pt-2 pb-3"
+          >
             <NuxtLink
-              :to="{ name: ROUTES_NAMES.HOME }"
-              class="block rounded-sm px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+              v-for="navlink in navlinks"
+              :key="navlink.namePath"
+              :to="{ name: navlink.namePath }"
+              class="block rounded-sm px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 flex flex-row items-center"
               @click="toggleMenu"
             >
-              {{ $t('layouts.withBanner.home') }}
-            </NuxtLink>
-
-            <NuxtLink
-              :to="{ name: ROUTES_NAMES.WORKSPACE.HOME }"
-              class="block rounded-sm px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-              @click="toggleMenu"
-            >
-              {{ $t('layouts.withBanner.workspaces') }}
-            </NuxtLink>
-
-            <NuxtLink
-              :to="{ name: ROUTES_NAMES.AUTH.SIGN_IN }"
-              class="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-primary hover:bg-gray-100"
-              @click="toggleMenu"
-            >
-              {{ $t('layouts.withBanner.signIn') }}
-            </NuxtLink>
-
-            <NuxtLink
-              :to="{ name: ROUTES_NAMES.AUTH.SIGN_UP }"
-              class="block w-full bg-gray-50 px-5 py-3 text-center font-medium text-primary hover:bg-gray-100"
-              @click="toggleMenu"
-            >
-              {{ $t('layouts.withBanner.signUp') }}
+              <i
+                v-if="navlink.icon"
+                :class="'pi ' + navlink.icon"
+                class="mr-1"
+              />
+              <p>{{ $t('layouts.withBanner.' + navlink.title) }}</p>
             </NuxtLink>
           </div>
         </div>
@@ -159,7 +135,21 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ROUTES_NAMES } from '../pages/paths'
+import { ROUTES_NAMES } from '../paths'
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const props = withDefaults(
+  defineProps<{
+    navlinks?: {
+      namePath: string
+      title: string
+      icon: string | null
+    }[]
+  }>(),
+  {
+    navlinks: () => [],
+  },
+)
 
 const menuOpened = ref(false)
 

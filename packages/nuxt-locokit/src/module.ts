@@ -6,10 +6,11 @@ import {
   installModule,
   addPlugin,
   createResolver,
-  useModuleContainer,
   addTemplate,
+  addLayout,
+  extendPages,
 } from '@nuxt/kit'
-import { Nuxt, NuxtOptions, NuxtPage, ModuleContainer } from '@nuxt/schema'
+import { Nuxt, NuxtOptions, NuxtPage } from '@nuxt/schema'
 import { ROUTES_NAMES, ROUTES_PATH } from './paths'
 import {
   getAuthPages,
@@ -146,39 +147,37 @@ export default defineNuxtModule<ModuleOptions>({
     //   })
     // }
 
-    const module: ModuleContainer = useModuleContainer()
-
     // module.addLayout(
     //   {
     //     src: resolve(layoutsDir, './WithBackground.vue'),
     //   },
     //   'WithBackground',
     // )
-    module.addLayout(
+    addLayout(
       {
         src: resolve(layoutsDir, './WithBanner.vue'),
       },
       'WithBanner',
     )
-    module.addLayout(
+    addLayout(
       {
         src: resolve(layoutsDir, './WithAsideNavAndSidebar.vue'),
       },
       'WithAsideNavAndSidebar',
     )
-    module.addLayout(
+    addLayout(
       {
         src: resolve(layoutsDir, './WithAsideNav.vue'),
       },
       'WithAsideNav',
     )
-    module.addLayout(
+    addLayout(
       {
         src: resolve(layoutsDir, './WithThinNav.vue'),
       },
       'WithThinNav',
     )
-    module.addLayout(
+    addLayout(
       {
         src: resolve(layoutsDir, './WithThinNavAndSidebar.vue'),
       },
@@ -195,7 +194,7 @@ export default defineNuxtModule<ModuleOptions>({
     //   write: true,
     // })
     // module.addLayout(tpl, 'WithTwoSide')
-    module.extendRoutes(function (pages: NuxtPage[]) {
+    extendPages(function (pages: NuxtPage[]) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { submodules, api } = options
 
@@ -230,7 +229,21 @@ export default defineNuxtModule<ModuleOptions>({
       pages.push({
         name: ROUTES_NAMES.WORKSPACE.HOME,
         path: ROUTES_PATH.WORKSPACE.HOME,
+        meta: {
+          protected: false,
+          anonymous: false,
+        },
         file: resolve(pagesDir, './workspace/index.vue'),
+      })
+
+      pages.push({
+        name: ROUTES_NAMES.WORKSPACE.CREATE,
+        path: ROUTES_PATH.WORKSPACE.CREATE,
+        meta: {
+          protected: true,
+          anonymous: false,
+        },
+        file: resolve(pagesDir, './workspace/CreateWorkspace.vue'),
       })
       // pages.push({
       //   name: ROUTES.WORKSPACE.DETAIL,
