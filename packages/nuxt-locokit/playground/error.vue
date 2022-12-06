@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { ROUTES_NAMES } from '../../src/pages/paths'
+import { ROUTES_NAMES } from '../src/paths'
 import { useRuntimeConfig, useHead } from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })
