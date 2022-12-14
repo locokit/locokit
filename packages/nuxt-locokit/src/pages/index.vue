@@ -1,5 +1,5 @@
 <template>
-  <WithBanner :navlinks="navlinks">
+  <WithBanner :navlinks="navlinksBanner">
     <div class="flex flex-col w-full lg:max-w-7xl mx-auto mb-16">
       <div class="text-center mx-auto mt-16">
         <h1
@@ -97,19 +97,19 @@
 import WithBanner from '../layouts/WithBanner.vue'
 import { ROUTES_NAMES } from '../paths'
 
-const navlinks = [
+const navlinksBanner = [
   {
-    namePath: ROUTES_NAMES.WORKSPACE.HOME,
+    routeName: ROUTES_NAMES.WORKSPACE.HOME,
     title: 'workspaces',
     icon: 'pi-desktop',
   },
   {
-    namePath: ROUTES_NAMES.AUTH.SIGN_IN,
+    routeName: ROUTES_NAMES.AUTH.SIGN_IN,
     title: 'signIn',
     icon: 'pi-sign-in',
   },
   {
-    namePath: ROUTES_NAMES.AUTH.SIGN_UP,
+    routeName: ROUTES_NAMES.AUTH.SIGN_UP,
     title: 'signUp',
     icon: 'pi-user',
   },

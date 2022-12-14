@@ -36,6 +36,11 @@
     "formGeneric": {
       "save": "Enregistrer",
       "cancel": "Annuler"
+    },
+    "predefinedColorPicker": {
+      "label": "Couleur",
+      "text": "Je suis un exemple de text.",
+      "help": "Cette couleur est utilisée en arrière-plan dans la page d'accueil des espaces de travail."
     }
   },
   "layouts": {
@@ -43,7 +48,7 @@
       "openMenu": "Ouvrir le menu",
       "closeMenu": "Fermer le menu",
       "home": "Accueil",
-      "workspaces" : "Espace de travail",
+      "workspaces": "Espace de travail",
       "signIn": "S'identifier",
       "signUp": "S'inscrire"
     }

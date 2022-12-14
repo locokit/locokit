@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { sdk } from '../services/api'
+import { sdkClient } from '../services/api'
 
 export const useStoreWorkspaces = defineStore('workspaces', {
   state: () => ({
@@ -13,7 +13,7 @@ export const useStoreWorkspaces = defineStore('workspaces', {
       this.loading = true
       this.error = null
       try {
-        const result = await sdk.services.workspace.find(params)
+        const result = await sdkClient.services.workspace.find(params)
         this.workspaces = result
       } catch (error) {
         console.error(error)
@@ -32,7 +32,7 @@ export const useStoreWorkspaces = defineStore('workspaces', {
       this.loading = true
       this.error = null
       try {
-        const result = await sdk.services.workspace.create(data)
+        const result = await sdkClient.services.workspace.create(data)
         this.workspaces = result
       } catch (error) {
         console.error(error)

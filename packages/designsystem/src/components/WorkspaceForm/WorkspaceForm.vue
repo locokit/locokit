@@ -125,6 +125,11 @@
         :disabled="loading || !valid"
       />
     </div>
+    <PredefinedColorPicker
+      label="dqdqdq"
+      :current-color="currentColor"
+      @update:current-color="updateColor"
+    />
   </Form>
 </template>
 
@@ -133,9 +138,11 @@ import PrimeButton from 'primevue/button'
 import PrimeTextarea from 'primevue/textarea'
 import PrimeCheckbox from 'primevue/checkbox'
 import PrimeInputText from 'primevue/inputtext'
+import { PredefinedColorPicker } from '@locokit/designsystem'
 import { Form, Field } from 'vee-validate'
-import { computed, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { createSlug } from '../../helpers/transformText'
+import { ColorScheme } from '../../helpers/color'
 
 const emit = defineEmits<{
   (
@@ -178,6 +185,18 @@ const summary = ref('')
 const color = ref('')
 const icon = ref('')
 const isPublic = ref(false)
+const currentColor = reactive<ColorScheme>({
+  backgroundColor: null,
+  color: null,
+  name: null,
+})
+
+const updateColor = (newValue: ColorScheme) => {
+  console.log('bouh')
+  currentColor.name = newValue.name
+  currentColor.color = newValue.color
+  currentColor.backgroundColor = newValue.backgroundColor
+}
 
 const autogenerateSlug = computed(() => {
   if (name.value) return createSlug(name.value)

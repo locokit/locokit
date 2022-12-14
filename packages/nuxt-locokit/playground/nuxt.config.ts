@@ -16,4 +16,5 @@ export default defineNuxtConfig({
     },
   },
   modules: ['nuxt-locokit'],
+  sourcemap: true,
 })

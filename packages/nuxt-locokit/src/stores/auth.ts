@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { sdk } from '../services/api'
+import { sdkClient } from '../services/api'
 
 export const useStoreAuth = defineStore('auth', {
   state: () => ({
@@ -13,7 +13,7 @@ export const useStoreAuth = defineStore('auth', {
       this.loading = true
       this.error = null
       try {
-        const result = await sdk.client.authenticate({
+        const result = await sdkClient.authenticate({
           strategy: 'local',
           email: data.email,
           password: data.password,
@@ -28,11 +28,25 @@ export const useStoreAuth = defineStore('auth', {
       }
       this.loading = false
     },
+    async reAuthenticate() {
+      console.log('BOUh')
+      this.loading = true
+      this.error = null
+      try {
+        const result = await sdkClient.reAuthenticate()
+        this.user = result.user
+        this.isAuthenticated = true
+      } catch (error) {
+        console.warn(error)
+        this.isAuthenticated = false
+      }
+      this.loading = false
+    },
     async sendLinkToResetPassword(data: { email: string }) {
       this.loading = true
       this.error = null
       try {
-        await sdk.client.service('auth-management').create({
+        await sdkClient.service('auth-management').create({
           action: 'sendResetPwd',
           value: data,
         })
@@ -46,7 +60,7 @@ export const useStoreAuth = defineStore('auth', {
       this.loading = true
       this.error = null
       try {
-        await sdk.client.service('auth-management').create({
+        await sdkClient.service('auth-management').create({
           action: 'resetPwdLong',
           value: data,
         })
@@ -63,7 +77,7 @@ export const useStoreAuth = defineStore('auth', {
       this.loading = true
       this.error = null
       try {
-        await sdk.client.service('auth-management').create({
+        await sdkClient.service('auth-management').create({
           action: 'verifySignupSetPasswordLong',
           value: data,
         })
@@ -77,7 +91,7 @@ export const useStoreAuth = defineStore('auth', {
       this.loading = true
       this.error = null
       try {
-        await sdk.client.service('signup').create(data)
+        await sdkClient.service('signup').create(data)
       } catch (error) {
         console.error(error)
         this.error = error as Error
@@ -86,7 +100,7 @@ export const useStoreAuth = defineStore('auth', {
     },
     async logout() {
       this.loading = true
-      await sdk.client.logout()
+      await sdkClient.logout()
       this.isAuthenticated = false
       this.user = null
       this.loading = false

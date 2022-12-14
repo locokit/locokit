@@ -15,7 +15,7 @@ export const ROUTES_NAMES = {
 
   WORKSPACE: {
     HOME: 'Workspace',
-    CREATE: 'Create Workspace',
+    CREATE: 'CreateWorkspace',
   },
 
   PROFILE: {

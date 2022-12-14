@@ -36,6 +36,12 @@
     "formGeneric": {
       "save": "Save",
       "cancel": "Cancel"
+    },
+    "predefinedColorPicker": {
+      "label": "Color",
+      "text": "This is text example.",
+      "placeholder": "Select a color",
+      "help": "This color is used as background in the workspace listing page."
     }
   },
   "layouts": {
@@ -43,13 +49,13 @@
       "openMenu": "Open menu",
       "closeMenu": "Close main menu",
       "home": "Home",
-      "workspaces" : "Workspaces",
+      "workspaces": "Workspaces",
       "signIn": "Sign in",
       "signUp": "Sign up"
     }
   },
   "pages": {
-     "404": {
+    "404": {
       "title": "Page not found",
       "alternativeTitle": "Whooops ?!… sounds you're lost…",
       "link": "Come back home"

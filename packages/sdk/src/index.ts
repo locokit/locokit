@@ -1,20 +1,19 @@
 import { feathers } from '@feathersjs/feathers'
 import restClient from '@feathersjs/rest-client'
-import auth from '@feathersjs/authentication-client'
+import authentication from '@feathersjs/authentication-client'
 
 // import { manageExpiredToken } from './hooks'
 import { SDK, SDKOptions } from './declarations'
 
 export function createSDK(options: SDKOptions): SDK {
   const sdkClient = feathers()
-  const sdkAuth = auth({
+  const sdkAuth = authentication({
     storageKey: 'locokit-next-jwt',
   })
 
   sdkClient.configure(sdkAuth)
   const sdkRestClient = restClient(options.apiURL)
   sdkClient.configure(sdkRestClient.fetch(options.fetch))
-
   // process.env.NODE_ENV === 'test'
   // ? async function (): Promise<void> {
   //   return await new Promise(resolve => {
