@@ -203,7 +203,7 @@ export default defineNuxtModule<ModuleOptions>({
         path: ROUTES_PATH.HOME,
         file: resolve(pagesDir, './index.vue'),
         meta: {
-          needAuthentification: false,
+          protected: false,
         },
       })
 
@@ -245,6 +245,7 @@ export default defineNuxtModule<ModuleOptions>({
         },
         file: resolve(pagesDir, './workspace/CreateWorkspace.vue'),
       })
+
       // pages.push({
       //   name: ROUTES.WORKSPACE.DETAIL,
       //   path: ROUTES.WORKSPACE.DETAIL,

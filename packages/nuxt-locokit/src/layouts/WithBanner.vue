@@ -50,8 +50,8 @@
           >
             <NuxtLink
               v-for="navlink in navlinks"
-              :key="navlink.namePath"
-              :to="{ name: navlink.namePath }"
+              :key="navlink.routeName"
+              :to="{ name: navlink.routeName }"
               class="font-medium p-2 rounded text-gray-500 hover:bg-primary hover:text-gray-100 flex flex-row items-center"
               @click="toggleMenu"
             >
@@ -113,8 +113,8 @@
           >
             <NuxtLink
               v-for="navlink in navlinks"
-              :key="navlink.namePath"
-              :to="{ name: navlink.namePath }"
+              :key="navlink.routeName"
+              :to="{ name: navlink.routeName }"
               class="block rounded-sm px-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 flex flex-row items-center"
               @click="toggleMenu"
             >
@@ -141,7 +141,7 @@ import { ROUTES_NAMES } from '../paths'
 const props = withDefaults(
   defineProps<{
     navlinks?: {
-      namePath: string
+      routeName: string
       title: string
       icon: string | null
     }[]

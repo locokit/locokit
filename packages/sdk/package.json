@@ -10,8 +10,9 @@
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground"
   },
   "dependencies": {
+    "@feathersjs/authentication-client": "^5.0.0-pre.32",
     "@feathersjs/feathers": "^5.0.0-pre.32",
     "@feathersjs/rest-client": "^5.0.0-pre.32",
-    "@feathersjs/authentication-client": "^5.0.0-pre.32"
+    "socket.io": "^4.5.4"
   }
 }

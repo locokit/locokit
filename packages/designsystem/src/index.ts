@@ -6,6 +6,7 @@ import FormGeneric from './components/FormGeneric/FormGeneric.vue'
 import SingleTag from './components/SingleTag/SingleTag.vue'
 import MultiTags from './components/MultiTags/MultiTags.vue'
 import WorkspaceForm from './components/WorkspaceForm/WorkspaceForm.vue'
+import PredefinedColorPicker from './components/PredefinedColorPicker/PredefinedColorPicker.vue'
 
 export {
   SignInForm,
@@ -16,4 +17,5 @@ export {
   SingleTag,
   MultiTags,
   WorkspaceForm,
+  PredefinedColorPicker,
 }
