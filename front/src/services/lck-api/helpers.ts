@@ -351,7 +351,7 @@ export async function uploadMultipleFiles (fileList: FileList, workspaceId: stri
           ...fileType,
         }, {
           query: {
-            workspace_id: workspaceId,
+            workspaceId,
             fileName: file.name,
             ...fileType,
           },

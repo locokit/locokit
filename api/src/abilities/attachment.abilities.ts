@@ -100,9 +100,7 @@ export async function createAbility (
       can('create', 'attachment', {
         workspace_id: currentWorkspaceId,
       })
-      can('create', 'upload', {
-        workspace_id: currentWorkspaceId,
-      })
+      can('create', 'upload')
 
       /**
        * if the user is member at least of one manager group,
