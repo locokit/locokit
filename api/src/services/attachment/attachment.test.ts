@@ -66,7 +66,7 @@ describe('\'attachment\' service', () => {
       contentType: 'image/png',
     }, {
       query: {
-        workspaceId: setupData.workspace1Id,
+        workspace_id: setupData.workspace1Id,
         fileName: 'logo.png',
         contentType: 'image/png',
       },
@@ -79,7 +79,7 @@ describe('\'attachment\' service', () => {
       contentType: 'image/svg',
     }, {
       query: {
-        workspaceId: setupData.workspace1Id,
+        workspace_id: setupData.workspace1Id,
         fileName: 'logo-dark.svg',
         contentType: 'image/svg',
       },
