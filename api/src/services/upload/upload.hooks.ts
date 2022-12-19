@@ -38,7 +38,7 @@ async function createWorkspaceStorage (context: HookContext): Promise<HookContex
     fsPath,
   } = context.app.get('storage')
 
-  const workspaceId = context.params.query?.workspaceId as string
+  const workspaceId = context.params.query?.workspace_id as string
   /**
    * Depending the storage type,
    * we send the file to s3 or write it on the disk
@@ -118,6 +118,7 @@ async function createAttachment (context: HookContext): Promise<HookContext> {
   // do not create attachment if param noAttachment is set to true
   // this help us to avoid create an attachment for a thumbnail
   if (context.params?.query?.noAttachment === true) return context
+
   if (context.data.attachment_id) {
     context.result = await context.app.services.attachment.patch(context.data.attachment_id, {
       mime: context.params.query?.mime as string,
@@ -129,7 +130,7 @@ async function createAttachment (context: HookContext): Promise<HookContext> {
     })
   } else {
     context.result = await context.app.services.attachment.create({
-      workspace_id: context.params.query?.workspaceId as string,
+      workspace_id: context.params.query?.workspace_id as string,
       mime: context.params.query?.mime as string,
       ext: context.params.query?.ext as string,
       filename: context.params.query?.fileName || context.result.id,
@@ -184,7 +185,7 @@ async function createThumbnail (context: HookContext): Promise<HookContext> {
 async function checkUploadDoesNotAlreadyExist (context: HookContext): Promise<HookContext> {
   const isFileFound = await context.app.services.attachment.find({
     query: {
-      workspace_id: context.params.query?.workspaceId as string,
+      workspace_id: context.params.query?.workspace_id as string,
       filename: context.params.query?.fileName,
     },
   })
@@ -205,7 +206,7 @@ export default {
       authenticate('jwt'),
       // checkPermission (for create, access to workspace, for get, access to this upload, for remove, idem)
       iff(
-        queryContainsKeys(['workspaceId']),
+        queryContainsKeys(['workspace_id']),
         createWorkspaceStorage,
       ),
     ],
@@ -237,7 +238,7 @@ export default {
     create: [
       createThumbnail,
       iff(
-        queryContainsKeys(['workspaceId']),
+        queryContainsKeys(['workspace_id']),
         createAttachment,
       ),
     ],

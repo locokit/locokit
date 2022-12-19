@@ -61,7 +61,7 @@ describe('\'upload\' service', () => {
         contentType: 'image/png',
       }, {
         query: {
-          workspaceId,
+          workspace_id: workspaceId,
           fileName: 'logo.png',
           contentType: 'image/png',
         },
@@ -105,7 +105,7 @@ describe('\'upload\' service', () => {
         contentType: 'image/png',
       }, {
         query: {
-          workspaceId,
+          workspace_id: workspaceId,
           fileName: 'logo1.png',
           contentType: 'image/png',
         },
@@ -140,7 +140,7 @@ describe('\'upload\' service', () => {
         contentType: 'image/png',
       }, {
         query: {
-          workspaceId,
+          workspace_id: workspaceId,
           fileName: 'logo.png',
           contentType: 'image/png',
         },
@@ -161,7 +161,7 @@ describe('\'upload\' service', () => {
         contentType: 'image/png',
       }, {
         query: {
-          workspaceId,
+          workspace_id: workspaceId,
           fileName: 'logo.png',
           contentType: 'image/png',
           forceUpdate: 1,
@@ -184,7 +184,7 @@ describe('\'upload\' service', () => {
         contentType: 'image/png',
       }, {
         query: {
-          workspaceId,
+          workspaceId, // Todo: Why ?
           workspace_id: workspaceId,
           fileName: 'logoRejected.png',
           contentType: 'image/png',
