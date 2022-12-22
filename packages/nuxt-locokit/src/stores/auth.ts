@@ -29,7 +29,7 @@ export const useStoreAuth = defineStore('auth', {
       this.loading = false
     },
     async reAuthenticate() {
-      console.log('BOUh')
+      console.log('reAuthenticate')
       this.loading = true
       this.error = null
       try {

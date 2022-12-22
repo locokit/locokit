@@ -1,5 +1,5 @@
 <template>
-  <WithBanner :navlinks="navlinksBanner">
+  <WithBanner :navlinks="navLinksBanner">
     <div class="flex flex-col w-full lg:max-w-7xl mx-auto mb-16">
       <div class="text-center mx-auto mt-16">
         <h1
@@ -13,7 +13,7 @@
         <p
           class="mt-3 text-base text-gray-500 sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg md:mt-5 md:text-xl"
         >
-          {{ $t('pages.indexPage.presentation') }}.
+          {{ $t('pages.indexPage.presentation') }}
         </p>
       </div>
       <div
@@ -22,7 +22,9 @@
         <h1
           class="text-4xl font-bold tracking-tight text-primary sm:text-5xl md:text-6xl"
         >
-          <span class="block">{{ $t('pages.indexPage.buildData') }}</span>
+          <span class="block">
+            {{ $t('pages.indexPage.buildData') }}
+          </span>
           <span class="block text-secondary">
             {{ $t('pages.indexPage.shareSecurely') }}
           </span>
@@ -96,22 +98,36 @@
 <script setup lang="ts">
 import WithBanner from '../layouts/WithBanner.vue'
 import { ROUTES_NAMES } from '../paths'
+import { useStoreAuth } from '../stores/auth'
+import { computed } from '#imports'
 
-const navlinksBanner = [
-  {
-    routeName: ROUTES_NAMES.WORKSPACE.HOME,
-    title: 'workspaces',
-    icon: 'pi-desktop',
-  },
-  {
-    routeName: ROUTES_NAMES.AUTH.SIGN_IN,
-    title: 'signIn',
-    icon: 'pi-sign-in',
-  },
-  {
-    routeName: ROUTES_NAMES.AUTH.SIGN_UP,
-    title: 'signUp',
-    icon: 'pi-user',
-  },
-]
+const authStore = useStoreAuth()
+
+const navLinksBanner = computed(() => {
+  return authStore.isAuthenticated
+    ? [
+        {
+          routeName: ROUTES_NAMES.WORKSPACE.HOME,
+          title: 'workspaces',
+          icon: 'pi-desktop',
+        },
+      ]
+    : [
+        {
+          routeName: ROUTES_NAMES.WORKSPACE.HOME,
+          title: 'workspaces',
+          icon: 'pi-desktop',
+        },
+        {
+          routeName: ROUTES_NAMES.AUTH.SIGN_IN,
+          title: 'signIn',
+          icon: 'pi-sign-in',
+        },
+        {
+          routeName: ROUTES_NAMES.AUTH.SIGN_UP,
+          title: 'signUp',
+          icon: 'pi-user',
+        },
+      ]
+})
 </script>

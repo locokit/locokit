@@ -81,7 +81,7 @@ const props = withDefaults(
   {
     loading: () => false,
     error: () => null,
-    signInRoute: () => '/signin',
+    signInRoute: () => '/',
   },
 )
 
