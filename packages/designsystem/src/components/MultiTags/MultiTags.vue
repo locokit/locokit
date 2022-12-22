@@ -2,7 +2,7 @@
   <div>
     <SingleTag
       v-for="option in options"
-      :key="`${option.label}-${option.value}`"
+      :key="`${option.label}-${option.position}`"
       :background-color="option.backgroundColor"
       :color="option.color"
       :label="option.label"
@@ -20,7 +20,7 @@ const props = withDefaults(
       label: string
       color: string
       backgroundColor: string
-      position: number
+      position?: number
     }[]
   }>(),
   {

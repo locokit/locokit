@@ -97,10 +97,10 @@
         {{ $t('components.workspaceForm.publicHelp') }}
       </small>
     </Field>
-    <div class="flex flex-row justify-between mt-4">
+    <div class="flex flex-row justify-end mt-4">
       <PrimeButton
         type="button"
-        class="p-button-outlined !w-fit"
+        class="p-button-outlined mr-4 !w-fit"
         icon="pi pi-times"
         :label="$t('components.workspaceForm.cancel')"
         @click="resetForm()"

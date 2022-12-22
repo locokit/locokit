@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { logEvent } from 'histoire/client'
 
-import SignUpForm from './SignUpForm.vue'
+import SignUpForm from '../../components/auth/SignUpForm/SignUpForm.vue'
 </script>
 
 <docs lang="md">
