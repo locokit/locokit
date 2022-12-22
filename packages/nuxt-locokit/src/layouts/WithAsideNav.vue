@@ -45,13 +45,17 @@
 import PrimeButton from 'primevue/button'
 import { ROUTES_NAMES } from '../paths'
 import { useStoreAuth } from '../stores/auth'
-import { useRuntimeConfig } from '#imports'
+import { useRouter, useRuntimeConfig } from '#imports'
 
 const runtimeConfig = useRuntimeConfig()
+const router = useRouter()
 const authStore = useStoreAuth()
 
-const logout = () => {
-  authStore.logout()
+const logout = async () => {
+  await authStore.logout()
+  await router.push({
+    name: ROUTES_NAMES.HOME,
+  })
 }
 </script>
 

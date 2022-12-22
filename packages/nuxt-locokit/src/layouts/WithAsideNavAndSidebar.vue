@@ -77,9 +77,10 @@
 import PrimeButton from 'primevue/button'
 import { ROUTES_NAMES } from '../paths'
 import { useStoreAuth } from '../stores/auth'
-import { ref, useRuntimeConfig } from '#imports'
+import { ref, useRouter, useRuntimeConfig } from '#imports'
 
 const runtimeConfig = useRuntimeConfig()
+const router = useRouter()
 const authStore = useStoreAuth()
 
 const isSettingsPanelOpen = ref(false)
@@ -87,8 +88,11 @@ const isSettingsPanelOpen = ref(false)
 const handleSettingsPanel = () =>
   (isSettingsPanelOpen.value = !isSettingsPanelOpen.value)
 
-const logout = () => {
-  authStore.logout()
+const logout = async () => {
+  await authStore.logout()
+  await router.push({
+    name: ROUTES_NAMES.HOME,
+  })
 }
 </script>
 

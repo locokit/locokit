@@ -5,19 +5,21 @@
       'background-image': 'url(' + backgroundImage + ')',
     }"
   >
-    <div class="flex-grow max-w-2xl">
-      <NuxtLink
-        v-if="backgroundLogo"
-        class="text-center"
-        :to="{ name: ROUTES_NAMES.HOME }"
-      >
-        <img alt="logo" :src="backgroundLogo" aria-hidden="true" />
-      </NuxtLink>
-      <slot />
-    </div>
-    <div class="absolute bottom-2 right-2 text-white text-xs">
-      {{ version }}
-    </div>
+    <client-only>
+      <div class="flex-grow max-w-2xl">
+        <NuxtLink
+          v-if="backgroundLogo"
+          class="text-center"
+          :to="{ name: ROUTES_NAMES.HOME }"
+        >
+          <img alt="logo" :src="backgroundLogo" aria-hidden="true" />
+        </NuxtLink>
+        <slot />
+      </div>
+      <div class="absolute bottom-2 right-2 text-white text-xs">
+        {{ version }}
+      </div>
+    </client-only>
   </div>
 </template>
 

@@ -81,9 +81,10 @@
 import PrimeButton from 'primevue/button'
 import { ROUTES_NAMES } from '../paths'
 import { useStoreAuth } from '../stores/auth'
-import { computed, ref, useRuntimeConfig, watch } from '#imports'
+import { ref, useRouter, useRuntimeConfig, watch } from '#imports'
 
 const runtimeConfig = useRuntimeConfig()
+const router = useRouter()
 const authStore = useStoreAuth()
 
 const emit = defineEmits(['update:openPanel'])
@@ -102,7 +103,6 @@ const props = withDefaults(
 const isSettingsPanelOpen = ref(false)
 
 const handleSettingsPanel = () => {
-  console.log(isSettingsPanelOpen.value)
   isSettingsPanelOpen.value = !isSettingsPanelOpen.value
   emit('update:openPanel', isSettingsPanelOpen.value)
 }
@@ -121,8 +121,11 @@ watch(
 //   return isSettingsPanelOpen.value
 // })
 
-const logout = () => {
-  authStore.logout()
+const logout = async () => {
+  await authStore.logout()
+  await router.push({
+    name: ROUTES_NAMES.HOME,
+  })
 }
 </script>
 

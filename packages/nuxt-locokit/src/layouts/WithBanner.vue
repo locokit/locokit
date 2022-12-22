@@ -10,7 +10,7 @@
             <div class="flex w-full items-center justify-between md:w-auto">
               <NuxtLink class="h-16" :to="{ name: ROUTES_NAMES.HOME }">
                 <span class="sr-only">
-                  { runtimeConfig.public.PROJECT_NAME }}
+                  {{ runtimeConfig.public.PROJECT_NAME }}
                 </span>
                 <img alt="logo" class="h-16" src="/assets/logo.png" />
               </NuxtLink>
@@ -24,7 +24,6 @@
                   <span class="sr-only">
                     {{ $t('layouts.withBanner.openMenu') }}
                   </span>
-                  <!-- Heroicon name: outline/bars-3 -->
                   <svg
                     class="h-6 w-6"
                     xmlns="http://www.w3.org/2000/svg"
@@ -60,9 +59,22 @@
                 :class="'pi ' + navlink.icon"
                 class="mr-1"
               />
-              <p>{{ $t('layouts.withBanner.' + navlink.title) }}</p>
+              <p>
+                {{ $t('layouts.withBanner.' + navlink.title) }}
+              </p>
             </NuxtLink>
           </div>
+          <button
+            v-if="authStore.isAuthenticated"
+            type="button"
+            class="inline-flex items-center justify-center rounded bg-white p-2 text-gray-500 hover:bg-primary hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+            @click="logout"
+          >
+            <i class="pi pi-sign-out mr-1" />
+            <span>
+              {{ $t('layouts.withBanner.logout') }}
+            </span>
+          </button>
         </nav>
       </div>
 
@@ -76,9 +88,18 @@
           <div class="flex items-center justify-between px-5 pt-4">
             <div>
               <NuxtLink class="h-8" to="/">
-                <span class="sr-only">LocoKit</span>
+                <span class="sr-only">
+                  {{ runtimeConfig.public.PROJECT_NAME }}
+                </span>
                 <img alt="logo" class="h-8" src="/assets/logo.png" />
               </NuxtLink>
+              <button
+                type="button"
+                class="inline-flex items-center justify-center rounded-sm bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                @click="logout"
+              >
+                LOGOUT
+              </button>
             </div>
             <div class="-mr-2">
               <button
@@ -123,7 +144,9 @@
                 :class="'pi ' + navlink.icon"
                 class="mr-1"
               />
-              <p>{{ $t('layouts.withBanner.' + navlink.title) }}</p>
+              <p>
+                {{ $t('layouts.withBanner.' + navlink.title) }}
+              </p>
             </NuxtLink>
           </div>
         </div>
@@ -136,6 +159,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { ROUTES_NAMES } from '../paths'
+import { useStoreAuth } from '../stores/auth'
+import { useRouter, useRuntimeConfig } from '#imports'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
@@ -151,9 +176,20 @@ const props = withDefaults(
   },
 )
 
+const runtimeConfig = useRuntimeConfig()
+const router = useRouter()
+const authStore = useStoreAuth()
+
 const menuOpened = ref(false)
 
 function toggleMenu() {
   menuOpened.value = !menuOpened.value
+}
+
+const logout = async () => {
+  await authStore.logout()
+  await router.push({
+    name: ROUTES_NAMES.HOME,
+  })
 }
 </script>
