@@ -25,7 +25,7 @@ import { useI18n } from 'vue-i18n'
 import WithBackground from '../../layouts/WithBackground.vue'
 import { useStoreAuth } from '../../stores/auth'
 import { ROUTES_PATH, ROUTES_NAMES } from '../../paths'
-import { useHead, useRouter } from '#imports'
+import { definePageMeta, useHead, useRouter } from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })
 
@@ -42,6 +42,8 @@ const authenticate = async (data: { email: string; password: string }) => {
     })
   }
 }
+
+definePageMeta({ middleware: ['anonymous-routes'] })
 
 useHead({
   titleTemplate: `${t('pages.signIn.title')} | %s`,

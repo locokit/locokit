@@ -12,7 +12,6 @@
   "dependencies": {
     "@feathersjs/authentication-client": "^5.0.0-pre.32",
     "@feathersjs/feathers": "^5.0.0-pre.32",
-    "@feathersjs/rest-client": "^5.0.0-pre.32",
-    "socket.io": "^4.5.4"
+    "@feathersjs/rest-client": "^5.0.0-pre.32"
   }
 }

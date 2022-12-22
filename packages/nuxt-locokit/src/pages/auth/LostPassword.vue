@@ -12,7 +12,7 @@
           <LostPasswordForm
             :loading="loading"
             :error="error"
-            sign-in-route="/auth/signin"
+            :sign-in-route="ROUTES_PATH.AUTH.SIGN_IN"
             @submit="sendResetPasswordLink"
           />
         </div>
@@ -45,8 +45,8 @@ import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import WithBackground from '../../layouts/WithBackground.vue'
 import { useStoreAuth } from '../../stores/auth'
-import { ROUTES_NAMES } from '../../paths'
-import { ref, useHead } from '#imports'
+import { ROUTES_NAMES, ROUTES_PATH } from '../../paths'
+import { definePageMeta, ref, useHead } from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })
 
@@ -60,6 +60,8 @@ const sendResetPasswordLink = async (data: string) => {
   await authStore.sendLinkToResetPassword({ email: data })
   formSentAndValid.value = !error.value
 }
+
+definePageMeta({ middleware: ['anonymous-routes'] })
 
 useHead({
   titleTemplate: `${t('pages.lostPassword.title')} | %s`,

@@ -57,6 +57,15 @@ export function getAuthPages(prefix: string): NuxtPage[] {
         protected: false,
       },
     },
+    {
+      name: ROUTES_NAMES.AUTH.ALREADY_AUTHENTICATED,
+      path: prefix + ROUTES_PATH.AUTH.ALREADY_AUTHENTICATED,
+      file: resolve('./pages/auth/AlreadyAuthenticated.vue'),
+      meta: {
+        anonymous: true,
+        protected: false,
+      },
+    },
   ]
 }
 

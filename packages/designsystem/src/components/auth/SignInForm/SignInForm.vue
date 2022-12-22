@@ -80,7 +80,7 @@
           aria-live="assertive"
         >
           <p v-if="error.name === 'NotAuthenticated'">
-            {{ $t('error.notAuthenticated.signIn') }}
+            {{ $t('error.notAuthenticated.login') }}
           </p>
           <p v-else>
             {{ $t('error.basic') }}

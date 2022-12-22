@@ -1,5 +1,5 @@
 <template>
-  <WithBanner :navlinks="navlinksBanner">
+  <WithBanner :navlinks="navLinksBanner">
     <div class="max-w-4xl xl:max-w-6xl mx-auto mt-8">
       <h1 class="text-primary font-medium">
         {{ $t('pages.workspace.title') }}
@@ -62,31 +62,43 @@ import { storeToRefs } from 'pinia'
 import { ROUTES_NAMES } from '../../paths'
 import { useStoreWorkspaces } from '../../stores/workspaces'
 import WithBanner from '../../layouts/WithBanner.vue'
-import { useHead } from '#imports'
+import { useStoreAuth } from '../../stores/auth'
+import { computed, useHead } from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })
 
+const authStore = useStoreAuth()
 const storeWorkspaces = useStoreWorkspaces()
 
 const { loading } = storeToRefs(storeWorkspaces)
 
-const navlinksBanner = [
-  {
-    routeName: ROUTES_NAMES.HOME,
-    title: 'home',
-    icon: 'pi-home',
-  },
-  {
-    routeName: ROUTES_NAMES.AUTH.SIGN_IN,
-    title: 'signIn',
-    icon: 'pi-sign-in',
-  },
-  {
-    routeName: ROUTES_NAMES.AUTH.SIGN_UP,
-    title: 'signUp',
-    icon: 'pi-user',
-  },
-]
+const navLinksBanner = computed(() => {
+  return authStore.isAuthenticated
+    ? [
+        {
+          routeName: ROUTES_NAMES.HOME,
+          title: 'home',
+          icon: 'pi-home',
+        },
+      ]
+    : [
+        {
+          routeName: ROUTES_NAMES.HOME,
+          title: 'home',
+          icon: 'pi-home',
+        },
+        {
+          routeName: ROUTES_NAMES.AUTH.SIGN_IN,
+          title: 'signIn',
+          icon: 'pi-sign-in',
+        },
+        {
+          routeName: ROUTES_NAMES.AUTH.SIGN_UP,
+          title: 'signUp',
+          icon: 'pi-user',
+        },
+      ]
+})
 
 const test = [
   {

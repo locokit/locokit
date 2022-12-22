@@ -39,7 +39,7 @@ import { useI18n } from 'vue-i18n'
 import WithBackground from '../../layouts/WithBackground.vue'
 import { ROUTES_NAMES } from '../../paths'
 import { useStoreAuth } from '../../stores/auth'
-import { ref, useHead } from '#imports'
+import { definePageMeta, ref, useHead } from '#imports'
 
 const authStore = useStoreAuth()
 
@@ -53,6 +53,8 @@ const signUp = async (data: { email: string; name: string }) => {
   await authStore.signUp(data)
   formSentAndValid.value = !error.value
 }
+
+definePageMeta({ middleware: ['anonymous-routes'] })
 
 useHead({
   titleTemplate: `${t('pages.signUp.title')} | %s`,

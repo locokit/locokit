@@ -11,6 +11,7 @@ export const ROUTES_NAMES = {
     UPDATE_EMAIL: 'UpdateEmail',
     SIGN_UP: 'SignUp',
     SIGN_IN: 'SignIn',
+    ALREADY_AUTHENTICATED: 'AlreadyAuthenticated',
   },
 
   WORKSPACE: {
@@ -34,8 +35,9 @@ export const ROUTES_PATH = {
     LOST_PASSWORD: '/auth/lost-password',
     VERIFY_SIGNUP: '/auth/verify-signup',
     RESET_PASSWORD: '/auth/reset-password',
-    SIGN_UP: '/auth/signup',
-    SIGN_IN: '/auth/signin',
+    SIGN_UP: '/auth/sign-up',
+    SIGN_IN: '/auth/sign-in',
+    ALREADY_AUTHENTICATED: '/auth/already-authenticated',
   },
 
   /**

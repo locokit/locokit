@@ -45,7 +45,7 @@ import { useI18n } from 'vue-i18n'
 import WithBackground from '../../layouts/WithBackground.vue'
 import { useStoreAuth } from '../../stores/auth'
 import { ROUTES_NAMES } from '../../paths'
-import { ref, useHead, useRoute } from '#imports'
+import { definePageMeta, ref, useHead, useRoute } from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })
 
@@ -63,6 +63,8 @@ const resetPassword = async (data: string) => {
   })
   formSentAndValid.value = !error.value
 }
+
+definePageMeta({ middleware: ['anonymous-routes'] })
 
 useHead({
   titleTemplate: `${t('pages.resetPassword.title')} | %s`,
