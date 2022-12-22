@@ -164,7 +164,6 @@ const props = withDefaults(
 )
 
 const name = ref('')
-const slug = ref('')
 const summary = ref('')
 const color = ref('')
 const icon = ref('')
@@ -185,17 +184,6 @@ const autogenerateSlug = computed(() => {
 })
 
 const onSubmit = () => {
-  const bouh = {
-    name: name.value,
-    summary: summary.value,
-    public: isPublic.value,
-    settings: {
-      ...currentColor,
-      icon: icon.value,
-    },
-  }
-
-  console.log(bouh)
   emit('submit', {
     name: name.value,
     summary: summary.value,

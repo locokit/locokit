@@ -23,16 +23,21 @@ export const useStoreWorkspaces = defineStore('workspaces', {
     },
     async createWorkspaces(data: {
       name: string
-      slug: string
       summary: string | null
       public: boolean
-      activeSQL: boolean
-      settings: null | Array<{ icon?: string | null; color?: string | null }>
+      settings?: {
+        color: string | null
+        backgroundColor: string | null
+        icon: string | null
+      }
     }) {
       this.loading = true
       this.error = null
       try {
-        const result = await sdkClient.services.workspace.create(data)
+        const result = await sdkClient.service('w').create({
+          value: data,
+        })
+        console.log(result)
         this.workspaces = result
       } catch (error) {
         console.error(error)
