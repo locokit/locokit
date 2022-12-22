@@ -53,7 +53,7 @@
       "iconPlaceholder": "e.g. pi-cart",
       "iconHelp": "Fill with icon id, list is available on PrimeIcons.",
       "public": "Available for everyone (public)",
-      "publicHelp": "Before activating it, please check that the public role is as expected and that a dedicated page has been made. ",
+      "publicHelp": "Before activating it, please check that the public role is as expected and that a dedicated page has been made.",
       "cancel": "Cancel",
       "submit": "Submit"
     }

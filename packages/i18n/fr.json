@@ -42,16 +42,18 @@
       "text": "Je suis un exemple de text.",
       "help": "Cette couleur est utilisée en arrière-plan dans la page d'accueil des espaces de travail."
     },
-    "workspace": {
+    "workspaceForm": {
       "title": "Créer un espace de travail",
       "name": "Nom",
-      "slug": "Slug",
+      "explainsSlugUse": "Cette espace de travail sera sauvegardé sous le nom de :",
       "summary": "Descriptif",
       "color": "Couleur",
       "colorHelp": "Cette couleur est utilisée dans la page des espaces de travail.",
       "icon": "Icône",
       "iconPlaceholder": "ex : pi-cart",
       "iconHelp": "Liste d'icône disponible sur PrimeIcons",
+      "public": "Rendre visible pour tous⋅tes (public)",
+      "publicHelp": "Avant de l'activer, merci de vérifier que le rôle public est conforme à vos attentes et qu'une page dédiée a été réalisé",
       "cancel": "Annuler",
       "submit": "Créer"
     }
@@ -122,6 +124,16 @@
       "myWorkspace": "Mon espace de travail",
       "publicWorkspace": "Tous les espaces de travail publiques",
       "public": "Publique"
+    },
+    "createWorkspace": {
+      "title": "Nouvel espace de travail",
+      "alternativeTitle": "Creer un nouvel espace de travail"
+    },
+    "alreadyAuthenticated": {
+      "title": "Déjà connecté⋅e",
+      "message": "Vous êtes déjà authentifié dans cette application. Vous pouvez revenir à votre espace de travail ou vous déconnecter.",
+      "workspaceButton": "Retour aux espaces de travail",
+      "logoutButton": "Déconnexion"
     }
   },
   "error": {
