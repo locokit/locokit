@@ -40,8 +40,22 @@
     "predefinedColorPicker": {
       "label": "Color",
       "text": "This is text example.",
-      "placeholder": "Select a color",
       "help": "This color is used as background in the workspace listing page."
+    },
+    "workspaceForm": {
+      "title": "Create a new workspace",
+      "name": "Name",
+      "explainsSlugUse": "This workspace will be saved as:",
+      "summary": "Summary",
+      "color": "Color",
+      "colorHelp": "This color is used in workspace listing page.",
+      "icon": "Icon",
+      "iconPlaceholder": "e.g. pi-cart",
+      "iconHelp": "Fill with icon id, list is available on PrimeIcons.",
+      "public": "Available for everyone (public)",
+      "publicHelp": "Before activating it, please check that the public role is as expected and that a dedicated page has been made. ",
+      "cancel": "Cancel",
+      "submit": "Submit"
     }
   },
   "layouts": {
@@ -51,7 +65,8 @@
       "home": "Home",
       "workspaces": "Workspaces",
       "signIn": "Sign in",
-      "signUp": "Sign up"
+      "signUp": "Sign up",
+      "logout": "Logout"
     }
   },
   "pages": {
@@ -64,7 +79,7 @@
       "title": "Welcome"
     },
     "indexPage": {
-      "presentation": "LocoKit is an open source LCAP (Low Code Application Platform) that provides Database Management as a Spreadsheet with an App Builder",
+      "presentation": "LocoKit is an open source LCAP (Low Code Application Platform) that provides Database Management as a Spreadsheet with an App Builder.",
       "buildData": "Build your data",
       "shareSecurely": "and share it securely",
       "createDatabase": "Create your database, according to your job. Share your data, according to the permissions you set!",
@@ -108,24 +123,17 @@
       "newWorkspace": "New workspace",
       "myWorkspace": "My workspaces",
       "publicWorkspace": "All public workspaces",
-      "public": "Public",
-      "form": {
-        "title": "Create a new workspace",
-        "name": "Name",
-        "slug": "Slug",
-        "slugHelp": "SQL database name, dedicated to your workspace. In snake case, only lower case and underscore '_' char.",
-        "summary": "Summary",
-        "summaryPlaceholder": "Add a description of your workspace, a documentation…",
-        "color": "Color",
-        "colorHelp": "This color is used in workspace listing page.",
-        "icon": "Icon",
-        "iconPlaceholder": "e.g. pi-cart",
-        "iconHelp": "Fill with icon id, list is available on Prime.",
-        "activeSQL": "Automatic generation of SQL views",
-        "activeSQLHelp": "Generate automatically a SQL database for interoperability purpose with tools like SuperSet, Redash…",
-        "cancel": "Cancel",
-        "submit": "Submit"
-      }
+      "public": "Public"
+    },
+    "createWorkspace": {
+      "title": "New workspace",
+      "alternativeTitle": "Create a new workspace"
+    },
+    "alreadyAuthenticated": {
+      "title": "Already logged in",
+      "message": "You are already authenticated in this application. You can come back to your workspace or log out.",
+      "workspaceButton": "Back to workspace",
+      "logoutButton": "Log out"
     }
   },
   "error": {
@@ -243,9 +251,8 @@
         "email": "@:components.signUpForm.email",
         "name": "@:components.signUpForm.name"
       },
-      "workspace": {
-        "name": "@:pages.workspace.form.name",
-        "slug": "@:pages.workspace.form.slug"
+      "workspaceForm": {
+        "name": "@:components.workspaceForm.name"
       }
     },
     "messages": {

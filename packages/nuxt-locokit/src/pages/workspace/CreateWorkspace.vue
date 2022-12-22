@@ -1,6 +1,7 @@
 <template>
   <WithBanner>
     <div class="max-w-3xl mx-auto mt-8">
+      <h1 class="mb-4">{{ $t('pages.createWorkspace.alternativeTitle') }}</h1>
       <WorkspaceForm />
     </div>
   </WithBanner>
@@ -8,7 +9,15 @@
 
 <script setup lang="ts">
 import { WorkspaceForm } from '@locokit/designsystem'
+import { useI18n } from 'vue-i18n'
 import WithBanner from '../../layouts/WithBanner.vue'
+import { useHead } from '#imports'
+
+const { t } = useI18n({ useScope: 'global' })
+
+useHead({
+  titleTemplate: `${t('pages.createWorkspace.title')} | %s`,
+})
 </script>
 
 <style>

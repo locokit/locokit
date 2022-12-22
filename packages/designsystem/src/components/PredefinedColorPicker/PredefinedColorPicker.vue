@@ -45,7 +45,6 @@ const emit = defineEmits<{
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
   defineProps<{
-    label: string
     currentColor: ColorScheme | null
   }>(),
   {
@@ -54,7 +53,6 @@ const props = withDefaults(
 )
 
 const onInput = (event: { value: ColorScheme }) => {
-  console.log(event.value)
   emit('update:currentColor', event.value)
 }
 </script>

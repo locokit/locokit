@@ -41,6 +41,19 @@
       "label": "Couleur",
       "text": "Je suis un exemple de text.",
       "help": "Cette couleur est utilisée en arrière-plan dans la page d'accueil des espaces de travail."
+    },
+    "workspace": {
+      "title": "Créer un espace de travail",
+      "name": "Nom",
+      "slug": "Slug",
+      "summary": "Descriptif",
+      "color": "Couleur",
+      "colorHelp": "Cette couleur est utilisée dans la page des espaces de travail.",
+      "icon": "Icône",
+      "iconPlaceholder": "ex : pi-cart",
+      "iconHelp": "Liste d'icône disponible sur PrimeIcons",
+      "cancel": "Annuler",
+      "submit": "Créer"
     }
   },
   "layouts": {
@@ -50,7 +63,8 @@
       "home": "Accueil",
       "workspaces": "Espace de travail",
       "signIn": "S'identifier",
-      "signUp": "S'inscrire"
+      "signUp": "S'inscrire",
+      "logout": "Logout"
     }
   },
   "pages": {
@@ -63,7 +77,7 @@
       "title": "Page d'identification"
     },
     "indexPage": {
-      "presentation": "LocoKit est une LCAP open source (Low Code Application Platform) qui fournit une gestion de base de données sous forme de feuille de calcul avec un Constructeur d'application",
+      "presentation": "LocoKit est une LCAP open source (Low Code Application Platform) qui fournit une gestion de base de données sous forme de feuille de calcul avec un Constructeur d'application.",
       "buildData": "Construisez vos données",
       "shareSecurely": "et partagez-les en toute sécurité",
       "createDatabase": "Créez votre base de données, selon votre métier. Partagez vos données, selon les permissions que vous définissez !",
@@ -101,6 +115,13 @@
       "accountComplete": "Votre compte st finalisé. Vous pouvez désormais vous identifier.",
       "homeLink": "Retour à la page d'accueil",
       "labelSubmit": "Définir le mot de passe"
+    },
+    "workspace": {
+      "title": "Espaces de travail",
+      "newWorkspace": "Nouveau espace de travail",
+      "myWorkspace": "Mon espace de travail",
+      "publicWorkspace": "Tous les espaces de travail publiques",
+      "public": "Publique"
     }
   },
   "error": {
@@ -217,6 +238,9 @@
       "signUpForm": {
         "email": "@:components.signUpForm.email",
         "name": "@:components.signUpForm.name"
+      },
+      "workspaceForm": {
+        "name": "@:components.workspaceForm.email"
       }
     },
     "messages": {
