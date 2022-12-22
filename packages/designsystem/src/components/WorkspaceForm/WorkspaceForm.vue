@@ -8,12 +8,12 @@
       v-slot="{ field, errorMessage }"
       v-model="name"
       class="mb-4"
-      name="workspace.name"
+      name="workspaceForm.name"
       rules="required"
       as="div"
     >
       <label for="name" class="label-field-required">
-        {{ $t('pages.workspace.form.name') }}
+        {{ $t('components.workspaceForm.name') }}
       </label>
       <PrimeInputText id="name" v-bind="field" v-focus required />
       <span
@@ -25,88 +25,76 @@
         {{ errorMessage }}
       </span>
     </Field>
-    <Field
-      v-slot="{ errorMessage }"
-      v-model="slug"
-      class="mb-4"
-      name="workspace.slug"
-      rules="required"
-      as="div"
-    >
-      <label for="slug">
-        {{ $t('pages.workspace.form.slug') }}
-      </label>
-      <PrimeInputText
-        id="slug"
-        style="cursor: not-allowed"
-        :value="autogenerateSlug"
-      />
-      <small id="icon-slug">
-        {{ $t('pages.workspace.form.slugHelp') }}
-      </small>
-      <span
-        v-if="errorMessage"
-        class="p-text-error"
-        role="alert"
-        aria-live="assertive"
+    <div class="flex flex-row mb-4">
+      <p class="mr-1">{{ $t('components.workspaceForm.explainsSlugUse') }}</p>
+      <p
+        v-if="name"
+        class="px-2 max-w-fit rounded bg-gray-300 text-black text-sm"
       >
-        {{ errorMessage }}
-      </span>
-    </Field>
+        {{ autogenerateSlug }}
+      </p>
+    </div>
     <Field
       v-slot="{ field }"
       v-model="summary"
       class="mb-4"
-      name="workspace.summary"
+      name="workspaceForm.summary"
       as="div"
     >
       <label for="summary">
-        {{ $t('pages.workspace.form.summary') }}
+        {{ $t('components.workspaceForm.summary') }}
       </label>
       <PrimeTextarea id="summary" :auto-resize="true" v-bind="field" />
     </Field>
     <Field
       v-slot="{ field }"
-      v-model="color"
+      v-model="currentColor"
       class="mb-4"
-      name="workspace.color"
+      name="workspaceForm.currentColor"
       as="div"
     >
-      <label for="color">
-        {{ $t('pages.workspace.form.color') }}
-      </label>
-      <PrimeInputText id="color" v-bind="field" required />
+      <PredefinedColorPicker
+        :current-color="currentColor"
+        v-bind="field"
+        @update:current-color="updateColor"
+      />
     </Field>
     <Field
       v-slot="{ field }"
       v-model="icon"
       class="mb-4"
-      name="workspace.icon"
+      name="workspaceForm.icon"
       as="div"
     >
       <label for="icon">
-        {{ $t('pages.workspace.form.icon') }}
+        {{ $t('components.workspaceForm.icon') }}
       </label>
-      <PrimeInputText id="icon" v-bind="field" />
+      <PrimeInputText
+        id="icon"
+        :placeholder="$t('components.workspaceForm.iconPlaceholder')"
+        v-bind="field"
+      />
       <small id="icon-help">
-        {{ $t('pages.workspace.form.iconHelp') }}
+        {{ $t('components.workspaceForm.iconHelp') }}
       </small>
     </Field>
     <Field
       v-slot="{ field }"
-      v-model="isPublic"
-      class="mb-4"
-      name="workspace.public"
+      class="mb-4 flex flex-col"
+      type="checkbox"
+      name="workspaceForm.public"
       as="div"
     >
-      <div class="flex">
-        <PrimeCheckbox id="activeSQL" v-bind="field" />
-        <label for="public" class="mb-0 ml-2">
-          {{ $t('pages.workspace.form.public') }}
-        </label>
-      </div>
-      <small id="activeSQL-help" class="flex">
-        {{ $t('pages.workspace.form.publicHelp') }}
+      <label for="public">{{ $t('components.workspaceForm.public') }}</label>
+      <PrimeSwitch
+        id="public"
+        v-bind="field"
+        v-model="isPublic"
+        :true-value="true"
+        :false-value="false"
+      />
+      <small id="public-help" class="flex">
+        {{ $t('components.workspaceForm.publicHelp') }}
       </small>
     </Field>
     <div class="flex flex-row justify-between mt-4">
@@ -114,29 +102,24 @@
         type="button"
         class="p-button-outlined !w-fit"
         icon="pi pi-times"
-        :label="$t('pages.workspace.form.cancel')"
+        :label="$t('components.workspaceForm.cancel')"
         @click="resetForm()"
       />
       <PrimeButton
         type="submit"
         class="!w-fit"
         :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-check'"
-        :label="$t('pages.workspace.form.submit')"
+        :label="$t('components.workspaceForm.submit')"
         :disabled="loading || !valid"
       />
     </div>
-    <PredefinedColorPicker
-      label="dqdqdq"
-      :current-color="currentColor"
-      @update:current-color="updateColor"
-    />
   </Form>
 </template>
 
 <script setup lang="ts">
 import PrimeButton from 'primevue/button'
 import PrimeTextarea from 'primevue/textarea'
-import PrimeCheckbox from 'primevue/checkbox'
+import PrimeSwitch from 'primevue/inputswitch'
 import PrimeInputText from 'primevue/inputtext'
 import { PredefinedColorPicker } from '@locokit/designsystem'
 import { Form, Field } from 'vee-validate'
@@ -153,6 +136,7 @@ const emit = defineEmits<{
       public: boolean
       settings?: {
         color: string | null
+        backgroundColor: string | null
         icon: string | null
       }
     },
@@ -188,12 +172,9 @@ const isPublic = ref(false)
 const currentColor = reactive<ColorScheme>({
   backgroundColor: null,
   color: null,
-  name: null,
 })
 
 const updateColor = (newValue: ColorScheme) => {
-  console.log('bouh')
-  currentColor.name = newValue.name
   currentColor.color = newValue.color
   currentColor.backgroundColor = newValue.backgroundColor
 }
@@ -204,16 +185,25 @@ const autogenerateSlug = computed(() => {
 })
 
 const onSubmit = () => {
-  emit('submit', {
+  const bouh = {
     name: name.value,
-    summary: slug.value,
+    summary: summary.value,
     public: isPublic.value,
     settings: {
-      color: color.value,
+      ...currentColor,
+      icon: icon.value,
+    },
+  }
+
+  console.log(bouh)
+  emit('submit', {
+    name: name.value,
+    summary: summary.value,
+    public: isPublic.value,
+    settings: {
+      ...currentColor,
       icon: icon.value,
     },
   })
 }
 </script>
-
-<style scoped></style>
