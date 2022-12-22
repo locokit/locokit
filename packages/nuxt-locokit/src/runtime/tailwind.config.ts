@@ -2,17 +2,13 @@ import { fileURLToPath } from 'node:url'
 import colors from 'tailwindcss/colors'
 
 const srcDir = fileURLToPath(new URL('../', import.meta.url))
-// const locokitDesignSystemDir = fileURLToPath(
-//   new URL('../../../designsystem', import.meta.url),
-// )
+const locokitDesignSystemDir = fileURLToPath(
+  new URL('../../../designsystem/src/components', import.meta.url),
+)
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    srcDir + '/**/*.vue',
-    // locokitDesignSystemDir + '/src/**/^(?!.*.story.vue$).*.vue$',
-    // locokitDesignSystemDir + '/src/**/*.vue', // Todo: Issue WIP https://github.com/histoire-dev/histoire/issues/300
-  ],
+  content: [srcDir + '/**/*.vue', locokitDesignSystemDir + '/**/*.vue'],
   theme: {
     extend: {
       colors: {

@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import LostPasswordForm from './LostPasswordForm.vue'
+import LostPasswordForm from '../../components/auth/LostPasswordForm/LostPasswordForm.vue'
 import { logEvent } from 'histoire/client'
 // Need to transform string to object in event so that "Histoire.dev" can interpret it correctly.
 </script>

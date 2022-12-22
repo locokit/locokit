@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { logEvent } from 'histoire/client'
 
-import SignInForm from './SignInForm.vue'
+import SignInForm from '../../components/auth/SignInForm/SignInForm.vue'
 </script>
 
 <docs lang="md">

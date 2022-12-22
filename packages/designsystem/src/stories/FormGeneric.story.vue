@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import FormGeneric from './FormGeneric.vue'
+import FormGeneric from '../components/FormGeneric/FormGeneric.vue'
 import PrimeInput from 'primevue/inputtext'
 import { Field, ErrorMessage } from 'vee-validate'
 import { ref } from 'vue'
@@ -54,11 +54,11 @@ const name = ref()
 const pseudo = ref()
 </script>
 
-<docs lang="md">
-### FormGeneric
+<!--<docs lang="md">-->
+<!--### FormGeneric-->
 
-Form generic which allow to propose some current action like submit or cancel.
+<!--Form generic which allow to propose some current action like submit or cancel.-->
 
-Allow to remain homogeneous between the different forms proposed in the application.
-It's a form wrapper.
-</docs>
+<!--Allow to remain homogeneous between the different forms proposed in the application.-->
+<!--It's a form wrapper.-->
+<!--</docs>-->
