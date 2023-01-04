@@ -10,14 +10,14 @@ import app from '../../app'
 export async function removeUploadFromAttachment (attachment: LckAttachment): Promise<void> {
   await app.service('upload').remove(attachment.filename, {
     query: {
-      workspaceId: attachment.workspace_id,
+      workspace_id: attachment.workspace_id,
     },
   })
 
   if (attachment.thumbnail) {
     await app.service('upload').remove('thumbnail_' + attachment.filename, {
       query: {
-        workspaceId: attachment.workspace_id,
+        workspace_id: attachment.workspace_id,
       },
     })
   }
