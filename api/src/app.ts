@@ -1,5 +1,4 @@
-import dotenv from 'dotenv'
-
+import * as dotenv from 'dotenv'
 import serveStatic from 'koa-static'
 import { feathers } from '@feathersjs/feathers'
 import configuration from '@feathersjs/configuration'

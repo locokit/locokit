@@ -9,12 +9,12 @@ export const useStoreWorkspaces = defineStore('workspaces', {
     workspaces: [],
   }),
   actions: {
-    async getWorkspaces(params) {
+    async findWorkspaces(params = {}) {
       this.loading = true
       this.error = null
       try {
-        const result = await sdkClient.services.workspace.find(params)
-        this.workspaces = result
+        const result = await sdkClient.service('w').find(params)
+        this.workspaces = result.data
       } catch (error) {
         console.error(error)
         this.error = error as Error
