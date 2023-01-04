@@ -12,8 +12,11 @@
           <div
             v-for="workspace in test"
             :key="workspace"
-            class="md-4 box-border lg:w-52 xl:w-56 rounded h-40 bg-theme hover:!bg-theme-hover"
-            :data-theme="workspace.settings?.color"
+            class="md-4 box-border lg:w-52 xl:w-56 rounded h-40 bg-gray-200 text-black"
+            :style="{
+              backgroundColor: workspace.settings?.backgroundColor,
+              color: workspace.settings?.color,
+            }"
           >
             <div
               class="relative overflow-hidden flex flex-col h-full justify-center text-center font-bold cursor-pointer"
@@ -63,14 +66,14 @@ import { ROUTES_NAMES } from '../../paths'
 import { useStoreWorkspaces } from '../../stores/workspaces'
 import WithBanner from '../../layouts/WithBanner.vue'
 import { useStoreAuth } from '../../stores/auth'
-import { computed, useHead } from '#imports'
+import { computed, useHead, onMounted } from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })
 
 const authStore = useStoreAuth()
-const storeWorkspaces = useStoreWorkspaces()
+const workspacesStore = useStoreWorkspaces()
 
-const { loading } = storeToRefs(storeWorkspaces)
+const { loading } = storeToRefs(workspacesStore)
 
 const navLinksBanner = computed(() => {
   return authStore.isAuthenticated
@@ -107,7 +110,8 @@ const test = [
     documentation: 'blabla',
     public: true,
     settings: {
-      color: 'malibu',
+      color: '#484848',
+      backgroundColor: '#cdcdcd',
       icon: ' pi pi-home',
     },
   },
@@ -124,7 +128,8 @@ const test = [
     documentation: 'blabla',
     public: false,
     settings: {
-      color: 'lol',
+      color: '#484848',
+      backgroundColor: '#ffe1d2',
       icon: ' pi pi-home',
     },
   },
@@ -137,7 +142,10 @@ const test = [
   },
 ]
 
-// await storeWorkspaces.fetch()
+onMounted(async () => {
+  await workspacesStore.findWorkspaces()
+})
+
 useHead({
   titleTemplate: `${t('pages.workspace.title')} | %s`,
 })
