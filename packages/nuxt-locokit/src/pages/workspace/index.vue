@@ -1,6 +1,6 @@
 <template>
   <WithBanner :navlinks="navLinksBanner">
-    <div class="max-w-4xl xl:max-w-6xl mx-auto mt-8">
+    <div class="max-w-4xl xl:max-w-6xl mx-auto mt-8 pb-4 px-4 lg:px-0">
       <h1 class="text-primary font-medium">
         {{ $t('pages.workspace.title') }}
       </h1>
@@ -8,11 +8,12 @@
         <h2 class="text-primary">
           {{ $t('pages.workspace.myWorkspace') }}
         </h2>
-        <div class="flex lg:gap-4 xl:gap-6 mt-8 flex-wrap shrink-0">
+        <div
+          class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mt-8 flex-wrap shrink-0">
           <div
             v-for="workspace in test"
             :key="workspace"
-            class="md-4 box-border lg:w-52 xl:w-56 rounded h-40 bg-gray-200 text-black"
+            class="h-44 lg:h-56 bg-gray-200 text-black box-border rounded !border-dashed !border-2 !border-gray-300 hover:!border-primary"
             :style="{
               backgroundColor: workspace.settings?.backgroundColor,
               color: workspace.settings?.color,
@@ -40,13 +41,13 @@
           </div>
           <NuxtLink :to="{ name: ROUTES_NAMES.WORKSPACE.CREATE }">
             <PrimeButton
-              class="md-4 h-40 p-button-link box-border lg:w-52 xl:w-56 !border-dashed !border-2 !border-gray-300 rounded !p-0 hover:!border-primary"
+              class="w-full h-44 lg:h-56 p-button-link box-border !border-dashed !border-2 !border-gray-300 rounded !p-0 hover:!border-primary"
             >
               <div
                 class="relative overflow-hidden flex flex-col justify-center text-center font-bold w-full"
               >
-                <i class="pi pi-plus-circle block !text-2xl" />
-                <p class="block mx-autotext-primary mt-4">
+                <i class="pi pi-plus-circle block !text-5xl" />
+                <p class="block mx-autotext-primary mt-4 text-xl">
                   {{ $t('pages.workspace.newWorkspace') }}
                 </p>
               </div>
@@ -140,6 +141,13 @@ const test = [
   },
   {
     name: 'Nobu',
+    slug: 'nobu',
+    documentation: 'blabla',
+    public: false,
+    settings: null,
+  },
+  {
+    name: 'Nom de Workspace vraiment mais vraiment trop troooop long',
     slug: 'nobu',
     documentation: 'blabla',
     public: false,
