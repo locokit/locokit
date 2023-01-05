@@ -18,7 +18,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     'lck-global',
     (to: RouteLocationNormalized, _from: RouteLocationNormalized) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const authStore = useStoreAuth()
+      // const authStore = useStoreAuth()
 
       // To handle children routes (to get meta from parents), Nuxt recommend to use to.matched
       const needAuthentication: boolean = to.matched.some(

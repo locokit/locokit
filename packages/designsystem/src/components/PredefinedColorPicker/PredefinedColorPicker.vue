@@ -56,5 +56,3 @@ const onInput = (event: { value: ColorScheme }) => {
   emit('update:currentColor', event.value)
 }
 </script>
-
-<style scoped></style>

@@ -51,5 +51,3 @@ const logout = async () => {
   })
 }
 </script>
-
-<style scoped lang="scss"></style>
