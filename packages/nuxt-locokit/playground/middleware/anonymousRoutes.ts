@@ -1,4 +1,4 @@
-import { defineNuxtRouteMiddleware, useNuxtApp, navigateTo } from '#app'
+import { defineNuxtRouteMiddleware } from '#app'
 import { useStoreAuth } from '../../src/stores/auth'
 import { ROUTES_NAMES } from '../../src/paths'
 

@@ -114,13 +114,6 @@ watch(
   },
 )
 
-// const isPanelOpen = computed(() => {
-//   if (!props.canManageClosePanel) {
-//     return isSettingsPanelOpen.value || props.openPanel
-//   }
-//   return isSettingsPanelOpen.value
-// })
-
 const logout = async () => {
   await authStore.logout()
   await router.push({
@@ -128,5 +121,3 @@ const logout = async () => {
   })
 }
 </script>
-
-<style scoped lang="scss"></style>

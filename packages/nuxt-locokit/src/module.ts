@@ -1,23 +1,16 @@
 /* eslint-disable no-console */
 import { fileURLToPath } from 'node:url'
 import {
-  defineNuxtModule,
-  // addComponentsDir,
-  installModule,
+  addLayout,
   addPlugin,
   createResolver,
-  addTemplate,
-  addLayout,
+  defineNuxtModule,
   extendPages,
+  installModule,
 } from '@nuxt/kit'
 import { Nuxt, NuxtOptions, NuxtPage } from '@nuxt/schema'
 import { ROUTES_NAMES, ROUTES_PATH } from './paths'
-import {
-  getAuthPages,
-  // getBackofficePages,
-  // getFrontofficePages,
-  // getUserPages,
-} from './routes'
+import { getAuthPages } from './routes'
 
 const { resolve } = createResolver(import.meta.url)
 
@@ -183,20 +176,9 @@ export default defineNuxtModule<ModuleOptions>({
       },
       'WithThinNav',
     )
-    // module.addLayout(
-    //   {
-    //     src: resolve(layoutsDir, './WithTwoSide.vue'),
-    //   },
-    //   'WithTwoSide',
-    // )
-    // const tpl = addTemplate({
-    //   src: resolve(layoutsDir, 'WithTwoSide.vue'),
-    //   write: true,
-    // })
-    // module.addLayout(tpl, 'WithTwoSide')
+
     extendPages(function (pages: NuxtPage[]) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { submodules, api } = options
+      const { submodules } = options
 
       pages.push({
         name: ROUTES_NAMES.HOME,
