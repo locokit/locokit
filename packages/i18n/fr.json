@@ -54,7 +54,7 @@
       "iconHelp": "Liste d'icône disponible sur PrimeIcons",
       "public": "Rendre visible pour tous⋅tes (public)",
       "publicHelp": "Avant de l'activer, merci de vérifier que le rôle public est conforme à vos attentes et qu'une page dédiée a été réalisé",
-      "cancel": "Annuler",
+      "reset": "Réinitialiser",
       "submit": "Créer"
     }
   },
