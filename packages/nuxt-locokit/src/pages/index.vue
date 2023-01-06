@@ -114,11 +114,16 @@ const navLinksBanner = computed(() => {
       ]
     : [
         {
-          routeName: ROUTES_NAMES.WORKSPACE.HOME,
-          title: 'workspaces',
-          icon: 'pi-desktop',
-        },
-        {
+        routeName: ROUTES_NAMES.HOME,
+        title: 'home',
+        icon: 'pi-home',
+      },
+      {
+        routeName: ROUTES_NAMES.WORKSPACE.HOME,
+        title: 'workspaces',
+        icon: 'pi-desktop',
+      },
+      {
           routeName: ROUTES_NAMES.AUTH.SIGN_IN,
           title: 'signIn',
           icon: 'pi-sign-in',
