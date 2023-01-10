@@ -10,7 +10,10 @@
       >
         <!-- Logo -->
         <div class="flex-shrink-0 mb-4">
-          <NuxtLink class="h-16 inline-block" :to="{ name: ROUTES_NAMES.HOME }">
+          <NuxtLink
+            class="h-16 inline-block exactActiveClass"
+            :to="{ name: ROUTES_NAMES.HOME }"
+          >
             <span class="sr-only">{{ runtimeConfig.public.PROJECT_NAME }}</span>
             <img alt="logo" class="h-16" src="/assets/logo-mobile-alt.svg" />
           </NuxtLink>

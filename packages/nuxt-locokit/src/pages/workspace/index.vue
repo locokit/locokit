@@ -1,5 +1,5 @@
 <template>
-  <WithBanner :navlinks="navLinksBanner">
+  <WithBanner>
     <div class="max-w-4xl xl:max-w-6xl mx-auto mt-8 pb-4 px-4 lg:px-0">
       <h1 class="text-primary font-medium">
         {{ $t('pages.workspace.title') }}
@@ -9,7 +9,8 @@
           {{ $t('pages.workspace.myWorkspace') }}
         </h2>
         <div
-          class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mt-8 flex-wrap shrink-0">
+          class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mt-8 flex-wrap shrink-0"
+        >
           <div
             v-for="workspace in test"
             :key="workspace"
@@ -23,7 +24,7 @@
               class="relative overflow-hidden flex flex-col h-full justify-center text-center font-bold cursor-pointer"
             >
               <NuxtLink class="text-theme-text">
-                <p class="text-2xl">
+                <p class="text-2xl line-clamp-3">
                   {{ workspace.name }}
                 </p>
               </NuxtLink>
@@ -66,48 +67,13 @@ import { storeToRefs } from 'pinia'
 import { ROUTES_NAMES } from '../../paths'
 import { useStoreWorkspaces } from '../../stores/workspaces'
 import WithBanner from '../../layouts/WithBanner.vue'
-import { useStoreAuth } from '../../stores/auth'
-import { computed, useHead, onMounted } from '#imports'
+import { useHead, onMounted } from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })
 
-const authStore = useStoreAuth()
 const workspacesStore = useStoreWorkspaces()
 
 const { loading } = storeToRefs(workspacesStore)
-
-const navLinksBanner = computed(() => {
-  return authStore.isAuthenticated
-    ? [
-        {
-          routeName: ROUTES_NAMES.HOME,
-          title: 'home',
-          icon: 'pi-home',
-        },
-      ]
-    : [
-        {
-          routeName: ROUTES_NAMES.HOME,
-          title: 'home',
-          icon: 'pi-home',
-        },
-        {
-        routeName: ROUTES_NAMES.WORKSPACE.HOME,
-        title: 'workspaces',
-        icon: 'pi-desktop',
-      },
-      {
-          routeName: ROUTES_NAMES.AUTH.SIGN_IN,
-          title: 'signIn',
-          icon: 'pi-sign-in',
-        },
-        {
-          routeName: ROUTES_NAMES.AUTH.SIGN_UP,
-          title: 'signUp',
-          icon: 'pi-user',
-        },
-      ]
-})
 
 const test = [
   {
