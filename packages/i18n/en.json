@@ -121,6 +121,7 @@
     "workspace": {
       "title": "Workspaces",
       "newWorkspace": "New workspace",
+      "createWorkspace": "Create your first workspace",
       "myWorkspace": "My workspaces",
       "publicWorkspace": "All public workspaces",
       "public": "Public"

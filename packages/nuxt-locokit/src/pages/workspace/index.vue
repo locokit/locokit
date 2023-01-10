@@ -9,10 +9,13 @@
           {{ $t('pages.workspace.myWorkspace') }}
         </h2>
         <div
+          v-if="
+            workspacesStore.workspaces && workspacesStore.workspaces.length > 0
+          "
           class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mt-8 flex-wrap shrink-0"
         >
           <div
-            v-for="workspace in test"
+            v-for="workspace in workspacesStore.workspaces"
             :key="workspace"
             class="h-44 lg:h-56 bg-gray-200 text-black box-border rounded !border-dashed !border-2 !border-gray-300 hover:!border-primary"
             :style="{
@@ -55,6 +58,25 @@
             </PrimeButton>
           </NuxtLink>
         </div>
+        <div
+          v-else
+          class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mt-8 flex-wrap shrink-0"
+        >
+          <NuxtLink :to="{ name: ROUTES_NAMES.WORKSPACE.CREATE }">
+            <PrimeButton
+              class="w-full h-44 lg:h-56 p-button-link box-border !border-dashed !border-2 !border-gray-300 rounded !p-0 hover:!border-primary"
+            >
+              <div
+                class="relative overflow-hidden flex flex-col justify-center text-center font-bold w-full"
+              >
+                <i class="pi pi-plus-circle block !text-5xl" />
+                <p class="block mx-autotext-primary mt-4 text-xl">
+                  {{ $t('pages.workspace.createWorkspace') }}
+                </p>
+              </div>
+            </PrimeButton>
+          </NuxtLink>
+        </div>
       </div>
     </div>
   </WithBanner>
@@ -63,7 +85,6 @@
 <script setup lang="ts">
 import PrimeButton from 'primevue/button'
 import { useI18n } from 'vue-i18n'
-import { storeToRefs } from 'pinia'
 import { ROUTES_NAMES } from '../../paths'
 import { useStoreWorkspaces } from '../../stores/workspaces'
 import WithBanner from '../../layouts/WithBanner.vue'
@@ -72,54 +93,6 @@ import { useHead, onMounted } from '#imports'
 const { t } = useI18n({ useScope: 'global' })
 
 const workspacesStore = useStoreWorkspaces()
-
-const { loading } = storeToRefs(workspacesStore)
-
-const test = [
-  {
-    name: 'Centre de ressources',
-    slug: 'centre_de_ressources',
-    documentation: 'blabla',
-    public: true,
-    settings: {
-      color: '#484848',
-      backgroundColor: '#cdcdcd',
-      icon: ' pi pi-home',
-    },
-  },
-  {
-    name: 'CaPeL',
-    slug: 'capel',
-    documentation: 'blabla',
-    public: false,
-    settings: null,
-  },
-  {
-    name: 'Aperture',
-    slug: 'aperture',
-    documentation: 'blabla',
-    public: false,
-    settings: {
-      color: '#484848',
-      backgroundColor: '#ffe1d2',
-      icon: ' pi pi-home',
-    },
-  },
-  {
-    name: 'Nobu',
-    slug: 'nobu',
-    documentation: 'blabla',
-    public: false,
-    settings: null,
-  },
-  {
-    name: 'Nom de Workspace vraiment mais vraiment trop troooop long',
-    slug: 'nobu',
-    documentation: 'blabla',
-    public: false,
-    settings: null,
-  },
-]
 
 onMounted(async () => {
   await workspacesStore.findWorkspaces()

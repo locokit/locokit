@@ -121,6 +121,7 @@
     "workspace": {
       "title": "Espaces de travail",
       "newWorkspace": "Nouveau espace de travail",
+      "createWorkspace": "Créer votre premier espace de travail",
       "myWorkspace": "Mon espace de travail",
       "publicWorkspace": "Tous les espaces de travail publiques",
       "public": "Publique"
