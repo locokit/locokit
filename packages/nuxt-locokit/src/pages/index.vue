@@ -1,5 +1,5 @@
 <template>
-  <WithBanner :navlinks="navLinksBanner">
+  <WithBanner>
     <div class="flex flex-col w-full lg:max-w-7xl mx-auto mb-16">
       <div class="text-center mx-auto mt-16">
         <h1
@@ -97,42 +97,4 @@
 
 <script setup lang="ts">
 import WithBanner from '../layouts/WithBanner.vue'
-import { ROUTES_NAMES } from '../paths'
-import { useStoreAuth } from '../stores/auth'
-import { computed } from '#imports'
-
-const authStore = useStoreAuth()
-
-const navLinksBanner = computed(() => {
-  return authStore.isAuthenticated
-    ? [
-        {
-          routeName: ROUTES_NAMES.WORKSPACE.HOME,
-          title: 'workspaces',
-          icon: 'pi-desktop',
-        },
-      ]
-    : [
-        {
-        routeName: ROUTES_NAMES.HOME,
-        title: 'home',
-        icon: 'pi-home',
-      },
-      {
-        routeName: ROUTES_NAMES.WORKSPACE.HOME,
-        title: 'workspaces',
-        icon: 'pi-desktop',
-      },
-      {
-          routeName: ROUTES_NAMES.AUTH.SIGN_IN,
-          title: 'signIn',
-          icon: 'pi-sign-in',
-        },
-        {
-          routeName: ROUTES_NAMES.AUTH.SIGN_UP,
-          title: 'signUp',
-          icon: 'pi-user',
-        },
-      ]
-})
 </script>

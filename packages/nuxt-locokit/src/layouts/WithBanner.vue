@@ -43,23 +43,23 @@
             </div>
           </div>
           <div
-            v-if="navlinks && navlinks.length > 0"
+            v-if="navLinks && navLinks.length > 0"
             class="hidden md:ml-auto md:flex md:space-x-8 md:pr-4 md:flex-row"
           >
             <NuxtLink
-              v-for="navlink in navlinks"
-              :key="navlink.routeName"
-              :to="{ name: navlink.routeName }"
-              class="font-medium p-2 rounded text-gray-500 hover:bg-primary hover:text-gray-100 flex flex-row items-center"
+              v-for="navLink in navLinks"
+              :key="navLink.routeName"
+              :to="{ name: navLink.routeName }"
+              class="nav-link font-medium p-2 rounded text-gray-500 hover:bg-primary hover:text-gray-100 flex flex-row items-center"
               @click="toggleMenu"
             >
               <i
-                v-if="navlink.icon"
-                :class="'pi ' + navlink.icon"
+                v-if="navLink.icon"
+                :class="'pi ' + navLink.icon"
                 class="mr-1"
               />
               <p>
-                {{ $t('layouts.withBanner.' + navlink.title) }}
+                {{ $t('layouts.withBanner.' + navLink.title) }}
               </p>
             </NuxtLink>
           </div>
@@ -119,23 +119,23 @@
             </div>
           </div>
           <div
-            v-if="navlinks && navlinks.length > 0"
+            v-if="navLinks && navLinks.length > 0"
             class="space-y-1 px-2 pt-2 pb-3"
           >
             <NuxtLink
-              v-for="navlink in navlinks"
-              :key="navlink.routeName"
-              :to="{ name: navlink.routeName }"
+              v-for="navLink in navLinks"
+              :key="navLink.routeName"
+              :to="{ name: navLink.routeName }"
               class="block rounded-sm pl-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-500 hover:text-gray-900 flex flex-row items-center"
               @click="toggleMenu"
             >
               <i
-                v-if="navlink.icon"
-                :class="'pi ' + navlink.icon"
+                v-if="navLink.icon"
+                :class="'pi ' + navLink.icon"
                 class="mr-1"
               />
               <p>
-                {{ $t('layouts.withBanner.' + navlink.title) }}
+                {{ $t('layouts.withBanner.' + navLink.title) }}
               </p>
             </NuxtLink>
             <button
@@ -158,27 +158,43 @@
 import { ref } from 'vue'
 import { ROUTES_NAMES } from '../paths'
 import { useStoreAuth } from '../stores/auth'
-import { useRouter, useRuntimeConfig } from '#imports'
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const props = withDefaults(
-  defineProps<{
-    navlinks?: {
-      routeName: string
-      title: string
-      icon: string | null
-    }[]
-  }>(),
-  {
-    navlinks: () => [],
-  },
-)
+import { computed, useRouter, useRuntimeConfig } from '#imports'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const authStore = useStoreAuth()
 
 const menuOpened = ref(false)
+
+const navLinks = computed(() => {
+  const mainLinks = [
+    {
+      routeName: ROUTES_NAMES.HOME,
+      title: 'home',
+      icon: 'pi-home',
+    },
+    {
+      routeName: ROUTES_NAMES.WORKSPACE.HOME,
+      title: 'workspaces',
+      icon: 'pi-desktop',
+    },
+  ]
+  return authStore.isAuthenticated
+    ? mainLinks
+    : [
+        ...mainLinks,
+        {
+          routeName: ROUTES_NAMES.AUTH.SIGN_IN,
+          title: 'signIn',
+          icon: 'pi-sign-in',
+        },
+        {
+          routeName: ROUTES_NAMES.AUTH.SIGN_UP,
+          title: 'signUp',
+          icon: 'pi-user',
+        },
+      ]
+})
 
 const toggleMenu = () => {
   menuOpened.value = !menuOpened.value
@@ -191,3 +207,9 @@ const logout = async () => {
   })
 }
 </script>
+
+<style scoped>
+.nav-link.router-link-active {
+  @apply border-primary border font-bold;
+}
+</style>
