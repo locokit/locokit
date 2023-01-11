@@ -1,5 +1,5 @@
 <template>
-  <div class="groups-container">
+  <div class="groups-container w-full">
     <div class="generic-view-container p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto">
       <div class="lck-color-primary p-my-4">
         <h1>{{ $t('pages.account.groups') }}</h1>
