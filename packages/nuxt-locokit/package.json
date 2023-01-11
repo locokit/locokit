@@ -27,6 +27,7 @@
     "@locokit/sdk": "^0.8.0",
     "@nuxt/kit": "^3.0.0",
     "@pinia/nuxt": "^0.4.2",
+    "@tailwindcss/line-clamp": "^0.4.2",
     "@vee-validate/rules": "^4.7.3",
     "pinia": "^2.0.23",
     "primevue": "^3.19.0",

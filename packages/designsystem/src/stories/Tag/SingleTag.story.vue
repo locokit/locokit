@@ -1,6 +1,6 @@
 <template>
   <Story title="Tags/SingleTag" icon="bi:tag">
-    <Variant title="default" auto-props-disabled>
+    <Variant title="allColor" auto-props-disabled>
       <p>Each combination for single tag</p>
       <div class="wrapper">
         <div v-for="color in COLOR_SCHEME" :key="color.name">
@@ -10,6 +10,9 @@
     </Variant>
     <Variant title="example">
       <SingleTag class="m-4" v-bind="COLOR_SCHEME[17]" label="placeholder" />
+    </Variant>
+    <Variant title="default">
+      <SingleTag class="m-4" label="placeholder" />
     </Variant>
   </Story>
 </template>
