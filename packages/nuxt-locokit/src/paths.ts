@@ -21,7 +21,9 @@ export const ROUTES_NAMES = {
 
   PROFILE: {
     HOME: 'Profile',
+    UPDATE_USERNAME: 'Username',
     UPDATE_EMAIL: 'UpdateEmail',
+    UPDATE_PASSWORD: 'UpdatePassword',
   },
 }
 
@@ -44,8 +46,10 @@ export const ROUTES_PATH = {
    * User paths
    */
   PROFILE: {
-    HOME: '/user/profile',
-    UPDATE_EMAIL: '/user/update-email',
+    HOME: '/profile',
+    UPDATE_USERNAME: '/profile/username',
+    UPDATE_EMAIL: '/profile/update-email',
+    UPDATE_PASSWORD: '/profile/update-password',
   },
 
   /**

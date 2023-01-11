@@ -267,3 +267,12 @@ span.failed {
     cursor: not-allowed !important;
   }
 }
+
+/*
+  Override Prime
+*/
+.p-password {
+  i {
+    cursor: pointer;
+  }
+}

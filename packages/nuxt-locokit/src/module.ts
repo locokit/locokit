@@ -197,14 +197,51 @@ export default defineNuxtModule<ModuleOptions>({
         pages.push(...getAuthPages(prefix))
       }
 
-      // /**
-      //  * Register user pages
-      //  */
-      // if (submodules.user.enabled) {
-      //   const prefix = submodules.user.prefix
-      //   pages.push(...getUserPages(prefix))
-      // }
-      //
+      /**
+       * Register profile pages
+       */
+      pages.push({
+        name: ROUTES_NAMES.PROFILE.HOME,
+        path: ROUTES_PATH.PROFILE.HOME,
+        meta: {
+          protected: true,
+        },
+        file: resolve(pagesDir, './profile/index.vue'),
+        redirect: ROUTES_PATH.PROFILE.UPDATE_EMAIL,
+        children: [
+          {
+            name: ROUTES_NAMES.PROFILE.UPDATE_USERNAME,
+            path: ROUTES_PATH.PROFILE.UPDATE_USERNAME,
+            meta: {
+              protected: true,
+            },
+            file: resolve(
+              pagesDir,
+              './profile/UpdateUsername/UpdateUsername.vue',
+            ),
+          },
+          {
+            name: ROUTES_NAMES.PROFILE.UPDATE_EMAIL,
+            path: ROUTES_PATH.PROFILE.UPDATE_EMAIL,
+            meta: {
+              protected: true,
+            },
+            file: resolve(pagesDir, './profile/UpdateEmail/UpdateEmail.vue'),
+          },
+          {
+            name: ROUTES_NAMES.PROFILE.UPDATE_PASSWORD,
+            path: ROUTES_PATH.PROFILE.UPDATE_PASSWORD,
+            meta: {
+              protected: true,
+            },
+            file: resolve(
+              pagesDir,
+              './profile/UpdatePassword/UpdatePassword.vue',
+            ),
+          },
+        ],
+      })
+
       /**
        * Register workspace pages
        */
