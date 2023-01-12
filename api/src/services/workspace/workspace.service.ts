@@ -16,7 +16,7 @@ import {
 export class WorkspaceModel extends Model {
   static readonly model = 'workspace'
 
-  static readonly tableName = 'workspace'
+  static readonly tableName = 'lck_workspace'
 
   static get jsonSchema(): JSONSchema {
     return workspaceSchema.definition as unknown as JSONSchema
@@ -49,7 +49,7 @@ export function workspaceService(app: Application): void {
   const options: ObjectionAdapterOptions = {
     paginate: app.get('paginate'),
     Model: WorkspaceModel,
-    name: 'workspace',
+    name: 'lck_workspace',
     schema: 'core',
   }
 

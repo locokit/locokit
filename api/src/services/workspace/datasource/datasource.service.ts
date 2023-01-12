@@ -13,7 +13,7 @@ import {
 export class DatasourceModel extends Model {
   static readonly model = 'datasource'
 
-  static readonly tableName = 'datasource'
+  static readonly tableName = 'lck_datasource'
 
   static get jsonSchema(): JSONSchema {
     return datasourceDataSchema.definition as unknown as JSONSchema
@@ -38,7 +38,7 @@ export function datasourceService(app: Application): void {
   const options = {
     paginate: app.get('paginate'),
     Model: DatasourceModel,
-    name: 'datasource',
+    name: 'lck_datasource',
     // Service options will go here
   }
 

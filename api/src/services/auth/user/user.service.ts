@@ -11,7 +11,7 @@ import { createSwaggerServiceOptions } from 'feathers-swagger'
 export class UserModel extends Model {
   static readonly model = 'user'
 
-  static readonly tableName = 'user'
+  static readonly tableName = 'lck_user'
 
   static get jsonSchema(): JSONSchema {
     return userSchema.definition as unknown as JSONSchema
@@ -37,7 +37,7 @@ export function user(app: Application): void {
     // Service options will go here
     paginate: app.get('paginate'),
     Model: UserModel,
-    name: 'user',
+    name: 'lck_user',
     schema: 'core',
   }
 
