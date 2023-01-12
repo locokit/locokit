@@ -12,7 +12,7 @@ declare module '../../../declarations' {
 
 export function signup(app: Application): void {
   const signupConfig = app.get('settings').signup
-  if (signupConfig?.allowed === true) {
+  if (signupConfig?.allowed) {
     // Initialize our service with any options it requires
     app.use(API_PATH.AUTH.SIGNUP, new SignUpService(app))
   }
