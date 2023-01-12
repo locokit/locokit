@@ -2,7 +2,7 @@ import { PROFILE } from '@locokit/definitions'
 import type { Knex } from 'knex'
 
 export async function up(knex: Knex): Promise<void> {
-  await knex.schema.withSchema('core').createTable('user', (table) => {
+  await knex.schema.withSchema('core').createTable('lck_user', (table) => {
     table.increments('id')
     table.string('name', 255)
     table.string('email', 255).unique().notNullable()
@@ -29,5 +29,5 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(knex: Knex): Promise<void> {
-  await knex.schema.withSchema('core').dropTable('user')
+  await knex.schema.withSchema('core').dropTable('lck_user')
 }

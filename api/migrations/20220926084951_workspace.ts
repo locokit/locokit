@@ -4,7 +4,7 @@ export async function up(knex: Knex): Promise<void> {
   await knex.schema
     .withSchema('core')
 
-    .createTable('workspace', (table) => {
+    .createTable('lck_workspace', (table) => {
       table
         .uuid('id', { primaryKey: true })
         .defaultTo(knex.raw('gen_random_uuid()'))
@@ -25,14 +25,14 @@ export async function up(knex: Knex): Promise<void> {
       table
         .foreign('createdBy', 'FK_workspace_user')
         .references('id')
-        .inTable('core.user')
+        .inTable('core.lck_user')
       table.index('createdBy', 'IDX_workspace_createdBy')
     })
 
     /**
      * Role / Permission table
      */
-    .createTable('role', (table) => {
+    .createTable('lck_role', (table) => {
       table
         .uuid('id', { primaryKey: true })
         .defaultTo(knex.raw('gen_random_uuid()'))
@@ -42,7 +42,7 @@ export async function up(knex: Knex): Promise<void> {
       table
         .foreign('workspaceId', 'FK_role_workspace')
         .references('id')
-        .inTable('core.workspace')
+        .inTable('core.lck_workspace')
       table.index('workspaceId', 'IDX_role_workspaceId')
       table.boolean('manager').notNullable().defaultTo(false)
     })
@@ -50,7 +50,7 @@ export async function up(knex: Knex): Promise<void> {
     /**
      * User / group tables
      */
-    .createTable('group', (table) => {
+    .createTable('lck_group', (table) => {
       table
         .uuid('id', { primaryKey: true })
         .defaultTo(knex.raw('gen_random_uuid()'))
@@ -60,27 +60,27 @@ export async function up(knex: Knex): Promise<void> {
       table
         .foreign('workspaceId', 'FK_group_workspace')
         .references('id')
-        .inTable('core.workspace')
+        .inTable('core.lck_workspace')
       table.index('workspaceId', 'IDX_group_workspaceId')
       table.uuid('roleId').notNullable()
       table
         .foreign('roleId', 'FK_group_role')
         .references('id')
-        .inTable('core.role')
+        .inTable('core.lck_role')
       table.index('roleId', 'IDX_group_roleId')
     })
-    .createTable('userGroup', (table) => {
+    .createTable('lck_userGroup', (table) => {
       table.uuid('groupId').notNullable()
       table
         .foreign('groupId', 'FK_userGroup_group')
         .references('id')
-        .inTable('core.group')
+        .inTable('core.lck_group')
       table.index('groupId', 'IDX_userGroup_groupId')
       table.integer('userId').notNullable()
       table
         .foreign('userId', 'FK_userGroup_user')
         .references('id')
-        .inTable('core.user')
+        .inTable('core.lck_user')
       table.index('userId', 'IDX_userGroup_userId')
 
       table.primary(['userId', 'groupId'])
@@ -89,7 +89,7 @@ export async function up(knex: Knex): Promise<void> {
     /**
      * Datasource table
      */
-    .createTable('datasource', (table) => {
+    .createTable('lck_datasource', (table) => {
       table
         .uuid('id', { primaryKey: true })
         .defaultTo(knex.raw('gen_random_uuid()'))
@@ -120,7 +120,7 @@ export async function up(knex: Knex): Promise<void> {
       table
         .foreign('workspaceId', 'FK_datasource_workspace')
         .references('id')
-        .inTable('core.workspace')
+        .inTable('core.lck_workspace')
       table.index('workspaceId', 'IDX_datasource_workspaceId')
     })
 }
@@ -128,9 +128,9 @@ export async function up(knex: Knex): Promise<void> {
 export async function down(knex: Knex): Promise<void> {
   await knex.schema
     .withSchema('core')
-    .dropTable('datasource')
-    .dropTable('userGroup')
-    .dropTable('group')
-    .dropTable('role')
-    .dropTable('workspace')
+    .dropTable('lck_datasource')
+    .dropTable('lck_userGroup')
+    .dropTable('lck_group')
+    .dropTable('lck_role')
+    .dropTable('lck_workspace')
 }

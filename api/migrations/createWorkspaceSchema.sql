@@ -12,7 +12,7 @@ CREATE OR REPLACE FUNCTION "core"."createWorkspaceSchema" (IN "workspace_id" uui
 AS $BODY$
 
 DECLARE
-  v_workspace core.workspace%ROWTYPE;
+  v_workspace core.lck_workspace%ROWTYPE;
   v_schema varchar;
   v_role_readonly varchar;
   v_role_readwrite varchar;
@@ -25,14 +25,14 @@ BEGIN
 
   -- SELECT the workspace
   EXECUTE 'SELECT *
-  FROM workspace
+  FROM lck_workspace
   WHERE id = ''' || $1 || ''''
   INTO v_workspace
   USING workspace_id;
 
   RAISE NOTICE 'Workspace found : slug = %, name = %', v_workspace.slug, v_workspace.name;
 
-  v_schema := 'lck_' || v_workspace.slug;
+  v_schema := 'w_' || v_workspace.slug;
   v_role_readonly := v_schema || '_ro';
   v_role_readwrite := v_schema || '_rw';
 
@@ -57,9 +57,9 @@ BEGIN
     TO %I'
   , v_schema, v_role_readonly);
 
-  -- GRANT access to core.user
+  -- GRANT access to core.lck_user
   EXECUTE format('GRANT USAGE ON SCHEMA core TO %I', v_role_readonly);
-  EXECUTE format('GRANT SELECT (id, name, profile) ON core.user TO %I', v_role_readonly);
+  EXECUTE format('GRANT SELECT (id, name, profile) ON core.lck_user TO %I', v_role_readonly);
 
   -- GRANT access to readwrite (manager of the workspace)
   EXECUTE format('GRANT %I TO %I', v_role_readonly, v_role_readwrite);
@@ -90,11 +90,11 @@ BEGIN
     CONSTRAINT "PK_role" PRIMARY KEY (id),
 
     CONSTRAINT "FK_role_workspace" FOREIGN KEY ("workspaceId")
-      REFERENCES "core"."workspace" (id) MATCH SIMPLE
+      REFERENCES "core"."lck_workspace" (id) MATCH SIMPLE
       ON UPDATE NO ACTION
       ON DELETE NO ACTION
 
-  ) INHERITS ("core"."role")', $1);
+  ) INHERITS ("core"."lck_role")', $1);
 
   EXECUTE format('CREATE TABLE "group" (
     workspaceId uuid DEFAULT ''%s'',
@@ -102,7 +102,7 @@ BEGIN
     CONSTRAINT "PK_group" PRIMARY KEY (id),
 
     CONSTRAINT "FK_group_workspace" FOREIGN KEY ("workspaceId")
-      REFERENCES "core"."workspace" (id) MATCH SIMPLE
+      REFERENCES "core"."lck_workspace" (id) MATCH SIMPLE
       ON UPDATE NO ACTION
       ON DELETE NO ACTION,
 
@@ -111,7 +111,7 @@ BEGIN
       ON UPDATE NO ACTION
       ON DELETE NO ACTION
 
-  ) INHERITS ("core"."group")', $1);
+  ) INHERITS ("core"."lck_group")', $1);
 
   CREATE INDEX IF NOT EXISTS "IDX_group_role"
     ON "group" USING btree
@@ -128,11 +128,11 @@ BEGIN
       ON DELETE CASCADE,
 
     CONSTRAINT "FK_userGroup_user" FOREIGN KEY ("userId")
-      REFERENCES "core"."user" (id) MATCH SIMPLE
+      REFERENCES "core"."lck_user" (id) MATCH SIMPLE
       ON UPDATE NO ACTION
       ON DELETE CASCADE
 
-  ) INHERITS ("core"."userGroup");
+  ) INHERITS ("core"."lck_userGroup");
 
   CREATE INDEX IF NOT EXISTS "IDX_userGroup_group"
     ON "userGroup" USING btree
@@ -151,7 +151,7 @@ BEGIN
     CONSTRAINT "CHECK_datasource_client"
       CHECK (client = ANY (ARRAY[''sqlite3''::text, ''pg''::text, ''legacy''::text]))
 
-  ) INHERITS ("core"."datasource")', $1);
+  ) INHERITS ("core"."lck_datasource")', $1);
 
   -- CREATE all tables for metamodel
 
