@@ -17,6 +17,7 @@ import {
 } from '@feathersjs/koa'
 import cors from '@koa/cors'
 import socketio from '@feathersjs/socketio'
+import swagger from 'feathers-swagger'
 
 import helmet from 'koa-helmet'
 
@@ -55,6 +56,18 @@ export function createApp(): Application {
       }),
     )
   }
+
+  app.configure(
+    swagger({
+      specs: {
+        info: {
+          title: 'LocoKit API platform',
+          description: 'A description',
+          version: '1.0.0-alpha.0',
+        },
+      },
+    }),
+  )
 
   // Configure services and transports
   app.configure(rest())

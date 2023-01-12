@@ -4,6 +4,8 @@ import type { Application } from '../../../declarations'
 import type { UserData, UserResult, UserQuery } from './user.schema'
 import { hooks } from './user.hooks'
 import { API_PATH } from '@locokit/definitions'
+import { userDataSchema, userQuerySchema, userSchema } from './user.schema'
+import { createSwaggerServiceOptions } from 'feathers-swagger'
 
 export interface UserParams extends KnexAdapterParams<UserQuery> {}
 
@@ -29,6 +31,10 @@ export function user(app: Application): void {
     methods: ['find', 'get', 'create', 'patch', 'remove'],
     // You can add additional custom events to be sent to clients here
     events: [],
+    docs: createSwaggerServiceOptions({
+      schemas: { userDataSchema, userQuerySchema, userSchema },
+      docs: { description: 'User service' },
+    }),
   })
   // Initialize hooks
   app.service(API_PATH.AUTH.USER).hooks(hooks)

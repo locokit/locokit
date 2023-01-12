@@ -1,9 +1,14 @@
 import { API_PATH } from '@locokit/definitions'
 import { JSONSchema, Model, RelationMappings } from 'objection'
 import type { Application } from '../../../declarations'
+import { createSwaggerServiceOptions } from 'feathers-swagger'
 
 import { Datasource, datasourceHooks } from './datasource.class'
-import { datasourceDataSchema } from './datasource.schema'
+import {
+  datasourceDataSchema,
+  datasourceQuerySchema,
+  datasourceSchema,
+} from './datasource.schema'
 
 export class DatasourceModel extends Model {
   static readonly model = 'datasource'
@@ -43,6 +48,16 @@ export function datasourceService(app: Application): void {
     methods: ['find', 'get', 'create', 'update', 'patch', 'remove'],
     // You can add additional custom events to be sent to clients here
     events: [],
+    docs: createSwaggerServiceOptions({
+      schemas: {
+        datasourceDataSchema,
+        datasourceQuerySchema,
+        datasourceSchema,
+      },
+      docs: {
+        tag: 'workspace > datasource',
+      },
+    }),
   })
   // Initialize hooks
   app.service(API_PATH.WORKSPACE.DATASOURCE.ROOT).hooks(datasourceHooks)

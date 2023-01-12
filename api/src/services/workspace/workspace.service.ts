@@ -1,10 +1,14 @@
 import { API_PATH } from '@locokit/definitions'
+import { createSwaggerServiceOptions } from 'feathers-swagger'
 import { JSONSchema, Model, RelationMappings } from 'objection'
 import type { Application } from '../../declarations'
 import { DatasourceModel } from './datasource/datasource.service'
 
-import { Workspace, workspaceHooks } from './workspace.class'
-import { workspaceDataSchema } from './workspace.schema'
+import {
+  workspaceDataSchema,
+  workspaceQuerySchema,
+  workspaceSchema,
+} from './workspace.schema'
 
 class WorkspaceModel extends Model {
   static readonly model = 'workspace'
@@ -44,6 +48,10 @@ export function workspaceService(app: Application): void {
     methods: ['find', 'get', 'create', 'update', 'patch', 'remove'],
     // You can add additional custom events to be sent to clients here
     events: [],
+    docs: createSwaggerServiceOptions({
+      schemas: { workspaceDataSchema, workspaceQuerySchema, workspaceSchema },
+      docs: { description: 'Workspace service' },
+    }),
   })
   // Initialize hooks
   app.service(API_PATH.WORKSPACE.ROOT).hooks(workspaceHooks)

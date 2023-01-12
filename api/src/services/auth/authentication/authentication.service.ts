@@ -1,4 +1,4 @@
-import { AbilityBuilder, MongoAbility } from '@casl/ability'
+import { AbilityBuilder, AnyMongoAbility } from '@casl/ability'
 import {
   // AuthenticationBase,
   AuthenticationParams,
@@ -12,6 +12,7 @@ import {
 } from '@feathersjs/authentication'
 import { LocalStrategy } from '@feathersjs/authentication-local'
 import { PROFILE, API_PATH } from '@locokit/definitions'
+import { ServiceSwaggerOptions } from 'feathers-swagger'
 import { AppAbility, resolveAction } from '../../../abilities/definitions'
 import makeAbilityFromRules from '../../../abilities/makeAbilityFromRules'
 // import { NotAuthenticated } from '@feathersjs/errors/lib'
@@ -87,7 +88,13 @@ declare module '../../../declarations' {
   }
 }
 
-function defineAbilities(user: UserResult): MongoAbility {
+declare module '@feathersjs/authentication' {
+  class AuthenticationService {
+    docs: ServiceSwaggerOptions
+  }
+}
+
+function defineAbilities(user: UserResult): AnyMongoAbility {
   // also see https://casl.js.org/v5/en/guide/define-rules
   const { can, rules } = new AbilityBuilder(AppAbility)
 
@@ -129,7 +136,7 @@ class JWTStrategyEnhanced extends JWTStrategy {
       payload: any
     }
     user: UserResult
-    ability: MongoAbility
+    ability: AnyMongoAbility
   }> {
     const superResult = (await super.authenticate(authentication, params)) as {
       accessToken: any
@@ -142,7 +149,7 @@ class JWTStrategyEnhanced extends JWTStrategy {
     }
     const result = {
       ...superResult,
-      ability: defineAbilities(superResult.user) as MongoAbility,
+      ability: defineAbilities(superResult.user) as AnyMongoAbility,
     }
     return result
   }
@@ -150,6 +157,59 @@ class JWTStrategyEnhanced extends JWTStrategy {
 
 export const authentication = (app: Application): void => {
   const authentication = new AuthenticationService(app)
+
+  authentication.docs = {
+    idNames: {
+      remove: 'accessToken',
+    },
+    idType: 'string',
+    securities: ['remove', 'removeMulti'],
+    multi: ['remove'],
+    schemas: {
+      authRequest: {
+        type: 'object',
+        properties: {
+          strategy: { type: 'string' },
+          email: { type: 'string' },
+          password: { type: 'string' },
+        },
+      },
+      authResult: {
+        type: 'object',
+        properties: {
+          accessToken: { type: 'string' },
+          authentication: {
+            type: 'object',
+            properties: {
+              strategy: { type: 'string' },
+            },
+          },
+          payload: {
+            type: 'object',
+            properties: {}, // TODO
+          },
+          user: { $ref: '#/components/schemas/user' },
+        },
+      },
+    },
+    refs: {
+      createRequest: 'authRequest',
+      createResponse: 'authResult',
+      removeResponse: 'authResult',
+      removeMultiResponse: 'authResult',
+    },
+    operations: {
+      remove: {
+        description: 'Logout the currently logged in user',
+        'parameters[0].description':
+          'accessToken of the currently logged in user',
+      },
+      removeMulti: {
+        description: 'Logout the currently logged in user',
+        parameters: [],
+      },
+    },
+  }
 
   authentication.register('jwt', new JWTStrategyEnhanced())
   authentication.register('local', new LocalStrategy())

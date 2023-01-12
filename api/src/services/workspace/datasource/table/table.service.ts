@@ -44,6 +44,9 @@ export function tableService(app: Application): void {
     methods: ['find', 'get', 'create', 'update', 'patch', 'remove'],
     // You can add additional custom events to be sent to clients here
     events: [],
+    docs: {
+      tag: 'workspace > datasource > table',
+    },
   })
   // Initialize hooks
   app.service(API_PATH.WORKSPACE.DATASOURCE.TABLE.ROOT).hooks(tableHooks)
