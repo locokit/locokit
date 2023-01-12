@@ -1,31 +1,47 @@
-// import { KnexService } from '@feathersjs/knex'
 import type { KnexAdapterParams } from '@feathersjs/knex'
-import { resolveData } from '@feathersjs/schema'
+import {
+  resolveData,
+  resolveAll,
+  resolveQuery,
+  validateQuery,
+} from '@feathersjs/schema'
 
 import type {
   WorkspaceData,
   WorkspaceResult,
   WorkspaceQuery,
 } from './workspace.schema'
-import { workspaceResolvers } from './workspace.resolver'
+import {
+  workspaceQueryValidator,
+  workspaceResolvers,
+} from './workspace.resolver'
 import { HookContext } from '../../declarations'
 import { authenticate } from '@feathersjs/authentication'
 import { ObjectionService } from '../../feathers-objection'
+import { UserResult } from '../auth/user/user.schema'
+import { PROFILE } from '@locokit/definitions'
+import { Forbidden } from '@feathersjs/errors/lib'
 
 export const workspaceHooks = {
   around: {
-    // all: [resolveAll(workspaceResolvers)],
+    all: [resolveAll(workspaceResolvers)],
   },
   before: {
+    find: [
+      validateQuery(workspaceQueryValidator),
+      resolveQuery(workspaceResolvers.query),
+    ],
     create: [
       authenticate('jwt'),
-
       resolveData(workspaceResolvers.data.create),
-      (context: HookContext) => {
-        console.log(context.params)
-        console.log(context.params.rules)
-        console.log(context.ability)
-        console.log(context.params.ability)
+      function checkProfile(context: HookContext) {
+        const user: UserResult = context.params.user
+        const profile = user.profile
+
+        if (profile === PROFILE.MEMBER)
+          throw new Forbidden(
+            "You don't have sufficient privilege to create a workspace.",
+          )
       },
     ],
   },
@@ -36,8 +52,16 @@ export const workspaceHooks = {
 export interface WorkspaceParams extends KnexAdapterParams<WorkspaceQuery> {}
 
 // By default calls the standard Knex adapter service methods but can be customized with your own functionality.
-export class Workspace extends ObjectionService<
+export class WorkspaceService extends ObjectionService<
   WorkspaceResult,
   WorkspaceData,
   WorkspaceParams
 > {}
+// async function checkSlug(slugToCheck: string) {
+//   // this.
+//   // SELECT count(*) from workspace where slug = slugToCheck
+//   // return {
+//   //   code: LCK_ERROR.SLUG_ALREADY_TAKEN,
+//   //   message: 'Slug is already taken. Please change your workspace name.'
+//   // }
+// }

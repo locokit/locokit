@@ -1,28 +1,44 @@
-import { KnexService } from '@feathersjs/knex'
-import type { KnexAdapterParams } from '@feathersjs/knex'
+import { ObjectionAdapterOptions } from '../../../feathers-objection'
 import type { Application } from '../../../declarations'
-import type { UserData, UserResult, UserQuery } from './user.schema'
 import { hooks } from './user.hooks'
 import { API_PATH } from '@locokit/definitions'
+import { UserService } from './user.class'
+import { JSONSchema, Model, RelationMappings } from 'objection'
 import { userDataSchema, userQuerySchema, userSchema } from './user.schema'
+import { WorkspaceModel } from '../../workspace/workspace.service'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
 
-export interface UserParams extends KnexAdapterParams<UserQuery> {}
+export class UserModel extends Model {
+  static readonly model = 'user'
 
-// By default calls the standard Knex adapter service methods but can be customized with your own functionality.
-export class UserService extends KnexService<
-  UserResult,
-  UserData,
-  UserParams
-> {}
+  static readonly tableName = 'user'
+
+  static get jsonSchema(): JSONSchema {
+    return userSchema.definition as unknown as JSONSchema
+  }
+
+  static get relationMappings(): RelationMappings {
+    return {
+      workspaces: {
+        relation: Model.HasManyRelation,
+        modelClass: WorkspaceModel,
+        join: {
+          from: 'user.id',
+          to: 'workspace.createdBy',
+        },
+      },
+    }
+  }
+}
 
 // A configure function that registers the service and its hooks via `app.configure`
 export function user(app: Application): void {
-  const options = {
+  const options: ObjectionAdapterOptions = {
     // Service options will go here
     paginate: app.get('paginate'),
-    Model: app.get('db'),
+    Model: UserModel,
     name: 'user',
+    schema: 'core',
   }
 
   // Register our service on the Feathers application

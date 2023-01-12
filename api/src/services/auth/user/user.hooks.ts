@@ -11,7 +11,7 @@ import { addVerification } from 'feathers-authentication-management'
 import { isAdminProfile } from '../../../hooks/profile.hooks'
 import { HookOptions } from '@feathersjs/feathers'
 import type { Application, HookContext } from '../../../declarations'
-import { UserService } from './user.service'
+import { UserService } from './user.class'
 import { authManagementSettings } from '../authmanagement/authmanagement.settings'
 
 export const hooks: HookOptions<Application, UserService> = {
