@@ -1,125 +1,96 @@
-import { querySyntax } from '@feathersjs/schema'
-import type { Infer } from '@feathersjs/schema'
-import { defaultDataSchema, lckSchema } from '../../../schemas/default.schema'
+import { Type, Static, StringEnum, querySyntax } from '@feathersjs/typebox'
 
 // Schema for the basic data model (e.g. creating new entries)
 // export const datasourceDataJSONSchema: JSONSchemaDefinition =
 
-export const datasourceDataSchema = lckSchema({
-  $id: 'DatasourceData',
-  type: 'object',
-  additionalProperties: false,
-  required: ['name', 'client', 'connection'],
-  properties: {
-    ...defaultDataSchema.properties,
-    name: {
-      type: 'string',
+export const datasourceSchema = Type.Object(
+  {
+    id: Type.String({
+      format: 'uuid',
+    }),
+    name: Type.String({
       description: 'Name of the datasource',
-    },
-    slug: {
-      type: 'string',
+    }),
+    slug: Type.String({
       description:
         'Slug to reference the datasource in URL, easier to read/memorize for end users',
-    },
-    documentation: {
-      type: 'string',
-      description: 'Explain what is this datasource',
-    },
-    client: {
-      type: 'string',
-      description: 'Datasource client : sqlite3, pg, legacy',
-      enum: ['pg', 'sqlite3'],
-    },
-    connection: {
-      type: 'string',
+    }),
+    documentation: Type.Optional(
+      Type.String({
+        description: 'Explain what is this datasource',
+      }),
+    ),
+    client: StringEnum(['pg', 'sqlite3']),
+    connection: Type.String({
       description: 'Connexion string to your datasource',
-    },
-    credentialsRead: {
-      type: 'object',
-      properties: {
-        username: {
-          type: 'string',
+    }),
+    credentialsRead: Type.Optional(
+      Type.Object({
+        username: Type.String({
           description: 'User for read access on datasource',
-        },
-        password: {
-          type: 'string',
+        }),
+        password: Type.String({
           description: 'Password for read access on datasource',
-        },
-      },
-    },
-    credentialsReadWrite: {
-      type: 'object',
-      properties: {
-        username: {
-          type: 'string',
+        }),
+      }),
+    ),
+    credentialsReadWrite: Type.Optional(
+      Type.Object({
+        username: Type.String({
           description: 'User for read/write access on datasource',
-        },
-        password: {
-          type: 'string',
+        }),
+        password: Type.String({
           description: 'Password for read/write access on datasource',
-        },
-      },
-    },
-    credentialsAlter: {
-      type: 'object',
-      properties: {
-        username: {
-          type: 'string',
+        }),
+      }),
+    ),
+    credentialsAlter: Type.Optional(
+      Type.Object({
+        username: Type.String({
           description: 'User for alter access on datasource',
-        },
-        password: {
-          type: 'string',
+        }),
+        password: Type.String({
           description: 'Password for alter access on datasource',
-        },
-      },
-    },
-    workspaceId: {
-      type: 'string',
+        }),
+      }),
+    ),
+    workspaceId: Type.String({
       format: 'uuid',
-      description: 'Id of the related workspace',
-    },
+      description: 'Related workspace of the datasource',
+    }),
   },
-} as const)
+  {
+    $id: 'DatasourceSchema',
+    additionalProperties: false,
+  },
+)
 
-export type DatasourceData = Infer<typeof datasourceDataSchema>
+export type DatasourceSchema = Static<typeof datasourceSchema>
+
+export const datasourceDataSchema = Type.Omit(datasourceSchema, ['id'])
+export type DatasourceData = Static<typeof datasourceDataSchema>
 
 // Schema for making partial updates
-export const datasourcePatchSchema = lckSchema({
-  $id: 'DatasourcePatch',
-  type: 'object',
-  additionalProperties: false,
-  required: [],
-  properties: {
-    ...datasourceDataSchema.properties,
-  },
-} as const)
+export const datasourcePatchSchema = Type.Omit(datasourceSchema, ['id'])
 
-export type DatasourcePatch = Infer<typeof datasourcePatchSchema>
+export type DatasourcePatch = Static<typeof datasourcePatchSchema>
 
 // Schema for the data that is being returned
-export const datasourceResultSchema = lckSchema({
-  $id: 'DatasourceResult',
-  type: 'object',
-  additionalProperties: false,
-  required: [...datasourceDataSchema.required, 'id'],
-  properties: {
-    ...datasourceDataSchema.properties,
-    id: {
-      type: 'number',
-    },
-  },
-} as const)
-
-export type DatasourceResult = Infer<typeof datasourceResultSchema>
+export const datasourceResultSchema = datasourceSchema
+export type DatasourceResult = Static<typeof datasourceResultSchema>
 
 // Schema for allowed query properties
-export const datasourceQuerySchema = lckSchema({
-  $id: 'DatasourceQuery',
-  type: 'object',
-  additionalProperties: false,
-  properties: {
-    ...querySyntax(datasourceResultSchema.properties),
-  },
-} as const)
+export const datasourceQuerySchema = querySyntax(
+  Type.Omit(
+    datasourceSchema,
+    [
+      'credentialsRead',
+      'credentialsReadWrite',
+      'credentialsAlter',
+      'connection',
+    ],
+    { $id: 'DatasourceQuery', additionalProperties: false },
+  ),
+)
 
-export type DatasourceQuery = Infer<typeof datasourceQuerySchema>
+export type DatasourceQuery = Static<typeof datasourceQuerySchema>
