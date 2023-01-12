@@ -80,10 +80,17 @@ const OPERATORS = {
 const RETURNING_CLIENTS = ['postgresql', 'pg', 'oracledb', 'mssql']
 
 export class ObjectionAdapter<
-  T = any,
-  D = Partial<T>,
-  P extends ObjectionAdapterParams<any> = ObjectionAdapterParams,
-> extends AdapterBase<T, D, P, ObjectionAdapterOptions> {
+  Result,
+  Data = Partial<Result>,
+  ServiceParams extends ObjectionAdapterParams<any> = ObjectionAdapterParams,
+  PatchData = Partial<Data>,
+> extends AdapterBase<
+  Result,
+  Data,
+  PatchData,
+  ServiceParams,
+  ObjectionAdapterOptions
+> {
   table: string
   schema?: string
 
@@ -160,7 +167,7 @@ export class ObjectionAdapter<
     return this.schema ? `${this.schema}.${this.table}` : this.table
   }
 
-  db(params?: P): QueryBuilder<Model> {
+  db(params?: ServiceParams): QueryBuilder<Model> {
     const { Model, table, schema } = this
 
     if (params?.transaction?.trx) {
@@ -221,7 +228,7 @@ export class ObjectionAdapter<
     }, objectionQuery)
   }
 
-  createQuery(params: P) {
+  createQuery(params: ServiceParams) {
     const { table, id } = this
     const { filters, query } = this.filterQuery(params)
     const builder = this.db(params)
@@ -252,19 +259,21 @@ export class ObjectionAdapter<
     return builder
   }
 
-  filterQuery(params: P) {
+  filterQuery(params: ServiceParams) {
     const options = this.getOptions(params)
     const { filters, query } = filterQuery(params?.query || {}, options)
 
     return { filters, query, paginate: options.paginate }
   }
 
-  async $find(
-    params?: P & { paginate?: PaginationOptions },
-  ): Promise<Paginated<T>>
-  async $find(params?: P & { paginate: false }): Promise<T[]>
-  async $find(params?: P): Promise<Paginated<T> | T[]>
-  async $find(params: P = {} as P): Promise<Paginated<T> | T[]> {
+  async _find(
+    params?: ServiceParams & { paginate?: PaginationOptions },
+  ): Promise<Paginated<Result>>
+  async _find(params?: ServiceParams & { paginate: false }): Promise<Result[]>
+  async _find(params?: ServiceParams): Promise<Paginated<Result> | Result[]>
+  async _find(
+    params: ServiceParams = {} as ServiceParams,
+  ): Promise<Paginated<Result> | Result[]> {
     const { filters, paginate } = this.filterQuery(params)
     const builder = params.objection
       ? params.objection.clone()
@@ -290,8 +299,12 @@ export class ObjectionAdapter<
       builder.orderBy(`${this.table}.${this.id}`, 'asc')
     }
 
-    const data: any =
-      filters.$limit === 0 ? [] : await builder.catch(errorHandler)
+    const data =
+      filters.$limit === 0
+        ? []
+        : ((await builder.catch(errorHandler)) as unknown as Result[])
+
+    console.log(data)
 
     // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
     if (paginate && paginate?.default) {
@@ -310,7 +323,7 @@ export class ObjectionAdapter<
     return data
   }
 
-  async _findOrGet(id: NullableId, params?: P) {
+  async _findOrGet(id: NullableId, params?: ServiceParams) {
     const findParams = {
       ...params,
       paginate: false,
@@ -320,10 +333,13 @@ export class ObjectionAdapter<
       },
     }
 
-    return await (this.$find(findParams as any) as any as Promise<T[]>)
+    return await (this._find(findParams as any) as any as Promise<Result[]>)
   }
 
-  async $get(id: Id, params: P = {} as P): Promise<T> {
+  async _get(
+    id: Id,
+    params: ServiceParams = {} as ServiceParams,
+  ): Promise<Result> {
     const data = await this._findOrGet(id, params)
 
     if (data.length !== 1) {
@@ -333,15 +349,21 @@ export class ObjectionAdapter<
     return data[0]
   }
 
-  async $create(data: D, params?: P): Promise<T>
-  async $create(data: D[], params?: P): Promise<T[]>
-  async $create(data: D | D[], _params?: P): Promise<T | T[]>
-  async $create(_data: D | D[], params: P = {} as P): Promise<T | T[]> {
+  async _create(data: Data, params?: ServiceParams): Promise<Result>
+  async _create(data: Data[], params?: ServiceParams): Promise<Result[]>
+  async _create(
+    data: Data | Data[],
+    _params?: ServiceParams,
+  ): Promise<Result | Result[]>
+  async _create(
+    _data: Data | Data[],
+    params: ServiceParams = {} as ServiceParams,
+  ): Promise<Result | Result[]> {
     const data = _data as any
 
     if (Array.isArray(data)) {
       return await Promise.all(
-        data.map(async (current) => await this.$create(current, params)),
+        data.map(async (current) => await this._create(current, params)),
       )
     }
 
@@ -356,20 +378,28 @@ export class ObjectionAdapter<
     const id = data[this.id] || rows[0][this.id] || rows[0]
 
     if (!id) {
-      return rows as T[]
+      return rows as Result[]
     }
 
-    return await this.$get(id, params)
+    return await this._get(id, params)
   }
 
-  async $patch(id: null, data: Partial<D>, params?: P): Promise<T[]>
-  async $patch(id: Id, data: Partial<D>, params?: P): Promise<T>
-  async $patch(id: NullableId, data: Partial<D>, _params?: P): Promise<T | T[]>
-  async $patch(
+  async _patch(
+    id: null,
+    data: PatchData,
+    params?: ServiceParams,
+  ): Promise<Result[]>
+  async _patch(id: Id, data: PatchData, params?: ServiceParams): Promise<Result>
+  async _patch(
     id: NullableId,
-    raw: Partial<D>,
-    params: P = {} as P,
-  ): Promise<T | T[]> {
+    data: PatchData,
+    _params?: ServiceParams,
+  ): Promise<Result | Result[]>
+  async _patch(
+    id: NullableId,
+    raw: PatchData,
+    params: ServiceParams = {} as ServiceParams,
+  ): Promise<Result | Result[]> {
     const data = _.omit(raw, this.id)
     const results = await this._findOrGet(id, {
       ...params,
@@ -403,9 +433,13 @@ export class ObjectionAdapter<
     return items
   }
 
-  async $update(id: Id, _data: D, params: P = {} as P): Promise<T> {
+  async _update(
+    id: Id,
+    _data: Data,
+    params: ServiceParams = {} as ServiceParams,
+  ): Promise<Result> {
     const data = _.omit(_data, this.id)
-    const oldData = await this.$get(id, params)
+    const oldData = await this._get(id, params)
     const newObject = Object.keys(oldData as any).reduce((result: any, key) => {
       if (key !== this.id) {
         // We don't want the id field to be changed
@@ -417,13 +451,19 @@ export class ObjectionAdapter<
 
     await this.db(params).update(newObject).returning('*').where(this.id, id)
 
-    return await this.$get(id, params)
+    return await this._get(id, params)
   }
 
-  async $remove(id: null, params?: P): Promise<T[]>
-  async $remove(id: Id, params?: P): Promise<T>
-  async $remove(id: NullableId, _params?: P): Promise<T | T[]>
-  async $remove(id: NullableId, params: P = {} as P): Promise<T | T[]> {
+  async _remove(id: null, params?: ServiceParams): Promise<Result[]>
+  async _remove(id: Id, params?: ServiceParams): Promise<Result>
+  async _remove(
+    id: NullableId,
+    _params?: ServiceParams,
+  ): Promise<Result | Result[]>
+  async _remove(
+    id: NullableId,
+    params: ServiceParams = {} as ServiceParams,
+  ): Promise<Result | Result[]> {
     const items = await this._findOrGet(id, params)
     const { query } = this.filterQuery(params)
     const q = this.db(params)
