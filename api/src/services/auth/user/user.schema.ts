@@ -1,5 +1,4 @@
 import { PROFILE } from '@locokit/definitions'
-// import { defaultDataSchema, lckSchema } from '../../../schemas/default.schema'
 import { Type, querySyntax, Static } from '@feathersjs/typebox'
 
 // Schema for the basic data model (e.g. creating new entries)
@@ -43,94 +42,6 @@ export const userDataSchema = Type.Omit(userSchema, ['id', 'auth0Id'], {
   $id: 'UserData',
 })
 
-// export const userDataSchema = lckSchema({
-//   $id: 'UserData',
-//   type: 'object',
-//   additionalProperties: false,
-//   required: ['email'],
-//   properties: {
-//     ...defaultDataSchema.properties,
-//     email: {
-//       type: 'string',
-//       format: 'email',
-//     },
-//     name: {
-//       type: 'string',
-//     },
-//     password: {
-//       type: 'string',
-//     },
-//     auth0Id: {
-//       type: 'string',
-//     },
-//     profile: {
-//       type: 'string',
-//       format: 'user-profile',
-//     },
-//     blocked: {
-//       type: 'boolean',
-//       default: false,
-//     },
-//     isVerified: {
-//       readOnly: true,
-//       type: 'boolean',
-//       default: false,
-//     },
-//     verifyToken: {
-//       readOnly: true,
-//       type: 'string',
-//     },
-//     verifyShortToken: {
-//       readOnly: true,
-//       type: 'string',
-//     },
-//     verifyExpires: {
-//       readOnly: true,
-//       type: ['string', 'number'],
-//       // anyOf: [
-//       //   {
-//       //     type: 'string',
-//       //     format: 'date-time',
-//       //   },
-//       //   {
-//       //     type: 'number',
-//       //   },
-//       // ],
-//       nullable: true,
-//     },
-//     verifyChanges: {
-//       readOnly: true,
-//       type: 'object',
-//     },
-//     resetToken: {
-//       readOnly: true,
-//       type: 'string',
-//     },
-//     resetShortToken: {
-//       readOnly: true,
-//       type: 'string',
-//     },
-//     resetExpires: {
-//       readOnly: true,
-//       type: ['string', 'number'],
-//       // anyOf: [
-//       //   {
-//       //     type: 'string',
-//       //     format: 'date-time',
-//       //   },
-//       //   {
-//       //     type: 'number',
-//       //   },
-//       // ],
-//       nullable: true,
-//     },
-//     resetAttempts: {
-//       readOnly: true,
-//       type: 'number',
-//     },
-//   },
-// } as const)
-
 export type UserData = Static<typeof userDataSchema> & {
   profile: PROFILE
 }
@@ -147,7 +58,11 @@ export type UserResult = Static<typeof userSchema> & {
 }
 
 export const userQuerySchema = querySyntax(
-  Type.Omit(userSchema, ['password'], { $id: 'UserQuery' }),
+  Type.Omit(
+    userSchema,
+    ['password', 'verifyExpires', 'verifyChanges', 'resetExpires'],
+    { $id: 'UserQuery' },
+  ),
 )
 
 export type UserQuery = Static<typeof userQuerySchema> & {

@@ -1,102 +1,80 @@
-import { querySyntax } from '@feathersjs/schema'
-import type { Infer } from '@feathersjs/schema'
-import { defaultDataSchema, lckSchema } from '../../schemas/default.schema'
+import { Type, querySyntax, Static } from '@feathersjs/typebox'
 
 // Schema for the basic data model (e.g. creating new entries)
 // export const workspaceDataJSONSchema: JSONSchemaDefinition =
 
-export const workspaceDataSchema = lckSchema({
-  $id: 'Workspace',
-  type: 'object',
-  additionalProperties: false,
-  required: ['name'],
-  properties: {
-    ...defaultDataSchema.properties,
-    name: {
-      type: 'string',
+export const workspaceSchema = Type.Object(
+  {
+    id: Type.String({
+      format: 'uuid',
+    }),
+    name: Type.String({
       description: 'Name of the workspace',
-    },
-    slug: {
-      type: 'string',
+    }),
+    slug: Type.String({
       description:
         'Slug to reference the workspace in URL, easier to read/memorize for end users',
-    },
-    legacy: {
-      type: 'boolean',
+    }),
+    legacy: Type.Boolean({
       description: 'Does this workspace use the legacy mode for storing data',
-    },
-    public: {
-      type: 'boolean',
+    }),
+    public: Type.Boolean({
       description: 'Allow the workspace to be findable/visible publicly',
-    },
-    documentation: {
-      type: 'string',
+    }),
+    documentation: Type.String({
       description: 'Explain what is this workspace',
-    },
-    settings: {
-      type: 'object',
-      description: "Workspace's settings",
-      properties: {
-        color: {
-          type: 'string',
+    }),
+    settings: Type.Object(
+      {
+        color: Type.String({
           description: 'Main color for this workspace',
-        },
-        backgroundColor: {
-          type: 'string',
+        }),
+        backgroundColor: Type.String({
           description: 'Main background color for this workspace',
-        },
-        icon: {
-          type: 'string',
+        }),
+        icon: Type.String({
           description: 'Icon displayed in the workspace list',
-        },
+        }),
       },
-    },
-    createdBy: {
-      type: 'number',
+      {
+        description: "Workspace's settings",
+      },
+    ),
+    createdBy: Type.Number({
       description: "Workspace's user creator",
-    },
+    }),
   },
-} as const)
+  {
+    $id: 'WorkspaceSchema',
+    additionalProperties: false,
+  },
+)
 
-export type WorkspaceData = Infer<typeof workspaceDataSchema>
+export type WorkspaceSchema = Static<typeof workspaceSchema>
+
+export const workspaceDataSchema = Type.Omit(workspaceSchema, [
+  'id',
+  'createdBy',
+])
+export type WorkspaceData = Static<typeof workspaceDataSchema>
 
 // Schema for making partial updates
-export const workspacePatchSchema = lckSchema({
-  $id: 'WPatch',
-  type: 'object',
-  additionalProperties: false,
-  required: [],
-  properties: {
-    ...workspaceDataSchema.properties,
-  },
-} as const)
+export const workspacePatchSchema = Type.Omit(workspaceSchema, ['id'])
 
-export type WorkspacePatch = Infer<typeof workspacePatchSchema>
+export type WorkspacePatch = Static<typeof workspacePatchSchema>
 
 // Schema for the data that is being returned
-export const workspaceResultSchema = lckSchema({
-  $id: 'WResult',
-  type: 'object',
-  additionalProperties: false,
-  required: [...workspaceDataSchema.required, 'id'],
-  properties: {
-    ...workspaceDataSchema.properties,
-    id: {
-      type: 'number',
-    },
-  },
-} as const)
-
-export type WorkspaceResult = Infer<typeof workspaceResultSchema>
+export const workspaceResultSchema = workspaceSchema
+export type WorkspaceResult = Static<typeof workspaceResultSchema>
 
 // Schema for allowed query properties
-export const workspaceQuerySchema = lckSchema({
-  $id: 'WQuery',
-  type: 'object',
-  additionalProperties: false,
-  properties: {
-    ...querySyntax(workspaceResultSchema.properties),
-  },
-} as const)
-
-export type WorkspaceQuery = Infer<typeof workspaceQuerySchema>
+export const workspaceQuerySchema = Type.Intersect(
+  [
+    querySyntax(Type.Omit(workspaceSchema, ['settings'])),
+    Type.Object({
+      $forCurrentUser: Type.Optional(Type.Boolean()),
+    }),
+  ],
+  { additionalProperties: false },
+)
+export type WorkspaceQuery = Static<typeof workspaceQuerySchema>
