@@ -5,7 +5,7 @@ exports[`storyshots views/routes/account/group/Group default 1`] = `
   style="height: 100%;"
 >
   <div
-    class="groups-container"
+    class="groups-container w-full"
   >
     <div
       class="generic-view-container p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto"
@@ -35,7 +35,7 @@ exports[`storyshots views/routes/account/group/Group with auth user and groups 1
   style="height: 100%;"
 >
   <div
-    class="groups-container"
+    class="groups-container w-full"
   >
     <div
       class="generic-view-container p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto"
@@ -65,7 +65,7 @@ exports[`storyshots views/routes/account/group/Group withAuthUser 1`] = `
   style="height: 100%;"
 >
   <div
-    class="groups-container"
+    class="groups-container w-full"
   >
     <div
       class="generic-view-container p-12 p-sm-10 p-md-10 p-xl-8 p-d-flex p-flex-column p-as-center p-mx-auto"
