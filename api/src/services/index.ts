@@ -6,8 +6,8 @@ import { workspaceService } from './workspace/workspace.service'
 import { mailer } from './mailer/mailer.service'
 import { signup } from './auth/signup/signup.service'
 import { datasourceService } from './workspace/datasource/datasource.service'
-import { tableService } from './workspace/datasource/table/table.service'
-import { recordService } from './workspace/datasource/table/record/record.service'
+// import { tableService } from './workspace/datasource/table/table.service'
+// import { recordService } from './workspace/datasource/table/record/record.service'
 
 export const services = (app: Application): void => {
   /**
@@ -23,8 +23,8 @@ export const services = (app: Application): void => {
    */
   app.configure(workspaceService)
   app.configure(datasourceService)
-  app.configure(tableService)
-  app.configure(recordService)
+  // app.configure(tableService)
+  // app.configure(recordService)
   // app.configure(tableRelationService)
   // app.configure(fieldService)
   // app.configure(datasetService)
