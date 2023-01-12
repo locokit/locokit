@@ -33,7 +33,7 @@
 // import { TableColumnRelation } from '../models/tablecolumnrelation.model'
 
 // import { UsersResult } from '../services/users/users.schema'
-import { Workspace } from '../services/workspace/workspace.class'
+import { WorkspaceService } from '../services/workspace/workspace.class'
 
 import {
   AbilityClass,
@@ -58,7 +58,7 @@ export type Actions =
   | 'read'
   | 'delete'
 export type Subjects = InferSubjects<
-  'all' | 'user' | 'group' | 'workspace' | 'datasource' | typeof Workspace,
+  'all' | 'user' | 'group' | 'workspace' | 'datasource' | typeof WorkspaceService,
   true
 >
 

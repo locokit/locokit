@@ -1,10 +1,9 @@
 import {
-  MongoAbility,
+  Ability,
   RawRuleFrom,
   AbilityOptions,
   AbilityTuple,
   MongoQuery,
-  createMongoAbility,
 } from '@casl/ability'
 
 function makeAbilityFromRules<
@@ -13,10 +12,10 @@ function makeAbilityFromRules<
 >(
   rules?: Array<RawRuleFrom<A, C>>,
   options?: AbilityOptions<A, C>,
-): MongoAbility<A, C> {
+): Ability<A, C> {
   rules = rules ?? []
   options = options ?? {}
-  return createMongoAbility(rules, options)
+  return new Ability(rules, options)
 }
 
 export default makeAbilityFromRules

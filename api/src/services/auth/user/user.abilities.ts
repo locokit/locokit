@@ -9,7 +9,7 @@ import makeAbilityFromRules from '../../../abilities/makeAbilityFromRules'
 import { AbilityBuilder } from '@casl/ability'
 
 /**
- * Define abilities for group
+ * Define abilities for user
  * regarding the current hook context.
  *
  * @param user from Hook context, provided by FeathersJS
@@ -30,9 +30,10 @@ export async function createAbility(user: UserResult): Promise<AppAbility> {
       can('manage', 'user')
       break
     /**
-     * Others can only see their groups
+     * Others can only see themselves
      */
-    default:
+    case PROFILE.CREATOR:
+    case PROFILE.MEMBER:
       can('read', 'user', ['id', 'name'], { id: { $ne: user.id } })
       can('read', 'user', { id: user.id })
       can('update', 'user', ['name'], { id: user.id })
@@ -42,7 +43,7 @@ export async function createAbility(user: UserResult): Promise<AppAbility> {
 }
 
 /**
- * Define abilities for workspaces
+ * Define abilities for user
  *
  * @param context Hook context, provided by FeathersJS
  * @returns Promise<HookContext>
