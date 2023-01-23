@@ -10,6 +10,7 @@ import PredefinedColorPicker from './components/PredefinedColorPicker/Predefined
 import UpdateUsernameForm from './components/profile/UpdateUsernameForm/UpdateUsernameForm.vue'
 import UpdateEmailForm from './components/profile/UpdateEmailForm/UpdateEmailForm.vue'
 import UpdatePasswordForm from './components/profile/UpdatePasswordForm/UpdatePasswordForm.vue'
+import ButtonWithStatus from './components/ButtonWithStatus/ButtonWithStatus.vue'
 
 export {
   SignInForm,
@@ -24,4 +25,5 @@ export {
   UpdateUsernameForm,
   UpdateEmailForm,
   UpdatePasswordForm,
+  ButtonWithStatus,
 }

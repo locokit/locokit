@@ -90,6 +90,11 @@
       },
       "confirmPassword": "Confirmation du nouveau mot de passe",
       "submit": "Enregistrer"
+    },
+    "buttonWithStatus": {
+      "statusFailed": "Échec lors de l'envoi",
+      "statusSuccess": "Formulaire correctement envoyé",
+      "loading": "Chargement"
     }
   },
   "layouts": {
