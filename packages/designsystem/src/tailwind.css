@@ -1,4 +1,5 @@
 @import url('./theme.css');
+@import url('bootstrap-icons/font/bootstrap-icons.css');
 
 @tailwind base;
 @tailwind components;

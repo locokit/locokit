@@ -120,7 +120,7 @@ export default defineNuxtModule<ModuleOptions>({
      */
     nuxt.options.css = nuxt.options.css ?? []
     nuxt.options.css.push('primevue/resources/primevue.css')
-    nuxt.options.css.push('primeicons/primeicons.css')
+    nuxt.options.css.push('bootstrap-icons/font/bootstrap-icons.css')
     nuxt.options.css.push(resolve(__dirname, '../src/styles/index.scss'))
     nuxt.options.css.push(resolve(__dirname, '../src/styles/theme.css'))
 
