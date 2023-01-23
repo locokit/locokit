@@ -90,6 +90,11 @@
       },
       "confirmPassword": "Confirm new password",
       "submit": "Submit"
+    },
+    "buttonWithStatus": {
+      "statusFailed": "Failed to send",
+      "statusSuccess": "Successful sent",
+      "loading": "Loading"
     }
   },
   "layouts": {
