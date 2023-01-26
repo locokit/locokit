@@ -207,7 +207,7 @@ export default defineNuxtModule<ModuleOptions>({
           protected: true,
         },
         file: resolve(pagesDir, './profile/index.vue'),
-        redirect: ROUTES_PATH.PROFILE.UPDATE_EMAIL,
+        redirect: ROUTES_PATH.PROFILE.UPDATE_USERNAME,
         children: [
           {
             name: ROUTES_NAMES.PROFILE.UPDATE_USERNAME,

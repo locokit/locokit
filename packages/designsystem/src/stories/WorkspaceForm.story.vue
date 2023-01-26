@@ -1,5 +1,5 @@
 <template>
-  <Story title="WorkspaceForm" icon="bi:clipboard-check">
+  <Story title="WorkspaceForm" icon="bi:clipboard-check-fill">
     <Variant title="default">
       <WorkspaceForm @submit="logEvent('submit', $event)" />
     </Variant>

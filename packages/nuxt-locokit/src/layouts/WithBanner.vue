@@ -55,7 +55,7 @@
             >
               <i
                 v-if="navLink.icon"
-                :class="'pi ' + navLink.icon"
+                :class="'bi ' + navLink.icon"
                 class="mr-1"
               />
               <p>
@@ -69,7 +69,7 @@
             class="items-center justify-center rounded bg-white p-2 text-gray-500 hover:bg-primary hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 hidden sm:inline-flex"
             @click="logout"
           >
-            <i class="pi pi-sign-out mr-1" />
+            <i class="bi bi-door-open-fill mr-1" />
             <span> {{ $t('layouts.withBanner.logout') }} </span>
           </button>
         </nav>
@@ -131,7 +131,7 @@
             >
               <i
                 v-if="navLink.icon"
-                :class="'pi ' + navLink.icon"
+                :class="'bi ' + navLink.icon"
                 class="mr-1"
               />
               <p>
@@ -143,7 +143,7 @@
               class="inline-flex items-center justify-center rounded-sm bg-white p-2 pl-3 text-gray-700 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
               @click="logout"
             >
-              <i class="pi pi-sign-out mr-1" />
+              <i class="bi bi-door-open-fill mr-1" />
               {{ $t('layouts.withBanner.logout') }}
             </button>
           </div>
@@ -171,12 +171,12 @@ const navLinks = computed(() => {
     {
       routeName: ROUTES_NAMES.HOME,
       title: 'home',
-      icon: 'pi-home',
+      icon: 'bi-house',
     },
     {
       routeName: ROUTES_NAMES.WORKSPACE.HOME,
       title: 'workspaces',
-      icon: 'pi-desktop',
+      icon: 'bi-person-workspace',
     },
   ]
   return authStore.isAuthenticated
@@ -185,7 +185,7 @@ const navLinks = computed(() => {
         {
           routeName: ROUTES_NAMES.PROFILE.HOME,
           title: 'profile',
-          icon: 'pi-user',
+          icon: 'bi-person-circle',
         },
       ]
     : [
@@ -193,12 +193,12 @@ const navLinks = computed(() => {
         {
           routeName: ROUTES_NAMES.AUTH.SIGN_IN,
           title: 'signIn',
-          icon: 'pi-sign-in',
+          icon: 'bi-person-badge',
         },
         {
           routeName: ROUTES_NAMES.AUTH.SIGN_UP,
           title: 'signUp',
-          icon: 'pi-user',
+          icon: 'bi-person-lines-fill',
         },
       ]
 })

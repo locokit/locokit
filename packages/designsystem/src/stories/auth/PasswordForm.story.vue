@@ -1,8 +1,5 @@
 <template>
-  <Story
-    title="Authentication/PasswordForm"
-    icon="fluent:shield-person-20-filled"
-  >
+  <Story title="Authentication/PasswordForm" icon="bi:shield-lock-fill">
     <Variant title="default">
       <PasswordForm
         label-submit="Change password"

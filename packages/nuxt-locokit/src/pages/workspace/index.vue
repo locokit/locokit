@@ -33,7 +33,7 @@
               </NuxtLink>
               <i
                 class="absolute -left-3 -bottom-3 text-9xl opacity-10"
-                :class="`pi ${workspace.settings?.icon}`"
+                :class="`bi ${workspace.settings?.icon}`"
               />
               <span
                 v-if="workspace.public"
@@ -50,7 +50,7 @@
               <div
                 class="relative overflow-hidden flex flex-col justify-center text-center font-bold w-full"
               >
-                <i class="pi pi-plus-circle block !text-5xl" />
+                <i class="bi bi-plus-circle-fill block !text-5xl" />
                 <p class="block mx-autotext-primary mt-4 text-xl">
                   {{ $t('pages.workspace.newWorkspace') }}
                 </p>
@@ -69,7 +69,7 @@
               <div
                 class="relative overflow-hidden flex flex-col justify-center text-center font-bold w-full"
               >
-                <i class="pi pi-plus-circle block !text-5xl" />
+                <i class="bi bi-plus-circle-fill block !text-5xl" />
                 <p class="block mx-autotext-primary mt-4 text-xl">
                   {{ $t('pages.workspace.createWorkspace') }}
                 </p>

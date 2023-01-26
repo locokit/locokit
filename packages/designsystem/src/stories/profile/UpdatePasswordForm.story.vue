@@ -1,5 +1,5 @@
 <template>
-  <Story title="Profile/UpdatePasswordForm Form" icon="prime:user">
+  <Story title="Profile/UpdatePasswordForm Form" icon="bi:shield-lock-fill">
     <Variant title="default">
       <UpdatePasswordForm
         :user="{

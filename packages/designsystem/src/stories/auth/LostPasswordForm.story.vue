@@ -1,5 +1,5 @@
 <template>
-  <Story title="Authentication/Lost Password Form" icon="prime:user">
+  <Story title="Authentication/Lost Password Form" icon="bi:person-fill">
     <Variant title="default">
       <LostPasswordForm @submit="logEvent('submit', { email: $event })" />
     </Variant>

@@ -12,15 +12,15 @@
             {{ $t('pages.alreadyAuthenticated.message') }}
           </p>
           <div class="flex justify-around">
-            <NuxtLink :to="{ name: ROUTES_NAMES.HOME }">
+            <NuxtLink :to="{ name: ROUTES_NAMES.WORKSPACE.HOME }">
               <PrimeButton
                 :label="$t('pages.alreadyAuthenticated.workspaceButton')"
-                icon="pi pi-desktop"
+                icon="bi bi-person-workspace"
               />
             </NuxtLink>
             <PrimeButton
               :label="$t('pages.alreadyAuthenticated.logoutButton')"
-              icon="pi pi-sign-out"
+              icon="bi bi-door-open-fill"
               @click="logout"
             />
           </div>

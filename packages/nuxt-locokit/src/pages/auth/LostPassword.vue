@@ -20,17 +20,18 @@
           <div class="flex items-center px-3 pt-4 pb-6">
             <i
               aria-hidden="true"
-              class="pi pi-check-circle p-text-success mr-4 icon-with-text-aside"
+              class="bi bi-check-circle-fill p-text-success mr-4 icon-with-text-aside"
             />
             <p class="text-justify">
               {{ $t('pages.lostPassword.sendMailToResetPassword') }}
             </p>
           </div>
           <NuxtLink
-            class="no-decoration-link"
+            class="flex justify-center"
             :to="{ name: ROUTES_NAMES.HOME }"
           >
-            {{ $t('pages.lostPassword.homeLink') }}
+            <i class="bi bi-house-fill mr-2" />
+            <p>{{ $t('pages.lostPassword.homeLink') }}</p>
           </NuxtLink>
         </div>
       </template>

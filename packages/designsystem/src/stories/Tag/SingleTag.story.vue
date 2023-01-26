@@ -1,5 +1,5 @@
 <template>
-  <Story title="Tags/SingleTag" icon="bi:tag">
+  <Story title="Tags/SingleTag" icon="bi:tag-fill">
     <Variant title="allColor" auto-props-disabled>
       <p>Each combination for single tag</p>
       <div class="wrapper">
