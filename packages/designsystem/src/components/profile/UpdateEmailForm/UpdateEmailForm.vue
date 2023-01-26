@@ -5,9 +5,10 @@
     :display-success-form="true"
     :response="response"
     :loading="loading"
+    class="w-3/4"
     @submit="onSubmit"
   >
-    <div class="grid grid-cols-3 mb-4">
+    <div class="mb-4">
       <p class="mr-1">
         {{ $t('components.updateUsernameForm.email') }}
       </p>
@@ -24,22 +25,17 @@
       as="div"
       type="email"
     >
-      <div class="grid grid-cols-3">
         <label for="name" class="label-field-required my-auto">
           {{ $t('components.updateEmailForm.newEmail') }}
         </label>
-
-        <div class="col-span-2 w-full">
           <PrimeInputText
             id="email"
-            class="!w-4/5 sm:!w-fit md:!w-3/5"
+            class="w-full"
             :class="{ 'p-invalid': errorMessage }"
             v-bind="field"
             required
             type="email"
           />
-        </div>
-      </div>
 
       <span
         v-if="errorMessage"
@@ -58,19 +54,16 @@
       rules="required"
       as="div"
     >
-      <div class="grid grid-cols-3">
         <label for="name" class="label-field-required my-auto">
           {{ $t('components.updateEmailForm.password') }}
         </label>
-
-        <div class="w-full col-span-2">
           <PrimePassword
             v-bind="field"
             v-model="password"
             input-id="password"
-            input-class="w-full"
+            input-class=""
             :class="{ 'p-invalid': errorMessage }"
-            class="!w-4/5 sm:!w-fit md:!w-3/5"
+            class=""
             :toggle-mask="true"
             :feedback="false"
             spellcheck="false"
@@ -78,8 +71,6 @@
             autocapitalize="none"
             required
           />
-        </div>
-      </div>
 
       <span
         v-if="errorMessage"

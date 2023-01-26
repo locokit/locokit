@@ -5,6 +5,7 @@
     :display-success-form="true"
     :response="response"
     :loading="loading"
+    class="w-3/4"
     @submit="onSubmit"
   >
     <Field
@@ -15,19 +16,16 @@
       rules="required"
       as="div"
     >
-      <div class="grid grid-cols-3">
         <label for="name" class="label-field-required my-auto">
           {{ $t('components.updatePasswordForm.currentPassword') }}
         </label>
-
-        <div class="col-span-2 w-full">
           <PrimePassword
             v-bind="field"
             v-model="currentPassword"
             input-id="password"
             input-class="w-full"
             :class="{ 'p-invalid': errorMessage }"
-            class="!w-4/5 sm:!w-fit md:!w-3/5"
+            class=""
             :toggle-mask="true"
             :feedback="false"
             spellcheck="false"
@@ -35,8 +33,6 @@
             autocapitalize="none"
             required
           />
-        </div>
-      </div>
       <span
         v-if="errorMessage"
         class="p-text-error"
@@ -53,18 +49,15 @@
       :rules="{ required: true, regex: `${regexPasswordRules}(?=.{8,})` }"
       as="div"
     >
-      <div class="grid grid-cols-3">
         <label for="name" class="label-field-required my-auto">
           {{ $t('components.updatePasswordForm.newPassword') }}
         </label>
-
-        <div class="w-full col-span-2">
           <PrimePassword
             v-model="newPassword"
             input-id="newPassword"
-            input-class="w-full"
+            input-class=""
             :class="{ 'p-invalid': errorMessage }"
-            class="!w-4/5 sm:!w-fit md:!w-3/5"
+            class=""
             v-bind="field"
             :feedback="true"
             :toggle-mask="true"
@@ -88,8 +81,6 @@
             autocapitalize="none"
             :pattern="regexPasswordRules"
           />
-        </div>
-      </div>
       <small id="password-rules" class="italic">
         {{ $t('components.updatePasswordForm.rules') }}
       </small>
@@ -109,18 +100,15 @@
       rules="required|confirmed:updatePasswordForm.newPassword"
       as="div"
     >
-      <div class="grid grid-cols-3">
         <label for="name" class="label-field-required my-auto">
           {{ $t('components.updatePasswordForm.confirmPassword') }}
         </label>
-
-        <div class="w-full col-span-2">
           <PrimePassword
             v-model="confirmPassword"
             input-id="confirmPassword"
             input-class="w-full"
             :class="{ 'p-invalid': errorMessage }"
-            class="!w-4/5 sm:!w-fit md:!w-3/5"
+            class=""
             v-bind="field"
             :feedback="false"
             :toggle-mask="true"
@@ -129,8 +117,6 @@
             autocorrect="off"
             autocapitalize="none"
           />
-        </div>
-      </div>
       <span
         v-if="errorMessage"
         class="p-text-error"
