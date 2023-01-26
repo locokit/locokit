@@ -1,6 +1,6 @@
 <template>
   <Form
-    v-slot="{ meta: { valid } }"
+    v-slot="{ meta: { valid, touched } }"
     class="text-left p-fluid"
     @submit="onSubmit"
   >
@@ -12,10 +12,13 @@
       rules="required|email"
       class="mb-4 p-field"
     >
-      <label for="email">{{ $t('components.lostPasswordForm.email') }}</label>
+      <label for="email">
+        {{ $t('components.lostPasswordForm.email') }}
+      </label>
       <PrimeInputText
         id="email"
         v-bind="field"
+        :class="{ 'p-invalid': errorMessage }"
         type="text"
         required
         autocomplete="email"
@@ -30,14 +33,16 @@
       </span>
     </Field>
     <div class="flex flex-col">
-      <PrimeButton
+      <ButtonWithStatus
         type="submit"
-        :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
         :label="$t('components.lostPasswordForm.submit')"
-        :disabled="loading || !valid"
-        class="mb-4"
+        class="!w-full"
+        :disabled="loading || !valid || !touched"
+        :status-form="error ? 'failed' : null"
+        icon="bi bi-save2"
+        :is-submitting="loading"
       />
-      <span>
+      <span class="mt-4">
         {{ $t('components.lostPasswordForm.signInHelp') }}
         <a class :href="signInRoute">
           {{ $t('components.lostPasswordForm.signIn') }}
@@ -63,7 +68,7 @@
 
 <script setup lang="ts">
 import PrimeInputText from 'primevue/inputtext'
-import PrimeButton from 'primevue/button'
+import ButtonWithStatus from '../../ButtonWithStatus/ButtonWithStatus.vue'
 import { ref } from 'vue'
 import { Field, Form } from 'vee-validate'
 
@@ -79,9 +84,9 @@ const props = withDefaults(
     signInRoute: string
   }>(),
   {
-    loading: () => false,
-    error: () => null,
-    signInRoute: () => '/',
+    loading: false,
+    error: null,
+    signInRoute: '/',
   },
 )
 

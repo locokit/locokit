@@ -21,7 +21,43 @@
             :required="true"
             :class="{ 'p-invalid': !valid && touched }"
           />
-          <ErrorMessage name="name" />
+          <ErrorMessage class="p-text-error" name="name" />
+        </Field>
+        <Field
+          v-slot="{ field }"
+          v-model="pseudo"
+          class="mb-4"
+          name="pseudo"
+          type="input"
+          as="div"
+        >
+          <PrimeInput v-bind="field" placeholder="pseudo" />
+        </Field>
+      </FormGeneric>
+    </Variant>
+    <Variant title="withFullButton">
+      <FormGeneric
+        :full-width-button="true"
+        @cancel="logEvent('cancel', $event)"
+        @submit="logEvent('submit', $event)"
+      >
+        <Field
+          v-slot="{ field, meta: { valid, touched } }"
+          v-model="name"
+          name="name"
+          type="input"
+          rules="required"
+          class="mb-4"
+          as="div"
+        >
+          <PrimeInput
+            v-focus
+            v-bind="field"
+            placeholder="name"
+            :required="true"
+            :class="{ 'p-invalid': !valid && touched }"
+          />
+          <ErrorMessage name="name" class="p-text-error" />
         </Field>
         <Field
           v-slot="{ field }"

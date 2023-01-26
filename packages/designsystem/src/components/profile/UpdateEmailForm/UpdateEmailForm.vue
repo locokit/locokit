@@ -1,7 +1,10 @@
 <template>
-  <Form
-    v-slot="{ meta: { valid }, isSubmitting }"
-    class="text-left"
+  <FormGeneric
+    :display-reset-button="false"
+    :label-button-submit="'components.updateEmailForm.submit'"
+    :display-success-form="true"
+    :response="response"
+    :loading="loading"
     @submit="onSubmit"
   >
     <div class="grid grid-cols-3 mb-4">
@@ -30,6 +33,7 @@
           <PrimeInputText
             id="email"
             class="!w-4/5 sm:!w-fit md:!w-3/5"
+            :class="{ 'p-invalid': errorMessage }"
             v-bind="field"
             required
             type="email"
@@ -65,6 +69,7 @@
             v-model="password"
             input-id="password"
             input-class="w-full"
+            :class="{ 'p-invalid': errorMessage }"
             class="!w-4/5 sm:!w-fit md:!w-3/5"
             :toggle-mask="true"
             :feedback="false"
@@ -85,33 +90,15 @@
         {{ errorMessage }}
       </span>
     </Field>
-    <div class="grid grid-cols-3">
-      <PrimeButton
-        type="submit"
-        class="col-start-2 col-span-2 !w-4/5 sm:!w-fit md:!w-3/5"
-        :icon="isSubmitting ? 'pi pi-spin pi-spinner' : 'pi pi-save'"
-        :label="$t('components.updateEmailForm.submit')"
-        :disabled="isSubmitting || !valid"
-      />
-    </div>
-  </Form>
+  </FormGeneric>
 </template>
 
 <script setup lang="ts">
-import PrimeButton from 'primevue/button'
 import PrimeInputText from 'primevue/inputtext'
 import PrimePassword from 'primevue/password'
-import { Form, Field } from 'vee-validate'
+import FormGeneric from '../../FormGeneric/FormGeneric.vue'
+import { Field } from 'vee-validate'
 import { ref } from 'vue'
-
-const props = withDefaults(
-  defineProps<{
-    user: any
-  }>(),
-  {
-    user: null,
-  },
-)
 
 const emit = defineEmits<{
   (
@@ -122,6 +109,21 @@ const emit = defineEmits<{
     },
   ): void
 }>()
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const props = withDefaults(
+  defineProps<{
+    user: any
+    loading?: boolean
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    response?: Error | Record<string, any> | null
+  }>(),
+  {
+    user: null,
+    loading: false,
+    response: null,
+  },
+)
 
 const newEmail = ref()
 const password = ref()

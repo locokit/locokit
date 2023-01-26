@@ -192,6 +192,9 @@
       "title": "@:pages.profile.updatePassword"
     }
   },
+  "success": {
+    "general": "Le formulaire a bien été envoyé."
+  },
   "error": {
     "basic": "Quelque chose s'est ma passé. Merci de essayer à nouveau plus tard.",
     "redundantError": "Si ce problème continue de se produire, merci de contacter l'administrateur de l'application.",
