@@ -22,10 +22,10 @@
           <slot name="navMenu" />
         </div>
         <div class="relative flex flex-col flex-shrink-0 border-t">
-          <NuxtLink :to="{ name: ROUTES_NAMES.HOME }">
-            <PrimeButton icon="pi pi-user" />
+          <NuxtLink :to="{ name: ROUTES_NAMES.PROFILE.HOME }">
+            <PrimeButton icon="bi bi-person-fill" />
           </NuxtLink>
-          <PrimeButton icon="pi pi-sign-out" @click="logout" />
+          <PrimeButton icon="bi bi-door-open-fill" @click="logout" />
         </div>
       </div>
     </aside>

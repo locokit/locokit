@@ -19,10 +19,10 @@
           <slot name="mini-navigation-items" />
         </div>
         <div class="relative flex justify-center flex-shrink-0 border-t">
-          <NuxtLink :to="{ name: ROUTES_NAMES.HOME }">
-            <PrimeButton icon="pi pi-user" />
+          <NuxtLink :to="{ name: ROUTES_NAMES.PROFILE.HOME }">
+            <PrimeButton icon="bi bi-person-fill" />
           </NuxtLink>
-          <PrimeButton icon="pi pi-sign-out" @click="logout" />
+          <PrimeButton icon="bi bi-door-open-fill" @click="logout" />
         </div>
       </div>
 
@@ -42,7 +42,7 @@
     <!-- Close button Sidebar -->
     <div v-show="isSettingsPanelOpen" class="absolute right-0 top-0 p-2">
       <PrimeButton
-        icon="pi pi-angle-double-left"
+        icon="bi bi-chevron-double-left"
         @click="handleSettingsPanel"
       />
     </div>
@@ -59,7 +59,7 @@
         >
           <div class="absolute left-0 p-2 transform -translate-x-full">
             <PrimeButton
-              icon="pi pi-angle-double-right"
+              icon="bi bi-chevron-double-right"
               @click="handleSettingsPanel"
             />
           </div>

@@ -25,7 +25,7 @@
         class="inline-block mt-4 p-component bg-green-600 hover:bg-green-800 text-white rounded-lg p-4 cursor-pointer ease-out hover:ease-in duration-500 border-solid border border-green-800"
       >
         <span
-          class="pi pi-home p-button-icon p-button-icon-left px-2"
+          class="bi bi-house-fill p-button-icon p-button-icon-left px-2"
           aria-hidden="true"
         ></span>
         <span class="p-button-label">{{ $t('pages.404.link') }}</span>

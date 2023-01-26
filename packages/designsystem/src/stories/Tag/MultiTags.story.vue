@@ -1,5 +1,5 @@
 <template>
-  <Story title="Tags/MultiTags" icon="bi:tags">
+  <Story title="Tags/MultiTags" icon="bi:tags-fill">
     <Variant title="default">
       <MultiTags :options="options" />
     </Variant>

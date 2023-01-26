@@ -1,5 +1,5 @@
 <template>
-  <Story title="Authentication/SignIn Form" icon="prime:user">
+  <Story title="Authentication/SignIn Form" icon="bi:person-fill">
     <Variant title="default">
       <SignInForm @submit="logEvent('submit', $event)" />
     </Variant>

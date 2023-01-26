@@ -1,5 +1,5 @@
 <template>
-  <Story title="PredefinedColorPicker" icon="bi:palette">
+  <Story title="PredefinedColorPicker" icon="bi:palette-fill">
     <Variant title="default">
       <PredefinedColorPicker
         :current-color="currentColor"
