@@ -20,13 +20,13 @@
           :is-submitting="true"
         />
         <ButtonWithStatus
-          label="Successful sent"
+          label="Submit"
           type="submit"
           icon="bi-save2"
           status-form="success"
         />
         <ButtonWithStatus
-          label="Failed to send"
+          label="Submit"
           type="submit"
           icon="bi-save2"
           status-form="failed"

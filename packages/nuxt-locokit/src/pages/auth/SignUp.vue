@@ -7,7 +7,7 @@
       <template #content>
         <div v-if="!formSentAndValid">
           <p class="mb-4">{{ $t('pages.signUp.description') }}</p>
-          <SignUpForm :error="error" :loading="loading" @submit="signUp" />
+          <SignUpForm :loading="loading" :error="error" @submit="signUp" />
         </div>
         <div v-else class="text-center">
           <div class="flex items-center px-3 pt-4 pb-6">
@@ -41,12 +41,10 @@ import { ROUTES_NAMES } from '../../paths'
 import { useStoreAuth } from '../../stores/auth'
 import { definePageMeta, ref, useHead } from '#imports'
 
+const { t } = useI18n({ useScope: 'global' })
 const authStore = useStoreAuth()
 
-const { t } = useI18n({ useScope: 'global' })
-
-const { error } = storeToRefs(authStore)
-const loading = ref(false) // check if necessary with vee-validate
+const { error, loading } = storeToRefs(authStore)
 const formSentAndValid = ref(false)
 
 const signUp = async (data: { email: string; name: string }) => {

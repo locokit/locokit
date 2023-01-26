@@ -1,10 +1,10 @@
 <template>
   <FormGeneric
-    :display-cancel-button="false"
+    :display-reset-button="false"
     :full-width-button="true"
-    :label-button-save="$t('components.signUpForm.signup')"
+    :label-button-submit="'components.signUpForm.signup'"
+    :response="error"
     :loading="loading"
-    :error="error"
     @submit="onSubmit"
   >
     <Field
@@ -18,7 +18,13 @@
       <label for="name" class="label-field-required">
         {{ $t('components.signUpForm.name') }}
       </label>
-      <PrimeInputText id="name" v-bind="field" v-focus required />
+      <PrimeInputText
+        id="name"
+        v-bind="field"
+        v-focus
+        :class="{ 'p-invalid': errorMessage }"
+        required
+      />
       <span
         v-if="errorMessage"
         class="p-text-error"
@@ -43,6 +49,7 @@
       <PrimeInputText
         id="email"
         v-bind="field"
+        :class="{ 'p-invalid': errorMessage }"
         required
         autocomplete="email"
         type="email"
@@ -76,8 +83,8 @@ const props = withDefaults(
     error?: Error | null
   }>(),
   {
-    loading: () => false,
-    error: () => null,
+    loading: false,
+    error: null,
   },
 )
 

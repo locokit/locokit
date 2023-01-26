@@ -1,6 +1,6 @@
 <template>
   <Form
-    v-slot="{ meta: { valid } }"
+    v-slot="{ meta: { valid, touched } }"
     class="text-left p-fluid"
     @submit="onSubmit"
   >
@@ -17,6 +17,7 @@
       <PrimePassword
         v-model="password"
         input-id="password"
+        :class="{ 'p-invalid': errorMessage }"
         v-bind="field"
         :feedback="true"
         :toggle-mask="true"
@@ -59,6 +60,7 @@
       <PrimePassword
         v-model="passwordCheck"
         input-id="passwordCheck"
+        :class="{ 'p-invalid': errorMessage }"
         v-bind="field"
         :feedback="false"
         :toggle-mask="true"
@@ -76,12 +78,14 @@
         {{ errorMessage }}
       </span>
     </Field>
-    <PrimeButton
+    <ButtonWithStatus
       type="submit"
-      :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
       :label="labelSubmit"
-      :disabled="loading || !valid"
-      class="mb-2"
+      class="w-full border"
+      :disabled="loading || !valid || !touched"
+      :status-form="error ? 'failed' : null"
+      icon="bi bi-save2"
+      :is-submitting="loading"
     />
     <div
       v-if="error"
@@ -100,8 +104,8 @@
 <script setup lang="ts">
 // N.B: We shouldn't use v-model and v-bind in the input according to [vee-validate good practices](https://vee-validate.logaretm.com/v4/api/field/#using-v-model) but without it, Password component of Prime does not work.
 // And to date, no side effects have been encountered
-import PrimeButton from 'primevue/button'
 import PrimePassword from 'primevue/password'
+import ButtonWithStatus from '../../ButtonWithStatus/ButtonWithStatus.vue'
 import { ref } from 'vue'
 import { Form, Field } from 'vee-validate'
 import { regexPasswordRules } from '../../../helpers/regex'
@@ -118,8 +122,8 @@ const props = withDefaults(
     labelSubmit: string
   }>(),
   {
-    loading: () => false,
-    error: () => null,
+    loading: false,
+    error: null,
   },
 )
 const password = ref('')

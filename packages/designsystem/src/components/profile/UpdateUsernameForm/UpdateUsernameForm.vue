@@ -1,6 +1,6 @@
 <template>
   <Form
-    v-slot="{ meta: { valid }, isSubmitting }"
+    v-slot="{ meta: { valid, touched }, submitCount }"
     class="text-left w-full"
     @submit="onSubmit"
   >
@@ -17,18 +17,22 @@
           {{ $t('components.updateUsernameForm.username') }}
         </label>
 
-        <div class="col-span-2 w-full">
+        <div class="col-span-2 w-full flex">
           <PrimeInputText
             id="name"
             class="!w-4/5 sm:!w-fit md:!w-3/5"
+            :class="{ 'p-invalid': errorMessage }"
             v-bind="field"
             required
           />
-          <PrimeButton
+          <ButtonWithStatus
             type="submit"
-            :icon="isSubmitting ? 'pi pi-spin pi-spinner' : 'pi pi-save'"
             :aria-label="$t('components.updateUsernameForm.submit')"
-            :disabled="isSubmitting || !valid"
+            :disabled="loading || !valid || !touched"
+            :status-form="status"
+            icon="bi bi-save2"
+            :is-submitting="loading"
+            :submit-count="submitCount"
           />
         </div>
       </div>
@@ -60,18 +64,23 @@
 </template>
 
 <script setup lang="ts">
-import PrimeButton from 'primevue/button'
 import PrimeInputText from 'primevue/inputtext'
+import ButtonWithStatus from '../../ButtonWithStatus/ButtonWithStatus.vue'
 import { Form, Field } from 'vee-validate'
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import SingleTag from '../../SingleTag/SingleTag.vue'
 
 const props = withDefaults(
   defineProps<{
     user: any
+    loading?: boolean
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    response?: Error | Record<string, any> | null
   }>(),
   {
     user: null,
+    loading: false,
+    response: null,
   },
 )
 
@@ -86,16 +95,25 @@ const emit = defineEmits<{
 
 const username = ref(props?.user?.name)
 
-watch(
-  () => props.user,
-  (user) => {
-    username.value = user?.name
-  },
-)
+const status = computed(() => {
+  if (props.response && props.response.name) {
+    return 'failed'
+  } else if (props.response) {
+    return 'success'
+  }
+  return null
+})
 
 const onSubmit = () => {
   emit('submit', {
     username: username.value,
   })
 }
+
+watch(
+  () => props.user,
+  (user) => {
+    username.value = user?.name
+  },
+)
 </script>

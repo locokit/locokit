@@ -192,6 +192,9 @@
       "title": "@:pages.profile.updatePassword"
     }
   },
+  "success": {
+    "general": "The form have been sent correctly."
+  },
   "error": {
     "basic": "Something goes wrong. Please try again later.",
     "redundantError": "If this issue keeps happening, contact the app administrator.",
