@@ -10,7 +10,7 @@
       <PrimeButton
         v-if="displayResetButton"
         class="p-button-outlined !mr-2"
-        :label="$t('components.formGeneric.cancel')"
+        :label="$t('components.formGeneric.reset')"
         icon="bi bi-x"
         :class="[fullWidthButton ? 'w-full' : '!w-fit']"
         @click="onCancel"
