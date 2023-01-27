@@ -161,7 +161,8 @@
     },
     "workspace": {
       "title": "Espaces de travail",
-      "newWorkspace": "Nouveau espace de travail",
+      "intro": "Vous devez créer un workspace et le sélectionner avant de lui ajouter des données ou des pages.",
+      "newWorkspace": "Ajouter un espace de travail",
       "createWorkspace": "Créer votre premier espace de travail",
       "myWorkspace": "Mon espace de travail",
       "publicWorkspace": "Tous les espaces de travail publiques",
