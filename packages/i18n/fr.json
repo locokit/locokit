@@ -44,7 +44,7 @@
     },
     "formGeneric": {
       "save": "Enregistrer",
-      "cancel": "Annuler"
+      "reset": "Réinitialiser"
     },
     "predefinedColorPicker": {
       "label": "Couleur",

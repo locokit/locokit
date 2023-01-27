@@ -25,17 +25,17 @@
       as="div"
       type="email"
     >
-        <label for="name" class="label-field-required my-auto">
-          {{ $t('components.updateEmailForm.newEmail') }}
-        </label>
-          <PrimeInputText
-            id="email"
-            class="w-full"
-            :class="{ 'p-invalid': errorMessage }"
-            v-bind="field"
-            required
-            type="email"
-          />
+      <label for="name" class="label-field-required my-auto">
+        {{ $t('components.updateEmailForm.newEmail') }}
+      </label>
+      <PrimeInputText
+        id="email"
+        class="w-full"
+        :class="{ 'p-invalid': errorMessage }"
+        v-bind="field"
+        required
+        type="email"
+      />
 
       <span
         v-if="errorMessage"
@@ -54,23 +54,21 @@
       rules="required"
       as="div"
     >
-        <label for="name" class="label-field-required my-auto">
-          {{ $t('components.updateEmailForm.password') }}
-        </label>
-          <PrimePassword
-            v-bind="field"
-            v-model="password"
-            input-id="password"
-            input-class=""
-            :class="{ 'p-invalid': errorMessage }"
-            class=""
-            :toggle-mask="true"
-            :feedback="false"
-            spellcheck="false"
-            autocorrect="off"
-            autocapitalize="none"
-            required
-          />
+      <label for="name" class="label-field-required my-auto">
+        {{ $t('components.updateEmailForm.password') }}
+      </label>
+      <PrimePassword
+        v-bind="field"
+        v-model="password"
+        input-id="password"
+        :class="{ 'p-invalid': errorMessage }"
+        :toggle-mask="true"
+        :feedback="false"
+        spellcheck="false"
+        autocorrect="off"
+        autocapitalize="none"
+        required
+      />
 
       <span
         v-if="errorMessage"
