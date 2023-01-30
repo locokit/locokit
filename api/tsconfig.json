@@ -10,7 +10,9 @@
     "declaration": true,
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "moduleResolution": "node"
   },
   "include": ["src", "index.js"],
   "exclude": ["test", "**/*.test.ts"]
