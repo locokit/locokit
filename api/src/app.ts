@@ -47,10 +47,6 @@ export function createApp(): Application {
       helmet({
         contentSecurityPolicy: {
           useDefaults: true,
-          // directives: {
-          //   'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://unpkg.com'],
-          //   'worker-src': ['blob:'], // needed by redoc swagger
-          // },
         },
         hsts: helmetSettings?.hstsEnabled,
       }),
