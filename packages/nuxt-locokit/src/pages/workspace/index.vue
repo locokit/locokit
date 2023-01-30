@@ -46,7 +46,9 @@
               <i class="absolute -left-3 -bottom-3 text-9xl opacity-10"
                 :class="`bi ${workspace.settings?.icon}`" />
               <span
-                class="px-2 max-w-fit rounded absolute bottom-1 right-1 bg-gray-300 text-black text-sm">
+                v-if="workspace.public"
+                class="px-2 max-w-fit rounded absolute bottom-1 right-1 bg-gray-300 text-black text-sm"
+              >
                 {{ $t('pages.workspace.public') }}
               </span>
             </div>
