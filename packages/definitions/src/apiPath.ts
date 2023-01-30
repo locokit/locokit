@@ -14,8 +14,7 @@ const WORKSPACE_DATASOURCE_TABLE_DATASET: 'workspace/:workspaceSlug/datasource/:
   'workspace/:workspaceSlug/datasource/:datasourceSlug/table/:tableSlug/dataset'
 const WORKSPACE_DATASOURCE_TABLE_RELATION: 'workspace/:workspaceSlug/datasource/:datasourceSlug/table/:tableSlug/relation' =
   'workspace/:workspaceSlug/datasource/:datasourceSlug/table/:tableSlug/relation'
-const WORKSPACE_GROUP: 'workspace/:workspaceSlug/group' =
-  'workspace/:workspaceSlug/group'
+const WORKSPACE_GROUP: 'workspace/:workspaceSlug/group' = 'workspace/:workspaceSlug/group'
 
 /**
  * Authentication / management / profile
@@ -24,6 +23,8 @@ const AUTH_ROOT: 'authentication' = 'authentication'
 const AUTH_MANAGEMENT: 'auth-management' = 'auth-management'
 const AUTH_USER: 'user' = 'user'
 const AUTH_GROUP: 'group' = 'group'
+const AUTH_USERGROUP: 'user-group' = 'user-group'
+const AUTH_ROLE: 'role' = 'role'
 const AUTH_SIGNUP: 'signup' = 'signup'
 
 /**
@@ -58,7 +59,9 @@ export const API_PATH = {
     MANAGEMENT: AUTH_MANAGEMENT,
     USER: AUTH_USER,
     GROUP: AUTH_GROUP,
+    USERGROUP: AUTH_USERGROUP,
     SIGNUP: AUTH_SIGNUP,
+    ROLE: AUTH_ROLE,
   },
   ADMIN: {
     SETTINGS: ADMIN_SETTINGS,
