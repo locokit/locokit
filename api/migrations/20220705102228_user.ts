@@ -3,12 +3,12 @@ import type { Knex } from 'knex'
 
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.withSchema('core').createTable('lck_user', (table) => {
-    table.increments('id')
+    table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
     table.string('name', 255)
+    table.string('nickname', 255).unique().notNullable()
+    table.string('avatarURL')
     table.string('email', 255).unique().notNullable()
     table.string('password')
-    table.string('auth0Id')
-    table.string('github').unique()
     table
       .enum('profile', [PROFILE.MEMBER, PROFILE.CREATOR, PROFILE.ADMIN])
       .defaultTo(PROFILE.CREATOR)
