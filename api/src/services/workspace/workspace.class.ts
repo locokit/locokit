@@ -1,15 +1,17 @@
-import type { KnexAdapterParams } from '@feathersjs/knex'
+import { KnexAdapterParams } from '@feathersjs/knex'
 import {
   resolveData,
-  resolveAll,
   resolveQuery,
+  resolveAll,
   validateQuery,
+  validateData,
 } from '@feathersjs/schema'
 
-import type {
+import {
   WorkspaceData,
   WorkspaceResult,
   WorkspaceQuery,
+  workspaceDataValidator,
 } from './workspace.schema'
 import {
   workspaceQueryValidator,
@@ -24,17 +26,18 @@ import { Forbidden } from '@feathersjs/errors/lib'
 
 export const workspaceHooks = {
   around: {
-    all: [resolveAll(workspaceResolvers)],
+    all: [validateData(workspaceDataValidator), resolveAll(workspaceResolvers)],
   },
   before: {
     find: [
+      authenticate('jwt', 'public'),
       validateQuery(workspaceQueryValidator),
       resolveQuery(workspaceResolvers.query),
     ],
     create: [
       authenticate('jwt'),
       resolveData(workspaceResolvers.data.create),
-      function checkProfile(context: HookContext) {
+      async function checkProfile(context: HookContext) {
         const user: UserResult = context.params.user
         const profile = user.profile
 
@@ -45,7 +48,9 @@ export const workspaceHooks = {
       },
     ],
   },
-  after: {},
+  after: {
+    find: [resolveData(workspaceResolvers.result)],
+  },
   error: {},
 }
 
@@ -57,11 +62,3 @@ export class WorkspaceService extends ObjectionService<
   WorkspaceData,
   WorkspaceParams
 > {}
-// async function checkSlug(slugToCheck: string) {
-//   // this.
-//   // SELECT count(*) from workspace where slug = slugToCheck
-//   // return {
-//   //   code: LCK_ERROR.SLUG_ALREADY_TAKEN,
-//   //   message: 'Slug is already taken. Please change your workspace name.'
-//   // }
-// }

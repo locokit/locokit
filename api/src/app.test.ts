@@ -34,4 +34,7 @@ describe('Feathers application tests', () => {
       assert.strictEqual(response?.data?.name, 'NotFound')
     }
   })
+
+  it("check that a workspace's schema role can't access the core schema")
+  it('check that a swagger is available for the api')
 })

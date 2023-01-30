@@ -1,48 +1,11 @@
 import { API_PATH } from '@locokit/definitions'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
-import { JSONSchema, Model, RelationMappings } from 'objection'
 import type { Application } from '../../declarations'
 import { ObjectionAdapterOptions } from '../../feathers-objection'
-import { UserModel } from '../auth/user/user.service'
-import { DatasourceModel } from './datasource/datasource.service'
 
 import { WorkspaceService, workspaceHooks } from './workspace.class'
-import {
-  workspaceDataSchema,
-  workspaceQuerySchema,
-  workspaceSchema,
-} from './workspace.schema'
-
-export class WorkspaceModel extends Model {
-  static readonly model = 'workspace'
-
-  static readonly tableName = 'lck_workspace'
-
-  static get jsonSchema(): JSONSchema {
-    return workspaceSchema.definition as unknown as JSONSchema
-  }
-
-  static get relationMappings(): RelationMappings {
-    return {
-      datasources: {
-        relation: Model.HasManyRelation,
-        modelClass: DatasourceModel,
-        join: {
-          from: 'workspace.id',
-          to: 'datasource.workspaceId',
-        },
-      },
-      owner: {
-        relation: Model.HasOneRelation,
-        modelClass: UserModel,
-        join: {
-          from: 'workspace.createdBy',
-          to: 'user.id',
-        },
-      },
-    }
-  }
-}
+import { WorkspaceModel } from './workspace.model'
+import { workspaceDataSchema, workspaceQuerySchema, workspaceSchema } from './workspace.schema'
 
 // A configure function that registers the service and its hooks via `app.configure`
 export function workspaceService(app: Application): void {
@@ -51,6 +14,7 @@ export function workspaceService(app: Application): void {
     Model: WorkspaceModel,
     name: 'lck_workspace',
     schema: 'core',
+    allowedGraph: '[owner,groups,roles]',
   }
 
   // Register our service on the Feathers application
@@ -66,11 +30,4 @@ export function workspaceService(app: Application): void {
   })
   // Initialize hooks
   app.service(API_PATH.WORKSPACE.ROOT).hooks(workspaceHooks)
-}
-
-// Add this service to the service type index
-declare module '../../declarations' {
-  interface ServiceTypes {
-    [API_PATH.WORKSPACE.ROOT]: WorkspaceService
-  }
 }

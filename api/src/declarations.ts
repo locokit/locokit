@@ -11,13 +11,17 @@ import { ConfigurationSchema } from './schemas/configuration.schema'
 import { ServiceSwaggerOptions } from 'feathers-swagger'
 
 import { UserResult } from './services/auth/user/user.schema'
+import { API_PATH } from '@locokit/definitions'
+import { WorkspaceService } from './services/workspace/workspace.class'
 
 export { NextFunction }
 
-export interface Configuration extends ConfigurationSchema {}
+export interface Configuration extends ConfigurationSchema { }
 
 // A mapping of service names to types. Will be extended in service files.
-export interface ServiceTypes {}
+export interface ServiceTypes {
+  [API_PATH.WORKSPACE.ROOT]: WorkspaceService
+}
 
 // The application instance type that will be used everywhere else
 export type Application = FeathersApplication<ServiceTypes, Configuration>

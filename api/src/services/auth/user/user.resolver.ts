@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { resolve } from '@feathersjs/schema'
+import { resolve, Resolver } from '@feathersjs/schema'
 import { passwordHash } from '@feathersjs/authentication-local'
 import type { HookContext } from '../../../declarations'
-import type { UserData, UserPatch, UserResult, UserQuery } from './user.schema'
+import { UserData, UserPatch, UserResult, UserQuery } from './user.schema'
 import { generatePassword } from '../../../utils/password'
+import { workspaceDispatchResolver } from '../../workspace/workspace.resolver'
 
 // Resolver for the basic data model (e.g. creating new entries)
 export const userDataResolver = resolve<UserData, HookContext>({
@@ -60,16 +61,16 @@ export const userPatchResolver = resolve<UserPatch, HookContext>({
     email: async (email) => {
       return email?.trim().toLowerCase()
     },
-    resetExpires: async (resetExpires) => {
-      if (typeof resetExpires === 'number') {
-        return new Date(resetExpires).toISOString()
-      }
-    },
-    verifyExpires: async (verifyExpires) => {
-      if (typeof verifyExpires === 'number') {
-        return new Date(verifyExpires).toISOString()
-      }
-    },
+    // resetExpires: async (resetExpires) => {
+    //   if (typeof resetExpires === 'number') {
+    //     return new Date(resetExpires).toISOString()
+    //   }
+    // },
+    // verifyExpires: async (verifyExpires) => {
+    //   if (typeof verifyExpires === 'number') {
+    //     return new Date(verifyExpires).toISOString()
+    //   }
+    // },
   },
 })
 
@@ -87,12 +88,35 @@ export const userResultResolver = resolve<UserResult, HookContext>({
 })
 
 // Resolver for the "safe" version that external clients are allowed to see
-export const userDispatchResolver = resolve<UserResult, HookContext>({
+export const userDispatchResolver: Resolver<UserResult, HookContext> = resolve<
+  UserResult,
+  HookContext
+>({
   // schema: userSchema,
   validate: false,
   properties: {
-    // The password should never be visible externally
+    isVerified: async () => undefined,
+    createdAt: async () => undefined,
+    updatedAt: async () => undefined,
+    profile: async () => undefined,
+    lastConnection: async () => undefined,
+    email: async () => undefined,
     password: async () => undefined,
+    verifyChanges: async () => undefined,
+    verifyExpires: async () => undefined,
+    resetExpires: async () => undefined,
+    verifyToken: async () => undefined,
+    verifyShortToken: async () => undefined,
+    resetToken: async () => undefined,
+    resetShortToken: async () => undefined,
+    resetAttempts: async () => undefined,
+    workspaces: async (workspaces, _data, context) => {
+      if (workspaces) {
+        return await Promise.all(
+          workspaces.map(async (w) => await workspaceDispatchResolver.resolve(w, context)),
+        )
+      }
+    },
   },
 })
 

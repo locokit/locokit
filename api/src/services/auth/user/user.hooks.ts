@@ -22,6 +22,14 @@ export const hooks: HookOptions<Application, UserService> = {
     ],
   },
   before: {
+    get: [
+      // limit the get to the current logged user
+      // unless it's an admin
+    ],
+    find: [
+      // need to be admin to make queries on some fields
+      // otherwise, could search on "name" ? or "nickname" (but we don't have it yet)
+    ],
     create: [
       /**
        * We disable the creation of user
@@ -82,18 +90,15 @@ export const hooks: HookOptions<Application, UserService> = {
   after: {
     create: [
       /**
-       * We don't notify when we are testing.
+       * Notify the user its account has been created
        */
-      // iff(process.env.NODE_ENV !== 'test',
       (context: HookContext) => {
-        console.log('after create')
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         authManagementSettings(context.app as Application).notifier(
           'sendVerifySignup',
           context.result,
         )
       },
-      // ),
     ],
   },
 }

@@ -49,32 +49,32 @@ export async function createAbility(
      */
     case PROFILE.CREATOR:
       // find all workspace where user have a group "manager" of the workspace
-      const aclsetsCREATOR = (await services.role.find({
-        query: {
-          $joinRelation: 'groupsacl.[users]',
-          'groupsacl:users.id': user.id,
-        },
-        paginate: false,
-      })) as LckAclSet[]
+      // const aclsetsCREATOR = (await services.role.find({
+      //   query: {
+      //     $joinRelation: 'groupsacl.[users]',
+      //     'groupsacl:users.id': user.id,
+      //   },
+      //   paginate: false,
+      // })) as LckAclSet[]
       cannot('manage', 'workspace')
       can('create', 'workspace')
       // const workspaceIdsManagerCREATOR = aclsetsCREATOR
       //   .filter((aclset) => aclset.manager)
       //   .map((aclset) => aclset.workspace_id)
-      const workspaceIdsCREATOR = aclsetsCREATOR.map(
-        (aclset) => aclset.workspace_id,
-      )
+      // const workspaceIdsCREATOR = aclsetsCREATOR.map(
+      //   (aclset) => aclset.workspace_id,
+      // )
       can('manage', 'workspace', {
         createdBy: user.id,
         // [withJoin ? 'workspace.id' : 'id']: {
         //   $in: workspaceIdsManagerCREATOR,
         // },
       })
-      can('read', 'workspace', {
-        [withJoin ? 'workspace.id' : 'id']: {
-          $in: workspaceIdsCREATOR,
-        },
-      })
+      // can('read', 'workspace', {
+      //   [withJoin ? 'workspace.id' : 'id']: {
+      //     $in: workspaceIdsCREATOR,
+      //   },
+      // })
       break
     /**
      * User connected can

@@ -1,7 +1,7 @@
 import { Ajv, addFormats } from '@feathersjs/schema'
 import type { FormatsPluginOptions } from '@feathersjs/schema'
 import ajvErrors from 'ajv-errors'
-import { PROFILE } from '@locokit/definitions'
+import { USER_PROFILE, USERGROUP_PROFILE } from '@locokit/definitions'
 
 const formats: FormatsPluginOptions = [
   'date-time',
@@ -32,7 +32,11 @@ export const dataValidator = ajvErrors(
 )
 dataValidator.addFormat('user-profile', {
   type: 'string',
-  validate: (x: string) => Object.keys(PROFILE).includes(x),
+  validate: (x: string) => Object.keys(USER_PROFILE).includes(x),
+})
+dataValidator.addFormat('user-group-profile', {
+  type: 'string',
+  validate: (x: string) => Object.keys(USERGROUP_PROFILE).includes(x),
 })
 
 export const queryValidator = ajvErrors(
@@ -47,5 +51,9 @@ export const queryValidator = ajvErrors(
 )
 queryValidator.addFormat('user-profile', {
   type: 'string',
-  validate: (x: string) => Object.keys(PROFILE).includes(x),
+  validate: (x: string) => Object.keys(USER_PROFILE).includes(x),
+})
+queryValidator.addFormat('user-group-profile', {
+  type: 'string',
+  validate: (x: string) => Object.keys(USERGROUP_PROFILE).includes(x),
 })

@@ -7,4 +7,6 @@ describe('users service', () => {
 
     assert.ok(service, 'Registered the service')
   })
+
+  it('return groups of a user when using the $joinRelated option')
 })

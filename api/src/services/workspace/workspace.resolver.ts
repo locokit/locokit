@@ -3,32 +3,20 @@ import { getValidator } from '@feathersjs/typebox'
 import type { HookContext } from '../../declarations'
 import { queryValidator } from '../../schemas/validators'
 import { toSnakeCase } from '../../utils/toSnakeCase'
+import { groupDispatchResolver } from '../auth/group/group.resolver'
+import { roleDispatchResolver } from '../auth/role/role.resolver'
+import { RoleSchema } from '../auth/role/role.schema'
+import { userDispatchResolver } from '../auth/user/user.resolver'
 
-import {
-  // WorkspaceData,
-  // WorkspacePatch,
-  // WorkspaceResult,
-  WorkspaceQuery,
-  workspaceQuerySchema,
-  WorkspaceSchema,
-} from './workspace.schema'
-// import {
-//   workspaceDataSchema,
-//   workspacePatchSchema,
-//   workspaceResultSchema,
-//   workspaceQuerySchema,
-// } from './workspace.schema'
+import { WorkspaceQuery, workspaceQuerySchema, WorkspaceSchema } from './workspace.schema'
 
 // Resolver for the basic data model (e.g. creating new entries)
-export const workspaceResolver = resolve<WorkspaceSchema, HookContext>({
-  // schema: workspaceDataSchema.properties,
-  // validate: 'before',
-  // properties: {
+export const workspaceCreateResolver = resolve<WorkspaceSchema, HookContext>({
   /**
    * Set the creator to the current user logged
    */
   createdBy: async (createdBy, _data, context) => {
-    if (createdBy === null || createdBy === undefined) {
+    if ((createdBy === null || createdBy === undefined) && context.params.user) {
       return context.params.user.id
     }
   },
@@ -40,32 +28,71 @@ export const workspaceResolver = resolve<WorkspaceSchema, HookContext>({
       return toSnakeCase(data.name)
     }
   },
-  // },
+})
+
+export const workspaceDefaultResolver = resolve<WorkspaceSchema, HookContext>({})
+
+export const workspaceDispatchResolver = resolve<WorkspaceSchema, HookContext>({
+  /**
+   * This resolver is used for the relation owner
+   * We need to use the dispatch resolver to avoid send sensible data
+   *
+   * The relation `owner` is fetched when used in a find/get + $joinRelated
+   */
+  async owner(owner, _data, context) {
+    if (owner) return await userDispatchResolver.resolve(owner, context)
+  },
+
+  /**
+   * The resolver of the group is used, for each item,
+   * to remove / complete data sent
+   */
+  async groups(groups, _data, context) {
+    if (groups) {
+      return await Promise.all(
+        groups.map(async (g) => await groupDispatchResolver.resolve(g, context)),
+      )
+    }
+  },
+
+  /**
+   * The resolver of the role is used, for each item,
+   * to remove / complete data sent
+   */
+  async roles(roles, _data, context) {
+    let result: RoleSchema[] = []
+    if (roles) {
+      const rolesPromises: RoleSchema[] = await Promise.all(
+        roles.map(async (g) => await roleDispatchResolver.resolve(g, context)),
+      )
+      result = rolesPromises
+    }
+    return result
+  },
 })
 
 // Resolver for query properties
 export const workspaceQueryResolver = resolve<WorkspaceQuery, HookContext>({
-  // $forCurrentUser: async (value, _data, context) => {
-  //   if (value === true) {
-  //     context.params.query = {
-  //       ...context.params.query,
-  //     }
-  //   }
-  //   return true
-  // },
+  /**
+   * If no user is authenticated,
+   * return only public workspaces
+   */
+  async public(_value, _data, context) {
+    if (!context.params?.user) return true
+  },
 })
-export const workspaceQueryValidator = getValidator(
-  workspaceQuerySchema,
-  queryValidator,
-)
+
+// @ts-expect-error
+export const workspaceQueryValidator = getValidator(workspaceQuerySchema, queryValidator)
 
 // Export all resolvers in a format that can be used with the resolveAll hook
 export const workspaceResolvers = {
-  result: workspaceResolver,
+  result: workspaceDefaultResolver,
+  dispatch: workspaceDispatchResolver,
   data: {
-    create: workspaceResolver,
-    update: workspaceResolver,
-    patch: workspaceResolver,
+    create: workspaceCreateResolver,
+    update: workspaceDefaultResolver,
+    patch: workspaceDefaultResolver,
   },
   query: workspaceQueryResolver,
 }

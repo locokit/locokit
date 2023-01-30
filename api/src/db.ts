@@ -9,7 +9,7 @@ declare module './declarations' {
   }
 }
 
-export function db(app: Application): void {
+export async function db(app: Application): Promise<void> {
   const config = app.get('settings').db
 
   const db = knex({
