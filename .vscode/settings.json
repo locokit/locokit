@@ -6,13 +6,15 @@
     "source.fixAll": true
   },
   "editor.rulers": [
-    {"column": 80},
-    {"column": 100}
+    {
+      "column": 100
+    }
   ],
   "workbench.colorCustomizations": {
     "activityBar.background": "#29264F",
     "titleBar.activeBackground": "#4b9c6d",
     "titleBar.activeForeground": "#29264F",
     "titleBar.border": "#29264F"
-  }
+  },
+  "workbench.colorTheme": "Monokai"
 }
