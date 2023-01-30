@@ -24,7 +24,7 @@ export const start =
       return
     }
 
-    return await new Promise<void>((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       const transaction: ObjectionAdapterTransaction = {
         starting: true,
       }
@@ -76,7 +76,9 @@ export const end = () => (context: HookContext) => {
     .commit()
     .then(() => promise)
     .then(() => transaction.resolve?.(true))
-    .then(() => debug('ended transaction %s', id))
+    .then(() => {
+      debug('ended transaction %s', id)
+    })
     .then(() => context)
 }
 
@@ -96,6 +98,8 @@ export const rollback = () => (context: HookContext) => {
     .rollback(ROLLBACK)
     .then(() => promise)
     .then(() => transaction.resolve?.(false))
-    .then(() => debug('rolled back transaction %s', id))
+    .then(() => {
+      debug('rolled back transaction %s', id)
+    })
     .then(() => context)
 }

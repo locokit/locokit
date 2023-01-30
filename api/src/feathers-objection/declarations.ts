@@ -1,15 +1,5 @@
-import {
-  RelationExpression,
-  Model,
-  JSONSchema,
-  QueryBuilder,
-  Transaction,
-} from 'objection'
-import {
-  AdapterServiceOptions,
-  AdapterParams,
-  AdapterQuery,
-} from '@feathersjs/adapter-commons'
+import { RelationExpression, Model, JSONSchema, QueryBuilder, Transaction } from 'objection'
+import { AdapterServiceOptions, AdapterParams, AdapterQuery } from '@feathersjs/adapter-commons'
 
 export interface ObjectionAdapterOptions extends AdapterServiceOptions {
   Model: typeof Model
@@ -29,11 +19,12 @@ export interface ObjectionAdapterOptions extends AdapterServiceOptions {
 
   /**
    * database id field
+   * string when unique key, string[] when composite
    */
-  id?: string
+  id?: any | string | string[]
 
   jsonSchema?: JSONSchema //  = options.model.jsonSchema
-  allowedEager?: string[] //  = options.allowedEager
+  allowedGraph?: string //  = options.allowedGraph // previously allowedEager
   eagerOptions?: any //  = options.eagerOptions
   eagerFilters?: any //  = options.eagerFilters
   allowedInsert?: RelationExpression<Model> //  =
@@ -57,4 +48,6 @@ export interface ObjectionAdapterParams<Q = AdapterQuery>
   extends AdapterParams<Q, Partial<ObjectionAdapterOptions>> {
   objection?: QueryBuilder<Model, Model[]>
   transaction?: ObjectionAdapterTransaction
+  eagerOptions?: any
+  mergeAllowEager?: any
 }
