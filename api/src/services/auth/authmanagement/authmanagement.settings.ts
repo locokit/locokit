@@ -8,8 +8,9 @@ import {
   NotifierOptions,
   User,
 } from 'feathers-authentication-management'
+import { logger } from '../../../logger'
 
-// const debug = makeDebug('lck:service:authMgnt:settings')
+const authMgtLogger = logger.child('service-auth-mgmt')
 
 export type AuthenticationManagementAction =
   /**
@@ -234,7 +235,7 @@ export function authManagementSettings(app: Application): {
         emailAddress?: string
       },
     ) {
-      // debug('notifier', type, user)
+      authMgtLogger.info('notifier() type %s', type, user, notifierOptions)
       const currentActionOption = actionOptions[type]
       const currentTemplateVars: {
         portalLink: string

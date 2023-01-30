@@ -46,7 +46,7 @@ module.exports = {
     entity: 'user',
     service: 'user',
     secret: '/jZiG6MPLaMr6JBptahMA+pxZh0A4XgX',
-    authStrategies: ['jwt', 'local', 'api-key', 'github'],
+    authStrategies: ['jwt', 'local', 'public'],
     signup: true,
     jwtOptions: {
       header: {
@@ -77,11 +77,6 @@ module.exports = {
     //   name: 'locokit-next',
     //   httpOnly: false,
     //   secure: false,
-    // },
-    // github: {
-    //   key: '7e52d97dd4f7c2252de3',
-    //   secret: 'ebeb2acf10fb479ebef4a21277e7c0153f439024',
-    //   scope: ['openid', 'profile', 'email'],
     // },
   },
   datasources: defaultDatasources,

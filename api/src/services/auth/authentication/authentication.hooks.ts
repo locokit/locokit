@@ -1,5 +1,5 @@
 import { Forbidden } from '@feathersjs/errors'
-import { alterItems } from 'feathers-hooks-common'
+// import { alterItems } from 'feathers-hooks-common'
 import { PROFILE } from '@locokit/definitions'
 import { AbilityBuilder } from '@casl/ability'
 
@@ -11,11 +11,11 @@ import makeAbilityFromRules from '../../../abilities/makeAbilityFromRules'
 export async function addRulesToUser(
   context: HookContext,
 ): Promise<HookContext> {
-  console.log('add rules to user', context.params, context.result.user)
+  // console.log('add rules to user', context.params, context.result.user)
   const { user } = context.result
   if (!user) return context
   context.result.user.rules = context.params.rules
-  console.log('add rules to user', context.params, context.result.user)
+  // console.log('add rules to user', context.params, context.result.user)
   return context
 }
 
@@ -81,18 +81,18 @@ export const hooks = {
         }
         return context
       },
-      alterItems((rec) => {
-        console.log('alterItems', rec)
-        delete rec.user.verifyToken
-        delete rec.user.verifyShortToken
-        delete rec.user.verifyExpires
-        delete rec.user.verifyChanges
-        delete rec.user.resetToken
-        delete rec.user.resetShortToken
-        delete rec.user.resetExpires
-        delete rec.user.resetAttempts
-        console.log('alterItems', rec)
-      }),
+      // alterItems((rec) => {
+      //   console.log('alterItems', rec)
+      //   delete rec.user.verifyToken
+      //   delete rec.user.verifyShortToken
+      //   delete rec.user.verifyExpires
+      //   delete rec.user.verifyChanges
+      //   delete rec.user.resetToken
+      //   delete rec.user.resetShortToken
+      //   delete rec.user.resetExpires
+      //   delete rec.user.resetAttempts
+      //   console.log('alterItems', rec)
+      // }),
       defineAbilities,
       addRulesToUser,
     ],
