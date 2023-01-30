@@ -162,8 +162,8 @@
     "workspace": {
       "title": "Workspaces",
       "intro": "You must create or select your workspace before adding datas or templates.",
-      "newWorkspace": "New workspace",
-      "createWorkspace": "Add a workspace",
+      "newWorkspace": "Add a workspace",
+      "createWorkspace": "Create your first workspace",
       "myWorkspace": "My workspaces",
       "publicWorkspace": "All public workspaces",
       "public": "Public"
