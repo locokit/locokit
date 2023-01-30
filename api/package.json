@@ -1,7 +1,7 @@
 {
   "name": "locokit-api",
   "description": "LocoKit API (over SQL)",
-  "version": "0.0.0",
+  "version": "1.0.0-alpha.0",
   "homepage": "",
   "private": true,
   "keywords": [
