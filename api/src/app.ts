@@ -8,13 +8,7 @@ dotenv.config()
 import serveStatic from 'koa-static'
 import { feathers } from '@feathersjs/feathers'
 import configuration from '@feathersjs/configuration'
-import {
-  koa,
-  rest,
-  bodyParser,
-  errorHandler,
-  parseAuthentication,
-} from '@feathersjs/koa'
+import { koa, rest, bodyParser, errorHandler, parseAuthentication } from '@feathersjs/koa'
 import cors from '@koa/cors'
 import socketio from '@feathersjs/socketio'
 import swagger from 'feathers-swagger'
