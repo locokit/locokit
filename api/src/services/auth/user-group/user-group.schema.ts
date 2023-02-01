@@ -1,4 +1,5 @@
 import { Type, querySyntax, Static, getDataValidator } from '@feathersjs/typebox'
+import { USERGROUP_PROFILE } from '@locokit/definitions'
 import { dataValidator } from '../../../schemas/validators'
 
 // Schema for the basic data model (e.g. creating new entries)

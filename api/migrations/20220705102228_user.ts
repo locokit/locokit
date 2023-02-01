@@ -1,17 +1,17 @@
-import { PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/definitions'
 import type { Knex } from 'knex'
 
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.withSchema('core').createTable('lck_user', (table) => {
     table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
     table.string('name', 255)
-    table.string('nickname', 255).unique().notNullable()
+    table.string('username', 255).unique().notNullable()
     table.string('avatarURL')
     table.string('email', 255).unique().notNullable()
     table.string('password')
     table
-      .enum('profile', [PROFILE.MEMBER, PROFILE.CREATOR, PROFILE.ADMIN])
-      .defaultTo(PROFILE.CREATOR)
+      .enum('profile', [USER_PROFILE.MEMBER, USER_PROFILE.CREATOR, USER_PROFILE.ADMIN])
+      .defaultTo(USER_PROFILE.CREATOR)
     table.boolean('isVerified').defaultTo(false)
     table.string('verifyToken')
     table.string('verifyShortToken')

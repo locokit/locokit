@@ -7,7 +7,7 @@ export const userSchema = Type.Object(
   {
     id: Type.Number(),
     name: Type.String(),
-    nickname: Type.String(),
+    username: Type.String(),
     avatarURL: Type.String(),
     email: Type.String({ format: 'email' }),
     password: Type.Optional(Type.String()),

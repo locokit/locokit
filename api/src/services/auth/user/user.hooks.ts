@@ -1,12 +1,7 @@
 import { resolveAll, resolveData } from '@feathersjs/schema'
 import { authenticate } from '@feathersjs/authentication'
 import { userResolvers, userDataResolver } from './user.resolver'
-import {
-  disallow,
-  iff,
-  isProvider,
-  preventChanges,
-} from 'feathers-hooks-common'
+import { disallow, iff, isProvider, preventChanges } from 'feathers-hooks-common'
 import { addVerification } from 'feathers-authentication-management'
 import { isAdminProfile } from '../../../hooks/profile.hooks'
 import { HookOptions } from '@feathersjs/feathers'
@@ -16,10 +11,7 @@ import { authManagementSettings } from '../authmanagement/authmanagement.setting
 
 export const hooks: HookOptions<Application, UserService> = {
   around: {
-    all: [
-      authenticate('api-key', 'jwt'),
-      resolveAll<HookContext>(userResolvers),
-    ],
+    all: [authenticate('api-key', 'jwt'), resolveAll<HookContext>(userResolvers)],
   },
   before: {
     get: [
@@ -28,7 +20,7 @@ export const hooks: HookOptions<Application, UserService> = {
     ],
     find: [
       // need to be admin to make queries on some fields
-      // otherwise, could search on "name" ? or "nickname" (but we don't have it yet)
+      // otherwise, could search on "name" ? or "username"
     ],
     create: [
       /**
@@ -37,10 +29,7 @@ export const hooks: HookOptions<Application, UserService> = {
        */
       iff((context: HookContext) => {
         return isProvider('external')(context) && !isAdminProfile(context)
-      }, disallow()).else(
-        addVerification('auth-management'),
-        resolveData(userDataResolver),
-      ),
+      }, disallow()).else(addVerification('auth-management'), resolveData(userDataResolver)),
     ],
     /**
      * We forbid the update method
@@ -54,9 +43,7 @@ export const hooks: HookOptions<Application, UserService> = {
     patch: [
       iff(
         isProvider('external'),
-        function preventChangesAccordingProfile(
-          context: HookContext,
-        ): HookContext {
+        function preventChangesAccordingProfile(context: HookContext): HookContext {
           const fields = [
             'isVerified',
             'verifyToken',
