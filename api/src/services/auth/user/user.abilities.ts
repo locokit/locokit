@@ -1,5 +1,5 @@
 /* eslint-disable no-duplicate-case */
-import { PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/definitions'
 
 import { AppAbility, resolveAction } from '../../../abilities/definitions'
 import { HookContext } from '@feathersjs/feathers'
@@ -26,14 +26,17 @@ export async function createAbility(user: UserResult): Promise<AppAbility> {
     /**
      * ADMIN can manage all user
      */
-    case PROFILE.ADMIN:
+    case USER_PROFILE.
+ADMIN:
       can('manage', 'user')
       break
     /**
      * Others can only see themselves
      */
-    case PROFILE.CREATOR:
-    case PROFILE.MEMBER:
+    case USER_PROFILE.
+CREATOR:
+    case USER_PROFILE.
+MEMBER:
       can('read', 'user', ['id', 'name'], { id: { $ne: user.id } })
       can('read', 'user', { id: user.id })
       can('update', 'user', ['name'], { id: user.id })

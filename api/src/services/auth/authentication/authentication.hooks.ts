@@ -1,6 +1,6 @@
 import { Forbidden } from '@feathersjs/errors'
 // import { alterItems } from 'feathers-hooks-common'
-import { PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/definitions'
 import { AbilityBuilder } from '@casl/ability'
 
 import { AppAbility, resolveAction } from '../../../abilities/definitions'
@@ -8,9 +8,7 @@ import { HookContext } from '../../../declarations'
 import makeAbilityFromRules from '../../../abilities/makeAbilityFromRules'
 // Don't remove this comment. It's needed to format import lines nicely.
 
-export async function addRulesToUser(
-  context: HookContext,
-): Promise<HookContext> {
+export async function addRulesToUser(context: HookContext): Promise<HookContext> {
   // console.log('add rules to user', context.params, context.result.user)
   const { user } = context.result
   if (!user) return context
@@ -35,10 +33,10 @@ async function defineAbilities(context: HookContext): Promise<HookContext> {
    * TODO: add public rules for anonymous (e.g., read public workspaces ?)
    */
   switch (user?.profile) {
-    case PROFILE.ADMIN:
+    case USER_PROFILE.ADMIN:
       can('manage', 'all')
       break
-    case PROFILE.CREATOR:
+    case USER_PROFILE.CREATOR:
       can('create', 'workspace')
       can('read', 'workspace')
       can('manage', 'user', { id: user.id })
@@ -48,7 +46,7 @@ async function defineAbilities(context: HookContext): Promise<HookContext> {
      * * find their groups
      * * find workspace of their groups
      */
-    case PROFILE.MEMBER:
+    case USER_PROFILE.MEMBER:
       can('read', 'workspace')
       can('manage', 'user', { id: user.id })
       break

@@ -1,6 +1,6 @@
 import { Conflict, Forbidden, TooManyRequests } from '@feathersjs/errors'
 import { Params } from '@feathersjs/feathers'
-import { PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/definitions'
 import { ServiceSwaggerOptions } from 'feathers-swagger'
 import { JSONSchema } from 'objection'
 import { RateLimiterMemory } from 'rate-limiter-flexible'
@@ -66,7 +66,8 @@ export class SignUpService {
       await this.app.service('user').create({
         name: credentials.name,
         email: credentials.email,
-        profile: PROFILE.CREATOR, // we set to CREATOR to allow the user create new workspace
+        profile: USER_PROFILE.
+CREATOR, // we set to CREATOR to allow the user create new workspace
       })
       logger.debug('[signup] Creation ok.')
     } catch (error) {

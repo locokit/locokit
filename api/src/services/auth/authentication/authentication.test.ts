@@ -1,4 +1,4 @@
-import { PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/definitions'
 import assert from 'assert'
 import { app } from '../../../app'
 
@@ -6,7 +6,7 @@ describe('authentication', () => {
   const userInfo = {
     email: 'someone@example.com',
     password: 'supersecret',
-    profile: PROFILE.MEMBER,
+    profile: USER_PROFILE.MEMBER,
   }
 
   before(async () => {

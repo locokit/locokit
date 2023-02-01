@@ -1,5 +1,5 @@
 // /* eslint-disable no-duplicate-case */
-import { PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/definitions'
 // import { AbilityBuilder, makeAbilityFromRules } from 'feathers-casl'
 import makeAbilityFromRules from '../../abilities/makeAbilityFromRules'
 import { AbilityBuilder } from '@casl/ability'
@@ -39,7 +39,8 @@ export async function createAbility(
      * ADMIN
      * can manage all workspaces
      */
-    case PROFILE.ADMIN:
+    case USER_PROFILE.
+ADMIN:
       can('manage', 'workspace')
       break
     /**
@@ -47,7 +48,8 @@ export async function createAbility(
      * but only their,
      * so they inherit same permissions than USER
      */
-    case PROFILE.CREATOR:
+    case USER_PROFILE.
+CREATOR:
       // find all workspace where user have a group "manager" of the workspace
       // const aclsetsCREATOR = (await services.role.find({
       //   query: {
@@ -82,7 +84,8 @@ export async function createAbility(
      * USER cannot create / manage workspace,
      * even if they are member of a group having a manager aclset on a workspace
      */
-    case PROFILE.MEMBER:
+    case USER_PROFILE.
+MEMBER:
       //       // find all workspaces where user is linked to the workspace through aclset > group
       //       const aclsetsUSER = (await services.aclset.find({
       //         query: {

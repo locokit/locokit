@@ -1,5 +1,5 @@
 import { AbilityBuilder, AnyMongoAbility } from '@casl/ability'
-import { PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/definitions'
 import { AppAbility, resolveAction } from '../../../abilities/definitions'
 import makeAbilityFromRules from '../../../abilities/makeAbilityFromRules'
 import { UserResult } from '../user/user.schema'
@@ -12,10 +12,12 @@ export function defineAbilities(user: UserResult): AnyMongoAbility {
    * TODO: add public rules for anonymous (e.g., read public workspaces ?)
    */
   switch (user?.profile) {
-    case PROFILE.ADMIN:
+    case USER_PROFILE.
+ADMIN:
       can('manage', 'all')
       break
-    case PROFILE.CREATOR:
+    case USER_PROFILE.
+CREATOR:
       can('create', 'workspace')
       can('read', 'workspace')
       can('manage', 'user', { id: user.id })
@@ -25,7 +27,8 @@ export function defineAbilities(user: UserResult): AnyMongoAbility {
      * * find their groups
      * * find workspace of their groups
      */
-    case PROFILE.MEMBER:
+    case USER_PROFILE.
+MEMBER:
       can('read', 'workspace')
       can('manage', 'user', { id: user.id })
       break

@@ -18,7 +18,7 @@ import { HookContext } from '../../../declarations'
 import { authenticate } from '@feathersjs/authentication'
 import { ObjectionService } from '../../../feathers-objection'
 import { UserResult } from '../user/user.schema'
-import { PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/definitions'
 import { Forbidden } from '@feathersjs/errors/lib'
 
 export const userGroupHooks = {
@@ -37,7 +37,8 @@ export const userGroupHooks = {
         const user: UserResult = context.params.user
         const profile = user.profile
 
-        if (profile === PROFILE.MEMBER)
+        if (profile === USER_PROFILE.
+MEMBER)
           throw new Forbidden("You don't have sufficient privilege to create a group.")
       },
     ],
