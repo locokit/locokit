@@ -23,6 +23,7 @@ export const useStoreAuth = defineStore('auth', () => {
       // if (result.user.rules) lckAbilities.update(result.user.rules)
       isAuthenticated.value = true
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(err)
       isAuthenticated.value = false
       error.value = err as Error
@@ -31,7 +32,6 @@ export const useStoreAuth = defineStore('auth', () => {
   }
 
   async function reAuthenticate() {
-    console.log('reAuthenticate')
     loading.value = true
     error.value = null
     const result = await sdkClient.reAuthenticate()
@@ -54,6 +54,7 @@ export const useStoreAuth = defineStore('auth', () => {
         value: data,
       })
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(err)
       error.value = err as Error
     }
@@ -69,6 +70,7 @@ export const useStoreAuth = defineStore('auth', () => {
         value: data,
       })
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(err)
       error.value = err as Error
     }
@@ -87,6 +89,7 @@ export const useStoreAuth = defineStore('auth', () => {
         value: data,
       })
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(err)
       error.value = err as Error
     }
@@ -99,6 +102,7 @@ export const useStoreAuth = defineStore('auth', () => {
     try {
       await sdkClient.service('signup').create(data)
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(err)
       error.value = err as Error
     }

@@ -159,7 +159,7 @@ import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { ROUTES_NAMES } from '../paths'
 import { useStoreAuth } from '../stores/auth'
-import { onMounted, computed, useRouter, useRuntimeConfig } from '#imports'
+import { computed, useRouter, useRuntimeConfig } from '#imports'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
@@ -204,10 +204,6 @@ const navLinks = computed(() => {
           icon: 'bi-person-lines-fill',
         },
       ]
-})
-
-onMounted(() => {
-  console.log('Banner mounted')
 })
 
 const toggleMenu = () => {

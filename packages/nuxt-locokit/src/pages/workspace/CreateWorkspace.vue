@@ -25,6 +25,7 @@ const router = useRouter()
 const workspacesStore = useStoreWorkspaces()
 const { error, loading } = storeToRefs(workspacesStore)
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const newWorkspace = async (data: {
   name: string
   summary: string | null
