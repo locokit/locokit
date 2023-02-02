@@ -1,11 +1,12 @@
 <template>
-  <Form
-    v-slot="{ meta: { valid }, resetForm }"
-    class="text-left p-fluid"
+  <FormGeneric
+    label-button-submit="components.workspaceForm.submit"
+    :response="response"
+    :loading="loading"
     @submit="onSubmit"
   >
     <Field
-      v-slot="{ field, errorMessage }"
+      v-slot="{ field, errorMessage, meta: { valid, touched } }"
       v-model="name"
       class="mb-4"
       name="workspaceForm.name"
@@ -15,7 +16,13 @@
       <label for="name" class="label-field-required">
         {{ $t('components.workspaceForm.name') }}
       </label>
-      <PrimeInputText id="name" v-bind="field" v-focus required />
+      <PrimeInputText
+        id="name"
+        v-bind="field"
+        v-focus
+        :class="{ 'p-invalid': !valid && touched }"
+        required
+      />
       <span
         v-if="errorMessage"
         class="p-text-error"
@@ -97,32 +104,16 @@
         {{ $t('components.workspaceForm.publicHelp') }}
       </small>
     </Field>
-    <div class="flex flex-row justify-end mt-4 pb-4">
-      <PrimeButton
-        type="button"
-        class="p-button-outlined !mr-4 !w-fit"
-        icon="pi pi-times"
-        :label="$t('components.workspaceForm.reset')"
-        @click="resetForm()"
-      />
-      <PrimeButton
-        type="submit"
-        class="!w-fit"
-        :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-check'"
-        :label="$t('components.workspaceForm.submit')"
-        :disabled="loading || !valid"
-      />
-    </div>
-  </Form>
+  </FormGeneric>
 </template>
 
 <script setup lang="ts">
-import PrimeButton from 'primevue/button'
 import PrimeTextarea from 'primevue/textarea'
 import PrimeSwitch from 'primevue/inputswitch'
 import PrimeInputText from 'primevue/inputtext'
+import FormGeneric from '../FormGeneric/FormGeneric.vue'
 import { PredefinedColorPicker } from '@locokit/designsystem'
-import { Form, Field } from 'vee-validate'
+import { Field } from 'vee-validate'
 import { computed, reactive, ref } from 'vue'
 import { createSlug } from '../../helpers/transformText'
 import { ColorScheme } from '../../helpers/color'
@@ -149,17 +140,17 @@ const props = withDefaults(
     loading?: boolean
     logInAgain?: boolean
     displaySignUpLink?: boolean
-    error?: Error | null
+    response?: Error | null
     signupRoute?: string
     lostPasswordRoute?: string
   }>(),
   {
-    loading: () => false,
-    logInAgain: () => false,
-    displaySignUpLink: () => false,
-    error: () => null,
-    signupRoute: () => '',
-    lostPasswordRoute: () => '',
+    loading: false,
+    logInAgain: false,
+    displaySignUpLink: false,
+    response: null,
+    signupRoute: '',
+    lostPasswordRoute: '',
   },
 )
 

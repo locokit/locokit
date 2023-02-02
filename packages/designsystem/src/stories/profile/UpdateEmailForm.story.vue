@@ -1,5 +1,5 @@
 <template>
-  <Story title="Profile/UpdateEmailForm Form" icon="prime:user">
+  <Story title="Profile/UpdateEmailForm Form" icon="bi:envelope-at-fill">
     <Variant title="default">
       <UpdateEmailForm
         :user="{

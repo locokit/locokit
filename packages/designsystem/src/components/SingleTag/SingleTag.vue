@@ -1,5 +1,6 @@
 <template>
   <span
+    v-if="label"
     class="lck-tag px-2 ml-2 inline-flex min-w-0 max-w-full first-of-type:ml-0"
     :style="{ color, backgroundColor }"
   >
@@ -13,11 +14,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
   defineProps<{
-    label: string
+    label?: string | undefined
     color?: string | null
     backgroundColor?: string | null
   }>(),
   {
+    label: undefined,
     color: null,
     backgroundColor: null,
   },

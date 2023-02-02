@@ -9,4 +9,10 @@ export default {
     },
   },
   plugins: [vue()],
+  server: {
+    fs: {
+      // Allow serving files from node_module (needed to bootstrap-icon)
+      allow: ['../../../'],
+    },
+  },
 }

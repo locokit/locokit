@@ -1,7 +1,11 @@
 <template>
-  <Form
-    v-slot="{ meta: { valid }, isSubmitting }"
-    class="text-left"
+  <FormGeneric
+    :display-reset-button="false"
+    label-button-submit="components.updatePasswordForm.submit"
+    :display-success-form="true"
+    :response="response"
+    :loading="loading"
+    class="w-3/4"
     @submit="onSubmit"
   >
     <Field
@@ -12,27 +16,22 @@
       rules="required"
       as="div"
     >
-      <div class="grid grid-cols-3">
-        <label for="name" class="label-field-required my-auto">
-          {{ $t('components.updatePasswordForm.currentPassword') }}
-        </label>
-
-        <div class="col-span-2 w-full">
-          <PrimePassword
-            v-bind="field"
-            v-model="currentPassword"
-            input-id="password"
-            input-class="w-full"
-            class="!w-4/5 sm:!w-fit md:!w-3/5"
-            :toggle-mask="true"
-            :feedback="false"
-            spellcheck="false"
-            autocorrect="off"
-            autocapitalize="none"
-            required
-          />
-        </div>
-      </div>
+      <label for="name" class="label-field-required">
+        {{ $t('components.updatePasswordForm.currentPassword') }}
+      </label>
+      <PrimePassword
+        v-bind="field"
+        v-model="currentPassword"
+        input-id="password"
+        input-class="w-full"
+        :class="{ 'p-invalid': errorMessage }"
+        :toggle-mask="true"
+        :feedback="false"
+        spellcheck="false"
+        autocorrect="off"
+        autocapitalize="none"
+        required
+      />
       <span
         v-if="errorMessage"
         class="p-text-error"
@@ -49,42 +48,34 @@
       :rules="{ required: true, regex: `${regexPasswordRules}(?=.{8,})` }"
       as="div"
     >
-      <div class="grid grid-cols-3">
-        <label for="name" class="label-field-required my-auto">
-          {{ $t('components.updatePasswordForm.newPassword') }}
-        </label>
-
-        <div class="w-full col-span-2">
-          <PrimePassword
-            v-model="newPassword"
-            input-id="newPassword"
-            input-class="w-full"
-            class="!w-4/5 sm:!w-fit md:!w-3/5"
-            v-bind="field"
-            :feedback="true"
-            :toggle-mask="true"
-            :medium-regex="`${regexPasswordRules}(?=.{8,})`"
-            :strong-regex="`${regexPasswordRules}(?=.{12,})`"
-            :weak-label="
-              $t('components.updatePasswordForm.passwordStrength.weak')
-            "
-            :medium-label="
-              $t('components.updatePasswordForm.passwordStrength.medium')
-            "
-            :strong-label="
-              $t('components.updatePasswordForm.passwordStrength.strong')
-            "
-            :prompt-label="$t('components.updatePasswordForm.prompt')"
-            required
-            aria-describedby="password-rules"
-            autocomplete="new-password"
-            spellcheck="false"
-            autocorrect="off"
-            autocapitalize="none"
-            :pattern="regexPasswordRules"
-          />
-        </div>
-      </div>
+      <label for="name" class="label-field-required">
+        {{ $t('components.updatePasswordForm.newPassword') }}
+      </label>
+      <PrimePassword
+        v-model="newPassword"
+        input-id="newPassword"
+        :class="{ 'p-invalid': errorMessage }"
+        v-bind="field"
+        :feedback="true"
+        :toggle-mask="true"
+        :medium-regex="`${regexPasswordRules}(?=.{8,})`"
+        :strong-regex="`${regexPasswordRules}(?=.{12,})`"
+        :weak-label="$t('components.updatePasswordForm.passwordStrength.weak')"
+        :medium-label="
+          $t('components.updatePasswordForm.passwordStrength.medium')
+        "
+        :strong-label="
+          $t('components.updatePasswordForm.passwordStrength.strong')
+        "
+        :prompt-label="$t('components.updatePasswordForm.prompt')"
+        required
+        aria-describedby="password-rules"
+        autocomplete="new-password"
+        spellcheck="false"
+        autocorrect="off"
+        autocapitalize="none"
+        :pattern="regexPasswordRules"
+      />
       <small id="password-rules" class="italic">
         {{ $t('components.updatePasswordForm.rules') }}
       </small>
@@ -104,27 +95,21 @@
       rules="required|confirmed:updatePasswordForm.newPassword"
       as="div"
     >
-      <div class="grid grid-cols-3">
-        <label for="name" class="label-field-required my-auto">
-          {{ $t('components.updatePasswordForm.confirmPassword') }}
-        </label>
-
-        <div class="w-full col-span-2">
-          <PrimePassword
-            v-model="confirmPassword"
-            input-id="confirmPassword"
-            input-class="w-full"
-            class="!w-4/5 sm:!w-fit md:!w-3/5"
-            v-bind="field"
-            :feedback="false"
-            :toggle-mask="true"
-            required
-            spellcheck="false"
-            autocorrect="off"
-            autocapitalize="none"
-          />
-        </div>
-      </div>
+      <label for="name" class="label-field-required">
+        {{ $t('components.updatePasswordForm.confirmPassword') }}
+      </label>
+      <PrimePassword
+        v-model="confirmPassword"
+        input-id="confirmPassword"
+        :class="{ 'p-invalid': errorMessage }"
+        v-bind="field"
+        :feedback="false"
+        :toggle-mask="true"
+        required
+        spellcheck="false"
+        autocorrect="off"
+        autocapitalize="none"
+      />
       <span
         v-if="errorMessage"
         class="p-text-error"
@@ -134,22 +119,13 @@
         {{ errorMessage }}
       </span>
     </Field>
-    <div class="grid grid-cols-3">
-      <PrimeButton
-        type="submit"
-        class="col-start-2 col-span-2 !w-4/5 sm:!w-fit md:!w-3/5"
-        :icon="isSubmitting ? 'pi pi-spin pi-spinner' : 'pi pi-save'"
-        :label="$t('components.updateEmailForm.submit')"
-        :disabled="isSubmitting || !valid"
-      />
-    </div>
-  </Form>
+  </FormGeneric>
 </template>
 
 <script setup lang="ts">
-import PrimeButton from 'primevue/button'
 import PrimePassword from 'primevue/password'
-import { Form, Field } from 'vee-validate'
+import FormGeneric from '../../FormGeneric/FormGeneric.vue'
+import { Field } from 'vee-validate'
 import { ref } from 'vue'
 import { regexPasswordRules } from '../../../helpers/regex'
 
@@ -162,6 +138,19 @@ const emit = defineEmits<{
     },
   ): void
 }>()
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const props = withDefaults(
+  defineProps<{
+    loading?: boolean
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    response?: Error | Record<string, any> | null
+  }>(),
+  {
+    loading: false,
+    response: null,
+  },
+)
 
 const currentPassword = ref()
 const newPassword = ref()

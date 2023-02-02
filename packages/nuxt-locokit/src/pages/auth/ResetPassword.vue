@@ -2,11 +2,15 @@
   <WithBackground>
     <PrimeCard class="flex-grow p-2 max-w-2xl">
       <template #title>
-        <h1 class="text-center mb-4">{{ $t('pages.resetPassword.title') }}</h1>
+        <h1 class="text-center mb-4">
+          {{ $t('pages.resetPassword.title') }}
+        </h1>
       </template>
       <template #content>
         <div v-if="!formSentAndValid">
-          <p class="mb-4">{{ $t('pages.resetPassword.description') }}</p>
+          <p class="mb-4">
+            {{ $t('pages.resetPassword.description') }}
+          </p>
           <PasswordForm
             :loading="loading"
             :error="error"
@@ -18,7 +22,7 @@
           <div class="flex items-center px-3 pt-4 pb-6">
             <i
               aria-hidden="true"
-              class="pi pi-check-circle p-text-success mr-4 icon-with-text-aside"
+              class="bi bi-check-circle-fill p-text-success mr-4 icon-with-text-aside"
             />
             <p class="text-justify">
               {{ $t('pages.resetPassword.updatedPassword') }}

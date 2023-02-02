@@ -1,24 +1,30 @@
 <template>
   <FormGeneric
-    :display-cancel-button="false"
+    :display-reset-button="false"
     :full-width-button="true"
-    :label-button-save="$t('components.signUpForm.signup')"
+    label-button-submit="components.signUpForm.signup"
+    :response="error"
     :loading="loading"
-    :error="error"
     @submit="onSubmit"
   >
     <Field
       v-slot="{ field, errorMessage }"
-      v-model="form.name"
+      v-model="form.username"
       class="mb-4"
-      name="signUpForm.name"
+      name="signUpForm.username"
       rules="required"
       as="div"
     >
       <label for="name" class="label-field-required">
-        {{ $t('components.signUpForm.name') }}
+        {{ $t('components.signUpForm.username') }}
       </label>
-      <PrimeInputText id="name" v-bind="field" v-focus required />
+      <PrimeInputText
+        id="username"
+        v-bind="field"
+        v-focus
+        :class="{ 'p-invalid': errorMessage }"
+        required
+      />
       <span
         v-if="errorMessage"
         class="p-text-error"
@@ -43,6 +49,7 @@
       <PrimeInputText
         id="email"
         v-bind="field"
+        :class="{ 'p-invalid': errorMessage }"
         required
         autocomplete="email"
         type="email"
@@ -66,7 +73,7 @@ import { Field } from 'vee-validate'
 import { reactive } from 'vue'
 
 const emit = defineEmits<{
-  (e: 'submit', form: { email: string; name: string }): void
+  (e: 'submit', form: { email: string; username: string }): void
 }>()
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -76,14 +83,14 @@ const props = withDefaults(
     error?: Error | null
   }>(),
   {
-    loading: () => false,
-    error: () => null,
+    loading: false,
+    error: null,
   },
 )
 
 const form = reactive({
   email: '',
-  name: '',
+  username: '',
 })
 
 const onSubmit = () => {

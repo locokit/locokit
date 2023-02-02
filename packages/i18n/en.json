@@ -39,12 +39,12 @@
     },
     "signUpForm": {
       "email": "Email",
-      "name": "Name",
+      "username": "Username",
       "signup": "Sign up"
     },
     "formGeneric": {
       "save": "Save",
-      "cancel": "Cancel"
+      "reset": "Reset"
     },
     "predefinedColorPicker": {
       "label": "Color",
@@ -66,8 +66,9 @@
       "reset": "Reset",
       "submit": "Submit"
     },
-    "updateUsernameForm": {
-      "username": "Name",
+    "updateGeneralForm": {
+      "name": "Name",
+      "username": "Username",
       "email": "Email",
       "role": "Role",
       "submit": "Submit"
@@ -90,6 +91,11 @@
       },
       "confirmPassword": "Confirm new password",
       "submit": "Submit"
+    },
+    "buttonWithStatus": {
+      "statusFailed": "Failed to send",
+      "statusSuccess": "Successful sent",
+      "loading": "Loading"
     }
   },
   "layouts": {
@@ -173,11 +179,11 @@
     },
     "profile": {
       "title": "My profile",
-      "general": "General",
+      "general": "Information general",
       "updateEmail": "Update email",
       "updatePassword": "Update password"
     },
-    "updateUsername": {
+    "updateGeneral": {
       "title": "@:pages.profile.general"
     },
     "updateEmail": {
@@ -186,6 +192,9 @@
     "updatePassword": {
       "title": "@:pages.profile.updatePassword"
     }
+  },
+  "success": {
+    "general": "The form have been sent correctly."
   },
   "error": {
     "basic": "Something goes wrong. Please try again later.",
@@ -300,13 +309,14 @@
       },
       "signUpForm": {
         "email": "@:components.signUpForm.email",
-        "name": "@:components.signUpForm.name"
+        "username": "@:components.signUpForm.username"
       },
       "workspaceForm": {
         "name": "@:components.workspaceForm.name"
       },
-      "updateUsernameForm": {
-        "username": "@:components.updateUsernameForm.username"
+      "updateGeneralForm": {
+        "name": "@:components.updateGeneralForm.name",
+        "username": "@:components.updateGeneralForm.username"
       },
       "updateEmailForm": {
         "newEmail": "@:components.updateEmailForm.newEmail",

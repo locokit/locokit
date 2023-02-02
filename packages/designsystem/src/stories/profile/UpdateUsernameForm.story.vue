@@ -1,5 +1,5 @@
 <template>
-  <Story title="Profile/UpdateUsernameForm Form" icon="prime:user">
+  <Story title="Profile/UpdateUsernameForm Form" icon="bi:person-fill">
     <Variant title="default">
       <UpdateUsernameForm
         :user="{

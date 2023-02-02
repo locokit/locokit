@@ -18,7 +18,7 @@
           <div class="flex items-center px-3 pt-4 pb-6">
             <i
               aria-hidden="true"
-              class="pi pi-check-circle p-text-success mr-4 icon-with-text-aside"
+              class="bi bi-check-circle-fill p-text-success mr-4 icon-with-text-aside"
             />
             <p class="text-justify">
               {{ $t('pages.verifySignup.accountComplete') }}

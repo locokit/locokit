@@ -120,7 +120,7 @@ export default defineNuxtModule<ModuleOptions>({
      */
     nuxt.options.css = nuxt.options.css ?? []
     nuxt.options.css.push('primevue/resources/primevue.css')
-    nuxt.options.css.push('primeicons/primeicons.css')
+    nuxt.options.css.push('bootstrap-icons/font/bootstrap-icons.css')
     nuxt.options.css.push(resolve(__dirname, '../src/styles/index.scss'))
     nuxt.options.css.push(resolve(__dirname, '../src/styles/theme.css'))
 
@@ -207,17 +207,17 @@ export default defineNuxtModule<ModuleOptions>({
           protected: true,
         },
         file: resolve(pagesDir, './profile/index.vue'),
-        redirect: ROUTES_PATH.PROFILE.UPDATE_EMAIL,
+        redirect: ROUTES_PATH.PROFILE.UPDATE_GENERAL,
         children: [
           {
-            name: ROUTES_NAMES.PROFILE.UPDATE_USERNAME,
-            path: ROUTES_PATH.PROFILE.UPDATE_USERNAME,
+            name: ROUTES_NAMES.PROFILE.UPDATE_GENERAL,
+            path: ROUTES_PATH.PROFILE.UPDATE_GENERAL,
             meta: {
               protected: true,
             },
             file: resolve(
               pagesDir,
-              './profile/UpdateUsername/UpdateUsername.vue',
+              './profile/UpdateGeneral/UpdateGeneral.vue',
             ),
           },
           {

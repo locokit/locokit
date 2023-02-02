@@ -39,12 +39,12 @@
     },
     "signUpForm": {
       "email": "E-mail",
-      "name": "Nom",
+      "username": "Nom d'utilisateur",
       "signup": "S'inscrire"
     },
     "formGeneric": {
       "save": "Enregistrer",
-      "cancel": "Annuler"
+      "reset": "Réinitialiser"
     },
     "predefinedColorPicker": {
       "label": "Couleur",
@@ -66,8 +66,9 @@
       "reset": "Réinitialiser",
       "submit": "Créer"
     },
-    "updateUsernameForm": {
-      "username": "Nom",
+    "updateGeneralForm": {
+      "name": "Nom",
+      "username": "Nom d'utilisateur",
       "email": "Email",
       "role": "Rôle",
       "submit": "Enregistrer"
@@ -90,6 +91,11 @@
       },
       "confirmPassword": "Confirmation du nouveau mot de passe",
       "submit": "Enregistrer"
+    },
+    "buttonWithStatus": {
+      "statusFailed": "Échec lors de l'envoi",
+      "statusSuccess": "Formulaire correctement envoyé",
+      "loading": "Chargement"
     }
   },
   "layouts": {
@@ -163,7 +169,7 @@
     },
     "createWorkspace": {
       "title": "Nouvel espace de travail",
-      "alternativeTitle": "Creer un nouvel espace de travail"
+      "alternativeTitle": "Créer un nouvel espace de travail"
     },
     "alreadyAuthenticated": {
       "title": "Déjà connecté⋅e",
@@ -172,12 +178,12 @@
       "logoutButton": "Déconnexion"
     },
     "profile": {
-      "title": "My profile",
-      "general": "General",
-      "updateEmail": "Update email",
-      "updatePassword": "Update password"
+      "title": "Mon profil",
+      "general": "Information générale",
+      "updateEmail": "Modifier son email",
+      "updatePassword": "Modifier son mot de passe"
     },
-    "updateUsername": {
+    "updateGeneral": {
       "title": "@:pages.profile.general"
     },
     "updateEmail": {
@@ -186,6 +192,9 @@
     "updatePassword": {
       "title": "@:pages.profile.updatePassword"
     }
+  },
+  "success": {
+    "general": "Le formulaire a bien été envoyé."
   },
   "error": {
     "basic": "Quelque chose s'est ma passé. Merci de essayer à nouveau plus tard.",
@@ -300,13 +309,14 @@
       },
       "signUpForm": {
         "email": "@:components.signUpForm.email",
-        "name": "@:components.signUpForm.name"
+        "username": "@:components.signUpForm.username"
       },
       "workspaceForm": {
         "name": "@:components.workspaceForm.email"
       },
-      "updateUsernameForm": {
-        "username": "@:components.updateUsernameForm.username"
+      "updateGeneralForm": {
+        "name": "@:components.updateGeneralForm.name",
+        "username": "@:components.updateGeneralForm.username"
       },
       "updateEmailForm": {
         "newEmail": "@:components.updateEmailForm.newEmail",
