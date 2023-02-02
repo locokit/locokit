@@ -47,7 +47,7 @@ const authStore = useStoreAuth()
 const { error, loading } = storeToRefs(authStore)
 const formSentAndValid = ref(false)
 
-const signUp = async (data: { email: string; name: string }) => {
+const signUp = async (data: { email: string; username: string }) => {
   await authStore.signUp(data)
   formSentAndValid.value = !error.value
 }

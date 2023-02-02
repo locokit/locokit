@@ -74,7 +74,7 @@
       <div class="flex flex-col">
         <ButtonWithStatus
           type="submit"
-          :label="$t('components.workspaceForm.submit')"
+          label="components.signInForm.signIn"
           class="!w-full"
           :disabled="loading || !valid || !touched"
           :status-form="status"

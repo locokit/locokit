@@ -1,6 +1,6 @@
 <template>
   <FormGeneric
-    :label-button-submit="'components.workspaceForm.submit'"
+    label-button-submit="components.workspaceForm.submit"
     :response="response"
     :loading="loading"
     @submit="onSubmit"

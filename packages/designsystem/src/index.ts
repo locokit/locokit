@@ -7,7 +7,7 @@ import SingleTag from './components/SingleTag/SingleTag.vue'
 import MultiTags from './components/MultiTags/MultiTags.vue'
 import WorkspaceForm from './components/WorkspaceForm/WorkspaceForm.vue'
 import PredefinedColorPicker from './components/PredefinedColorPicker/PredefinedColorPicker.vue'
-import UpdateUsernameForm from './components/profile/UpdateUsernameForm/UpdateUsernameForm.vue'
+import UpdateGeneralForm from './components/profile/UpdateGeneralForm/UpdateGeneralForm.vue'
 import UpdateEmailForm from './components/profile/UpdateEmailForm/UpdateEmailForm.vue'
 import UpdatePasswordForm from './components/profile/UpdatePasswordForm/UpdatePasswordForm.vue'
 import ButtonWithStatus from './components/ButtonWithStatus/ButtonWithStatus.vue'
@@ -22,7 +22,7 @@ export {
   MultiTags,
   WorkspaceForm,
   PredefinedColorPicker,
-  UpdateUsernameForm,
+  UpdateGeneralForm,
   UpdateEmailForm,
   UpdatePasswordForm,
   ButtonWithStatus,
