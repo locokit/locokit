@@ -4,7 +4,6 @@ import { sdkClient } from '../services/api'
 export const useStoreWorkspaces = defineStore('workspaces', {
   state: () => ({
     loading: false,
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     error: null as Error | null,
     workspaces: [],
   }),
@@ -16,6 +15,7 @@ export const useStoreWorkspaces = defineStore('workspaces', {
         const result = await sdkClient.service('w').find(params)
         this.workspaces = result.data
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(error)
         this.error = error as Error
       }
@@ -39,6 +39,7 @@ export const useStoreWorkspaces = defineStore('workspaces', {
         })
         this.workspaces = result
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(error)
         this.error = error as Error
       }

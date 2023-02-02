@@ -94,7 +94,7 @@ watch(
     if (props.submitCount > 0) {
       setTimeout(() => {
         status.value = null
-      }, 3000)
+      }, 5000)
     }
   },
 )

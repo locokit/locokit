@@ -4,6 +4,7 @@
   "description": "LocoKit Design System, components",
   "main": "src/index.ts",
   "scripts": {
+    "lint": "eslint .",
     "story:dev": "histoire dev",
     "story:build": "histoire build",
     "story:preview": "histoire preview"
@@ -23,12 +24,12 @@
     "@vitejs/plugin-vue": "^3.1.2",
     "@vue/eslint-config-typescript": "^11.0.2",
     "autoprefixer": "^10.4.8",
-    "eslint": "^8.22.0",
-    "eslint-plugin-vue": "^9.6.0",
+    "eslint": "^8.25.0",
+    "eslint-plugin-vue": "^9.9.0",
     "histoire": "^0.12.4",
-    "postcss": "^8.4.17",
-    "prettier": "^2.7.1",
-    "tailwindcss": "^3.2.2",
-    "vue": "^3.2.40"
+    "postcss": "^8.4.21",
+    "prettier": "^2.8.3",
+    "tailwindcss": "^3.2.4",
+    "vue": "^3.2.45"
   }
 }

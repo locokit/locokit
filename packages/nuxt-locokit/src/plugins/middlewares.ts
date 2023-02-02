@@ -15,7 +15,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     const authStore = useStoreAuth(nuxtApp.$pinia)
 
     if (authStore.isAuthenticated) {
-      console.log('mounted')
       // Check if current user is still connected
       await authStore.reAuthenticate()
     }
