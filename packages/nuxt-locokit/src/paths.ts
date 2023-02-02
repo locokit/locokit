@@ -8,7 +8,6 @@ export const ROUTES_NAMES = {
     LOST_PASSWORD: 'LostPassword',
     VERIFY_SIGNUP: 'VerifySignup',
     RESET_PASSWORD: 'ResetPassword',
-    UPDATE_EMAIL: 'UpdateEmail',
     SIGN_UP: 'SignUp',
     SIGN_IN: 'SignIn',
     ALREADY_AUTHENTICATED: 'AlreadyAuthenticated',
@@ -21,7 +20,7 @@ export const ROUTES_NAMES = {
 
   PROFILE: {
     HOME: 'Profile',
-    UPDATE_USERNAME: 'Username',
+    UPDATE_GENERAL: 'UpdateGeneral',
     UPDATE_EMAIL: 'UpdateEmail',
     UPDATE_PASSWORD: 'UpdatePassword',
   },
@@ -47,7 +46,7 @@ export const ROUTES_PATH = {
    */
   PROFILE: {
     HOME: '/profile',
-    UPDATE_USERNAME: '/profile/username',
+    UPDATE_GENERAL: '/profile/general',
     UPDATE_EMAIL: '/profile/update-email',
     UPDATE_PASSWORD: '/profile/update-password',
   },

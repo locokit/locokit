@@ -1,7 +1,7 @@
 <template>
   <FormGeneric
     :display-reset-button="false"
-    :label-button-submit="'components.updatePasswordForm.submit'"
+    label-button-submit="components.updatePasswordForm.submit"
     :display-success-form="true"
     :response="response"
     :loading="loading"
@@ -16,7 +16,7 @@
       rules="required"
       as="div"
     >
-      <label for="name" class="label-field-required my-auto">
+      <label for="name" class="label-field-required">
         {{ $t('components.updatePasswordForm.currentPassword') }}
       </label>
       <PrimePassword
@@ -48,7 +48,7 @@
       :rules="{ required: true, regex: `${regexPasswordRules}(?=.{8,})` }"
       as="div"
     >
-      <label for="name" class="label-field-required my-auto">
+      <label for="name" class="label-field-required">
         {{ $t('components.updatePasswordForm.newPassword') }}
       </label>
       <PrimePassword
@@ -95,13 +95,12 @@
       rules="required|confirmed:updatePasswordForm.newPassword"
       as="div"
     >
-      <label for="name" class="label-field-required my-auto">
+      <label for="name" class="label-field-required">
         {{ $t('components.updatePasswordForm.confirmPassword') }}
       </label>
       <PrimePassword
         v-model="confirmPassword"
         input-id="confirmPassword"
-        input-class="w-full"
         :class="{ 'p-invalid': errorMessage }"
         v-bind="field"
         :feedback="false"

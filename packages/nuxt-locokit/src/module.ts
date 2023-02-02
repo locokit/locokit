@@ -207,17 +207,17 @@ export default defineNuxtModule<ModuleOptions>({
           protected: true,
         },
         file: resolve(pagesDir, './profile/index.vue'),
-        redirect: ROUTES_PATH.PROFILE.UPDATE_USERNAME,
+        redirect: ROUTES_PATH.PROFILE.UPDATE_GENERAL,
         children: [
           {
-            name: ROUTES_NAMES.PROFILE.UPDATE_USERNAME,
-            path: ROUTES_PATH.PROFILE.UPDATE_USERNAME,
+            name: ROUTES_NAMES.PROFILE.UPDATE_GENERAL,
+            path: ROUTES_PATH.PROFILE.UPDATE_GENERAL,
             meta: {
               protected: true,
             },
             file: resolve(
               pagesDir,
-              './profile/UpdateUsername/UpdateUsername.vue',
+              './profile/UpdateGeneral/UpdateGeneral.vue',
             ),
           },
           {

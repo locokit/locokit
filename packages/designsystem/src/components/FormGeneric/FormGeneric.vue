@@ -18,7 +18,7 @@
       <ButtonWithStatus
         type="submit"
         :full-width-button="fullWidthButton"
-        :label="labelButtonSubmit || $t('components.formGeneric.save')"
+        :label="labelButtonSubmit || 'components.formGeneric.save'"
         :disabled="loading || !valid || !touched"
         :status-form="status"
         icon="bi bi-save2"
@@ -26,7 +26,7 @@
         :submit-count="submitCount"
       />
     </div>
-    <span
+    <div
       v-if="status === 'failed' && displayErrorForm"
       class="mt-4 p-text-error"
       role="alert"
@@ -36,12 +36,12 @@
         {{ $t('error.basic') }}
       </p>
       <p>{{ $t('error.redundantError') }}</p>
-    </span>
-    <span v-if="status === 'success' && displaySuccessForm" class="mt-4">
+    </div>
+    <div v-if="status === 'success' && displaySuccessForm" class="mt-4">
       <p>
         {{ $t('success.general') }}
       </p>
-    </span>
+    </div>
   </Form>
 </template>
 
@@ -60,7 +60,7 @@ const props = withDefaults(
     loading?: boolean
     fullWidthButton?: boolean
     reset?: boolean
-    labelButtonSubmit?: string
+    labelButtonSubmit?: string | null
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     response?: Error | Record<string, any> | null
     displayErrorForm?: boolean
@@ -72,7 +72,7 @@ const props = withDefaults(
     fullWidthButton: false,
     reset: false,
     response: null,
-    labelButtonSubmit: '',
+    labelButtonSubmit: null,
     displayErrorForm: true,
     displaySuccessForm: false,
   },

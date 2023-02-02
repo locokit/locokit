@@ -2,24 +2,24 @@
   <FormGeneric
     :display-reset-button="false"
     :full-width-button="true"
-    :label-button-submit="'components.signUpForm.signup'"
+    label-button-submit="components.signUpForm.signup"
     :response="error"
     :loading="loading"
     @submit="onSubmit"
   >
     <Field
       v-slot="{ field, errorMessage }"
-      v-model="form.name"
+      v-model="form.username"
       class="mb-4"
-      name="signUpForm.name"
+      name="signUpForm.username"
       rules="required"
       as="div"
     >
       <label for="name" class="label-field-required">
-        {{ $t('components.signUpForm.name') }}
+        {{ $t('components.signUpForm.username') }}
       </label>
       <PrimeInputText
-        id="name"
+        id="username"
         v-bind="field"
         v-focus
         :class="{ 'p-invalid': errorMessage }"
@@ -73,7 +73,7 @@ import { Field } from 'vee-validate'
 import { reactive } from 'vue'
 
 const emit = defineEmits<{
-  (e: 'submit', form: { email: string; name: string }): void
+  (e: 'submit', form: { email: string; username: string }): void
 }>()
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -90,7 +90,7 @@ const props = withDefaults(
 
 const form = reactive({
   email: '',
-  name: '',
+  username: '',
 })
 
 const onSubmit = () => {

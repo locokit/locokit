@@ -11,9 +11,9 @@
           <li class="flex-grow text-left">
             <NuxtLink
               class="nav-link block border-x-0 border-t-0 border-b-2 border-transparent px-6 py-3 my-2 hover:border-transparent hover:bg-gray-100 focus:border-transparent"
-              :to="{ name: ROUTES_NAMES.PROFILE.UPDATE_USERNAME }"
+              :to="{ name: ROUTES_NAMES.PROFILE.UPDATE_GENERAL }"
             >
-              <i class="bi bi-person-fill mr-2" aria-hidden="true" />
+              <i class="bi bi-person-fill-gear mr-2" aria-hidden="true" />
               <span>{{ $t('pages.profile.general') }}</span>
             </NuxtLink>
           </li>
