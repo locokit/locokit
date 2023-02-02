@@ -82,7 +82,7 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'locokit',
     compatibility: {
       // Semver version of supported nuxt versions
-      nuxt: '^3.0.0-rc.9',
+      nuxt: '^3.0.0',
     },
   },
   defaults: defaultOptions,
@@ -100,12 +100,12 @@ export default defineNuxtModule<ModuleOptions>({
     // nuxt.options.build.transpile.push(runtimeDir)
 
     // addPlugin(resolve(runtimeDir, 'tailwind.config'))
+    addPlugin(resolve(pluginsDir, 'middlewares'))
     addPlugin(resolve(pluginsDir, 'primevue'))
     // addPlugin(resolve(pluginsDir, 'locokit'))
     addPlugin(resolve(pluginsDir, 'i18n'))
     addPlugin(resolve(pluginsDir, 'vee-validate'))
     addPlugin(resolve(pluginsDir, 'directive'))
-    addPlugin(resolve(pluginsDir, 'middlewares'))
 
     // await addComponentsDir({
     //   path: resolve(componentsDir),
@@ -180,23 +180,6 @@ export default defineNuxtModule<ModuleOptions>({
     extendPages(function (pages: NuxtPage[]) {
       const { submodules } = options
 
-      pages.push({
-        name: ROUTES_NAMES.HOME,
-        path: ROUTES_PATH.HOME,
-        file: resolve(pagesDir, './index.vue'),
-        meta: {
-          protected: false,
-        },
-      })
-
-      /**
-       * Register auth pages
-       */
-      if (submodules.auth.enabled) {
-        const prefix = submodules.auth.prefix
-        pages.push(...getAuthPages(prefix))
-      }
-
       /**
        * Register profile pages
        */
@@ -264,6 +247,23 @@ export default defineNuxtModule<ModuleOptions>({
         },
         file: resolve(pagesDir, './workspace/CreateWorkspace.vue'),
       })
+
+      pages.push({
+        name: ROUTES_NAMES.HOME,
+        path: ROUTES_PATH.HOME,
+        file: resolve(pagesDir, './index.vue'),
+        meta: {
+          protected: false,
+        },
+      })
+
+      /**
+       * Register auth pages
+       */
+      if (submodules.auth.enabled) {
+        const prefix = submodules.auth.prefix
+        pages.push(...getAuthPages(prefix))
+      }
 
       // pages.push({
       //   name: ROUTES.WORKSPACE.DETAIL,

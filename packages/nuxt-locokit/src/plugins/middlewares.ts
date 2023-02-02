@@ -1,14 +1,21 @@
 import { RouteLocationNormalized } from 'vue-router'
-import { addRouteMiddleware, defineNuxtPlugin } from '#app'
-import { checkPathAvailable } from '../middleware/global'
+import {
+  addRouteMiddleware,
+  defineNuxtPlugin,
+  useCookie,
+  useNuxtApp,
+} from '#app'
+import { storeToRefs } from 'pinia'
 import { useStoreAuth } from '../stores/auth'
+import { checkPathAvailable } from '../middleware/global'
 import { ROUTES_PATH } from '../paths'
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.hook('app:mounted', async () => {
-    const authStore = useStoreAuth()
+    const authStore = useStoreAuth(nuxtApp.$pinia)
 
-    if (!authStore.isAuthenticated) {
+    if (authStore.isAuthenticated) {
+      console.log('mounted')
       // Check if current user is still connected
       await authStore.reAuthenticate()
     }
@@ -17,8 +24,11 @@ export default defineNuxtPlugin((nuxtApp) => {
   addRouteMiddleware(
     'lck-global',
     (to: RouteLocationNormalized, _from: RouteLocationNormalized) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      // const authStore = useStoreAuth()
+      const nuxtApp = useNuxtApp()
+      const token = useCookie('token') // get token from cookies
+      const authStore = useStoreAuth(nuxtApp.$pinia)
+      const { isAuthenticated } = storeToRefs(authStore)
+      // console.log(import.meta.env.SSR)
 
       // To handle children routes (to get meta from parents), Nuxt recommend to use to.matched
       const needAuthentication: boolean = to.matched.some(
@@ -26,17 +36,16 @@ export default defineNuxtPlugin((nuxtApp) => {
       )
       const needAnonymous: boolean = to.matched.some((m) => m.meta.anonymous)
 
-      // Todo: Waiting for resolution https://github.com/vuejs/pinia/discussions/1212
-      // If issue resolved, uncomment below
-      // if (!authStore.isAuthenticated) {
-      //   // Check if current user is still connected
-      //   await authStore.reAuthenticate()
-      // }
-      // const isAuthenticated = authStore.isAuthenticated
-      const isAuthenticated = true // manual method to confirm auth
+      if (token.value) {
+        isAuthenticated.value = true
+      }
 
       if (
-        checkPathAvailable(needAuthentication, needAnonymous, isAuthenticated)
+        checkPathAvailable(
+          needAuthentication,
+          needAnonymous,
+          isAuthenticated.value,
+        )
       ) {
         return
       }
