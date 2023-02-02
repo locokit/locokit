@@ -180,7 +180,14 @@ const navLinks = computed(() => {
     },
   ]
   return authStore.isAuthenticated
-    ? mainLinks
+    ? [
+        ...mainLinks,
+        {
+          routeName: ROUTES_NAMES.PROFILE.HOME,
+          title: 'profile',
+          icon: 'pi-user',
+        },
+      ]
     : [
         ...mainLinks,
         {

@@ -14,10 +14,13 @@
 const props = withDefaults(
   defineProps<{
     label: string
-    color: string
-    backgroundColor: string
+    color?: string | null
+    backgroundColor?: string | null
   }>(),
-  {},
+  {
+    color: null,
+    backgroundColor: null,
+  },
 )
 </script>
 
@@ -25,7 +28,7 @@ const props = withDefaults(
 .lck-tag {
   border-radius: var(--border-radius);
   /* for default purpose */
-  background-color: #ccc;
-  color: #000;
+  background-color: var(--primary-color);
+  color: var(--color-white);
 }
 </style>

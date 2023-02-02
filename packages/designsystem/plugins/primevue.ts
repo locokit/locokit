@@ -1,9 +1,8 @@
 import { App } from 'vue'
 
-import 'primevue/resources/themes/saga-blue/theme.css'
-import 'primevue/resources/primevue.min.css' // core css
-import 'primeicons/primeicons.css' // icons
-
+// import 'primevue/resources/themes/saga-blue/theme.css'
+// import 'primevue/resources/primevue.min.css' // core css
+// import 'primeicons/primeicons.css' // icons
 import ConfirmationService from 'primevue/confirmationservice'
 
 import PrimeVue from 'primevue/config'

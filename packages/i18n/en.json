@@ -1,5 +1,14 @@
 {
   "components": {
+    "password": {
+      "prompt": "Enter a password",
+      "rules": "Must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 digit and 1 special character.",
+      "passwordStrength": {
+        "weak": "Weak",
+        "medium": "Medium",
+        "strong": "Strong"
+      }
+    },
     "signInForm": {
       "email": "Email",
       "password": "Password",
@@ -20,12 +29,12 @@
       "password": "Password",
       "passwordCheck": "Password (check)",
       "passwordMismatch": "Passwords mismatch",
-      "prompt": "Set my password",
-      "rules": "Must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 digit and 1 special character.",
+      "prompt": "@:components.password.prompt",
+      "rules": "@:components.password.rules",
       "passwordStrength": {
-        "weak": "Weak",
-        "medium": "Medium",
-        "strong": "Strong"
+        "weak": "@:components.password.passwordStrength.weak",
+        "medium": "@:components.password.passwordStrength.medium",
+        "strong": "@:components.password.passwordStrength.strong"
       }
     },
     "signUpForm": {
@@ -56,6 +65,31 @@
       "publicHelp": "Before activating it, please check that the public role is as expected and that a dedicated page has been made.",
       "reset": "Reset",
       "submit": "Submit"
+    },
+    "updateUsernameForm": {
+      "username": "Name",
+      "email": "Email",
+      "role": "Role",
+      "submit": "Submit"
+    },
+    "updateEmailForm": {
+      "currentEmail": "Current email",
+      "newEmail": "New email",
+      "password": "Password",
+      "submit": "Submit"
+    },
+    "updatePasswordForm": {
+      "currentPassword": "Current password",
+      "newPassword": "New password",
+      "prompt": "@:components.password.prompt",
+      "rules": "@:components.password.rules",
+      "passwordStrength": {
+        "weak": "@:components.password.passwordStrength.weak",
+        "medium": "@:components.password.passwordStrength.medium",
+        "strong": "@:components.password.passwordStrength.strong"
+      },
+      "confirmPassword": "Confirm new password",
+      "submit": "Submit"
     }
   },
   "layouts": {
@@ -64,6 +98,7 @@
       "closeMenu": "Close main menu",
       "home": "Home",
       "workspaces": "Workspaces",
+      "profile": "Profile",
       "signIn": "Sign in",
       "signUp": "Sign up",
       "logout": "Logout"
@@ -135,6 +170,21 @@
       "message": "You are already authenticated in this application. You can come back to your workspace or log out.",
       "workspaceButton": "Back to workspace",
       "logoutButton": "Log out"
+    },
+    "profile": {
+      "title": "My profile",
+      "general": "General",
+      "updateEmail": "Update email",
+      "updatePassword": "Update password"
+    },
+    "updateUsername": {
+      "title": "@:pages.profile.general"
+    },
+    "updateEmail": {
+      "title": "@:pages.profile.updateEmail"
+    },
+    "updatePassword": {
+      "title": "@:pages.profile.updatePassword"
     }
   },
   "error": {
@@ -254,6 +304,18 @@
       },
       "workspaceForm": {
         "name": "@:components.workspaceForm.name"
+      },
+      "updateUsernameForm": {
+        "username": "@:components.updateUsernameForm.username"
+      },
+      "updateEmailForm": {
+        "newEmail": "@:components.updateEmailForm.newEmail",
+        "password": "@:components.updateEmailForm.password"
+      },
+      "updatePasswordForm": {
+        "currentPassword": "@:components.updatePasswordForm.currentPassword",
+        "newPassword": "@:components.updatePasswordForm.newPassword",
+        "confirmPassword": "@:components.updatePasswordForm.confirmPassword"
       }
     },
     "messages": {

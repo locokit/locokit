@@ -1,5 +1,14 @@
 {
   "components": {
+    "password": {
+      "prompt": "Définir mon mot de passe",
+      "rules": "Doit contenir au moins 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial.",
+      "passwordStrength": {
+        "weak": "Faible",
+        "medium": "Moyen",
+        "strong": "Fort"
+      }
+    },
     "signInForm": {
       "email": "E-mail",
       "password": "Mot de passe",
@@ -20,12 +29,12 @@
       "password": "Mot de passe",
       "passwordCheck": "Mot de passe (vérification)",
       "passwordMismatch": "Les mots de passe ne sont pas identiques.",
-      "prompt": "Définir mon mot de passe",
-      "rules": "Doit contenir au moins 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial.",
+      "prompt": "@:components.password.prompt",
+      "rules": "@:components.password.rules",
       "passwordStrength": {
-        "weak": "Faible",
-        "medium": "Moyen",
-        "strong": "Fort"
+        "weak": "@:components.password.passwordStrength.weak",
+        "medium": "@:components.password.passwordStrength.medium",
+        "strong": "@:components.password.passwordStrength.strong"
       }
     },
     "signUpForm": {
@@ -56,6 +65,31 @@
       "publicHelp": "Avant de l'activer, merci de vérifier que le rôle public est conforme à vos attentes et qu'une page dédiée a été réalisé",
       "reset": "Réinitialiser",
       "submit": "Créer"
+    },
+    "updateUsernameForm": {
+      "username": "Nom",
+      "email": "Email",
+      "role": "Rôle",
+      "submit": "Enregistrer"
+    },
+    "updateEmailForm": {
+      "currentEmail": "Email utilisé",
+      "newEmail": "Nouveau email",
+      "password": "Mot de passe",
+      "submit": "Enregistrer"
+    },
+    "updatePasswordForm": {
+      "currentPassword": "Mot de passe utilisé",
+      "newPassword": "Nouveau mot de passe",
+      "prompt": "@:components.password.prompt",
+      "rules": "@:components.password.rules",
+      "passwordStrength": {
+        "weak": "@:components.password.passwordStrength.weak",
+        "medium": "@:components.password.passwordStrength.medium",
+        "strong": "@:components.password.passwordStrength.strong"
+      },
+      "confirmPassword": "Confirmation du nouveau mot de passe",
+      "submit": "Enregistrer"
     }
   },
   "layouts": {
@@ -64,9 +98,10 @@
       "closeMenu": "Fermer le menu",
       "home": "Accueil",
       "workspaces": "Espace de travail",
+      "profile": "Profil",
       "signIn": "S'identifier",
       "signUp": "S'inscrire",
-      "logout": "Logout"
+      "logout": "Se déconnecter"
     }
   },
   "pages": {
@@ -135,6 +170,21 @@
       "message": "Vous êtes déjà authentifié dans cette application. Vous pouvez revenir à votre espace de travail ou vous déconnecter.",
       "workspaceButton": "Retour aux espaces de travail",
       "logoutButton": "Déconnexion"
+    },
+    "profile": {
+      "title": "My profile",
+      "general": "General",
+      "updateEmail": "Update email",
+      "updatePassword": "Update password"
+    },
+    "updateUsername": {
+      "title": "@:pages.profile.general"
+    },
+    "updateEmail": {
+      "title": "@:pages.profile.updateEmail"
+    },
+    "updatePassword": {
+      "title": "@:pages.profile.updatePassword"
     }
   },
   "error": {
@@ -254,6 +304,18 @@
       },
       "workspaceForm": {
         "name": "@:components.workspaceForm.email"
+      },
+      "updateUsernameForm": {
+        "username": "@:components.updateUsernameForm.username"
+      },
+      "updateEmailForm": {
+        "newEmail": "@:components.updateEmailForm.newEmail",
+        "password": "@:components.updateEmailForm.password"
+      },
+      "updatePasswordForm": {
+        "currentPassword": "@:components.updatePasswordForm.currentPassword",
+        "newPassword": "@:components.updatePasswordForm.newPassword",
+        "confirmPassword": "@:components.updatePasswordForm.confirmPassword"
       }
     },
     "messages": {
