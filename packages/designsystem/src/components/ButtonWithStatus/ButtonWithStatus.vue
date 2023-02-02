@@ -90,14 +90,11 @@ const labelToDisplay = computed(() => {
 watch(
   () => props.statusForm,
   (statusForm: string | null) => {
-    console.log('statusForm', statusForm)
     status.value = statusForm
     if (props.submitCount > 0) {
-      console.log('timeout')
       setTimeout(() => {
-        console.log('in')
         status.value = null
-      }, 5000)
+      }, 3000)
     }
   },
 )

@@ -37,7 +37,6 @@ export const useStoreWorkspaces = defineStore('workspaces', {
         const result = await sdkClient.service('w').create({
           value: data,
         })
-        console.log(result)
         this.workspaces = result
       } catch (error) {
         console.error(error)
