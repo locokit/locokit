@@ -162,10 +162,7 @@
     "workspace": {
       "title": "Workspaces",
       "intro": "You must create or select your workspace before adding datas or templates.",
-      "newWorkspace": "Add a workspace",
-      "createWorkspace": "Create your first workspace",
-      "myWorkspace": "My workspaces",
-      "publicWorkspace": "All public workspaces",
+      "addWorkspace": "Add a workspace",
       "public": "Public"
     },
     "createWorkspace": {
