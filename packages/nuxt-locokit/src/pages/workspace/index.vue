@@ -14,7 +14,7 @@
           >
             <i class="bi bi-plus block font-medium" />
             <p class="mx-autotext-primary pl-1">
-              {{ $t('pages.workspace.createWorkspace') }}
+              {{ $t('pages.workspace.addWorkspace') }}
             </p>
           </div>
         </PrimeButton>
@@ -43,8 +43,10 @@
                   {{ workspace.name }}
                 </p>
               </NuxtLink>
-              <i class="absolute -left-3 -bottom-3 text-9xl opacity-10"
-                :class="`bi ${workspace.settings?.icon}`" />
+              <i
+                class="absolute -left-3 -bottom-3 text-9xl opacity-10"
+                :class="`bi ${workspace.settings?.icon}`"
+              />
               <span
                 v-if="workspace.public"
                 class="px-2 max-w-fit rounded absolute bottom-1 right-1 bg-gray-300 text-black text-sm"
