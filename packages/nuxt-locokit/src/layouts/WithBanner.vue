@@ -64,7 +64,7 @@
             </NuxtLink>
           </div>
           <button
-            v-if="authStore.isAuthenticated"
+            v-if="isAuthenticated"
             type="button"
             class="items-center justify-center rounded bg-white p-2 text-gray-500 hover:bg-primary hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 hidden sm:inline-flex"
             @click="logout"
@@ -156,6 +156,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import { ROUTES_NAMES } from '../paths'
 import { useStoreAuth } from '../stores/auth'
 import { computed, useRouter, useRuntimeConfig } from '#imports'
@@ -163,6 +164,8 @@ import { computed, useRouter, useRuntimeConfig } from '#imports'
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const authStore = useStoreAuth()
+
+const { isAuthenticated } = storeToRefs(authStore)
 
 const menuOpened = ref(false)
 
@@ -179,7 +182,7 @@ const navLinks = computed(() => {
       icon: 'bi-person-workspace',
     },
   ]
-  return authStore.isAuthenticated
+  return isAuthenticated.value
     ? [
         ...mainLinks,
         {

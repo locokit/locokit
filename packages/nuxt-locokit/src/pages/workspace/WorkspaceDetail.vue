@@ -1,14 +1,5 @@
 <template>
-  <main>
-    Workspace detail {{ workspace }}
-
-    {{ route }}
-  </main>
+  <main>Workspace detail</main>
 </template>
 
-<script setup lang="ts">
-const route = useRoute()
-defineProps({
-  workspace: String,
-})
-</script>
+<script setup lang="ts"></script>

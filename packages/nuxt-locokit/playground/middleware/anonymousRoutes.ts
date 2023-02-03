@@ -1,16 +1,16 @@
-import { defineNuxtRouteMiddleware } from '#app'
-import { useStoreAuth } from '../../src/stores/auth'
+import { defineNuxtRouteMiddleware, useNuxtApp } from '#app'
+import { storeToRefs } from 'pinia'
 import { ROUTES_NAMES } from '../../src/paths'
+import { useStoreAuth } from '../../src/stores/auth'
 
-export default defineNuxtRouteMiddleware(async (to, _from) => {
-  // const nuxtApp = useNuxtApp()
-  const authStore = useStoreAuth()
+export default defineNuxtRouteMiddleware((to, _from) => {
+  const nuxtApp = useNuxtApp()
+  const authStore = useStoreAuth(nuxtApp.$pinia)
+  const { isAuthenticated } = storeToRefs(authStore)
+
   const needAnonymous: boolean = to.matched.some((m) => m.meta.anonymous)
-  await authStore.reAuthenticate()
 
-  const isAuthenticated = authStore.isAuthenticated
-  if (needAnonymous && isAuthenticated) {
-    // eslint-disable-next-line @typescript-eslint/return-await
+  if (needAnonymous && isAuthenticated.value) {
     return { name: ROUTES_NAMES.AUTH.ALREADY_AUTHENTICATED }
   }
 })

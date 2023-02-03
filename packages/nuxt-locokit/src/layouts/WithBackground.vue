@@ -31,7 +31,6 @@ import { computed, useRuntimeConfig } from '#imports'
 // To retrieve config and environment variables
 const runtimeConfig = useRuntimeConfig()
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
   defineProps<{
     backgroundImage?: string | null

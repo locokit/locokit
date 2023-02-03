@@ -1,109 +1,135 @@
 import { defineStore } from 'pinia'
 import { sdkClient } from '../services/api'
+import { ref, useCookie } from '#imports'
 
-export const useStoreAuth = defineStore('auth', {
-  state: () => ({
-    loading: false,
-    isAuthenticated: false,
-    error: null as Error | null,
-    user: null,
-  }),
-  actions: {
-    async authenticate(data: { email: string; password: string }) {
-      this.loading = true
-      this.error = null
-      try {
-        const result = await sdkClient.authenticate({
-          strategy: 'local',
-          email: data.email,
-          password: data.password,
-        })
-        this.user = result.user
-        // if (result.user.rules) lckAbilities.update(result.user.rules)
-        this.isAuthenticated = true
-      } catch (error) {
-        console.error(error)
-        this.isAuthenticated = false
-        this.error = error as Error
-      }
-      this.loading = false
-    },
-    async reAuthenticate() {
-      console.log('reAuthenticate')
-      this.loading = true
-      this.error = null
-      try {
-        const result = await sdkClient.reAuthenticate()
-        this.user = result.user
-        this.isAuthenticated = true
-      } catch (error) {
-        console.warn(error)
-        this.isAuthenticated = false
-      }
-      this.loading = false
-    },
-    async sendLinkToResetPassword(data: { email: string }) {
-      this.loading = true
-      this.error = null
-      try {
-        await sdkClient.service('auth-management').create({
-          action: 'sendResetPwd',
-          value: data,
-        })
-      } catch (error) {
-        console.error(error)
-        this.error = error as Error
-      }
-      this.loading = false
-    },
-    async resetPasswordLong(data: { token: string; password: string }) {
-      this.loading = true
-      this.error = null
-      try {
-        await sdkClient.service('auth-management').create({
-          action: 'resetPwdLong',
-          value: data,
-        })
-      } catch (error) {
-        console.error(error)
-        this.error = error as Error
-      }
-      this.loading = false
-    },
-    async verifySignupAndSetPassword(data: {
-      token: string
-      password: string
-    }) {
-      this.loading = true
-      this.error = null
-      try {
-        await sdkClient.service('auth-management').create({
-          action: 'verifySignupSetPasswordLong',
-          value: data,
-        })
-      } catch (error) {
-        console.error(error)
-        this.error = error as Error
-      }
-      this.loading = false
-    },
-    async signUp(data: { name: string; email: string }) {
-      this.loading = true
-      this.error = null
-      try {
-        await sdkClient.service('signup').create(data)
-      } catch (error) {
-        console.error(error)
-        this.error = error as Error
-      }
-      this.loading = false
-    },
-    async logout() {
-      this.loading = true
-      await sdkClient.logout()
-      this.isAuthenticated = false
-      this.user = null
-      this.loading = false
-    },
-  },
+export const useStoreAuth = defineStore('auth', () => {
+  const loading = ref(false)
+  const isAuthenticated = ref(false)
+  const error = ref<Error | null>(null)
+  const user = ref()
+
+  async function authenticate(data: { email: string; password: string }) {
+    loading.value = true
+    error.value = null
+    try {
+      const result = await sdkClient.authenticate({
+        strategy: 'local',
+        email: data.email,
+        password: data.password,
+      })
+      const token = useCookie('token') // useCookie new hook in nuxt 3
+      token.value = result.accessToken
+      user.value = result.user
+      // if (result.user.rules) lckAbilities.update(result.user.rules)
+      isAuthenticated.value = true
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err)
+      isAuthenticated.value = false
+      error.value = err as Error
+    }
+    loading.value = false
+  }
+
+  async function reAuthenticate() {
+    loading.value = true
+    error.value = null
+    const result = await sdkClient.reAuthenticate()
+    if (result.user) {
+      user.value = result.user
+      // if (result.user.rules) lckAbilities.update(result.user.rules)
+      isAuthenticated.value = true
+    } else {
+      isAuthenticated.value = false
+    }
+    loading.value = false
+  }
+
+  async function sendLinkToResetPassword(data: { email: string }) {
+    loading.value = true
+    error.value = null
+    try {
+      await sdkClient.service('auth-management').create({
+        action: 'sendResetPwd',
+        value: data,
+      })
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err)
+      error.value = err as Error
+    }
+    loading.value = false
+  }
+
+  async function resetPasswordLong(data: { token: string; password: string }) {
+    loading.value = true
+    error.value = null
+    try {
+      await sdkClient.service('auth-management').create({
+        action: 'resetPwdLong',
+        value: data,
+      })
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err)
+      error.value = err as Error
+    }
+    loading.value = false
+  }
+
+  async function verifySignupAndSetPassword(data: {
+    token: string
+    password: string
+  }) {
+    loading.value = true
+    error.value = null
+    try {
+      await sdkClient.service('auth-management').create({
+        action: 'verifySignupSetPasswordLong',
+        value: data,
+      })
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err)
+      error.value = err as Error
+    }
+    loading.value = false
+  }
+
+  async function signUp(data: { username: string; email: string }) {
+    loading.value = true
+    error.value = null
+    try {
+      await sdkClient.service('signup').create(data)
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err)
+      error.value = err as Error
+    }
+    loading.value = false
+  }
+
+  async function logout() {
+    loading.value = true
+    await sdkClient.logout()
+    const token = useCookie('token') // useCookie new hook in nuxt 3
+    isAuthenticated.value = false
+    token.value = null // clear the token cookie
+    user.value = null
+    loading.value = false
+  }
+
+  return {
+    loading,
+    isAuthenticated,
+    error,
+    user,
+    authenticate,
+    reAuthenticate,
+    sendLinkToResetPassword,
+    resetPasswordLong,
+    verifySignupAndSetPassword,
+    signUp,
+    logout,
+  }
 })
