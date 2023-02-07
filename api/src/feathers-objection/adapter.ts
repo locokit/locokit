@@ -182,11 +182,9 @@ export class ObjectionAdapter<
     query: Query = {},
     parentKey?: string,
   ): QueryBuilder<Model, Model[]> {
-    // console.log('objectify', query)
     const objectify = this.objectify.bind(this)
 
     return Object.keys(query || {}).reduce((currentQuery, key) => {
-      console.log('objectify', key)
       const value = query[key]
 
       if (_.isObject(value)) {
@@ -195,7 +193,6 @@ export class ObjectionAdapter<
 
       const column = parentKey ?? key
       const sanitizedColumn = column.indexOf('.') > 0 ? column : `${this.table}.${column}`
-      console.log('objectify', column, sanitizedColumn)
       const method: any = METHODS[key as keyof typeof METHODS]
 
       if (method) {
@@ -266,7 +263,6 @@ export class ObjectionAdapter<
   //   }
 
   //   Object.keys(params || {}).forEach((key) => {
-  //     // console.log('current key', key)
   //     let value = params[key]
   //     const localHierarchy = [...hierarchy]
 
@@ -287,7 +283,6 @@ export class ObjectionAdapter<
   //     }
 
   //     if (_utils.default.isPlainObject(value)) {
-  //       // console.log('hierarchy here')
   //       localHierarchy.push(key)
   //       return this.objectify(
   //         query,
@@ -302,17 +297,14 @@ export class ObjectionAdapter<
   //     const column = parentKey && parentKey[0] !== '$' ? parentKey : key
   //     const method = METHODS[methodKey] || METHODS[parentKey] || METHODS[key]
   //     const operator = OPERATORS_MAP[key] || '='
-  //     // console.log('method / hierarchy', method, hierarchy.length)
 
   //     /**
   //      *
   //      */
-  //     // console.log('we are here', hierarchy.length, key, ['$or', '$and'].includes(key), method, column, value)
   //     if (
   //       method &&
   //       (localHierarchy.length <= 1 || ['$or', '$and'].includes(key))
   //     ) {
-  //       // console.log('passing test')
   //       if (key === '$or') {
   //         const self = this
   //         return query.where(function () {
@@ -343,7 +335,6 @@ export class ObjectionAdapter<
 
   //       return query[method].call(query, column, value) // eslint-disable-line no-useless-call
   //     }
-  //     // console.log('not passing')
 
   //     const property =
   //       this.jsonSchema &&
@@ -352,9 +343,7 @@ export class ObjectionAdapter<
   //         (localHierarchy.length > 0 &&
   //           this.jsonSchema.properties[localHierarchy[0]]) ||
   //         (methodKey && this.jsonSchema.properties[methodKey]))
-  //     // console.log('property', property)
   //     let columnType = property && property.type
-  //     // console.log('columnType', columnType)
   //     if (columnType) {
   //       if (Array.isArray(columnType)) {
   //         columnType = columnType[0]
@@ -373,7 +362,6 @@ export class ObjectionAdapter<
   //             `${this.Model.tableName}.${methodKey || column}:${prop}`,
   //           )
   //         }
-  //         // console.log('refColumn', refColumn)
 
   //         if (operator === '@>') {
   //           if (Array.isArray(value)) {
@@ -388,7 +376,6 @@ export class ObjectionAdapter<
   //             value = JSON.parse(value)
   //           }
   //         }
-  //         // console.log('value', value)
 
   //         /**
   //          * PATCH for numeric comparison operators
@@ -402,7 +389,6 @@ export class ObjectionAdapter<
   //             refColumnParse = 'decimal'
   //           }
   //         }
-  //         // console.log('method / Key', method, key)
   //         if (method) {
   //           // if (key === '$or') {
   //           //   const self = this;
@@ -491,10 +477,8 @@ export class ObjectionAdapter<
      * is commented right after knex code
      */
 
-    // console.log('createQuery', params)
     const { table, id } = this
     const { filters, query } = this.filterQuery(params)
-    // console.log('createQuery', filters, query)
     // const q = this._createQuery(params).skipUndefined()
     const builder = this.db(params)
 
@@ -555,7 +539,6 @@ export class ObjectionAdapter<
 
     if (joinRelated) {
       const groupByColumns = this.getGroupByColumns(builder)
-      // console.log('groupByColumns', groupByColumns)
 
       if (!groupByColumns) {
         builder.distinct(`${this.Model.tableName}.*`)
@@ -640,7 +623,6 @@ export class ObjectionAdapter<
      */
 
     const { filters, query } = this.filterQuery(params)
-    // console.log('_createCountQuery', filters, query)
     // const q = this._createQuery(params).skipUndefined()
     const builder = this.db(params)
 
@@ -675,7 +657,6 @@ export class ObjectionAdapter<
     }
 
     const joinRelated = filters?.$joinRelated
-    // console.log('joinRelated', joinRelated)
 
     if (joinRelated) {
       builder.joinRelated(filters.$joinRelated)
@@ -694,7 +675,6 @@ export class ObjectionAdapter<
 
     if (joinRelated) {
       const groupByColumns = this.getGroupByColumns(builder)
-      // console.log('groupByColumns', groupByColumns)
 
       if (!groupByColumns) {
         builder.distinct(`${this.Model.tableName}.*`)
@@ -773,11 +753,8 @@ export class ObjectionAdapter<
   }
 
   filterQuery(params: ServiceParams) {
-    // console.log('filterQuery', params)
     const options = this.getOptions(params)
-    // console.log('options', options)
     const { filters, query } = filterQuery(params?.query || {}, options)
-    // console.log('after filterQuery', filters, query)
 
     return { filters, query, paginate: options.paginate }
   }
@@ -788,7 +765,6 @@ export class ObjectionAdapter<
   async _find(params: ServiceParams = {} as ServiceParams): Promise<Paginated<Result> | Result[]> {
     objectionLogger.debug('_find')
     const { filters, paginate } = this.filterQuery(params)
-    // console.log('filters', filters, paginate)
     const builder = params.objection ? params.objection.clone() : this.createQuery(params)
 
     // Handle $limit
