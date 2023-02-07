@@ -1,54 +1,42 @@
+import { describe, beforeAll, afterAll, it, expect, afterEach, vi } from 'vitest'
+
 import { Paginated } from '@feathersjs/feathers'
-import { USER_PROFILE } from '@locokit/lck-glossary'
-import app from '../../../app'
-import { User } from '../../models/user.model'
+import { USER_PROFILE } from '@locokit/definitions'
+import { UserResult } from '../user/user.schema'
+import { createApp } from '../../../app'
 import axios from 'axios'
-import url from 'url'
-import { Server } from 'http'
+import { BadRequest, Forbidden, TooManyRequests } from '@feathersjs/errors/lib'
 
+const app = createApp()
 const port = app.get('port') || 8998
-const getUrl = (pathname?: string): string =>
-  url.format({
-    hostname: app.get('host') || 'localhost',
-    protocol: 'http',
-    port,
-    pathname,
-  })
+const getUrl = (pathname?: string) => new URL(`http://${app.get('host') || 'localhost'}:${port}/${pathname}` ).toString()
 
-describe("'signup' service", () => {
+  describe("'signup' service", () => {
   const credentials = {
-    name: 'Signup user',
+    username: 'signupuser',
     email: 'signupuser@locokit.io',
   }
 
-  const originalMailerCreateFunction = app.service('mailer').create
-  let server: Server
-
-  beforeAll((done) => {
-    app.service('mailer').create = jest.fn()
-    server = app.listen(port)
-    server.once('listening', () => done())
+  beforeAll(async () => {
+    // @ts-expect-error
+    app.service('mailer').create = vi.fn()
+    await app.listen(port)
   })
 
-  afterAll((done) => {
-    server.close(done)
-  })
-
-  afterAll(() => {
-    app.service('mailer').create = originalMailerCreateFunction
+  afterAll(async () => {
+    await app.teardown()
   })
 
   afterEach(async () => {
+    vi.restoreAllMocks()
     // Clean DB
-    const usersToRemove = (await app.service('user').find({
-      query: credentials,
-    })) as Paginated<User>
-    if (usersToRemove.total === 1) {
-      await app.service('user').remove(usersToRemove.data[0].id)
-    }
+    const usersToRemove = (await app.service('user').find()) as Paginated<UserResult>
+
+    await Promise.all(usersToRemove.data.map(u => app.service('user').remove(u.id)))
   })
 
   it('registered the service', () => {
+    expect.assertions(1)
     const service = app.service('signup')
     expect(service).toBeTruthy()
   })
@@ -60,8 +48,10 @@ describe("'signup' service", () => {
 
     // Check that the user is created with the right properties
     const users = (await app.service('user').find({
-      query: credentials,
-    })) as Paginated<User>
+      query: {
+        username: credentials.username,
+      },
+    })) as Paginated<UserResult>
 
     expect(users.total).toBe(1)
     expect(users.data[0]).toEqual(
@@ -76,10 +66,11 @@ describe("'signup' service", () => {
   it('if a user is already using the emitted email address, inform him', async () => {
     expect.assertions(4)
 
-    const spyOnMailer = jest.spyOn(app.service('mailer'), 'create')
-
     // Create a user
     const previousUser = await app.service('user').create(credentials)
+    
+    // Start spying
+    const spyOnMailer = vi.spyOn(app.service('mailer'), 'create')
 
     // Create the user from the signup endpoint with the same email address
     await app.service('signup').create(credentials)
@@ -89,7 +80,7 @@ describe("'signup' service", () => {
       query: {
         email: credentials.email,
       },
-    })) as Paginated<User>
+    })) as Paginated<UserResult>
 
     expect(users.total).toBe(1)
     expect(users.data[0].id).toBe(previousUser.id)
@@ -105,23 +96,58 @@ describe("'signup' service", () => {
 
   it('throw a 429 if too many signups are registered', async () => {
     expect.assertions(1)
-    const maxTries = parseInt(
-      app.get('authentication').signup.rateLimit.max,
-      10,
-    )
+    const maxTries = app.get('settings').signup.rateLimitMax ?? 5
+
     for (let i = 0; i < maxTries; i++) {
       await axios.post(getUrl('signup'), {
         name: `Signup user n°${i}`,
+        username: `user${i}`,
         email: `signupuser${i}@locokit.io`,
+      }, {
+        headers: {
+          ip: 'my-ip-address'
+        }
       })
     }
-    try {
-      await axios.post(getUrl('signup'), {
-        name: 'Signup user n° too much',
-        email: 'signupusertoomuch@locokit.io',
-      })
-    } catch (error: any) {
-      expect(error.response.status).toBe(429)
-    }
+
+    await expect(axios.post(getUrl('signup'), {
+      name: 'Signup user n° too much',
+      username: 'signupusertoomuch',
+      email: 'signupusertoomuch@locokit.io',
+    }, {
+      headers: {
+        ip: 'my-ip-address'
+      }
+    })).rejects.toThrowError(/429/)
+    
+  })
+
+  it('fails if the signup do not give a username when creating the new user', async () => {
+    expect.assertions(1)
+    // Create the user from the signup endpoint without email
+    // we add the ts-expect-error as it is not ok with typing
+    // @ts-expect-error
+    const call = await expect(app.service('signup').create({
+      email: 'signupwithoutusername@locokit.io'
+    }))
+    
+    call.rejects.toThrowError(/validation failed/)
+    call.rejects.toBeInstanceOf(BadRequest)
+  })
+
+  it('fails if the signup is not authorized', async () => {
+    expect.assertions(1)
+
+    // update the settings to forbid signup
+    app.get('settings').signup.allowed = false
+
+    const call = await expect(app.service('signup').create(credentials))
+
+    // try to create a user
+    call.rejects.toContain({ code: 403 })
+    call.rejects.toThrowError(/Signup is not authorized/)
+
+    app.get('settings').signup.allowed = true
+    
   })
 })

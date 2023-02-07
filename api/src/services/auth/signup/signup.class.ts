@@ -9,16 +9,18 @@ import { Application } from '../../../declarations'
 import { logger } from '../../../logger'
 import { authManagementSettings } from '../authmanagement/authmanagement.settings'
 
+const signupClassLogger = logger.child({ service: 'signup'})
+
 class SignUpModel {
   email!: string
-  name!: string
+  username!: string
 
   static get jsonSchema(): JSONSchema {
     return {
       type: 'object',
       properties: {
         email: { type: 'string' },
-        name: { type: 'string' },
+        username: { type: 'string' },
       },
     }
   }
@@ -40,16 +42,22 @@ export class SignUpService {
       duration: 60, // per 60 second
       blockDuration: 60 * 2, // block user during 120 second
     })
+
   }
 
-  async create(credentials: SignUpModel, params: Params): Promise<SignUpModel> {
-    try {
-      await this.rateLimiter.consume(params.headers?.ip as string)
-    } catch (rejRes) {
-      logger.error('[signup] Rate limiter enabled for connexion... ? for 120s.')
-      throw new TooManyRequests(
-        'Your IP is now rate limited. Please wait 120 seconds before trying to signup again.',
-      )
+  async create(credentials: SignUpModel, params?: Params): Promise<SignUpModel> {
+    /**
+     * Use the rate limiter to protect the platform of signup attacks
+     */
+    if (params?.headers?.ip) {
+      try {
+        await this.rateLimiter.consume(params?.headers?.ip as string)
+      } catch (error) {
+        signupClassLogger.error('Rate limiter enabled for connexion... ? for 120s.')
+        throw new TooManyRequests(
+          'Your IP is now rate limited. Please wait 120 seconds before trying to signup again.',
+        )
+      }
     }
     /**
      * Check that the registration is allowed
@@ -59,21 +67,18 @@ export class SignUpService {
      * in the API config.
      */
     const isSignupAllowed = this.app.get('settings').signup?.allowed
-    if (!isSignupAllowed) throw new Forbidden()
+    if (!isSignupAllowed) throw new Forbidden('Signup is not authorized on this platform.')
 
     try {
-      logger.debug('[signup] Creating user...')
+      signupClassLogger.info('Creating user %s with profile %s', credentials.username, USER_PROFILE.CREATOR)
       await this.app.service('user').create({
-        name: credentials.name,
+        username: credentials.username,
         email: credentials.email,
-        profile: USER_PROFILE.
-CREATOR, // we set to CREATOR to allow the user create new workspace
+        profile: USER_PROFILE.CREATOR, // we set to CREATOR to allow the user create new workspace
       })
-      logger.debug('[signup] Creation ok.')
-    } catch (error) {
-      logger.error(
-        `[signup] Creation nok for user ${credentials.name}/${credentials.email}`,
-      )
+      signupClassLogger.info('Creation ok.')
+    } catch (error: any) {
+      signupClassLogger.error(`Creation nok for user ${credentials.username}/${credentials.email} with error "${error.name}"`)
       /**
        * We don't throw an error if there was already a user with the e-mail address
        * to avoid giving information to a potential black hat.
