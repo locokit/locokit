@@ -18,8 +18,8 @@ helping you
 
 ## Getting started
 
-LocoKit is a monorepo projcet, node based,
-using [Nuxt 3](https://v3.nuxtjs.org/) for the "front" side,
+LocoKit is a monorepo project, node based,
+using [Nuxt 3](https://nuxtjs.org/) for the "front" side,
 and [FeathersJS 5](https://dove.feathersjs.com) for the API side.
 
 These instructions are for developers.
@@ -46,9 +46,23 @@ You need to have `docker` and `docker-compose` installed.
 docker-compose up # will start your mailhog container on 1025 (smtp) and 8025 (web UI) ports
 ```
 
+No environment variables are required for the docker containers.
+
+For the API, we need to create a `.env` file.
+
+There is an example in the `.env.example` file.
+
+If you want to make tests running on your machine,
+you'll need also to create a `.env.test` file to create another database,
+for testing purpose only.
+You'll mainly need to overwrite the `LCK_DATABASE_URL` variable
+with the connection string to the test database.
+
 ```sh
 # in the api directory
-npm run dev
+npm run dev # that'll use ts-node
+# or
+npm run vite:dev # will use vite
 ```
 
 You should have now your API up and running on `http://localhost:3030`.

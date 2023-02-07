@@ -15,7 +15,7 @@ export function db(app: Application): void {
   const db = knex({
     client: config.client,
     useNullAsDefault: false,
-    debug: true,
+    debug: process.env.OBJECTION_DEBUG === 'true' || false,
     connection: {
       connectionString: config.connection,
       application_name: 'LocoKit',
@@ -23,8 +23,7 @@ export function db(app: Application): void {
     migrations: {
       schemaName: 'public',
     },
-    // debug: process.env.OBJECTION_DEBUG === 'true' || false,
-    // pool: { min: 0, max: 20 },
+    pool: { min: 0, max: 20 },
   })
 
   Model.knex(db)
