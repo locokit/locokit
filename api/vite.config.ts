@@ -1,8 +1,7 @@
 import { defineConfig, loadEnv } from 'vite'
 import { resolve } from 'node:path'
 
-const sleep = async (s) =>
-  await new Promise((r) => setTimeout(r, (s * 1e3) | 0))
+const sleep = async (s) => await new Promise((r) => setTimeout(r, (s * 1e3) | 0))
 const delayedError = async (e) => {
   await sleep(0.1)
   console.error(e)
@@ -31,10 +30,7 @@ function feathers(Opts = {}) {
       } else {
         sm.config = config
       }
-      if (
-        config.server &&
-        config.define?.['import.meta.env.VITE_FV_DEV_USER'] === void 0
-      ) {
+      if (config.server && config.define?.['import.meta.env.VITE_FV_DEV_USER'] === void 0) {
         const VP = config.server.port || 5173
         config.define ||= {}
         const socketUrl =
@@ -54,13 +50,9 @@ function feathers(Opts = {}) {
       }
       return async () => {
         try {
-          sm.feathersApp = await (
-            await server.ssrLoadModule(sm.entryFile)
-          ).main()
+          sm.feathersApp = await (await server.ssrLoadModule(sm.entryFile)).main()
           sm.appListener = await sm.feathersApp.listen(sm.port)
-          console.info(
-            `Whoot whoot !! LocoKit started and moving on http://${sm.host}:${sm.port}`,
-          )
+          console.info(`Whoot whoot !! LocoKit started and moving on http://${sm.host}:${sm.port}`)
         } catch (e) {
           server.ssrFixStacktrace(e)
           console.error(e)
@@ -72,11 +64,7 @@ function feathers(Opts = {}) {
     },
     async handleHotUpdate({ file, server }) {
       try {
-        if (
-          !file.startsWith(sm.root) ||
-          !sm.active ||
-          sm.appListener === void 0
-        ) {
+        if (!file.startsWith(sm.root) || !sm.active || sm.appListener === void 0) {
           return
         }
         sm.appListener.close()

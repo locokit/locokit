@@ -66,8 +66,7 @@ export const authentication = (app: Application): void => {
     operations: {
       remove: {
         description: 'Logout the currently logged in user',
-        'parameters[0].description':
-          'accessToken of the currently logged in user',
+        'parameters[0].description': 'accessToken of the currently logged in user',
       },
       removeMulti: {
         description: 'Logout the currently logged in user',
