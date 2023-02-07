@@ -32,6 +32,19 @@ services:
       - lck-db-data:/var/lib/postgresql/data
     container_name: lck-db-next
 
+  lck-db-test-next:
+    image: postgis/postgis:15-3.3-alpine
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourPostgresPassword
+      TZ: 'UTC'
+      PGTZ: 'UTC'
+    # restart: always
+    container_name: lck-db-test-next
+
   lck-pgadmin:
     image: dpage/pgadmin4:6
     environment:
