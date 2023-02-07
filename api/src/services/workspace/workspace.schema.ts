@@ -1,5 +1,5 @@
 import { Type, querySyntax, Static, getDataValidator } from '@feathersjs/typebox'
-import { dataValidator } from '../../schemas/validators'
+import { dataValidator } from '../../commons/validators'
 // import { groupSchema } from '../auth/group/group.schema'
 import { workspaceOwnerSchema } from '../auth/user/user.schema'
 

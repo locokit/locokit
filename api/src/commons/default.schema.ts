@@ -1,6 +1,6 @@
 import { JSONSchemaDefinition, schema, SchemaWrapper } from '@feathersjs/schema'
 import type { Infer } from '@feathersjs/schema'
-import { dataValidator } from './validators'
+import { dataValidator } from '../commons/validators'
 
 // Schema for the basic data model (e.g. creating new entries)
 export const defaultDataSchema = schema(

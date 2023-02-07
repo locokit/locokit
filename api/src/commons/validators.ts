@@ -3,7 +3,7 @@ import type { FormatsPluginOptions } from '@feathersjs/schema'
 import ajvErrors from 'ajv-errors'
 import { USER_PROFILE, USERGROUP_PROFILE } from '@locokit/definitions'
 
-const formats: FormatsPluginOptions = [
+export const formats: FormatsPluginOptions = [
   'date-time',
   'time',
   'date',

@@ -1,5 +1,5 @@
 import { Type, querySyntax, Static, getDataValidator } from '@feathersjs/typebox'
-import { dataValidator } from '../../../schemas/validators'
+import { dataValidator } from '../../../commons/validators'
 
 // Schema for the basic data model (e.g. creating new entries)
 export const roleSchema = Type.Object(

@@ -7,7 +7,7 @@ import {
 import '@feathersjs/transport-commons'
 // import { Application as KoaFeathers } from '@feathersjs/koa'
 import { Application as FeathersApplication } from '@feathersjs/koa'
-import { ConfigurationSchema } from './schemas/configuration.schema'
+import { ConfigurationSchema } from './commons/configuration.schema'
 import { ServiceSwaggerOptions } from 'feathers-swagger'
 
 import { UserResult } from './services/auth/user/user.schema'
