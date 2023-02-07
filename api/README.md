@@ -19,7 +19,7 @@ Don't forget to start the `docker-compose.yml`.
 For development, you have the choice to use `vite` or `ts-node-dev`.
 
 ```sh
-npm run vite:serve # will use vite under the hood
+npm run vite:dev # will use vite under the hood
 
 npm run dev # will use ts-node-dev
 ```

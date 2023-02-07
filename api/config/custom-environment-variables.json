@@ -5,6 +5,7 @@
     "__format": "number"
   },
   "publicURL": "LCK_PUBLIC_URL",
+  "publicPortalName": "LCK_PUBLIC_PORTAL_NAME",
   "settings": {
     "db": {
       "client": "LCK_DATABASE_CLIENT",
