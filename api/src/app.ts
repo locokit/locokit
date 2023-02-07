@@ -1,8 +1,8 @@
 /* eslint-disable import/first */
 /**
- * First load the .env fil
+ * First load the .env file
  */
-import dotenv from 'dotenv'
+import dotenv from 'dotenv-flow'
 dotenv.config()
 
 import { version } from '../package.json'
@@ -18,7 +18,7 @@ import swagger from 'feathers-swagger'
 import helmet from 'koa-helmet'
 
 import type { Application } from './declarations'
-import { configurationValidator } from './schemas/configuration.schema'
+import { configurationValidator } from './commons/configuration.schema'
 import { logErrorHook } from './logger'
 import { db } from './db'
 import { services } from './services'

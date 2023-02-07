@@ -18,9 +18,7 @@ const authenticationSettingsSchema = Type.Object({
       description: 'The name of the authentication entity id property',
     }),
   ),
-  service: Type.Optional(
-    Type.String({ description: 'The path of the entity service' }),
-  ),
+  service: Type.Optional(Type.String({ description: 'The path of the entity service' })),
   authStrategies: Type.Array(Type.String(), {
     description:
       'A list of authentication strategy names that are allowed to create JWT access tokens',
@@ -51,9 +49,7 @@ const authenticationSettingsSchema = Type.Object({
       passwordField: Type.String({
         description: 'Name of the password field (e.g. `password`)',
       }),
-      hashSize: Type.Optional(
-        Type.Number({ description: 'The BCrypt salt length' }),
-      ),
+      hashSize: Type.Optional(Type.Number({ description: 'The BCrypt salt length' })),
       errorMessage: Type.Optional(
         Type.String({
           default: 'Invalid login',
@@ -126,8 +122,7 @@ export const configurationSchema = Type.Object(
           verificationMailDelayDays: Type.Optional(
             Type.Number({
               default: 5,
-              description:
-                'Period in days during the user can confirm its email after signup',
+              description: 'Period in days during the user can confirm its email after signup',
             }),
           ),
           rateLimitMax: Type.Optional(
@@ -145,8 +140,7 @@ export const configurationSchema = Type.Object(
           rateLimitBlockDuration: Type.Optional(
             Type.Number({
               default: 12000,
-              description:
-                'Blocking duration when the user reach the rate limit',
+              description: 'Blocking duration when the user reach the rate limit',
             }),
           ),
         }),
@@ -243,7 +237,4 @@ export const configurationSchema = Type.Object(
 
 export type ConfigurationSchema = Static<typeof configurationSchema>
 
-export const configurationValidator = getValidator(
-  configurationSchema,
-  dataValidator,
-)
+export const configurationValidator = getValidator(configurationSchema, dataValidator)

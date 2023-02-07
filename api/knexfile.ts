@@ -1,12 +1,12 @@
 /* eslint-disable import/first */
-import dotenv from 'dotenv'
+import dotenv from 'dotenv-flow'
 dotenv.config()
 
 import { feathers } from '@feathersjs/feathers'
 import configuration from '@feathersjs/configuration'
 import { koa } from '@feathersjs/koa'
 
-import { configurationValidator } from './src/schemas/configuration.schema'
+import { configurationValidator } from './src/commons/configuration.schema'
 
 const app = koa(feathers())
 // Load our app configuration (see config/ folder)
