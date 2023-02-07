@@ -1,14 +1,15 @@
 import { USER_PROFILE } from '@locokit/definitions'
-import { Type, querySyntax, Static } from '@feathersjs/typebox'
+import { Type, querySyntax, Static, getDataValidator } from '@feathersjs/typebox'
 import { dataValidator } from '../../../commons/validators'
 
 // Schema for the basic data model (e.g. creating new entries)
 export const userSchema = Type.Object(
   {
-    id: Type.Number(),
-    name: Type.String(),
+    id: Type.String({ format: 'uuid' }),
+    firstname: Type.Optional(Type.String()),
+    lastname: Type.Optional(Type.String()),
     username: Type.String(),
-    avatarURL: Type.String(),
+    avatarURL: Type.Optional(Type.String()),
     email: Type.String({ format: 'email' }),
     password: Type.Optional(Type.String()),
     profile: Type.String({ format: 'user-profile', default: USER_PROFILE.MEMBER }),
@@ -22,7 +23,7 @@ export const userSchema = Type.Object(
     verifyChanges: Type.ReadonlyOptional(
       Type.Object(
         {
-          email: Type.String(),
+          email: Type.Optional(Type.String()),
         },
         { additionalProperties: true },
       ),
@@ -34,11 +35,19 @@ export const userSchema = Type.Object(
     ),
     resetAttempts: Type.ReadonlyOptional(Type.Number()),
 
-    createdAt: Type.Date({ description: 'Creation date of the user' }),
-    updatedAt: Type.Date({ description: 'Update date of the user' }),
-    lastConnection: Type.Date({
-      description: 'Last time the user has been connectedCreation date of the user',
+    createdAt: Type.String({
+      format: 'date-time',
+      description: 'Creation date of the user',
     }),
+    updatedAt: Type.String({
+      format: 'date-time',
+      description: 'Update date of the user',
+    }),
+    lastConnection: Type.String({
+      format: 'date-time',
+      description: 'Last time the user has been connected',
+    }),
+
     workspaces: Type.Optional(Type.Array(Type.Any())),
   },
   {
@@ -49,9 +58,9 @@ export const userSchema = Type.Object(
 
 export const workspaceOwnerSchema = Type.Object(
   {
-    id: Type.Number(),
+    id: Type.String({ format: 'uuid' }),
     email: Type.String({ format: 'email' }),
-    name: Type.String(),
+    username: Type.String(),
     profile: Type.String({ format: 'user-profile', default: USER_PROFILE.MEMBER }),
   },
   {
@@ -62,17 +71,27 @@ export const workspaceOwnerSchema = Type.Object(
 
 dataValidator.addSchema(workspaceOwnerSchema)
 
-export const userDataSchema = Type.Omit(userSchema, ['id'], {
-  $id: 'UserData',
-})
+export const userDataSchema = Type.Object(
+  {
+    username: Type.String(),
+    email: Type.String({ format: 'email' }),
+    profile: Type.Optional(Type.String({ format: 'user-profile', default: USER_PROFILE.MEMBER })),
+  },
+  {
+    $id: 'UserData',
+  },
+)
 
 export type UserData = Static<typeof userDataSchema> & {
-  profile: USER_PROFILE
+  profile?: USER_PROFILE
 }
+
+export const userDataValidator = getDataValidator(userDataSchema, dataValidator)
 
 // Schema for making partial updates
 export const userPatchSchema = Type.Partial(
-  Type.Omit(userDataSchema, [
+  Type.Omit(userSchema, [
+    'id',
     'password',
     'verifyExpires',
     'verifyChanges',
@@ -135,6 +154,4 @@ export const userQuerySchema = Type.Intersect(
   { $id: 'UserQuery', additionalProperties: false },
 )
 
-export type UserQuery = Static<typeof userQuerySchema> & {
-  profile: USER_PROFILE
-}
+export type UserQuery = Static<typeof userQuerySchema>

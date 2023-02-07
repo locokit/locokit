@@ -1,10 +1,8 @@
 import { resolve, Resolver } from '@feathersjs/schema'
-import { getValidator } from '@feathersjs/typebox'
 import type { HookContext } from '../../../declarations'
-import { queryValidator } from '../../../schemas/validators'
 import { workspaceDispatchResolver } from '../../workspace/workspace.resolver'
 import { userDispatchResolver } from '../user/user.resolver'
-import { GroupQuery, groupQuerySchema, GroupSchema } from './group.schema'
+import { GroupQuery, GroupSchema } from './group.schema'
 
 // Resolver for the basic data model (e.g. creating new entries)
 export const groupCreateResolver = resolve<GroupSchema, HookContext>({})
@@ -35,9 +33,6 @@ export const groupDispatchResolver = groupDefaultResolver
 
 // Resolver for query properties
 export const groupQueryResolver = resolve<GroupQuery, HookContext>({})
-
-// @ts-expect-error
-export const groupQueryValidator = getValidator(groupQuerySchema, queryValidator)
 
 // Export all resolvers in a format that can be used with the resolveAll hook
 export const groupResolvers = {

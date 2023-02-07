@@ -1,6 +1,8 @@
 import { USER_PROFILE } from '@locokit/definitions'
 import assert from 'assert'
-import { app } from '../../../app'
+import { createApp } from '../../../app'
+
+const app = createApp()
 
 describe('authentication', () => {
   const userInfo = {
@@ -11,7 +13,7 @@ describe('authentication', () => {
 
   before(async () => {
     try {
-      await app.service('users').create(userInfo)
+      await app.service('user').create(userInfo)
     } catch (error) {
       // Do nothing, it just means the user already exists and can be tested
     }
@@ -33,4 +35,6 @@ describe('authentication', () => {
   it('registered the authentication service', () => {
     assert.ok(app.service('authentication'))
   })
+
+  it('can work in local strategy with the couple username/password too instead of email/password')
 })

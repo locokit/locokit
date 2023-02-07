@@ -1,5 +1,6 @@
 import { JSONSchema, Model, RelationMappings } from 'objection'
 import { WorkspaceModel } from '../../workspace/workspace.model'
+import { UserGroupModel } from '../user-group/user-group.model'
 import { UserModel } from '../user/user.model'
 import { groupSchema } from './group.schema'
 
@@ -23,6 +24,14 @@ export class GroupModel extends Model {
         join: {
           from: 'lck_group.workspaceId',
           to: 'lck_workspace.id',
+        },
+      },
+      userGroups: {
+        relation: Model.HasManyRelation,
+        modelClass: UserGroupModel,
+        join: {
+          from: 'lck_group.id',
+          to: 'lck_userGroup.group_id',
         },
       },
       users: {

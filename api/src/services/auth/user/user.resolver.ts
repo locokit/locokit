@@ -2,50 +2,79 @@
 import { resolve, Resolver } from '@feathersjs/schema'
 import { passwordHash } from '@feathersjs/authentication-local'
 import type { HookContext } from '../../../declarations'
-import { UserData, UserPatch, UserResult, UserQuery } from './user.schema'
+import { UserPatch, UserResult, UserQuery } from './user.schema'
 import { generatePassword } from '../../../utils/password'
 import { workspaceDispatchResolver } from '../../workspace/workspace.resolver'
+import { USER_PROFILE } from '@locokit/definitions'
 
 // Resolver for the basic data model (e.g. creating new entries)
-export const userDataResolver = resolve<UserData, HookContext>({
-  // schema: userDataSchema,
-  validate: 'before',
-  properties: {
-    /**
-     * We clean the email
-     * from spaces and uppercase
-     * before inserting data in db.
-     */
-    email: async (email) => {
-      return email?.trim().toLowerCase()
-    },
-    /**
-     * When a user is created,
-     * we init the password with a random one
-     * respecting password policy.
-     */
-    password: async (_password, data, context) => {
-      const p = generatePassword(context.app.get('settings').passwordPolicy)
-      return await passwordHash({ strategy: 'local' })(p, data, context)
-    },
-
-    resetExpires: async (resetExpires) => {
-      if (typeof resetExpires === 'number') {
-        return new Date(resetExpires).toISOString()
-      }
-    },
-    verifyExpires: async (verifyExpires) => {
-      if (typeof verifyExpires === 'number') {
-        return new Date(verifyExpires).toISOString()
-      }
-    },
-
-    verifyChanges: async (verifyChanges) => {
-      if (typeof verifyChanges === 'string') {
-        return JSON.parse(verifyChanges)
-      }
-    },
+export const userCreateResolver = resolve<UserResult, HookContext>({
+  /**
+   * We allow the profile to be set
+   * only for admin users creating another user
+   * or for internal calls
+   */
+  profile: async (profile, _data, context) => {
+    return profile ?? USER_PROFILE.MEMBER
   },
+  /**
+   * We clean the email
+   * from spaces and uppercase
+   * before inserting data in db.
+   */
+  email: async (email) => {
+    return email?.trim().toLowerCase()
+  },
+  /**
+   * When a user is created,
+   * we init the password with a random one
+   * respecting password policy.
+   */
+  password: async (_password, data, context) => {
+    const p = generatePassword(context.app.get('settings').passwordPolicy)
+    return await passwordHash({ strategy: 'local' })(p, data, context)
+  },
+
+  resetExpires: async (resetExpires) => {
+    if (typeof resetExpires === 'number') {
+      return new Date(resetExpires).toISOString()
+    } else return resetExpires
+  },
+  verifyExpires: async (verifyExpires) => {
+    if (typeof verifyExpires === 'number') {
+      return new Date(verifyExpires).toISOString()
+    } else return verifyExpires
+  },
+
+  verifyChanges: async (verifyChanges) => {
+    if (typeof verifyChanges === 'string') {
+      return JSON.parse(verifyChanges)
+    } else return verifyChanges
+  },
+
+  createdAt: async (createdAt) => {
+    let stringToConvert: string | number | undefined = createdAt
+    if (!stringToConvert) stringToConvert = Date.now()
+    if (typeof stringToConvert === 'number') {
+      return new Date(stringToConvert).toISOString()
+    } else return createdAt
+  },
+
+  updatedAt: async (updatedAt) => {
+    let stringToConvert: string | number | undefined = updatedAt
+    if (!stringToConvert) stringToConvert = Date.now()
+    if (typeof stringToConvert === 'number') {
+      return new Date(stringToConvert).toISOString()
+    } else return updatedAt
+  },
+
+  lastConnection: async (lastConnection) => {
+    let stringToConvert: string | number | undefined = lastConnection
+    if (!stringToConvert) stringToConvert = Date.now()
+    if (typeof stringToConvert === 'number') {
+      return new Date(stringToConvert).toISOString()
+    } else return lastConnection
+  }
 })
 
 // Resolver for making partial updates
@@ -141,8 +170,8 @@ export const userResolvers = {
   result: userResultResolver,
   dispatch: userDispatchResolver,
   data: {
-    create: userDataResolver,
-    update: userDataResolver,
+    create: userCreateResolver,
+    update: resolve<any, HookContext>({}),
     patch: userPatchResolver,
   },
   query: userQueryResolver,
