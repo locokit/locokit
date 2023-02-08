@@ -58,7 +58,6 @@ export function authManagementSettings(app: Application): {
     return link
   }
 
-  // previously, need to be tested with ENV vars : parseInt(config.verificationMailDelayDays, 10)
   const delayInDays = app.get('settings').signup?.verificationMailDelayDays ?? 5
 
   const actionOptions: Record<

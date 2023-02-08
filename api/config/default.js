@@ -11,7 +11,7 @@ module.exports = {
   authentication: {
     entity: 'user',
     service: 'user',
-    secret: '/jZiG6MPLaMr6JBptahMA+pxZh0A4XgX',  // provided with custom environment variables
+    secret: '/jZiG6MPLaMr6JBptahMA+pxZh0A4XgX', // provided with custom environment variables
     authStrategies: ['jwt', 'local', 'public'],
     signup: true,
     jwtOptions: {
@@ -56,11 +56,11 @@ module.exports = {
   settings: {
     signup: {
       allowed: true,
-      verificationMailDelayDays: 'LCK_SIGNUP_MAIL_DELAY_DAYS',  // provided with custom environment variables
+      verificationMailDelayDays: 'LCK_SIGNUP_MAIL_DELAY_DAYS', // provided with custom environment variables
     },
     db: {
       client: 'pg',
-      connection: 'LCK_DATABASE_URL',  // provided with custom environment variables
+      connection: 'LCK_DATABASE_URL', // provided with custom environment variables
     },
     passwordPolicy: {
       minLength: 8,
