@@ -16,7 +16,7 @@ import { WorkspaceService } from './services/workspace/workspace.class'
 
 export { NextFunction }
 
-export interface Configuration extends ConfigurationSchema { }
+export interface Configuration extends ConfigurationSchema {}
 
 // A mapping of service names to types. Will be extended in service files.
 export interface ServiceTypes {

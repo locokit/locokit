@@ -24,8 +24,4 @@ export const tableHooks = {
 export interface TableParams extends KnexAdapterParams<TableQuery> {}
 
 // By default calls the standard Knex adapter service methods but can be customized with your own functionality.
-export class Table extends ObjectionService<
-  TableResult,
-  TableData,
-  TableParams
-> {}
+export class Table extends ObjectionService<TableResult, TableData, TableParams> {}

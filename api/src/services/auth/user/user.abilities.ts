@@ -26,17 +26,14 @@ export async function createAbility(user: UserResult): Promise<AppAbility> {
     /**
      * ADMIN can manage all user
      */
-    case USER_PROFILE.
-ADMIN:
+    case USER_PROFILE.ADMIN:
       can('manage', 'user')
       break
     /**
      * Others can only see themselves
      */
-    case USER_PROFILE.
-CREATOR:
-    case USER_PROFILE.
-MEMBER:
+    case USER_PROFILE.CREATOR:
+    case USER_PROFILE.MEMBER:
       can('read', 'user', ['id', 'name'], { id: { $ne: user.id } })
       can('read', 'user', { id: user.id })
       can('update', 'user', ['name'], { id: user.id })
@@ -52,9 +49,7 @@ MEMBER:
  * @returns Promise<HookContext>
  */
 async function defineAbilities(context: HookContext): Promise<HookContext> {
-  const ability: AppAbility = await createAbility(
-    context.params.user as UserResult,
-  )
+  const ability: AppAbility = await createAbility(context.params.user as UserResult)
   context.params.ability = ability
   context.params.rules = ability.rules
 

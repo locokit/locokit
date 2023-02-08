@@ -4,11 +4,7 @@ import type { Application } from '../../../declarations'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
 
 import { Datasource, datasourceHooks } from './datasource.class'
-import {
-  datasourceDataSchema,
-  datasourceQuerySchema,
-  datasourceSchema,
-} from './datasource.schema'
+import { datasourceDataSchema, datasourceQuerySchema, datasourceSchema } from './datasource.schema'
 
 export class DatasourceModel extends Model {
   static readonly model = 'datasource'

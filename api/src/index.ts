@@ -18,9 +18,7 @@ async function boot(): Promise<void> {
   const server = listenGlobal.FeathersServer as any
   if (server === undefined || server.close()) {
     listenGlobal.FeathersServer = await app.listen(port)
-    logger.info(
-      `Whoot whoot !! LocoKit started and moving on http://${host}:${port}`,
-    )
+    logger.info(`Whoot whoot !! LocoKit started and moving on http://${host}:${port}`)
   }
 }
 

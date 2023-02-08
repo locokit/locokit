@@ -23,9 +23,7 @@ export const defaultDataSchema = schema(
 
 export type DefaultData = Infer<typeof defaultDataSchema>
 
-export function lckSchema<S extends JSONSchemaDefinition>(
-  definition: S,
-): SchemaWrapper<S> {
+export function lckSchema<S extends JSONSchemaDefinition>(definition: S): SchemaWrapper<S> {
   // @ts-expect-error
   return new SchemaWrapper(definition, dataValidator)
 }

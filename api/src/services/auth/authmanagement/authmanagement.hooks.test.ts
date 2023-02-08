@@ -71,9 +71,7 @@ describe.skip("'auth-management' hooks for passwordChange action", () => {
     } catch (error) {
       expect(error instanceof BadRequest).toBe(true)
       expect((error as BadRequest).errors.oldPassword).toBeDefined()
-      expect((error as BadRequest).errors.oldPassword).toBe(
-        'Current password is incorrect.',
-      )
+      expect((error as BadRequest).errors.oldPassword).toBe('Current password is incorrect.')
     }
   })
 
@@ -147,9 +145,7 @@ describe("'auth-management' hooks for identityChange action", () => {
     } catch (error) {
       expect(error instanceof BadRequest).toBe(true)
       expect((error as BadRequest).errors.password).toBeDefined()
-      expect((error as BadRequest).errors.password).toBe(
-        'Password is incorrect.',
-      )
+      expect((error as BadRequest).errors.password).toBe('Password is incorrect.')
     }
   })
 
@@ -177,7 +173,7 @@ describe("'auth-management' hooks for identityChange action", () => {
 
   it('accept the request when an identityChange action is created with correct user and password ', async () => {
     expect.assertions(4)
-    const resIdentityChange = await app.service('auth-management').create({
+    const resIdentityChange = (await app.service('auth-management').create({
       action: 'identityChange',
       value: {
         user: {
@@ -188,19 +184,17 @@ describe("'auth-management' hooks for identityChange action", () => {
           email: newEmailAddress,
         },
       },
-    }) as { id: string }
+    })) as { id: string }
     // The result is defined but the email address is not updated yet (need token verification)
     expect(resIdentityChange).toBeDefined()
     const user: UserResult = await app.service('user').get(resIdentityChange.id)
     expect(user.email).toBe(userInfo.email)
 
     // Token verification
-    const resVerifySignupLong  = await app
-      .service('auth-management')
-      .create({
-        action: 'verifySignupLong',
-        value: user.verifyToken as string,
-      }) as { email: string }
+    const resVerifySignupLong = (await app.service('auth-management').create({
+      action: 'verifySignupLong',
+      value: user.verifyToken as string,
+    })) as { email: string }
     expect(resVerifySignupLong).toBeDefined()
     expect(resVerifySignupLong.email).toBe(newEmailAddress.toLowerCase())
   })

@@ -39,8 +39,7 @@ export async function createAbility(
      * ADMIN
      * can manage all workspaces
      */
-    case USER_PROFILE.
-ADMIN:
+    case USER_PROFILE.ADMIN:
       can('manage', 'workspace')
       break
     /**
@@ -48,8 +47,7 @@ ADMIN:
      * but only their,
      * so they inherit same permissions than USER
      */
-    case USER_PROFILE.
-CREATOR:
+    case USER_PROFILE.CREATOR:
       // find all workspace where user have a group "manager" of the workspace
       // const aclsetsCREATOR = (await services.role.find({
       //   query: {
@@ -84,8 +82,7 @@ CREATOR:
      * USER cannot create / manage workspace,
      * even if they are member of a group having a manager aclset on a workspace
      */
-    case USER_PROFILE.
-MEMBER:
+    case USER_PROFILE.MEMBER:
       //       // find all workspaces where user is linked to the workspace through aclset > group
       //       const aclsetsUSER = (await services.aclset.find({
       //         query: {

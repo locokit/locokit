@@ -16,11 +16,8 @@ export class PasswordValidatorRules {
   symbols!: boolean
 }
 
-function createPasswordValidator(
-  rules: PasswordValidatorRules,
-): PasswordValidator {
-  if (!rules)
-    throw new Error("No password rules. Password validator can't be created")
+function createPasswordValidator(rules: PasswordValidatorRules): PasswordValidator {
+  if (!rules) throw new Error("No password rules. Password validator can't be created")
 
   const { minLength, maxLength, uppercase, lowercase, digits, symbols } = rules
 
@@ -46,17 +43,13 @@ export function enforcePasswordPolicy(
 ): (context: HookContext) => HookContext {
   return function (context: HookContext) {
     if (context.type !== 'before') {
-      throw new Error(
-        "The 'enforcePasswordPolicy' hook should only be used as a 'before' hook.",
-      )
+      throw new Error("The 'enforcePasswordPolicy' hook should only be used as a 'before' hook.")
     }
     /**
      * If no validator exist, we create one
      */
     if (!passwordValidator) {
-      passwordValidator = createPasswordValidator(
-        context.app.get('settings').passwordPolicy,
-      )
+      passwordValidator = createPasswordValidator(context.app.get('settings').passwordPolicy)
     }
     const passwordToCheck = getPassword(context)
     if (passwordToCheck) {
@@ -65,10 +58,9 @@ export function enforcePasswordPolicy(
         list: true,
       }) as string[]
       if (result.length > 0) {
-        throw new NotAcceptable(
-          'The provided password does not comply to the password policy',
-          { failedRules: result },
-        )
+        throw new NotAcceptable('The provided password does not comply to the password policy', {
+          failedRules: result,
+        })
       }
     }
     return context

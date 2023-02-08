@@ -58,12 +58,7 @@ export type Actions =
   | 'read'
   | 'delete'
 export type Subjects = InferSubjects<
-  | 'all'
-  | 'user'
-  | 'group'
-  | 'workspace'
-  | 'datasource'
-  | typeof WorkspaceService,
+  'all' | 'user' | 'group' | 'workspace' | 'datasource' | typeof WorkspaceService,
   true
 >
 

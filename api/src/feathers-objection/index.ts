@@ -1,11 +1,5 @@
 import { PaginationOptions } from '@feathersjs/adapter-commons'
-import {
-  Paginated,
-  ServiceMethods,
-  Id,
-  NullableId,
-  Params,
-} from '@feathersjs/feathers'
+import { Paginated, ServiceMethods, Id, NullableId, Params } from '@feathersjs/feathers'
 import { ObjectionAdapter } from './adapter'
 import { ObjectionAdapterParams } from './declarations'
 
@@ -21,12 +15,9 @@ export class ObjectionService<
     PatchData = Partial<Data>,
   >
   extends ObjectionAdapter<Result, Data, ServiceParams, PatchData>
-  implements
-    ServiceMethods<Result | Paginated<Result>, Data, ServiceParams, PatchData>
+  implements ServiceMethods<Result | Paginated<Result>, Data, ServiceParams, PatchData>
 {
-  async find(
-    params?: ServiceParams & { paginate?: PaginationOptions },
-  ): Promise<Paginated<Result>>
+  async find(params?: ServiceParams & { paginate?: PaginationOptions }): Promise<Paginated<Result>>
   async find(params?: ServiceParams & { paginate: false }): Promise<Result[]>
   async find(params?: ServiceParams): Promise<Paginated<Result> | Result[]>
   async find(params?: ServiceParams): Promise<Paginated<Result> | Result[]> {
@@ -39,10 +30,7 @@ export class ObjectionService<
 
   async create(data: Data, params?: ServiceParams): Promise<Result>
   async create(data: Data[], params?: ServiceParams): Promise<Result[]>
-  async create(
-    data: Data | Data[],
-    params?: ServiceParams,
-  ): Promise<Result | Result[]> {
+  async create(data: Data | Data[], params?: ServiceParams): Promise<Result | Result[]> {
     return await this._create(data, params)
   }
 
@@ -51,25 +39,14 @@ export class ObjectionService<
   }
 
   async patch(id: Id, data: PatchData, params?: ServiceParams): Promise<Result>
-  async patch(
-    id: null,
-    data: PatchData,
-    params?: ServiceParams,
-  ): Promise<Result[]>
-  async patch(
-    id: NullableId,
-    data: PatchData,
-    params?: ServiceParams,
-  ): Promise<Result | Result[]> {
+  async patch(id: null, data: PatchData, params?: ServiceParams): Promise<Result[]>
+  async patch(id: NullableId, data: PatchData, params?: ServiceParams): Promise<Result | Result[]> {
     return await this._patch(id, data, params)
   }
 
   async remove(id: Id, params?: ServiceParams): Promise<Result>
   async remove(id: null, params?: ServiceParams): Promise<Result[]>
-  async remove(
-    id: NullableId,
-    params?: ServiceParams,
-  ): Promise<Result | Result[]> {
+  async remove(id: NullableId, params?: ServiceParams): Promise<Result | Result[]> {
     return await this._remove(id, params)
   }
 }

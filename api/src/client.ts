@@ -1,9 +1,4 @@
-import {
-  Application,
-  ClientService,
-  feathers,
-  Paginated,
-} from '@feathersjs/feathers'
+import { Application, ClientService, feathers, Paginated } from '@feathersjs/feathers'
 // import type { Apikey, ApikeyData, ApikeyQuery } from './services/apikey/apikey'
 import type {
   WorkspaceData,
@@ -11,11 +6,7 @@ import type {
   WorkspaceResult,
   WorkspaceQuery,
 } from './services/workspace/workspace.schema'
-import type {
-  UserData,
-  UserResult,
-  UserQuery,
-} from './services/auth/user/user.schema'
+import type { UserData, UserResult, UserQuery } from './services/auth/user/user.schema'
 import type { Service, TransportConnection, Params } from '@feathersjs/feathers'
 
 // export type { Apikey, ApikeyData, ApikeyQuery }

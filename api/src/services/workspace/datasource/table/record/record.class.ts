@@ -51,13 +51,11 @@ export const recordHooks = {
         /**
          * Find the datasource
          */
-        const datasource = await context.app
-          .service(API_PATH.WORKSPACE.DATASOURCE.ROOT)
-          .find({
-            query: {
-              slug: datasourceSlug,
-            },
-          })
+        const datasource = await context.app.service(API_PATH.WORKSPACE.DATASOURCE.ROOT).find({
+          query: {
+            slug: datasourceSlug,
+          },
+        })
         if (datasource.total === 1) {
           console.log('[createAdapterIfNeeded] Adapter being created...')
 
@@ -129,11 +127,7 @@ export class EngineService<T = any, D = Partial<T>>
 
   async patch(id: Id, data: Partial<D>, params?: EngineParams): Promise<T>
   async patch(id: null, data: Partial<D>, params?: EngineParams): Promise<T[]>
-  async patch(
-    id: Id | null,
-    data: Partial<D>,
-    params?: EngineParams,
-  ): Promise<null | T | T[]> {
+  async patch(id: Id | null, data: Partial<D>, params?: EngineParams): Promise<null | T | T[]> {
     console.log('patch', id, data, params)
     return await new Promise((resolve) => {
       resolve(null)

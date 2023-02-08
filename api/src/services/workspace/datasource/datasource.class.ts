@@ -2,11 +2,7 @@
 import type { KnexAdapterParams } from '@feathersjs/knex'
 import { resolveData } from '@feathersjs/schema'
 
-import type {
-  DatasourceData,
-  DatasourceResult,
-  DatasourceQuery,
-} from './datasource.schema'
+import type { DatasourceData, DatasourceResult, DatasourceQuery } from './datasource.schema'
 import { datasourceResolvers } from './datasource.resolver'
 import { HookContext } from '../../../declarations'
 import { authenticate } from '@feathersjs/authentication'

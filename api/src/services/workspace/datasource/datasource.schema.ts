@@ -12,8 +12,7 @@ export const datasourceSchema = Type.Object(
       description: 'Name of the datasource',
     }),
     slug: Type.String({
-      description:
-        'Slug to reference the datasource in URL, easier to read/memorize for end users',
+      description: 'Slug to reference the datasource in URL, easier to read/memorize for end users',
     }),
     documentation: Type.Optional(
       Type.String({
@@ -83,12 +82,7 @@ export type DatasourceResult = Static<typeof datasourceResultSchema>
 export const datasourceQuerySchema = querySyntax(
   Type.Omit(
     datasourceSchema,
-    [
-      'credentialsRead',
-      'credentialsReadWrite',
-      'credentialsAlter',
-      'connection',
-    ],
+    ['credentialsRead', 'credentialsReadWrite', 'credentialsAlter', 'connection'],
     { $id: 'DatasourceQuery', additionalProperties: false },
   ),
 )

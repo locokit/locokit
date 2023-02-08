@@ -12,23 +12,22 @@ const isAction =
 
 const getPassword = (hook: HookContext): string => hook.data.value.password
 
-export const hooks: HookOptions<Application, AuthenticationManagementService> =
-  {
-    before: {
-      create: [
-        iff(isAction('resendVerifySignup'), lowerCase('value.email')),
-        iff(isAction('passwordChange', 'identityChange'), authenticate('jwt')),
-        iff(isAction('identityChange'), lowerCase('value.changes.email')),
-        iff<HookContext>(
-          isAction(
-            'passwordChange',
-            'verifySignupSetPasswordLong',
-            'verifySignupSetPasswordShort',
-            'resetPwdLong',
-            'resetPwdShort',
-          ),
-          enforcePasswordPolicy(getPassword),
+export const hooks: HookOptions<Application, AuthenticationManagementService> = {
+  before: {
+    create: [
+      iff(isAction('resendVerifySignup'), lowerCase('value.email')),
+      iff(isAction('passwordChange', 'identityChange'), authenticate('jwt')),
+      iff(isAction('identityChange'), lowerCase('value.changes.email')),
+      iff<HookContext>(
+        isAction(
+          'passwordChange',
+          'verifySignupSetPasswordLong',
+          'verifySignupSetPasswordShort',
+          'resetPwdLong',
+          'resetPwdShort',
         ),
-      ],
-    },
-  }
+        enforcePasswordPolicy(getPassword),
+      ),
+    ],
+  },
+}

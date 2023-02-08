@@ -84,7 +84,9 @@ export class SignUpService {
       signupClassLogger.info('Creation ok.')
     } catch (error: any) {
       signupClassLogger.error(
-        `Creation nok for user ${credentials.username}/${credentials.email} with error "${error.name}"`,
+        `Creation nok for user ${credentials.username}/${credentials.email} with error "${
+          error.name as string
+        }"`,
       )
       /**
        * We don't throw an error if there was already a user with the e-mail address

@@ -8,9 +8,7 @@ import { User } from 'feathers-authentication-management'
  * @param context Hook context
  * @returns the input context
  */
-export async function notifyUserOnUpdate(
-  context: HookContext,
-): Promise<HookContext> {
+export async function notifyUserOnUpdate(context: HookContext): Promise<HookContext> {
   // Check we are on an external user patch after hook and that the previous data have been loaded from the database
   if (
     context.params.provider && // External call
@@ -42,10 +40,7 @@ export async function notifyUserOnUpdate(
     }
 
     // The account status (blocked) has been updated
-    if (
-      (context.result as User).blocked !==
-      (context.params._meta.item as User).blocked
-    ) {
+    if ((context.result as User).blocked !== (context.params._meta.item as User).blocked) {
       notificationPromises.push(
         authManagementSettings(context.app as Application).notifier(
           context.result.blocked ? 'disableUser' : 'enableUser',

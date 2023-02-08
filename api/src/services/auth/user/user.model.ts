@@ -1,4 +1,4 @@
-import { JSONSchema, Model, ModelOptions, Pojo, RelationMappings } from 'objection'
+import { JSONSchema, Model, RelationMappings } from 'objection'
 import BaseModel from '../../../commons/BaseModel'
 import { WorkspaceModel } from '../../workspace/workspace.model'
 import { userSchema } from './user.schema'

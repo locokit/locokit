@@ -28,8 +28,7 @@ export const roleHooks = {
         const user: UserResult = context.params.user
         const profile = user.profile
 
-        if (profile === USER_PROFILE.
-MEMBER)
+        if (profile === USER_PROFILE.MEMBER)
           throw new Forbidden("You don't have sufficient privilege to create a role.")
       },
     ],

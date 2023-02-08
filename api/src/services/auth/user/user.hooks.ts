@@ -35,10 +35,7 @@ export const hooks: HookOptions<Application, UserService> = {
        */
       iff((context: HookContext) => {
         return isProvider('external')(context) && !isAdminProfile(context)
-      }, disallow()).else(
-        addVerification('auth-management'),
-        resolveData(userCreateResolver)
-      ),
+      }, disallow()).else(addVerification('auth-management'), resolveData(userCreateResolver)),
     ],
     /**
      * We forbid the update method

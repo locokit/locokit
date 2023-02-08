@@ -9,7 +9,7 @@ import {
   ForeignKeyViolationError,
   CheckViolationError,
   DataError,
-} from 'objection';
+} from 'objection'
 
 export const ERROR = Symbol('@feathersjs/knex/error')
 
@@ -77,53 +77,53 @@ export function errorHandler(error: any) {
     if (error instanceof ValidationError) {
       switch (error.type) {
         case 'ModelValidation':
-          feathersError = new errors.BadRequest(message, error.data);
-          break;
+          feathersError = new errors.BadRequest(message, error.data)
+          break
         case 'RelationExpression':
-          feathersError = new errors.BadRequest('Invalid Relation Expression');
-          break;
+          feathersError = new errors.BadRequest('Invalid Relation Expression')
+          break
         case 'UnallowedRelation':
-          feathersError = new errors.BadRequest('Unallowed Relation Expression');
-          break;
+          feathersError = new errors.BadRequest('Unallowed Relation Expression')
+          break
         case 'InvalidGraph':
-          feathersError = new errors.BadRequest('Invalid Relation Graph');
-          break;
+          feathersError = new errors.BadRequest('Invalid Relation Graph')
+          break
         default:
-          feathersError = new errors.BadRequest('Unknown Validation Error');
+          feathersError = new errors.BadRequest('Unknown Validation Error')
       }
     } else if (error instanceof NotFoundError) {
-      feathersError = new errors.NotFound(message);
+      feathersError = new errors.NotFound(message)
     } else if (error instanceof UniqueViolationError) {
       feathersError = new errors.Conflict(`${error.columns.join(', ')} must be unique`, {
         columns: error.columns,
         table: error.table,
-        constraint: error.constraint
-      });
+        constraint: error.constraint,
+      })
     } else if (error instanceof NotNullViolationError) {
       feathersError = new errors.BadRequest(`${error.column} must not be null`, {
         column: error.column,
-        table: error.table
-      });
+        table: error.table,
+      })
     } else if (error instanceof ForeignKeyViolationError) {
       feathersError = new errors.Conflict('Foreign Key Violation', {
         table: error.table,
-        constraint: error.constraint
-      });
+        constraint: error.constraint,
+      })
     } else if (error instanceof CheckViolationError) {
       feathersError = new errors.BadRequest('Check Violation', {
         table: error.table,
-        constraint: error.constraint
-      });
+        constraint: error.constraint,
+      })
     } else if (error instanceof ConstraintViolationError) {
       feathersError = new errors.Conflict('Constraint Violation', {
-        name: error.name
-      });
+        name: error.name,
+      })
     } else if (error instanceof DataError) {
-      feathersError = new errors.BadRequest('Invalid Data');
+      feathersError = new errors.BadRequest('Invalid Data')
     } else if (error instanceof DBError) {
-      feathersError = new errors.GeneralError('Unknown Database Error');
+      feathersError = new errors.GeneralError('Unknown Database Error')
     } else {
-      feathersError = new errors.GeneralError(message);
+      feathersError = new errors.GeneralError(message)
     }
   } else if (typeof error.code === 'string' && error.severity && error.routine) {
     // NOTE: Error codes taken from

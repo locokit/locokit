@@ -1,8 +1,4 @@
-import nodemailer, {
-  SendMailOptions,
-  SentMessageInfo,
-  Transporter,
-} from 'nodemailer'
+import nodemailer, { SendMailOptions, SentMessageInfo, Transporter } from 'nodemailer'
 
 import { disallow } from 'feathers-hooks-common'
 import SMTPConnection from 'nodemailer/lib/smtp-connection'
@@ -14,8 +10,7 @@ export class MailerService {
   transporter: Transporter
 
   constructor(options: SMTPConnection.Options, defaults: { from?: string }) {
-    if (!options)
-      throw new Error('mailer service: constructor `options` must be provided')
+    if (!options) throw new Error('mailer service: constructor `options` must be provided')
 
     this.transporter = nodemailer.createTransport(options, defaults)
   }

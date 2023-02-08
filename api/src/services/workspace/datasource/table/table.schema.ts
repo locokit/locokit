@@ -1,9 +1,6 @@
 import { querySyntax } from '@feathersjs/schema'
 import type { Infer } from '@feathersjs/schema'
-import {
-  defaultDataSchema,
-  lckSchema,
-} from '../../../../schemas/default.schema'
+import { defaultDataSchema, lckSchema } from '../../../../schemas/default.schema'
 
 // Schema for the basic data model (e.g. creating new entries)
 // export const datasourceDataJSONSchema: JSONSchemaDefinition =
@@ -21,8 +18,7 @@ export const tableDataSchema = lckSchema({
     },
     slug: {
       type: 'string',
-      description:
-        'Slug to reference the datasource in URL, easier to read/memorize for end users',
+      description: 'Slug to reference the datasource in URL, easier to read/memorize for end users',
     },
     documentation: {
       type: 'string',
