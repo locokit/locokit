@@ -11,6 +11,8 @@ describe('workspace service', () => {
 
   it('returns the public workspace when making a find request without authentication', () => {})
 
+  it('return the workspace if user is not authenticated and the workspace is public')
+
   it("can't create a workspace for unauthenticated users", () => {})
   it("can't patch a workspace for unauthenticated users", () => {})
   it("can't update a workspace for unauthenticated users", () => {})
@@ -37,4 +39,12 @@ describe('workspace service', () => {
   it("allows to filter on the owner's name for authenticated users and returns all workspaces available for this user", () => {})
   it('forbids to filter on another owner property for authenticated users and returns an error', () => {})
   it('forbids to filter on another owner property for unauthenticated users and returns an error', () => {})
+
+  it(
+    'do not create the workspace if an error occured when the dedicated schema have been created (transaction)',
+  )
+
+  it(
+    'do not delete the workspace if an error occured when removing its dedicated schema (transaction)',
+  )
 })
