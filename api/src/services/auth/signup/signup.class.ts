@@ -9,7 +9,7 @@ import { Application } from '../../../declarations'
 import { logger } from '../../../logger'
 import { authManagementSettings } from '../authmanagement/authmanagement.settings'
 
-const signupClassLogger = logger.child({ service: 'signup'})
+const signupClassLogger = logger.child({ service: 'signup' })
 
 class SignUpModel {
   email!: string
@@ -22,9 +22,11 @@ class SignUpModel {
         email: { type: 'string' },
         username: { type: 'string' },
       },
+      additionalProperties: false,
     }
   }
 }
+
 export class SignUpService {
   app: Application
   public docs: ServiceSwaggerOptions
@@ -42,7 +44,6 @@ export class SignUpService {
       duration: 60, // per 60 second
       blockDuration: 60 * 2, // block user during 120 second
     })
-
   }
 
   async create(credentials: SignUpModel, params?: Params): Promise<SignUpModel> {
@@ -70,7 +71,11 @@ export class SignUpService {
     if (!isSignupAllowed) throw new Forbidden('Signup is not authorized on this platform.')
 
     try {
-      signupClassLogger.info('Creating user %s with profile %s', credentials.username, USER_PROFILE.CREATOR)
+      signupClassLogger.info(
+        'Creating user %s with profile %s',
+        credentials.username,
+        USER_PROFILE.CREATOR,
+      )
       await this.app.service('user').create({
         username: credentials.username,
         email: credentials.email,
@@ -78,7 +83,9 @@ export class SignUpService {
       })
       signupClassLogger.info('Creation ok.')
     } catch (error: any) {
-      signupClassLogger.error(`Creation nok for user ${credentials.username}/${credentials.email} with error "${error.name}"`)
+      signupClassLogger.error(
+        `Creation nok for user ${credentials.username}/${credentials.email} with error "${error.name}"`,
+      )
       /**
        * We don't throw an error if there was already a user with the e-mail address
        * to avoid giving information to a potential black hat.

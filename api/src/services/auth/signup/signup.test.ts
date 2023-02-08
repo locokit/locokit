@@ -5,13 +5,14 @@ import { USER_PROFILE } from '@locokit/definitions'
 import { UserResult } from '../user/user.schema'
 import { createApp } from '../../../app'
 import axios from 'axios'
-import { BadRequest, Forbidden, TooManyRequests } from '@feathersjs/errors/lib'
+import { BadRequest } from '@feathersjs/errors/lib'
 
 const app = createApp()
 const port = app.get('port') || 8998
-const getUrl = (pathname?: string) => new URL(`http://${app.get('host') || 'localhost'}:${port}/${pathname}` ).toString()
+const getUrl = (pathname: string) =>
+  new URL(`http://${app.get('host') || 'localhost'}:${port}/${pathname}`).toString()
 
-  describe("'signup' service", () => {
+describe("'signup' service", () => {
   const credentials = {
     username: 'signupuser',
     email: 'signupuser@locokit.io',
@@ -32,7 +33,7 @@ const getUrl = (pathname?: string) => new URL(`http://${app.get('host') || 'loca
     // Clean DB
     const usersToRemove = (await app.service('user').find()) as Paginated<UserResult>
 
-    await Promise.all(usersToRemove.data.map(u => app.service('user').remove(u.id)))
+    await Promise.all(usersToRemove.data.map(async (u) => await app.service('user').remove(u.id)))
   })
 
   it('registered the service', () => {
@@ -68,7 +69,7 @@ const getUrl = (pathname?: string) => new URL(`http://${app.get('host') || 'loca
 
     // Create a user
     const previousUser = await app.service('user').create(credentials)
-    
+
     // Start spying
     const spyOnMailer = vi.spyOn(app.service('mailer'), 'create')
 
@@ -99,40 +100,51 @@ const getUrl = (pathname?: string) => new URL(`http://${app.get('host') || 'loca
     const maxTries = app.get('settings').signup.rateLimitMax ?? 5
 
     for (let i = 0; i < maxTries; i++) {
-      await axios.post(getUrl('signup'), {
-        name: `Signup user n°${i}`,
-        username: `user${i}`,
-        email: `signupuser${i}@locokit.io`,
-      }, {
-        headers: {
-          ip: 'my-ip-address'
-        }
-      })
+      await axios.post(
+        getUrl('signup'),
+        {
+          name: `Signup user n°${i}`,
+          username: `user${i}`,
+          email: `signupuser${i}@locokit.io`,
+        },
+        {
+          headers: {
+            ip: 'my-ip-address',
+          },
+        },
+      )
     }
 
-    await expect(axios.post(getUrl('signup'), {
-      name: 'Signup user n° too much',
-      username: 'signupusertoomuch',
-      email: 'signupusertoomuch@locokit.io',
-    }, {
-      headers: {
-        ip: 'my-ip-address'
-      }
-    })).rejects.toThrowError(/429/)
-    
+    await expect(
+      axios.post(
+        getUrl('signup'),
+        {
+          name: 'Signup user n° too much',
+          username: 'signupusertoomuch',
+          email: 'signupusertoomuch@locokit.io',
+        },
+        {
+          headers: {
+            ip: 'my-ip-address',
+          },
+        },
+      ),
+    ).rejects.toThrowError(/429/)
   })
 
   it('fails if the signup do not give a username when creating the new user', async () => {
     expect.assertions(1)
     // Create the user from the signup endpoint without email
     // we add the ts-expect-error as it is not ok with typing
-    // @ts-expect-error
-    const call = await expect(app.service('signup').create({
-      email: 'signupwithoutusername@locokit.io'
-    }))
-    
-    call.rejects.toThrowError(/validation failed/)
-    call.rejects.toBeInstanceOf(BadRequest)
+    const call = await expect(
+      // @ts-expect-error
+      app.service('signup').create({
+        email: 'signupwithoutusername@locokit.io',
+      }),
+    )
+
+    await call.rejects.toThrowError(/validation failed/)
+    await call.rejects.toBeInstanceOf(BadRequest)
   })
 
   it('fails if the signup is not authorized', async () => {
@@ -144,10 +156,11 @@ const getUrl = (pathname?: string) => new URL(`http://${app.get('host') || 'loca
     const call = await expect(app.service('signup').create(credentials))
 
     // try to create a user
-    call.rejects.toContain({ code: 403 })
-    call.rejects.toThrowError(/Signup is not authorized/)
+    await call.rejects.toContain({ code: 403 })
+    await call.rejects.toThrowError(/Signup is not authorized/)
 
     app.get('settings').signup.allowed = true
-    
   })
+
+  it.todo('fails if the data sent contains unwanted keys')
 })
