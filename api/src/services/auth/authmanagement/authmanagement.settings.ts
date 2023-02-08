@@ -3,11 +3,7 @@ import { Application } from '../../../declarations'
 import ejs from 'ejs'
 import path from 'path'
 import { marked } from 'marked'
-import {
-  NotificationType,
-  NotifierOptions,
-  User,
-} from 'feathers-authentication-management'
+import { NotificationType, NotifierOptions, User } from 'feathers-authentication-management'
 import { logger } from '../../../logger'
 
 const authMgtLogger = logger.child({ service: 'service-auth-mgmt' })
@@ -78,55 +74,23 @@ export function authManagementSettings(app: Application): {
      * Mails including a link (verify or reset)
      */
     sendResetPwd: {
-      templateFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/sendResetPwd/template.ejs',
-      ),
-      titleFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/sendResetPwd/title.ejs',
-      ),
+      templateFile: path.join(process.cwd(), templateFolder, '/sendResetPwd/template.ejs'),
+      titleFile: path.join(process.cwd(), templateFolder, '/sendResetPwd/title.ejs'),
     },
     sendVerifySignup: {
-      templateFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/sendVerifySignup/template.ejs',
-      ),
-      titleFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/sendVerifySignup/title.ejs',
-      ),
+      templateFile: path.join(process.cwd(), templateFolder, '/sendVerifySignup/template.ejs'),
+      titleFile: path.join(process.cwd(), templateFolder, '/sendVerifySignup/title.ejs'),
     },
     resendVerifySignup: {
-      templateFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/resendVerifySignup/template.ejs',
-      ),
-      titleFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/resendVerifySignup/title.ejs',
-      ),
+      templateFile: path.join(process.cwd(), templateFolder, '/resendVerifySignup/template.ejs'),
+      titleFile: path.join(process.cwd(), templateFolder, '/resendVerifySignup/title.ejs'),
     },
     /**
      * Mails for account information (enabled, password updated, or identity change)
      */
     verifySignup: {
-      templateFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/verifySignup/template.ejs',
-      ),
-      titleFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/verifySignup/title.ejs',
-      ),
+      templateFile: path.join(process.cwd(), templateFolder, '/verifySignup/template.ejs'),
+      titleFile: path.join(process.cwd(), templateFolder, '/verifySignup/title.ejs'),
     },
     verifySignupSetPassword: {
       templateFile: path.join(
@@ -134,47 +98,19 @@ export function authManagementSettings(app: Application): {
         templateFolder,
         '/verifySignupSetPassword/template.ejs',
       ),
-      titleFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/verifySignupSetPassword/title.ejs',
-      ),
+      titleFile: path.join(process.cwd(), templateFolder, '/verifySignupSetPassword/title.ejs'),
     },
     resetPwd: {
-      templateFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/passwordChange/template.ejs',
-      ),
-      titleFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/passwordChange/title.ejs',
-      ),
+      templateFile: path.join(process.cwd(), templateFolder, '/passwordChange/template.ejs'),
+      titleFile: path.join(process.cwd(), templateFolder, '/passwordChange/title.ejs'),
     },
     passwordChange: {
-      templateFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/passwordChange/template.ejs',
-      ),
-      titleFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/passwordChange/title.ejs',
-      ),
+      templateFile: path.join(process.cwd(), templateFolder, '/passwordChange/template.ejs'),
+      titleFile: path.join(process.cwd(), templateFolder, '/passwordChange/title.ejs'),
     },
     identityChange: {
-      templateFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/identityChange/template.ejs',
-      ),
-      titleFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/identityChange/title.ejs',
-      ),
+      templateFile: path.join(process.cwd(), templateFolder, '/identityChange/template.ejs'),
+      titleFile: path.join(process.cwd(), templateFolder, '/identityChange/title.ejs'),
     },
     sendUpdatedEmailAddress: {
       templateFile: path.join(
@@ -182,47 +118,19 @@ export function authManagementSettings(app: Application): {
         templateFolder,
         '/sendUpdatedEmailAddress/template.ejs',
       ),
-      titleFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/sendUpdatedEmailAddress/title.ejs',
-      ),
+      titleFile: path.join(process.cwd(), templateFolder, '/sendUpdatedEmailAddress/title.ejs'),
     },
     enableUser: {
-      templateFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/enableUser/template.ejs',
-      ),
-      titleFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/enableUser/title.ejs',
-      ),
+      templateFile: path.join(process.cwd(), templateFolder, '/enableUser/template.ejs'),
+      titleFile: path.join(process.cwd(), templateFolder, '/enableUser/title.ejs'),
     },
     disableUser: {
-      templateFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/disableUser/template.ejs',
-      ),
-      titleFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/disableUser/title.ejs',
-      ),
+      templateFile: path.join(process.cwd(), templateFolder, '/disableUser/template.ejs'),
+      titleFile: path.join(process.cwd(), templateFolder, '/disableUser/title.ejs'),
     },
     informUserConflict: {
-      templateFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/informUserConflict/template.ejs',
-      ),
-      titleFile: path.join(
-        process.cwd(),
-        templateFolder,
-        '/informUserConflict/title.ejs',
-      ),
+      templateFile: path.join(process.cwd(), templateFolder, '/informUserConflict/template.ejs'),
+      titleFile: path.join(process.cwd(), templateFolder, '/informUserConflict/title.ejs'),
     },
   }
 
@@ -273,10 +181,7 @@ export function authManagementSettings(app: Application): {
           break
       }
 
-      const emailText = await ejs.renderFile(
-        currentActionOption.templateFile,
-        currentTemplateVars,
-      )
+      const emailText = await ejs.renderFile(currentActionOption.templateFile, currentTemplateVars)
       const emailHTML = marked.parse(emailText)
 
       const emailSubject = await ejs.renderFile(currentActionOption.titleFile, {
