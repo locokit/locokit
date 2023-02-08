@@ -35,11 +35,15 @@ export const useStoreAuth = defineStore('auth', () => {
     loading.value = true
     error.value = null
     const result = await sdkClient.reAuthenticate()
+    const token = useCookie('token') // useCookie new hook in nuxt 3
+
     if (result.user) {
       user.value = result.user
+      token.value = result.accessToken
       // if (result.user.rules) lckAbilities.update(result.user.rules)
       isAuthenticated.value = true
     } else {
+      token.value = null
       isAuthenticated.value = false
     }
     loading.value = false
