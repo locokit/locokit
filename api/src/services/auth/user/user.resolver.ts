@@ -74,7 +74,7 @@ export const userCreateResolver = resolve<UserResult, HookContext>({
     if (typeof stringToConvert === 'number') {
       return new Date(stringToConvert).toISOString()
     } else return lastConnection
-  }
+  },
 })
 
 // Resolver for making partial updates
@@ -128,6 +128,8 @@ export const userDispatchResolver: Resolver<UserResult, HookContext> = resolve<
     createdAt: async () => undefined,
     updatedAt: async () => undefined,
     profile: async () => undefined,
+    firstname: async () => undefined,
+    lastname: async () => undefined,
     lastConnection: async () => undefined,
     email: async () => undefined,
     password: async () => undefined,
