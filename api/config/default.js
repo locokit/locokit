@@ -1,37 +1,3 @@
-const defaultDatasources = [
-  {
-    name: 'fs-nutri',
-    client: 'sqlite3',
-    connection: './nutrieduc13.db',
-  },
-  {
-    name: 'locokit',
-    client: 'pg',
-    connection: 'postgres://localhost:5432/public',
-    credentials: {
-      readonly: {
-        username: 'postgres',
-        password: 'pouicpouic',
-      },
-      readwrite: {
-        username: 'postgres',
-        password: 'pouicpouic',
-      },
-      alter: {
-        username: 'postgres',
-        password: 'pouicpouic',
-      },
-    },
-  },
-  {
-    name: 'baserow-mda',
-    client: 'baserow',
-    connection: 'https://api.baserow.io/',
-    tableIds: [12796, 12797],
-    token: 'REUYxF8xqzStcc478r8LAyfB8I6UpCLC',
-  },
-]
-
 module.exports = {
   host: 'localhost',
   port: 3030,
@@ -45,7 +11,7 @@ module.exports = {
   authentication: {
     entity: 'user',
     service: 'user',
-    secret: '/jZiG6MPLaMr6JBptahMA+pxZh0A4XgX',
+    secret: '/jZiG6MPLaMr6JBptahMA+pxZh0A4XgX',  // provided with custom environment variables
     authStrategies: ['jwt', 'local', 'public'],
     signup: true,
     jwtOptions: {
@@ -79,7 +45,7 @@ module.exports = {
     //   secure: false,
     // },
   },
-  datasources: defaultDatasources,
+  datasources: [], // provided with custom environment variables
   helmet: {
     isEnabled: true,
     hstsEnabled: true,
@@ -90,10 +56,11 @@ module.exports = {
   settings: {
     signup: {
       allowed: true,
+      verificationMailDelayDays: 'LCK_SIGNUP_MAIL_DELAY_DAYS',  // provided with custom environment variables
     },
     db: {
-      client: 'LCK_DATABASE_CLIENT',
-      connection: 'LCK_DATABASE_URL',
+      client: 'pg',
+      connection: 'LCK_DATABASE_URL',  // provided with custom environment variables
     },
     passwordPolicy: {
       minLength: 8,

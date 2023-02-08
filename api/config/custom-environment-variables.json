@@ -6,9 +6,17 @@
   },
   "publicURL": "LCK_PUBLIC_URL",
   "publicPortalName": "LCK_PUBLIC_PORTAL_NAME",
+  "authentication": {
+    "secret": "LCK_AUTH_SECRET"
+  },
   "settings": {
+    "signup": {
+      "verificationMailDelayDays": {
+        "__name": "LCK_SIGNUP_MAIL_DELAY_DAYS",
+        "__format": "number"
+      }
+    },
     "db": {
-      "client": "LCK_DATABASE_CLIENT",
       "connection": "LCK_DATABASE_URL"
     }
   },

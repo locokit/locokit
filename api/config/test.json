@@ -2,7 +2,6 @@
   "port": 8998,
   "settings": {
     "db": {
-      "client": "LCK_DATABASE_CLIENT",
       "connection": "LCK_DATABASE_URL_TEST"
     }
   }
