@@ -1,28 +1,27 @@
 <template>
-  <WithBackground>
-    <PrimeCard class="p-2">
-      <template #title>
+  <WithHeader>
+    <div
+      class="max-w-lg lg:h-full lg:m-auto mt-8 pb-4 px-4 lg:px-0 flex flex-col justify-center"
+    >
+      <div class="mb-8">
         <h1 class="text-center">{{ $t('pages.signIn.title') }}</h1>
-      </template>
-      <template #content>
-        <SignInForm
-          :loading="loading"
-          :response="error"
-          :display-sign-up-link="false"
-          :lost-password-route="ROUTES_PATH.AUTH.LOST_PASSWORD"
-          @submit="authenticate"
-        />
-      </template>
-    </PrimeCard>
-  </WithBackground>
+      </div>
+      <SignInForm
+        :loading="loading"
+        :response="error"
+        :display-sign-up-link="false"
+        :lost-password-route="ROUTES_PATH.AUTH.LOST_PASSWORD"
+        @submit="authenticate"
+      />
+    </div>
+  </WithHeader>
 </template>
 
 <script setup lang="ts">
-import PrimeCard from 'primevue/card'
 import { SignInForm } from '@locokit/designsystem'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
-import WithBackground from '../../layouts/WithBackground.vue'
+import WithHeader from '../../layouts/WithHeader.vue'
 import { useStoreAuth } from '../../stores/auth'
 import { ROUTES_PATH, ROUTES_NAMES } from '../../paths'
 import { definePageMeta, useHead, useRouter } from '#imports'

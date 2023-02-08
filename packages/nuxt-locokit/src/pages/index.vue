@@ -96,5 +96,5 @@
 </template>
 
 <script setup lang="ts">
-import WithBanner from '../layouts/WithBanner.vue'
+import WithBanner from '../layouts/WithHeader.vue'
 </script>
