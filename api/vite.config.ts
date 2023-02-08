@@ -6,7 +6,7 @@ const delayedError = async (e) => {
   await sleep(0.1)
   console.error(e)
 }
-function feathers(Opts = {}) {
+function feathers(Opts = {} as any) {
   const env = loadEnv('', process.cwd())
   const sm = {
     active: true,
