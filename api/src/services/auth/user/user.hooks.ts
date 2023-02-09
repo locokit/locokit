@@ -62,7 +62,7 @@ export const hooks: HookOptions<Application, UserService> = {
             'resetAttempts',
           ]
           if (!isAdminProfile(context)) {
-            fields.push(...['email', 'blocked', 'password', 'profile'])
+            fields.push(...['email', 'blocked', 'password', 'profile', 'username'])
           }
 
           return preventChanges<HookContext>(true, ...fields)(context)

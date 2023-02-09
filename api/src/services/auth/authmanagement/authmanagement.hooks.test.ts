@@ -8,7 +8,7 @@ const app = createApp()
 /**
  * Mock the generatePassword with mock file in __mocks__
  */
-vi.mock('../../hooks/lck-hooks/passwords/generatePassword.ts')
+vi.mock('../../../utils/password.ts')
 
 let calls: Array<[string, any]> = []
 function notifierMock(type: string, user: any): void {
@@ -23,7 +23,7 @@ vi.mock('./authmanagement.settings.ts', () => ({
   },
 }))
 
-describe.skip("'auth-management' hooks for passwordChange action", () => {
+describe("'auth-management' hooks for passwordChange action", () => {
   const userInfo = {
     email: 'locokit-authmngt@locokit.io',
     username: 'Someone !',
@@ -172,7 +172,7 @@ describe("'auth-management' hooks for identityChange action", () => {
   })
 
   it('accept the request when an identityChange action is created with correct user and password ', async () => {
-    expect.assertions(4)
+    expect.assertions(5)
     const resIdentityChange = (await app.service('auth-management').create({
       action: 'identityChange',
       value: {
@@ -194,9 +194,12 @@ describe("'auth-management' hooks for identityChange action", () => {
     const resVerifySignupLong = (await app.service('auth-management').create({
       action: 'verifySignupLong',
       value: user.verifyToken as string,
-    })) as { email: string }
+    })) as { id: string; email: string }
     expect(resVerifySignupLong).toBeDefined()
     expect(resVerifySignupLong.email).toBe(newEmailAddress.toLowerCase())
+
+    const userAfter: UserResult = await app.service('user').get(resVerifySignupLong.id)
+    expect(userAfter.email).toBe(newEmailAddress.toLowerCase())
   })
 
   afterEach(async () => {
@@ -331,8 +334,8 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
     expect(auth).toBeDefined()
     expect(auth.accessToken).toBeDefined()
     expect(auth.user.isVerified).toBe(true)
-    expect(auth.user.verifyShortToken).not.toBeDefined()
-    expect(auth.user.verifyToken).not.toBeDefined()
+    expect(auth.user.verifyShortToken).toBeNull()
+    expect(auth.user.verifyToken).toBeNull()
   })
 
   it('accept the request of action resendVerifySignup even if email is in uppercase', async () => {

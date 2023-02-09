@@ -69,8 +69,7 @@ export const userCreateResolver = resolve<UserResult, HookContext>({
   },
 
   lastConnection: async (lastConnection) => {
-    let stringToConvert: string | number | undefined = lastConnection
-    if (!stringToConvert) stringToConvert = Date.now()
+    const stringToConvert: string | number | undefined = lastConnection
     if (typeof stringToConvert === 'number') {
       return new Date(stringToConvert).toISOString()
     } else return lastConnection
@@ -79,27 +78,43 @@ export const userCreateResolver = resolve<UserResult, HookContext>({
 
 // Resolver for making partial updates
 export const userPatchResolver = resolve<UserPatch, HookContext>({
-  // schema: userPatchSchema,
-  validate: 'before',
-  properties: {
-    /**
-     * We clean the email
-     * from spaces and uppercase
-     * before inserting data in db.
-     */
-    email: async (email) => {
-      return email?.trim().toLowerCase()
-    },
-    // resetExpires: async (resetExpires) => {
-    //   if (typeof resetExpires === 'number') {
-    //     return new Date(resetExpires).toISOString()
-    //   }
-    // },
-    // verifyExpires: async (verifyExpires) => {
-    //   if (typeof verifyExpires === 'number') {
-    //     return new Date(verifyExpires).toISOString()
-    //   }
-    // },
+  /**
+   * We clean the email
+   * from spaces and uppercase
+   * before inserting data in db.
+   */
+  email: async (email) => {
+    return email?.trim().toLowerCase()
+  },
+  resetExpires: async (resetExpires) => {
+    if (typeof resetExpires === 'number') {
+      return new Date(resetExpires).toISOString()
+    } else return resetExpires
+  },
+  verifyExpires: async (verifyExpires) => {
+    if (typeof verifyExpires === 'number') {
+      return new Date(verifyExpires).toISOString()
+    } else return verifyExpires
+  },
+
+  verifyChanges: async (verifyChanges) => {
+    if (typeof verifyChanges === 'string') {
+      return JSON.parse(verifyChanges)
+    } else return verifyChanges
+  },
+
+  updatedAt: async (updatedAt) => {
+    let stringToConvert: string | number | undefined = updatedAt
+    if (!stringToConvert) stringToConvert = Date.now()
+    if (typeof stringToConvert === 'number') {
+      return new Date(stringToConvert).toISOString()
+    } else return updatedAt
+  },
+  lastConnection: async (lastConnection) => {
+    const stringToConvert: string | number | undefined = lastConnection
+    if (typeof stringToConvert === 'number') {
+      return new Date(stringToConvert).toISOString()
+    } else return lastConnection
   },
 })
 
@@ -111,7 +126,7 @@ export const userResultResolver = resolve<UserResult, HookContext>({
     verifyChanges: async (verifyChanges) => {
       if (typeof verifyChanges === 'string') {
         return JSON.parse(verifyChanges)
-      }
+      } else return verifyChanges
     },
   },
 })
