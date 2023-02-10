@@ -1,7 +1,9 @@
 import { Paginated } from '@feathersjs/feathers'
-import { describe, it, expect, afterEach } from 'vitest'
+import { describe, it, expect, afterEach, vi } from 'vitest'
 import { createApp } from '../../../app'
 import { UserResult } from '../user/user.schema'
+
+vi.mock('../../mailer/mailer.class')
 
 const app = createApp()
 

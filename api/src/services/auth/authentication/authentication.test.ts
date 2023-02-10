@@ -9,6 +9,7 @@ const builder = builderTestEnvironment('authentication')
 let setupData: SetupData
 
 vi.mock('../../../utils/password')
+vi.mock('../../mailer/mailer.class')
 
 describe('authentication', () => {
   const userInfo = {
