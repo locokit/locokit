@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
-name: pull_request
+name: API quality worklow
 
 on:
   push:
