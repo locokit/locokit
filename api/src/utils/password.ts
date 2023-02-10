@@ -6,6 +6,7 @@
 import { NotAcceptable } from '@feathersjs/errors'
 import PasswordValidator from 'password-validator'
 import passwordGenerator from 'password-generator'
+const { randomInt } = await import('node:crypto')
 
 export class PasswordValidatorRules {
   minLength!: number
@@ -46,9 +47,7 @@ export function generatePassword(passwordPolicy: PasswordValidatorRules): string
     passwordValidator = createPasswordValidator(passwordPolicy)
   }
   let generatedPassword = ''
-  const randomLength =
-    Math.floor(Math.random() * (passwordPolicy.maxLength - passwordPolicy.minLength)) +
-    passwordPolicy.minLength
+  const randomLength = randomInt(passwordPolicy.minLength, passwordPolicy.maxLength)
   while (!passwordValidator.validate(generatedPassword)) {
     generatedPassword = passwordGenerator(randomLength, false, /[\w\d? \-~!@#${}]/)
   }
