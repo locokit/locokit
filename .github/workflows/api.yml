@@ -70,7 +70,7 @@ jobs:
       - name: Lint code
         run: npm run lint --workspace api
       - name: Unit tests
-        run: npm vitest:coverage --workspace api
+        run: npm run vitest:coverage --workspace api
         env:
           NODE_OPTIONS: --max_old_space_size=4096
       # - name: Tar coverage
