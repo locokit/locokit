@@ -1,6 +1,6 @@
 import { querySyntax } from '@feathersjs/schema'
 import type { Infer } from '@feathersjs/schema'
-import { defaultDataSchema, lckSchema } from '../../../schemas/default.schema'
+import { defaultDataSchema, lckSchema } from '../../../commons/default.schema'
 
 export const roleDataSchema = lckSchema({
   $id: 'Role',

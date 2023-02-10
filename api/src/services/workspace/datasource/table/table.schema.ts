@@ -1,6 +1,6 @@
 import { querySyntax } from '@feathersjs/schema'
 import type { Infer } from '@feathersjs/schema'
-import { defaultDataSchema, lckSchema } from '../../../../schemas/default.schema'
+import { defaultDataSchema, lckSchema } from '../../../../commons/default.schema'
 
 // Schema for the basic data model (e.g. creating new entries)
 // export const datasourceDataJSONSchema: JSONSchemaDefinition =
