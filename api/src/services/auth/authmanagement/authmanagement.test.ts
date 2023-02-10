@@ -21,7 +21,11 @@ function diffDays(verifyExpires?: string | number) {
 describe("'authManagement' service", () => {
   afterEach(async () => {
     // Clean DB
-    const usersToRemove = (await app.service('user').find()) as Paginated<UserResult>
+    const usersToRemove = (await app.service('user').find({
+      query: {
+        username: 'authmanagement+verifyExpires',
+      },
+    })) as Paginated<UserResult>
 
     await Promise.all(usersToRemove.data.map(async (u) => await app.service('user').remove(u.id)))
   })

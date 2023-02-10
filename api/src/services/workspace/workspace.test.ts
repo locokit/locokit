@@ -1,5 +1,5 @@
-import assert from 'assert'
 import { createApp } from '../../app'
+import { describe, it, assert } from 'vitest'
 
 describe('workspace service', () => {
   const app = createApp()

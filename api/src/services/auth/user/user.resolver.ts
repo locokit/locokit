@@ -2,7 +2,7 @@
 import { resolve, Resolver } from '@feathersjs/schema'
 import { passwordHash } from '@feathersjs/authentication-local'
 import type { HookContext } from '../../../declarations'
-import { UserPatch, UserResult, UserQuery } from './user.schema'
+import { UserPatch, UserResult, UserQuery, UserPatchAdmin } from './user.schema'
 import { generatePassword } from '../../../utils/password'
 import { workspaceDispatchResolver } from '../../workspace/workspace.resolver'
 import { USER_PROFILE } from '@locokit/definitions'
@@ -29,6 +29,8 @@ export const userCreateResolver = resolve<UserResult, HookContext>({
    * When a user is created,
    * we init the password with a random one
    * respecting password policy.
+   *
+   * We don't take the password given by the user
    */
   password: async (_password, data, context) => {
     const p = generatePassword(context.app.get('settings').passwordPolicy)
@@ -77,15 +79,17 @@ export const userCreateResolver = resolve<UserResult, HookContext>({
 })
 
 // Resolver for making partial updates
-export const userPatchResolver = resolve<UserPatch, HookContext>({
+export const userPatchResolver = resolve<UserPatch, HookContext>({})
+// Resolver for making partial updates
+export const userPatchAdminResolver = resolve<UserPatchAdmin, HookContext>({
   /**
    * We clean the email
    * from spaces and uppercase
    * before inserting data in db.
    */
-  email: async (email) => {
-    return email?.trim().toLowerCase()
-  },
+  // email: async (email) => {
+  //   return email?.trim().toLowerCase()
+  // },
   resetExpires: async (resetExpires) => {
     if (typeof resetExpires === 'number') {
       return new Date(resetExpires).toISOString()
@@ -109,12 +113,6 @@ export const userPatchResolver = resolve<UserPatch, HookContext>({
     if (typeof stringToConvert === 'number') {
       return new Date(stringToConvert).toISOString()
     } else return updatedAt
-  },
-  lastConnection: async (lastConnection) => {
-    const stringToConvert: string | number | undefined = lastConnection
-    if (typeof stringToConvert === 'number') {
-      return new Date(stringToConvert).toISOString()
-    } else return lastConnection
   },
 })
 

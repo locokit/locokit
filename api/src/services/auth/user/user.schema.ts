@@ -79,6 +79,7 @@ export const userDataSchema = Type.Object(
   },
   {
     $id: 'UserData',
+    additionalProperties: false,
   },
 )
 
@@ -92,24 +93,47 @@ export const userDataValidator = getDataValidator(userDataSchema, dataValidator)
 export const userPatchSchema = Type.Partial(
   Type.Omit(userSchema, [
     'id',
+    'email',
+    'blocked',
     'password',
-    'verifyExpires',
-    'verifyChanges',
-    'resetExpires',
+    'profile',
+    'username',
+    'isVerified',
     'verifyToken',
     'verifyShortToken',
+    'verifyExpires',
+    'verifyChanges',
     'resetToken',
     'resetShortToken',
+    'resetExpires',
     'resetAttempts',
     'createdAt',
     'updatedAt',
     'lastConnection',
   ]),
+  {
+    $id: 'UserPatch',
+  },
 )
 
 export type UserPatch = Static<typeof userPatchSchema> & {
   profile: USER_PROFILE
 }
+
+export const userPatchValidator = getDataValidator(userPatchSchema, dataValidator)
+
+const userPatchAdminSchema = Type.Partial(
+  Type.Omit(userSchema, ['id', 'password', 'createdAt', 'lastConnection']),
+  {
+    $id: 'UserPatchAdmin',
+  },
+)
+
+export type UserPatchAdmin = Static<typeof userPatchAdminSchema> & {
+  profile: USER_PROFILE
+}
+
+export const userPatchAdminValidator = getDataValidator(userPatchAdminSchema, dataValidator)
 
 export type UserResult = Static<typeof userSchema> & {
   profile: USER_PROFILE

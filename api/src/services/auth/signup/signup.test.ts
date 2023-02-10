@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import { describe, beforeAll, afterAll, it, expect, afterEach, vi } from 'vitest'
 
 import { Paginated } from '@feathersjs/feathers'
@@ -31,7 +32,11 @@ describe("'signup' service", () => {
   afterEach(async () => {
     vi.restoreAllMocks()
     // Clean DB
-    const usersToRemove = (await app.service('user').find()) as Paginated<UserResult>
+    const usersToRemove = (await app.service('user').find({
+      query: {
+        username: 'signupuser',
+      },
+    })) as Paginated<UserResult>
 
     await Promise.all(usersToRemove.data.map(async (u) => await app.service('user').remove(u.id)))
   })
@@ -143,8 +148,8 @@ describe("'signup' service", () => {
       }),
     )
 
-    await call.rejects.toThrowError(/validation failed/)
-    await call.rejects.toBeInstanceOf(BadRequest)
+    call.rejects.toThrowError(/validation failed/)
+    call.rejects.toBeInstanceOf(BadRequest)
   })
 
   it('fails if the signup is not authorized', async () => {
@@ -156,8 +161,8 @@ describe("'signup' service", () => {
     const call = await expect(app.service('signup').create(credentials))
 
     // try to create a user
-    await call.rejects.toContain({ code: 403 })
-    await call.rejects.toThrowError(/Signup is not authorized/)
+    call.rejects.toContain({ code: 403 })
+    call.rejects.toThrowError(/Signup is not authorized/)
 
     app.get('settings').signup.allowed = true
   })

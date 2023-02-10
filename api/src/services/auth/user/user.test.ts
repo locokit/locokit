@@ -10,28 +10,29 @@ describe('users service', () => {
     assert.ok(service, 'Registered the service')
   })
 
-  it('return groups of a user when using the $joinRelated option')
+  it.todo('return groups of a user when using the $joinRelated option')
 
-  it('allow admin users to filter on all users')
-  it('allow admin users to filter on all users by username')
-  it('allow users to get themselves')
-  it('forbid users to get another user')
-  it('allow users to find users and retrieve their username')
-  it('allow users to find users and filter on their username')
+  it.todo('allow admin users to filter on all users')
+  it.todo('allow admin users to filter on all users by username')
+  it.todo('allow users to get themselves')
+  it.todo('forbid users to get another user')
+  it.todo('allow users to find users and retrieve their username')
+  it.todo('allow users to find users and filter on their username')
 
-  it('forbid the creation of a user from external calls')
-  it('forbid the creation of a user from external calls for public users')
-  it('forbid the creation of a user from external calls except admin users')
+  it.todo('forbid the creation of a user from external calls')
+  it.todo('forbid the creation of a user from external calls for public users')
+  it.todo('forbid the creation of a user from external calls except admin users')
 
-  it('forbid the patch without auth')
-  it('forbid the patch of specific fields for a logged user')
-  it('forbid the patch of specific fields for another user than the logged user')
-  it('forbid the patch of specific fields for another user than the logged user')
+  it.todo('forbid the patch without auth')
+  it.todo('forbid the patch of specific fields for a logged user') // isVerified, ...
+  it.todo('forbid the patch of specific fields for another user than the logged user')
+  it.todo('forbid the patch of specific fields for admin user') // createdAt, lastConnection, ...
+  it.todo('allow the patch of specific fields for admin user')
   /** check also the patch fields admin vs not admin users */
 
-  it('forbid the removal of a user')
-  it('forbid the removal of a user except for admin users')
+  it.todo('forbid the removal of a user')
+  it.todo('forbid the removal of a user except for admin users')
 
-  it('trim the email when a user is created')
-  it('lowercase the email when a user is created')
+  it.todo('trim the email when a user is created')
+  it.todo('lowercase the email when a user is created')
 })

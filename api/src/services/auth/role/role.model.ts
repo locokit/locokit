@@ -1,7 +1,6 @@
-import { JSONSchema, Model, RelationMappings } from 'objection'
+import { Model, RelationMappings } from 'objection'
 import { WorkspaceModel } from '../../workspace/workspace.model'
 import { GroupModel } from '../group/group.model'
-import { roleSchema } from './role.schema'
 
 /**
  * Role objection Model
@@ -10,10 +9,6 @@ export class RoleModel extends Model {
   static readonly model = 'role'
 
   static readonly tableName = 'lck_role'
-
-  static get jsonSchema(): JSONSchema {
-    return roleSchema
-  }
 
   static get relationMappings(): RelationMappings {
     return {

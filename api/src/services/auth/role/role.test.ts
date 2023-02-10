@@ -1,4 +1,7 @@
-import assert from 'assert'
+import { describe, it, assert } from 'vitest'
+import { createApp } from '../../../app'
+
+const app = createApp()
 
 describe('group service', () => {
   it('registered the service', () => {

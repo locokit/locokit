@@ -1,4 +1,7 @@
-import { app } from '../../app'
+import { createApp } from '../../app'
+import { describe, it, expect } from 'vitest'
+
+const app = createApp()
 
 describe("'mailer' service", () => {
   it('registered the service', () => {
@@ -6,5 +9,5 @@ describe("'mailer' service", () => {
     expect(service).toBeTruthy()
   })
 
-  it('send a mail with default from contact@locokit.io if not set in config', () => {})
+  it.todo('send a mail with default from contact@locokit.io if not set in config', () => {})
 })
