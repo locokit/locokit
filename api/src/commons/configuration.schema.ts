@@ -1,4 +1,3 @@
-// import { authenticationSettingsSchema } from '@feathersjs/authentication'
 import { Type, Static, StringEnum, getValidator } from '@feathersjs/typebox'
 import { dataValidator } from './validators'
 
@@ -105,6 +104,9 @@ export const configurationSchema = Type.Object(
         db: Type.Object({
           client: StringEnum(['pg', 'sqlite3']),
           connection: Type.String(),
+          seeds: Type.Object({
+            recursive: Type.Boolean({ default: true }),
+          }),
         }),
         passwordPolicy: Type.Object({
           minLength: Type.Number({ default: 8 }),

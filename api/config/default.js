@@ -61,6 +61,9 @@ module.exports = {
     db: {
       client: 'pg',
       connection: 'LCK_DATABASE_URL', // provided with custom environment variables
+      seeds: {
+        recursive: true,
+      },
     },
     passwordPolicy: {
       minLength: 8,
