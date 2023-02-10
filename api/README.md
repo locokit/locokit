@@ -60,9 +60,3 @@ $ npm install -g @feathersjs/cli@pre      # Install Feathers CLI
 $ feathers generate service               # Generate a new Service
 $ feathers help                           # Show all commands
 ```
-
-## Important things
-
-### migrations
-
-

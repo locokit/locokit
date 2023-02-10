@@ -29,7 +29,7 @@ export async function up(knex: Knex): Promise<void> {
      */
     .createTable('lck_role', (table) => {
       table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
-      table.string('name', 255)
+      table.string('name', 255).notNullable()
       table.text('documentation')
       table.uuid('workspaceId').notNullable()
       table
@@ -45,7 +45,7 @@ export async function up(knex: Knex): Promise<void> {
      */
     .createTable('lck_group', (table) => {
       table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
-      table.string('name', 255)
+      table.string('name', 255).notNullable()
       table.text('documentation')
       table.uuid('workspaceId').notNullable()
       table
@@ -74,7 +74,6 @@ export async function up(knex: Knex): Promise<void> {
      */
     .createTable('lck_datasource', (table) => {
       table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
-      table.primary(['id'])
       table.string('name').notNullable()
       table.string('slug')
       table.index('slug', 'IDX_datasource_slug')
