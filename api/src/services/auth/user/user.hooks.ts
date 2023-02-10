@@ -1,12 +1,7 @@
-import { resolveAll, resolveData, validateData } from '@feathersjs/schema'
+import { resolveData, validateData } from '@feathersjs/schema'
 import { authenticate } from '@feathersjs/authentication'
-import {
-  userResolvers,
-  userCreateResolver,
-  userPatchResolver,
-  userPatchAdminResolver,
-} from './user.resolver'
-import { disallow, iff, isProvider, preventChanges } from 'feathers-hooks-common'
+import { userCreateResolver, userPatchResolver, userPatchAdminResolver } from './user.resolver'
+import { disallow, iff, isProvider } from 'feathers-hooks-common'
 import { addVerification } from 'feathers-authentication-management'
 import { isAdminProfile } from '../../../hooks/profile.hooks'
 import { HookOptions } from '@feathersjs/feathers'
