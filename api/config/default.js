@@ -56,7 +56,7 @@ module.exports = {
   settings: {
     signup: {
       allowed: true,
-      verificationMailDelayDays: 'LCK_SIGNUP_MAIL_DELAY_DAYS', // provided with custom environment variables
+      verificationMailDelayDays: 'SIGNUP_MAIL_DELAY_DAYS', // provided with custom environment variables
     },
     db: {
       client: 'pg',

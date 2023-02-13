@@ -12,7 +12,7 @@
   "settings": {
     "signup": {
       "verificationMailDelayDays": {
-        "__name": "LCK_SIGNUP_MAIL_DELAY_DAYS",
+        "__name": "SIGNUP_MAIL_DELAY_DAYS",
         "__format": "number"
       }
     },
