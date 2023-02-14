@@ -1,7 +1,7 @@
 <template>
   <WithHeader>
     <div
-      class="max-w-lg lg:h-full lg:m-auto mt-8 pb-4 px-4 lg:px-0 flex flex-col justify-center"
+      class="max-w-lg lg:h-full m-auto mt-8 pb-4 px-4 lg:px-0 flex flex-col justify-center"
     >
       <div class="mb-8">
         <h1 class="text-center">
