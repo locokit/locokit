@@ -56,7 +56,7 @@ export function createApp(): Application {
           title: 'LocoKit API platform',
           description: `
 
-# 🚉 Welcome aboard !
+# 🚉 Welcome aboard!
 
 **Welcome to the swagger of LocoKit API.**
 
@@ -68,18 +68,18 @@ to access your data.
 Without a JWT, you are considered as a public user.
 
 If you want to access data for a specific workspace,
-you'll have to open a new tab with an URL like this :
+you'll have to open a new tab with an URL like this:
 
 \`http[s]://{yourhost}[:yourport]/workspace/{yourworkspaceslug}/swagger.html\`
 
 If you encounter any issue when using this swagger,
 or the LocoKit platform,
-please :
+please:
 * check if this issue already exist on [github](https://github.com/locokit/locokit/issues)
 * [create](https://github.com/locokit/locokit/issues/new) an issue if needed
 * or a [discussion](https://github.com/locokit/locokit/discussions) if this is a question
 
-We hope you will enjoy this tool !
+We hope you will enjoy this tool!
 
 *The LocoKit team*
 `,
