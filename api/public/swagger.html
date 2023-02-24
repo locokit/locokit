@@ -21,9 +21,18 @@
       spec-url="./swagger.json"
       primary-color="#65b084"
       show-header="false"
+      show-method-in-nav-bar="as-colored-block"
+      use-path-in-nav-bar="true"
+      persist-auth="true"
+      render-style="focused"
+      schema-expand-level="1"
     >
       <!-- provide slot attribute to place an element at desired location -->
       <img slot="nav-logo" src="/logo-dark.svg" style="height: 75px" />
+
+      <div slot="auth">
+        To access LocoKit API, you will need to get an auth token.
+      </div>
     </rapi-doc>
   </body>
 </html>

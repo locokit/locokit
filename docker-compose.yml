@@ -5,17 +5,60 @@
 version: '3'
 services:
 
-  lck-mail:
+  lck-mail-next:
     image: mailhog/mailhog:latest
     environment:
       MH_STORAGE: maildir
       MH_MAILDIR_PATH: /home/mailhog
     volumes:
-      - mailhog:/home/mailhog/
+      - lck-mailhog-data:/home/mailhog/
     ports:
-      - "1025:1025"
-      - "8025:8025"
-    container_name: lck-mail
+      - 1025:1025
+      - 8025:8025
+    container_name: lck-mail-next
+
+  lck-db-next:
+    image: postgis/postgis:15-3.3-alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: locokit
+      POSTGRES_USER: locokitmaster
+      POSTGRES_PASSWORD: locokitMasterPassWORD
+      TZ: 'UTC'
+      PGTZ: 'UTC'
+    # restart: always
+    volumes:
+      - lck-db-data:/var/lib/postgresql/data
+    container_name: lck-db-next
+
+  lck-db-test-next:
+    image: postgis/postgis:15-3.3-alpine
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourPostgresPassword
+      TZ: 'UTC'
+      PGTZ: 'UTC'
+    # restart: always
+    container_name: lck-db-test-next
+
+  lck-pgadmin:
+    image: dpage/pgadmin4:6
+    environment:
+      PGADMIN_DEFAULT_EMAIL: contact@locokit.io
+      PGADMIN_DEFAULT_PASSWORD: locokit
+    ports:
+      - 8001:80
+    volumes:
+      - lck-pgadmin4-data:/var/lib/postgresql/data
+      - ./dumps:/dumps
+    container_name: lck-pgadmin-next
+
 
 volumes:
-  mailhog:
+  lck-mailhog-data:
+  lck-db-data:
+  lck-pgadmin4-data:

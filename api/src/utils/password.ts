@@ -6,6 +6,7 @@
 import { NotAcceptable } from '@feathersjs/errors'
 import PasswordValidator from 'password-validator'
 import passwordGenerator from 'password-generator'
+const { randomInt } = await import('node:crypto')
 
 export class PasswordValidatorRules {
   minLength!: number
@@ -16,11 +17,8 @@ export class PasswordValidatorRules {
   symbols!: boolean
 }
 
-export function createPasswordValidator(
-  rules: PasswordValidatorRules,
-): PasswordValidator {
-  if (!rules)
-    throw new Error("No password rules. Password validator can't be created")
+export function createPasswordValidator(rules: PasswordValidatorRules): PasswordValidator {
+  if (!rules) throw new Error("No password rules. Password validator can't be created")
 
   const { minLength, maxLength, uppercase, lowercase, digits, symbols } = rules
 
@@ -41,9 +39,7 @@ let passwordValidator: PasswordValidator
  * This hook enforce the password policy.
  * Based on your Feathers configuration, in the authentication
  */
-export function generatePassword(
-  passwordPolicy: PasswordValidatorRules,
-): string {
+export function generatePassword(passwordPolicy: PasswordValidatorRules): string {
   /**
    * If no validator exist, we create one
    */
@@ -51,16 +47,9 @@ export function generatePassword(
     passwordValidator = createPasswordValidator(passwordPolicy)
   }
   let generatedPassword = ''
-  const randomLength =
-    Math.floor(
-      Math.random() * (passwordPolicy.maxLength - passwordPolicy.minLength),
-    ) + passwordPolicy.minLength
+  const randomLength = randomInt(passwordPolicy.minLength, passwordPolicy.maxLength)
   while (!passwordValidator.validate(generatedPassword)) {
-    generatedPassword = passwordGenerator(
-      randomLength,
-      false,
-      /[\w\d? \-~!@#${}]/,
-    )
+    generatedPassword = passwordGenerator(randomLength, false, /[\w\d? \-~!@#${}]/)
   }
   return generatedPassword
 }
@@ -85,10 +74,9 @@ export function checkPasswordPolicy(
   }) as string[]
 
   if (result.length > 0) {
-    throw new NotAcceptable(
-      'The provided password does not comply to the password policy',
-      { failedRules: result },
-    )
+    throw new NotAcceptable('The provided password does not comply to the password policy', {
+      failedRules: result,
+    })
   }
   return true
 }

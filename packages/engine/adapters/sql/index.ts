@@ -1,8 +1,15 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import { Params } from '@feathersjs/feathers'
 import knex, { Knex } from 'knex'
 import schemaInspector from 'knex-schema-inspector'
 import { Column } from 'knex-schema-inspector/dist/types/column'
-import { ConnexionSQL, GenericAdapter, Field, Table } from '../interface'
+import {
+  ConnexionSQL,
+  GenericAdapter,
+  Field,
+  Table,
+  PaginatedResult,
+} from '../interface'
 import {
   Model,
   JSONSchema,
@@ -23,11 +30,12 @@ export class SQLAdapter implements GenericAdapter {
     /**
      * Check the type is well known for SQL
      */
-    if (implementedEngines.indexOf(connexion.type) === -1)
+    if (!implementedEngines.includes(connexion.type))
       throw new Error(
+        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         'This engine is unknown. Please use one of ' +
           implementedEngines.concat(', ') +
-          '.'
+          '.',
       )
     this.database = knex({
       client: connexion.type,
@@ -40,11 +48,11 @@ export class SQLAdapter implements GenericAdapter {
    * Init the adapter by retrieving sql schema,
    * create objection model according table + columns schema
    */
-  async boot() {
+  async boot(): Promise<void> {
     console.log(
       'booting SQL adapter',
       this.database.client,
-      this.database.schema
+      this.database.schema,
     )
     Model.knex(this.database)
 
@@ -65,7 +73,7 @@ export class SQLAdapter implements GenericAdapter {
         ...accumulator,
         [current]: { name: current, columns: [], relations: [] },
       }),
-      {}
+      {},
     )
     /**
      * Fetch also all column info for all of the table
@@ -80,7 +88,7 @@ export class SQLAdapter implements GenericAdapter {
             c.name,
             c.foreign_key_column,
             c.foreign_key_schema,
-            c.foreign_key_table
+            c.foreign_key_table,
           )
           /**
            * is this column linked to a foreign ?
@@ -92,6 +100,7 @@ export class SQLAdapter implements GenericAdapter {
              */
             tables[tableName].relations[relationName] = {
               from: tableName + '.' + c.name,
+              // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
               to: relationName + '.' + c.foreign_key_column,
               type: Model.BelongsToOneRelation,
               model: relationName,
@@ -100,6 +109,7 @@ export class SQLAdapter implements GenericAdapter {
              * And also the has many relation
              */
             tables[relationName].relations[tableName] = {
+              // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
               from: relationName + '.' + c.foreign_key_column,
               to: tableName + '.' + c.name,
               type: Model.HasManyRelation,
@@ -110,7 +120,7 @@ export class SQLAdapter implements GenericAdapter {
              */
           }
         })
-      })
+      }),
     )
     const allModels = this.databaseObjectionModel
 
@@ -119,11 +129,11 @@ export class SQLAdapter implements GenericAdapter {
       console.log('adding table objection model for ', tableName, ' table')
       const idColumns = t.columns.filter((c) => c.is_primary_key)
       allModels[tableName] = class extends Model {
-        static get tableName() {
+        static get tableName(): string {
           return tableName
         }
 
-        static get idColumn() {
+        static get idColumn(): string | string[] {
           if (idColumns) {
             if (idColumns.length === 1) return idColumns[0].name
             return idColumns.map((c) => c.name)
@@ -134,6 +144,7 @@ export class SQLAdapter implements GenericAdapter {
         static get jsonSchema(): JSONSchema {
           const schema = {
             type: 'object',
+            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
             properties: {} as {
               [key: string]: JSONSchemaDefinition
             },
@@ -184,7 +195,7 @@ export class SQLAdapter implements GenericAdapter {
         'model generated for table ',
         tableName,
         ' : ',
-        this.databaseObjectionModel[tableName]
+        this.databaseObjectionModel[tableName],
       )
     })
 
@@ -214,7 +225,7 @@ export class SQLAdapter implements GenericAdapter {
           name: tableName,
           fields: columnInfos,
         })
-      })
+      }),
     )
     return result
   }
@@ -241,14 +252,20 @@ export class SQLAdapter implements GenericAdapter {
     return result
   }
 
-  async queryTable<T>(tableName: string, params?: Params) {
+  async queryTable<T>(
+    tableName: string,
+    params?: Params,
+  ): Promise<PaginatedResult<T>> {
+    console.log('queryTable', tableName, params?.query)
     const {
       $limit = 20,
       $offset = 0,
       $relations,
       $select,
       ...realQuery
-    } = params?.query || {}
+    } = params?.query ?? {}
+
+    console.log($limit, $offset, $relations)
     const result = {
       total: 0,
       limit: $limit,
@@ -319,24 +336,24 @@ export class SQLAdapter implements GenericAdapter {
 
     if ($select) {
       const selectFields = Array.isArray($select) ? $select : [$select]
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       query.select(selectFields)
     }
 
     objectify(totalQuery, realQuery)
-    const total = (await totalQuery) as unknown as {
+    const total = (await totalQuery) as unknown as Array<{
       count: string
-    }[]
+    }>
     result.total = parseInt(total[0].count, 10)
 
     console.log(realQuery, $select)
     objectify(query, realQuery)
 
     result.records = (await query) as unknown as T[]
-    console.log(result)
     return result
   }
 
-  async getRecord<T>(tableName: string, id: string | number) {
+  async getRecord<T>(tableName: string, id: string | number): Promise<T> {
     console.log(tableName, id, this.databaseObjectionModel)
     const result = await this.databaseObjectionModel[tableName]
       .query()
@@ -344,11 +361,11 @@ export class SQLAdapter implements GenericAdapter {
     return result as unknown as T
   }
 
-  async createRecord<T>(tableName: string, data: Partial<T>) {
+  async createRecord<T>(tableName: string, data: Partial<T>): Promise<T> {
     console.log('createRecord lck engine', tableName, data)
     console.log(
       'createRecord lck engine',
-      this.databaseObjectionModel[tableName]
+      this.databaseObjectionModel[tableName],
     )
     console.log(this.databaseObjectionModel[tableName])
 
@@ -360,12 +377,12 @@ export class SQLAdapter implements GenericAdapter {
   async patchRecord<T>(
     tableName: string,
     id: string | number,
-    record: Partial<T>
-  ) {
+    record: Partial<T>,
+  ): Promise<T> {
     console.log('patchRecord lck engine', tableName, id, record)
     console.log(
       'patchRecord lck engine',
-      this.databaseObjectionModel[tableName]
+      this.databaseObjectionModel[tableName],
     )
     const object = await this.databaseObjectionModel[tableName]
       .query()
@@ -383,12 +400,12 @@ export class SQLAdapter implements GenericAdapter {
   async updateRecord<T>(
     tableName: string,
     id: string | number,
-    record: Partial<T>
-  ) {
+    record: Partial<T>,
+  ): Promise<T> {
     console.log('updateRecord lck engine', tableName, id, record)
     console.log(
       'updateRecord lck engine',
-      this.databaseObjectionModel[tableName]
+      this.databaseObjectionModel[tableName],
     )
     const object = await this.databaseObjectionModel[tableName]
       .query()
@@ -403,11 +420,11 @@ export class SQLAdapter implements GenericAdapter {
       .updateAndFetchById(id, record)) as unknown as T
   }
 
-  async deleteRecord(tableName: string, id: string | number) {
+  async deleteRecord(tableName: string, id: string | number): Promise<number> {
     console.log('deleteRecord lck engine', tableName, id)
     console.log(
       'deleteRecord lck engine',
-      this.databaseObjectionModel[tableName]
+      this.databaseObjectionModel[tableName],
     )
     const object = await this.databaseObjectionModel[tableName]
       .query()

@@ -1,0 +1,27 @@
+{
+  "host": "LCK_HOST",
+  "port": {
+    "__name": "LCK_PORT",
+    "__format": "number"
+  },
+  "publicURL": "LCK_PUBLIC_URL",
+  "publicPortalName": "LCK_PUBLIC_PORTAL_NAME",
+  "authentication": {
+    "secret": "LCK_AUTH_SECRET"
+  },
+  "settings": {
+    "signup": {
+      "verificationMailDelayDays": {
+        "__name": "SIGNUP_MAIL_DELAY_DAYS",
+        "__format": "number"
+      }
+    },
+    "db": {
+      "connection": "LCK_DATABASE_URL"
+    }
+  },
+  "datasources": {
+    "__name": "LCK_DATASOURCES",
+    "__format": "json"
+  }
+}

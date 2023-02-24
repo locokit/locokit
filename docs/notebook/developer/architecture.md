@@ -16,6 +16,8 @@ and all the packages used under.
 
 The API part use a database.
 It can be a SQLite or a PostGreSQL one.
+TODO: this may change, as we may use triggers and schemas
+from PostGreSQL.
 
 Under the hood, the Feathers API use a Feathers service called `feathers-locokit`.
 

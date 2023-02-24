@@ -1,6 +1,20 @@
 /**
  * Load of all ressources we want to manage with CASL
  */
+/**
+ * user
+ * group
+ * (organization ?)
+ * workspace
+ * datasource
+ *
+ * media
+ *
+ * application
+ *
+ * automation
+ *
+ */
 // import { Workspace } from '../models/workspace.model'
 // import { LckAttachment } from '../models/attachment.model'
 // import { Block } from '../models/block.model'
@@ -18,13 +32,15 @@
 // import { Process } from '../models/process.model'
 // import { TableColumnRelation } from '../models/tablecolumnrelation.model'
 
-import { UsersResult } from '../services/users/users.schema'
+// import { UsersResult } from '../services/users/users.schema'
+import { WorkspaceService } from '../services/workspace/workspace.class'
 
 import {
   AbilityClass,
   createAliasResolver,
   InferSubjects,
   PureAbility,
+  Ability,
 } from '@casl/ability'
 
 /**
@@ -41,9 +57,12 @@ export type Actions =
   | 'manage'
   | 'read'
   | 'delete'
-export type Subjects = InferSubjects<UsersResult | 'all', true>
+export type Subjects = InferSubjects<
+  'all' | 'user' | 'group' | 'workspace' | 'datasource' | typeof WorkspaceService,
+  true
+>
 
-export type AppAbility = PureAbility<[Actions, Subjects]>
+export type AppAbility = Ability<[Actions, Subjects]>
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const AppAbility = PureAbility as AbilityClass<AppAbility>
 

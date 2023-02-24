@@ -1,24 +1,39 @@
 import type { Application } from '../declarations'
-import { authentication } from './authentication/authentication.service'
-import { authmanagement } from './authmanagement/authmanagement.service'
-import { users } from './users/users.service'
-import { w } from './w/w.service'
+import { authentication } from './auth/authentication/authentication.service'
+import { authmanagement } from './auth/authmanagement/authmanagement.service'
+import { user } from './auth/user/user.service'
+import { groupService } from './auth/group/group.service'
+import { workspaceService } from './workspace/workspace.service'
 import { mailer } from './mailer/mailer.service'
-import { signup } from './signup/signup.service'
+import { signup } from './auth/signup/signup.service'
+import { datasourceService } from './workspace/datasource/datasource.service'
+import { roleService } from './auth/role/role.service'
+import { userGroupService } from './auth/user-group/user-group.service'
+// import { tableService } from './workspace/datasource/table/table.service'
+// import { recordService } from './workspace/datasource/table/record/record.service'
 
 export const services = (app: Application): void => {
   /**
-   * Auth / users / groups
+   * Auth / user / groups
    */
   app.configure(authentication)
   app.configure(authmanagement)
-  app.configure(users)
+  app.configure(user)
+  app.configure(groupService)
+  app.configure(userGroupService)
+  app.configure(roleService)
   app.configure(signup)
 
   /**
    * Workspaces
    */
-  app.configure(w)
+  app.configure(workspaceService)
+  app.configure(datasourceService)
+  // app.configure(tableService)
+  // app.configure(recordService)
+  // app.configure(tableRelationService)
+  // app.configure(fieldService)
+  // app.configure(datasetService)
 
   /**
    * Automations ?

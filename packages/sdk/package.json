@@ -5,9 +5,7 @@
   "type": "module",
   "main": "./src/index.ts",
   "scripts": {
-    "dev": "tsc src/index.ts",
-    "dev:build": "nuxi build playground",
-    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground"
+    "dev": "tsc src/index.ts"
   },
   "dependencies": {
     "@feathersjs/feathers": "^5.0.0-pre.32",

@@ -1,3 +1,88 @@
+# LocoKit - the low-code kit platform
+
+![LocoKit logo](docs/public/logo.png)
+
+LocoKit is an LCAP: a Low-Code Application Platform. Its aim is to facilitate the management of your data and the collaboration between your users.
+
+It's an AirTable alternative, full open source,
+helping you
+* share securely your data,
+* through an application you build
+* and with automatiions trigerred by data updates.
+
+
+> You are on the `next` branch / version,
+> this is a work in progress to upgrade our root dependencies
+> and bringing some new nice features.
+> Please be aware this version is not stabilized.
+
+## Getting started
+
+LocoKit is a monorepo project, node based,
+using [Nuxt 3](https://nuxtjs.org/) for the "front" side,
+and [FeathersJS 5](https://dove.feathersjs.com) for the API side.
+
+These instructions are for developers.
+
+Instructions to use with docker will be soon available.
+
+### Installation
+
+```sh
+nvm use # to use the right node version
+npm ci # to use exactly what the package-lock.json already resolve
+```
+
+### Starting the API
+
+The API actually need a SMTP server.
+
+We provide a `docker-compose.yml` at the root level
+containing a [MailHog](https://github.com/mailhog/MailHog) configuration.
+
+You need to have `docker` and `docker-compose` installed.
+
+```sh
+docker-compose up # will start your mailhog container on 1025 (smtp) and 8025 (web UI) ports
+```
+
+No environment variables are required for the docker containers.
+
+For the API, we need to create a `.env` file.
+
+There is an example in the `.env.example` file.
+
+If you want to make tests running on your machine,
+you'll need also to create a `.env.test` file to create another database,
+for testing purpose only.
+You'll mainly need to overwrite the `LCK_DATABASE_URL` variable
+with the connection string to the test database.
+
+```sh
+# in the api directory
+npm run dev # that'll use ts-node
+# or
+npm run vite:dev # will use vite
+```
+
+You should have now your API up and running on `http://localhost:3030`.
+
+### Starting the nuxt-locokit module
+
+The `nuxt-locokit` module is the main part of the application.
+
+The `app` directory is a proof of reuse of the `nuxt-locokit`.
+
+To develop the front-end part of LocoKit,
+it's in the `nuxt-locokit` and the `designsystem` packages.
+
+```sh
+# in the packages/nuxt-locokit directory
+npm run dev
+```
+
+# French explanations / explications françaises du projet
+
 Le projet LocoKit next fait un pari sur
 les nouvelles versions de plusieurs dépendances : Nuxt, Feathers, ...
 

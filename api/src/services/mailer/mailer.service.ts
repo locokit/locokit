@@ -1,4 +1,4 @@
-import { SmtpOptions } from 'nodemailer-smtp-transport'
+import SMTPConnection from 'nodemailer/lib/smtp-connection'
 import { Application } from '../../declarations'
 import { MailerService, mailerHooks } from './mailer.class'
 
@@ -6,7 +6,7 @@ export function mailer(app: Application): void {
   // Initialize our service with any options it requires
   const mailerConfiguration = app.get('mail')
 
-  const options: SmtpOptions = {
+  const options: SMTPConnection.Options = {
     host: mailerConfiguration.host,
     port: mailerConfiguration.port,
     secure: mailerConfiguration.secure,
