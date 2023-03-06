@@ -1,7 +1,9 @@
 <template>
   <WithBanner>
     <div class="max-w-3xl mx-auto mt-8 pb-4 px-4 lg:px-0">
-      <h1 class="mb-4">{{ $t('pages.createWorkspace.alternativeTitle') }}</h1>
+      <h1 class="mb-4">
+        {{ $t('pages.createWorkspace.alternativeTitle') }}
+      </h1>
       <WorkspaceForm
         :response="error"
         :loading="loading"

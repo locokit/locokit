@@ -1,52 +1,81 @@
 <template>
-  <div class="relative flex h-screen">
-    <aside
-      tabindex="-1"
-      class="static flex flex-shrink-0 overflow-hidden bg-white border-r focus:outline-none"
+  <div class="relative flex flex-col h-screen overflow-hidden">
+    <!-- Brand -->
+    <div
+      class="w-full bg-primary-lighten h-16 border-b-2 border-primary bg-primary-lighten flex"
     >
-      <!-- Mini navigation -->
-      <div
-        class="bg-primary flex flex-col flex-shrink-0 h-full px-2 py-4 border-r"
-      >
-        <!-- Brand -->
-        <div class="flex-shrink-0">
-          <NuxtLink class="h-16 inline-block" :to="{ name: ROUTES_NAMES.HOME }">
-            <span class="sr-only">{{ runtimeConfig.public.PROJECT_NAME }}</span>
-            <img
-              alt="logo"
-              class="h-16"
-              :src="runtimeConfig.public.LOGO_MOBILE"
-            />
+      <NuxtLink class="h-16 w-[26rem]" :to="{ name: ROUTES_NAMES.HOME }">
+        <span class="sr-only">
+          {{ runtimeConfig.public.PROJECT_NAME }}
+        </span>
+        <img
+          class="max-w-[14rem] max-h-[4rem]"
+          alt="logo"
+          :src="runtimeConfig.public.LOGO_BG_PRIMARY_URL"
+          aria-hidden="true"
+        />
+      </NuxtLink>
+
+      <div class="flex flex-row w-full justify-end">
+        <div
+          class="relative flex justify-center flex-shrink-0 mr-4 font-semibold"
+        >
+          <NuxtLink
+            class="self-center mr-4"
+            :to="{ name: ROUTES_NAMES.WORKSPACE.HOME }"
+          >
+            <button
+              type="button"
+              class="items-center justify-center rounded bg-transparent p-2 text-gray-500 hover:bg-primary hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 hidden md:ml-auto md:inline-flex"
+            >
+              <i class="bi bi-person-workspace mr-1" />
+              <span> {{ $t('layouts.withAsideNav.workspaces') }}</span>
+            </button>
           </NuxtLink>
-        </div>
-        <div class="flex flex-col flex-1 space-y-4">
-          <slot name="mini-navigation-items" />
-        </div>
-        <div class="relative flex justify-center flex-shrink-0 border-t">
-          <NuxtLink :to="{ name: ROUTES_NAMES.PROFILE.HOME }">
-            <PrimeButton icon="bi bi-person-fill" />
+          <NuxtLink
+            class="self-center mr-4"
+            :to="{ name: ROUTES_NAMES.PROFILE.HOME }"
+          >
+            <button
+              type="button"
+              class="items-center justify-center rounded bg-transparent p-2 text-gray-500 hover:bg-primary hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 hidden md:ml-auto md:inline-flex"
+            >
+              <i class="bi bi-person-circle mr-1" />
+              <span> {{ $t('layouts.withAsideNav.profile') }}</span>
+            </button>
           </NuxtLink>
-          <PrimeButton icon="bi bi-door-open-fill" @click="logout" />
+          <button
+            type="button"
+            class="self-center items-center justify-center rounded bg-transparent p-2 text-gray-500 hover:bg-primary hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 hidden md:ml-auto md:inline-flex"
+            @click="logout"
+          >
+            <i class="bi bi-door-open-fill mr-1" />
+            <span> {{ $t('layouts.withHeader.logout') }}</span>
+          </button>
         </div>
       </div>
-
-      <!-- nav links -->
-      <nav
-        class="flex-1 w-64 px-2 py-4 space-y-2 overflow-y-hidden hover:overflow-y-auto"
+    </div>
+    <div class="flex flex-row h-full">
+      <aside
+        tabindex="-1"
+        class="static flex flex-col flex-shrink-0 bg-primary-lighten focus:outline-none h-full w-14"
       >
-        <slot name="sidebar-links" />
-      </nav>
-    </aside>
-
-    <!-- Main content -->
-    <main class="flex-1">
-      <slot name="main" />
-    </main>
+        <!-- Mini navigation -->
+        <div class="flex flex-row h-full">
+          <div class="bg-primary flex flex-col flex-shrink-0 h-full">
+            <div class="flex flex-col flex-1 space-y-2 w-14">
+              <slot name="mini-navigation-items" />
+            </div>
+          </div>
+        </div>
+      </aside>
+      <!-- Content -->
+      <slot name="content" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import PrimeButton from 'primevue/button'
 import { ROUTES_NAMES } from '../paths'
 import { useStoreAuth } from '../stores/auth'
 import { useRouter, useRuntimeConfig } from '#imports'

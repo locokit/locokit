@@ -141,12 +141,6 @@ export default defineNuxtModule<ModuleOptions>({
     //   })
     // }
 
-    // module.addLayout(
-    //   {
-    //     src: resolve(layoutsDir, './WithBackground.vue'),
-    //   },
-    //   'WithBackground',
-    // )
     addLayout(
       {
         src: resolve(layoutsDir, './WithHeader.vue'),

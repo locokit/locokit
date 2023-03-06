@@ -34,7 +34,7 @@ export const useStoreAuth = defineStore('auth', () => {
   async function reAuthenticate() {
     loading.value = true
     error.value = null
-    const result = await sdkClient.reAuthenticate()
+    const result = await sdkClient.reAuthenticate() // Todo: Not working, impossible to send a request
     const token = useCookie('token') // useCookie new hook in nuxt 3
 
     if (result.user) {
