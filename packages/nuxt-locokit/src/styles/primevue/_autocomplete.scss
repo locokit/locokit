@@ -82,7 +82,7 @@
 }
 
 .p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item.p-highlight.p-focus {
-  background: #64bfff;
+  background: var(--primary-color-lighten);
 }
 
 .p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item:not(.p-highlight):not(.p-disabled).p-focus {
@@ -92,7 +92,7 @@
 
 .p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item:not(.p-highlight):not(.p-disabled):hover {
   color: var(--text-color);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--primary-color-light);
 }
 
 .p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item-group {

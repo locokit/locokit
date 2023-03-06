@@ -1,9 +1,8 @@
 .p-paginator {
-  background: #2a323d;
+  background: #ffffff;
   color: var(--text-color);
-  border: solid #3f4b5b;
-  border-width: 0;
-  padding: 0.75rem;
+  border: 0 solid #e9ecef;
+  padding: 0.5rem 1rem;
   border-radius: var(--border-radius);
 }
 
@@ -12,12 +11,12 @@
 .p-paginator .p-paginator-next,
 .p-paginator .p-paginator-last {
   background-color: transparent;
-  border: 1px solid #3f4b5b;
+  border: 0 none;
   color: var(--text-color);
   min-width: 2.357rem;
   height: 2.357rem;
-  margin: 0 0 0 -1px;
-  transition: box-shadow 0.15s;
+  margin: 0.143rem;
+  transition: box-shadow 0.2s;
   border-radius: 0;
 }
 
@@ -25,8 +24,8 @@
 .p-paginator .p-paginator-prev:not(.p-disabled):not(.p-highlight):hover,
 .p-paginator .p-paginator-next:not(.p-disabled):not(.p-highlight):hover,
 .p-paginator .p-paginator-last:not(.p-disabled):not(.p-highlight):hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: #3f4b5b;
+  background: #e9ecef;
+  border-color: transparent;
   color: var(--text-color);
 }
 
@@ -56,34 +55,34 @@
 }
 
 .p-paginator .p-paginator-page-input .p-inputtext {
-  max-width: 2.357rem;
+  max-width: 3rem;
 }
 
 .p-paginator .p-paginator-current {
   background-color: transparent;
-  border: 1px solid #3f4b5b;
+  border: 0 none;
   color: var(--text-color);
   min-width: 2.357rem;
   height: 2.357rem;
-  margin: 0 0 0 -1px;
+  margin: 0.143rem;
   padding: 0 0.5rem;
 }
 
 .p-paginator .p-paginator-pages .p-paginator-page {
   background-color: transparent;
-  border: 1px solid #3f4b5b;
+  border: 0 none;
   color: var(--text-color);
   min-width: 2.357rem;
   height: 2.357rem;
-  margin: 0 0 0 -1px;
-  transition: box-shadow 0.15s;
+  margin: 0.143rem;
+  transition: box-shadow 0.2s;
   border-radius: 0;
 }
 
 .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
   background: var(--primary-color-lighten);
   border-color: var(--primary-color-lighten);
-  color: var(--text-color);
+  color: var(--primary-color);
 }
 
 .p-paginator .p-paginator-pages .p-paginator-page:not(.p-highlight):hover {

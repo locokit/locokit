@@ -1,26 +1,25 @@
 .p-datepicker {
   padding: 0;
   color: var(--text-color);
-  border: var(--border);
-  border: 1px solid #3f4b5b;
+  border: 1px solid var(--border);
   border-radius: var(--border-radius);
   font-size: 1rem; // Custom
 }
 
 .p-datepicker:not(.p-datepicker-inline) {
-  background: #2a323d;
+  background: var(--text-white);
   border: 1px solid #3f4b5b;
   box-shadow: none;
 }
 
 .p-datepicker:not(.p-datepicker-inline) .p-datepicker-header {
-  background: #2a323d;
+  background: var(--color-white);
 }
 
 .p-datepicker .p-datepicker-header {
   padding: 0.5rem; // Custom
   color: var(--text-color);
-  background: #2a323d;
+  background: var(--color-white);
   font-weight: 600;
   margin: 0;
   border-bottom: 1px solid var(--secondary-color-lighten);
@@ -32,7 +31,7 @@
 .p-datepicker .p-datepicker-header .p-datepicker-next {
   width: 2rem;
   height: 2rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-color);
   border: 0 none;
   background: transparent;
   border-radius: 50%;
@@ -59,7 +58,7 @@
 
 .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year,
 .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month {
-  color: rgba(255, 255, 255, 0.87);
+  color: var(--text-color);
   transition: color 0.15s, box-shadow 0.15s;
   font-weight: 600;
   padding: 0.5rem;
@@ -67,7 +66,7 @@
 
 .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year:enabled:hover,
 .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month:enabled:hover {
-  color: #8dd0ff;
+  color: var(--primary-color);
 }
 
 .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month {
@@ -89,12 +88,13 @@
 }
 
 .p-datepicker table td {
-  padding: 0.5rem;
+  padding: 0; // Custom
 }
 
 .p-datepicker table td > span {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.2rem; // Custom
+  height: 2.2rem; // Custom
+  margin: 0.2rem; // Custom
   border-radius: 4px;
   transition: box-shadow 0.15s;
   border: 1px solid transparent;
@@ -102,7 +102,7 @@
 
 .p-datepicker table td > span.p-highlight {
   color: #151515;
-  background: #8dd0ff;
+  background: var(--primary-color-lighten);
 }
 
 .p-datepicker table td > span:focus {
@@ -155,6 +155,7 @@
 .p-datepicker .p-timepicker button:focus {
   outline: 0 none;
   outline-offset: 0;
+  //outline: 2px solid var(--primary-color-lighten); //fsyffkzfegfueueglueygesddddddddddddddddddddddddddddddddddddddddd
   box-shadow: 0 0 0 1px var(--primary-color-lighten);
 }
 

@@ -8,23 +8,23 @@
 }
 
 .p-tag.p-tag-success {
-  background-color: #9fdaa8;
-  color: #151515;
+  background-color: var(--color-success-light);
+  color: var(--text-color)
 }
 
 .p-tag.p-tag-info {
-  background-color: var(--primary-color);
-  color: #151515;
+  background-color: var(--primary-color-lighten);
+  color: var(--text-color)
 }
 
 .p-tag.p-tag-warning {
-  background-color: #ffe082;
-  color: #151515;
+  background-color: var(--color-warning-light);
+  color: var(--text-color)
 }
 
 .p-tag.p-tag-danger {
-  background-color: #f19ea6;
-  color: #151515;
+  background-color: var(--color-error-light);
+  color: var(--text-color)
 }
 
 .p-tag .p-tag-icon {
