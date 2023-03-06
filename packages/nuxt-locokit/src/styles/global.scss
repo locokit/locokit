@@ -159,6 +159,22 @@ span.failed {
   }
 }
 
+.p-datepicker {
+  .p-monthpicker > .p-monthpicker-month {
+    width: 27%;
+    margin: 0.5rem
+  }
+
+  .p-yearpicker > .p-yearpicker-year {
+    width: 44%;
+    margin: 0.5rem
+  }
+}
+
+.p-disabled {
+  cursor: not-allowed !important;
+}
+
 /*
   Set Bootstrap Icon
 */

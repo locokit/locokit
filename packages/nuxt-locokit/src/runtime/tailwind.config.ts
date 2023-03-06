@@ -11,14 +11,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: 'var(--color-primary)',
-        'primary-lighten': 'var(--color-primary-lighten)',
-        'primary-light': 'var(--color-primary-light)',
-        'primary-dark': 'var(--color-primary-dark)',
-        secondary: 'var(--color-secondary)',
-        'secondary-lighten': 'var(--color-secondary-lighten)',
-        'secondary-light': 'var(--color-secondary-light)',
-        'secondary-dark': 'var(--color-secondary-dark)',
+        primary: 'var(--primary-color)',
+        'primary-lighten': 'var(--primary-color-lighten)',
+        'primary-light': 'var--primary-color-light)',
+        'primary-dark': 'var(--primary-color-dark)',
+        secondary: 'var(--secondary-color)',
+        'secondary-lighten': 'var(--secondary-color-lighten)',
+        'secondary-light': 'var(--secondary-color-light)',
+        'secondary-dark': 'var(--secondary-color-dark)',
         error: 'var(--color-error)',
         'error-lighten': 'var(--color-error-lighten)',
         'error-light': 'var(--color-error-light)',
