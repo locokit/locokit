@@ -13,7 +13,3 @@ export const createSlug = (value: string | null) => {
     .replace(/ /g, '_') // Replace space by underscore
     .replace(/[^a-z0-9_]/g, '') // For prevention
 }
-
-export default {
-  createSlug,
-}

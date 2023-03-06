@@ -23,5 +23,5 @@ import UpdateEmailForm from '../../components/profile/UpdateEmailForm/UpdateEmai
 <docs lang="md">
 ### UpdateEmailForm
 
-Form which allow an user to update its email if this user is already logged.
+Allow user to update its email
 </docs>

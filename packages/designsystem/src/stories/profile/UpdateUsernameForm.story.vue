@@ -23,5 +23,5 @@ import UpdateUsernameForm from '../../components/profile/UpdateUsernameForm/Upda
 <docs lang="md">
 ### UpdateUsernameForm
 
-Form which allow an user to update its name/username if this user is already logged.
+Allow user to update its name/username
 </docs>

@@ -35,5 +35,5 @@ import { COLOR_SCHEME } from '../../helpers/color'
 <docs lang="md">
 ### SingleTag
 
-Add a tag for multiselect
+Add a tag for single select or display a tag
 </docs>

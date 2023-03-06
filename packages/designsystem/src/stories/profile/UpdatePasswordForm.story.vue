@@ -23,5 +23,5 @@ import UpdatePasswordForm from '../../components/profile/UpdatePasswordForm/Upda
 <docs lang="md">
 ### UpdatePasswordForm
 
-Form which allow an user to update its password if this user is already logged.
+Allow user to update its password
 </docs>

@@ -47,8 +47,8 @@ export const ROUTES_PATH = {
   PROFILE: {
     HOME: '/profile',
     UPDATE_GENERAL: '/profile/general',
-    UPDATE_EMAIL: '/profile/update-email',
-    UPDATE_PASSWORD: '/profile/update-password',
+    UPDATE_EMAIL: '/profile/email',
+    UPDATE_PASSWORD: '/profile/password',
   },
 
   /**

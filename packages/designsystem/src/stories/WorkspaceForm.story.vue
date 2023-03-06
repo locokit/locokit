@@ -31,5 +31,5 @@ const emit = defineEmits<{
 <docs lang="md">
 ### WorkspaceForm
 
-Allow to creat a new workspace
+Allow to create a new workspace
 </docs>

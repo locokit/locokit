@@ -12,7 +12,11 @@
         <div class="flex-shrink-0">
           <NuxtLink class="h-16 inline-block" :to="{ name: ROUTES_NAMES.HOME }">
             <span class="sr-only">{{ runtimeConfig.public.PROJECT_NAME }}</span>
-            <img alt="logo" class="h-16" src="/assets/logo-mobile-alt.svg" />
+            <img
+              alt="logo"
+              class="h-16"
+              :src="runtimeConfig.public.LOGO_MOBILE"
+            />
           </NuxtLink>
         </div>
         <div class="flex flex-col flex-1 space-y-4">
