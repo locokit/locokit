@@ -11,6 +11,8 @@ import UpdateGeneralForm from './components/profile/UpdateGeneralForm/UpdateGene
 import UpdateEmailForm from './components/profile/UpdateEmailForm/UpdateEmailForm.vue'
 import UpdatePasswordForm from './components/profile/UpdatePasswordForm/UpdatePasswordForm.vue'
 import ButtonWithStatus from './components/ButtonWithStatus/ButtonWithStatus.vue'
+import IdentityCard from './components/IdentityCard/IdentityCard.vue'
+import FilterButton from './components/FilterButton/FilterButton.vue'
 
 export {
   SignInForm,
@@ -26,4 +28,6 @@ export {
   UpdateEmailForm,
   UpdatePasswordForm,
   ButtonWithStatus,
+  IdentityCard,
+  FilterButton,
 }
