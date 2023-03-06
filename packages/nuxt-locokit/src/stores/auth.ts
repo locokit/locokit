@@ -123,6 +123,22 @@ export const useStoreAuth = defineStore('auth', () => {
     loading.value = false
   }
 
+  async function sendEmailVerifySignup(userEmail: string) {
+    loading.value = true
+    error.value = null
+    try {
+      await sdkClient.service('auth-management').create({
+        action: 'resendVerifySignup',
+        value: { email: userEmail },
+      })
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err)
+      error.value = err as Error
+    }
+    loading.value = false
+  }
+
   return {
     loading,
     isAuthenticated,
@@ -135,5 +151,6 @@ export const useStoreAuth = defineStore('auth', () => {
     verifySignupAndSetPassword,
     signUp,
     logout,
+    sendEmailVerifySignup,
   }
 })

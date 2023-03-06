@@ -1,14 +1,6 @@
-/* eslint-disable no-console */
-// import 'primevue/resources/primevue.min.css' // core css
-// import 'primeicons/primeicons.css' // icons
-// import 'primeflex/primeflex.css'
-// import Tooltip from 'primevue/tooltip'
-// import ConfirmationService from 'primevue/confirmationservice'
-// import '@/styles/index.scss'
-
 import PrimeVue from 'primevue/config'
-// import ToastService from 'primevue/toastservice' // theme
-
+import ConfirmationService from 'primevue/confirmationservice'
+import Tooltip from 'primevue/tooltip'
 import { defineNuxtPlugin } from '#app'
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -16,10 +8,9 @@ export default defineNuxtPlugin((nuxtApp) => {
     '[nuxt-locokit][plugin-primevue] Registering primevue design system...',
   )
   nuxtApp.vueApp.use(PrimeVue, { ripple: true })
+  nuxtApp.vueApp.use(ConfirmationService)
+  nuxtApp.vueApp.directive('tooltip', Tooltip)
   console.log(
     '[nuxt-locokit][plugin-primevue] Registering primevue design system ok.',
   )
-  // nuxtApp.use(ToastService)
-  // nuxtApp.use(ConfirmationService)
-  // nuxtApp.directive('tooltip', Tooltip)
 })

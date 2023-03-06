@@ -176,6 +176,65 @@ export default defineNuxtModule<ModuleOptions>({
       const { submodules } = options
 
       /**
+       * Register admin pages
+       */
+      pages.push({
+        name: ROUTES_NAMES.ADMIN.HOME,
+        path: ROUTES_PATH.ADMIN.HOME,
+        meta: {
+          protected: true,
+        },
+        file: resolve(pagesDir, './admin/index.vue'),
+        redirect: ROUTES_PATH.ADMIN.USERS.HOME,
+        children: [
+          {
+            name: ROUTES_NAMES.ADMIN.USERS.HOME,
+            path: ROUTES_PATH.ADMIN.USERS.HOME,
+            meta: {
+              protected: true,
+            },
+            file: resolve(pagesDir, './admin/users/index.vue'),
+            redirect: ROUTES_PATH.ADMIN.USERS.ABOUT,
+            children: [
+              {
+                name: ROUTES_NAMES.ADMIN.USERS.ABOUT,
+                path: ROUTES_PATH.ADMIN.USERS.ABOUT,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  pagesDir,
+                  './admin/users/aboutUsers/AboutUsers.vue',
+                ),
+              },
+              {
+                name: ROUTES_NAMES.ADMIN.USERS.CREATE,
+                path: ROUTES_PATH.ADMIN.USERS.CREATE,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  pagesDir,
+                  './admin/users/createUser/CreateUser.vue',
+                ),
+              },
+              {
+                name: ROUTES_NAMES.ADMIN.USERS.RECORD,
+                path: ROUTES_PATH.ADMIN.USERS.RECORD,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  pagesDir,
+                  './admin/users/recordUser/RecordUser.vue',
+                ),
+              },
+            ],
+          },
+        ],
+      })
+
+      /**
        * Register profile pages
        */
       pages.push({

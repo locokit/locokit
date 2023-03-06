@@ -24,6 +24,22 @@ export const ROUTES_NAMES = {
     UPDATE_EMAIL: 'UpdateEmail',
     UPDATE_PASSWORD: 'UpdatePassword',
   },
+
+  ADMIN: {
+    HOME: 'Admin',
+    USERS: {
+      HOME: 'Users',
+      ABOUT: 'AboutUsers',
+      CREATE: 'CreateUser',
+      RECORD: 'RECORDlUser',
+    },
+    GROUPS: {
+      HOME: 'Groups',
+      ABOUT: 'AboutGroups',
+      CREATE: 'CreateGroup',
+      RECORD: 'DetailGroup',
+    },
+  },
 }
 
 export const ROUTES_PATH = {
@@ -49,6 +65,25 @@ export const ROUTES_PATH = {
     UPDATE_GENERAL: '/profile/general',
     UPDATE_EMAIL: '/profile/email',
     UPDATE_PASSWORD: '/profile/password',
+  },
+
+  /**
+   * Administration
+   */
+  ADMIN: {
+    HOME: '/admin',
+    USERS: {
+      HOME: '/admin/users',
+      ABOUT: '/admin/users/about',
+      CREATE: '/admin/users/create-user',
+      RECORD: '/admin/users/record/:id',
+    },
+    GROUPS: {
+      HOME: '/admin/groups',
+      ABOUT: '/admin/groups/about',
+      CREATE: '/admin/groups/create-group',
+      RECORD: '/admin/groups/record/:id',
+    },
   },
 
   /**
@@ -106,21 +141,6 @@ export const ROUTES_PATH = {
         HOME: '/groups',
         GROUP: '/groups/:id',
       },
-    },
-  },
-
-  /**
-   * Administration
-   */
-  ADMIN: {
-    HOME: '/admin',
-    USERS: {
-      HOME: '/admin/users',
-      DETAIL: '/admin/users/:id',
-    },
-    GROUPS: {
-      HOME: '/admin/groups',
-      DETAIL: '/admin/groups/:id',
     },
   },
 }
