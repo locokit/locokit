@@ -9,11 +9,11 @@
     <div class="text-right mb-4 flex justify-end">
       <PrimeButton
         v-if="displayResetButton"
-        class="p-button-outlined !mr-2"
+        class="p-button-outlined p-button-rounded !mr-2"
         :label="$t('components.formGeneric.reset')"
-        icon="bi bi-x"
+        icon="bi bi-arrow-counterclockwise"
         :class="[fullWidthButton ? 'w-full' : '!w-fit']"
-        @click="onCancel"
+        @click="onReset"
       />
       <ButtonWithStatus
         type="submit"
@@ -21,9 +21,10 @@
         :label="labelButtonSubmit || 'components.formGeneric.save'"
         :disabled="loading || !valid || !touched"
         :status-form="status"
-        icon="bi bi-save2"
+        icon="bi bi-check2"
         :is-submitting="loading"
         :submit-count="submitCount"
+        :color="colorSubmitButton"
       />
     </div>
     <div
@@ -51,7 +52,7 @@ import ButtonWithStatus from '../ButtonWithStatus/ButtonWithStatus.vue'
 import { Form } from 'vee-validate'
 import { computed, ref } from 'vue'
 
-const emit = defineEmits(['submit', 'cancel'])
+const emit = defineEmits(['submit', 'reset'])
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
@@ -65,6 +66,8 @@ const props = withDefaults(
     response?: Error | Record<string, any> | null
     displayErrorForm?: boolean
     displaySuccessForm?: boolean
+    colorSubmitButton?: 'primary' | 'secondary'
+    resetFormWithEmptyValue?: boolean
   }>(),
   {
     displayResetButton: true,
@@ -75,6 +78,8 @@ const props = withDefaults(
     labelButtonSubmit: null,
     displayErrorForm: true,
     displaySuccessForm: false,
+    colorSubmitButton: 'primary',
+    resetFormWithEmptyValue: true,
   },
 )
 
@@ -95,8 +100,10 @@ const onSubmit = (values: any) => {
   emit('submit', values)
 }
 
-const onCancel = () => {
-  refForm.value.resetForm()
-  emit('cancel')
+const onReset = () => {
+  if (props.resetFormWithEmptyValue) {
+    refForm.value.resetForm()
+  }
+  emit('reset')
 }
 </script>

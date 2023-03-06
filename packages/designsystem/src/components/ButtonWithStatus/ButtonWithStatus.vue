@@ -1,9 +1,10 @@
 <template>
   <button
-    class="select-none m-0 rounded text-white bg-primary border border-primary border p-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 inline-flex"
+    class="select-none m-0 rounded rounded-[2rem] text-white border p-2 focus:outline-none focus:ring-2 focus:ring-inset inline-flex enabled:hover:text-white"
     :class="[
       { 'cursor-not-allowed opacity-70': isDisabled },
       fullWidthButton ? 'w-full' : 'w-fit',
+      `bg-${color} border-${color} focus:ring-${color}-dark enabled:hover:bg-${color}-dark enabled:hover:border-${color}-dark`,
     ]"
     :type="type"
     :aria-label="label"
@@ -30,9 +31,12 @@
       v-else-if="status === 'success'"
       class="bi bi-check-circle text-gray-500"
     />
-    <i v-else-if="status === 'failed'" class="bi bi-x-circle text-gray-500" />
-    <i v-else-if="icon" class="text-white" :class="'bi ' + icon" />
-    <span v-if="label" class="flex-auto" :class="{ 'ml-2': icon }">
+    <i
+      v-else-if="status === 'failed'"
+      class="pl-2 bi bi-x-circle text-gray-500"
+    />
+    <i v-else-if="icon" class="pl-2 text-white" :class="icon" />
+    <span v-if="label" class="flex-auto">
       {{ $t(labelToDisplay) }}
     </span>
   </button>
@@ -52,6 +56,7 @@ const props = withDefaults(
     isSubmitting?: boolean
     fullWidthButton?: boolean
     submitCount?: number
+    color?: 'primary' | 'secondary'
   }>(),
   {
     label: '',
@@ -62,6 +67,7 @@ const props = withDefaults(
     isSubmitting: false,
     fullWidthButton: false,
     submitCount: 0,
+    color: 'primary',
   },
 )
 
@@ -99,12 +105,3 @@ watch(
   },
 )
 </script>
-
-<style scoped>
-button:enabled:hover {
-  background: var(--primary-color-dark);
-  color: var(--color-white);
-  border-color: var(--primary-color-dark);
-  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
-}
-</style>
