@@ -41,7 +41,10 @@
     "migrate:latest": "knex migrate:latest",
     "migrate:up": "knex migrate:up",
     "migrate:down": "knex migrate:down",
-    "migrate:make": "knex migrate:make"
+    "migrate:make": "knex migrate:make",
+    "seed:make": "knex seed:make",
+    "seed:run-init": "knex seed:run --specific init.ts",
+    "seed:run-test": "knex seed:run --specific test.ts"
   },
   "dependencies": {
     "@casl/ability": "^5.0.0",
@@ -86,6 +89,7 @@
     "winston": "^3.8.1"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/dotenv-flow": "^3.2.0",
     "@types/ejs": "^3.1.1",
     "@types/koa__cors": "^3.3.0",
@@ -111,7 +115,8 @@
     "nodemon": "^2.0.18",
     "shx": "^0.3.4",
     "ts-node-dev": "^2.0.0",
-    "vite-node": "^0.28.3"
+    "vite-node": "^0.28.3",
+    "vite-tsconfig-paths": "^4.0.5"
   },
   "overrides": {
     "@feathersjs/adapter-commons": "^5.0.0",

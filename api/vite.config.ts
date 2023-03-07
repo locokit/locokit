@@ -1,4 +1,5 @@
 import { defineConfig, loadEnv } from 'vite'
+import tsconfigPaths from 'vite-tsconfig-paths'
 import { resolve } from 'node:path'
 
 const sleep = async (s) => await new Promise((r) => setTimeout(r, (s * 1e3) | 0))
@@ -85,7 +86,7 @@ function feathers(Opts = {} as any) {
 
 export default defineConfig(() => {
   return {
-    plugins: [feathers({ app: 'src/app.ts', port: 3030 })],
+    plugins: [tsconfigPaths(), feathers({ app: 'src/app.ts', port: 3030 })],
     build: { target: 'esnext' },
   }
 })

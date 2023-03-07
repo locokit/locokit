@@ -3,6 +3,7 @@
     "files": true
   },
   "compilerOptions": {
+    "baseUrl": "./",
     "target": "es2020",
     "module": "NodeNext",
     "outDir": "./lib",
@@ -13,7 +14,10 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "moduleResolution": "node",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@/*": ["src/*"],
+    }
   },
   "include": ["src", "index.js"]
 }
