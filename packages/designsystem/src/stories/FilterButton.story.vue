@@ -14,7 +14,6 @@
 <script setup lang="ts">
 import FilterButton from '../components/FilterButton/FilterButton.vue'
 import { COLUMN_TYPE } from '../helpers/filter'
-import { ref } from 'vue'
 
 const columnsDefinition = [
   {

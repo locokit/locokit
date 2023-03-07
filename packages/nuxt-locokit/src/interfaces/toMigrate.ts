@@ -21,3 +21,49 @@ export interface User {
   isBlocked: boolean
   isVerified: boolean
 }
+
+export type inputPatternType =
+  | boolean
+  | number
+  | string
+  | Array<string | number>
+  | Date
+  | null
+
+export type LckTableViewFilterPattern =
+  | boolean
+  | number
+  | string
+  | Array<string | number>
+
+export interface LckTableViewFilterValue {
+  action: string
+  column: string
+  dbAction: string
+  pattern: LckTableViewFilterPattern
+}
+
+export interface LckTableViewFilter {
+  operator: string
+  values: LckTableViewFilterValue[]
+}
+
+export interface FilterAction {
+  label: string
+  value: string
+  predefinedPattern?: string | number | boolean | string[]
+  patternPrefix?: string
+  patternSuffix?: string
+}
+
+export interface Filter {
+  operator: string
+  column: null | {
+    name: string
+    slug: string
+    original_type_id: number
+    column_type_id: number
+  }
+  action: FilterAction | null
+  motif: inputPatternType
+}
