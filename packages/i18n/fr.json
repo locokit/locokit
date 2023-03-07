@@ -96,17 +96,64 @@
       "statusFailed": "Échec lors de l'envoi",
       "statusSuccess": "Formulaire correctement envoyé",
       "loading": "Chargement"
+    },
+    "filterButton": {
+      "label": "{count} filtre | {count} filtre | {count} filtres",
+      "column": "Colonne",
+      "action": "Action",
+      "motif": "Motif",
+      "addFilter": "Ajouter un filtre",
+      "reset": "Réinitialiser",
+      "select": {
+        "operator": {
+          "$or": "OU",
+          "$and": "ET"
+        },
+        "action": {
+          "match": "contient",
+          "doesNotMatch": "ne contient pas",
+          "isEqualTo": "est égal à",
+          "isDifferentFrom": "est différent de",
+          "in": "est compris dans",
+          "notIn": "n'est pas compris dans",
+          "all": "contient tous les éléments",
+          "any": "contient au-moins un élément",
+          "isEmpty": "est vide",
+          "isNotEmpty": "n'est pas vide",
+          "isTrue": "est vrai",
+          "isFalse": "est faux",
+          "isGreaterThan": "est supérieur à",
+          "isLowerThan": "est inférieur à",
+          "isGreaterThanOrEqualTo": "est supérieur ou égal à",
+          "isLowerThanOrEqualTo": "est inférieur ou égal à",
+          "isLaterThan": "est postérieur à",
+          "isEarlierThan": "est antérieur à",
+          "isEarlierThanOrEqualTo": "est antérieur ou égal à",
+          "isLaterThanOrEqualTo": "est postérieur ou égal à",
+          "startWith": "commence par",
+          "endWith": "finit par",
+          "isLoggedInUser": "est l'utilisateur connecté",
+          "isLoggedInUserGroup": "est le groupe de l'utilisateur connecté",
+          "containsLoggedInUser": "contient l'utilisateur connecté"
+        }
+      }
     }
   },
   "layouts": {
-    "WithHeader": {
+    "withHeader": {
       "openMenu": "Ouvrir le menu",
       "closeMenu": "Fermer le menu",
       "home": "Accueil",
-      "workspaces": "Espace de travail",
+      "workspaces": "Espaces de travail",
       "profile": "Profil",
       "signIn": "S'identifier",
       "signUp": "S'inscrire",
+      "admin": "Admin",
+      "logout": "Se déconnecter"
+    },
+    "withAsideNav": {
+      "workspaces": "Espaces de travail",
+      "profile": "Profil",
       "logout": "Se déconnecter"
     }
   },
@@ -189,6 +236,61 @@
     },
     "updatePassword": {
       "title": "@:pages.profile.updatePassword"
+    },
+    "admin": {
+      "title": "Administration",
+      "users": "Gestion des utilisateurs⋅rices",
+      "groups": "Gestion des groupes"
+    },
+    "adminUsers": {
+      "title": "@:pages.admin.users",
+      "addUser": "Ajouter un⋅e utilisateur⋅rice",
+      "emptyResult": "Aucun résultat trouvé",
+      "result": "Affichage de {elements} utilisateurs⋅rices sur {total}."
+    },
+    "aboutUsers": {
+      "title": "Administration des utilisateurs⋅rices",
+      "manual": {
+        "intro": "À partir de cette page, il est possible de :",
+        "create": "Créer un⋅e utilisateur⋅rice en cliquant sur le bouton.",
+        "search": "Trouver un⋅e utilisateur⋅rice existant à partir de la barre de recherche et des filtres.",
+        "displayAndEdit": "Afficher et modifier les informations liées à un⋅e utilisateur⋅rice en cliquant sur leur nom."
+      }
+    },
+    "createUser": {
+      "title": "Ajouter un⋅e utilisateur⋅rice",
+      "submit": "Créer",
+      "username": "Nom d'utilisateur⋅rice",
+      "lastName": "Nom",
+      "firstName": "Prénom",
+      "email": "Email",
+      "profile": "Profil",
+      "admin": "@:commons.userProfile.admin",
+      "creator": "@:commons.userProfile.creator",
+      "member": "@:commons.userProfile.member"
+    },
+    "recordUser": {
+      "title": "Information d'un⋅e utilisateur⋅rice",
+      "submit": "Mise à jour",
+      "blocking": "Bloquer cette personne",
+      "send": "Envoyer",
+      "resend": "Renvoyer",
+      "inviting": "Réinviter cette personne",
+      "id": "ID",
+      "username": "Nom d'utilisateur⋅rice",
+      "lastName": "Nom",
+      "firstName": "Prénom",
+      "email": "Email",
+      "profile": "Profil",
+      "admin": "@:commons.userProfile.admin",
+      "creator": "@:commons.userProfile.creator",
+      "member": "@:commons.userProfile.member",
+      "isVerified": "Inscription complète ?",
+      "isBlocked": "Personne bloquée ?",
+      "confirmation": "Confirmation",
+      "messageResendVerifySignup": "Êtes-vous sûr de vouloir renvoyer un e-mail pour l'inscription de cette personne : {username}?",
+      "messageBlockingUser": "Êtes-vous sûr de vouloir bloquer cette personne : {username}?",
+      "noUserFound": "Aucune personne trouvée"
     }
   },
   "success": {
@@ -324,17 +426,32 @@
         "currentPassword": "@:components.updatePasswordForm.currentPassword",
         "newPassword": "@:components.updatePasswordForm.newPassword",
         "confirmPassword": "@:components.updatePasswordForm.confirmPassword"
+      },
+      "createUser": {
+        "username": "@:pages.createUser.username",
+        "email": "@:pages.createUser.username"
+      },
+      "recordUser": {
+        "username": "@:pages.recordUser.username",
+        "email": "@:pages.recordUser.username"
       }
     },
     "messages": {
       "required": "Le champ '{field}' est requis.",
-      "email": "L'adresse électronique du champ '{field}' ne correspond pas au format attendu.",
+      "email": "L'email du champ '{field}' ne correspond pas au format attendu.",
       "regex": "Le champ '{field}' ne correspond pas au format attendu.",
       "confirmed": "Les mots de passe du champ '{field}' et du champ '{target}' ne sont pas identiques.",
       "isFalseOrOtherTrue": "Le champ '{field}' ne peut être coché que si le champ '{target}' l'est également.",
       "minDate": "La date du champ '{field}' doit être après {fromDate}.",
       "dateValid": "La date du champ '{field}' ne correspond pas au format attendu.",
       "reference": "La valeur du champ '{field}' est invalide : veuillez sélectionnez une valeur dans la liste."
+    }
+  },
+  "commons": {
+    "userProfile": {
+      "admin": "Admin",
+      "creator": "Créateur⋅rice",
+      "member": "Membre"
     }
   }
 }

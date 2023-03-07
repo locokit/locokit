@@ -96,10 +96,51 @@
       "statusFailed": "Failed to send",
       "statusSuccess": "Successful sent",
       "loading": "Loading"
+    },
+    "filterButton": {
+      "label": "{count} filter | {count} filter | {count} filters",
+      "column": "Column",
+      "action": "Action",
+      "motif": "Motif",
+      "addFilter": "Add a filter",
+      "reset": "Reset",
+      "select": {
+        "operator": {
+          "$or": "OR",
+          "$and": "AND"
+        },
+        "action": {
+          "match": "match",
+          "doesNotMatch": "does not match",
+          "isEqualTo": "is equal to",
+          "isDifferentFrom": "is different from",
+          "in": "is included in",
+          "notIn": "is not included in",
+          "all": "contains all elements",
+          "any": "contains at least one element",
+          "isEmpty": "is empty",
+          "isNotEmpty": "is not empty",
+          "isTrue": "is true",
+          "isFalse": "is false",
+          "isGreaterThan": "is greater than",
+          "isLowerThan": "is lower than",
+          "isGreaterThanOrEqualTo": "is greater than or equal to",
+          "isLowerThanOrEqualTo": "is lower than or equal to",
+          "isLaterThan": "is later than",
+          "isEarlierThan": "is earlier than",
+          "isEarlierThanOrEqualTo": "is earlier than or equal to",
+          "isLaterThanOrEqualTo": "is later than or equal to",
+          "startWith": "start with",
+          "endWith": "end with",
+          "isLoggedInUser": "is the logged-in user",
+          "isLoggedInUserGroup": "is the group of the logged-in user",
+          "containsLoggedInUser": "contains the logged-in user"
+        }
+      }
     }
   },
   "layouts": {
-    "WithHeader": {
+    "withHeader": {
       "openMenu": "Open menu",
       "closeMenu": "Close main menu",
       "home": "Home",
@@ -107,6 +148,12 @@
       "profile": "Profile",
       "signIn": "Sign in",
       "signUp": "Sign up",
+      "admin": "Admin",
+      "logout": "Logout"
+    },
+    "withAsideNav": {
+      "workspaces": "Workspaces",
+      "profile": "Profile",
       "logout": "Logout"
     }
   },
@@ -189,6 +236,61 @@
     },
     "updatePassword": {
       "title": "@:pages.profile.updatePassword"
+    },
+    "admin": {
+      "title": "Administration",
+      "users": "Users administration",
+      "groups": "Groups administration"
+    },
+    "adminUsers": {
+      "title": "@:pages.admin.users",
+      "addUser": "Add a user",
+      "emptyResult": "No result found",
+      "result": "Showing {elements} out of {total} users."
+    },
+    "aboutUsers": {
+      "title": "Users administration",
+      "manual": {
+        "intro": "From this page it is possible to:",
+        "create": "Create a new user by clicking on the button.",
+        "search": "Find an existing user using the search bar and filters.",
+        "displayAndEdit": "View and edit a user's record by clicking on their name."
+      }
+    },
+    "createUser": {
+      "title": "Add a user",
+      "submit": "Create",
+      "username": "Username",
+      "lastName": "Last name",
+      "firstName": "First name",
+      "email": "Email",
+      "profile": "Profile",
+      "admin": "@:commons.userProfile.admin",
+      "creator": "@:commons.userProfile.creator",
+      "member": "@:commons.userProfile.member"
+    },
+    "recordUser": {
+      "title": "User record",
+      "submit": "Update",
+      "blocking": "Blocking a user",
+      "send": "Send",
+      "resend": "Resend",
+      "inviting": "Re-inviting a user",
+      "id": "ID",
+      "username": "Username",
+      "lastName": "Last name",
+      "firstName": "First name",
+      "email": "Email",
+      "profile": "Profile",
+      "admin": "@:commons.userProfile.admin",
+      "creator": "@:commons.userProfile.creator",
+      "member": "@:commons.userProfile.member",
+      "isVerified": "Full registration?",
+      "isBlocked": "Is blocked?",
+      "confirmation": "Confirmation",
+      "messageResendVerifySignup": "Are you sure you want to resend a mail to sign up for this user: {username}?",
+      "messageBlockingUser": "Are you sure you want to block this user: {username}?",
+      "noUserFound": "No user found"
     }
   },
   "success": {
@@ -324,6 +426,14 @@
         "currentPassword": "@:components.updatePasswordForm.currentPassword",
         "newPassword": "@:components.updatePasswordForm.newPassword",
         "confirmPassword": "@:components.updatePasswordForm.confirmPassword"
+      },
+      "createUser": {
+        "username": "@:pages.createUser.username",
+        "email": "@:pages.createUser.username"
+      },
+      "recordUser": {
+        "username": "@:pages.recordUser.username",
+        "email": "@:pages.recordUser.username"
       }
     },
     "messages": {
@@ -335,6 +445,13 @@
       "minDate": "The field '{field}' must be after {fromDate}.",
       "dateValid": "The field '{field}' does not match the expected format.",
       "reference": "The field '{field}' value is invalid: please select an item from the list."
+    }
+  },
+  "commons": {
+    "userProfile": {
+      "admin": "Admin",
+      "creator": "Creator",
+      "member": "Member"
     }
   }
 }
