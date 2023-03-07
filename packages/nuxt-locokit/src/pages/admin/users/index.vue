@@ -191,7 +191,6 @@ const applyFilters = (filters: Filter[]) => {
 }
 
 const onPage = (event: PageState) => {
-  console.log('Bouh')
   // event.page = New index page number
   searchUsers(event.page, event.rows)
 }

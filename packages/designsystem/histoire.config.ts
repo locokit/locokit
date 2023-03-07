@@ -1,5 +1,6 @@
 import { defineConfig } from 'histoire'
 import { HstVue } from '@histoire/plugin-vue'
+import { HstScreenshot } from '@histoire/plugin-screenshot'
 
 export default defineConfig({
   theme: {
@@ -18,6 +19,13 @@ export default defineConfig({
       },
     ],
   },
-  plugins: [HstVue()],
+  plugins: [
+    HstVue(),
+    HstScreenshot({
+      ignored: ({ file }) => {
+        return file.includes('tailwind') || file.includes('test')
+      },
+    }),
+  ],
   setupFile: './src/histoire.setup.ts',
 })
