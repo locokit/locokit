@@ -1,14 +1,14 @@
 // /* eslint-disable no-duplicate-case */
 import { USER_PROFILE } from '@locokit/definitions'
 // import { AbilityBuilder, makeAbilityFromRules } from 'feathers-casl'
-import makeAbilityFromRules from '../../abilities/makeAbilityFromRules'
+import makeAbilityFromRules from '../../../abilities/makeAbilityFromRules'
 import { AbilityBuilder } from '@casl/ability'
-import { AppAbility, resolveAction } from '../../abilities/definitions'
+import { AppAbility, resolveAction } from '../../../abilities/definitions'
 
 // import { AppAbility, resolveAction } from '../../abilities/definitions'
 // import { HookContext } from '@feathersjs/feathers'
-import type { UserResult } from '../auth/user/user.schema'
-import { ServiceTypes } from '../../declarations'
+import type { UserResult } from '../../auth/user/user.schema'
+import { ServiceTypes } from '../../../declarations'
 // import { ServiceTypes } from '../declarations'
 // import { LckAclSet } from '../models/aclset.model'
 // import { iff, IffHook, isProvider } from 'feathers-hooks-common'

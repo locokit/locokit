@@ -1,9 +1,8 @@
-import { JSONSchema, Model, RelationMappings } from 'objection'
-import { GroupModel } from '../auth/group/group.model'
-import { RoleModel } from '../auth/role/role.model'
-import { UserModel } from '../auth/user/user.model'
-import { DatasourceModel } from './datasource/datasource.service'
-import { workspaceSchema } from './workspace.schema'
+import { Model, RelationMappings } from 'objection'
+import { GroupModel } from '@/services/core/group/group.model'
+import { RoleModel } from '@/services/core/role/role.model'
+import { UserModel } from '@/services/auth/user/user.model'
+import { CoreDatasourceModel } from '../datasource/core-datasource.model'
 
 /**
  * Workspace objection Model
@@ -13,15 +12,11 @@ export class WorkspaceModel extends Model {
 
   static readonly tableName = 'lck_workspace'
 
-  static get jsonSchema(): JSONSchema {
-    return workspaceSchema
-  }
-
   static get relationMappings(): RelationMappings {
     return {
       datasources: {
         relation: Model.HasManyRelation,
-        modelClass: DatasourceModel,
+        modelClass: CoreDatasourceModel,
         join: {
           from: 'lck_workspace.id',
           to: 'lck_datasource.workspaceId',

@@ -1,9 +1,8 @@
-import { Type, querySyntax, Static, getDataValidator } from '@feathersjs/typebox'
-import { dataValidator } from '../../commons/validators'
-// import { groupSchema } from '../auth/group/group.schema'
-import { workspaceOwnerSchema } from '../auth/user/user.schema'
+import { Type, querySyntax, Static, getValidator } from '@feathersjs/typebox'
+import { dataValidator } from '@/commons/validators'
+import { workspaceOwnerSchema } from '@/services/auth/user/user.schema'
 
-import { queryStringExtend } from '../../feathers-objection'
+import { queryStringExtend } from '@/feathers-objection'
 
 export const workspaceSchema = Type.Object(
   {
@@ -16,12 +15,6 @@ export const workspaceSchema = Type.Object(
     slug: Type.String({
       description: 'Slug to reference the workspace in URL, easier to read/memorize for end users',
     }),
-    legacy: Type.Optional(
-      Type.Boolean({
-        description: 'Does this workspace use the legacy mode for storing data',
-        default: false,
-      }),
-    ),
     public: Type.Optional(
       Type.Boolean({
         description: 'Allow the workspace to be findable/visible publicly',
@@ -68,7 +61,7 @@ export const workspaceSchema = Type.Object(
     ),
     groups: Type.Optional(Type.Array(Type.Any())),
     roles: Type.Optional(Type.Array(Type.Any())),
-    // datasources: Type.Optional(Type.Array(Type.Any())),
+    datasources: Type.Optional(Type.Array(Type.Any())),
     // medias: Type.Optional(Type.Array(Type.Any())),
   },
   {
@@ -84,6 +77,7 @@ export const workspaceDataSchema = Type.Omit(workspaceSchema, [
   'slug',
   'owner',
   'groups',
+  'datasources',
 ])
 export type WorkspaceData = Static<typeof workspaceDataSchema>
 
@@ -94,6 +88,7 @@ export const workspacePatchSchema = Type.Omit(workspaceSchema, [
   'slug',
   'owner',
   'groups',
+  'datasources',
 ])
 
 export type WorkspacePatch = Static<typeof workspacePatchSchema>
@@ -105,19 +100,19 @@ export type WorkspaceResult = Static<typeof workspaceResultSchema>
 // Schema for allowed query properties
 export const workspaceQuerySchema = Type.Intersect(
   [
-    querySyntax(Type.Omit(workspaceSchema, ['owner', 'groups']), {
+    querySyntax(Type.Omit(workspaceSchema, ['owner', 'groups', 'roles', 'datasources']), {
       name: queryStringExtend,
     }),
     querySyntax(
       Type.Object({
-        'owner.name': Type.Optional(
+        'owner.username': Type.Optional(
           Type.String({
             description: "Filter workspaces on the owner's name",
           }),
         ),
       }),
       {
-        'owner.name': {
+        'owner.username': {
           // @ts-expect-error
           $like: {
             type: 'string',
@@ -146,17 +141,17 @@ export const workspaceQuerySchema = Type.Intersect(
           description: 'Join workspace to its relation. Only `owner` is accepted.',
         }),
       ),
-      $select: Type.Optional(
-        Type.Array(
-          Type.String({
-            description: 'Join workspace to its relation. Only `owner` is accepted.',
-          }),
-        ),
-      ),
+      // $select: Type.Optional(
+      //   Type.Array(
+      //     Type.String({
+      //       description: 'Join workspace to its relation. Only `owner` is accepted.',
+      //     }),
+      //   ),
+      // ),
     }),
   ],
   { additionalProperties: false },
 )
 export type WorkspaceQuery = Static<typeof workspaceQuerySchema>
 
-export const workspaceDataValidator = getDataValidator(workspaceDataSchema, dataValidator)
+export const workspaceDataValidator = getValidator(workspaceDataSchema, dataValidator)

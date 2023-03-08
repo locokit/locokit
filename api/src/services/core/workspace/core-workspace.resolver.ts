@@ -1,14 +1,14 @@
 import { resolve } from '@feathersjs/schema'
 import { getValidator } from '@feathersjs/typebox'
-import type { HookContext } from '../../declarations'
-import { queryValidator } from '../../commons/validators'
-import { toSnakeCase } from '../../utils/toSnakeCase'
-import { groupDispatchResolver } from '../auth/group/group.resolver'
-import { roleDispatchResolver } from '../auth/role/role.resolver'
-import { RoleSchema } from '../auth/role/role.schema'
-import { userDispatchResolver } from '../auth/user/user.resolver'
+import type { HookContext } from '@/declarations'
+import { queryValidator } from '@/commons/validators'
+import { toSnakeCase } from '@/utils/toSnakeCase'
+import { groupDispatchResolver } from '@/services/core/group/group.resolver'
+import { roleDispatchResolver } from '@/services/core/role/role.resolver'
+import { RoleSchema } from '@/services/core/role/role.schema'
+import { userDispatchResolver } from '@/services/auth/user/user.resolver'
 
-import { WorkspaceQuery, workspaceQuerySchema, WorkspaceSchema } from './workspace.schema'
+import { WorkspaceQuery, workspaceQuerySchema, WorkspaceSchema } from './core-workspace.schema'
 
 // Resolver for the basic data model (e.g. creating new entries)
 export const workspaceCreateResolver = resolve<WorkspaceSchema, HookContext>({
@@ -40,7 +40,7 @@ export const workspaceDispatchResolver = resolve<WorkspaceSchema, HookContext>({
    * The relation `owner` is fetched when used in a find/get + $joinRelated
    */
   async owner(owner, _data, context) {
-    if (owner) return await userDispatchResolver.resolve(owner, context)
+    if (owner) return userDispatchResolver.resolve(owner, context)
   },
 
   /**
@@ -49,9 +49,7 @@ export const workspaceDispatchResolver = resolve<WorkspaceSchema, HookContext>({
    */
   async groups(groups, _data, context) {
     if (groups) {
-      return await Promise.all(
-        groups.map(async (g) => await groupDispatchResolver.resolve(g, context)),
-      )
+      return await Promise.all(groups.map((g) => groupDispatchResolver.resolve(g, context)))
     }
   },
 
@@ -60,25 +58,33 @@ export const workspaceDispatchResolver = resolve<WorkspaceSchema, HookContext>({
    * to remove / complete data sent
    */
   async roles(roles, _data, context) {
-    let result: RoleSchema[] = []
     if (roles) {
+      let result: RoleSchema[] = []
       const rolesPromises: RoleSchema[] = await Promise.all(
-        roles.map(async (g) => await roleDispatchResolver.resolve(g, context)),
+        roles.map((g) => roleDispatchResolver.resolve(g, context)),
       )
       result = rolesPromises
+      return result
     }
-    return result
   },
 })
 
 // Resolver for query properties
 export const workspaceQueryResolver = resolve<WorkspaceQuery, HookContext>({
   /**
-   * If no user is authenticated,
+   * If no user is authenticated, and calls are external
    * return only public workspaces
    */
   async public(_value, _data, context) {
-    if (!context.params?.user) return true
+    /**
+     * if no provider, we are on an internal call
+     */
+    if (!context.params.provider) return _value
+    /**
+     * if user is not authent, we return true
+     */
+    if (!context.params?.authenticated) return true
+    return _value
   },
 })
 
