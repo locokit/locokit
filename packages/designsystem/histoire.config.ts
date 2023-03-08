@@ -10,7 +10,7 @@ export default defineConfig({
     groups: [
       {
         title: 'Components',
-        include: (file) => file.path.includes('components'),
+        include: (file) => file.path.includes('stories'),
       },
       {
         title: 'Others',

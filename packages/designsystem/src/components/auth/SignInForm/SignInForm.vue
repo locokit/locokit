@@ -1,7 +1,7 @@
 <template>
   <div>
     <Form
-      v-slot="{ meta: { valid } }"
+      v-slot="{ meta: { valid, touched }, submitCount }"
       class="text-left p-fluid"
       @submit="onSubmit"
     >
@@ -13,11 +13,14 @@
         as="div"
         rules="required|email"
       >
-        <label for="email">{{ $t('components.signInForm.email') }}</label>
+        <label for="email">
+          {{ $t('components.signInForm.email') }}
+        </label>
         <PrimeInputText
           id="email"
           v-bind="field"
           v-focus
+          :class="{ 'p-invalid': errorMessage }"
           type="email"
           required
           autocomplete="email"
@@ -32,17 +35,20 @@
         </span>
       </Field>
       <Field
-        v-slot="{ field, errorMessage, meta }"
+        v-slot="{ field, errorMessage }"
         name="signInForm.password"
         class="mb-4"
         as="div"
         rules="required"
       >
-        <label for="password">{{ $t('components.signInForm.password') }}</label>
+        <label for="password">
+          {{ $t('components.signInForm.password') }}
+        </label>
         <PrimePassword
           v-model="form.password"
           input-id="password"
           v-bind="field"
+          :class="{ 'p-invalid': errorMessage }"
           required
           :toggle-mask="true"
           :feedback="false"
@@ -51,36 +57,39 @@
           autocapitalize="none"
         />
         <span
-          v-if="errorMessage && meta.touched"
+          v-if="errorMessage"
           class="p-text-error"
           role="alert"
           aria-live="assertive"
         >
           {{ errorMessage }}
         </span>
-        <a :href="lostPasswordRoute" class="my-4 block ml-auto text-xs primary">
+        <a
+          :href="lostPasswordRoute"
+          class="w-fit my-4 block ml-auto text-xs primary"
+        >
           {{ $t('components.signInForm.forgottenPassword') }}
         </a>
       </Field>
       <div class="flex flex-col">
-        <PrimeButton
+        <ButtonWithStatus
           type="submit"
-          :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in'"
-          :label="
-            logInAgain
-              ? $t('components.signInForm.signInAgain')
-              : $t('components.signInForm.signIn')
-          "
-          :disabled="loading || !valid"
+          label="components.signInForm.signIn"
+          class="!w-full"
+          :disabled="loading || !valid || !touched"
+          :status-form="status"
+          icon="bi bi-save2"
+          :is-submitting="loading"
+          :submit-count="submitCount"
         />
         <div
-          v-if="error"
+          v-if="status === 'failed'"
           class="flex flex-col mt-4 p-text-error"
           role="alert"
           aria-live="assertive"
         >
-          <p v-if="error.name === 'NotAuthenticated'">
-            {{ $t('error.notAuthenticated.signIn') }}
+          <p v-if="response.name === 'NotAuthenticated'">
+            {{ $t('error.notAuthenticated.login') }}
           </p>
           <p v-else>
             {{ $t('error.basic') }}
@@ -90,9 +99,9 @@
       </div>
     </Form>
 
-    <div v-if="!logInAgain" class="footer-links flex flex-wrap justify-center">
-      <a v-if="displaySignUpLink" :href="signupRoute" class="text-md">
-        {{ $t('components.signInForm.signup') }}
+    <div class="mt-4 pl-6 flex justify-center">
+      <a v-if="displaySignUpLink" :href="signupRoute" class="w-fit text-md">
+        {{ $t('components.signInForm.signUp') }}
       </a>
     </div>
   </div>
@@ -103,9 +112,9 @@
 // And to date, no side effects have been encountered
 import PrimePassword from 'primevue/password'
 import PrimeInputText from 'primevue/inputtext'
-import PrimeButton from 'primevue/button'
 import { Field, Form } from 'vee-validate'
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
+import ButtonWithStatus from '../../ButtonWithStatus/ButtonWithStatus.vue'
 
 const emit = defineEmits<{
   (e: 'submit', form: { email: string; password: string }): void
@@ -115,19 +124,17 @@ const emit = defineEmits<{
 const props = withDefaults(
   defineProps<{
     loading?: boolean
-    logInAgain?: boolean
     displaySignUpLink?: boolean
-    error?: Error | null
+    response?: Error | null
     signupRoute?: string
     lostPasswordRoute?: string
   }>(),
   {
-    loading: () => false,
-    logInAgain: () => false,
-    displaySignUpLink: () => false,
-    error: () => null,
-    signupRoute: () => '',
-    lostPasswordRoute: () => '',
+    loading: false,
+    displaySignUpLink: false,
+    response: null,
+    signupRoute: '',
+    lostPasswordRoute: '',
   },
 )
 
@@ -136,13 +143,16 @@ const form = reactive({
   password: '',
 })
 
+const status = computed(() => {
+  if (props.response && props.response.name) {
+    return 'failed'
+  } else if (props.response) {
+    return 'success'
+  }
+  return null
+})
+
 const onSubmit = () => {
   emit('submit', form)
 }
 </script>
-
-<style scoped lang="scss">
-.footer-links {
-  margin: 1em 0.5em 0 2.5em;
-}
-</style>

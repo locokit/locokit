@@ -4,7 +4,7 @@
 }
 
 .p-inputswitch .p-inputswitch-slider {
-  background: #3f4b5b;
+  background: rgba(63, 75, 91, 0.64); // Custom
   transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
   border-radius: var(--border-radius);
 }
@@ -38,7 +38,7 @@
 }
 
 .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider:before {
-  background: #151515;
+  background: #ffffff; // Custom
 }
 
 .p-inputswitch.p-inputswitch-checked:not(.p-disabled):hover .p-inputswitch-slider {

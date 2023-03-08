@@ -8,8 +8,8 @@
     "dev": "tsc src/index.ts"
   },
   "dependencies": {
+    "@feathersjs/authentication-client": "^5.0.0-pre.32",
     "@feathersjs/feathers": "^5.0.0-pre.32",
-    "@feathersjs/rest-client": "^5.0.0-pre.32",
-    "@feathersjs/authentication-client": "^5.0.0-pre.32"
+    "@feathersjs/rest-client": "^5.0.0-pre.32"
   }
 }

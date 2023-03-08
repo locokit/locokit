@@ -1,5 +1,14 @@
 {
   "components": {
+    "password": {
+      "prompt": "Enter a password",
+      "rules": "Must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 digit and 1 special character.",
+      "passwordStrength": {
+        "weak": "Weak",
+        "medium": "Medium",
+        "strong": "Strong"
+      }
+    },
     "signInForm": {
       "email": "Email",
       "password": "Password",
@@ -20,22 +29,73 @@
       "password": "Password",
       "passwordCheck": "Password (check)",
       "passwordMismatch": "Passwords mismatch",
-      "prompt": "Set my password",
-      "rules": "Must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 digit and 1 special character.",
+      "prompt": "@:components.password.prompt",
+      "rules": "@:components.password.rules",
       "passwordStrength": {
-        "weak": "Weak",
-        "medium": "Medium",
-        "strong": "Strong"
+        "weak": "@:components.password.passwordStrength.weak",
+        "medium": "@:components.password.passwordStrength.medium",
+        "strong": "@:components.password.passwordStrength.strong"
       }
     },
     "signUpForm": {
       "email": "Email",
-      "name": "Name",
+      "username": "Username",
       "signup": "Sign up"
     },
     "formGeneric": {
       "save": "Save",
-      "cancel": "Cancel"
+      "reset": "Reset"
+    },
+    "predefinedColorPicker": {
+      "label": "Color",
+      "text": "This is text example.",
+      "help": "This color is used as background in the workspace listing page."
+    },
+    "workspaceForm": {
+      "title": "Create a new workspace",
+      "name": "Name",
+      "explainsSlugUse": "This workspace will be saved as:",
+      "summary": "Summary",
+      "color": "Color",
+      "colorHelp": "This color is used in workspace listing page.",
+      "icon": "Icon",
+      "iconPlaceholder": "e.g. pi-cart",
+      "iconHelp": "Fill with icon id, list is available on PrimeIcons.",
+      "public": "Available for everyone (public)",
+      "publicHelp": "Before activating it, please check that the public role is as expected and that a dedicated page has been made.",
+      "reset": "Reset",
+      "submit": "Submit"
+    },
+    "updateGeneralForm": {
+      "name": "Name",
+      "username": "Username",
+      "email": "Email",
+      "role": "Role",
+      "submit": "Submit"
+    },
+    "updateEmailForm": {
+      "currentEmail": "Current email",
+      "newEmail": "New email",
+      "password": "Password",
+      "submit": "Submit"
+    },
+    "updatePasswordForm": {
+      "currentPassword": "Current password",
+      "newPassword": "New password",
+      "prompt": "@:components.password.prompt",
+      "rules": "@:components.password.rules",
+      "passwordStrength": {
+        "weak": "@:components.password.passwordStrength.weak",
+        "medium": "@:components.password.passwordStrength.medium",
+        "strong": "@:components.password.passwordStrength.strong"
+      },
+      "confirmPassword": "Confirm new password",
+      "submit": "Submit"
+    },
+    "buttonWithStatus": {
+      "statusFailed": "Failed to send",
+      "statusSuccess": "Successful sent",
+      "loading": "Loading"
     }
   },
   "layouts": {
@@ -43,13 +103,15 @@
       "openMenu": "Open menu",
       "closeMenu": "Close main menu",
       "home": "Home",
-      "workspaces" : "Workspaces",
+      "workspaces": "Workspaces",
+      "profile": "Profile",
       "signIn": "Sign in",
-      "signUp": "Sign up"
+      "signUp": "Sign up",
+      "logout": "Logout"
     }
   },
   "pages": {
-     "404": {
+    "404": {
       "title": "Page not found",
       "alternativeTitle": "Whooops ?!… sounds you're lost…",
       "link": "Come back home"
@@ -58,7 +120,7 @@
       "title": "Welcome"
     },
     "indexPage": {
-      "presentation": "LocoKit is an open source LCAP (Low Code Application Platform) that provides Database Management as a Spreadsheet with an App Builder",
+      "presentation": "LocoKit is an open source LCAP (Low Code Application Platform) that provides Database Management as a Spreadsheet with an App Builder.",
       "buildData": "Build your data",
       "shareSecurely": "and share it securely",
       "createDatabase": "Create your database, according to your job. Share your data, according to the permissions you set!",
@@ -96,7 +158,41 @@
       "accountComplete": "Your account is complete. You can now login to the app.",
       "homeLink": "Go back to home page",
       "labelSubmit": "Set the password"
+    },
+    "workspace": {
+      "title": "Workspaces",
+      "intro": "You must create or select your workspace before adding datas or templates.",
+      "addWorkspace": "Add a workspace",
+      "public": "Public"
+    },
+    "createWorkspace": {
+      "title": "New workspace",
+      "alternativeTitle": "Create a new workspace"
+    },
+    "alreadyAuthenticated": {
+      "title": "Already logged in",
+      "message": "You are already authenticated in this application. You can come back to your workspace or log out.",
+      "workspaceButton": "Back to workspace",
+      "logoutButton": "Log out"
+    },
+    "profile": {
+      "title": "My profile",
+      "general": "Information general",
+      "updateEmail": "Update email",
+      "updatePassword": "Update password"
+    },
+    "updateGeneral": {
+      "title": "@:pages.profile.general"
+    },
+    "updateEmail": {
+      "title": "@:pages.profile.updateEmail"
+    },
+    "updatePassword": {
+      "title": "@:pages.profile.updatePassword"
     }
+  },
+  "success": {
+    "general": "The form have been sent correctly."
   },
   "error": {
     "basic": "Something goes wrong. Please try again later.",
@@ -211,7 +307,23 @@
       },
       "signUpForm": {
         "email": "@:components.signUpForm.email",
-        "name": "@:components.signUpForm.name"
+        "username": "@:components.signUpForm.username"
+      },
+      "workspaceForm": {
+        "name": "@:components.workspaceForm.name"
+      },
+      "updateGeneralForm": {
+        "name": "@:components.updateGeneralForm.name",
+        "username": "@:components.updateGeneralForm.username"
+      },
+      "updateEmailForm": {
+        "newEmail": "@:components.updateEmailForm.newEmail",
+        "password": "@:components.updateEmailForm.password"
+      },
+      "updatePasswordForm": {
+        "currentPassword": "@:components.updatePasswordForm.currentPassword",
+        "newPassword": "@:components.updatePasswordForm.newPassword",
+        "confirmPassword": "@:components.updatePasswordForm.confirmPassword"
       }
     },
     "messages": {

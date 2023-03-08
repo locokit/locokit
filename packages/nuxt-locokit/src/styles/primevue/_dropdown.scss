@@ -1,5 +1,5 @@
 .p-dropdown {
-  background: #20262e;
+  background: #ffffff; // Custom
   border: 1px solid #3f4b5b;
   transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
   border-radius: var(--border-radius);
@@ -26,7 +26,7 @@
 }
 
 .p-dropdown .p-dropdown-label.p-placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-color);
 }
 
 .p-dropdown .p-dropdown-label:focus, .p-dropdown .p-dropdown-label:enabled:focus {

@@ -267,3 +267,19 @@ span.failed {
     cursor: not-allowed !important;
   }
 }
+
+/*
+  Override Prime
+*/
+.p-password {
+  i {
+    cursor: pointer;
+  }
+}
+
+/*
+  Set Bootstrap Icon
+*/
+.bi {
+  font-size: 1.25rem;
+}

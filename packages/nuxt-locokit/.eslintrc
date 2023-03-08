@@ -20,11 +20,20 @@
     "@typescript-eslint/no-unnecessary-type-assertion": "off",
     "no-case-declarations": "off",
     "prettier/prettier": "error",
+    "vue/no-v-model-argument": "off",
     "vue/multi-word-component-names": [
       "error",
       {
-        "ignores": ["index", "404"]
+        "ignores": [
+          "index",
+          "error"
+        ]
       }
     ]
   }
 }
+
+// Todo: remove rule `vue/no-v-model-argument` when compatibility with nuxt3 have been improved
+// This rule is included in https://eslint.vuejs.org/rules/no-v-model-argument.html
+// The plugin:nuxt includes plugin:vue/essential.
+// So we need to override it because in vue3 it is allowed https://vuejs.org/guide/components/v-model.html#multiple-v-model-bindings

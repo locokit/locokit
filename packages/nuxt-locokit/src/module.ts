@@ -1,21 +1,16 @@
 /* eslint-disable no-console */
 import { fileURLToPath } from 'node:url'
 import {
-  defineNuxtModule,
-  // addComponentsDir,
-  installModule,
+  addLayout,
   addPlugin,
   createResolver,
-  useModuleContainer,
+  defineNuxtModule,
+  extendPages,
+  installModule,
 } from '@nuxt/kit'
-import { Nuxt, NuxtOptions, NuxtPage, ModuleContainer } from '@nuxt/schema'
-import { ROUTES_NAMES, ROUTES_PATH } from './pages/paths'
-import {
-  getAuthPages,
-  // getBackofficePages,
-  // getFrontofficePages,
-  // getUserPages,
-} from './routes'
+import { Nuxt, NuxtOptions, NuxtPage } from '@nuxt/schema'
+import { ROUTES_NAMES, ROUTES_PATH } from './paths'
+import { getAuthPages } from './routes'
 
 const { resolve } = createResolver(import.meta.url)
 
@@ -46,25 +41,6 @@ export interface ModuleOptions {
   api: {
     url: string
   }
-  theme: {
-    colors: {
-      primary: string
-      secondary: string
-    }
-  }
-  extends: {
-    layouts: [
-      {
-        name: string
-        component: string
-      },
-    ]
-    pages: {
-      home: {
-        layout: string
-      }
-    }
-  }
 }
 
 const defaultOptions: ModuleOptions = {
@@ -94,25 +70,6 @@ const defaultOptions: ModuleOptions = {
   api: {
     url: 'http://localhost:3030',
   },
-  theme: {
-    colors: {
-      primary: 'red',
-      secondary: 'yellow',
-    },
-  },
-  extends: {
-    layouts: [
-      {
-        name: 'pouet',
-        component: 'pouic',
-      },
-    ],
-    pages: {
-      home: {
-        layout: 'pouet',
-      },
-    },
-  },
 }
 
 export type NuxtLocokit = Nuxt & {
@@ -125,7 +82,7 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'locokit',
     compatibility: {
       // Semver version of supported nuxt versions
-      nuxt: '^3.0.0-rc.9',
+      nuxt: '^3.0.0',
     },
   },
   defaults: defaultOptions,
@@ -140,15 +97,15 @@ export default defineNuxtModule<ModuleOptions>({
       configPath: resolve(runtimeDir, 'tailwind.config'),
     })
     await installModule('@pinia/nuxt')
-    nuxt.options.build.transpile.push(runtimeDir)
+    // nuxt.options.build.transpile.push(runtimeDir)
 
     // addPlugin(resolve(runtimeDir, 'tailwind.config'))
+    addPlugin(resolve(pluginsDir, 'middlewares'))
     addPlugin(resolve(pluginsDir, 'primevue'))
     // addPlugin(resolve(pluginsDir, 'locokit'))
     addPlugin(resolve(pluginsDir, 'i18n'))
     addPlugin(resolve(pluginsDir, 'vee-validate'))
     addPlugin(resolve(pluginsDir, 'directive'))
-    addPlugin(resolve(pluginsDir, 'middlewares'))
 
     // await addComponentsDir({
     //   path: resolve(componentsDir),
@@ -163,13 +120,14 @@ export default defineNuxtModule<ModuleOptions>({
      */
     nuxt.options.css = nuxt.options.css ?? []
     nuxt.options.css.push('primevue/resources/primevue.css')
-    nuxt.options.css.push('primeicons/primeicons.css')
-    nuxt.options.css.push(resolve(__dirname, '../src/styles/theme.css'))
+    nuxt.options.css.push('bootstrap-icons/font/bootstrap-icons.css')
     nuxt.options.css.push(resolve(__dirname, '../src/styles/index.scss'))
+    nuxt.options.css.push(resolve(__dirname, '../src/styles/theme.css'))
 
+    //
     nuxt.options.build.transpile.push('primevue')
-
-    console.log('[nuxt-locokit][plugin-locokit] Registering components...')
+    //
+    // console.log('[nuxt-locokit][plugin-locokit] Registering components...')
 
     const layoutsDir = fileURLToPath(new URL('../src/layouts', import.meta.url))
     const pagesDir = fileURLToPath(new URL('../src/pages', import.meta.url))
@@ -182,31 +140,120 @@ export default defineNuxtModule<ModuleOptions>({
     //   })
     // }
 
-    const module: ModuleContainer = useModuleContainer()
-
-    module.addLayout(
-      {
-        src: resolve(layoutsDir, './WithBackground.vue'),
-      },
-      'WithBackground',
-    )
-    module.addLayout(
+    // module.addLayout(
+    //   {
+    //     src: resolve(layoutsDir, './WithBackground.vue'),
+    //   },
+    //   'WithBackground',
+    // )
+    addLayout(
       {
         src: resolve(layoutsDir, './WithBanner.vue'),
       },
       'WithBanner',
     )
+    addLayout(
+      {
+        src: resolve(layoutsDir, './WithAsideNavAndSidebar.vue'),
+      },
+      'WithAsideNavAndSidebar',
+    )
+    addLayout(
+      {
+        src: resolve(layoutsDir, './WithAsideNav.vue'),
+      },
+      'WithAsideNav',
+    )
+    addLayout(
+      {
+        src: resolve(layoutsDir, './WithThinNav.vue'),
+      },
+      'WithThinNav',
+    )
+    addLayout(
+      {
+        src: resolve(layoutsDir, './WithThinNavAndSidebar.vue'),
+      },
+      'WithThinNav',
+    )
 
-    module.extendRoutes(function (pages: NuxtPage[]) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { submodules, api, theme } = options
+    extendPages(function (pages: NuxtPage[]) {
+      const { submodules } = options
+
+      /**
+       * Register profile pages
+       */
+      pages.push({
+        name: ROUTES_NAMES.PROFILE.HOME,
+        path: ROUTES_PATH.PROFILE.HOME,
+        meta: {
+          protected: true,
+        },
+        file: resolve(pagesDir, './profile/index.vue'),
+        redirect: ROUTES_PATH.PROFILE.UPDATE_GENERAL,
+        children: [
+          {
+            name: ROUTES_NAMES.PROFILE.UPDATE_GENERAL,
+            path: ROUTES_PATH.PROFILE.UPDATE_GENERAL,
+            meta: {
+              protected: true,
+            },
+            file: resolve(
+              pagesDir,
+              './profile/UpdateGeneral/UpdateGeneral.vue',
+            ),
+          },
+          {
+            name: ROUTES_NAMES.PROFILE.UPDATE_EMAIL,
+            path: ROUTES_PATH.PROFILE.UPDATE_EMAIL,
+            meta: {
+              protected: true,
+            },
+            file: resolve(pagesDir, './profile/UpdateEmail/UpdateEmail.vue'),
+          },
+          {
+            name: ROUTES_NAMES.PROFILE.UPDATE_PASSWORD,
+            path: ROUTES_PATH.PROFILE.UPDATE_PASSWORD,
+            meta: {
+              protected: true,
+            },
+            file: resolve(
+              pagesDir,
+              './profile/UpdatePassword/UpdatePassword.vue',
+            ),
+          },
+        ],
+      })
+
+      /**
+       * Register workspace pages
+       */
+      pages.push({
+        name: ROUTES_NAMES.WORKSPACE.HOME,
+        path: ROUTES_PATH.WORKSPACE.HOME,
+        meta: {
+          protected: false,
+          anonymous: false,
+        },
+        file: resolve(pagesDir, './workspace/index.vue'),
+      })
+
+      pages.push({
+        name: ROUTES_NAMES.WORKSPACE.CREATE,
+        path: ROUTES_PATH.WORKSPACE.CREATE,
+        meta: {
+          protected: true,
+          anonymous: false,
+        },
+        file: resolve(pagesDir, './workspace/CreateWorkspace.vue'),
+      })
 
       pages.push({
         name: ROUTES_NAMES.HOME,
         path: ROUTES_PATH.HOME,
         file: resolve(pagesDir, './index.vue'),
         meta: {
-          needAuthentification: false,
+          protected: false,
         },
       })
 
@@ -218,22 +265,6 @@ export default defineNuxtModule<ModuleOptions>({
         pages.push(...getAuthPages(prefix))
       }
 
-      // /**
-      //  * Register user pages
-      //  */
-      // if (submodules.user.enabled) {
-      //   const prefix = submodules.user.prefix
-      //   pages.push(...getUserPages(prefix))
-      // }
-      //
-      // /**
-      //  * Register workspace pages
-      //  */
-      pages.push({
-        name: ROUTES_NAMES.WORKSPACE.HOME,
-        path: ROUTES_PATH.WORKSPACE.HOME,
-        file: resolve(pagesDir, './w/index.vue'),
-      })
       // pages.push({
       //   name: ROUTES.WORKSPACE.DETAIL,
       //   path: ROUTES.WORKSPACE.DETAIL,

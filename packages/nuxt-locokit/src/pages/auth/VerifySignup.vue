@@ -18,7 +18,7 @@
           <div class="flex items-center px-3 pt-4 pb-6">
             <i
               aria-hidden="true"
-              class="pi pi-check-circle p-text-success mr-4 icon-with-text-aside"
+              class="bi bi-check-circle-fill p-text-success mr-4 icon-with-text-aside"
             />
             <p class="text-justify">
               {{ $t('pages.verifySignup.accountComplete') }}
@@ -43,9 +43,9 @@ import { PasswordForm } from '@locokit/designsystem'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import WithBackground from '../../layouts/WithBackground.vue'
-import { ROUTES_NAMES } from '../paths'
+import { ROUTES_NAMES } from '../../paths'
 import { useStoreAuth } from '../../stores/auth'
-import { ref, useHead, useRoute } from '#imports'
+import { definePageMeta, ref, useHead, useRoute } from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })
 
@@ -56,13 +56,15 @@ const { error } = storeToRefs(authStore)
 const loading = ref(false) // check if necessary with vee-validate
 const formSentAndValid = ref(false)
 
-const verifySignupAndSetPassword = async (data) => {
+const verifySignupAndSetPassword = async (data: string) => {
   await authStore.verifySignupAndSetPassword({
     token: route.query?.token as string,
     password: data,
   })
   formSentAndValid.value = !error.value
 }
+
+definePageMeta({ middleware: ['anonymous-routes'] })
 
 useHead({
   titleTemplate: `${t('pages.verifySignup.title')} | %s`,

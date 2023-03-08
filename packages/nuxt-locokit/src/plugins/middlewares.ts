@@ -1,6 +1,58 @@
-import globalMiddleware from '../middleware/global'
-import { addRouteMiddleware, defineNuxtPlugin } from '#imports'
+import { RouteLocationNormalized } from 'vue-router'
+import {
+  addRouteMiddleware,
+  defineNuxtPlugin,
+  useCookie,
+  useNuxtApp,
+} from '#app'
+import { storeToRefs } from 'pinia'
+import { useStoreAuth } from '../stores/auth'
+import { checkPathAvailable } from '../middleware/global'
+import { ROUTES_PATH } from '../paths'
 
-export default defineNuxtPlugin(() => {
-  addRouteMiddleware('lck-global', globalMiddleware, { global: true })
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.hook('app:mounted', async () => {
+    const authStore = useStoreAuth(nuxtApp.$pinia)
+
+    if (authStore.isAuthenticated) {
+      // Check if current user is still connected
+      await authStore.reAuthenticate()
+    }
+  })
+
+  addRouteMiddleware(
+    'lck-global',
+    (to: RouteLocationNormalized, _from: RouteLocationNormalized) => {
+      const nuxtApp = useNuxtApp()
+      const token = useCookie('token') // get token from cookies
+      const authStore = useStoreAuth(nuxtApp.$pinia)
+      const { isAuthenticated } = storeToRefs(authStore)
+      // console.log(import.meta.env.SSR)
+
+      // To handle children routes (to get meta from parents), Nuxt recommend to use to.matched
+      const needAuthentication: boolean = to.matched.some(
+        (m) => m.meta.protected,
+      )
+      const needAnonymous: boolean = to.matched.some((m) => m.meta.anonymous)
+
+      if (token.value) {
+        isAuthenticated.value = true
+      }
+
+      if (
+        checkPathAvailable(
+          needAuthentication,
+          needAnonymous,
+          isAuthenticated.value,
+        )
+      ) {
+        return
+      }
+
+      return { path: ROUTES_PATH.AUTH.SIGN_IN }
+    },
+    {
+      global: true,
+    },
+  )
 })

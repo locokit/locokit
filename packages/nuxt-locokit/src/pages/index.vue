@@ -13,7 +13,7 @@
         <p
           class="mt-3 text-base text-gray-500 sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg md:mt-5 md:text-xl"
         >
-          {{ $t('pages.indexPage.presentation') }}.
+          {{ $t('pages.indexPage.presentation') }}
         </p>
       </div>
       <div
@@ -22,7 +22,9 @@
         <h1
           class="text-4xl font-bold tracking-tight text-primary sm:text-5xl md:text-6xl"
         >
-          <span class="block">{{ $t('pages.indexPage.buildData') }}</span>
+          <span class="block">
+            {{ $t('pages.indexPage.buildData') }}
+          </span>
           <span class="block text-secondary">
             {{ $t('pages.indexPage.shareSecurely') }}
           </span>
