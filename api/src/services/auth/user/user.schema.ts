@@ -85,7 +85,7 @@ export const userDataSchema = Type.Object(
 )
 
 export type UserData = Static<typeof userDataSchema> & {
-  profile: typeof USER_PROFILE
+  profile?: USER_PROFILE
 }
 
 export const userDataValidator = getValidator(userDataSchema, dataValidator)
@@ -118,7 +118,7 @@ export const userPatchSchema = Type.Partial(
 )
 
 export type UserPatch = Static<typeof userPatchSchema> & {
-  profile: typeof USER_PROFILE
+  profile: USER_PROFILE
 }
 
 export const userPatchValidator = getValidator(userPatchSchema, dataValidator)
@@ -131,13 +131,13 @@ const userPatchAdminSchema = Type.Partial(
 )
 
 export type UserPatchAdmin = Static<typeof userPatchAdminSchema> & {
-  profile: typeof USER_PROFILE
+  profile: USER_PROFILE
 }
 
 export const userPatchAdminValidator = getValidator(userPatchAdminSchema, dataValidator)
 
 export type UserResult = Static<typeof userSchema> & {
-  profile: typeof USER_PROFILE
+  profile: USER_PROFILE
 }
 
 export const userQuerySchema = Type.Intersect(

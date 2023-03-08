@@ -1,7 +1,7 @@
-export const USER_PROFILE = {
-  MEMBER: 'MEMBER',
-  CREATOR: 'CREATOR',
-  ADMIN: 'ADMIN',
+export enum USER_PROFILE {
+  MEMBER = 'MEMBER',
+  CREATOR = 'CREATOR',
+  ADMIN = 'ADMIN',
 }
 
 export const USERGROUP_PROFILE = {
