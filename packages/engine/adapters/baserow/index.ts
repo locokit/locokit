@@ -15,9 +15,9 @@ export class BaserowAdapter implements GenericAdapter {
   /**
    * Nothing to destroy for Baserow Adapter
    */
-  async destroy() { }
+  async destroy() {}
 
-  async boot() { }
+  async boot() {}
 
   /**
    * Depending the adapter type,
@@ -136,7 +136,7 @@ export class BaserowAdapter implements GenericAdapter {
     return rows.results
   }
 
-  async deleteRecord(tableName: string, id: string | number) {
+  async deleteRecord<T>(tableName: string, id: string | number): Promise<T | null> {
     console.log('delete record', tableName, id)
     const apiURL = this.apiURL + 'api/database/rows/table/' + tableName.replace('table_', '') + '/'
     const response = await fetch(apiURL, {
@@ -144,6 +144,6 @@ export class BaserowAdapter implements GenericAdapter {
         Authorization: 'Token ' + this.token,
       },
     })
-    return 1
+    return null
   }
 }

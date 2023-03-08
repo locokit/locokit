@@ -41,7 +41,6 @@ export class SQLAdapter implements GenericAdapter {
    * create objection model according table + columns schema
    */
   async boot(): Promise<void> {
-
     const inspector = schemaInspector(this.database)
     /**
      * Fetch all tables to create Objection's Model for each one
@@ -165,7 +164,6 @@ export class SQLAdapter implements GenericAdapter {
         }
       }
     })
-
   }
 
   async destroy() {
@@ -308,10 +306,12 @@ export class SQLAdapter implements GenericAdapter {
      * Remove id filter to add tableName in front of to avoid incoherence
      * TODO: need to be recursive
      */
-    Object.keys(realQuery).filter(k => k === 'id').forEach(k => {
-      realQuery[tableName + '.id'] = realQuery['id']
-      delete realQuery['id']
-    })
+    Object.keys(realQuery)
+      .filter((k) => k === 'id')
+      .forEach((k) => {
+        realQuery[tableName + '.id'] = realQuery['id']
+        delete realQuery['id']
+      })
     objectify(totalQuery, realQuery)
     const total = (await totalQuery) as unknown as Array<{
       count: string
@@ -341,20 +341,6 @@ export class SQLAdapter implements GenericAdapter {
       .insertAndFetch(data)) as unknown as T
   }
 
-  async patchRecord<T>(tableName: string, id: string | number, record: Partial<T>): Promise<T> {
-    console.log('patchRecord lck engine', tableName, id, record)
-    console.log('patchRecord lck engine', this.databaseObjectionModel[tableName])
-    const object = await this.databaseObjectionModel[tableName].query(this.database).findById(id)
-
-    console.log(object)
-
-    console.log(this.databaseObjectionModel[tableName])
-
-    return (await this.databaseObjectionModel[tableName]
-      .query(this.database)
-      .patchAndFetchById(id, record)) as unknown as T
-  }
-
   async updateRecord<T>(tableName: string, id: string | number, record: Partial<T>): Promise<T> {
     console.log('updateRecord lck engine', tableName, id, record)
     console.log('updateRecord lck engine', this.databaseObjectionModel[tableName])
@@ -369,7 +355,21 @@ export class SQLAdapter implements GenericAdapter {
       .updateAndFetchById(id, record)) as unknown as T
   }
 
-  async deleteRecord(tableName: string, id: string | number): Promise<number> {
+  async patchRecord<T>(tableName: string, id: string | number, record: Partial<T>): Promise<T> {
+    console.log('patchRecord lck engine', tableName, id, record)
+    console.log('patchRecord lck engine', this.databaseObjectionModel[tableName])
+    const object = await this.databaseObjectionModel[tableName].query(this.database).findById(id)
+
+    console.log(object)
+
+    console.log(this.databaseObjectionModel[tableName])
+
+    return (await this.databaseObjectionModel[tableName]
+      .query(this.database)
+      .patchAndFetchById(id, record)) as unknown as T
+  }
+
+  async deleteRecord<T>(tableName: string, id: string | number): Promise<T | null> {
     console.log('deleteRecord lck engine', tableName, id)
     console.log('deleteRecord lck engine', this.databaseObjectionModel[tableName])
     const object = await this.databaseObjectionModel[tableName].query(this.database).findById(id)
@@ -380,6 +380,8 @@ export class SQLAdapter implements GenericAdapter {
 
     console.log(this.databaseObjectionModel[tableName])
 
-    return await this.databaseObjectionModel[tableName].query(this.database).deleteById(id)
+    await this.databaseObjectionModel[tableName].query(this.database).deleteById(id)
+
+    return null
   }
 }

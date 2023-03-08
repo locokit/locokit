@@ -1,4 +1,5 @@
 import { Application } from '@/declarations'
+import { NotImplemented } from '@feathersjs/errors/lib'
 import { Id, Paginated, Params, ServiceMethods } from '@feathersjs/feathers'
 import { Validator } from '@feathersjs/schema'
 import { TSchema } from '@feathersjs/typebox'
@@ -12,7 +13,7 @@ type EngineParams = Partial<Params> & {
 }
 
 export class TableRecord<T = any, D = Partial<T>>
-  implements ServiceMethods<T | Paginated<T>, D, EngineParams>
+  implements ServiceMethods<T | Paginated<T>, D, EngineParams, D>
 {
   app!: Application
 
@@ -51,8 +52,10 @@ export class TableRecord<T = any, D = Partial<T>>
       ...params,
       query: {
         ...params.query,
-        $joinRelated: Array.isArray(params.query?.$joinRelated) ? params.query?.$joinRelated : [params.query?.$joinRelated]
-      }
+        $joinRelated: Array.isArray(params.query?.$joinRelated)
+          ? params.query?.$joinRelated
+          : [params.query?.$joinRelated],
+      },
     })
   }
 
@@ -67,31 +70,37 @@ export class TableRecord<T = any, D = Partial<T>>
   async create(data: D[], params: EngineParams): Promise<T[]>
   async create(data: D | D[], params: EngineParams): Promise<null | T | T[]> {
     console.log('create', data, params)
+    if (Array.isArray(data)) throw new NotImplemented('Multi creation is not yet implemented.')
     const adapter = params.$$adapter as EngineAdapter
 
-    return await adapter.createRecord(params.$$lckTable, data)
+    return await adapter.createRecord<T>(params.$$lckTable, data)
   }
 
-  async update(id: Id, data: D, params: EngineParams): Promise<T>
-  async update(id: Id, data: D, params: EngineParams): Promise<null | T> {
+  async update(id: Id, data: Partial<D>, params: EngineParams): Promise<T>
+  async update(id: null, data: Partial<D>, params: EngineParams): Promise<T[]>
+  async update(id: Id | null, data: Partial<D>, params: EngineParams): Promise<null | T | T[]> {
+    if (!id) throw new NotImplemented('Multi update is not yet implemented')
     console.log('update', id, data, params)
     const adapter = params.$$adapter as EngineAdapter
 
-    return await adapter.patchRecord(params.$$lckTable, id, data)
+    return await adapter.patchRecord<D>(params.$$lckTable, id, data)
   }
 
   async patch(id: Id, data: Partial<D>, params: EngineParams): Promise<T>
   async patch(id: null, data: Partial<D>, params: EngineParams): Promise<T[]>
   async patch(id: Id | null, data: Partial<D>, params: EngineParams): Promise<null | T | T[]> {
+    if (!id) throw new NotImplemented('Multi patch is not yet implemented')
     console.log('patch', id, data, params)
     const adapter = params.$$adapter as EngineAdapter
 
-    return await adapter.updateRecord(params.$$lckTable, id, data)
+    return await adapter.updateRecord<D>(params.$$lckTable, id, data)
   }
 
   async remove(id: Id, params: EngineParams): Promise<T>
   async remove(id: null, params: EngineParams): Promise<T[]>
   async remove(id: Id | null, params: EngineParams): Promise<null | T | T[]> {
+    if (!id)
+      throw new NotImplemented('Id for removal is mandatory. Multi remove are not yet implemented.')
     console.log('remove', id, params)
     const adapter = params.$$adapter as EngineAdapter
 

@@ -95,13 +95,21 @@ export interface GenericAdapter {
     params?: Params & { query: Record<string, any> },
   ) => Promise<PaginatedResult<T>>
 
-  createRecord: <T>(tableName: string, record: Partial<T>) => Promise<T>
+  createRecord: <Result>(tableName: string, record: Partial<Result>) => Promise<Result>
 
-  getRecord: <T>(tableName: string, id: string | number) => Promise<T>
+  getRecord: <Result>(tableName: string, id: string | number) => Promise<Result>
 
-  patchRecord: <T>(tableName: string, id: string | number, record: Partial<T>) => Promise<T>
+  patchRecord: <Result, PatchData extends Partial<Result> = Partial<Result>>(
+    tableName: string,
+    id: string | number,
+    record: PatchData,
+  ) => Promise<Result>
 
-  updateRecord: <T>(tableName: string, id: string | number, record: Partial<T>) => Promise<T>
+  updateRecord: <Result, UpdateData extends Partial<Result> = Partial<Result>>(
+    tableName: string,
+    id: string | number,
+    record: UpdateData,
+  ) => Promise<Result>
 
-  deleteRecord: (tableName: string, id: string | number) => Promise<number>
+  deleteRecord: <Result>(tableName: string, id: string | number) => Promise<Result | null>
 }
