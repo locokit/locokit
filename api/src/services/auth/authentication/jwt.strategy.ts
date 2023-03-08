@@ -30,7 +30,7 @@ export class JWTStrategyEnhanced extends JWTStrategy {
     user: UserResult
     ability: AnyMongoAbility
   }> {
-    jwtLogger.info('authenticate() with params', params)
+    jwtLogger.info('authenticate()')
     const superResult = (await super.authenticate(authentication, params)) as {
       accessToken: any
       authentication: {

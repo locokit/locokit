@@ -1,8 +1,10 @@
 import { authenticate } from '@feathersjs/authentication'
 import { HookOptions } from '@feathersjs/feathers'
+import { resolveExternal } from '@feathersjs/schema/lib'
 import { AuthenticationManagementService } from 'feathers-authentication-management/dist'
 import { iff, lowerCase, ContextFunction } from 'feathers-hooks-common'
 import { Application, HookContext } from '../../../declarations'
+import { userDispatchResolver } from '../user/user.resolver'
 import { enforcePasswordPolicy } from './enforcePasswordPolicy.hook'
 
 const isAction =
@@ -29,5 +31,8 @@ export const hooks: HookOptions<Application, AuthenticationManagementService> = 
         enforcePasswordPolicy(getPassword),
       ),
     ],
+  },
+  after: {
+    create: [resolveExternal(userDispatchResolver)],
   },
 }

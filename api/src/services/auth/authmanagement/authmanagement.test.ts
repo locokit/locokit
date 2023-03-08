@@ -47,4 +47,7 @@ describe("'authManagement' service", () => {
     const user = await app.service('user').create(credentials)
     expect(diffDays(user.verifyExpires)).toBe(10)
   })
+
+  // implemented but need to be tester on several endpoints
+  it.todo('does not send user information as a result, only username and id')
 })
