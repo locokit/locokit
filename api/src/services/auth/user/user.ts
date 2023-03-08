@@ -1,4 +1,4 @@
-import { ObjectionAdapterOptions } from '../../../feathers-objection'
+import { ObjectionAdapterOptions } from '@/feathers-objection'
 import type { Application } from '../../../declarations'
 import { hooks } from './user.hooks'
 import { API_PATH } from '@locokit/definitions'

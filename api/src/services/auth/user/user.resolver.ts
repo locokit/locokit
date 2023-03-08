@@ -4,7 +4,7 @@ import { passwordHash } from '@feathersjs/authentication-local'
 import type { HookContext } from '../../../declarations'
 import { UserPatch, UserResult, UserQuery, UserPatchAdmin } from './user.schema'
 import { generatePassword } from '../../../utils/password'
-import { workspaceDispatchResolver } from '../../workspace/workspace.resolver'
+import { workspaceDispatchResolver } from '@/services/core/workspace/core-workspace.resolver'
 import { USER_PROFILE } from '@locokit/definitions'
 
 // Resolver for the basic data model (e.g. creating new entries)
@@ -138,6 +138,8 @@ export const userDispatchResolver: Resolver<UserResult, HookContext> = resolve<
   validate: false,
   properties: {
     isVerified: async () => undefined,
+    blocked: async () => undefined,
+    avatarURL: async () => undefined,
     createdAt: async () => undefined,
     updatedAt: async () => undefined,
     profile: async () => undefined,

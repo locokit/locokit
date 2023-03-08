@@ -1,4 +1,4 @@
-import { resolveData, validateData } from '@feathersjs/schema'
+import { resolveData, validateData, validateQuery } from '@feathersjs/schema'
 import { authenticate } from '@feathersjs/authentication'
 import { userCreateResolver, userPatchResolver, userPatchAdminResolver } from './user.resolver'
 import { disallow, iff, isProvider } from 'feathers-hooks-common'
@@ -8,7 +8,7 @@ import { HookOptions } from '@feathersjs/feathers'
 import type { Application, HookContext } from '../../../declarations'
 import { UserService } from './user.class'
 import { authManagementSettings } from '../authmanagement/authmanagement.settings'
-import { userDataValidator, userPatchAdminValidator, userPatchValidator } from './user.schema'
+import { userDataValidator, userPatchAdminValidator, userPatchValidator, userQueryValidator } from './user.schema'
 
 export const hooks: HookOptions<Application, UserService> = {
   around: {
@@ -21,13 +21,13 @@ export const hooks: HookOptions<Application, UserService> = {
     get: [
       // limit the get to the current logged user
       // unless it's an admin
-      validateData(userDataValidator),
+      validateQuery(userQueryValidator),
     ],
     find: [
       // need to be admin to make queries on some fields
       // otherwise, could search on "username"
       // need to return only "username" for non admin users
-      validateData(userDataValidator),
+      validateQuery(userQueryValidator),
     ],
     create: [
       /**

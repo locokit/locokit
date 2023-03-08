@@ -1,7 +1,7 @@
 import { USER_PROFILE } from '@locokit/definitions'
-import { Type, querySyntax, Static, getDataValidator } from '@feathersjs/typebox'
-import { dataValidator } from '../../../commons/validators'
-import { queryStringExtend } from '../../../feathers-objection'
+import { queryStringExtend } from '@/feathers-objection'
+import { Type, querySyntax, Static, getValidator } from '@feathersjs/typebox'
+import { dataValidator, queryValidator } from '@/commons/validators'
 
 // Schema for the basic data model (e.g. creating new entries)
 export const userSchema = Type.Object(
@@ -85,10 +85,10 @@ export const userDataSchema = Type.Object(
 )
 
 export type UserData = Static<typeof userDataSchema> & {
-  profile?: USER_PROFILE
+  profile: typeof USER_PROFILE
 }
 
-export const userDataValidator = getDataValidator(userDataSchema, dataValidator)
+export const userDataValidator = getValidator(userDataSchema, dataValidator)
 
 // Schema for making partial updates
 export const userPatchSchema = Type.Partial(
@@ -118,10 +118,10 @@ export const userPatchSchema = Type.Partial(
 )
 
 export type UserPatch = Static<typeof userPatchSchema> & {
-  profile: USER_PROFILE
+  profile: typeof USER_PROFILE
 }
 
-export const userPatchValidator = getDataValidator(userPatchSchema, dataValidator)
+export const userPatchValidator = getValidator(userPatchSchema, dataValidator)
 
 const userPatchAdminSchema = Type.Partial(
   Type.Omit(userSchema, ['id', 'password', 'createdAt', 'lastConnection']),
@@ -131,13 +131,13 @@ const userPatchAdminSchema = Type.Partial(
 )
 
 export type UserPatchAdmin = Static<typeof userPatchAdminSchema> & {
-  profile: USER_PROFILE
+  profile: typeof USER_PROFILE
 }
 
-export const userPatchAdminValidator = getDataValidator(userPatchAdminSchema, dataValidator)
+export const userPatchAdminValidator = getValidator(userPatchAdminSchema, dataValidator)
 
 export type UserResult = Static<typeof userSchema> & {
-  profile: USER_PROFILE
+  profile: typeof USER_PROFILE
 }
 
 export const userQuerySchema = Type.Intersect(
@@ -186,3 +186,4 @@ export const userQuerySchema = Type.Intersect(
 )
 
 export type UserQuery = Static<typeof userQuerySchema>
+export const userQueryValidator = getValidator(userQuerySchema, queryValidator)

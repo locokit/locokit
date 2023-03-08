@@ -1,0 +1,72 @@
+import { Type, Static, querySyntax, getValidator } from '@feathersjs/typebox'
+import { dataValidator, queryValidator } from '@/commons/validators'
+
+export const tableFieldSchema = Type.Object(
+  {
+    id: Type.String({
+      format: 'uuid',
+    }),
+    name: Type.String({
+      description: 'Name of the field',
+    }),
+    type: Type.String({
+      description: 'Type of the field',
+    }),
+    dbType: Type.String({
+      description: 'Database type of the field',
+    }),
+    slug: Type.String({
+      description: 'Slug of the field (column name for the database)',
+    }),
+    tableId: Type.String({
+      format: 'uuid',
+      description: 'Related table of the tableField',
+    }),
+    settings: Type.Any({
+      description: 'Field settings'
+    }),
+    createdAt: Type.String({
+      format: 'date-time',
+      description: 'Creation date of the field',
+    }),
+    updatedAt: Type.String({
+      format: 'date-time',
+      description: 'Update date of the field',
+    }),
+  },
+  {
+    $id: 'TableFieldSchema',
+    additionalProperties: false,
+  },
+)
+
+export type TableFieldSchema = Static<typeof tableFieldSchema>
+
+export const tableFieldDataSchema = Type.Omit(tableFieldSchema, ['id', 'createdAt', 'updatedAt'], {
+  $id: 'TableFieldData',
+  additionalProperties: false,
+})
+export type TableFieldData = Static<typeof tableFieldDataSchema>
+export const tableFieldDataValidator = getValidator(tableFieldDataSchema, dataValidator)
+
+export const tableFieldPatchSchema = Type.Omit(tableFieldDataSchema, ['tableId'], {
+  $id: 'TableFieldPatch',
+  additionalProperties: false
+})
+export type TableFieldPatch = Static<typeof tableFieldPatchSchema>
+export const tableFieldPatchValidator = getValidator(tableFieldPatchSchema, dataValidator)
+
+// Schema for the data that is being returned
+export const tableFieldResultSchema = Type.Omit(tableFieldSchema, [], {
+  $id: 'TableFieldResult',
+  additionalProperties: false
+})
+export type TableFieldResult = Static<typeof tableFieldResultSchema>
+
+// Schema for allowed query properties
+export const tableFieldQuerySchema = querySyntax(Type.Omit(tableFieldSchema, [], {
+  $id: 'TableFieldQuery',
+  additionalProperties: false
+}))
+export type TableFieldQuery = Static<typeof tableFieldQuerySchema>
+export const tableFieldQueryValidator = getValidator(tableFieldQuerySchema, queryValidator)
