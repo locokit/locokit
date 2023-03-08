@@ -1,5 +1,4 @@
-import { Params } from '@feathersjs/feathers'
-import { LocoKitEngine } from '@locokit/engine'
+import { createAdapter } from '@locokit/engine'
 import { Connexion } from '@locokit/engine/adapters/interface'
 import { getJSONTypeFromSQLType } from '@locokit/engine/utils/sqlTypeConverter'
 
@@ -13,7 +12,7 @@ export class SwaggerService {
   }
 
   async generateOpenAPISpec() {
-    const adapter = await LocoKitEngine.createAdapter(this.connexion)
+    const adapter = await createAdapter(this.connexion)
     const schemaTables = await adapter.retrieveSchema()
 
     const definitions: Record<string, any> = {}
@@ -58,19 +57,14 @@ export class SwaggerService {
       }
       definitions[currentTable.name] = {
         type: 'object',
-        required: [
-          currentTable.fields.filter((c) => !c.is_nullable).map((c) => c.name),
-        ],
+        required: [currentTable.fields.filter((c) => !c.is_nullable).map((c) => c.name)],
         tags: [currentTable.name],
-        properties: currentTable.fields.reduce<Record<string, any>>(
-          (result, c) => {
-            result[c.name] = {
-              type: getJSONTypeFromSQLType(c.data_type),
-            }
-            return result
-          },
-          {},
-        ),
+        properties: currentTable.fields.reduce<Record<string, any>>((result, c) => {
+          result[c.name] = {
+            type: getJSONTypeFromSQLType(c.data_type),
+          }
+          return result
+        }, {}),
       }
     })
 
@@ -97,7 +91,7 @@ export class SwaggerService {
   }
 
   async generateGraphQLSpec() {
-    const adapter = await LocoKitEngine.createAdapter(this.connexion)
+    const adapter = await createAdapter(this.connexion)
     const schemaTables = await adapter.retrieveSchema()
     let schema = ''
     let QueryString = '  type Query {'
@@ -106,26 +100,18 @@ export class SwaggerService {
     }
     schemaTables.forEach((currentTable) => {
       const resolverName =
-        currentTable.name === 'baserow'
-          ? 'qb_' + currentTable.name
-          : currentTable.name
+        currentTable.name === 'baserow' ? 'qb_' + currentTable.name : currentTable.name
       resolvers.Query[resolverName] = async () => {
         return await adapter.queryTable(currentTable.name)
       }
       schema += `
         type LCK_${currentTable.name} {
         ${currentTable.fields
-          .map(
-            (f) =>
-              `    ${f.name}: String${
-                '' /* f.is_nullable === true ? '' : '!' */
-              }`,
-          )
+          .map((f) => `    ${f.name}: String${'' /* f.is_nullable === true ? '' : '!' */}`)
           .join('\n')}
         }
       `
-      QueryString +=
-        '\n    ' + resolverName + ': [LCK_' + currentTable.name + ']'
+      QueryString += '\n    ' + resolverName + ': [LCK_' + currentTable.name + ']'
     })
     QueryString += '\n  }'
     schema += QueryString
