@@ -66,7 +66,7 @@ import PrimeButton from 'primevue/button'
 import { useI18n } from 'vue-i18n'
 import { ROUTES_NAMES } from '../../paths'
 import { useStoreWorkspaces } from '../../stores/workspaces'
-import WithBanner from '../../layouts/WithBanner.vue'
+import WithBanner from '../../layouts/WithHeader.vue'
 import { useHead, onMounted } from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })

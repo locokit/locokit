@@ -13,8 +13,8 @@ import { ROUTES_PATH } from '../paths'
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.hook('app:mounted', async () => {
     const authStore = useStoreAuth(nuxtApp.$pinia)
-
-    if (authStore.isAuthenticated) {
+    const { isAuthenticated } = storeToRefs(authStore)
+    if (isAuthenticated.value) {
       // Check if current user is still connected
       await authStore.reAuthenticate()
     }

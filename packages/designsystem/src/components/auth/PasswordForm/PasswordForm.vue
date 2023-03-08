@@ -81,7 +81,7 @@
     <ButtonWithStatus
       type="submit"
       :label="labelSubmit"
-      class="w-full border"
+      class="!w-full border"
       :disabled="loading || !valid || !touched"
       :status-form="error ? 'failed' : null"
       icon="bi bi-save2"

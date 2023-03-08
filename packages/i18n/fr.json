@@ -99,7 +99,7 @@
     }
   },
   "layouts": {
-    "withBanner": {
+    "WithHeader": {
       "openMenu": "Ouvrir le menu",
       "closeMenu": "Fermer le menu",
       "home": "Accueil",

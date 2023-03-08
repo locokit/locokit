@@ -1,7 +1,7 @@
 <template>
   <Story title="Profile/UpdateUsernameForm Form" icon="bi:person-fill">
     <Variant title="default">
-      <UpdateUsernameForm
+      <UpdateGeneralForm
         :user="{
           id: 1,
           email: 'contact@locokit.com',
@@ -16,12 +16,11 @@
 
 <script setup lang="ts">
 import { logEvent } from 'histoire/client'
-
-import UpdateUsernameForm from '../../components/profile/UpdateUsernameForm/UpdateUsernameForm.vue'
+import UpdateGeneralForm from '../../components/profile/UpdateGeneralForm/UpdateGeneralForm.vue'
 </script>
 
 <docs lang="md">
-### UpdateUsernameForm
+### UpdateGeneralForm
 
-Allow user to update its name/username
+Form which allow an user to update its profile if this user is already logged.
 </docs>

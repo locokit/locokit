@@ -15,7 +15,7 @@
 import { WorkspaceForm } from '@locokit/designsystem'
 import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
-import WithBanner from '../../layouts/WithBanner.vue'
+import WithBanner from '../../layouts/WithHeader.vue'
 import { ROUTES_NAMES } from '../../paths'
 import { useStoreWorkspaces } from '../../stores/workspaces'
 import { useHead, useRouter } from '#imports'

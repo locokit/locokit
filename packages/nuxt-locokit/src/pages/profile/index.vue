@@ -47,7 +47,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import WithBanner from '../../layouts/WithBanner.vue'
+import WithBanner from '../../layouts/WithHeader.vue'
 import { ROUTES_NAMES } from '../../paths'
 import { useHead } from '#imports'
 

@@ -148,7 +148,7 @@ export default defineNuxtModule<ModuleOptions>({
     // )
     addLayout(
       {
-        src: resolve(layoutsDir, './WithBanner.vue'),
+        src: resolve(layoutsDir, './WithHeader.vue'),
       },
       'WithBanner',
     )

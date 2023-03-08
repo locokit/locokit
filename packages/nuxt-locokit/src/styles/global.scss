@@ -283,3 +283,10 @@ span.failed {
 .bi {
   font-size: 1.25rem;
 }
+
+/*
+  Override nuxt
+*/
+#__nuxt {
+  height: 100%;
+}

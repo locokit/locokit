@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-full flex flex-col">
     <header class="relative z-10 bg-white lg:w-full shadow-md">
       <div class="relative px-4 py-6 sm:px-6 lg:px-8">
         <nav
@@ -21,7 +21,7 @@
                   @click="toggleMenu"
                 >
                   <span class="sr-only">
-                    {{ $t('layouts.withBanner.openMenu') }}
+                    {{ $t('layouts.WithHeader.openMenu') }}
                   </span>
                   <svg
                     class="h-6 w-6"
@@ -59,7 +59,7 @@
                 class="mr-1"
               />
               <p>
-                {{ $t('layouts.withBanner.' + navLink.title) }}
+                {{ $t('layouts.WithHeader.' + navLink.title) }}
               </p>
             </NuxtLink>
           </div>
@@ -70,7 +70,7 @@
             @click="logout"
           >
             <i class="bi bi-door-open-fill mr-1" />
-            <span> {{ $t('layouts.withBanner.logout') }} </span>
+            <span> {{ $t('layouts.WithHeader.logout') }} </span>
           </button>
         </nav>
       </div>
@@ -98,7 +98,7 @@
                 @click="toggleMenu"
               >
                 <span class="sr-only">
-                  {{ $t('layouts.withBanner.closeMenu') }}
+                  {{ $t('layouts.WithHeader.closeMenu') }}
                 </span>
                 <svg
                   class="h-6 w-6"
@@ -135,7 +135,7 @@
                 class="mr-1"
               />
               <p>
-                {{ $t('layouts.withBanner.' + navLink.title) }}
+                {{ $t('layouts.WithHeader.' + navLink.title) }}
               </p>
             </NuxtLink>
             <button
@@ -144,13 +144,15 @@
               @click="logout"
             >
               <i class="bi bi-door-open-fill mr-1" />
-              {{ $t('layouts.withBanner.logout') }}
+              {{ $t('layouts.WithHeader.logout') }}
             </button>
           </div>
         </div>
       </div>
     </header>
-    <slot />
+    <div class="h-full">
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -201,7 +203,7 @@ const navLinks = computed(() => {
         {
           routeName: ROUTES_NAMES.AUTH.SIGN_UP,
           title: 'signUp',
-          icon: 'bi-person-lines-fill',
+          icon: 'bi-person-plus-fill',
         },
       ]
 })
