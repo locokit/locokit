@@ -39,40 +39,29 @@ export const coreTableResultSchema = coreTableSchema
 export type CoreTableResult = Static<typeof coreTableResultSchema>
 
 // Schema for allowed query properties
-export const coreTableQuerySchema = Type.Intersect([
-  querySyntax(
-    Type.Omit(
-      coreTableSchema, [],
-      { $id: 'CoreTableQuery', additionalProperties: false },
+export const coreTableQuerySchema = Type.Intersect(
+  [
+    querySyntax(
+      Type.Omit(coreTableSchema, [], { $id: 'CoreTableQuery', additionalProperties: false }),
     ),
-  ),
-  Type.Object({
-    $joinRelated: Type.Optional(
-      Type.RegEx(
-        /datasource/,
-        {
+    Type.Object({
+      $joinRelated: Type.Optional(
+        Type.RegEx(/datasource/, {
           description: 'Join table to its datasource. Only `datasource` is accepted.',
-        },
+        }),
       ),
-    ),
-    $joinEager: Type.Optional(
-      Type.RegEx(
-        /datasource/,
-        {
+      $joinEager: Type.Optional(
+        Type.RegEx(/datasource/, {
           description: 'Join table to its datasource. Only `datasource` is accepted.',
-        },
+        }),
       ),
-    ),
-    $eager: Type.Optional(
-      Type.RegEx(
-        /datasource/,
-        {
+      $eager: Type.Optional(
+        Type.RegEx(/datasource/, {
           description: 'Join table to its datasource. Only `datasource` is accepted.',
-        },
+        }),
       ),
-    ),
-  }),
-],
+    }),
+  ],
   { additionalProperties: false, $id: 'CoreTableQuery' },
 )
 

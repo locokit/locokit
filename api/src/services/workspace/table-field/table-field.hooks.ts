@@ -8,19 +8,20 @@ import { tableFieldDataValidator, tableFieldQueryValidator } from './table-field
 import { SERVICES } from '@locokit/definitions'
 import { TableResult } from '../table/table.schema'
 
-
 async function setWorkspaceSchema(context: HookContext) {
   const { transaction } = context.params
   const tableId = context.method === 'create' ? context.data.tableId : context.params.query.tableId
-  const table = await context.app.service(SERVICES.CORE_TABLE).get(tableId, {
+  const table = (await context.app.service(SERVICES.CORE_TABLE).get(tableId, {
     transaction,
     query: {
-      $eager: 'datasource'
-    }
-  }) as TableResult
-  const workspace = await context.app.service(SERVICES.CORE_WORKSPACE).get(table.datasource.workspaceId, {
-    transaction,
-  })
+      $eager: 'datasource',
+    },
+  })) as TableResult
+  const workspace = await context.app
+    .service(SERVICES.CORE_WORKSPACE)
+    .get(table.datasource.workspaceId, {
+      transaction,
+    })
   context.service.schema = `w_${workspace.slug}`
   return context
 }
@@ -34,23 +35,21 @@ export const tableFieldHooks = {
     get: [
       schemaHooks.resolveQuery(tableFieldResolvers.query),
       schemaHooks.validateData(tableFieldQueryValidator),
-      setWorkspaceSchema
+      setWorkspaceSchema,
     ],
     find: [
       schemaHooks.resolveQuery(tableFieldResolvers.query),
       schemaHooks.validateData(tableFieldQueryValidator),
-      setWorkspaceSchema
+      setWorkspaceSchema,
     ],
     create: [
       schemaHooks.resolveData(tableFieldResolvers.data.create),
       schemaHooks.validateData(tableFieldDataValidator),
-      setWorkspaceSchema
+      setWorkspaceSchema,
     ],
   },
   after: {
-    all: [
-      transaction.end()
-    ],
+    all: [transaction.end()],
   },
   error: {
     all: [transaction.rollback()],

@@ -28,11 +28,17 @@ export const tableSchema = Type.Object(
       description: 'Related datasource',
     }),
 
-    datasource: Type.Optional(Type.Any({ description: 'Related datasource', $schema: 'DatasourceSchema' })),
-    fields: Type.Optional(Type.Array(Type.Any({
-      description: 'Related fields',
-      $schema: 'TableFieldSchema'
-    })))
+    datasource: Type.Optional(
+      Type.Any({ description: 'Related datasource', $schema: 'DatasourceSchema' }),
+    ),
+    fields: Type.Optional(
+      Type.Array(
+        Type.Any({
+          description: 'Related fields',
+          $schema: 'TableFieldSchema',
+        }),
+      ),
+    ),
   },
   {
     $id: 'TableSchema',
@@ -65,7 +71,7 @@ export const tableDataValidator = getValidator(tableDataSchema, dataValidator)
  */
 export const tablePatchSchema = Type.Partial(tableDataSchema, {
   additionalProperties: false,
-  $id: 'TablePatchSchema'
+  $id: 'TablePatchSchema',
 })
 export type TablePatch = Static<typeof tablePatchSchema>
 
@@ -76,10 +82,12 @@ export const tableQuerySchema = Type.Intersect(
   [
     querySyntax(Type.Omit(tableSchema, ['datasource', 'fields', 'datasourceId'])),
     Type.Object({
-      datasourceId: Type.Optional(Type.String({
-        format: 'uuid',
-        description: 'Related datasource',
-      })),
+      datasourceId: Type.Optional(
+        Type.String({
+          format: 'uuid',
+          description: 'Related datasource',
+        }),
+      ),
       $joinRelated: Type.Optional(
         Type.RegEx(
           /datasource|fields|relations|\[datasource,fields\]|\[datasource,relations\]|\[fields,relations\]|\[datasource,fields,relations\]/,

@@ -2,11 +2,7 @@ import { resolve } from '@feathersjs/schema'
 import type { HookContext } from '../../../declarations'
 import { toSnakeCase } from '@/utils/toSnakeCase'
 
-import type {
-  CoreTablePatch,
-  CoreTableResult,
-  CoreTableQuery,
-} from './core-table.schema'
+import type { CoreTablePatch, CoreTableResult, CoreTableQuery } from './core-table.schema'
 
 // Resolver for making partial updates
 export const coreTablePatchResolver = resolve<CoreTablePatch, HookContext>({

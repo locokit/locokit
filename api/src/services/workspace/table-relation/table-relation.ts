@@ -3,7 +3,11 @@ import type { Application } from '../../../declarations'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
 import { TableRelationModel } from './table-relation.model'
 import { TableRelation } from './table-relation.class'
-import { tableRelationDataSchema, tableRelationQuerySchema, tableRelationSchema } from './table-relation.schema'
+import {
+  tableRelationDataSchema,
+  tableRelationQuerySchema,
+  tableRelationSchema,
+} from './table-relation.schema'
 import { tableRelationHooks } from './table-relation.hooks'
 
 /**

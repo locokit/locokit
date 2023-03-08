@@ -12,7 +12,7 @@ export function coreDatasourceService(app: Application): void {
     paginate: app.get('paginate'),
     Model: CoreDatasourceModel,
     name: 'lck_datasource',
-    schema: 'core'
+    schema: 'core',
   }
 
   // Register our service on the Feathers application

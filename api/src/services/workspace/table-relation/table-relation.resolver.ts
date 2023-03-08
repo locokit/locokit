@@ -9,8 +9,7 @@ import type {
 } from './table-relation.schema'
 
 // Resolver for the basic data model (e.g. creating new entries)
-export const tableRelationDataResolver = resolve<TableRelationData, HookContext>({
-})
+export const tableRelationDataResolver = resolve<TableRelationData, HookContext>({})
 
 // Resolver for making partial updates
 export const tableRelationPatchResolver = resolve<TableRelationPatch, HookContext>({})
@@ -18,8 +17,7 @@ export const tableRelationPatchResolver = resolve<TableRelationPatch, HookContex
 export const tableRelationResultResolver = resolve<TableRelationResult, HookContext>({})
 
 // Resolver for query properties
-export const tableRelationQueryResolver = resolve<TableRelationQuery, HookContext>({
-})
+export const tableRelationQueryResolver = resolve<TableRelationQuery, HookContext>({})
 
 // Export all resolvers in a format that can be used with the resolveAll hook
 export const tableRelationResolvers = {

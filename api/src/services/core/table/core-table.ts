@@ -12,7 +12,7 @@ export function coreTableService(app: Application): void {
     paginate: app.get('paginate'),
     Model: CoreTableModel,
     name: 'lck_table',
-    schema: 'core'
+    schema: 'core',
   }
 
   // Register our service on the Feathers application

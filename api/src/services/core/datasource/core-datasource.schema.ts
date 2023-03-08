@@ -77,70 +77,62 @@ export type CoreDatasourceResult = Static<typeof coreDatasourceResultSchema> & {
 }
 
 // Schema for allowed query properties
-export const coreDatasourceQuerySchema = Type.Intersect([
-  querySyntax(
-    Type.Omit(
-      coreDatasourceSchema,
-      ['credentialsRead', 'credentialsReadWrite', 'credentialsAlter', 'connection'],
-      { $id: 'CoreDatasourceQuery', additionalProperties: false },
-    ),
-  ),
-  querySyntax(
-    Type.Object({
-      'workspace.slug': Type.Optional(
-        Type.String({
-          description: "Filter datasource on the workspace's slug",
-        }),
+export const coreDatasourceQuerySchema = Type.Intersect(
+  [
+    querySyntax(
+      Type.Omit(
+        coreDatasourceSchema,
+        ['credentialsRead', 'credentialsReadWrite', 'credentialsAlter', 'connection'],
+        { $id: 'CoreDatasourceQuery', additionalProperties: false },
       ),
-    }),
-    {
-      'workspace.slug': {
-        // @ts-expect-error
-        $like: {
-          type: 'string',
-        },
-        // @ts-expect-error
-        $ilike: {
-          type: 'string',
+    ),
+    querySyntax(
+      Type.Object({
+        'workspace.slug': Type.Optional(
+          Type.String({
+            description: "Filter datasource on the workspace's slug",
+          }),
+        ),
+      }),
+      {
+        'workspace.slug': {
+          // @ts-expect-error
+          $like: {
+            type: 'string',
+          },
+          // @ts-expect-error
+          $ilike: {
+            type: 'string',
+          },
         },
       },
-    },
-  ),
+    ),
 
-  Type.Object({
-    $joinRelated: Type.Optional(
-      Type.RegEx(
-        /workspace/,
-        {
+    Type.Object({
+      $joinRelated: Type.Optional(
+        Type.RegEx(/workspace/, {
           description: 'Join datasource to its workspace. Only `workspace` is accepted.',
-        },
+        }),
       ),
-    ),
-    $joinEager: Type.Optional(
-      Type.RegEx(
-        /workspace/,
-        {
+      $joinEager: Type.Optional(
+        Type.RegEx(/workspace/, {
           description: 'Join datasource to its workspace. Only `workspace` is accepted.',
-        },
+        }),
       ),
-    ),
-    $eager: Type.Optional(
-      Type.RegEx(
-        /workspace/,
-        {
+      $eager: Type.Optional(
+        Type.RegEx(/workspace/, {
           description: 'Join datasource to its workspace. Only `workspace` is accepted.',
-        },
+        }),
       ),
-    ),
-    // $select: Type.Optional(
-    //   Type.Array(
-    //     Type.String({
-    //       description: 'Join workspace to its relation. Only `owner` is accepted.',
-    //     }),
-    //   ),
-    // ),
-  }),
-],
+      // $select: Type.Optional(
+      //   Type.Array(
+      //     Type.String({
+      //       description: 'Join workspace to its relation. Only `owner` is accepted.',
+      //     }),
+      //   ),
+      // ),
+    }),
+  ],
   { additionalProperties: false, $id: 'CoreDatasourceQuery' },
 )
 

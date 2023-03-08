@@ -14,49 +14,54 @@ export const getKnex = (context: HookContext): Knex => {
 
 export const start =
   () =>
-    async (context: HookContext): Promise<void> => {
-      const { transaction } = context.params
-      const parent = transaction
-      const knex: Knex = transaction ? transaction.trx : getKnex(context)
+  async (context: HookContext): Promise<void> => {
+    const { transaction } = context.params
+    const parent = transaction
+    const knex: Knex = transaction ? transaction.trx : getKnex(context)
 
-      if (!knex) {
-        return
+    if (!knex) {
+      return
+    }
+
+    await new Promise<void>((resolve, reject) => {
+      const transaction: ObjectionAdapterTransaction = {
+        starting: true,
       }
 
-      await new Promise<void>((resolve, reject) => {
-        const transaction: ObjectionAdapterTransaction = {
-          starting: true,
-        }
+      if (parent) {
+        transaction.parent = parent
+        transaction.committed = parent.committed
+      } else {
+        transaction.committed = new Promise((resolve) => {
+          transaction.resolve = resolve
+        })
+      }
 
-        if (parent) {
-          transaction.parent = parent
-          transaction.committed = parent.committed
-        } else {
-          transaction.committed = new Promise((resolve) => {
-            transaction.resolve = resolve
-          })
-        }
+      transaction.starting = true
+      transaction.promise = knex
+        .transaction((trx) => {
+          transaction.trx = trx
+          transaction.id = Date.now()
 
-        transaction.starting = true
-        transaction.promise = knex
-          .transaction((trx) => {
-            transaction.trx = trx
-            transaction.id = Date.now()
+          context.params = { ...context.params, transaction }
+          objectionLogger.info(
+            '[%s] new transaction [%s] %s',
+            transaction.id,
+            context.method,
+            context.path,
+          )
 
-            context.params = { ...context.params, transaction }
-            objectionLogger.info('[%s] new transaction [%s] %s', transaction.id, context.method, context.path)
-
-            resolve()
-          })
-          .catch((error) => {
-            if (transaction.starting) {
-              reject(error)
-            } else if (error !== ROLLBACK) {
-              throw error
-            }
-          })
-      })
-    }
+          resolve()
+        })
+        .catch((error) => {
+          if (transaction.starting) {
+            reject(error)
+          } else if (error !== ROLLBACK) {
+            throw error
+          }
+        })
+    })
+  }
 
 export const end = () => (context: HookContext) => {
   const { transaction } = context.params

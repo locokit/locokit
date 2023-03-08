@@ -9,8 +9,8 @@ import { enforcePasswordPolicy } from './enforcePasswordPolicy.hook'
 
 const isAction =
   (...args: string[]): ContextFunction<boolean, HookContext> =>
-    (context: HookContext): boolean =>
-      args.includes(context.data.action)
+  (context: HookContext): boolean =>
+    args.includes(context.data.action)
 
 const getPassword = (hook: HookContext): string => hook.data.value.password
 

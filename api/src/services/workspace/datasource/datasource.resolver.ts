@@ -66,7 +66,12 @@ export const datasourceQueryResolver = resolve<DatasourceQuery, HookContext>({
    * Check also if the user is authorized to access this workspace
    */
   async workspaceId(value, _data, context) {
-    datasourceLogger.debug('[%s] workspaceId resolver with id %s and slug %s', context.method, context.id, context.params.route.workspaceSlug)
+    datasourceLogger.debug(
+      '[%s] workspaceId resolver with id %s and slug %s',
+      context.method,
+      context.id,
+      context.params.route.workspaceSlug,
+    )
     if (value) return value
     const { transaction } = context.params
 
@@ -96,7 +101,6 @@ export const datasourceQueryResolver = resolve<DatasourceQuery, HookContext>({
       if (workspace.total !== 1) throw new NotFound('Workspace not found')
       return workspace.data[0].id as string
     }
-
   },
 })
 

@@ -85,7 +85,7 @@ export const tableRecordHooks = {
           route: {
             workspaceSlug: workspaceSlug,
             datasourceSlug: datasourceSlug,
-          }
+          },
         })
 
         console.log(tableResponse)
@@ -96,7 +96,7 @@ export const tableRecordHooks = {
         const table = tableResponse.data[0]
         const tableSchema: Record<string, TSchema> = {}
 
-        table.fields?.forEach(f => {
+        table.fields?.forEach((f) => {
           switch (f.type) {
             case FIELD_TYPE.STRING:
             case FIELD_TYPE.TEXT:
@@ -104,12 +104,12 @@ export const tableRecordHooks = {
               break
             case FIELD_TYPE.DATE:
               tableSchema[f.slug] = Type.String({
-                format: 'date'
+                format: 'date',
               })
               break
             case FIELD_TYPE.DATETIME:
               tableSchema[f.slug] = Type.String({
-                format: 'datetime'
+                format: 'datetime',
               })
               break
             case FIELD_TYPE.BOOLEAN:
@@ -124,32 +124,45 @@ export const tableRecordHooks = {
               break
 
             default:
-              throw new Error('[' + f.slug + '] Field type not recognized for validation : ' + f.type + '/' + f.dbType)
+              throw new Error(
+                '[' +
+                  f.slug +
+                  '] Field type not recognized for validation : ' +
+                  f.type +
+                  '/' +
+                  f.dbType,
+              )
           }
         })
 
         let tableRelationRegexp = new RegExp('')
-        table.relations?.forEach(r => {
+        table.relations?.forEach((r) => {
           tableRelationRegexp = new RegExp(r.settings.tableTo)
         })
 
-        const tableQuerySchema = Type.Intersect([
-          querySyntax(
-            Type.Object(tableSchema, {
-              $id: 'WS_' + workspaceSlug + '_DS_' + datasourceSlug + '_TBL_' + tableSlug,
-              additionalProperties: false
-            })
-          ),
-          Type.Object({
-            $joinRelated: Type.Optional(Type.RegEx(tableRelationRegexp)),
-            $joinEager: Type.Optional(Type.RegEx(tableRelationRegexp)),
-            $eager: Type.Optional(Type.RegEx(tableRelationRegexp)),
-          }, {
-            additionalProperties: false
-          }),
-        ], {
-          // additionalProperties: false
-        })
+        const tableQuerySchema = Type.Intersect(
+          [
+            querySyntax(
+              Type.Object(tableSchema, {
+                $id: 'WS_' + workspaceSlug + '_DS_' + datasourceSlug + '_TBL_' + tableSlug,
+                additionalProperties: false,
+              }),
+            ),
+            Type.Object(
+              {
+                $joinRelated: Type.Optional(Type.RegEx(tableRelationRegexp)),
+                $joinEager: Type.Optional(Type.RegEx(tableRelationRegexp)),
+                $eager: Type.Optional(Type.RegEx(tableRelationRegexp)),
+              },
+              {
+                additionalProperties: false,
+              },
+            ),
+          ],
+          {
+            // additionalProperties: false
+          },
+        )
 
         context.params.$$schema = tableQuerySchema
 
@@ -196,7 +209,7 @@ export const tableRecordHooks = {
             },
             route: {
               workspaceSlug,
-            }
+            },
           })
           if (datasource.total === 1) {
             console.log('[createAdapterIfNeeded] Adapter being created...', datasource.data)
@@ -214,7 +227,6 @@ export const tableRecordHooks = {
         context.params.$$lckTable = tableSlug
         context.params.$$adapter = adapters[adapterKey]
         await next()
-
       },
       // async function createTransaction(context: HookContext) { },
       // async function validateData(context: HookContext) { },

@@ -8,12 +8,8 @@ export const datasourceMermaidHooks = {
     all: [authenticate('jwt')],
   },
   before: {
-    find: [
-      schemaHooks.validateQuery(datasourceMermaidQueryValidator),
-    ],
+    find: [schemaHooks.validateQuery(datasourceMermaidQueryValidator)],
   },
-  after: {
-  },
-  error: {
-  },
+  after: {},
+  error: {},
 }

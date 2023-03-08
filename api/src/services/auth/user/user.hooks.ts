@@ -8,7 +8,12 @@ import { HookOptions } from '@feathersjs/feathers'
 import type { Application, HookContext } from '../../../declarations'
 import { UserService } from './user.class'
 import { authManagementSettings } from '../authmanagement/authmanagement.settings'
-import { userDataValidator, userPatchAdminValidator, userPatchValidator, userQueryValidator } from './user.schema'
+import {
+  userDataValidator,
+  userPatchAdminValidator,
+  userPatchValidator,
+  userQueryValidator,
+} from './user.schema'
 
 export const hooks: HookOptions<Application, UserService> = {
   around: {

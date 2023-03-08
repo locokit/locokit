@@ -62,13 +62,10 @@ export const datasourceSchema = Type.Object(
     }),
 
     tables: Type.Optional(
-      Type.Array(
-        Type.Any(),
-        {
-          description: 'Related tables of the datasource'
-        }
-      ),
-    )
+      Type.Array(Type.Any(), {
+        description: 'Related tables of the datasource',
+      }),
+    ),
   },
   {
     $id: 'DatasourceSchema',
@@ -80,15 +77,17 @@ type DatasourceRelations = {
   tables?: TableResult[]
 }
 
-export type DatasourceSchema = Static<typeof datasourceSchema> & DatasourceRelations & {
-  // client: DB_TYPE
-}
+export type DatasourceSchema = Static<typeof datasourceSchema> &
+  DatasourceRelations & {
+    // client: DB_TYPE
+  }
 
 // Schema for the data that is being returned
 export const datasourceResultSchema = datasourceSchema
-export type DatasourceResult = Static<typeof datasourceResultSchema> & DatasourceRelations & {
-  // client: DB_TYPE
-}
+export type DatasourceResult = Static<typeof datasourceResultSchema> &
+  DatasourceRelations & {
+    // client: DB_TYPE
+  }
 
 // Schema / validator for creation
 export const datasourceDataSchema = Type.Omit(datasourceSchema, ['id'], {
@@ -112,15 +111,24 @@ export const datasourceQuerySchema = Type.Intersect(
     querySyntax(
       Type.Omit(
         datasourceSchema,
-        ['credentialsRead', 'credentialsReadWrite', 'credentialsAlter', 'connection', 'workspaceId', 'tables'],
+        [
+          'credentialsRead',
+          'credentialsReadWrite',
+          'credentialsAlter',
+          'connection',
+          'workspaceId',
+          'tables',
+        ],
         { $id: 'DatasourceQuery', additionalProperties: false },
       ),
     ),
     Type.Object({
-      workspaceId: Type.Optional(Type.String({
-        format: 'uuid',
-        description: 'Related workspace of the datasource',
-      })),
+      workspaceId: Type.Optional(
+        Type.String({
+          format: 'uuid',
+          description: 'Related workspace of the datasource',
+        }),
+      ),
       $joinRelated: Type.Optional(
         Type.RegEx(
           /tables|tables\.fields|tables\.relations\[tables\]|\[tables.\[fields\]\]|\[tables.\[relations\]\]|\[tables.\[fields,relations\]\]/,

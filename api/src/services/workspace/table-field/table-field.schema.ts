@@ -23,7 +23,7 @@ export const tableFieldSchema = Type.Object(
       description: 'Related table of the tableField',
     }),
     settings: Type.Any({
-      description: 'Field settings'
+      description: 'Field settings',
     }),
     createdAt: Type.String({
       format: 'date-time',
@@ -51,7 +51,7 @@ export const tableFieldDataValidator = getValidator(tableFieldDataSchema, dataVa
 
 export const tableFieldPatchSchema = Type.Omit(tableFieldDataSchema, ['tableId'], {
   $id: 'TableFieldPatch',
-  additionalProperties: false
+  additionalProperties: false,
 })
 export type TableFieldPatch = Static<typeof tableFieldPatchSchema>
 export const tableFieldPatchValidator = getValidator(tableFieldPatchSchema, dataValidator)
@@ -59,22 +59,26 @@ export const tableFieldPatchValidator = getValidator(tableFieldPatchSchema, data
 // Schema for the data that is being returned
 export const tableFieldResultSchema = Type.Omit(tableFieldSchema, [], {
   $id: 'TableFieldResult',
-  additionalProperties: false
+  additionalProperties: false,
 })
 export type TableFieldResult = Static<typeof tableFieldResultSchema>
 
 // Schema for allowed query properties
 export const tableFieldQuerySchema = Type.Intersect([
-  querySyntax(Type.Omit(tableFieldSchema, ['tableId'], {
-    $id: 'TableFieldQuery',
-    additionalProperties: false
-  })),
+  querySyntax(
+    Type.Omit(tableFieldSchema, ['tableId'], {
+      $id: 'TableFieldQuery',
+      additionalProperties: false,
+    }),
+  ),
   Type.Object({
-    tableId: Type.Optional(Type.String({
-      format: 'uuid',
-      description: 'Related table of the tableField',
-    }))
-  })
+    tableId: Type.Optional(
+      Type.String({
+        format: 'uuid',
+        description: 'Related table of the tableField',
+      }),
+    ),
+  }),
 ])
 export type TableFieldQuery = Static<typeof tableFieldQuerySchema>
 export const tableFieldQueryValidator = getValidator(tableFieldQuerySchema, queryValidator)

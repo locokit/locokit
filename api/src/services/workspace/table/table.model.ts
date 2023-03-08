@@ -28,16 +28,16 @@ export class TableModel extends Model {
         modelClass: TableFieldModel,
         join: {
           from: 'table.id',
-          to: 'tableField.tableId'
-        }
+          to: 'tableField.tableId',
+        },
       },
       relations: {
         relation: Model.HasManyRelation,
         modelClass: TableRelationModel,
         join: {
           from: 'table.id',
-          to: 'tableRelation.fromTableId'
-        }
+          to: 'tableRelation.fromTableId',
+        },
       },
     }
   }

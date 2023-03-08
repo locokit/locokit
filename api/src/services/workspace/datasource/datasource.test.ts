@@ -8,7 +8,9 @@ describe('datasource service', () => {
   it.todo('allow to sync the datasource model in locokit meta model (tables + fields + relations)')
 
   it.todo('forbid user to access datasource if he is not authorized to access this datasource')
-  it.todo('forbid user to access datasource if he is not authorized to access the related workspace')
+  it.todo(
+    'forbid user to access datasource if he is not authorized to access the related workspace',
+  )
 
   it.todo('prevent to sync at the same time the meta model ? (type of transaction ?)')
 

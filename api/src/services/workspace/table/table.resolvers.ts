@@ -2,12 +2,7 @@ import { resolve } from '@feathersjs/schema'
 import type { HookContext } from '@/declarations'
 import { toSnakeCase } from '@/utils/toSnakeCase'
 
-import type {
-  TableData,
-  TablePatch,
-  TableResult,
-  TableQuery,
-} from './table.schema'
+import type { TableData, TablePatch, TableResult, TableQuery } from './table.schema'
 import { NotFound } from '@feathersjs/errors/lib'
 import { Paginated } from '@feathersjs/feathers'
 import { WorkspaceResult } from '@/services/core/workspace/core-workspace.schema'
@@ -48,17 +43,19 @@ export const tableDataResolver = resolve<TableData, HookContext>({
     })
     if (workspace.total !== 1) throw new NotFound('Table not found')
 
-    const datasource: Paginated<DatasourceResult> = await context.app.service(API_PATH.WORKSPACE.DATASOURCE.ROOT).find({
-      query: {
-        workspaceId: workspace.data[0].id,
-        slug: datasourceSlug
-      },
-      authentication,
-      provider,
-      transaction,
-      authenticated,
-      user,
-    })
+    const datasource: Paginated<DatasourceResult> = await context.app
+      .service(API_PATH.WORKSPACE.DATASOURCE.ROOT)
+      .find({
+        query: {
+          workspaceId: workspace.data[0].id,
+          slug: datasourceSlug,
+        },
+        authentication,
+        provider,
+        transaction,
+        authenticated,
+        user,
+      })
 
     if (datasource.total !== 1) throw new NotFound('Table not found')
     return datasource.data[0].id as string
@@ -85,18 +82,20 @@ export const tableQueryResolver = resolve<TableQuery, HookContext>({
     const { authentication, provider, transaction, authenticated, user } = context.params
     if (!workspaceSlug || !datasourceSlug) throw new NotFound('Table not found')
 
-    const datasource: Paginated<DatasourceResult> = await context.app.service(SERVICES.CORE_DATASOURCE).find({
-      query: {
-        slug: datasourceSlug,
-        $joinEager: 'workspace',
-        'workspace.slug': workspaceSlug
-      },
-      authentication,
-      provider,
-      transaction,
-      authenticated,
-      user,
-    })
+    const datasource: Paginated<DatasourceResult> = await context.app
+      .service(SERVICES.CORE_DATASOURCE)
+      .find({
+        query: {
+          slug: datasourceSlug,
+          $joinEager: 'workspace',
+          'workspace.slug': workspaceSlug,
+        },
+        authentication,
+        provider,
+        transaction,
+        authenticated,
+        user,
+      })
 
     if (datasource.total !== 1) throw new NotFound('Table not found')
     return datasource.data[0].id as string

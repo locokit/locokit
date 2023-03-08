@@ -7,10 +7,9 @@ import { NotFound } from '@feathersjs/errors/lib'
 import { TableFieldResult } from '../table-field/table-field.schema'
 import { TableRelationResult } from '../table-relation/table-relation.schema'
 
-export interface DatasourceParams extends KnexAdapterParams<DatasourceMermaidQuery> { }
+export interface DatasourceParams extends KnexAdapterParams<DatasourceMermaidQuery> {}
 
 export class DatasourceMermaid {
-
   app!: Application
 
   async setup(app: Application) {
@@ -18,7 +17,6 @@ export class DatasourceMermaid {
   }
 
   async find(params: DatasourceParams) {
-
     const datasource = await this.app.service(SERVICES.WORKSPACE_DATASOURCE).find({
       query: {
         slug: params?.route?.datasourceSlug,
@@ -27,34 +25,35 @@ export class DatasourceMermaid {
       route: {
         workspaceSlug: params?.route?.workspaceSlug,
         datasourceSlug: params?.route?.datasourceSlug,
-      }
+      },
     })
 
     if (datasource.total !== 1) throw new NotFound('Datasource not found.')
 
     /**
-     * According the type of mermaid diagram, 
+     * According the type of mermaid diagram,
      * we generate a specific syntax
      */
     let mermaidDiagram = ''
     switch (params?.query?.type) {
       case 'er':
-        mermaidDiagram += 'erDiagram\n';
-        datasource.data?.[0]?.tables?.forEach(t => {
+        mermaidDiagram += 'erDiagram\n'
+        datasource.data?.[0]?.tables?.forEach((t) => {
           mermaidDiagram += '"' + (t.schema ? t.schema + '.' : '') + t.slug + '" {\n'
           t.fields.forEach((f: TableFieldResult) => {
             mermaidDiagram += '\t' + f.type + ' ' + f.slug + '\n'
           })
           mermaidDiagram += '}\n'
           t.relations.forEach((r: TableRelationResult) => {
-            mermaidDiagram += r.settings.fromTable + ' }|--|| ' + r.settings.toTable + ' : relation \n'
+            mermaidDiagram +=
+              r.settings.fromTable + ' }|--|| ' + r.settings.toTable + ' : relation \n'
           })
         })
         break
       case 'class':
       default:
-        mermaidDiagram += 'classDiagram\n';
-        datasource.data?.[0]?.tables?.forEach(t => {
+        mermaidDiagram += 'classDiagram\n'
+        datasource.data?.[0]?.tables?.forEach((t) => {
           mermaidDiagram += 'class ' + (t.schema ? t.schema + '.' : '') + t.slug + ' {\n'
           t.fields.forEach((f: TableFieldResult) => {
             mermaidDiagram += '\t' + f.type + ' ' + f.slug
