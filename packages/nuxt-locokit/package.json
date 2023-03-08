@@ -36,7 +36,7 @@
     "bootstrap-icons": "^1.10.3",
     "pinia": "^2.0.30",
     "primevue": "^3.23.0",
-    "tailwindcss": "^3.2.4",
+    "tailwindcss": "^3.2.7",
     "vee-validate": "^4.7.3",
     "vue-i18n": "^9.3.0-beta.6"
   },

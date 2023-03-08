@@ -1,7 +1,7 @@
 .p-breadcrumb {
-  background: #343e4d;
+  background: #ffffff;
   border: 0 none;
-  border-radius: 4px;
+  border-radius: var(--border-radius);
   padding: 1rem;
 }
 
@@ -17,11 +17,11 @@
 }
 
 .p-breadcrumb ul li .p-menuitem-link .p-menuitem-text {
-  color: #8dd0ff;
+  color: var(--primary-color-light);
 }
 
 .p-breadcrumb ul li .p-menuitem-link .p-menuitem-icon {
-  color: #8dd0ff;
+  color: var(--primary-color-light);
 }
 
 .p-breadcrumb ul li.p-breadcrumb-chevron {

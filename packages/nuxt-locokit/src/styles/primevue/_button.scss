@@ -89,7 +89,7 @@
 .p-button:focus {
   outline: 0 none;
   outline-offset: 0;
-  box-shadow: 0 0 0 1px var(--primary-color-light);
+  box-shadow: 0 0 0 0.2rem var(--primary-color-light);
 }
 
 .p-button .p-button-label {
@@ -366,7 +366,7 @@
 }
 
 .p-button.p-button-warning, .p-buttonset.p-button-warning > .p-button, .p-splitbutton.p-button-warning > .p-button {
-  color: var(--color-black);
+  color: var(--color-white);
   background: var(--color-warning);
   border: 1px solid var(--color-warning);
 }

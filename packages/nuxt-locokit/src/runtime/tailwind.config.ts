@@ -1,5 +1,4 @@
 import { fileURLToPath } from 'node:url'
-import colors from 'tailwindcss/colors'
 
 const srcDir = fileURLToPath(new URL('../', import.meta.url))
 const locokitDesignSystemDir = fileURLToPath(
@@ -12,21 +11,29 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: 'var(--color-primary)',
-        'primary-lighten': 'var(--color-primary-lighten)',
-        'primary-light': 'var(--color-primary-light)',
-        'primary-dark': 'var(--color-primary-dark)',
-        secondary: 'var(--color-secondary)',
-        'secondary-lighten': 'var(--color-secondary-lighten)',
-        'secondary-light': 'var(--color-secondary-light)',
-        'secondary-dark': 'var(--color-secondary-dark)',
-        error: colors.red['500'],
-        // 'oyster-bay': 'var(--color-oyster-bay)',
-        theme: {
-          DEFAULT: 'var(--theme-bg-color)',
-          hover: 'var(--theme-bg-color-hover)',
-          text: 'var(--theme-text-color)',
-        },
+        primary: 'var(--primary-color)',
+        'primary-lighten': 'var(--primary-color-lighten)',
+        'primary-light': 'var--primary-color-light)',
+        'primary-dark': 'var(--primary-color-dark)',
+        secondary: 'var(--secondary-color)',
+        'secondary-lighten': 'var(--secondary-color-lighten)',
+        'secondary-light': 'var(--secondary-color-light)',
+        'secondary-dark': 'var(--secondary-color-dark)',
+        error: 'var(--color-error)',
+        'error-lighten': 'var(--color-error-lighten)',
+        'error-light': 'var(--color-error-light)',
+        'error-dark': 'var(--color-error-dark)',
+        success: 'var(--color-success)',
+        'success-lighten': 'var(--color-success-lighten)',
+        'success-light': 'var(--color-success-light)',
+        'success-dark': 'var(--color-success-dark)',
+        warning: 'var(--color-warning)',
+        'warning-lighten': 'var(--color-warning-lighten)',
+        'warning-light': 'var(--color-warning-light)',
+        'warning-dark': 'var(--color-warning-dark)',
+      },
+      borderRadius: {
+        lck: 'var(--border-radius)',
       },
     },
   },

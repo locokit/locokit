@@ -4,11 +4,17 @@
   color: var(--text-color);
   background: #ffffff; // Custom
   padding: 0.5rem 0.75rem;
-  border: var(--border);
+  border: var(--border); // Custom
   transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
   appearance: none;
   border-radius: var(--border-radius);
 }
+
+
+.p-inputtext:disabled {
+  background-color: #E9E9E9; //Custom
+}
+
 
 .p-inputtext:enabled:hover {
   border-color: var(--primary-color);

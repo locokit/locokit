@@ -32,25 +32,9 @@ body,
   padding: 0;
 }
 
-// Typos
-
-.lck-color-title {
-  color: var(--primary-color);
-}
-
-.lck-block-title {
-  padding: 0.5rem 0;
-  color: var(--primary-color);
-
-  &:after {
-    display: block;
-    width: 30px;
-    height: 4px;
-    content: '';
-    background-color: var(--primary-color);
-  }
-}
-
+/*
+  Typos
+*/
 h1 {
   font-size: 1.6rem;
 }
@@ -98,75 +82,8 @@ i.icon-with-text-aside {
   font-size: 1.5em;
 }
 
-/* fast-helper */
-.h-full {
-  height: 100%;
-  max-height: 100%;
-}
-
-.h-max-full {
-  max-height: 100%;
-}
-
-//.w-full {
-//  width: 100%;
-//  max-width: 100%;
-//}
-
-.d-flex-1 {
-  flex: 1;
-}
-
-.o-auto {
-  overflow: auto;
-}
-
-.o-hidden {
-  overflow: hidden;
-}
-
-.no-decoration-link {
-  text-decoration: none;
-}
-
-.lck-color-content {
-  color: var(--primary-color);
-}
-
-.lck-color-title {
-  color: var(--primary-color-dark);
-}
-
-.lck-color-primary {
-  color: var(--primary-color);
-}
-
-.generic-view-container {
-  max-width: min(960px, 96vw);
-  width: 960px;
-  padding-left: var(--content-padding);
-  padding-right: var(--content-padding);
-}
-
-.lck-bg-primary {
-  background-color: var(--primary-color);
-}
-
-.lck-bg-sidebar {
-  background-color: var(--sidebar-background-color);
-}
-
-//.lck-primary {
-//  color: var(--primary-color);
-//}
-
-.lck-elevation {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-color: var(--color-white);
-}
-
 /**
- * Colors
+ * Colors Override prime
  */
 .p-text-error {
   color: var(--color-error);
@@ -213,22 +130,6 @@ i.icon-with-text-aside {
 }
 
 /*
- * Custom icon
- */
-.specific-icon {
-  width: 1.2em;
-  height: 1.2em;
-
-  &:after {
-    width: 1.2em;
-    height: 1.2em;
-    content: '';
-    display: inline-block;
-    background-color: var(--primary-color);
-  }
-}
-
-/*
   Field required
 */
 .field-required {
@@ -250,31 +151,28 @@ span.failed {
 }
 
 /*
-  Custom cursor for vuedraggable
-*/
-.handle,
-.handle-block {
-  cursor: move !important;
-}
-
-/*
-  Fields no editable
-*/
-.no-editable-field {
-  cursor: not-allowed !important;
-
-  .p-checkbox {
-    cursor: not-allowed !important;
-  }
-}
-
-/*
-  Override Prime
+  Override Prime Component
 */
 .p-password {
   i {
     cursor: pointer;
   }
+}
+
+.p-datepicker {
+  .p-monthpicker > .p-monthpicker-month {
+    width: 27%;
+    margin: 0.5rem
+  }
+
+  .p-yearpicker > .p-yearpicker-year {
+    width: 44%;
+    margin: 0.5rem
+  }
+}
+
+.p-disabled {
+  cursor: not-allowed !important;
 }
 
 /*
@@ -290,3 +188,30 @@ span.failed {
 #__nuxt {
   height: 100%;
 }
+
+// To check if needed
+/*
+  Custom cursor for vuedraggable
+*/
+//.handle,
+//.handle-block {
+//  cursor: move !important;
+//}
+
+/*
+  Fields no editable
+*/
+//.no-editable-field {
+//  cursor: not-allowed !important;
+//
+//  .p-checkbox {
+//    cursor: not-allowed !important;
+//  }
+//}
+
+//.generic-view-container {
+//  max-width: min(960px, 96vw);
+//  width: 960px;
+//  padding-left: var(--content-padding);
+//  padding-right: var(--content-padding);
+//}
