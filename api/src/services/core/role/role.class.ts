@@ -1,29 +1,32 @@
 import { KnexAdapterParams } from '@feathersjs/knex'
-import {
-  resolveData,
-  resolveQuery,
-  resolveAll,
-  validateQuery,
-  validateData,
-} from '@feathersjs/schema'
+import { hooks as schemaHooks } from '@feathersjs/schema'
 
 import { RoleData, RoleResult, RoleQuery, roleDataValidator } from './role.schema'
 import { roleQueryValidator, roleResolvers } from './role.resolver'
-import { HookContext } from '../../../declarations'
+import { Application, HookContext } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
 import { ObjectionService } from '@/feathers-objection'
 import { UserResult } from '../../auth/user/user.schema'
 import { USER_PROFILE } from '@locokit/definitions'
 import { Forbidden } from '@feathersjs/errors/lib'
+import { HookMap } from '@feathersjs/feathers'
 
-export const roleHooks = {
+export const roleHooks: HookMap<Application, RoleService> = {
   around: {
-    all: [authenticate('jwt'), validateData(roleDataValidator), resolveAll(roleResolvers)],
+    all: [
+      authenticate('jwt'),
+      schemaHooks.validateData(roleDataValidator),
+      schemaHooks.resolveExternal(roleResolvers.dispatch),
+      schemaHooks.resolveResult(roleResolvers.result),
+    ],
   },
   before: {
-    find: [validateQuery(roleQueryValidator), resolveQuery(roleResolvers.query)],
+    find: [
+      schemaHooks.validateQuery(roleQueryValidator),
+      schemaHooks.resolveQuery(roleResolvers.query),
+    ],
     create: [
-      resolveData(roleResolvers.data.create),
+      schemaHooks.resolveData(roleResolvers.data.create),
       async function checkProfile(context: HookContext) {
         const user: UserResult = context.params.user
         const profile = user.profile
@@ -34,12 +37,12 @@ export const roleHooks = {
     ],
   },
   after: {
-    find: [resolveData(roleResolvers.result)],
+    find: [schemaHooks.resolveData(roleResolvers.result)],
   },
   error: {},
 }
 
-export interface RoleParams extends KnexAdapterParams<RoleQuery> { }
+export interface RoleParams extends KnexAdapterParams<RoleQuery> {}
 
 // By default calls the standard Knex adapter service methods but can be customized with your own functionality.
-export class RoleService extends ObjectionService<RoleResult, RoleData, RoleParams> { }
+export class RoleService extends ObjectionService<RoleResult, RoleData, RoleParams> {}

@@ -30,8 +30,7 @@ export const tableFieldDataResolver = resolve<TableFieldData, HookContext>({
    *
    * Check also if the user is authorized to access this workspace
    */
-  async tableId(value: string, _data, context) {
-    console.log('field tableId resolver', value)
+  async tableId(value, _data, context) {
     if (value) return value
     const { workspaceSlug, datasourceSlug, tableSlug } = context.params.route
     const { authentication, provider, transaction, authenticated, user } = context.params
@@ -52,22 +51,24 @@ export const tableFieldDataResolver = resolve<TableFieldData, HookContext>({
     context.params.route.workspaceId = workspace.data[0].id
     context.params.route.workspaceSchema = `w_${workspace.data[0].slug}`
 
-    const datasource: Paginated<DatasourceResult> = await context.app.service(API_PATH.WORKSPACE.DATASOURCE.ROOT).find({
-      query: {
-        workspaceId: workspace.data[0].id,
-        slug: datasourceSlug,
-        $eager: '[tables]'
-      },
-      authentication,
-      provider,
-      transaction,
-      authenticated,
-      user,
-    })
+    const datasource: Paginated<DatasourceResult> = await context.app
+      .service(API_PATH.WORKSPACE.DATASOURCE.ROOT)
+      .find({
+        query: {
+          workspaceId: workspace.data[0].id,
+          slug: datasourceSlug,
+          $eager: '[tables]',
+        },
+        authentication,
+        provider,
+        transaction,
+        authenticated,
+        user,
+      })
 
     if (datasource.total !== 1) throw new NotFound('Table not found')
 
-    const table = datasource.data[0].tables?.find(t => t.slug === tableSlug)
+    const table = datasource.data[0].tables?.find((t) => t.slug === tableSlug)
 
     if (!table) throw new NotFound('Table not found')
     return table.id as string
@@ -88,7 +89,7 @@ export const tableFieldQueryResolver = resolve<TableFieldQuery, HookContext>({
    *
    * Check also if the user is authorized to access this workspace
    */
-  async tableId(value: string, _data, context) {
+  async tableId(value, _data, context) {
     if (value) return value
     const { workspaceSlug, datasourceSlug, tableSlug } = context.params.route
     const { authentication, provider, transaction, authenticated, user } = context.params
@@ -109,22 +110,24 @@ export const tableFieldQueryResolver = resolve<TableFieldQuery, HookContext>({
     context.params.route.workspaceId = workspace.data[0].id
     context.params.route.workspaceSchema = `w_${workspace.data[0].slug}`
 
-    const datasource: Paginated<DatasourceResult> = await context.app.service(API_PATH.WORKSPACE.DATASOURCE.ROOT).find({
-      query: {
-        workspaceId: workspace.data[0].id,
-        slug: datasourceSlug,
-        $eager: '[tables]'
-      },
-      authentication,
-      provider,
-      transaction,
-      authenticated,
-      user,
-    })
+    const datasource: Paginated<DatasourceResult> = await context.app
+      .service(API_PATH.WORKSPACE.DATASOURCE.ROOT)
+      .find({
+        query: {
+          workspaceId: workspace.data[0].id,
+          slug: datasourceSlug,
+          $eager: '[tables]',
+        },
+        authentication,
+        provider,
+        transaction,
+        authenticated,
+        user,
+      })
 
     if (datasource.total !== 1) throw new NotFound('Table not found')
 
-    const table = datasource.data[0].tables?.find(t => t.slug === tableSlug)
+    const table = datasource.data[0].tables?.find((t) => t.slug === tableSlug)
 
     if (!table) throw new NotFound('Table not found')
     return table.id as string

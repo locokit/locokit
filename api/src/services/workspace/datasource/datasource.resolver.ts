@@ -30,7 +30,7 @@ export const datasourceDataResolver = resolve<DatasourceData, HookContext>({
    *
    * Check also if the user is authorized to access this workspace
    */
-  async workspaceId(value: string, _data, context) {
+  async workspaceId(value, _data, context) {
     if (value) return value
     const { workspaceSlug } = context.params.route
     const { authentication, provider, transaction, authenticated, user } = context.params
@@ -65,7 +65,7 @@ export const datasourceQueryResolver = resolve<DatasourceQuery, HookContext>({
    *
    * Check also if the user is authorized to access this workspace
    */
-  async workspaceId(value: string, _data, context) {
+  async workspaceId(value, _data, context) {
     datasourceLogger.debug('[%s] workspaceId resolver with id %s and slug %s', context.method, context.id, context.params.route.workspaceSlug)
     if (value) return value
     const { transaction } = context.params

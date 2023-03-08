@@ -30,7 +30,7 @@ export const tableDataResolver = resolve<TableData, HookContext>({
    *
    * Check also if the user is authorized to access this workspace
    */
-  async datasourceId(value: string, _data, context) {
+  async datasourceId(value, _data, context) {
     if (value) return value
     const { workspaceSlug, datasourceSlug } = context.params.route
     const { authentication, provider, transaction, authenticated, user } = context.params
@@ -79,7 +79,7 @@ export const tableQueryResolver = resolve<TableQuery, HookContext>({
    *
    * Check also if the user is authorized to access this workspace
    */
-  async datasourceId(value: string, _data, context) {
+  async datasourceId(value, _data, context) {
     if (value) return value
     const { workspaceSlug, datasourceSlug } = context.params.route
     const { authentication, provider, transaction, authenticated, user } = context.params

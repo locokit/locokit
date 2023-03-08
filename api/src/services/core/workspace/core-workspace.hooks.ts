@@ -7,26 +7,18 @@ import { Id } from 'objection'
 import { transaction } from '@/feathers-objection'
 import { UserResult } from '@/services/auth/user/user.schema'
 import { workspaceQueryValidator, workspaceResolvers } from './core-workspace.resolver'
-import { workspaceDataValidator } from './core-workspace.schema'
+// import { workspaceDataValidator } from './core-workspace.schema'
 
 export const workspaceHooks = {
   around: {
     all: [
-      async (context, next) => {
-        console.log('we are around before hook ', context.method, context.path)
-        await next()
-        console.log('we are around after hook ', context.method, context.path)
-      },
       // schemaHooks.resolveExternal(workspaceResolvers.dispatch),
       // schemaHooks.validateData(workspaceDataValidator),
     ],
   },
   before: {
     all: [transaction.start()],
-    get: [
-      (context) => { console.log('we are before get', context.method, context.path) },
-      authenticate('jwt', 'public')
-    ],
+    get: [authenticate('jwt', 'public')],
     find: [
       authenticate('jwt', 'public'),
       schemaHooks.validateQuery(workspaceQueryValidator),

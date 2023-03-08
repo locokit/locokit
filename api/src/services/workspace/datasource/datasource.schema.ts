@@ -112,11 +112,15 @@ export const datasourceQuerySchema = Type.Intersect(
     querySyntax(
       Type.Omit(
         datasourceSchema,
-        ['credentialsRead', 'credentialsReadWrite', 'credentialsAlter', 'connection'],
+        ['credentialsRead', 'credentialsReadWrite', 'credentialsAlter', 'connection', 'workspaceId', 'tables'],
         { $id: 'DatasourceQuery', additionalProperties: false },
       ),
     ),
     Type.Object({
+      workspaceId: Type.Optional(Type.String({
+        format: 'uuid',
+        description: 'Related workspace of the datasource',
+      })),
       $joinRelated: Type.Optional(
         Type.RegEx(
           /tables|tables\.fields|tables\.relations\[tables\]|\[tables.\[fields\]\]|\[tables.\[relations\]\]|\[tables.\[fields,relations\]\]/,

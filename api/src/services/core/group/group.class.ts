@@ -1,11 +1,10 @@
 import { KnexAdapterParams } from '@feathersjs/knex'
-import {
-  resolveData,
-  resolveQuery,
-  resolveAll,
-  validateQuery,
-  validateData,
-} from '@feathersjs/schema'
+import { HookMap } from '@feathersjs/feathers'
+import { ObjectionService } from '@/feathers-objection'
+import { hooks as schemaHooks } from '@feathersjs/schema'
+import { Application, HookContext } from '@/declarations'
+import { USER_PROFILE } from '@locokit/definitions'
+import { Forbidden } from '@feathersjs/errors/lib'
 
 import {
   GroupData,
@@ -15,21 +14,25 @@ import {
   groupQueryValidator,
 } from './group.schema'
 import { groupResolvers } from './group.resolver'
-import { HookContext } from '../../../declarations'
 import { authenticate } from '@feathersjs/authentication'
-import { ObjectionService } from '@/feathers-objection'
 import { UserResult } from '../../auth/user/user.schema'
-import { USER_PROFILE } from '@locokit/definitions'
-import { Forbidden } from '@feathersjs/errors/lib'
 
-export const groupHooks = {
+export const groupHooks: HookMap<Application, GroupService> = {
   around: {
-    all: [authenticate('jwt'), validateData(groupDataValidator), resolveAll(groupResolvers)],
+    all: [
+      authenticate('jwt'),
+      schemaHooks.validateData(groupDataValidator),
+      schemaHooks.resolveExternal(groupResolvers.dispatch),
+      schemaHooks.resolveResult(groupResolvers.result),
+    ],
   },
   before: {
-    find: [validateQuery(groupQueryValidator), resolveQuery(groupResolvers.query)],
+    find: [
+      schemaHooks.validateQuery(groupQueryValidator),
+      schemaHooks.resolveQuery(groupResolvers.query),
+    ],
     create: [
-      resolveData(groupResolvers.data.create),
+      schemaHooks.resolveData(groupResolvers.data.create),
       async function checkProfile(context: HookContext) {
         const user: UserResult = context.params.user
         const profile = user.profile

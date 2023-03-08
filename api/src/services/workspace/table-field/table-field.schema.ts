@@ -64,9 +64,17 @@ export const tableFieldResultSchema = Type.Omit(tableFieldSchema, [], {
 export type TableFieldResult = Static<typeof tableFieldResultSchema>
 
 // Schema for allowed query properties
-export const tableFieldQuerySchema = querySyntax(Type.Omit(tableFieldSchema, [], {
-  $id: 'TableFieldQuery',
-  additionalProperties: false
-}))
+export const tableFieldQuerySchema = Type.Intersect([
+  querySyntax(Type.Omit(tableFieldSchema, ['tableId'], {
+    $id: 'TableFieldQuery',
+    additionalProperties: false
+  })),
+  Type.Object({
+    tableId: Type.Optional(Type.String({
+      format: 'uuid',
+      description: 'Related table of the tableField',
+    }))
+  })
+])
 export type TableFieldQuery = Static<typeof tableFieldQuerySchema>
 export const tableFieldQueryValidator = getValidator(tableFieldQuerySchema, queryValidator)

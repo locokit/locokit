@@ -9,12 +9,15 @@ import { enforcePasswordPolicy } from './enforcePasswordPolicy.hook'
 
 const isAction =
   (...args: string[]): ContextFunction<boolean, HookContext> =>
-  (context: HookContext): boolean =>
-    args.includes(context.data.action)
+    (context: HookContext): boolean =>
+      args.includes(context.data.action)
 
 const getPassword = (hook: HookContext): string => hook.data.value.password
 
 export const hooks: HookOptions<Application, AuthenticationManagementService> = {
+  around: {
+    create: [resolveExternal(userDispatchResolver)],
+  },
   before: {
     create: [
       iff(isAction('resendVerifySignup'), lowerCase('value.email')),
@@ -31,8 +34,5 @@ export const hooks: HookOptions<Application, AuthenticationManagementService> = 
         enforcePasswordPolicy(getPassword),
       ),
     ],
-  },
-  after: {
-    create: [resolveExternal(userDispatchResolver)],
   },
 }

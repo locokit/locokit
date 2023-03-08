@@ -14,7 +14,7 @@ describe('workspace service', () => {
   it('returns the public workspace when making a find request without authentication', async () => {
     const publicWorkspaces = await app
       .service('workspace')
-      .find({}, { provider: 'external', authenticated: false })
+      .find({ provider: 'external', authenticated: false })
   })
 
   it('return the workspace if user is not authenticated and the workspace is public')

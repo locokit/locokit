@@ -74,8 +74,12 @@ export type TablePatch = Static<typeof tablePatchSchema>
  */
 export const tableQuerySchema = Type.Intersect(
   [
-    querySyntax(Type.Omit(tableSchema, ['datasource', 'fields'])),
+    querySyntax(Type.Omit(tableSchema, ['datasource', 'fields', 'datasourceId'])),
     Type.Object({
+      datasourceId: Type.Optional(Type.String({
+        format: 'uuid',
+        description: 'Related datasource',
+      })),
       $joinRelated: Type.Optional(
         Type.RegEx(
           /datasource|fields|relations|\[datasource,fields\]|\[datasource,relations\]|\[fields,relations\]|\[datasource,fields,relations\]/,

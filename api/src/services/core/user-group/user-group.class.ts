@@ -1,11 +1,5 @@
 import { KnexAdapterParams } from '@feathersjs/knex'
-import {
-  resolveData,
-  resolveQuery,
-  resolveAll,
-  validateQuery,
-  validateData,
-} from '@feathersjs/schema'
+import { hooks as schemaHooks } from '@feathersjs/schema'
 
 import {
   UserGroupData,
@@ -14,25 +8,30 @@ import {
   userGroupDataValidator,
 } from './user-group.schema'
 import { userGroupQueryValidator, userGroupResolvers } from './user-group.resolver'
-import { HookContext } from '../../../declarations'
+import { Application, HookContext } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
 import { ObjectionService } from '@/feathers-objection'
 import { UserResult } from '../../auth/user/user.schema'
 import { USER_PROFILE } from '@locokit/definitions'
 import { Forbidden } from '@feathersjs/errors/lib'
+import { HookMap } from '@feathersjs/feathers'
 
-export const userGroupHooks = {
+export const userGroupHooks: HookMap<Application, UserGroupService> = {
   around: {
     all: [
       authenticate('jwt'),
-      validateData(userGroupDataValidator),
-      resolveAll(userGroupResolvers),
+      schemaHooks.validateData(userGroupDataValidator),
+      schemaHooks.resolveExternal(userGroupResolvers.dispatch),
+      schemaHooks.resolveResult(userGroupResolvers.result),
     ],
   },
   before: {
-    find: [validateQuery(userGroupQueryValidator), resolveQuery(userGroupResolvers.query)],
+    find: [
+      schemaHooks.validateQuery(userGroupQueryValidator),
+      schemaHooks.resolveQuery(userGroupResolvers.query),
+    ],
     create: [
-      resolveData(userGroupResolvers.data.create),
+      schemaHooks.resolveData(userGroupResolvers.data.create),
       async function checkProfile(context: HookContext) {
         const user: UserResult = context.params.user
         const profile = user.profile
@@ -46,11 +45,11 @@ export const userGroupHooks = {
   error: {},
 }
 
-export interface UserGroupParams extends KnexAdapterParams<UserGroupQuery> { }
+export interface UserGroupParams extends KnexAdapterParams<UserGroupQuery> {}
 
 // By default calls the standard Knex adapter service methods but can be customized with your own functionality.
 export class UserGroupService extends ObjectionService<
   UserGroupResult,
   UserGroupData,
   UserGroupParams
-> { }
+> {}
