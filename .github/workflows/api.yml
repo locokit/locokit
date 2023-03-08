@@ -70,6 +70,8 @@ jobs:
         run: npm ci
       - name: Lint code
         run: npm run lint --workspace api
+      - name: Prettier
+        run: npm run prettier --workspace api
       - name: Unit tests
         run: npm run vitest:coverage --workspace api
         env:

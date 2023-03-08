@@ -34,6 +34,7 @@
     "dev": "ts-node-dev --no-notify --files src/",
     "compile": "shx rm -rf lib/ && tsc",
     "lint": "eslint src",
+    "prettier": "prettier -c src",
     "start": "npm run compile && node lib/",
     "vitest:test": "cross-env NODE_ENV=test vitest",
     "previtest:coverage": "cross-env NODE_ENV=test npm run migrate:latest",
