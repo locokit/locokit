@@ -24,9 +24,9 @@ BEGIN
   SET search_path = core;
 
   -- SELECT the workspace
-  EXECUTE 'SELECT *
+  EXECUTE format('SELECT *
   FROM lck_workspace
-  WHERE id = ''' || $1 || ''''
+  WHERE id = ''%s''', $1)
   INTO v_workspace
   USING workspace_id;
 

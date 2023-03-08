@@ -77,9 +77,10 @@ export async function up(knex: Knex): Promise<void> {
       table.string('name').notNullable()
       table.string('slug')
       table.index('slug', 'IDX_datasource_slug')
-      table.unique(['slug', 'workspaceId'], { indexName: 'IDX_UNQ_ds_slug' })
+      table.unique(['slug', 'workspaceId'], { indexName: 'IDX_UNQ_datasource_slug' })
       table.text('documentation')
-      table.enum('client', ['sqlite3', 'pg', 'legacy']).notNullable()
+      table.enum('client', ['sqlite3', 'pg']).notNullable()
+      table.enum('type', ['remote', 'local']).notNullable()
       table.string('connection').notNullable()
       table.jsonb('credentialsRead').defaultTo({
         username: null,
@@ -103,11 +104,57 @@ export async function up(knex: Knex): Promise<void> {
         .inTable('core.lck_workspace')
       table.index('workspaceId', 'IDX_datasource_workspaceId')
     })
+
+    /**
+     * Table table
+     */
+    .createTable('lck_table', (table) => {
+      table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
+      table.string('name').notNullable()
+      table.string('slug')
+      table.index('slug', 'IDX_table_slug')
+      table.string('schema')
+      table.unique(['schema', 'slug', 'datasourceId'], { indexName: 'IDX_UNQ_table_schema_slug' })
+      table.text('documentation')
+      table.jsonb('settings').defaultTo({})
+      table.datetime('createdAt').defaultTo(knex.fn.now())
+      table.datetime('updatedAt').defaultTo(knex.fn.now())
+
+      table.uuid('datasourceId').notNullable()
+      table
+        .foreign('datasourceId', 'FK_table_datasource')
+        .references('id')
+        .inTable('core.lck_datasource')
+      table.index('datasourceId', 'IDX_table_datasourceId')
+    })
+
+    /**
+     * Table dataset
+     */
+    .createTable('lck_dataset', (table) => {
+      table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
+      table.string('name').notNullable()
+      table.string('slug')
+      table.index('slug', 'IDX_dataset_slug')
+      table.unique(['slug', 'tableId'], { indexName: 'IDX_UNQ_dataset_slug' })
+      table.text('documentation')
+      table.datetime('createdAt').defaultTo(knex.fn.now())
+      table.datetime('updatedAt').defaultTo(knex.fn.now())
+
+      table.uuid('tableId').notNullable()
+      table
+        .foreign('tableId', 'FK_dataset_table')
+        .references('id')
+        .inTable('core.lck_table')
+      table.index('tableId', 'IDX_dataset_tableId')
+    })
 }
 
 export async function down(knex: Knex): Promise<void> {
   await knex.schema
     .withSchema('core')
+    .dropTable('lck_dataset')
+    .dropTable('lck_table')
     .dropTable('lck_datasource')
     .dropTable('lck_userGroup')
     .dropTable('lck_group')
