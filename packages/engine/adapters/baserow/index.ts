@@ -15,9 +15,9 @@ export class BaserowAdapter implements GenericAdapter {
   /**
    * Nothing to destroy for Baserow Adapter
    */
-  async destroy() {}
+  async destroy() { }
 
-  async boot() {}
+  async boot() { }
 
   /**
    * Depending the adapter type,
@@ -31,16 +31,12 @@ export class BaserowAdapter implements GenericAdapter {
     const result: Table[] = []
     await Promise.all(
       this.tableIds.map(async (id: number) => {
-        const response = await fetch(
-          this.apiURL + 'api/database/fields/table/' + id + '/',
-          {
-            headers: {
-              Authorization: 'Token ' + this.token,
-            },
-          }
-        )
+        const response = await fetch(this.apiURL + 'api/database/fields/table/' + id + '/', {
+          headers: {
+            Authorization: 'Token ' + this.token,
+          },
+        })
         const tableFields = await response.json()
-        console.log(tableFields)
         result.push({
           name: 'table_' + id,
           fields: tableFields.map((f: any) => ({
@@ -48,7 +44,7 @@ export class BaserowAdapter implements GenericAdapter {
             label: f.name,
           })),
         })
-      })
+      }),
     )
     return result
   }
@@ -67,14 +63,11 @@ export class BaserowAdapter implements GenericAdapter {
       name: tableName,
       fields: [] as Field[],
     }
-    const response = await fetch(
-      this.apiURL + 'api/database/fields/table/' + tableId + '/',
-      {
-        headers: {
-          Authorization: 'Token ' + this.token,
-        },
-      }
-    )
+    const response = await fetch(this.apiURL + 'api/database/fields/table/' + tableId + '/', {
+      headers: {
+        Authorization: 'Token ' + this.token,
+      },
+    })
     const tableFields = await response.json()
     result.fields = tableFields.map((f: any) => ({
       name: 'field_' + f.id.toString(),
@@ -86,11 +79,7 @@ export class BaserowAdapter implements GenericAdapter {
 
   async getRecord<T>(tableName: string, id: string | number) {
     const apiURL =
-      this.apiURL +
-      'api/database/rows/table/' +
-      tableName.replace('table_', '') +
-      '/' +
-      id
+      this.apiURL + 'api/database/rows/table/' + tableName.replace('table_', '') + '/' + id
     const response = await fetch(apiURL, {
       headers: {
         Authorization: 'Token ' + this.token,
@@ -101,11 +90,7 @@ export class BaserowAdapter implements GenericAdapter {
   }
 
   async queryTable(tableName: string, params?: Params) {
-    const apiURL =
-      this.apiURL +
-      'api/database/rows/table/' +
-      tableName.replace('table_', '') +
-      '/'
+    const apiURL = this.apiURL + 'api/database/rows/table/' + tableName.replace('table_', '') + '/'
     const response = await fetch(apiURL, {
       headers: {
         Authorization: 'Token ' + this.token,
@@ -117,11 +102,7 @@ export class BaserowAdapter implements GenericAdapter {
 
   async createRecord(tableName: string, data: any) {
     console.log('create record', tableName, data)
-    const apiURL =
-      this.apiURL +
-      'api/database/rows/table/' +
-      tableName.replace('table_', '') +
-      '/'
+    const apiURL = this.apiURL + 'api/database/rows/table/' + tableName.replace('table_', '') + '/'
     const response = await fetch(apiURL, {
       headers: {
         Authorization: 'Token ' + this.token,
@@ -131,17 +112,9 @@ export class BaserowAdapter implements GenericAdapter {
     return rows.results
   }
 
-  async patchRecord<T>(
-    tableName: string,
-    id: string | number,
-    record: Partial<T>
-  ) {
+  async patchRecord<T>(tableName: string, id: string | number, record: Partial<T>) {
     console.log('patch record', tableName, id)
-    const apiURL =
-      this.apiURL +
-      'api/database/rows/table/' +
-      tableName.replace('table_', '') +
-      '/'
+    const apiURL = this.apiURL + 'api/database/rows/table/' + tableName.replace('table_', '') + '/'
     const response = await fetch(apiURL, {
       headers: {
         Authorization: 'Token ' + this.token,
@@ -151,17 +124,9 @@ export class BaserowAdapter implements GenericAdapter {
     return rows.results
   }
 
-  async updateRecord<T>(
-    tableName: string,
-    id: string | number,
-    record: Partial<T>
-  ) {
+  async updateRecord<T>(tableName: string, id: string | number, record: Partial<T>) {
     console.log('update record', tableName, id)
-    const apiURL =
-      this.apiURL +
-      'api/database/rows/table/' +
-      tableName.replace('table_', '') +
-      '/'
+    const apiURL = this.apiURL + 'api/database/rows/table/' + tableName.replace('table_', '') + '/'
     const response = await fetch(apiURL, {
       headers: {
         Authorization: 'Token ' + this.token,
@@ -173,11 +138,7 @@ export class BaserowAdapter implements GenericAdapter {
 
   async deleteRecord(tableName: string, id: string | number) {
     console.log('delete record', tableName, id)
-    const apiURL =
-      this.apiURL +
-      'api/database/rows/table/' +
-      tableName.replace('table_', '') +
-      '/'
+    const apiURL = this.apiURL + 'api/database/rows/table/' + tableName.replace('table_', '') + '/'
     const response = await fetch(apiURL, {
       headers: {
         Authorization: 'Token ' + this.token,

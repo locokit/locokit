@@ -1,4 +1,5 @@
 import { Column } from 'knex-schema-inspector/dist/types/column'
+import { Table as KnexInspectorTable } from 'knex-schema-inspector/dist/types/table'
 import { Params } from '@feathersjs/feathers'
 
 /**
@@ -10,8 +11,7 @@ export type Field = Column
 /**
  * Table for a datasource
  */
-export interface Table {
-  name: string
+export interface Table extends KnexInspectorTable {
   fields: Field[]
 }
 
@@ -65,7 +65,7 @@ export interface PaginatedResult<T> {
   /**
    * Array of records
    */
-  records: Array<TableRecord<T>>
+  data: Array<TableRecord<T>>
 }
 
 export interface GenericAdapter {
@@ -99,17 +99,9 @@ export interface GenericAdapter {
 
   getRecord: <T>(tableName: string, id: string | number) => Promise<T>
 
-  patchRecord: <T>(
-    tableName: string,
-    id: string | number,
-    record: Partial<T>,
-  ) => Promise<T>
+  patchRecord: <T>(tableName: string, id: string | number, record: Partial<T>) => Promise<T>
 
-  updateRecord: <T>(
-    tableName: string,
-    id: string | number,
-    record: Partial<T>,
-  ) => Promise<T>
+  updateRecord: <T>(tableName: string, id: string | number, record: Partial<T>) => Promise<T>
 
   deleteRecord: (tableName: string, id: string | number) => Promise<number>
 }

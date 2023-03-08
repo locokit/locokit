@@ -3,13 +3,7 @@ import { Params } from '@feathersjs/feathers'
 import knex, { Knex } from 'knex'
 import schemaInspector from 'knex-schema-inspector'
 import { Column } from 'knex-schema-inspector/dist/types/column'
-import {
-  ConnexionSQL,
-  GenericAdapter,
-  Field,
-  Table,
-  PaginatedResult,
-} from '../interface'
+import { ConnexionSQL, GenericAdapter, Field, Table, PaginatedResult } from '../interface'
 import {
   Model,
   JSONSchema,
@@ -33,9 +27,7 @@ export class SQLAdapter implements GenericAdapter {
     if (!implementedEngines.includes(connexion.type))
       throw new Error(
         // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-        'This engine is unknown. Please use one of ' +
-          implementedEngines.concat(', ') +
-          '.',
+        'This engine is unknown. Please use one of ' + implementedEngines.concat(', ') + '.',
       )
     this.database = knex({
       client: connexion.type,
@@ -49,12 +41,6 @@ export class SQLAdapter implements GenericAdapter {
    * create objection model according table + columns schema
    */
   async boot(): Promise<void> {
-    console.log(
-      'booting SQL adapter',
-      this.database.client,
-      this.database.schema,
-    )
-    Model.knex(this.database)
 
     const inspector = schemaInspector(this.database)
     /**
@@ -80,16 +66,9 @@ export class SQLAdapter implements GenericAdapter {
      */
     await Promise.all(
       tableNames.map(async (tableName) => {
-        console.log('fetch all column infos for this table')
         const columnInfos = await inspector.columnInfo(tableName)
         tables[tableName].columns = columnInfos
         columnInfos.forEach((c) => {
-          console.log(
-            c.name,
-            c.foreign_key_column,
-            c.foreign_key_schema,
-            c.foreign_key_table,
-          )
           /**
            * is this column linked to a foreign ?
            */
@@ -126,7 +105,6 @@ export class SQLAdapter implements GenericAdapter {
 
     Object.keys(tables).forEach((tableName) => {
       const t = tables[tableName]
-      console.log('adding table objection model for ', tableName, ' table')
       const idColumns = t.columns.filter((c) => c.is_primary_key)
       allModels[tableName] = class extends Model {
         static get tableName(): string {
@@ -145,13 +123,10 @@ export class SQLAdapter implements GenericAdapter {
           const schema = {
             type: 'object',
             // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-            properties: {} as {
-              [key: string]: JSONSchemaDefinition
-            },
+            properties: {} as Record<string, JSONSchemaDefinition>,
           }
 
           t.columns.forEach((c) => {
-            console.log(c.name, c.data_type)
             /**
              * We convert the SQL type into a JSON one
              */
@@ -173,9 +148,7 @@ export class SQLAdapter implements GenericAdapter {
          * Compute the relations for a table,
          * based on foreign keys.
          */
-        static get relationMappings():
-          | RelationMappings
-          | RelationMappingsThunk {
+        static get relationMappings(): RelationMappings | RelationMappingsThunk {
           const result: RelationMappings = {}
           Object.keys(t.relations).forEach((relationName) => {
             const relation = t.relations[relationName]
@@ -191,15 +164,8 @@ export class SQLAdapter implements GenericAdapter {
           return result
         }
       }
-      console.log(
-        'model generated for table ',
-        tableName,
-        ' : ',
-        this.databaseObjectionModel[tableName],
-      )
     })
 
-    console.log('Booting ended.')
   }
 
   async destroy() {
@@ -220,9 +186,10 @@ export class SQLAdapter implements GenericAdapter {
     const tables = await inspector.tables()
     await Promise.all(
       tables.map(async (tableName: string) => {
+        const table = await inspector.tableInfo(tableName)
         const columnInfos = await inspector.columnInfo(tableName)
         result.push({
-          name: tableName,
+          ...table,
           fields: columnInfos,
         })
       }),
@@ -252,41 +219,35 @@ export class SQLAdapter implements GenericAdapter {
     return result
   }
 
-  async queryTable<T>(
-    tableName: string,
-    params?: Params,
-  ): Promise<PaginatedResult<T>> {
+  async queryTable<T>(tableName: string, params?: Params): Promise<PaginatedResult<T>> {
     console.log('queryTable', tableName, params?.query)
-    const {
-      $limit = 20,
-      $offset = 0,
-      $relations,
-      $select,
-      ...realQuery
-    } = params?.query ?? {}
+    const { $limit = 20, $offset = 0, $joinRelated, $select, ...realQuery } = params?.query ?? {}
 
-    console.log($limit, $offset, $relations)
+    console.log($limit, $offset, $joinRelated, realQuery)
     const result = {
       total: 0,
       limit: $limit,
       offset: $offset,
-      records: [] as T[],
+      data: [] as T[],
     }
 
     const model = this.databaseObjectionModel[tableName]
 
-    const query = model.query().limit($limit).offset($offset)
-    const totalQuery = model.query().count('*')
+    if (!model) throw new Error(`Table ${tableName} is unknown.`)
 
-    if ($relations) {
+    const query = model.query(this.database).limit($limit).offset($offset)
+    const totalQuery = model.query(this.database).countDistinct(tableName + '.id', { as: 'count' })
+
+    if ($joinRelated) {
       /**
        * Add relation to the query,
-       * $relations need to be an array
+       * $joinRelated need to be an array
        */
-      if (Array.isArray($relations)) {
-        $relations.forEach((r) => {
+      if (Array.isArray($joinRelated)) {
+        $joinRelated.forEach((r) => {
           console.log('join ', r)
           query.withGraphFetched(r)
+          totalQuery.withGraphFetched(r)
 
           query.joinRelated(r)
           totalQuery.joinRelated(r)
@@ -336,10 +297,21 @@ export class SQLAdapter implements GenericAdapter {
 
     if ($select) {
       const selectFields = Array.isArray($select) ? $select : [$select]
+      /**
+       * for each field, add the table as a prefix if not set
+       */
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       query.select(selectFields)
     }
-
+    console.log('real query', realQuery)
+    /**
+     * Remove id filter to add tableName in front of to avoid incoherence
+     * TODO: need to be recursive
+     */
+    Object.keys(realQuery).filter(k => k === 'id').forEach(k => {
+      realQuery[tableName + '.id'] = realQuery['id']
+      delete realQuery['id']
+    })
     objectify(totalQuery, realQuery)
     const total = (await totalQuery) as unknown as Array<{
       count: string
@@ -349,86 +321,58 @@ export class SQLAdapter implements GenericAdapter {
     console.log(realQuery, $select)
     objectify(query, realQuery)
 
-    result.records = (await query) as unknown as T[]
+    result.data = (await query) as unknown as T[]
     return result
   }
 
   async getRecord<T>(tableName: string, id: string | number): Promise<T> {
     console.log(tableName, id, this.databaseObjectionModel)
-    const result = await this.databaseObjectionModel[tableName]
-      .query()
-      .findById(id)
+    const result = await this.databaseObjectionModel[tableName].query(this.database).findById(id)
     return result as unknown as T
   }
 
   async createRecord<T>(tableName: string, data: Partial<T>): Promise<T> {
     console.log('createRecord lck engine', tableName, data)
-    console.log(
-      'createRecord lck engine',
-      this.databaseObjectionModel[tableName],
-    )
+    console.log('createRecord lck engine', this.databaseObjectionModel[tableName])
     console.log(this.databaseObjectionModel[tableName])
 
     return (await this.databaseObjectionModel[tableName]
-      .query()
+      .query(this.database)
       .insertAndFetch(data)) as unknown as T
   }
 
-  async patchRecord<T>(
-    tableName: string,
-    id: string | number,
-    record: Partial<T>,
-  ): Promise<T> {
+  async patchRecord<T>(tableName: string, id: string | number, record: Partial<T>): Promise<T> {
     console.log('patchRecord lck engine', tableName, id, record)
-    console.log(
-      'patchRecord lck engine',
-      this.databaseObjectionModel[tableName],
-    )
-    const object = await this.databaseObjectionModel[tableName]
-      .query()
-      .findById(id)
+    console.log('patchRecord lck engine', this.databaseObjectionModel[tableName])
+    const object = await this.databaseObjectionModel[tableName].query(this.database).findById(id)
 
     console.log(object)
 
     console.log(this.databaseObjectionModel[tableName])
 
     return (await this.databaseObjectionModel[tableName]
-      .query()
+      .query(this.database)
       .patchAndFetchById(id, record)) as unknown as T
   }
 
-  async updateRecord<T>(
-    tableName: string,
-    id: string | number,
-    record: Partial<T>,
-  ): Promise<T> {
+  async updateRecord<T>(tableName: string, id: string | number, record: Partial<T>): Promise<T> {
     console.log('updateRecord lck engine', tableName, id, record)
-    console.log(
-      'updateRecord lck engine',
-      this.databaseObjectionModel[tableName],
-    )
-    const object = await this.databaseObjectionModel[tableName]
-      .query()
-      .findById(id)
+    console.log('updateRecord lck engine', this.databaseObjectionModel[tableName])
+    const object = await this.databaseObjectionModel[tableName].query(this.database).findById(id)
 
     console.log(object)
 
     console.log(this.databaseObjectionModel[tableName])
 
     return (await this.databaseObjectionModel[tableName]
-      .query()
+      .query(this.database)
       .updateAndFetchById(id, record)) as unknown as T
   }
 
   async deleteRecord(tableName: string, id: string | number): Promise<number> {
     console.log('deleteRecord lck engine', tableName, id)
-    console.log(
-      'deleteRecord lck engine',
-      this.databaseObjectionModel[tableName],
-    )
-    const object = await this.databaseObjectionModel[tableName]
-      .query()
-      .findById(id)
+    console.log('deleteRecord lck engine', this.databaseObjectionModel[tableName])
+    const object = await this.databaseObjectionModel[tableName].query(this.database).findById(id)
 
     console.log(object)
 
@@ -436,6 +380,6 @@ export class SQLAdapter implements GenericAdapter {
 
     console.log(this.databaseObjectionModel[tableName])
 
-    return await this.databaseObjectionModel[tableName].query().deleteById(id)
+    return await this.databaseObjectionModel[tableName].query(this.database).deleteById(id)
   }
 }
