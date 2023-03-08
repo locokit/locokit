@@ -10,6 +10,7 @@ import {
   CheckViolationError,
   DataError,
 } from 'objection'
+import { objectionLogger } from './logger'
 
 export const ERROR = Symbol('@feathersjs/knex/error')
 
@@ -154,9 +155,11 @@ export function errorHandler(error: any) {
       }
     }
   } else if (!(error instanceof errors.FeathersError)) {
-    console.log('not a feathers error', message, error)
+    objectionLogger.info('not a feathers error', message)
     feathersError = new errors.GeneralError(message)
   }
+
+  objectionLogger.error(error)
 
   feathersError[ERROR] = error
 

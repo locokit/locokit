@@ -15,9 +15,7 @@ import { NotFound } from '@feathersjs/errors'
 
 import { errorHandler } from './error-handler'
 import { ObjectionAdapterOptions, ObjectionAdapterParams } from './declarations'
-import { logger } from '../logger'
-
-const objectionLogger = logger.child({ service: 'feathers-objection' })
+import { objectionLogger } from './logger'
 
 const METHODS = {
   $ne: 'whereNot',
@@ -471,7 +469,7 @@ export class ObjectionAdapter<
   }
 
   createQuery(params: ServiceParams) {
-    objectionLogger.debug('createQuery')
+    objectionLogger.debug('createQuery for model %s and table %s.%s', this.Model.name, this.schema, this.Model.tableName)
     /**
      * Objection Crow version legacy code
      * is commented right after knex code
@@ -763,7 +761,7 @@ export class ObjectionAdapter<
   async _find(params?: ServiceParams & { paginate: false }): Promise<Result[]>
   async _find(params?: ServiceParams): Promise<Paginated<Result> | Result[]>
   async _find(params: ServiceParams = {} as ServiceParams): Promise<Paginated<Result> | Result[]> {
-    objectionLogger.debug('_find')
+    objectionLogger.debug('_find for model %s and table %s.%s', this.Model.name, this.schema, this.Model.tableName)
     const { filters, paginate } = this.filterQuery(params)
     const builder = params.objection ? params.objection.clone() : this.createQuery(params)
 
@@ -803,10 +801,9 @@ export class ObjectionAdapter<
 
       const countBuilder = params.objection
         ? params.objection.clone()
-        : this._createCountQuery(params).count(countColumn, {
-            as: 'total',
-          })
-
+        : this._createCountQuery(params).countDistinct(countColumn, {
+          as: 'total',
+        })
       const total = await countBuilder.then((count: any) => parseInt(count[0] ? count[0].total : 0))
 
       return {
