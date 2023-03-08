@@ -1,8 +1,8 @@
-import { Type, querySyntax, Static, getDataValidator, getValidator } from '@feathersjs/typebox'
-import { dataValidator, queryValidator } from '../../../commons/validators'
-import { workspaceSchema } from '../../workspace/workspace.schema'
-import { workspaceOwnerSchema } from '../user/user.schema'
-import { queryStringExtend } from '../../../feathers-objection'
+import { Type, querySyntax, Static, getValidator } from '@feathersjs/typebox'
+import { workspaceSchema } from '@/services/workspace/workspace.schema'
+import { queryStringExtend } from '@/feathers-objection'
+import { dataValidator, queryValidator } from '@/commons/validators'
+import { workspaceOwnerSchema } from '@/services/auth/user/user.schema'
 import { roleSchema } from '../role/role.schema'
 
 // Schema for the basic data model (e.g. creating new entries)
@@ -137,7 +137,6 @@ export const groupQuerySchema = Type.Intersect(
 
 export type GroupQuery = Static<typeof groupQuerySchema>
 
-export const groupDataValidator = getDataValidator(groupDataSchema, dataValidator)
+export const groupDataValidator = getValidator(groupDataSchema, dataValidator)
 
-// @ts-expect-error
 export const groupQueryValidator = getValidator(groupQuerySchema, queryValidator)

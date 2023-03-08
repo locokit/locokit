@@ -1,5 +1,5 @@
-import { Type, querySyntax, Static, getDataValidator } from '@feathersjs/typebox'
-import { dataValidator } from '../../../commons/validators'
+import { Type, querySyntax, Static, getValidator } from '@feathersjs/typebox'
+import { dataValidator } from '@/commons/validators'
 import { queryStringExtend } from '../../../feathers-objection'
 
 // Schema for the basic data model (e.g. creating new entries)
@@ -97,4 +97,4 @@ export const roleQuerySchema = Type.Intersect([
 
 export type RoleQuery = Static<typeof roleQuerySchema>
 
-export const roleDataValidator = getDataValidator(roleDataSchema, dataValidator)
+export const roleDataValidator = getValidator(roleDataSchema, dataValidator)

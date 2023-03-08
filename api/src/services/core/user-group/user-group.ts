@@ -1,7 +1,7 @@
 import { API_PATH } from '@locokit/definitions'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
 import type { Application } from '../../../declarations'
-import { ObjectionAdapterOptions } from '../../../feathers-objection'
+import { ObjectionAdapterOptions } from '@/feathers-objection'
 
 import { UserGroupService, userGroupHooks } from './user-group.class'
 import { UserGroupModel } from './user-group.model'

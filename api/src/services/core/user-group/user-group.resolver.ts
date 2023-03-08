@@ -1,9 +1,9 @@
 import { resolve, Resolver } from '@feathersjs/schema'
 import { getValidator } from '@feathersjs/typebox'
 import type { HookContext } from '../../../declarations'
-import { queryValidator } from '../../../commons/validators'
+import { queryValidator } from '@/commons/validators'
 import { groupDispatchResolver } from '../group/group.resolver'
-import { userDispatchResolver } from '../user/user.resolver'
+import { userDispatchResolver } from '../../auth/user/user.resolver'
 import { UserGroupQuery, userGroupQuerySchema, UserGroupSchema } from './user-group.schema'
 
 // Resolver for the basic data model (e.g. creating new entries)

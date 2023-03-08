@@ -16,8 +16,8 @@ import {
 import { userGroupQueryValidator, userGroupResolvers } from './user-group.resolver'
 import { HookContext } from '../../../declarations'
 import { authenticate } from '@feathersjs/authentication'
-import { ObjectionService } from '../../../feathers-objection'
-import { UserResult } from '../user/user.schema'
+import { ObjectionService } from '@/feathers-objection'
+import { UserResult } from '../../auth/user/user.schema'
 import { USER_PROFILE } from '@locokit/definitions'
 import { Forbidden } from '@feathersjs/errors/lib'
 
@@ -46,11 +46,11 @@ export const userGroupHooks = {
   error: {},
 }
 
-export interface UserGroupParams extends KnexAdapterParams<UserGroupQuery> {}
+export interface UserGroupParams extends KnexAdapterParams<UserGroupQuery> { }
 
 // By default calls the standard Knex adapter service methods but can be customized with your own functionality.
 export class UserGroupService extends ObjectionService<
   UserGroupResult,
   UserGroupData,
   UserGroupParams
-> {}
+> { }

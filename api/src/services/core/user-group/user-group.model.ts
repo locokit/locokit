@@ -1,6 +1,6 @@
 import { Model, RelationMappings } from 'objection'
 import { GroupModel } from '../group/group.model'
-import { UserModel } from '../user/user.model'
+import { UserModel } from '../../auth/user/user.model'
 
 /**
  * user-group objection Model

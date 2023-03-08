@@ -1,7 +1,7 @@
 import { resolve, Resolver } from '@feathersjs/schema'
 import type { HookContext } from '../../../declarations'
-import { workspaceDispatchResolver } from '../../workspace/workspace.resolver'
-import { userDispatchResolver } from '../user/user.resolver'
+import { workspaceDispatchResolver } from '@/services/core/workspace/core-workspace.resolver'
+import { userDispatchResolver } from '../../auth/user/user.resolver'
 import { GroupQuery, GroupSchema } from './group.schema'
 import { roleDispatchResolver } from '../role/role.resolver'
 
@@ -19,7 +19,7 @@ export const groupDefaultResolver: Resolver<GroupSchema, HookContext> = resolve<
    * The relation `workspace` is fetched when used in a find/get + $joinRelated
    */
   async workspace(workspace, _data, context) {
-    if (workspace) return await workspaceDispatchResolver.resolve(workspace, context)
+    if (workspace) return workspaceDispatchResolver.resolve(workspace, context)
   },
 
   async role(policy, _data, context) {

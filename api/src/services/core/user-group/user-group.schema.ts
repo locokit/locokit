@@ -1,6 +1,6 @@
-import { Type, querySyntax, Static, getDataValidator } from '@feathersjs/typebox'
+import { Type, querySyntax, Static, getValidator } from '@feathersjs/typebox'
 import { USERGROUP_PROFILE } from '@locokit/definitions'
-import { dataValidator } from '../../../commons/validators'
+import { dataValidator } from '@/commons/validators'
 
 // Schema for the basic data model (e.g. creating new entries)
 export const userGroupSchema = Type.Object(
@@ -96,4 +96,4 @@ export const userGroupQuerySchema = Type.Intersect(
 
 export type UserGroupQuery = Static<typeof userGroupQuerySchema>
 
-export const userGroupDataValidator = getDataValidator(userGroupDataSchema, dataValidator)
+export const userGroupDataValidator = getValidator(userGroupDataSchema, dataValidator)

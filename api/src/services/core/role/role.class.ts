@@ -11,8 +11,8 @@ import { RoleData, RoleResult, RoleQuery, roleDataValidator } from './role.schem
 import { roleQueryValidator, roleResolvers } from './role.resolver'
 import { HookContext } from '../../../declarations'
 import { authenticate } from '@feathersjs/authentication'
-import { ObjectionService } from '../../../feathers-objection'
-import { UserResult } from '../user/user.schema'
+import { ObjectionService } from '@/feathers-objection'
+import { UserResult } from '../../auth/user/user.schema'
 import { USER_PROFILE } from '@locokit/definitions'
 import { Forbidden } from '@feathersjs/errors/lib'
 
@@ -39,7 +39,7 @@ export const roleHooks = {
   error: {},
 }
 
-export interface RoleParams extends KnexAdapterParams<RoleQuery> {}
+export interface RoleParams extends KnexAdapterParams<RoleQuery> { }
 
 // By default calls the standard Knex adapter service methods but can be customized with your own functionality.
-export class RoleService extends ObjectionService<RoleResult, RoleData, RoleParams> {}
+export class RoleService extends ObjectionService<RoleResult, RoleData, RoleParams> { }
