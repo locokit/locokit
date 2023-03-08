@@ -6,7 +6,7 @@
 import { NotAcceptable } from '@feathersjs/errors'
 import PasswordValidator from 'password-validator'
 import passwordGenerator from 'password-generator'
-const { randomInt } = await import('node:crypto')
+import { randomInt } from 'node:crypto'
 
 export class PasswordValidatorRules {
   minLength!: number

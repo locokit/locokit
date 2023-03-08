@@ -5,8 +5,8 @@ import type {
   WorkspacePatch,
   WorkspaceResult,
   WorkspaceQuery,
-} from './services/workspace/workspace.schema'
-import type { UserData, UserResult, UserQuery } from './services/auth/user/user.schema'
+} from '@/services/core/workspace/core-workspace.schema'
+import type { UserData, UserResult, UserQuery } from '@/services/auth/user/user.schema'
 import type { Service, TransportConnection, Params } from '@feathersjs/feathers'
 
 // export type { Apikey, ApikeyData, ApikeyQuery }
