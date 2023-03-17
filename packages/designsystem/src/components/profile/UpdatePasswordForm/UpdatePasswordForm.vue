@@ -2,7 +2,6 @@
   <FormGeneric
     :display-reset-button="false"
     label-button-submit="components.updatePasswordForm.submit"
-    :display-success-form="true"
     :response="response"
     :loading="loading"
     class="w-3/4"
@@ -11,7 +10,7 @@
     <Field
       v-slot="{ field, errorMessage }"
       v-model="currentPassword"
-      class="mb-4"
+      class="mb-4 relative"
       name="updatePasswordForm.currentPassword"
       rules="required"
       as="div"
@@ -23,9 +22,10 @@
         v-bind="field"
         v-model="currentPassword"
         input-id="password"
-        input-class="w-full"
         :class="{ 'p-invalid': errorMessage }"
         :toggle-mask="true"
+        hide-icon="bi bi-eye-slash-fill"
+        show-icon="bi bi-eye-fill"
         :feedback="false"
         spellcheck="false"
         autocorrect="off"
@@ -40,10 +40,14 @@
       >
         {{ errorMessage }}
       </span>
+      <span
+        v-if="response && !response.name && !response.message"
+        class="cell-state saved valid"
+      />
     </Field>
     <Field
       v-slot="{ field, errorMessage }"
-      class="mb-4"
+      class="mb-4 relative"
       name="updatePasswordForm.newPassword"
       :rules="{ required: true, regex: `${regexPasswordRules}(?=.{8,})` }"
       as="div"
@@ -58,6 +62,8 @@
         v-bind="field"
         :feedback="true"
         :toggle-mask="true"
+        hide-icon="bi bi-eye-slash-fill"
+        show-icon="bi bi-eye-fill"
         :medium-regex="`${regexPasswordRules}(?=.{8,})`"
         :strong-regex="`${regexPasswordRules}(?=.{12,})`"
         :weak-label="$t('components.updatePasswordForm.passwordStrength.weak')"
@@ -76,6 +82,10 @@
         autocapitalize="none"
         :pattern="regexPasswordRules"
       />
+      <span
+        v-if="response && !response.name && !response.message"
+        class="cell-state saved valid !bottom-[1.45rem]"
+      />
       <small id="password-rules" class="italic">
         {{ $t('components.updatePasswordForm.rules') }}
       </small>
@@ -90,7 +100,7 @@
     </Field>
     <Field
       v-slot="{ field, errorMessage }"
-      class="mb-4"
+      class="mb-4 relative"
       name="updatePasswordForm.confirmPassword"
       rules="required|confirmed:updatePasswordForm.newPassword"
       as="div"
@@ -105,6 +115,8 @@
         v-bind="field"
         :feedback="false"
         :toggle-mask="true"
+        hide-icon="bi bi-eye-slash-fill"
+        show-icon="bi bi-eye-fill"
         required
         spellcheck="false"
         autocorrect="off"
@@ -118,6 +130,10 @@
       >
         {{ errorMessage }}
       </span>
+      <span
+        v-if="response && !response.name && !response.message"
+        class="cell-state saved valid"
+      />
     </Field>
   </FormGeneric>
 </template>

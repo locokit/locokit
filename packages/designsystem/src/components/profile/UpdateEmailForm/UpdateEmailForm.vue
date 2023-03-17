@@ -2,9 +2,9 @@
   <FormGeneric
     :display-reset-button="false"
     label-button-submit="components.updateEmailForm.submit"
-    :display-success-form="true"
     :response="response"
     :loading="loading"
+    custom-msg-success-form="components.updateEmailForm.successMsg"
     class="w-3/4"
     @submit="onSubmit"
   >
@@ -62,6 +62,8 @@
         input-id="password"
         :class="{ 'p-invalid': errorMessage }"
         :toggle-mask="true"
+        hide-icon="bi bi-eye-slash-fill"
+        show-icon="bi bi-eye-fill"
         :feedback="false"
         spellcheck="false"
         autocorrect="off"

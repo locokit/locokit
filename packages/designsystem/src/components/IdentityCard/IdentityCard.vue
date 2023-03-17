@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row w-full py-1 shadow">
+  <div class="flex flex-row w-full py-1 shadow h-12">
     <i class="self-center mx-2 bi" :class="[icon, colorIcon]" />
     <div class="flex flex-col w-full mr-1">
       <span>

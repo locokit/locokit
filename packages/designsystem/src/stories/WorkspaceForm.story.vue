@@ -16,7 +16,7 @@ const emit = defineEmits<{
     e: 'submit',
     form: {
       name: string
-      summary: string | null
+      documentation: string | null
       public: boolean
       settings?: {
         color: string | null

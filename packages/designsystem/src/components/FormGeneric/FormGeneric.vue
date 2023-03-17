@@ -24,37 +24,26 @@
         icon="bi bi-check2"
         :is-submitting="loading"
         :submit-count="submitCount"
-        :color="colorSubmitButton"
+        :class-button="classSubmitButton"
       />
     </div>
-    <div
-      v-if="status === 'failed' && displayErrorForm"
-      class="mt-4 p-text-error"
-      role="alert"
-      aria-live="assertive"
-    >
-      <p>
-        {{ $t('error.basic') }}
-      </p>
-      <p>{{ $t('error.redundantError') }}</p>
-    </div>
-    <div v-if="status === 'success' && displaySuccessForm" class="mt-4">
-      <p>
-        {{ $t('success.general') }}
-      </p>
-    </div>
+    <MessageForUser
+      v-if="(status === 'success' && displayMsgSuccess) || status === 'failed'"
+      :status="status"
+      :custom-msg-success-form="customMsgSuccessForm"
+      :custom-msg-error-form="customMsgErrorForm"
+    />
   </Form>
 </template>
 
 <script setup lang="ts">
 import PrimeButton from 'primevue/button'
 import ButtonWithStatus from '../ButtonWithStatus/ButtonWithStatus.vue'
+import MessageForUser from '../MessageForUser/MessageForUser.vue'
 import { Form } from 'vee-validate'
 import { computed, ref } from 'vue'
 
 const emit = defineEmits(['submit', 'reset'])
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
   defineProps<{
     displayResetButton?: boolean
@@ -64,9 +53,10 @@ const props = withDefaults(
     labelButtonSubmit?: string | null
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     response?: Error | Record<string, any> | null
-    displayErrorForm?: boolean
-    displaySuccessForm?: boolean
-    colorSubmitButton?: 'primary' | 'secondary'
+    displayMsgSuccess?: boolean
+    customMsgSuccessForm?: string | null
+    customMsgErrorForm?: string | null
+    classSubmitButton?: string | null
     resetFormWithEmptyValue?: boolean
   }>(),
   {
@@ -76,9 +66,10 @@ const props = withDefaults(
     reset: false,
     response: null,
     labelButtonSubmit: null,
-    displayErrorForm: true,
-    displaySuccessForm: false,
-    colorSubmitButton: 'primary',
+    displayMsgSuccess: true,
+    customMsgSuccessForm: 'success.basic',
+    customMsgErrorForm: 'error.basic',
+    classSubmitButton: null,
     resetFormWithEmptyValue: true,
   },
 )
@@ -86,7 +77,7 @@ const props = withDefaults(
 const refForm = ref()
 
 const status = computed(() => {
-  if (props.response && props.response.name) {
+  if (props.response && props.response.name && props.response.message) {
     return 'failed'
   } else if (props.response) {
     return 'success'

@@ -13,10 +13,6 @@ export default defineConfig({
         title: 'Components',
         include: (file) => file.path.includes('stories'),
       },
-      {
-        title: 'Others',
-        include: (file) => true,
-      },
     ],
   },
   plugins: [
@@ -28,4 +24,5 @@ export default defineConfig({
     }),
   ],
   setupFile: './src/histoire.setup.ts',
+  storyIgnored: ['**/node_modules/**', '**/dist/**', '**/test/**'],
 })

@@ -13,6 +13,7 @@ import UpdatePasswordForm from './components/profile/UpdatePasswordForm/UpdatePa
 import ButtonWithStatus from './components/ButtonWithStatus/ButtonWithStatus.vue'
 import IdentityCard from './components/IdentityCard/IdentityCard.vue'
 import FilterButton from './components/FilterButton/FilterButton.vue'
+import MessageForUser from './components/MessageForUser/MessageForUser.vue'
 
 export {
   SignInForm,
@@ -30,4 +31,5 @@ export {
   ButtonWithStatus,
   IdentityCard,
   FilterButton,
+  MessageForUser,
 }
