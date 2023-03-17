@@ -27,10 +27,9 @@ const router = useRouter()
 const workspacesStore = useStoreWorkspaces()
 const { error, loading } = storeToRefs(workspacesStore)
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const newWorkspace = async (data: {
   name: string
-  summary: string | null
+  documentation: string | null
   public: boolean
   settings?: {
     color: string | null
@@ -38,7 +37,7 @@ const newWorkspace = async (data: {
     icon: string | null
   }
 }) => {
-  // await workspacesStore.createWorkspaces(data) // Not working
+  await workspacesStore.createWorkspace(data)
   if (error.value === null) {
     await router.push({
       name: ROUTES_NAMES.WORKSPACE.HOME,

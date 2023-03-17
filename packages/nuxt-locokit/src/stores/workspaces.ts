@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { sdkClient } from '../services/api'
 import { ref } from '#imports'
 
-export const useStoreWorkspaces = defineStore('workspaces', () => {
+export const useStoreWorkspaces = defineStore('workspace', () => {
   const loading = ref(false)
   const error = ref<Error | null>(null)
   const workspaces = ref([])
@@ -11,7 +11,7 @@ export const useStoreWorkspaces = defineStore('workspaces', () => {
     loading.value = true
     error.value = null
     try {
-      const result = await sdkClient.service('w').find(params)
+      const result = await sdkClient.service('workspace').find(params)
       workspaces.value = result.data
     } catch (err) {
       // eslint-disable-next-line no-console
@@ -21,9 +21,9 @@ export const useStoreWorkspaces = defineStore('workspaces', () => {
     loading.value = false
   }
 
-  async function createWorkspaces(data: {
+  async function createWorkspace(data: {
     name: string
-    summary: string | null
+    documentation: string | null
     public: boolean
     settings?: {
       color: string | null
@@ -34,10 +34,8 @@ export const useStoreWorkspaces = defineStore('workspaces', () => {
     loading.value = true
     error.value = null
     try {
-      const result = await sdkClient.service('w').create({
-        value: data,
-      })
-      workspaces.value = result
+      const res = await sdkClient.service('workspace').create(data)
+      workspaces.value.push(res)
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err)
@@ -51,6 +49,6 @@ export const useStoreWorkspaces = defineStore('workspaces', () => {
     error,
     workspaces,
     findWorkspaces,
-    createWorkspaces,
+    createWorkspace,
   }
 })

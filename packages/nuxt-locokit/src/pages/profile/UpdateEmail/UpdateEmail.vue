@@ -4,11 +4,13 @@
       {{ $t('pages.updateEmail.title') }}
     </h3>
     <UpdateEmailForm
-      :user="authStore?.user"
+      v-if="user"
+      :user="user"
       :response="response"
       :loading="loading"
       @submit="updateEmail"
     />
+    <p v-else>{{ $t('pages.updateEmail.userNotFound') }}</p>
   </div>
 </template>
 
@@ -22,19 +24,23 @@ import { ref, useHead } from '#imports'
 const { t } = useI18n({ useScope: 'global' })
 const authStore = useStoreAuth()
 
-const { error, loading } = storeToRefs(authStore)
+const { error, loading, user } = storeToRefs(authStore)
 const response = ref()
 
-const updateEmail = (data: { newEmail: string; password: string }) => {
+const updateEmail = async (data: { newEmail: string; password: string }) => {
   response.value = null
 
-  // eslint-disable-next-line no-console
-  console.log('Done it !', data)
+  const res = await authStore.updateEmail({
+    email: user.value.email,
+    newEmail: data.newEmail,
+    password: data.password,
+  })
 
   if (error.value !== null) {
     response.value = error.value
+  } else {
+    response.value = res
   }
-  response.value = data
 }
 
 useHead({

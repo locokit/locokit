@@ -167,22 +167,12 @@ import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useStoreUsers } from '../../../../stores/users'
 import { PROFILE } from '../../../../interfaces/toMigrate'
-
-const emit = defineEmits<{
-  (
-    e: 'submit',
-    form: {
-      username: string
-      lastName: string | null
-      firstName: string | null
-      email: string
-      profile: string
-    },
-  ): void
-}>()
+import { ROUTES_NAMES } from '../../../../paths'
+import { useRouter } from '#imports'
 
 const usersStore = useStoreUsers()
 const { loading, error } = storeToRefs(usersStore)
+const router = useRouter()
 
 const username = ref('')
 const lastName = ref(null)
@@ -192,12 +182,17 @@ const profile = ref(PROFILE[0])
 
 const onSubmit = async () => {
   if (!profile.value) return
-  await usersStore.createUser({
+  const res = await usersStore.createUser({
     username: username.value,
     lastName: lastName.value,
     firstName: firstName.value,
     email: email.value,
-    profile: profile.value,
+    profile: profile.value.value,
+  })
+
+  await router.push({
+    name: ROUTES_NAMES.ADMIN.USERS.RECORD,
+    params: { id: res.id },
   })
 }
 

@@ -14,7 +14,12 @@
         <PrimeConfirmDialog />
         <div class="flex flex-row justify-around">
           <div class="flex flex-col">
-            <span>{{ $t('pages.recordUser.blocking') }}</span>
+            <span v-if="currentUser.blocked">
+              {{ $t('pages.recordUser.unblocking') }}
+            </span>
+            <span v-else>
+              {{ $t('pages.recordUser.blocking') }}
+            </span>
             <PrimeButton
               class="p-button-rounded p-button-outlined"
               icon="bi-envelope"
@@ -25,6 +30,7 @@
           <div class="flex flex-col">
             <span>{{ $t('pages.recordUser.inviting') }}</span>
             <PrimeButton
+              :disabled="currentUser.isVerified"
               class="p-button-rounded p-button-outlined"
               icon="bi-envelope"
               :label="$t('pages.recordUser.resend')"
@@ -32,25 +38,19 @@
             />
           </div>
         </div>
-        <div
+        <MessageForUser
           v-if="
-            (errorUserStore && errorUserStore.name) ||
-            (errorAuthStore && errorAuthStore.name)
+            ((errorUserStore && errorUserStore.name) ||
+              (errorAuthStore && errorAuthStore.name)) &&
+            actionFromButton
           "
-          class="mt-4 p-text-error"
-          role="alert"
-          aria-live="assertive"
-        >
-          <p>
-            {{ $t('error.basic') }}
-          </p>
-          <p>{{ $t('error.redundantError') }}</p>
-        </div>
+          status="failed"
+        />
       </div>
       <div>
         <FormGeneric
           label-button-submit="pages.recordUser.submit"
-          :response="errorUserStore"
+          :response="response || errorUserStore"
           :loading="loading"
           color-submit-button="secondary"
           :full-width-button="true"
@@ -65,8 +65,6 @@
             </label>
             <PrimeInputText id="id" v-model="currentUser.id" :disabled="true" />
           </div>
-          {{ loading }}
-
           <Field
             v-slot="{ field, errorMessage, meta: { valid, touched } }"
             v-model="currentUser.username"
@@ -240,7 +238,7 @@ import PrimeSwitch from 'primevue/inputswitch'
 import PrimeInputText from 'primevue/inputtext'
 import PrimeDropdown from 'primevue/dropdown'
 import PrimeConfirmDialog from 'primevue/confirmdialog'
-import { FormGeneric } from '@locokit/designsystem'
+import { FormGeneric, MessageForUser } from '@locokit/designsystem'
 import { Field } from 'vee-validate'
 import { storeToRefs } from 'pinia'
 import { useConfirm } from 'primevue/useconfirm'
@@ -250,15 +248,29 @@ import { PROFILE, ProfileType, User } from '../../../../interfaces/toMigrate'
 import { useStoreAuth } from '../../../../stores/auth'
 import { useRoute, ref, computed } from '#imports'
 
+const emit = defineEmits<{
+  (
+    e: 'patch-user',
+    form: {
+      id: string
+      username: string
+      lastName: string | null
+      firstName: string | null
+    },
+  ): void
+}>()
+
 const route = useRoute()
 const usersStore = useStoreUsers()
 const { loading, error: errorUserStore } = storeToRefs(usersStore)
 const authStore = useStoreAuth()
 const { error: errorAuthStore } = storeToRefs(authStore)
 const { t } = useI18n()
+const confirm = useConfirm()
 
 const currentUser = ref<User>()
-const confirm = useConfirm()
+const actionFromButton = ref(false)
+const response = ref(null)
 
 currentUser.value = await usersStore.getUser(route.params.id as string)
 
@@ -281,8 +293,9 @@ const blockUser = async () => {
   if (!currentUser.value) return
   await usersStore.blockAccountUser(
     currentUser.value.id,
-    currentUser.value.isVerified,
+    currentUser.value?.isBlocked,
   )
+  actionFromButton.value = true
 }
 
 const confirmBlockingUser = () => {
@@ -302,6 +315,7 @@ const confirmBlockingUser = () => {
 const sendVerifySignup = async () => {
   if (!currentUser.value) return
   await authStore.sendEmailVerifySignup(currentUser.value.email)
+  actionFromButton.value = true
 }
 
 const confirmSendVerifySignup = () => {
@@ -320,13 +334,23 @@ const confirmSendVerifySignup = () => {
 
 const onSubmit = async () => {
   if (!currentUser.value) return
-  await usersStore.patchUser(currentUser.value.id, {
+  const res = await usersStore.patchUser(currentUser.value.id, {
     username: currentUser.value.username,
     lastName: currentUser.value.lastName,
     firstName: currentUser.value.firstName,
     email: currentUser.value.email,
     profile: currentUser.value.profile,
   })
+
+  if (res) {
+    response.value = res
+    emit('patch-user', {
+      id: currentUser.value.id,
+      username: currentUser.value.username,
+      lastName: currentUser.value.lastName,
+      firstName: currentUser.value.firstName,
+    })
+  }
 }
 
 const onReset = async () => {

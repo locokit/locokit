@@ -1,7 +1,7 @@
 <template>
   <WithHeader>
     <div
-      class="max-w-lg lg:h-full m-auto mt-8 pb-4 px-4 lg:px-0 flex flex-col justify-center"
+      class="max-w-lg h-full flex flex-col flex-wrap md:justify-center md:m-auto mt-8"
     >
       <div class="mb-8">
         <h1 class="text-center">{{ $t('pages.verifySignup.title') }}</h1>
@@ -29,9 +29,9 @@
 
           <NuxtLink
             class="no-decoration-link"
-            :to="{ name: ROUTES_NAMES.HOME }"
+            :to="{ name: ROUTES_NAMES.AUTH.SIGN_IN }"
           >
-            {{ $t('pages.resetPassword.homeLink') }}
+            {{ $t('pages.resetPassword.signIn') }}
           </NuxtLink>
         </div>
       </div>
@@ -58,11 +58,13 @@ const loading = ref(false) // check if necessary with vee-validate
 const formSentAndValid = ref(false)
 
 const verifySignupAndSetPassword = async (data: string) => {
-  await authStore.verifySignupAndSetPassword({
-    token: route.query?.token as string,
-    password: data,
-  })
-  formSentAndValid.value = !error.value
+  if (route.query.token) {
+    await authStore.verifySignupAndSetPassword({
+      token: route.query.token as string,
+      password: data,
+    })
+    formSentAndValid.value = !error.value
+  }
 }
 
 definePageMeta({ middleware: ['anonymous-routes'] })

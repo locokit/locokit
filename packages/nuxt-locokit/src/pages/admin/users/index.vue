@@ -56,7 +56,11 @@
                   <IdentityCard
                     class="hover:outline hover:outline-1 hover:outline-primary"
                     :title="user.username"
-                    :subtitle="user.name"
+                    :subtitle="
+                      user.lastname && user.firstname
+                        ? `${user.lastname} ${user.firstname}`
+                        : null
+                    "
                     :icon="
                       user.blocked ? 'bi-person-fill-lock' : 'bi-person-fill'
                     "
@@ -101,7 +105,11 @@
                   <IdentityCard
                     class="hover:outline hover:outline-1 hover:outline-primary"
                     :title="suggestionUser.username"
-                    :subtitle="suggestionUser.name"
+                    :subtitle="
+                      suggestionUser.lastname && suggestionUser.firstname
+                        ? `${suggestionUser.lastname} ${suggestionUser.firstname}`
+                        : null
+                    "
                     :icon="
                       suggestionUser.blocked
                         ? 'bi-person-fill-lock'
@@ -136,7 +144,7 @@
       </div>
     </nav>
     <main class="flex-1 overflow-y-auto">
-      <NuxtPage />
+      <NuxtPage @patch-user="patchUser" />
     </main>
   </div>
 </template>
@@ -147,9 +155,10 @@ import PrimeInput from 'primevue/inputtext'
 import PrimePaginator, { PageState } from 'primevue/paginator'
 import { storeToRefs } from 'pinia'
 import { IdentityCard, FilterButton } from '@locokit/designsystem'
-import { COLUMN_TYPE, Filter } from '../../../helpers/filter'
+import { COLUMN_TYPE } from '../../../helpers/filter'
 import { ROUTES_NAMES } from '../../../paths'
 import { useStoreUsers } from '../../../stores/users'
+import { Filter } from '../../../interfaces/toMigrate'
 import { ref } from '#imports'
 
 const usersStore = useStoreUsers()
@@ -193,6 +202,33 @@ const applyFilters = (filters: Filter[]) => {
 const onPage = (event: PageState) => {
   // event.page = New index page number
   searchUsers(event.page, event.rows)
+}
+
+const patchUser = (userForm: {
+  id: string
+  username: string
+  lastName: string | null
+  firstName: string | null
+}) => {
+  usersStore.squashUsers({
+    id: userForm.id,
+    username: userForm.username,
+    lastName: userForm.lastName,
+    firstName: userForm.firstName,
+  })
+  if (suggestionUsers.value && suggestionUsers.value.total > 0) {
+    const userFound = suggestionUsers.value.data.find(
+      ({ id }: { id: string }) => id === userForm.id,
+    )
+    if (
+      userFound &&
+      (userFound.username !== userForm.username ||
+        userFound.lastName !== userForm.lastName ||
+        userFound.firstName !== userForm.firstName)
+    ) {
+      suggestionUsers.value = searchUsers()
+    }
+  }
 }
 </script>
 

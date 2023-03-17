@@ -11,6 +11,7 @@ export const ROUTES_NAMES = {
     SIGN_UP: 'SignUp',
     SIGN_IN: 'SignIn',
     ALREADY_AUTHENTICATED: 'AlreadyAuthenticated',
+    CONFIRM_UPDATE_EMAIL: 'ConfirmUpdateEmail',
   },
 
   WORKSPACE: {
@@ -55,6 +56,7 @@ export const ROUTES_PATH = {
     SIGN_UP: '/auth/sign-up',
     SIGN_IN: '/auth/sign-in',
     ALREADY_AUTHENTICATED: '/auth/already-authenticated',
+    CONFIRM_UPDATE_EMAIL: '/auth/confirm-update-email',
   },
 
   /**

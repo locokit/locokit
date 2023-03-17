@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { sdkClient } from '../services/api'
-import { Filter, getCurrentFilters } from '../helpers/filter'
+import { getCurrentFilters } from '../helpers/filter'
+import { Filter } from '../interfaces/toMigrate'
 import { ref } from '#imports'
 
 export const useStoreUsers = defineStore('users', () => {
@@ -14,7 +15,7 @@ export const useStoreUsers = defineStore('users', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await sdkClient.service('users').get(id)
+      const res = await sdkClient.service('user').get(id)
       loading.value = false
       return res
     } catch (err) {
@@ -29,7 +30,7 @@ export const useStoreUsers = defineStore('users', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await sdkClient.service('users').create(data)
+      const res = await sdkClient.service('user').create(data)
       loading.value = false
       return res
     } catch (err) {
@@ -44,7 +45,7 @@ export const useStoreUsers = defineStore('users', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await sdkClient.service('users').patch(id, data)
+      const res = await sdkClient.service('user').patch(id, data)
       loading.value = false
       return res
     } catch (err) {
@@ -55,11 +56,21 @@ export const useStoreUsers = defineStore('users', () => {
     loading.value = false
   }
 
-  async function findUsers(params = {}) {
+  async function findUsers(
+    params: Record<string, any>,
+    sort = {
+      createdAt: -1,
+    },
+  ) {
     loading.value = true
     error.value = null
     try {
-      users.value = await sdkClient.service('users').find(params)
+      users.value = await sdkClient.service('user').find({
+        query: {
+          params,
+          // $sort: sort,
+        },
+      })
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err)
@@ -74,8 +85,7 @@ export const useStoreUsers = defineStore('users', () => {
     pageIndex = 0,
     limit = ITEMS_PER_PAGE,
     sort = {
-      username: 1,
-      // createdAt: 1,
+      createdAt: -1,
     },
   }: {
     query?: string | null
@@ -89,35 +99,35 @@ export const useStoreUsers = defineStore('users', () => {
     try {
       let result = null
       if (filters && query) {
-        result = await sdkClient.service('users').find({
+        result = await sdkClient.service('user').find({
           query: {
             username: {
-              $like: `%${query}%`,
+              $ilike: `%${query}%`,
             },
             ...getCurrentFilters(filters),
             $limit: limit,
             $skip: pageIndex * limit,
-            $sort: sort,
+            // $sort: sort,
           },
         })
       } else if (query) {
-        result = await sdkClient.service('users').find({
+        result = await sdkClient.service('user').find({
           query: {
             username: {
-              $like: `%${query}%`,
+              $ilike: `%${query}%`,
             },
             $limit: limit,
             $skip: pageIndex * limit,
-            $sort: sort,
+            // $sort: sort,
           },
         })
       } else if (filters) {
-        result = await sdkClient.service('users').find({
+        result = await sdkClient.service('user').find({
           query: {
             ...getCurrentFilters(filters),
             $limit: limit,
             $skip: pageIndex * limit,
-            $sort: sort,
+            // $sort: sort,
           },
         })
       }
@@ -135,7 +145,7 @@ export const useStoreUsers = defineStore('users', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await sdkClient.service('users').patch(id, {
+      const res = await sdkClient.service('user').patch(id, {
         blocked: !blocked,
       })
       loading.value = false
@@ -146,6 +156,22 @@ export const useStoreUsers = defineStore('users', () => {
       error.value = err as Error
     }
     loading.value = false
+  }
+
+  function squashUsers(data: {
+    id: string
+    username: string
+    lastName: string | null
+    firstName: string | null
+  }) {
+    if (users.value.total > 0) {
+      const userFound = users.value.data.findIndex(
+        ({ id }: { id: string }) => id === data.id,
+      )
+      if (userFound > -1) {
+        users.value = findUsers({})
+      }
+    }
   }
 
   return {
@@ -159,5 +185,6 @@ export const useStoreUsers = defineStore('users', () => {
     findUsers,
     searchUsers,
     blockAccountUser,
+    squashUsers,
   }
 })
