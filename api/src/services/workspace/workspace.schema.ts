@@ -26,9 +26,11 @@ export const workspaceSchema = Type.Object(
         default: false,
       }),
     ),
-    documentation: Type.String({
-      description: 'Explain what is this workspace',
-    }),
+    documentation: Type.Optional(
+      Type.String({
+        description: 'Explain what is this workspace',
+      }),
+    ),
     settings: Type.Optional(
       Type.Object(
         {

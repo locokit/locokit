@@ -159,24 +159,24 @@ export function authManagementSettings(app: Application): {
         case 'resendVerifySignup':
         case 'sendVerifySignup':
           currentTemplateVars.verifySignupLink = getLink(
-            'verify-signup',
+            'auth/verify-signup',
             user.verifyToken as string,
           )
           break
         case 'sendResetPwd':
           currentTemplateVars.resetPasswordLink = getLink(
-            'reset-password',
+            'auth/reset-password',
             user.resetToken as string,
           )
           break
         case 'identityChange':
           currentTemplateVars.identityChangeLink = getLink(
-            'update-email',
+            'auth/confirm-update-email',
             user.verifyToken as string,
           )
           break
         case 'informUserConflict':
-          currentTemplateVars.lostPasswordLink = getLink('lost-password')
+          currentTemplateVars.lostPasswordLink = getLink('auth/lost-password')
           break
       }
 
