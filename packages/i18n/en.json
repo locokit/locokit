@@ -14,14 +14,14 @@
       "password": "Password",
       "signIn": "Sign in",
       "signInAgain": "Sign in again",
-      "forgottenPassword": "Forgot your password ?",
+      "forgottenPassword": "Forgot your password?",
       "signUp": "Sign up",
       "error": "Unable to sign in. Please contact the administrator or try again later."
     },
     "lostPasswordForm": {
       "email": "Email",
       "submit": "Submit and get a temporary link to choose your new password.",
-      "signInHelp": "Already have login and password ?",
+      "signInHelp": "Already have login and password?",
       "signIn": "Sign in",
       "feedback": "Your request has been processed. If your email was found, you will receive an email with a link to reset your password. If not, please check your spam folder."
     },
@@ -55,29 +55,34 @@
       "title": "Create a new workspace",
       "name": "Name",
       "explainsSlugUse": "This workspace will be saved as:",
-      "summary": "Summary",
+      "documentation": "Summary",
       "color": "Color",
       "colorHelp": "This color is used in workspace listing page.",
       "icon": "Icon",
       "iconPlaceholder": "e.g. pi-cart",
-      "iconHelp": "Fill with icon id, list is available on PrimeIcons.",
+      "iconHelp": "Fill with icon id, list is available on BootstrapIcons.",
       "public": "Available for everyone (public)",
       "publicHelp": "Before activating it, please check that the public role is as expected and that a dedicated page has been made.",
       "reset": "Reset",
       "submit": "Submit"
     },
     "updateGeneralForm": {
-      "name": "Name",
+      "lastName": "Last name",
+      "firstName": "First name",
       "username": "Username",
       "email": "Email",
       "role": "Role",
-      "submit": "Submit"
+      "submit": "Submit",
+      "admin": "@:commons.userProfile.admin",
+      "creator": "@:commons.userProfile.creator",
+      "member": "@:commons.userProfile.member"
     },
     "updateEmailForm": {
       "currentEmail": "Current email",
       "newEmail": "New email",
       "password": "Password",
-      "submit": "Submit"
+      "submit": "Submit",
+      "successMsg": "An email has been sent to your current email address to confirm the change."
     },
     "updatePasswordForm": {
       "currentPassword": "Current password",
@@ -160,7 +165,7 @@
   "pages": {
     "404": {
       "title": "Page not found",
-      "alternativeTitle": "Whooops ?!… sounds you're lost…",
+      "alternativeTitle": "Whooops?!… sounds you're lost…",
       "link": "Come back home"
     },
     "signIn": {
@@ -182,15 +187,15 @@
     "lostPassword": {
       "title": "Lost password",
       "alternativeTitle": "Password… where are you?!",
-      "description": "Do you lose your password ? Enter your email to receive a mail with a temporary link. Open it, and update your password !",
-      "sendMailToResetPassword": "Check your email and click on the link to create a new password.",
+      "description": "Do you lose your password? Enter your email to receive a mail with a temporary link. Open it, and update your password!",
+      "sendMailToResetPassword": "Check in your email and click on the link to create a new password.",
       "homeLink": "Go back to home page"
     },
     "resetPassword": {
       "title": "Password reset",
       "description": "You can reset your password.",
       "updatedPassword": "Your password has been reset. You can now login to the app with this new password.",
-      "homeLink": "Go back to home page",
+      "signIn": "Sign In",
       "labelSubmit": "Reset the password"
     },
     "signUp": {
@@ -203,12 +208,12 @@
       "title": "Email verification and set password",
       "description": "Please set your password before we authorize you to connect.",
       "accountComplete": "Your account is complete. You can now login to the app.",
-      "homeLink": "Go back to home page",
+      "signIn": "Sign In",
       "labelSubmit": "Set the password"
     },
     "workspace": {
       "title": "Workspaces",
-      "intro": "You must create or select your workspace before adding datas or templates.",
+      "intro": "You must create or select your workspace before adding data or templates.",
       "addWorkspace": "Add a workspace",
       "public": "Public"
     },
@@ -229,13 +234,16 @@
       "updatePassword": "Update password"
     },
     "updateGeneral": {
-      "title": "@:pages.profile.general"
+      "title": "@:pages.profile.general",
+      "userNotFound": "Unable to retrieve user record."
     },
     "updateEmail": {
-      "title": "@:pages.profile.updateEmail"
+      "title": "@:pages.profile.updateEmail",
+      "userNotFound": "Unable to retrieve user record."
     },
     "updatePassword": {
-      "title": "@:pages.profile.updatePassword"
+      "title": "@:pages.profile.updatePassword",
+      "userNotFound": "Unable to retrieve user record."
     },
     "admin": {
       "title": "Administration",
@@ -273,6 +281,7 @@
       "title": "User record",
       "submit": "Update",
       "blocking": "Blocking a user",
+      "unblocking": "Unblocking a user",
       "send": "Send",
       "resend": "Resend",
       "inviting": "Re-inviting a user",
@@ -291,36 +300,22 @@
       "messageResendVerifySignup": "Are you sure you want to resend a mail to sign up for this user: {username}?",
       "messageBlockingUser": "Are you sure you want to block this user: {username}?",
       "noUserFound": "No user found"
+    },
+    "confirmUpdateEmail": {
+      "title": "Updating your email",
+      "message": "This operation has been successfully completed. You can now log in with your new email.",
+      "errorMessage": "Unfortunately, the operation could not be completed. If the problem persists, please contact the site administrator.",
+      "signIn": "Sign in"
     }
   },
   "success": {
-    "general": "The form have been sent correctly."
+    "basic": "The form have been sent correctly."
   },
   "error": {
     "basic": "Something goes wrong. Please try again later.",
     "redundantError": "If this issue keeps happening, contact the app administrator.",
     "notAuthenticated": {
-      "name": "Invalid login",
-      "login": "Unable to log in with this information. Can you please check your input?"
-    },
-    "badRequest": {
-      "name": "Bad Request"
-    },
-    "http": {
-      "undefined": "Unknown error",
-      "400": "Bad request",
-      "401": "Access not granted",
-      "403": "Access forbidden",
-      "404": "Not found",
-      "405": "Not allowed",
-      "406": "Not acceptable",
-      "409": "Data Conflict",
-      "429": "Maximum number of requests exceeded",
-      "500": "An error occurred…"
-    },
-    "expiredToken": {
-      "header": "Your session has expired",
-      "message": "Please log in again to continue browsing the site."
+      "description": "Unable to log in with this information. Can you please check your input?"
     }
   },
   "localePrime": {
@@ -415,7 +410,8 @@
         "name": "@:components.workspaceForm.name"
       },
       "updateGeneralForm": {
-        "name": "@:components.updateGeneralForm.name",
+        "lastName": "@:components.updateGeneralForm.lastName",
+        "firstName": "@:components.updateGeneralForm.firstName",
         "username": "@:components.updateGeneralForm.username"
       },
       "updateEmailForm": {

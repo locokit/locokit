@@ -12,7 +12,7 @@
     "signInForm": {
       "email": "E-mail",
       "password": "Mot de passe",
-      "signIn": "S'identifier",
+      "signIn": "Se connecter",
       "signInAgain": "Se reconnecter",
       "forgottenPassword": "Vous avez oublié votre mot de passe ?",
       "signUp": "S'inscrire",
@@ -22,7 +22,7 @@
       "email": "E-mail",
       "submit": "Validez et obtenez un lien temporaire pour choisir votre nouveau mot de passe.",
       "signInHelp": "Vous avez déjà un compte et un mot de passe ?",
-      "signIn": "S'identifier",
+      "signIn": "Se connecter",
       "feedback": "Votre demande a bien été prise en compte. Si votre e-mail a été trouvé, vous allez recevoir un courriel contenant un lien de réinitialisation de votre mot de passe. Dans le cas contraire, merci de vérifier votre dossier Spam."
     },
     "passwordForm": {
@@ -55,29 +55,34 @@
       "title": "Créer un espace de travail",
       "name": "Nom",
       "explainsSlugUse": "Cette espace de travail sera sauvegardé sous le nom de :",
-      "summary": "Descriptif",
+      "documentation": "Descriptif",
       "color": "Couleur",
       "colorHelp": "Cette couleur est utilisée dans la page des espaces de travail.",
       "icon": "Icône",
       "iconPlaceholder": "ex : pi-cart",
-      "iconHelp": "Liste d'icône disponible sur PrimeIcons",
+      "iconHelp": "Liste d'icône disponible sur BootstrapIcons",
       "public": "Rendre visible pour tous⋅tes (public)",
       "publicHelp": "Avant de l'activer, merci de vérifier que le rôle public est conforme à vos attentes et qu'une page dédiée a été réalisé",
       "reset": "Réinitialiser",
       "submit": "Créer"
     },
     "updateGeneralForm": {
-      "name": "Nom",
+      "lastName": "Nom",
+      "firstName": "Prénom",
       "username": "Nom d'utilisateur",
       "email": "Email",
       "role": "Rôle",
-      "submit": "Enregistrer"
+      "submit": "Enregistrer",
+      "admin": "@:commons.userProfile.admin",
+      "creator": "@:commons.userProfile.creator",
+      "member": "@:commons.userProfile.member"
     },
     "updateEmailForm": {
       "currentEmail": "Email utilisé",
       "newEmail": "Nouveau email",
       "password": "Mot de passe",
-      "submit": "Enregistrer"
+      "submit": "Enregistrer",
+      "successMsg": "Un email a été envoyé à votre adresse email actuelle pour confirmer le changement."
     },
     "updatePasswordForm": {
       "currentPassword": "Mot de passe utilisé",
@@ -146,7 +151,7 @@
       "home": "Accueil",
       "workspaces": "Espaces de travail",
       "profile": "Profil",
-      "signIn": "S'identifier",
+      "signIn": "Se connecter",
       "signUp": "S'inscrire",
       "admin": "Admin",
       "logout": "Se déconnecter"
@@ -164,7 +169,7 @@
       "link": "Retourner sur la page d'accueil"
     },
     "signIn": {
-      "title": "Page d'identification"
+      "title": "Page de connexion"
     },
     "indexPage": {
       "presentation": "LocoKit est une LCAP open source (Low Code Application Platform) qui fournit une gestion de base de données sous forme de feuille de calcul avec un Constructeur d'application.",
@@ -190,7 +195,7 @@
       "title": "Réinitialisation du mot de passe",
       "description": "Vous pouvez réinitialiser votre mot de passe.",
       "updatedPassword": "Mot de passe réinitialisé. Vous pouvez vous identifier avec ce nouveau mot de passe.",
-      "homeLink": "Retour à la page d'accueil",
+      "signIn": "Se connecter",
       "labelSubmit": "Réinitialiser le mot de passe"
     },
     "signUp": {
@@ -203,12 +208,12 @@
       "title": "Vérification de votre email et définition du mot de passe",
       "description": "Merci de renseigner votre mot de passe pour pouvoir ensuite vous connecter.",
       "accountComplete": "Votre compte st finalisé. Vous pouvez désormais vous identifier.",
-      "homeLink": "Retour à la page d'accueil",
+      "signIn": "Se connecter",
       "labelSubmit": "Définir le mot de passe"
     },
     "workspace": {
       "title": "Espaces de travail",
-      "intro": "Vous devez créer un workspace et le sélectionner avant de lui ajouter des données ou des pages.",
+      "intro": "Vous devez créer un workspace et le sélectionner avant d'ajouter des données ou des gabarits de pages.",
       "addWorkspace": "Ajouter un espace de travail",
       "public": "Publique"
     },
@@ -229,13 +234,16 @@
       "updatePassword": "Modifier son mot de passe"
     },
     "updateGeneral": {
-      "title": "@:pages.profile.general"
+      "title": "@:pages.profile.general",
+      "userNotFound": "Impossible de récupérer les informations de l'utilisateur."
     },
     "updateEmail": {
-      "title": "@:pages.profile.updateEmail"
+      "title": "@:pages.profile.updateEmail",
+      "userNotFound": "Impossible de récupérer les informations de l'utilisateur."
     },
     "updatePassword": {
-      "title": "@:pages.profile.updatePassword"
+      "title": "@:pages.profile.updatePassword",
+      "userNotFound": "Impossible de récupérer les informations de l'utilisateur."
     },
     "admin": {
       "title": "Administration",
@@ -273,6 +281,7 @@
       "title": "Information d'un⋅e utilisateur⋅rice",
       "submit": "Mise à jour",
       "blocking": "Bloquer cette personne",
+      "unblocking": "Débloquer cette personne",
       "send": "Envoyer",
       "resend": "Renvoyer",
       "inviting": "Réinviter cette personne",
@@ -291,36 +300,22 @@
       "messageResendVerifySignup": "Êtes-vous sûr de vouloir renvoyer un e-mail pour l'inscription de cette personne : {username}?",
       "messageBlockingUser": "Êtes-vous sûr de vouloir bloquer cette personne : {username}?",
       "noUserFound": "Aucune personne trouvée"
+    },
+    "confirmUpdateEmail": {
+      "title": "Mettre à jour son email",
+      "message": "Cette opération a été effectuée avec succès. Vous pouvez maintenant vous connecter avec votre nouvel email.",
+      "errorMessage": "Malheureusement, l'opération n'a pas pu être menée à bien. Si le problème persiste, veuillez contacter l'administrateur du site.",
+      "signIn": "Se connecter"
     }
   },
   "success": {
-    "general": "Le formulaire a bien été envoyé."
+    "basic": "Le formulaire a bien été envoyé."
   },
   "error": {
-    "basic": "Quelque chose s'est ma passé. Merci de essayer à nouveau plus tard.",
+    "basic": "Une erreur s'est produite. Merci d'essayer à nouveau plus tard.",
     "redundantError": "Si ce problème continue de se produire, merci de contacter l'administrateur de l'application.",
     "notAuthenticated": {
-      "name": "Identifiants incorrects",
-      "login": "Impossible de vous identifier avec ces informations. Merci de vérifier votre saisie."
-    },
-    "badRequest": {
-      "name": "Requête incorrecte"
-    },
-    "http": {
-      "undefined": "Erreur inconnue",
-      "400": "Requête incorrecte",
-      "401": "Accès non authentifié",
-      "403": "Accès interdit",
-      "404": "Non trouvé",
-      "405": "Non autorisé",
-      "406": "Non acceptable",
-      "409": "Conflit de données",
-      "429": "Nombre maximal de requêtes dépassé",
-      "500": "Une erreur a eu lieu…"
-    },
-    "expiredToken": {
-      "header": "Votre session a expiré",
-      "message": "Merci de vous reconnecter pour poursuivre votre navigation sur le site."
+      "description": "Impossible de vous identifier avec ces informations."
     }
   },
   "localePrime": {
@@ -415,7 +410,8 @@
         "name": "@:components.workspaceForm.email"
       },
       "updateGeneralForm": {
-        "name": "@:components.updateGeneralForm.name",
+        "lastName": "@:components.updateGeneralForm.lastName",
+        "firstName": "@:components.updateGeneralForm.firstName",
         "username": "@:components.updateGeneralForm.username"
       },
       "updateEmailForm": {
