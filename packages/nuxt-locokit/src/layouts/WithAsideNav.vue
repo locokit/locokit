@@ -4,7 +4,7 @@
     <div
       class="w-full bg-primary-lighten h-16 border-b-2 border-primary bg-primary-lighten flex"
     >
-      <NuxtLink class="h-16 w-[26rem]" :to="{ name: ROUTES_NAMES.HOME }">
+      <NuxtLink class="h-16 w-[26.75rem]" :to="{ name: ROUTES_NAMES.HOME }">
         <span class="sr-only">
           {{ runtimeConfig.public.PROJECT_NAME }}
         </span>
@@ -17,9 +17,7 @@
       </NuxtLink>
 
       <div class="flex flex-row w-full justify-end">
-        <div
-          class="relative flex justify-center flex-shrink-0 mr-4 font-semibold"
-        >
+        <div class="relative flex justify-center flex-shrink-0 mr-4">
           <NuxtLink
             class="self-center mr-4"
             :to="{ name: ROUTES_NAMES.WORKSPACE.HOME }"
@@ -70,7 +68,9 @@
         </div>
       </aside>
       <!-- Content -->
-      <slot name="content" />
+      <div class="content-main">
+        <slot name="content" />
+      </div>
     </div>
   </div>
 </template>
@@ -91,3 +91,10 @@ const logout = async () => {
   })
 }
 </script>
+
+<style scoped>
+.content-main {
+  height: calc(100vh - 4rem);
+  @apply w-full;
+}
+</style>

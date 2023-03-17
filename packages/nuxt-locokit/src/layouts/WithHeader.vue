@@ -1,17 +1,15 @@
 <template>
-  <div class="h-full flex flex-col">
-    <header class="relative z-10 bg-white lg:w-full shadow-md">
-      <div class="relative px-4 py-6 sm:px-6 lg:px-8">
-        <nav
-          class="relative flex items-center justify-between sm:h-10 lg:justify-start"
-        >
+  <div class="flex flex-col">
+    <header class="relative h-16 z-10 bg-white lg:w-full shadow-md">
+      <div class="relative h-full items-center px-4 sm:px-6 lg:px-8">
+        <nav class="h-full flex items-center justify-between">
           <div class="flex flex-shrink-0 flex-grow items-center">
             <div class="flex w-full items-center justify-between md:w-auto">
-              <NuxtLink class="h-16" :to="{ name: ROUTES_NAMES.HOME }">
+              <NuxtLink class="h-12" :to="{ name: ROUTES_NAMES.HOME }">
                 <span class="sr-only">
                   {{ runtimeConfig.public.PROJECT_NAME }}
                 </span>
-                <img alt="logo" class="h-16" src="/assets/logo.png" />
+                <img alt="logo" class="h-12" src="/assets/logo.png" />
               </NuxtLink>
               <div class="-mr-2 flex items-center md:hidden">
                 <button
@@ -122,7 +120,7 @@
         </div>
       </div>
     </header>
-    <div class="h-full">
+    <div class="content-main">
       <slot />
     </div>
   </div>
@@ -131,7 +129,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import { PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/definitions'
 import { ROUTES_NAMES } from '../paths'
 import { useStoreAuth } from '../stores/auth'
 import { computed, useRouter, useRuntimeConfig } from '#imports'
@@ -166,7 +164,7 @@ const navLinks = computed(() => {
         icon: 'bi-person-circle',
       },
     ]
-    if (user.value?.profile === PROFILE.ADMIN) {
+    if (user.value?.profile === USER_PROFILE.ADMIN) {
       return [
         ...authen,
         {
@@ -208,5 +206,9 @@ const logout = async () => {
 <style scoped>
 .nav-link.router-link-active {
   @apply border-primary border font-bold;
+}
+
+.content-main {
+  height: calc(100vh - 4rem);
 }
 </style>
