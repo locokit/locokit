@@ -1,5 +1,5 @@
 <template>
-  <Story title="MessageForUser" icon="bi:chat-fill">
+  <Story auto-props-disabled title="MessageForUser" icon="bi:chat-fill">
     <Variant title="default">
       <MessageForUser status="success" custom-msg-success-form="Good game" />
       <MessageForUser status="success" />

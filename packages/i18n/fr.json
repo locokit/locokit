@@ -196,7 +196,8 @@
       "description": "Vous pouvez réinitialiser votre mot de passe.",
       "updatedPassword": "Mot de passe réinitialisé. Vous pouvez vous identifier avec ce nouveau mot de passe.",
       "signIn": "Se connecter",
-      "labelSubmit": "Réinitialiser le mot de passe"
+      "labelSubmit": "Réinitialiser le mot de passe",
+      "missingToken": "Impossible de retrouver votre compte. Il semble que vous n'avez pas utilisé le lien présent dans le mail envoyé par l'application"
     },
     "signUp": {
       "title": "Inscription",

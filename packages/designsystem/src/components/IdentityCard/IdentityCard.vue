@@ -45,5 +45,3 @@ const props = withDefaults(
   },
 )
 </script>
-
-<style scoped></style>

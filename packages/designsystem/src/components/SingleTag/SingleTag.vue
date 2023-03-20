@@ -29,7 +29,7 @@ const props = withDefaults(
 )
 </script>
 
-<style>
+<style scoped>
 .lck-tag {
   @apply rounded-lck bg-primary text-white border-primary;
 }

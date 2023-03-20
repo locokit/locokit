@@ -32,13 +32,13 @@ export const ROUTES_NAMES = {
       HOME: 'Users',
       ABOUT: 'AboutUsers',
       CREATE: 'CreateUser',
-      RECORD: 'RECORDlUser',
+      RECORD: 'RecordUser',
     },
     GROUPS: {
       HOME: 'Groups',
       ABOUT: 'AboutGroups',
       CREATE: 'CreateGroup',
-      RECORD: 'DetailGroup',
+      RECORD: 'RecordGroup',
     },
   },
 }

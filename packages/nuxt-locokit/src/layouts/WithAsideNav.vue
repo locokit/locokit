@@ -68,7 +68,7 @@
         </div>
       </aside>
       <!-- Content -->
-      <div class="content-main">
+      <div class="content-main w-full">
         <slot name="content" />
       </div>
     </div>
@@ -95,6 +95,5 @@ const logout = async () => {
 <style scoped>
 .content-main {
   height: calc(100vh - 4rem);
-  @apply w-full;
 }
 </style>

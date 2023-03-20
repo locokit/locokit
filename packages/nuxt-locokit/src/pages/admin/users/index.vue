@@ -204,7 +204,7 @@ const onPage = (event: PageState) => {
   searchUsers(event.page, event.rows)
 }
 
-const patchUser = (userForm: {
+const patchUser = async (userForm: {
   id: string
   username: string
   lastName: string | null
@@ -226,7 +226,7 @@ const patchUser = (userForm: {
         userFound.lastName !== userForm.lastName ||
         userFound.firstName !== userForm.firstName)
     ) {
-      suggestionUsers.value = searchUsers()
+      await searchUsers()
     }
   }
 }

@@ -1,12 +1,12 @@
 <template>
   <WithHeader>
     <div
-      class="max-w-lg h-full flex flex-col flex-wrap md:justify-center md:m-auto mt-8"
+      class="h-full flex flex-col flex-wrap md:justify-center md:m-auto mt-8"
     >
       <div class="mb-8">
         <h1 class="text-center">{{ $t('pages.verifySignup.title') }}</h1>
       </div>
-      <div>
+      <div v-if="route.query.token" class="max-w-lg mx-auto">
         <div v-if="!formSentAndValid">
           <p class="mb-4">{{ $t('pages.verifySignup.description') }}</p>
           <PasswordForm
@@ -35,12 +35,18 @@
           </NuxtLink>
         </div>
       </div>
+      <div v-else class="max-w-2xl mx-auto">
+        <MessageForUser
+          status="failed"
+          custom-msg-error-form="pages.verifySignup.missingToken"
+        />
+      </div>
     </div>
   </WithHeader>
 </template>
 
 <script setup lang="ts">
-import { PasswordForm } from '@locokit/designsystem'
+import { PasswordForm, MessageForUser } from '@locokit/designsystem'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import WithHeader from '../../layouts/WithHeader.vue'

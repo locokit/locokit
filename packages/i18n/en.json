@@ -196,7 +196,8 @@
       "description": "You can reset your password.",
       "updatedPassword": "Your password has been reset. You can now login to the app with this new password.",
       "signIn": "Sign In",
-      "labelSubmit": "Reset the password"
+      "labelSubmit": "Reset the password",
+      "missingToken": "Unable to find your account. It seems that you did not use the link in the email sent by the app."
     },
     "signUp": {
       "title": "Sign up",
