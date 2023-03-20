@@ -204,7 +204,7 @@ export default defineNuxtModule<ModuleOptions>({
                 },
                 file: resolve(
                   pagesDir,
-                  './admin/users/aboutUsers/AboutUsers.vue',
+                  './admin/users/AboutUsers/AboutUsers.vue',
                 ),
               },
               {
@@ -215,7 +215,7 @@ export default defineNuxtModule<ModuleOptions>({
                 },
                 file: resolve(
                   pagesDir,
-                  './admin/users/createUser/CreateUser.vue',
+                  './admin/users/CreateUser/CreateUser.vue',
                 ),
               },
               {
@@ -226,7 +226,7 @@ export default defineNuxtModule<ModuleOptions>({
                 },
                 file: resolve(
                   pagesDir,
-                  './admin/users/recordUser/RecordUser.vue',
+                  './admin/users/RecordUser/RecordUser.vue',
                 ),
               },
             ],
@@ -299,7 +299,10 @@ export default defineNuxtModule<ModuleOptions>({
           protected: true,
           anonymous: false,
         },
-        file: resolve(pagesDir, './workspace/CreateWorkspace.vue'),
+        file: resolve(
+          pagesDir,
+          './workspace/CreateWorkspace/CreateWorkspace.vue',
+        ),
       })
 
       pages.push({
