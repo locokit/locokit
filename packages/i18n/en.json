@@ -210,7 +210,8 @@
       "description": "Please set your password before we authorize you to connect.",
       "accountComplete": "Your account is complete. You can now login to the app.",
       "signIn": "Sign In",
-      "labelSubmit": "Set the password"
+      "labelSubmit": "Set the password",
+      "missingToken": "Unable to find your account. It seems that you did not use the link in the email sent by the app."
     },
     "workspace": {
       "title": "Workspaces",
