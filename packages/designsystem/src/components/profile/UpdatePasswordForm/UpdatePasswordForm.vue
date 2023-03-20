@@ -10,7 +10,7 @@
     <Field
       v-slot="{ field, errorMessage }"
       v-model="currentPassword"
-      class="mb-4 relative"
+      class="mb-4"
       name="updatePasswordForm.currentPassword"
       rules="required"
       as="div"
@@ -40,14 +40,10 @@
       >
         {{ errorMessage }}
       </span>
-      <span
-        v-if="response && !response.name && !response.message"
-        class="cell-state saved valid"
-      />
     </Field>
     <Field
       v-slot="{ field, errorMessage }"
-      class="mb-4 relative"
+      class="mb-4"
       name="updatePasswordForm.newPassword"
       :rules="{ required: true, regex: `${regexPasswordRules}(?=.{8,})` }"
       as="div"
@@ -82,10 +78,6 @@
         autocapitalize="none"
         :pattern="regexPasswordRules"
       />
-      <span
-        v-if="response && !response.name && !response.message"
-        class="cell-state saved valid !bottom-[1.45rem]"
-      />
       <small id="password-rules" class="italic">
         {{ $t('components.updatePasswordForm.rules') }}
       </small>
@@ -100,7 +92,7 @@
     </Field>
     <Field
       v-slot="{ field, errorMessage }"
-      class="mb-4 relative"
+      class="mb-4"
       name="updatePasswordForm.confirmPassword"
       rules="required|confirmed:updatePasswordForm.newPassword"
       as="div"
@@ -130,10 +122,6 @@
       >
         {{ errorMessage }}
       </span>
-      <span
-        v-if="response && !response.name && !response.message"
-        class="cell-state saved valid"
-      />
     </Field>
   </FormGeneric>
 </template>

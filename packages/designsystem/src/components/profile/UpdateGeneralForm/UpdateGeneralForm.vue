@@ -10,7 +10,7 @@
     <Field
       v-slot="{ field, errorMessage }"
       v-model="username"
-      class="mb-4 relative"
+      class="mb-4"
       name="updateGeneralForm.username"
       rules="required"
       as="div"
@@ -32,15 +32,11 @@
       >
         {{ errorMessage }}
       </span>
-      <span
-        v-if="response && !response.name && !response.message"
-        class="cell-state saved valid"
-      />
     </Field>
     <Field
       v-slot="{ field, errorMessage }"
       v-model="lastName"
-      class="mb-4 relative"
+      class="mb-4"
       name="updateGeneralForm.lastName"
       as="div"
     >
@@ -61,15 +57,11 @@
       >
         {{ errorMessage }}
       </span>
-      <span
-        v-if="response && !response.name && !response.message"
-        class="cell-state saved valid"
-      />
     </Field>
     <Field
       v-slot="{ field, errorMessage }"
       v-model="firstName"
-      class="mb-4 relative"
+      class="mb-4"
       name="updateGeneralForm.firstName"
       as="div"
     >
@@ -92,10 +84,6 @@
       >
         {{ errorMessage }}
       </span>
-      <span
-        v-if="response && !response.name && !response.message"
-        class="cell-state saved valid"
-      />
     </Field>
     <div class="mb-4">
       <p>
