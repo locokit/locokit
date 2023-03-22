@@ -2,6 +2,7 @@ import { Type, querySyntax, Static, getDataValidator, getValidator } from '@feat
 import { dataValidator, queryValidator } from '../../../commons/validators'
 import { workspaceSchema } from '../../workspace/workspace.schema'
 import { workspaceOwnerSchema } from '../user/user.schema'
+import { queryStringExtend } from '../../../feathers-objection'
 
 // Schema for the basic data model (e.g. creating new entries)
 export const groupSchema = Type.Object(
@@ -69,7 +70,9 @@ export type GroupResult = Static<typeof groupSchema>
 
 export const groupQuerySchema = Type.Intersect(
   [
-    querySyntax(Type.Omit(groupSchema, ['workspace', 'users'])),
+    querySyntax(Type.Omit(groupSchema, ['workspace', 'users']), {
+      name: queryStringExtend,
+    }),
     querySyntax(
       Type.Object({
         'workspace:owner.name': Type.Optional(
@@ -79,16 +82,7 @@ export const groupQuerySchema = Type.Intersect(
         ),
       }),
       {
-        'workspace:owner.name': {
-          // @ts-expect-error
-          $like: {
-            type: 'string',
-          },
-          // @ts-expect-error
-          $ilike: {
-            type: 'string',
-          },
-        },
+        'workspace:owner.name': queryStringExtend,
       },
     ),
     Type.Object({
