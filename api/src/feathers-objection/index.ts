@@ -1,5 +1,6 @@
 import { PaginationOptions } from '@feathersjs/adapter-commons'
 import { Paginated, ServiceMethods, Id, NullableId, Params } from '@feathersjs/feathers'
+import { Type } from '@feathersjs/typebox'
 import { ObjectionAdapter } from './adapter'
 import { ObjectionAdapterParams } from './declarations'
 
@@ -49,4 +50,10 @@ export class ObjectionService<
   async remove(id: NullableId, params?: ServiceParams): Promise<Result | Result[]> {
     return await this._remove(id, params)
   }
+}
+
+export const queryStringExtend = {
+  $like: Type.String(),
+  $ilike: Type.String(),
+  $notlike: Type.String(),
 }
