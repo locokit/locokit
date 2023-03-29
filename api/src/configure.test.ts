@@ -5,14 +5,14 @@ import { AuthenticationResult } from '@feathersjs/authentication/lib'
 import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
 // import { Paginated } from '@feathersjs/feathers'
 
-import { USER_PROFILE } from '@locokit/definitions'
+import { SERVICES, USER_PROFILE } from '@locokit/definitions'
 
-import { createApp } from '../src/app'
+import { createApp } from './app'
 // import { Workspace } from '../models/workspace.model'
 
 // import { LckAclSet } from '../models/aclset.model'
 // import { Group } from '../models/group.model'
-import { UserResult } from '../src/services/auth/user/user.schema'
+import { UserResult } from './services/core/user/user.schema'
 // import { Database } from '../models/database.model'
 // import { Table } from '../models/table.model'
 // import { TableColumn } from '../models/tablecolumn.model'
@@ -196,7 +196,9 @@ export function builderTestEnvironment(prefix: string) {
     //   workspace_id: workspace1.id,
     // })
     const userPassword = 'locokit'
-    const [localStrategy] = app.service('authentication').getStrategies('local') as LocalStrategy[]
+    const [localStrategy] = app
+      .service(SERVICES.AUTH_AUTHENTICATION)
+      .getStrategies('local') as LocalStrategy[]
     const passwordHashed = await localStrategy.hashPassword(userPassword, {})
     // @ts-expect-error this should work as expected but don't respect the schemas
     user1 = await app.services.user._create(
@@ -261,7 +263,7 @@ export function builderTestEnvironment(prefix: string) {
       {},
     )
 
-    user1Authentication = await app.service('authentication').create(
+    user1Authentication = await app.service(SERVICES.AUTH_AUTHENTICATION).create(
       {
         strategy: 'local',
         email: `${prefix}abilities-user1@locokit.io`,
@@ -269,7 +271,7 @@ export function builderTestEnvironment(prefix: string) {
       },
       {},
     )
-    user2Authentication = await app.service('authentication').create(
+    user2Authentication = await app.service(SERVICES.AUTH_AUTHENTICATION).create(
       {
         strategy: 'local',
         email: `${prefix}abilities-user2@locokit.io`,
@@ -277,7 +279,7 @@ export function builderTestEnvironment(prefix: string) {
       },
       {},
     )
-    user3Authentication = await app.service('authentication').create(
+    user3Authentication = await app.service(SERVICES.AUTH_AUTHENTICATION).create(
       {
         strategy: 'local',
         email: `${prefix}abilities-user3@locokit.io`,
@@ -285,7 +287,7 @@ export function builderTestEnvironment(prefix: string) {
       },
       {},
     )
-    user4Authentication = await app.service('authentication').create(
+    user4Authentication = await app.service(SERVICES.AUTH_AUTHENTICATION).create(
       {
         strategy: 'local',
         email: `${prefix}abilities-user4@locokit.io`,
@@ -293,7 +295,7 @@ export function builderTestEnvironment(prefix: string) {
       },
       {},
     )
-    user5Authentication = await app.service('authentication').create(
+    user5Authentication = await app.service(SERVICES.AUTH_AUTHENTICATION).create(
       {
         strategy: 'local',
         email: `${prefix}abilities-user5@locokit.io`,
@@ -301,7 +303,7 @@ export function builderTestEnvironment(prefix: string) {
       },
       {},
     )
-    userAdminAuthentication = await app.service('authentication').create(
+    userAdminAuthentication = await app.service(SERVICES.AUTH_AUTHENTICATION).create(
       {
         strategy: 'local',
         email: `${prefix}admin@locokit.io`,
@@ -713,14 +715,14 @@ export function builderTestEnvironment(prefix: string) {
     // await app.services.group.remove(group2.id)
     // await app.services.group.remove(group1.id)
 
-    await app.services.user.remove(userAdmin.id)
-    // await app.services.user.remove(userSuperAdmin.id)
+    await app.service(SERVICES.CORE_USER).remove(userAdmin.id)
+    // await app.service(SERVICES.CORE_USER).remove(userSuperAdmin.id)
 
-    await app.services.user.remove(user5.id)
-    await app.services.user.remove(user4.id)
-    await app.services.user.remove(user3.id)
-    await app.services.user.remove(user2.id)
-    await app.services.user.remove(user1.id)
+    await app.service(SERVICES.CORE_USER).remove(user5.id)
+    await app.service(SERVICES.CORE_USER).remove(user4.id)
+    await app.service(SERVICES.CORE_USER).remove(user3.id)
+    await app.service(SERVICES.CORE_USER).remove(user2.id)
+    await app.service(SERVICES.CORE_USER).remove(user1.id)
 
     /*
     await app.services.aclset.remove(aclset4.id)
