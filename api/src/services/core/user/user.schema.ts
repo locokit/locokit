@@ -2,6 +2,7 @@ import { USER_PROFILE } from '@locokit/definitions'
 import { queryStringExtend } from '@/feathers-objection'
 import { Type, querySyntax, Static, getValidator } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '@/commons/validators'
+import { queryStringExtend } from '@/feathers-objection'
 
 // Schema for the basic data model (e.g. creating new entries)
 export const userSchema = Type.Object(

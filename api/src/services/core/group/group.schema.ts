@@ -1,9 +1,9 @@
 import { Type, querySyntax, Static, getValidator } from '@feathersjs/typebox'
 import { workspaceSchema } from '@/services/core/workspace/core-workspace.schema'
-import { queryStringExtend } from '@/feathers-objection'
 import { dataValidator, queryValidator } from '@/commons/validators'
 import { workspaceOwnerSchema } from '@/services/core/user/user.schema'
 import { roleSchema } from '../role/role.schema'
+import { queryStringExtend } from '@/feathers-objection'
 
 // Schema for the basic data model (e.g. creating new entries)
 export const groupSchema = Type.Object(
@@ -24,6 +24,14 @@ export const groupSchema = Type.Object(
     roleId: Type.String({
       format: 'uuid',
       description: 'Related role of the workspace',
+    }),
+    createdAt: Type.String({
+      format: 'date-time',
+      description: 'Creation date of the group',
+    }),
+    updatedAt: Type.String({
+      format: 'date-time',
+      description: 'Update date of the group',
     }),
 
     workspace: Type.Optional(
@@ -85,21 +93,21 @@ export const groupQuerySchema = Type.Intersect(
       Type.Intersect([
         Type.Omit(groupSchema, ['workspace', 'users']),
         Type.Object({
-          'workspace:owner.name': Type.Optional(
+          'workspace:owner.username': Type.Optional(
             Type.String({
-              description: "Filter on related workspace, on the owner's name",
+              description: "Filter on related workspace, on the owner's username",
             }),
           ),
           'workspace.name': Type.Optional(
             Type.String({
-              description: "Filter on workspace's name, on the owner's name",
+              description: "Filter on workspace's name",
             }),
           ),
         }),
       ]),
       {
         name: queryStringExtend,
-        'workspace:owner.name': queryStringExtend,
+        'workspace:owner.username': queryStringExtend,
         'workspace.name': queryStringExtend,
       },
     ),

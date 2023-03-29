@@ -31,6 +31,7 @@ export const userGroupHooks: HookMap<Application, UserGroupService> = {
     ],
     create: [
       schemaHooks.resolveData(userGroupResolvers.data.create),
+      schemaHooks.validateData(userGroupDataValidator),
       async function checkProfile(context: HookContext) {
         const user: UserResult = context.params.user
         const profile = user.profile

@@ -1,12 +1,21 @@
 import { Type, querySyntax, Static, getValidator } from '@feathersjs/typebox'
-import { USERGROUP_PROFILE } from '@locokit/definitions'
 import { dataValidator } from '@/commons/validators'
+import { queryStringExtend } from '@/feathers-objection'
 
 // Schema for the basic data model (e.g. creating new entries)
 export const userGroupSchema = Type.Object(
   {
     userId: Type.String({ format: 'uuid' }),
     groupId: Type.String({ format: 'uuid' }),
+    createdAt: Type.String({
+      format: 'date-time',
+      description: 'Creation date of the user-group',
+    }),
+    updatedAt: Type.String({
+      format: 'date-time',
+      description: 'Update date of the user-group',
+    }),
+
     /**
      * Relations (not typed due to circular dependencies)
      */
@@ -42,33 +51,15 @@ export const userGroupQuerySchema = Type.Intersect(
             description: "Filter on related group's name",
           }),
         ),
-        'user.name': Type.Optional(
+        'user.username': Type.Optional(
           Type.String({
             description: "Filter on related user's name",
           }),
         ),
       }),
       {
-        'group.name': {
-          // @ts-expect-error
-          $like: {
-            type: 'string',
-          },
-          // @ts-expect-error
-          $ilike: {
-            type: 'string',
-          },
-        },
-        'user.name': {
-          // @ts-expect-error
-          $like: {
-            type: 'string',
-          },
-          // @ts-expect-error
-          $ilike: {
-            type: 'string',
-          },
-        },
+        'group.name': queryStringExtend,
+        'user.username': queryStringExtend,
       },
     ),
     Type.Object({

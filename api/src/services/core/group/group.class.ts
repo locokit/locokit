@@ -21,7 +21,6 @@ export const groupHooks: HookMap<Application, GroupService> = {
   around: {
     all: [
       authenticate('jwt'),
-      schemaHooks.validateData(groupDataValidator),
       schemaHooks.resolveExternal(groupResolvers.dispatch),
       schemaHooks.resolveResult(groupResolvers.result),
     ],
@@ -32,6 +31,7 @@ export const groupHooks: HookMap<Application, GroupService> = {
       schemaHooks.resolveQuery(groupResolvers.query),
     ],
     create: [
+      schemaHooks.validateData(groupDataValidator),
       schemaHooks.resolveData(groupResolvers.data.create),
       async function checkProfile(context: HookContext) {
         const user: UserResult = context.params.user

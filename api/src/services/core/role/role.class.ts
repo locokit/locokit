@@ -25,6 +25,7 @@ export const roleHooks: HookMap<Application, RoleService> = {
       schemaHooks.resolveQuery(roleResolvers.query),
     ],
     create: [
+      schemaHooks.validateData(roleDataValidator),
       schemaHooks.resolveData(roleResolvers.data.create),
       async function checkProfile(context: HookContext) {
         const user: UserResult = context.params.user

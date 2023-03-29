@@ -59,6 +59,8 @@ export async function up(knex: Knex): Promise<void> {
       table.uuid('roleId').notNullable()
       table.foreign('roleId', 'FK_group_role').references('id').inTable('core.lck_role')
       table.index('roleId', 'IDX_group_roleId')
+      table.datetime('createdAt').defaultTo(knex.fn.now())
+      table.datetime('updatedAt').defaultTo(knex.fn.now())
     })
     .createTable('lck_userGroup', (table) => {
       table.uuid('groupId').notNullable()
