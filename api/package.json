@@ -70,7 +70,6 @@
     "dotenv-flow": "^3.2.0",
     "ejs": "^3.1.8",
     "feathers-authentication-management": "^5.0.0-pre.0",
-    "feathers-casl": "^1.0.0-1",
     "feathers-hooks-common": "^7.0.0-pre.1",
     "feathers-locokit": "",
     "feathers-swagger": "^3.0.0-pre.1",
