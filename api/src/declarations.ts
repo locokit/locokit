@@ -5,23 +5,18 @@ import {
   NextFunction,
 } from '@feathersjs/feathers'
 import '@feathersjs/transport-commons'
-// import { Application as KoaFeathers } from '@feathersjs/koa'
 import { Application as FeathersApplication } from '@feathersjs/koa'
 import { ConfigurationSchema } from './commons/configuration.schema'
 import { ServiceSwaggerOptions } from 'feathers-swagger'
 
-import { UserResult } from './services/auth/user/user.schema'
-import { API_PATH } from '@locokit/definitions'
-import { WorkspaceService } from './services/core/workspace/core-workspace.class'
+import { UserResult } from './services/core/user/user.schema'
 
 export { NextFunction }
 
 export interface Configuration extends ConfigurationSchema {}
 
 // A mapping of service names to types. Will be extended in service files.
-export interface ServiceTypes {
-  [API_PATH.WORKSPACE.ROOT]: WorkspaceService
-}
+export interface ServiceTypes {}
 
 // The application instance type that will be used everywhere else
 export type Application = FeathersApplication<ServiceTypes, Configuration>
