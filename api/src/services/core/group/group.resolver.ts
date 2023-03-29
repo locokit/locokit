@@ -1,7 +1,7 @@
 import { resolve, Resolver } from '@feathersjs/schema'
 import type { HookContext } from '../../../declarations'
 import { workspaceDispatchResolver } from '@/services/core/workspace/core-workspace.resolver'
-import { userDispatchResolver } from '../../auth/user/user.resolver'
+import { userDispatchResolver } from '../../core/user/user.resolver'
 import { GroupQuery, GroupSchema } from './group.schema'
 import { roleDispatchResolver } from '../role/role.resolver'
 

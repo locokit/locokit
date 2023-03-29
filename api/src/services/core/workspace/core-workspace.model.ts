@@ -1,7 +1,7 @@
 import { Model, RelationMappings } from 'objection'
 import { GroupModel } from '@/services/core/group/group.model'
 import { RoleModel } from '@/services/core/role/role.model'
-import { UserModel } from '@/services/auth/user/user.model'
+import { UserModel } from '@/services/core/user/user.model'
 import { CoreDatasourceModel } from '../datasource/core-datasource.model'
 
 /**

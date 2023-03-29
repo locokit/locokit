@@ -7,7 +7,7 @@ import { isAdminProfile } from '../../../hooks/profile.hooks'
 import { HookOptions } from '@feathersjs/feathers'
 import type { Application, HookContext } from '../../../declarations'
 import { UserService } from './user.class'
-import { authManagementSettings } from '../authmanagement/authmanagement.settings'
+import { authManagementSettings } from '@/services/auth/authmanagement/authmanagement.settings'
 import {
   userDataValidator,
   userPatchAdminValidator,

@@ -10,7 +10,7 @@ module.exports = {
   },
   authentication: {
     entity: 'user',
-    service: 'user',
+    service: '/core/user',
     secret: '/jZiG6MPLaMr6JBptahMA+pxZh0A4XgX', // provided with custom environment variables
     authStrategies: ['jwt', 'local', 'public'],
     signup: true,
@@ -56,7 +56,7 @@ module.exports = {
   settings: {
     signup: {
       allowed: true,
-      verificationMailDelayDays: 'SIGNUP_MAIL_DELAY_DAYS', // provided with custom environment variables
+      verificationMailDelayDays: 5, // provided with custom environment variables
     },
     db: {
       client: 'pg',

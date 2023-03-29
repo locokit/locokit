@@ -11,7 +11,7 @@ import { userGroupQueryValidator, userGroupResolvers } from './user-group.resolv
 import { Application, HookContext } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
 import { ObjectionService } from '@/feathers-objection'
-import { UserResult } from '../../auth/user/user.schema'
+import { UserResult } from '../../core/user/user.schema'
 import { USER_PROFILE } from '@locokit/definitions'
 import { Forbidden } from '@feathersjs/errors/lib'
 import { HookMap } from '@feathersjs/feathers'
@@ -20,7 +20,6 @@ export const userGroupHooks: HookMap<Application, UserGroupService> = {
   around: {
     all: [
       authenticate('jwt'),
-      schemaHooks.validateData(userGroupDataValidator),
       schemaHooks.resolveExternal(userGroupResolvers.dispatch),
       schemaHooks.resolveResult(userGroupResolvers.result),
     ],

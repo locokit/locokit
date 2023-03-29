@@ -1,8 +1,8 @@
 import { Model, RelationMappings } from 'objection'
 import { WorkspaceModel } from '@/services/core/workspace/core-workspace.model'
 import { UserGroupModel } from '../user-group/user-group.model'
-import { UserModel } from '../../auth/user/user.model'
 import { RoleModel } from '../role/role.model'
+import { UserModel } from '../../core/user/user.model'
 
 /**
  * Group objection Model

@@ -2,7 +2,7 @@ import type { Application } from '@/declarations'
 
 import { authentication } from './auth/authentication/authentication'
 import { authmanagement } from './auth/authmanagement/authmanagement'
-import { user } from './auth/user/user'
+import { user } from './core/user/user'
 import { signup } from './auth/signup/signup'
 
 import { workspaceService } from './core/workspace/core-workspace'
@@ -61,7 +61,7 @@ export const services = (app: Application): void => {
   // app.configure(datasetRecordService)
 
   /**
-   * Automations (when it's done)
+   * Automations (when it will be done)
    */
 
   /**

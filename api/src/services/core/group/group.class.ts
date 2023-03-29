@@ -15,7 +15,7 @@ import {
 } from './group.schema'
 import { groupResolvers } from './group.resolver'
 import { authenticate } from '@feathersjs/authentication'
-import { UserResult } from '../../auth/user/user.schema'
+import { UserResult } from '@/services/core/user/user.schema'
 
 export const groupHooks: HookMap<Application, GroupService> = {
   around: {

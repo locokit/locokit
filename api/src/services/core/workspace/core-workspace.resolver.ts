@@ -6,7 +6,7 @@ import { toSnakeCase } from '@/utils/toSnakeCase'
 import { groupDispatchResolver } from '@/services/core/group/group.resolver'
 import { roleDispatchResolver } from '@/services/core/role/role.resolver'
 import { RoleSchema } from '@/services/core/role/role.schema'
-import { userDispatchResolver } from '@/services/auth/user/user.resolver'
+import { userDispatchResolver } from '@/services/core/user/user.resolver'
 
 import { WorkspaceQuery, workspaceQuerySchema, WorkspaceSchema } from './core-workspace.schema'
 

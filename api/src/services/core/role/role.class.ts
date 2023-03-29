@@ -6,7 +6,7 @@ import { roleQueryValidator, roleResolvers } from './role.resolver'
 import { Application, HookContext } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
 import { ObjectionService } from '@/feathers-objection'
-import { UserResult } from '../../auth/user/user.schema'
+import { UserResult } from '../../core/user/user.schema'
 import { USER_PROFILE } from '@locokit/definitions'
 import { Forbidden } from '@feathersjs/errors/lib'
 import { HookMap } from '@feathersjs/feathers'
@@ -15,7 +15,6 @@ export const roleHooks: HookMap<Application, RoleService> = {
   around: {
     all: [
       authenticate('jwt'),
-      schemaHooks.validateData(roleDataValidator),
       schemaHooks.resolveExternal(roleResolvers.dispatch),
       schemaHooks.resolveResult(roleResolvers.result),
     ],

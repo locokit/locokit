@@ -1,6 +1,6 @@
 import { Type, querySyntax, Static, getValidator } from '@feathersjs/typebox'
 import { dataValidator } from '@/commons/validators'
-import { workspaceOwnerSchema } from '@/services/auth/user/user.schema'
+import { workspaceOwnerSchema } from '@/services/core/user/user.schema'
 
 import { queryStringExtend } from '@/feathers-objection'
 

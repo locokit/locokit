@@ -2,7 +2,7 @@ import { Type, querySyntax, Static, getValidator } from '@feathersjs/typebox'
 import { workspaceSchema } from '@/services/core/workspace/core-workspace.schema'
 import { queryStringExtend } from '@/feathers-objection'
 import { dataValidator, queryValidator } from '@/commons/validators'
-import { workspaceOwnerSchema } from '@/services/auth/user/user.schema'
+import { workspaceOwnerSchema } from '@/services/core/user/user.schema'
 import { roleSchema } from '../role/role.schema'
 
 // Schema for the basic data model (e.g. creating new entries)
@@ -69,7 +69,7 @@ dataValidator.addSchema(groupSchema)
 
 export type GroupSchema = Static<typeof groupSchema>
 
-export const groupDataSchema = Type.Omit(groupSchema, ['id', 'workspace'], {
+export const groupDataSchema = Type.Omit(groupSchema, ['id', 'workspace', 'users'], {
   $id: 'GroupData',
 })
 export type GroupData = Static<typeof groupSchema>

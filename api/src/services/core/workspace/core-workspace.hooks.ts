@@ -5,7 +5,7 @@ import { hooks as schemaHooks } from '@feathersjs/schema'
 import { USER_PROFILE } from '@locokit/definitions'
 import { Id } from 'objection'
 import { transaction } from '@/feathers-objection'
-import { UserResult } from '@/services/auth/user/user.schema'
+import { UserResult } from '@/services/core/user/user.schema'
 import { workspaceQueryValidator, workspaceResolvers } from './core-workspace.resolver'
 // import { workspaceDataValidator } from './core-workspace.schema'
 
