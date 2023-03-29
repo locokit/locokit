@@ -739,22 +739,6 @@ export class ObjectionAdapter<
     return builder
   }
 
-  /**
-   * Returns the combined options for a service call. Options will be merged
-   * with `this.options` and `params.adapter` for dynamic overrides.
-   *
-   * @param params The parameters for the service method call
-   * @returns The actual options for this call
-   */
-  getOptions(params: ServiceParams) {
-    const paginate = params.paginate !== undefined ? params.paginate : this.options.paginate
-    return {
-      ...this.options,
-      paginate,
-      ...params.adapter,
-    }
-  }
-
   filterQuery(params: ServiceParams) {
     const options = this.getOptions(params)
     const { filters, query } = filterQuery(params?.query || {}, options)
@@ -811,9 +795,18 @@ export class ObjectionAdapter<
 
       const countBuilder = params.objection
         ? params.objection.clone()
-        : this._createCountQuery(params).countDistinct(countColumn, {
-            as: 'total',
-          })
+        : /**
+           * if countColumn is *,
+           * we can't make a count(distinct *),
+           * so we do a simple count
+           */
+          this._createCountQuery(params)[countColumn === '*' ? 'count' : 'countDistinct'](
+            countColumn,
+            {
+              as: 'total',
+            },
+          )
+
       const total = await countBuilder.then((count: any) => parseInt(count[0] ? count[0].total : 0))
 
       return {
@@ -828,16 +821,37 @@ export class ObjectionAdapter<
   }
 
   async _findOrGet(id: NullableId, params?: ServiceParams) {
+    const { name, id: idField } = this.getOptions(params)
+    objectionLogger.info('_findOrGet %s', id, idField)
+
+    /**
+     * Compute ids query for comoposable keys
+     */
+    const queryId: Record<string, any> = {}
+    if (Array.isArray(idField)) {
+      /**
+       * if id is set, and is is not an array, maybe this is in a comma separated values
+       */
+      const idValues = Array.isArray(id) ? id : id ? (id as string).split(',') : null
+      if (idValues) {
+        idField.forEach((f, i) => {
+          queryId[f] = idValues[i]
+        })
+      }
+    } else if (id !== null) {
+      queryId[`${name}.${idField}`] = id
+    }
+
     const findParams = {
       ...params,
       paginate: false,
       query: {
         ...params?.query,
-        ...(id !== null ? { [`${this.table}.${this.id}`]: id } : {}),
+        ...queryId,
       },
     }
 
-    return await (this._find(findParams as any) as any as Promise<Result[]>)
+    return this._find(findParams as any) as any as Promise<Result[]>
   }
 
   async _get(id: Id, params: ServiceParams = {} as ServiceParams): Promise<Result> {
@@ -867,8 +881,17 @@ export class ObjectionAdapter<
     const returning = RETURNING_CLIENTS.includes(client as string) ? [this.id] : []
     const result: any = await this.db(params).insert(data).returning(returning).catch(errorHandler)
     const rows = !Array.isArray(result) ? [result] : result
+    const { id: idField } = this.getOptions(params)
 
-    const id = data[this.id] || rows[0][this.id] || rows[0]
+    /**
+     * If we have a composable key, we need to compute id accordingly
+     */
+    const id = Array.isArray(idField)
+      ? idField.reduce((acc: any[], f: string) => {
+          acc.push(rows[0][f])
+          return acc
+        }, [])
+      : data[this.id] || rows[0][this.id] || rows[0]
 
     if (!id) {
       return rows as Result[]
@@ -945,9 +968,22 @@ export class ObjectionAdapter<
     const items = await this._findOrGet(id, params)
     const { query } = this.filterQuery(params)
     const q = this.db(params)
-    const idList = items.map((current: any) => current[this.id])
 
-    query[this.id] = { $in: idList }
+    const { id: idField } = this.getOptions(params)
+    /**
+     * If we have a composable key, we need to compute id accordingly
+     */
+    if (Array.isArray(idField)) {
+      idField.forEach((f) => {
+        const currentIdList = items.map((current: any) => current[f])
+
+        query[f] = { $in: currentIdList }
+      })
+    } else {
+      const idList = items.map((current: any) => current[this.id])
+
+      query[this.id] = { $in: idList }
+    }
 
     // build up the knex query out of the query params
     this.objectify(q, query)

@@ -1,10 +1,13 @@
 import { RelationExpression, Model, JSONSchema, QueryBuilder, Transaction } from 'objection'
 import { AdapterServiceOptions, AdapterParams, AdapterQuery } from '@feathersjs/adapter-commons'
+import { Application } from '@/declarations'
 
 export interface ObjectionAdapterOptions extends AdapterServiceOptions {
   Model: typeof Model
   name: string
   schema?: string
+
+  app: Application
 
   /**
    * id field primary keys separator char
