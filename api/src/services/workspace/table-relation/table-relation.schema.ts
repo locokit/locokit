@@ -95,11 +95,30 @@ export const tableRelationResultSchema = Type.Omit(tableRelationSchema, [], {
 export type TableRelationResult = Static<typeof tableRelationResultSchema>
 
 // Schema for allowed query properties
-export const tableRelationQuerySchema = querySyntax(
-  Type.Omit(tableRelationSchema, [], {
-    $id: 'TableRelationQuery',
-    additionalProperties: false,
+export const tableRelationQuerySchema = Type.Intersect([
+  querySyntax(
+    Type.Omit(tableRelationSchema, [], {
+      $id: 'TableRelationQuery',
+      additionalProperties: false,
+    }),
+  ),
+  Type.Object({
+    $joinRelated: Type.Optional(
+      Type.RegEx(/toTable/, {
+        description: 'Join relation to the referenced table to',
+      }),
+    ),
+    $joinEager: Type.Optional(
+      Type.RegEx(/toTable/, {
+        description: 'Join relation to the referenced table to',
+      }),
+    ),
+    $eager: Type.Optional(
+      Type.RegEx(/toTable/, {
+        description: 'Join relation to the referenced table to',
+      }),
+    ),
   }),
-)
+])
 export type TableRelationQuery = Static<typeof tableRelationQuerySchema>
 export const tableRelationQueryValidator = getValidator(tableRelationQuerySchema, queryValidator)

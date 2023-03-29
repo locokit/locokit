@@ -22,4 +22,21 @@ describe('table-record service', () => {
   it.todo('allow to patch a record')
   it.todo('allow to update a record')
   it.todo('allow to delete a record')
+
+  it.todo('fail on a patch if validation is not ok')
+  it.todo('fail on a create if validation is not ok')
+  it.todo('fail on a patch if validation is data is wrong ?')
+
+  it.todo('accept to join on several relation')
+
+  it.todo('restrict filters for relation fields')
+  it.todo('forbid filters for unauthorized relations')
+  it.todo('allow to retrieve one nested level of relation')
+  it.todo('allow to retrieve two nested level of relation')
+
+  it.todo('go faster when creating a new record (because validator already exist)')
+
+  it.todo('filter relations authorized with permissions')
+
+  it.todo('test the regexp for filtering relations')
 })

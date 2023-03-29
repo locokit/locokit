@@ -1,68 +1,68 @@
 /* eslint-disable camelcase */
 
-import { pgDbTypes } from "./pg/dbType"
-import { sqliteDbTypes } from "./sqlite/dbType"
+import { pgDbTypes } from './pg/dbType'
+import { sqliteDbTypes } from './sqlite/dbType'
 
 /**
  * Ids are not in order,
  * this is for retrocompatibility with 0.x version
  */
-export enum FIELD_TYPE {
+export const FIELD_TYPE = {
   /**
    * Primitives
    */
-  BOOLEAN = 'BOOLEAN',
+  BOOLEAN: 'BOOLEAN',
 
-  NUMBER = 'NUMBER',
-  FLOAT = 'FLOAT',
+  NUMBER: 'NUMBER',
+  FLOAT: 'FLOAT',
 
-  STRING = 'STRING',
-  TEXT = 'TEXT',
+  STRING: 'STRING',
+  TEXT: 'TEXT',
 
-  DATE = 'DATE',
-  DATETIME = 'DATETIME',
+  DATE: 'DATE',
+  DATETIME: 'DATETIME',
 
   /**
    * Users / groups
    */
-  USER = 'USER',
-  GROUP = 'GROUP',
-  MULTI_USER = 'MULTI_USER',
-  MULTI_GROUP = 'MULTI_GROUP',
+  USER: 'USER',
+  GROUP: 'GROUP',
+  MULTI_USER: 'MULTI_USER',
+  MULTI_GROUP: 'MULTI_GROUP',
 
   /**
    * Schema
    */
-  RELATION = 'RELATION',
-  LOOKUP = 'LOOKUP',
-  VIRTUAL_LOOKUP = 'VIRTUAL_LOOKUP',
-  ROLLUP = 'ROLLUP',
+  RELATION: 'RELATION',
+  LOOKUP: 'LOOKUP',
+  VIRTUAL_LOOKUP: 'VIRTUAL_LOOKUP',
+  ROLLUP: 'ROLLUP',
 
   /**
    * Complex
    */
-  SINGLE_SELECT = 'SINGLE_SELECT',
-  MULTI_SELECT = 'MULTI_SELECT',
-  FORMULA = 'FORMULA',
-  JSON = 'JSON',
-  NETWORK = 'NETWORK', // IPv4 / IPv6 with optional netmask
+  SINGLE_SELECT: 'SINGLE_SELECT',
+  MULTI_SELECT: 'MULTI_SELECT',
+  FORMULA: 'FORMULA',
+  JSON: 'JSON',
+  NETWORK: 'NETWORK', // IPv4 / IPv6 with optional netmask
 
   /**
    * Media
    */
-  MEDIA = 'MEDIA',
-  URL = 'URL',
+  MEDIA: 'MEDIA',
+  URL: 'URL',
 
   /**
    * Geometry
    */
-  GEOMETRY = 'GEOMETRY', // no control will be done to check validity of geometry
-  GEOMETRY_POINT = 'GEOMETRY_POINT',
-  GEOMETRY_POLYGON = 'GEOMETRY_POLYGON',
-  GEOMETRY_LINESTRING = 'GEOMETRY_LINESTRING',
-  GEOMETRY_MULTIPOINT = 'GEOMETRY_MULTIPOINT',
-  GEOMETRY_MULTIPOLYGON = 'GEOMETRY_MULTIPOLYGON',
-  GEOMETRY_MULTILINESTRING = 'GEOMETRY_MULTILINESTRING',
+  GEOMETRY: 'GEOMETRY', // no control will be done to check validity of geometry
+  GEOMETRY_POINT: 'GEOMETRY_POINT',
+  GEOMETRY_POLYGON: 'GEOMETRY_POLYGON',
+  GEOMETRY_LINESTRING: 'GEOMETRY_LINESTRING',
+  GEOMETRY_MULTIPOINT: 'GEOMETRY_MULTIPOINT',
+  GEOMETRY_MULTIPOLYGON: 'GEOMETRY_MULTIPOLYGON',
+  GEOMETRY_MULTILINESTRING: 'GEOMETRY_MULTILINESTRING',
 }
 
 export type DB_TYPE = pgDbTypes & sqliteDbTypes
@@ -165,5 +165,4 @@ export function convertDBTypeToFieldType(dbDialect: DB_DIALECT, dbType: DB_TYPE 
     default:
       throw new Error('New dialect found without matching : ' + dbDialect)
   }
-
 }

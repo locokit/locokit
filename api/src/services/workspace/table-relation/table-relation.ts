@@ -24,6 +24,7 @@ export function tableRelationService(app: Application): void {
     paginate: app.get('paginate'),
     Model: TableRelationModel,
     name: 'tableRelation',
+    allowedGraph: '[toTable,fromTable,throughTable,toField,fromField,throughField]',
   }
 
   // Register our service on the Feathers application

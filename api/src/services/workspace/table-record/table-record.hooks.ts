@@ -1,9 +1,9 @@
 import { HookContext, NextFunction } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
-import { FIELD_TYPE, SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/definitions'
 import { BaserowAdapter } from '@locokit/engine/adapters/baserow'
 import { SQLAdapter } from '@locokit/engine/adapters/sql'
-import { Ajv, addFormats } from '@feathersjs/schema'
+import { Ajv, addFormats, Validator } from '@feathersjs/schema'
 import type { FormatsPluginOptions } from '@feathersjs/schema'
 import ajvErrors from 'ajv-errors'
 import { USER_PROFILE, USERGROUP_PROFILE } from '@locokit/definitions'
@@ -11,12 +11,15 @@ import { NotFound } from '@feathersjs/errors/lib'
 import { Type, querySyntax, getValidator, TSchema } from '@feathersjs/typebox'
 import { hooks as schemaHooks } from '@feathersjs/schema'
 import { createAdapter } from '@locokit/engine'
+import { convertLocoKitFieldTypeToTypeboxSchema } from './table-record.helpers'
 
 // class EngineParams implements Params<any> {
 //   $$lckTable: string | null = null
 //   $$adapter: BaserowAdapter | SQLAdapter | null = null
 // }
 const adapters: Record<string, BaserowAdapter | SQLAdapter> = {}
+
+const validators: Record<string, Validator> = {}
 
 export const formats: FormatsPluginOptions = [
   'date-time',
@@ -77,99 +80,79 @@ export const tableRecordHooks = {
       async function computeTypeBoxSchema(context: HookContext, next: NextFunction) {
         const { workspaceSlug, datasourceSlug, tableSlug } = context.params.route
         console.log(workspaceSlug, datasourceSlug, tableSlug, context.params.query)
-        const tableResponse = await context.app.service(SERVICES.WORKSPACE_TABLE).find({
-          query: {
-            slug: tableSlug,
-            $eager: '[fields,relations]',
-          },
-          route: {
-            workspaceSlug: workspaceSlug,
-            datasourceSlug: datasourceSlug,
-          },
-        })
+        context.params.$$id = 'WS_' + workspaceSlug + '_DS_' + datasourceSlug + '_TBL_' + tableSlug
 
-        console.log(tableResponse)
+        // if validator already exist, we don't need to compute the typebox schema
+        if (!validators[context.params.$$id]) {
+          const tableResponse = await context.app.service(SERVICES.WORKSPACE_TABLE).find({
+            query: {
+              slug: tableSlug,
+              $eager: '[fields,relations.[toTable]]',
+            },
+            route: {
+              workspaceSlug: workspaceSlug,
+              datasourceSlug: datasourceSlug,
+            },
+          })
 
-        if (tableResponse.total !== 1)
-          throw new NotFound('Table ' + tableSlug + ' not found in workspace ' + workspaceSlug)
+          if (tableResponse.total !== 1)
+            throw new NotFound('Table ' + tableSlug + ' not found in workspace ' + workspaceSlug)
 
-        const table = tableResponse.data[0]
-        const tableSchema: Record<string, TSchema> = {}
+          const table = tableResponse.data[0]
+          const tableSchema: Record<string, TSchema> = {}
 
-        table.fields?.forEach((f) => {
-          switch (f.type) {
-            case FIELD_TYPE.STRING:
-            case FIELD_TYPE.TEXT:
-              tableSchema[f.slug] = Type.String()
-              break
-            case FIELD_TYPE.DATE:
-              tableSchema[f.slug] = Type.String({
-                format: 'date',
-              })
-              break
-            case FIELD_TYPE.DATETIME:
-              tableSchema[f.slug] = Type.String({
-                format: 'datetime',
-              })
-              break
-            case FIELD_TYPE.BOOLEAN:
-              tableSchema[f.slug] = Type.Boolean()
-              break
-            case FIELD_TYPE.NUMBER:
-            case FIELD_TYPE.FLOAT:
-              tableSchema[f.slug] = Type.Number()
-              break
-            case FIELD_TYPE.GEOMETRY:
-              tableSchema[f.slug] = Type.String()
-              break
+          table.fields?.forEach((f) => {
+            tableSchema[f.slug] = convertLocoKitFieldTypeToTypeboxSchema(f)
+          })
+          const tableRelationsNames: string =
+            table.relations
+              ?.reduce((acc, r) => {
+                console.log(r.settings)
+                acc.push(r.settings.toTable)
+                return acc
+              }, [] as string[])
+              .join('|') || ''
+          const tableRelationRegexp = new RegExp(
+            `^(${tableRelationsNames})|\\[(${tableRelationsNames})(,(${tableRelationsNames})(?!.*\\2))*\\]$`,
+          )
+          console.log(tableRelationsNames, tableRelationRegexp)
 
-            default:
-              throw new Error(
-                '[' +
-                  f.slug +
-                  '] Field type not recognized for validation : ' +
-                  f.type +
-                  '/' +
-                  f.dbType,
-              )
-          }
-        })
-
-        let tableRelationRegexp = new RegExp('')
-        table.relations?.forEach((r) => {
-          tableRelationRegexp = new RegExp(r.settings.tableTo)
-        })
-
-        const tableQuerySchema = Type.Intersect(
-          [
-            querySyntax(
-              Type.Object(tableSchema, {
-                $id: 'WS_' + workspaceSlug + '_DS_' + datasourceSlug + '_TBL_' + tableSlug,
-                additionalProperties: false,
-              }),
-            ),
-            Type.Object(
-              {
-                $joinRelated: Type.Optional(Type.RegEx(tableRelationRegexp)),
-                $joinEager: Type.Optional(Type.RegEx(tableRelationRegexp)),
-                $eager: Type.Optional(Type.RegEx(tableRelationRegexp)),
-              },
-              {
-                additionalProperties: false,
-              },
-            ),
-          ],
-          {
-            // additionalProperties: false
-          },
-        )
-
-        context.params.$$schema = tableQuerySchema
+          const tableQuerySchema = Type.Intersect(
+            [
+              querySyntax(
+                Type.Object(tableSchema, {
+                  additionalProperties: false,
+                }),
+              ),
+              Type.Object(
+                {
+                  $joinRelated: Type.Optional(Type.RegEx(tableRelationRegexp)),
+                  $joinEager: Type.Optional(Type.RegEx(tableRelationRegexp)),
+                  $eager: Type.Optional(Type.RegEx(tableRelationRegexp)),
+                },
+                {
+                  additionalProperties: false,
+                },
+              ),
+            ],
+            {
+              $id: context.params.$$id,
+              // additionalProperties: false
+            },
+          )
+          context.params.$$schema = tableQuerySchema
+        }
 
         await next()
       },
       async function computeValidator(context: HookContext, next: NextFunction) {
-        context.params.$$validator = getValidator(context.params.$$schema, dataValidator)
+        // try to find the validator in the validators Record
+        if (!validators[context.params.$$id]) {
+          // TODO: is this safe as it could grow a lot in the mid term running ?
+          // how does this scale ?
+          validators[context.params.$$id] = getValidator(context.params.$$schema, dataValidator)
+        }
+        context.params.$$validator = validators[context.params.$$id]
         await next()
       },
       // async function computeResolver(context: HookContext) { },
@@ -192,7 +175,7 @@ export const tableRecordHooks = {
 
         console.log('[createAdapterIfNeeded]', workspaceSlug, datasourceSlug)
 
-        const adapterKey = 'w_' + workspaceSlug + '__ds_' + datasourceSlug
+        const adapterKey = 'w_' + workspaceSlug + '_ds_' + datasourceSlug
 
         /**
          * Check if the adapter already exist
