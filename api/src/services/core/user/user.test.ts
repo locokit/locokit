@@ -1,3 +1,4 @@
+import { SERVICES } from '@locokit/definitions'
 import { describe, assert, it } from 'vitest'
 import { createApp } from '../../../app'
 
@@ -5,7 +6,7 @@ const app = createApp()
 
 describe('users service', () => {
   it('registered the service', () => {
-    const service = app.service('user')
+    const service = app.service(SERVICES.CORE_USER)
 
     assert.ok(service, 'Registered the service')
   })

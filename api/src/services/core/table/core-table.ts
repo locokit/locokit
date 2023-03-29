@@ -1,4 +1,4 @@
-import { API_PATH } from '@locokit/definitions'
+import { SERVICES } from '@locokit/definitions'
 import type { Application } from '@/declarations'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
 
@@ -16,7 +16,7 @@ export function coreTableService(app: Application): void {
   }
 
   // Register our service on the Feathers application
-  app.use(API_PATH.CORE.TABLE, new CoreTable(options), {
+  app.use(SERVICES.CORE_TABLE, new CoreTable(options), {
     // A list of all methods this service exposes externally
     methods: ['find', 'get', 'patch'],
     // You can add additional custom events to be sent to clients here
@@ -32,12 +32,12 @@ export function coreTableService(app: Application): void {
     }),
   })
   // Initialize hooks
-  app.service(API_PATH.CORE.TABLE).hooks(coreTableHooks)
+  app.service(SERVICES.CORE_TABLE).hooks(coreTableHooks)
 }
 
 // Add this service to the service type index
 declare module '../../../declarations' {
   interface ServiceTypes {
-    [API_PATH.CORE.TABLE]: CoreTable
+    [SERVICES.CORE_TABLE]: CoreTable
   }
 }

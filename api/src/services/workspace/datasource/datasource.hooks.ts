@@ -7,6 +7,7 @@ import { WorkspaceResult } from '@/services/core/workspace/core-workspace.schema
 
 import { datasourceResolvers } from './datasource.resolver'
 import { datasourceDataValidator, datasourceQueryValidator } from './datasource.schema'
+import { SERVICES } from '@locokit/definitions'
 
 export const datasourceHooks = {
   around: {
@@ -20,7 +21,7 @@ export const datasourceHooks = {
       async function setWorkspaceSchema(context: HookContext) {
         console.log('setWorkspaceSchema', context.params.query.workspaceId)
         const workspace: WorkspaceResult = await context.app
-          .service('workspace')
+          .service(SERVICES.CORE_WORKSPACE)
           .get(context.params.query.workspaceId)
         context.service.schema = `w_${workspace.slug}`
         return context
@@ -31,7 +32,7 @@ export const datasourceHooks = {
       schemaHooks.validateQuery(datasourceQueryValidator),
       async function setWorkspaceSchema(context: HookContext) {
         const workspace: WorkspaceResult = await context.app
-          .service('workspace')
+          .service(SERVICES.CORE_WORKSPACE)
           .get(context.params.query.workspaceId)
         context.service.schema = `w_${workspace.slug}`
         return context
@@ -42,7 +43,7 @@ export const datasourceHooks = {
       schemaHooks.validateData(datasourceDataValidator),
       async function setWorkspaceSchema(context: HookContext) {
         const workspace: WorkspaceResult = await context.app
-          .service('workspace')
+          .service(SERVICES.CORE_WORKSPACE)
           .get(context.data.workspaceId)
         context.service.schema = `w_${workspace.slug}`
         return context

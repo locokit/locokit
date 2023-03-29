@@ -1,6 +1,6 @@
 import { AuthenticationService } from '@feathersjs/authentication'
 import { LocalStrategy } from '@feathersjs/authentication-local'
-import { API_PATH } from '@locokit/definitions'
+import { SERVICES } from '@locokit/definitions'
 import { ServiceSwaggerOptions } from 'feathers-swagger'
 
 import type { Application } from '../../../declarations'
@@ -10,7 +10,7 @@ import { PublicStrategy } from './public.strategy'
 
 declare module '../../../declarations' {
   interface ServiceTypes {
-    [API_PATH.AUTH.ROOT]: AuthenticationService
+    [SERVICES.AUTH_AUTHENTICATION]: AuthenticationService
   }
 }
 
@@ -79,6 +79,6 @@ export const authentication = (app: Application): void => {
   authenticationService.register('local', new LocalStrategy())
   authenticationService.register('jwt', new JWTStrategyEnhanced())
 
-  app.use(API_PATH.AUTH.ROOT, authenticationService)
-  app.service(API_PATH.AUTH.ROOT).hooks(hooks)
+  app.use(SERVICES.AUTH_AUTHENTICATION, authenticationService)
+  app.service(SERVICES.AUTH_AUTHENTICATION).hooks(hooks)
 }

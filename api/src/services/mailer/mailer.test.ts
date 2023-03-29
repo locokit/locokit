@@ -1,11 +1,12 @@
 import { createApp } from '../../app'
 import { describe, it, expect } from 'vitest'
+import { SERVICES } from '@locokit/definitions'
 
 const app = createApp()
 
 describe("'mailer' service", () => {
   it('registered the service', () => {
-    const service = app.service('mailer')
+    const service = app.service(SERVICES.MISC_MAILER)
     expect(service).toBeTruthy()
   })
 

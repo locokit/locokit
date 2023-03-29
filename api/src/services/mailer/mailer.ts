@@ -1,3 +1,4 @@
+import { SERVICES } from '@locokit/definitions'
 import SMTPConnection from 'nodemailer/lib/smtp-connection'
 import { Application } from '../../declarations'
 import { MailerService, mailerHooks } from './mailer.class'
@@ -19,7 +20,7 @@ export function mailer(app: Application): void {
   }
 
   app.use(
-    'mailer',
+    SERVICES.MISC_MAILER,
     new MailerService(options, {
       from: mailerConfiguration.from,
     }),
@@ -28,12 +29,12 @@ export function mailer(app: Application): void {
     },
   )
 
-  app.service('mailer').hooks(mailerHooks)
+  app.service(SERVICES.MISC_MAILER).hooks(mailerHooks)
 }
 
 // Add this service to the service type index
-declare module '../../declarations' {
+declare module '@/declarations' {
   interface ServiceTypes {
-    mailer: MailerService
+    [SERVICES.MISC_MAILER]: MailerService
   }
 }

@@ -1,4 +1,4 @@
-import { API_PATH } from '@locokit/definitions'
+import { SERVICES } from '@locokit/definitions'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
 import type { Application } from '../../../declarations'
 import { ObjectionAdapterOptions } from '@/feathers-objection'
@@ -18,7 +18,7 @@ export function roleService(app: Application): void {
   }
 
   // Register our service on the Feathers application
-  app.use(API_PATH.AUTH.ROLE, new RoleService(options), {
+  app.use(SERVICES.CORE_ROLE, new RoleService(options), {
     // A list of all methods this service exposes externally
     methods: ['find', 'get', 'create', 'update', 'patch', 'remove'],
     // You can add additional custom events to be sent to clients here
@@ -29,12 +29,12 @@ export function roleService(app: Application): void {
     }),
   })
   // Initialize hooks
-  app.service(API_PATH.AUTH.ROLE).hooks(roleHooks)
+  app.service(SERVICES.CORE_ROLE).hooks(roleHooks)
 }
 
 // Add this service to the service type index
-declare module '../../../declarations' {
+declare module '@/declarations' {
   interface ServiceTypes {
-    [API_PATH.AUTH.ROLE]: RoleService
+    [SERVICES.CORE_ROLE]: RoleService
   }
 }

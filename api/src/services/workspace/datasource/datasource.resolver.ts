@@ -12,6 +12,7 @@ import { NotFound } from '@feathersjs/errors/lib'
 import { Paginated } from '@feathersjs/feathers'
 import { WorkspaceResult } from '@/services/core/workspace/core-workspace.schema'
 import { logger } from '@/logger'
+import { SERVICES } from '@locokit/definitions'
 
 const datasourceLogger = logger.child({ service: 'datasource-hooks' })
 
@@ -35,17 +36,19 @@ export const datasourceDataResolver = resolve<DatasourceData, HookContext>({
     const { workspaceSlug } = context.params.route
     const { authentication, provider, transaction, authenticated, user } = context.params
     if (!workspaceSlug) throw new NotFound('Workspace not found')
-    const workspace: Paginated<WorkspaceResult> = await context.app.service('workspace').find({
-      query: {
-        slug: workspaceSlug,
-        $limit: 1,
-      },
-      authentication,
-      provider,
-      transaction,
-      authenticated,
-      user,
-    })
+    const workspace: Paginated<WorkspaceResult> = await context.app
+      .service(SERVICES.CORE_WORKSPACE)
+      .find({
+        query: {
+          slug: workspaceSlug,
+          $limit: 1,
+        },
+        authentication,
+        provider,
+        transaction,
+        authenticated,
+        user,
+      })
     if (workspace.total !== 1) throw new NotFound('Workspace not found')
     return workspace.data[0].id as string
   },
@@ -79,7 +82,7 @@ export const datasourceQueryResolver = resolve<DatasourceQuery, HookContext>({
      * For get methods
      */
     if (context.id) {
-      const datasource = await context.app.service('datasource').get(context.id, {
+      const datasource = await context.app.service(SERVICES.CORE_DATASOURCE).get(context.id, {
         transaction,
       })
       if (!datasource) throw new NotFound('Datasource not found')
@@ -91,13 +94,15 @@ export const datasourceQueryResolver = resolve<DatasourceQuery, HookContext>({
       const { workspaceSlug } = context.params.route
 
       if (!workspaceSlug) throw new NotFound('Workspace not found')
-      const workspace: Paginated<WorkspaceResult> = await context.app.service('workspace').find({
-        query: {
-          slug: workspaceSlug,
-          $limit: 1,
-        },
-        transaction,
-      })
+      const workspace: Paginated<WorkspaceResult> = await context.app
+        .service(SERVICES.CORE_WORKSPACE)
+        .find({
+          query: {
+            slug: workspaceSlug,
+            $limit: 1,
+          },
+          transaction,
+        })
       if (workspace.total !== 1) throw new NotFound('Workspace not found')
       return workspace.data[0].id as string
     }

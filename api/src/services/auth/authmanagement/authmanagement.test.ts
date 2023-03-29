@@ -1,7 +1,8 @@
 import { Paginated } from '@feathersjs/feathers'
+import { SERVICES } from '@locokit/definitions'
 import { describe, it, expect, afterEach, vi } from 'vitest'
 import { createApp } from '../../../app'
-import { UserResult } from '../user/user.schema'
+import { UserResult } from '@/services/core/user/user.schema'
 
 vi.mock('../../mailer/mailer.class')
 
@@ -23,17 +24,19 @@ function diffDays(verifyExpires?: string | number) {
 describe("'authManagement' service", () => {
   afterEach(async () => {
     // Clean DB
-    const usersToRemove = (await app.service('user').find({
+    const usersToRemove = (await app.service(SERVICES.CORE_USER).find({
       query: {
         username: 'authmanagement+verifyExpires',
       },
     })) as Paginated<UserResult>
 
-    await Promise.all(usersToRemove.data.map(async (u) => await app.service('user').remove(u.id)))
+    await Promise.all(
+      usersToRemove.data.map(async (u) => await app.service(SERVICES.CORE_USER).remove(u.id)),
+    )
   })
 
   it('registered the service', () => {
-    expect(app.service('auth-management')).toBeDefined()
+    expect(app.service(SERVICES.AUTH_MANAGEMENT)).toBeDefined()
   })
 
   it('register a new user and set the verifyExpires accordingly setting', async () => {
@@ -44,7 +47,7 @@ describe("'authManagement' service", () => {
      * We don't care about hours in this case.
      */
     expect.assertions(1)
-    const user = await app.service('user').create(credentials)
+    const user = await app.service(SERVICES.CORE_USER).create(credentials)
     expect(diffDays(user.verifyExpires)).toBe(10)
   })
 

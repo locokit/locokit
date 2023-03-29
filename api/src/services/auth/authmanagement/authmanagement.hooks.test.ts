@@ -1,7 +1,8 @@
 import { NotAcceptable, BadRequest, Forbidden } from '@feathersjs/errors'
+import { SERVICES } from '@locokit/definitions'
 import { expect, describe, beforeEach, afterEach, it, vi } from 'vitest'
 import { createApp } from '../../../app'
-import { UserResult } from '../user/user.schema'
+import { UserResult } from '@/services/core/user/user.schema'
 
 const app = createApp()
 
@@ -30,7 +31,7 @@ describe("'auth-management' hooks for passwordChange action", () => {
   }
   let user: UserResult
   beforeEach(async () => {
-    user = await app.services.user.create({
+    user = await app.service(SERVICES.CORE_USER).create({
       ...userInfo,
     })
   })
@@ -38,7 +39,7 @@ describe("'auth-management' hooks for passwordChange action", () => {
   it('throw a NotAcceptable error when an action passwordChange is created with a password not matching default rules', async () => {
     expect.assertions(2)
     try {
-      await app.service('auth-management').create({
+      await app.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'passwordChange',
         // @ts-expect-error
         value: {
@@ -58,7 +59,7 @@ describe("'auth-management' hooks for passwordChange action", () => {
   it('throw a BadRequest error when an action passwordChange is created with a password matching default rules but bad oldPassword is sent', async () => {
     expect.assertions(3)
     try {
-      await app.service('auth-management').create({
+      await app.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'passwordChange',
         value: {
           user: {
@@ -77,7 +78,7 @@ describe("'auth-management' hooks for passwordChange action", () => {
 
   it('accept the request of action passwordChange if created with a password matching default rules and all params', async () => {
     expect.assertions(3)
-    const resAuthMngmt = await app.service('auth-management').create({
+    const resAuthMngmt = await app.service(SERVICES.AUTH_MANAGEMENT).create({
       action: 'passwordChange',
       value: {
         user: {
@@ -94,7 +95,7 @@ describe("'auth-management' hooks for passwordChange action", () => {
      * but we won't be able to login as the account is not verified.
      */
     try {
-      await app.service('authentication').create(
+      await app.service(SERVICES.AUTH_AUTHENTICATION).create(
         {
           strategy: 'local',
           email: userInfo.email,
@@ -109,7 +110,7 @@ describe("'auth-management' hooks for passwordChange action", () => {
   })
 
   afterEach(async () => {
-    await app.services.user.remove(user.id)
+    await app.service(SERVICES.CORE_USER).remove(user.id)
   })
 })
 
@@ -122,7 +123,7 @@ describe("'auth-management' hooks for identityChange action", () => {
 
   let user: UserResult
   beforeEach(async () => {
-    user = await app.services.user.create({
+    user = await app.service(SERVICES.CORE_USER).create({
       ...userInfo,
     })
   })
@@ -130,7 +131,7 @@ describe("'auth-management' hooks for identityChange action", () => {
   it('throw a BadRequest error when an identityChange action is created with an incorrect password', async () => {
     expect.assertions(3)
     try {
-      await app.service('auth-management').create({
+      await app.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'identityChange',
         value: {
           user: {
@@ -152,7 +153,7 @@ describe("'auth-management' hooks for identityChange action", () => {
   it('throw a BadRequest error when an identityChange action is created with an incorrect user', async () => {
     expect.assertions(3)
     try {
-      await app.service('auth-management').create({
+      await app.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'identityChange',
         value: {
           user: {
@@ -173,7 +174,7 @@ describe("'auth-management' hooks for identityChange action", () => {
 
   it('accept the request when an identityChange action is created with correct user and password ', async () => {
     expect.assertions(5)
-    const resIdentityChange = (await app.service('auth-management').create({
+    const resIdentityChange = (await app.service(SERVICES.AUTH_MANAGEMENT).create({
       action: 'identityChange',
       value: {
         user: {
@@ -187,23 +188,23 @@ describe("'auth-management' hooks for identityChange action", () => {
     })) as { id: string }
     // The result is defined but the email address is not updated yet (need token verification)
     expect(resIdentityChange).toBeDefined()
-    const user: UserResult = await app.service('user').get(resIdentityChange.id)
+    const user: UserResult = await app.service(SERVICES.CORE_USER).get(resIdentityChange.id)
     expect(user.email).toBe(userInfo.email)
 
     // Token verification
-    const resVerifySignupLong = (await app.service('auth-management').create({
+    const resVerifySignupLong = (await app.service(SERVICES.AUTH_MANAGEMENT).create({
       action: 'verifySignupLong',
       value: user.verifyToken as string,
     })) as { id: string; email: string }
     expect(resVerifySignupLong).toBeDefined()
     expect(resVerifySignupLong.email).toBe(newEmailAddress.toLowerCase())
 
-    const userAfter: UserResult = await app.service('user').get(resVerifySignupLong.id)
+    const userAfter: UserResult = await app.service(SERVICES.CORE_USER).get(resVerifySignupLong.id)
     expect(userAfter.email).toBe(newEmailAddress.toLowerCase())
   })
 
   afterEach(async () => {
-    await app.services.user.remove(user.id)
+    await app.service(SERVICES.CORE_USER).remove(user.id)
   })
 })
 
@@ -214,7 +215,7 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
   }
   let user: UserResult
   beforeEach(async () => {
-    user = await app.services.user.create({
+    user = await app.service(SERVICES.CORE_USER).create({
       ...userInfo,
     })
   })
@@ -222,7 +223,7 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
   it('throw a NotAcceptable error when an action verifySignupSetPasswordLong is created with a password not matching default rules', async () => {
     expect.assertions(2)
     try {
-      await app.service('auth-management').create({
+      await app.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'verifySignupSetPasswordLong',
         // @ts-expect-error
         value: {
@@ -242,7 +243,7 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
   it('throw a NotAcceptable error when an action verifySignupSetPasswordShort is created with a password not matching default rules', async () => {
     expect.assertions(2)
     try {
-      await app.service('auth-management').create({
+      await app.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'verifySignupSetPasswordShort',
         // @ts-expect-error
         value: {
@@ -262,7 +263,7 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
   it('throw a NotAcceptable error when an action resetPwdLong is created with a password not matching default rules', async () => {
     expect.assertions(2)
     try {
-      await app.service('auth-management').create({
+      await app.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'resetPwdLong',
         // @ts-expect-error
         value: {
@@ -282,7 +283,7 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
   it('throw a NotAcceptable error when an action resetPwdShort is created with a password not matching default rules', async () => {
     expect.assertions(2)
     try {
-      await app.service('auth-management').create({
+      await app.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'resetPwdShort',
         // @ts-expect-error
         value: {
@@ -303,7 +304,7 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
   it('accept the request of action verifySignupSetPasswordLong if created with a password matching default rules and all params', async () => {
     expect.assertions(9)
     calls = []
-    await app.service('auth-management').create({
+    await app.service(SERVICES.AUTH_MANAGEMENT).create({
       action: 'resendVerifySignup',
       value: {
         email: 'locokit-authmngt@locokit.io',
@@ -314,7 +315,7 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
     const token = calls[0][1].verifyToken
     expect(token).toBeDefined()
 
-    const resAuthMngmt = await app.service('auth-management').create({
+    const resAuthMngmt = await app.service(SERVICES.AUTH_MANAGEMENT).create({
       action: 'verifySignupSetPasswordLong',
       value: {
         token,
@@ -323,7 +324,7 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
     })
     expect(resAuthMngmt).toBeDefined()
 
-    const auth = await app.service('authentication').create(
+    const auth = await app.service(SERVICES.AUTH_AUTHENTICATION).create(
       {
         strategy: 'local',
         email: userInfo.email,
@@ -341,7 +342,7 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
   it('accept the request of action resendVerifySignup even if email is in uppercase', async () => {
     expect.assertions(3)
     calls = []
-    await app.service('auth-management').create({
+    await app.service(SERVICES.AUTH_MANAGEMENT).create({
       action: 'resendVerifySignup',
       value: {
         email: 'LOCOKIT-authmngt@locokit.io',
@@ -354,6 +355,6 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
   })
 
   afterEach(async () => {
-    await app.services.user.remove(user.id)
+    await app.service(SERVICES.CORE_USER).remove(user.id)
   })
 })

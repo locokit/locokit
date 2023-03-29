@@ -1,4 +1,5 @@
 import { createApp } from '@/app'
+import { SERVICES } from '@locokit/definitions'
 import { describe, it, assert, beforeAll } from 'vitest'
 
 describe('workspace service', () => {
@@ -6,14 +7,14 @@ describe('workspace service', () => {
 
   beforeAll(async () => {})
   it('registered the service', () => {
-    const service = app.service('workspace')
+    const service = app.service(SERVICES.CORE_WORKSPACE)
 
     assert.ok(service, 'Registered the service')
   })
 
   it('returns the public workspace when making a find request without authentication', async () => {
     const publicWorkspaces = await app
-      .service('workspace')
+      .service(SERVICES.CORE_WORKSPACE)
       .find({ provider: 'external', authenticated: false })
   })
 

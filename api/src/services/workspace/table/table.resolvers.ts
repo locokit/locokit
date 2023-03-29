@@ -7,7 +7,7 @@ import { NotFound } from '@feathersjs/errors/lib'
 import { Paginated } from '@feathersjs/feathers'
 import { WorkspaceResult } from '@/services/core/workspace/core-workspace.schema'
 import { DatasourceResult } from '../datasource/datasource.schema'
-import { API_PATH, SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/definitions'
 
 // Resolver for the basic data model (e.g. creating new entries)
 export const tableDataResolver = resolve<TableData, HookContext>({
@@ -30,21 +30,23 @@ export const tableDataResolver = resolve<TableData, HookContext>({
     const { workspaceSlug, datasourceSlug } = context.params.route
     const { authentication, provider, transaction, authenticated, user } = context.params
     if (!workspaceSlug || !datasourceSlug) throw new NotFound('Table not found')
-    const workspace: Paginated<WorkspaceResult> = await context.app.service('workspace').find({
-      query: {
-        slug: workspaceSlug,
-        $limit: 1,
-      },
-      authentication,
-      provider,
-      transaction,
-      authenticated,
-      user,
-    })
+    const workspace: Paginated<WorkspaceResult> = await context.app
+      .service(SERVICES.CORE_WORKSPACE)
+      .find({
+        query: {
+          slug: workspaceSlug,
+          $limit: 1,
+        },
+        authentication,
+        provider,
+        transaction,
+        authenticated,
+        user,
+      })
     if (workspace.total !== 1) throw new NotFound('Table not found')
 
     const datasource: Paginated<DatasourceResult> = await context.app
-      .service(API_PATH.WORKSPACE.DATASOURCE.ROOT)
+      .service(SERVICES.WORKSPACE_DATASOURCE)
       .find({
         query: {
           workspaceId: workspace.data[0].id,

@@ -4,7 +4,7 @@ import { Application } from '../../../declarations'
 import { hooks } from './authmanagement.hooks'
 import { AuthenticationManagementService } from 'feathers-authentication-management'
 import { authManagementSettings } from './authmanagement.settings'
-import { API_PATH } from '@locokit/definitions'
+import { SERVICES } from '@locokit/definitions'
 import { ServiceSwaggerOptions } from 'feathers-swagger'
 
 declare module 'feathers-authentication-management' {
@@ -47,10 +47,10 @@ Please check [the feathers auth management doc°](https://github.com/feathersjs-
 `,
   }
 
-  app.use(API_PATH.AUTH.MANAGEMENT, authenticationManagementService)
+  app.use(SERVICES.AUTH_MANAGEMENT, authenticationManagementService)
 
   // Get our initialized service so that we can register hooks and filters
-  const service = app.service(API_PATH.AUTH.MANAGEMENT)
+  const service = app.service(SERVICES.AUTH_MANAGEMENT)
 
   service.hooks(hooks)
 }
@@ -58,6 +58,6 @@ Please check [the feathers auth management doc°](https://github.com/feathersjs-
 // Add this service to the service type index
 declare module '../../../declarations' {
   interface ServiceTypes {
-    [API_PATH.AUTH.MANAGEMENT]: AuthenticationManagementService
+    [SERVICES.AUTH_MANAGEMENT]: AuthenticationManagementService
   }
 }
