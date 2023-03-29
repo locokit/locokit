@@ -45,19 +45,6 @@ services:
     # restart: always
     container_name: lck-db-test-next
 
-  lck-pgadmin:
-    image: dpage/pgadmin4:6
-    environment:
-      PGADMIN_DEFAULT_EMAIL: contact@locokit.io
-      PGADMIN_DEFAULT_PASSWORD: locokit
-    ports:
-      - 8001:80
-    volumes:
-      - lck-pgadmin4-data:/var/lib/postgresql/data
-      - ./dumps:/dumps
-    container_name: lck-pgadmin-next
-
-
 volumes:
   lck-mailhog-data:
   lck-db-data:
