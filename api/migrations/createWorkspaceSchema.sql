@@ -149,7 +149,7 @@ BEGIN
     CONSTRAINT "PK_datasource" PRIMARY KEY (id),
     CONSTRAINT "UNQ_ds_slug" UNIQUE (slug, "workspaceId"),
     CONSTRAINT "CHECK_datasource_client"
-      CHECK (client = ANY (ARRAY[''sqlite3''::text, ''pg''::text]))
+      CHECK (client = ANY (ARRAY[''sqlite3''::text, ''pg''::text])),
     CONSTRAINT "CHECK_datasource_type"
       CHECK (client = ANY (ARRAY[''remote''::text, ''local''::text]))
 

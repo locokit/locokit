@@ -38,6 +38,9 @@ export async function up(knex: Knex): Promise<void> {
         .inTable('core.lck_workspace')
       table.index('workspaceId', 'IDX_role_workspaceId')
       table.boolean('manager').notNullable().defaultTo(false)
+      table.boolean('public').notNullable().defaultTo(false)
+      table.datetime('createdAt').defaultTo(knex.fn.now())
+      table.datetime('updatedAt').defaultTo(knex.fn.now())
     })
 
     /**
@@ -64,7 +67,8 @@ export async function up(knex: Knex): Promise<void> {
       table.uuid('userId').notNullable()
       table.foreign('userId', 'FK_userGroup_user').references('id').inTable('core.lck_user')
       table.index('userId', 'IDX_userGroup_userId')
-      table.enum('userGroupRole', ['OWNER', 'ADMIN', 'MEMBER']).notNullable().defaultTo('MEMBER')
+      table.datetime('createdAt').defaultTo(knex.fn.now())
+      table.datetime('updatedAt').defaultTo(knex.fn.now())
 
       table.primary(['userId', 'groupId'])
     })
@@ -142,10 +146,7 @@ export async function up(knex: Knex): Promise<void> {
       table.datetime('updatedAt').defaultTo(knex.fn.now())
 
       table.uuid('tableId').notNullable()
-      table
-        .foreign('tableId', 'FK_dataset_table')
-        .references('id')
-        .inTable('core.lck_table')
+      table.foreign('tableId', 'FK_dataset_table').references('id').inTable('core.lck_table')
       table.index('tableId', 'IDX_dataset_tableId')
     })
 }
