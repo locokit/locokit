@@ -90,7 +90,7 @@ export const tableQuerySchema = Type.Intersect(
       ),
       $joinRelated: Type.Optional(
         Type.RegEx(
-          /^(datasource|fields|relations(\.\[toTable\])?)|\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\3))*\]$/,
+          /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
           {
             description: 'Join table to its datasource / relations / fields.',
           },
@@ -98,7 +98,7 @@ export const tableQuerySchema = Type.Intersect(
       ),
       $joinEager: Type.Optional(
         Type.RegEx(
-          /^(datasource|fields|relations(\.\[toTable\])?)|\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\3))*\]$/,
+          /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
           {
             description: 'Join table to its datasource / relations / fields.',
           },
@@ -106,7 +106,7 @@ export const tableQuerySchema = Type.Intersect(
       ),
       $eager: Type.Optional(
         Type.RegEx(
-          /^(datasource|fields|relations(\.\[toTable\])?)|\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\3))*\]$/,
+          /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
           {
             description: 'Join table to its datasource / relations / fields.',
           },
