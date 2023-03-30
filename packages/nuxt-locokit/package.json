@@ -23,21 +23,21 @@
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground"
   },
   "dependencies": {
+    "@feathersjs/authentication-client": "^5.0.0",
+    "@feathersjs/feathers": "^5.0.0",
+    "@feathersjs/rest-client": "^5.0.0",
     "@locokit/designsystem": "^0.8.0",
     "@locokit/i18n": "0.8.0",
     "@locokit/sdk": "^0.8.0",
-    "@feathersjs/authentication-client": "^5.0.0-pre.32",
-    "@feathersjs/feathers": "^5.0.0-pre.32",
-    "@feathersjs/rest-client": "^5.0.0-pre.32",
     "@nuxt/kit": "^3.1.1",
-    "@pinia/nuxt": "^0.4.6",
+    "@pinia/nuxt": "^0.4.7",
     "@tailwindcss/line-clamp": "^0.4.2",
-    "@vee-validate/rules": "^4.7.3",
+    "@vee-validate/rules": "^4.8.3",
     "bootstrap-icons": "^1.10.3",
-    "pinia": "^2.0.30",
-    "primevue": "^3.23.0",
+    "pinia": "^2.0.33",
+    "primevue": "^3.26.0",
     "tailwindcss": "^3.2.7",
-    "vee-validate": "^4.7.3",
+    "vee-validate": "^4.8.3",
     "vue-i18n": "^9.3.0-beta.16"
   },
   "devDependencies": {
@@ -50,7 +50,7 @@
     "eslint": "^8.25.0",
     "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-vue": "^9.9.0",
-    "nuxt": "^3.1.1",
+    "nuxt": "^3.3.1",
     "prettier": "^2.8.3",
     "sass": "^1.58.0"
   }
