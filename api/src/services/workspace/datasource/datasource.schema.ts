@@ -79,14 +79,14 @@ type DatasourceRelations = {
 
 export type DatasourceSchema = Static<typeof datasourceSchema> &
   DatasourceRelations & {
-    // client: DB_TYPE
+    client: DB_TYPE
   }
 
 // Schema for the data that is being returned
 export const datasourceResultSchema = datasourceSchema
 export type DatasourceResult = Static<typeof datasourceResultSchema> &
   DatasourceRelations & {
-    // client: DB_TYPE
+    client: DB_TYPE
   }
 
 // Schema / validator for creation
@@ -95,14 +95,14 @@ export const datasourceDataSchema = Type.Omit(datasourceSchema, ['id'], {
   additionalProperties: false,
 })
 export type DatasourceData = Static<typeof datasourceDataSchema> & {
-  // client: DB_TYPE
+  client: DB_TYPE
 }
 export const datasourceDataValidator = getValidator(datasourceDataSchema, dataValidator)
 
 // Schema for making partial updates
 export const datasourcePatchSchema = Type.Omit(datasourceSchema, ['id'])
 export type DatasourcePatch = Static<typeof datasourcePatchSchema> & {
-  // client: DB_TYPE
+  client: DB_TYPE
 }
 
 // Schema for allowed query properties
