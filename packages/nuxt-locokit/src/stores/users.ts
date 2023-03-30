@@ -57,6 +57,7 @@ export const useStoreUsers = defineStore('users', () => {
   }
 
   async function findUsers(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     params: Record<string, any>,
     sort = {
       createdAt: -1,

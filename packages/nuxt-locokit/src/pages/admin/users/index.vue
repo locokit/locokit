@@ -21,7 +21,7 @@
         </div>
 
         <div>
-          <PrimeInput
+          <PrimeInputText
             v-model="wantedUser"
             class="search-input w-full !mb-4"
             type="text"
@@ -151,7 +151,7 @@
 
 <script setup lang="ts">
 import PrimeButton from 'primevue/button'
-import PrimeInput from 'primevue/inputtext'
+import PrimeInputText from 'primevue/inputtext'
 import PrimePaginator, { PageState } from 'primevue/paginator'
 import { storeToRefs } from 'pinia'
 import { IdentityCard, FilterButton } from '@locokit/designsystem'
