@@ -205,7 +205,10 @@ const props = withDefaults(
       original_type_id: number
     }[]
   }>(),
-  { currentFilters: () => [], appendTo: 'body' },
+  {
+    currentFilters: () => [],
+    appendTo: 'body',
+  },
 )
 
 const modalRef = ref<OverlayPanel | null>(null)

@@ -5,19 +5,18 @@
         title="Ellie"
         subtitle="Ellie Williams"
         icon="bi-person"
-        name-tag="ADMIN"
+        name-tag="Admin"
       />
       <IdentityCard
-        title="Ellie"
-        subtitle="Ellie Williams Ellie Williams Ellie Williams Ellie Williams Ellie Williams Ellie Williams Ellie Williams Ellie Williams Ellie Williams Ellie Williams Ellie Williams Ellie Williams Ellie Williams Ellie Williams Ellie Williams Ellie Williams Ellie Williams Ellie Williams"
+        title="Daenerys Targaryen"
+        subtitle="Queen Daenerys Stormborn of the House Targaryen, the First of Her Name, Queen of the Andals, the Rhoynar and the First Men, Lady of the Seven Kingdoms and Protector of the Realm, Lady of Dragonstone, Queen of Meereen, Khaleesi of the Great Grass Sea, the Unburnt, Breaker of Chains and Mother of Dragons."
         icon="bi-person"
-        name-tag="CREATOR"
+        name-tag="Creator"
       />
       <IdentityCard
-        title="Ellie"
-        subtitle="Ellie Williams"
-        icon="bi-person"
-        name-tag="MEMBER"
+        title="Marvin"
+        icon="bi-robot"
+        name-tag="Severe depression and boredom"
       />
     </Variant>
   </Story>
@@ -26,3 +25,11 @@
 <script setup lang="ts">
 import IdentityCard from '../components/IdentityCard/IdentityCard.vue'
 </script>
+
+<docs lang="md">
+### IdentyCard
+
+Allows to display a some information in a specific format.
+
+Still in progress
+</docs>

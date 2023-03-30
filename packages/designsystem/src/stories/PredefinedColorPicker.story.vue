@@ -21,3 +21,9 @@ const currentColor = reactive<ColorScheme>({
   color: null,
 })
 </script>
+
+<docs lang="md">
+### PredefinedColorPicker
+
+Allow to select available background color and text color.
+</docs>

@@ -30,3 +30,11 @@ const columnsDefinition = [
   },
 ]
 </script>
+
+<docs lang="md">
+### FilterButton
+
+Allows you to create one or more filters in order to format them to the API standard.
+
+Still in progress
+</docs>

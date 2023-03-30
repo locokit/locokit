@@ -5,7 +5,9 @@
     :class="[borderColor ? `border border[${borderColor}]` : '']"
     :style="{ color, backgroundColor }"
   >
-    <span class="max-w-full text-ellipsis overflow-hidden inline-block">
+    <span
+      class="max-w-full text-ellipsis overflow-hidden inline-block line-clamp-1"
+    >
       {{ label }}
     </span>
   </span>

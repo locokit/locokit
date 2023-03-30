@@ -14,7 +14,7 @@
           class="mb-4"
           as="div"
         >
-          <PrimeInput
+          <PrimeInputText
             v-focus
             v-bind="field"
             placeholder="name"
@@ -31,7 +31,7 @@
           type="input"
           as="div"
         >
-          <PrimeInput v-bind="field" placeholder="pseudo" />
+          <PrimeInputText v-bind="field" placeholder="pseudo" />
         </Field>
       </FormGeneric>
     </Variant>
@@ -50,7 +50,7 @@
           class="mb-4"
           as="div"
         >
-          <PrimeInput
+          <PrimeInputText
             v-focus
             v-bind="field"
             placeholder="name"
@@ -67,7 +67,7 @@
           type="input"
           as="div"
         >
-          <PrimeInput v-bind="field" placeholder="pseudo" />
+          <PrimeInputText v-bind="field" placeholder="pseudo" />
         </Field>
       </FormGeneric>
     </Variant>
@@ -76,7 +76,7 @@
 
 <script setup lang="ts">
 import FormGeneric from '../components/FormGeneric/FormGeneric.vue'
-import PrimeInput from 'primevue/inputtext'
+import PrimeInputText from 'primevue/inputtext'
 import { Field, ErrorMessage } from 'vee-validate'
 import { ref } from 'vue'
 import { logEvent } from 'histoire/client'
