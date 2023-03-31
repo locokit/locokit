@@ -820,7 +820,7 @@ export class ObjectionAdapter<
     return data
   }
 
-  async _findOrGet(id: NullableId, params?: ServiceParams) {
+  async _findOrGet(id: NullableId, params: ServiceParams = {} as ServiceParams) {
     const { name, id: idField } = this.getOptions(params)
     objectionLogger.info('_findOrGet %s', id, idField)
 

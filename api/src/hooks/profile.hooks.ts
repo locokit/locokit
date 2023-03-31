@@ -6,10 +6,12 @@ import { HookContext } from '../declarations'
  * Check if a user profile match a listing of PROFILE
  */
 export const isUserProfile =
-  (profile: USER_PROFILE[] | USER_PROFILE): PredicateFn<HookContext> =>
+  (profile: (keyof typeof USER_PROFILE)[] | keyof typeof USER_PROFILE): PredicateFn<HookContext> =>
   (context: HookContext): boolean => {
     const profiles = Array.isArray(profile) ? profile : [profile]
-    const includeUserProfile = profiles.includes(context.params.user?.profile as USER_PROFILE)
+    const includeUserProfile = profiles.includes(
+      context.params.user?.profile as keyof typeof USER_PROFILE,
+    )
     if (!includeUserProfile) throw new Error('User is not authorized to access this.')
     return true
   }

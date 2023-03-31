@@ -1,7 +1,7 @@
 import { Type, Static, StringEnum, querySyntax, getValidator } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '@/commons/validators'
 import { TableResult } from '../table/table.schema'
-import { DB_TYPE } from '@locokit/definitions'
+import { DB_DIALECT } from '@locokit/definitions'
 
 // Schema for the basic data model (e.g. creating new entries)
 // export const datasourceDataJSONSchema: JSONSchemaDefinition =
@@ -79,14 +79,14 @@ type DatasourceRelations = {
 
 export type DatasourceSchema = Static<typeof datasourceSchema> &
   DatasourceRelations & {
-    client: DB_TYPE
+    client: DB_DIALECT
   }
 
 // Schema for the data that is being returned
 export const datasourceResultSchema = datasourceSchema
 export type DatasourceResult = Static<typeof datasourceResultSchema> &
   DatasourceRelations & {
-    client: DB_TYPE
+    client: DB_DIALECT
   }
 
 // Schema / validator for creation
@@ -95,14 +95,14 @@ export const datasourceDataSchema = Type.Omit(datasourceSchema, ['id'], {
   additionalProperties: false,
 })
 export type DatasourceData = Static<typeof datasourceDataSchema> & {
-  client: DB_TYPE
+  client: DB_DIALECT
 }
 export const datasourceDataValidator = getValidator(datasourceDataSchema, dataValidator)
 
 // Schema for making partial updates
 export const datasourcePatchSchema = Type.Omit(datasourceSchema, ['id'])
 export type DatasourcePatch = Static<typeof datasourcePatchSchema> & {
-  client: DB_TYPE
+  client: DB_DIALECT
 }
 
 // Schema for allowed query properties

@@ -6,7 +6,7 @@ import { SQLAdapter } from '@locokit/engine/adapters/sql'
 import { Ajv, addFormats, Validator } from '@feathersjs/schema'
 import type { FormatsPluginOptions } from '@feathersjs/schema'
 import ajvErrors from 'ajv-errors'
-import { USER_PROFILE, USERGROUP_PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/definitions'
 import { NotFound } from '@feathersjs/errors/lib'
 import { Type, querySyntax, getValidator, TSchema } from '@feathersjs/typebox'
 import { hooks as schemaHooks } from '@feathersjs/schema'
@@ -51,10 +51,7 @@ dataValidator.addFormat('user-profile', {
   type: 'string',
   validate: (x: string) => Object.keys(USER_PROFILE).includes(x),
 })
-dataValidator.addFormat('user-group-profile', {
-  type: 'string',
-  validate: (x: string) => Object.keys(USERGROUP_PROFILE).includes(x),
-})
+
 /**
  * * know the user (it can be public, or better, apikey)
  * * check the user have access to this table

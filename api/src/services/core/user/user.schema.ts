@@ -86,7 +86,7 @@ export const userDataSchema = Type.Object(
 )
 
 export type UserData = Static<typeof userDataSchema> & {
-  profile?: USER_PROFILE
+  profile?: keyof typeof USER_PROFILE
 }
 
 export const userDataValidator = getValidator(userDataSchema, dataValidator)
@@ -119,7 +119,7 @@ export const userPatchSchema = Type.Partial(
 )
 
 export type UserPatch = Static<typeof userPatchSchema> & {
-  profile: USER_PROFILE
+  profile: keyof typeof USER_PROFILE
 }
 
 export const userPatchValidator = getValidator(userPatchSchema, dataValidator)
@@ -132,13 +132,13 @@ const userPatchAdminSchema = Type.Partial(
 )
 
 export type UserPatchAdmin = Static<typeof userPatchAdminSchema> & {
-  profile: USER_PROFILE
+  profile: keyof typeof USER_PROFILE
 }
 
 export const userPatchAdminValidator = getValidator(userPatchAdminSchema, dataValidator)
 
 export type UserResult = Static<typeof userSchema> & {
-  profile: USER_PROFILE
+  profile: keyof typeof USER_PROFILE
 }
 
 export const userQuerySchema = Type.Intersect(
@@ -154,8 +154,6 @@ export const userQuerySchema = Type.Intersect(
         'resetToken',
         'resetShortToken',
         'resetAttempts',
-        'createdAt',
-        'updatedAt',
         'lastConnection',
       ]),
       {

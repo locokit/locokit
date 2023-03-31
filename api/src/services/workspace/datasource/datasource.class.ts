@@ -353,7 +353,7 @@ export class Datasource extends ObjectionService<
                 `Sync error, no table matching for field ${m.settings.table}.${m.settings.name}`,
               )
 
-            const field = await this.app.service(SERVICES.WORKSPACE_TABLE_FIELD).create(
+            const field = await this.options.app!.service(SERVICES.WORKSPACE_TABLE_FIELD).create(
               {
                 name: m.settings.name as string,
                 slug: m.settings.name as string,

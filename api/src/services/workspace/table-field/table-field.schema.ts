@@ -41,29 +41,25 @@ export const tableFieldSchema = Type.Object(
   },
 )
 
-export type TableFieldSchema = Static<typeof tableFieldSchema> & {
-  type: typeof FIELD_TYPE
+type TableFieldTypes = {
+  type: keyof typeof FIELD_TYPE
   dbType: DB_TYPE
 }
+
+export type TableFieldSchema = Static<typeof tableFieldSchema> & TableFieldTypes
 
 export const tableFieldDataSchema = Type.Omit(tableFieldSchema, ['id', 'createdAt', 'updatedAt'], {
   $id: 'TableFieldData',
   additionalProperties: false,
 })
-export type TableFieldData = Static<typeof tableFieldDataSchema> & {
-  type: typeof FIELD_TYPE
-  dbType: DB_TYPE
-}
+export type TableFieldData = Static<typeof tableFieldDataSchema> & TableFieldTypes
 export const tableFieldDataValidator = getValidator(tableFieldDataSchema, dataValidator)
 
 export const tableFieldPatchSchema = Type.Omit(tableFieldDataSchema, ['tableId'], {
   $id: 'TableFieldPatch',
   additionalProperties: false,
 })
-export type TableFieldPatch = Static<typeof tableFieldPatchSchema> & {
-  type: typeof FIELD_TYPE
-  dbType: DB_TYPE
-}
+export type TableFieldPatch = Static<typeof tableFieldPatchSchema> & TableFieldTypes
 export const tableFieldPatchValidator = getValidator(tableFieldPatchSchema, dataValidator)
 
 // Schema for the data that is being returned
@@ -71,10 +67,7 @@ export const tableFieldResultSchema = Type.Omit(tableFieldSchema, [], {
   $id: 'TableFieldResult',
   additionalProperties: false,
 })
-export type TableFieldResult = Static<typeof tableFieldResultSchema> & {
-  type: typeof FIELD_TYPE
-  dbType: DB_TYPE
-}
+export type TableFieldResult = Static<typeof tableFieldResultSchema> & TableFieldTypes
 
 // Schema for allowed query properties
 export const tableFieldQuerySchema = Type.Intersect([

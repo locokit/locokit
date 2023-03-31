@@ -7,7 +7,7 @@ export interface ObjectionAdapterOptions extends AdapterServiceOptions {
   name: string
   schema?: string
 
-  app: Application
+  app?: Application
 
   /**
    * id field primary keys separator char

@@ -7,7 +7,7 @@ import { sqliteDbTypes } from './sqlite/dbType'
  * Ids are not in order,
  * this is for retrocompatibility with 0.x version
  */
-export const FIELD_TYPE = {
+export const FIELD_TYPE = Object.freeze({
   /**
    * Primitives
    */
@@ -63,12 +63,19 @@ export const FIELD_TYPE = {
   GEOMETRY_MULTIPOINT: 'GEOMETRY_MULTIPOINT',
   GEOMETRY_MULTIPOLYGON: 'GEOMETRY_MULTIPOLYGON',
   GEOMETRY_MULTILINESTRING: 'GEOMETRY_MULTILINESTRING',
-}
+})
 
-export type DB_TYPE = pgDbTypes & sqliteDbTypes
+export type DB_TYPE = pgDbTypes | sqliteDbTypes
 export type DB_DIALECT = 'pg' | 'sqlite3'
+// Object.freeze({
+//   pg: 'pg',
+//   sqlite3: 'sqlite3',
+// })
 
-export function convertDBTypeToFieldType(dbDialect: DB_DIALECT, dbType: DB_TYPE | undefined) {
+export function convertDBTypeToFieldType(
+  dbDialect: DB_DIALECT,
+  dbType: DB_TYPE | undefined,
+): keyof typeof FIELD_TYPE {
   if (!dbDialect) throw new Error('Dialect undefined.')
   if (!dbType) throw new Error('Data type undefined.')
   switch (dbDialect) {
