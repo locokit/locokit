@@ -238,8 +238,8 @@
         <p class="mb-4">
           {{ $t('pages.recordUser.explanationRemovingGroups') }}
         </p>
-        <PickDataWithSearch
-          v-if="groups && groups.length > 0 && suggestGroups"
+        <PickData
+          v-if="groups && suggestGroups"
           v-model="groups"
           :from-data="suggestGroups.data"
           @update:model-value="updateUserGroupForCurrentUser"
@@ -282,7 +282,7 @@
               bg-color-tag="transparent"
             />
           </template>
-        </PickDataWithSearch>
+        </PickData>
         <MessageForUser v-if="errorUserGroup" status="failed" />
       </div>
     </div>
@@ -298,7 +298,7 @@ import PrimeConfirmDialog from 'primevue/confirmdialog'
 import {
   FormGeneric,
   MessageForUser,
-  PickDataWithSearch,
+  PickData,
   IdentityCard,
 } from '@locokit/designsystem'
 import { Field } from 'vee-validate'
@@ -349,7 +349,7 @@ const confirm = useConfirm()
 
 const currentUser = ref<User>()
 const currentGroupsForUser = ref<ApiGroup | null>(null) // Member groups with Pagination
-const groups = ref<Group[] | null>(null) // Array for PickList based on currentGroupsForUser
+const groups = ref<Group[]>([]) // Array for PickList based on currentGroupsForUser
 const suggestGroups = ref(null) // Other groups with Pagination
 const queryForAvailableGroup = ref<string | null>(null) // Query for search in available group
 const queryForJoinedGroup = ref<string | null>(null) // Query for search in joined group
@@ -358,7 +358,7 @@ const response = ref(null)
 const errorUserGroup = ref(false)
 
 const searchGroupsExceptJoined = async () => {
-  if (groups.value) {
+  if (groups.value.length > 0) {
     const userGroupsIds = groups.value.reduce((acc: string[], group) => {
       acc.push(group.id)
       return acc
@@ -373,6 +373,10 @@ const searchGroupsExceptJoined = async () => {
         params: { id: { $nin: userGroupsIds }, $eager: 'workspace' },
       })
     }
+  } else {
+    suggestGroups.value = await findGroups({
+      params: { $eager: 'workspace' },
+    })
   }
 }
 
@@ -381,7 +385,7 @@ currentUser.value = await getUser(route.params.id as string)
 if (currentUser.value) {
   const res = await findGroupsFomUser(currentUser.value.id)
   currentGroupsForUser.value = res
-  if (res && res.total > 0) {
+  if (res && res.total >= 0) {
     groups.value = [...res.data]
     await searchGroupsExceptJoined()
   }

@@ -72,5 +72,5 @@ export async function findGroupsFomUser(userId: string) {
       params: { id: { $in: userGroupsIds }, $eager: 'workspace' },
     })
   }
-  return []
+  return { total: 0, data: [] }
 }

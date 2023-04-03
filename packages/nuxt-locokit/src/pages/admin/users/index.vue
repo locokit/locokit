@@ -155,24 +155,45 @@ import PrimeInputText from 'primevue/inputtext'
 import PrimePaginator, { PageState } from 'primevue/paginator'
 import { storeToRefs } from 'pinia'
 import { IdentityCard, FilterButton } from '@locokit/designsystem'
+import { useI18n } from 'vue-i18n'
 import { COLUMN_TYPE } from '../../../helpers/filter'
 import { ROUTES_NAMES } from '../../../paths'
 import { useStoreUsers } from '../../../stores/users'
 import { searchUsers } from '../../../services/user'
-import { Filter, User } from '../../../interfaces/toMigrate'
+import { ApiUser, Filter } from '../../../interfaces/toMigrate'
 import { ref } from '#imports'
+
+const { t } = useI18n({ useScope: 'global' })
 
 const usersStore = useStoreUsers()
 const { users } = storeToRefs(usersStore)
 
-const suggestionUsers = ref(null)
+const suggestionUsers = ref<ApiUser | null>(null)
 const currentFilters = ref<Filter[] | null>(null)
 const wantedUser = ref(null)
 
 const columnsDefinition = [
   {
     slug: 'username',
-    name: 'Username',
+    name: `${t('pages.adminUsers.filters.username')}`,
+    column_type_id: COLUMN_TYPE.STRING,
+    original_type_id: COLUMN_TYPE.STRING,
+  },
+  {
+    slug: 'firstName',
+    name: `${t('pages.adminUsers.filters.firstName')}`,
+    column_type_id: COLUMN_TYPE.STRING,
+    original_type_id: COLUMN_TYPE.STRING,
+  },
+  {
+    slug: 'lastName',
+    name: `${t('pages.adminUsers.filters.lastName')}`,
+    column_type_id: COLUMN_TYPE.STRING,
+    original_type_id: COLUMN_TYPE.STRING,
+  },
+  {
+    slug: 'email',
+    name: `${t('pages.adminUsers.filters.email')}`,
     column_type_id: COLUMN_TYPE.STRING,
     original_type_id: COLUMN_TYPE.STRING,
   },
@@ -211,7 +232,7 @@ const patchUser = async (userForm: {
   lastName: string | null
   firstName: string | null
 }) => {
-  usersStore.squashUsers({
+  await usersStore.squashUsers({
     id: userForm.id,
     username: userForm.username,
     lastName: userForm.lastName,

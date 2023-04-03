@@ -257,7 +257,13 @@
       "title": "@:pages.admin.users",
       "addUser": "Ajouter un⋅e utilisateur⋅rice",
       "emptyResult": "Aucun résultat trouvé",
-      "result": "Affichage de {elements} utilisateurs⋅rices sur {total}."
+      "result": "Affichage de {elements} utilisateurs⋅rices sur {total}.",
+      "filters": {
+        "username": "Nom d'utilisateur⋅rice",
+        "firstName": "Prénom",
+        "lastName": "Nom",
+        "email": "Email"
+      }
     },
     "aboutUsers": {
       "title": "Administration des utilisateurs⋅rices",

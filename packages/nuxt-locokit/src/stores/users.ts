@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
 import { findUsers, patchUser } from '../services/user'
+import { ApiUser } from '../interfaces/toMigrate'
 import { ref } from '#imports'
 
 export const useStoreUsers = defineStore('users', () => {
   const loading = ref(false)
   const error = ref<Error | null>(null)
-  const users = ref()
+  const users = ref<ApiUser | undefined>()
 
   async function updateUsers(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -39,18 +40,18 @@ export const useStoreUsers = defineStore('users', () => {
     loading.value = false
   }
 
-  function squashUsers(data: {
+  async function squashUsers(data: {
     id: string
     username: string
     lastName: string | null
     firstName: string | null
   }) {
-    if (users.value.total > 0) {
+    if (users.value && users.value.total > 0) {
       const userFound = users.value.data.findIndex(
         ({ id }: { id: string }) => id === data.id,
       )
       if (userFound > -1) {
-        users.value = findUsers({})
+        users.value = await findUsers({})
       }
     }
   }
