@@ -7,8 +7,6 @@ export const userGroupSchema = Type.Object(
   {
     userId: Type.String({ format: 'uuid' }),
     groupId: Type.String({ format: 'uuid' }),
-    userGroupRole: Type.String({ format: 'user-group-profile', default: USERGROUP_PROFILE.MEMBER }),
-
     /**
      * Relations (not typed due to circular dependencies)
      */

@@ -47,7 +47,7 @@ const { users } = storeToRefs(usersStore)
 
 onMounted(async () => {
   if (!users.value) {
-    await usersStore.findUsers()
+    await usersStore.updateUsers()
   }
 })
 

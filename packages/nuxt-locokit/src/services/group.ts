@@ -1,6 +1,6 @@
 import { ApiUserGroup } from '../interfaces/toMigrate'
 import { sdkClient } from './api'
-import { findUserGroups } from './usergroups'
+import { findUserGroups } from './usergroup'
 
 export const ITEMS_PER_PAGE_GROUPS = 20
 

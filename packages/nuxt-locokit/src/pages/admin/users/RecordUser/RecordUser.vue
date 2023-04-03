@@ -317,13 +317,14 @@ import { useStoreAuth } from '../../../../stores/auth'
 import {
   removeUserGroup,
   updateUserGroup,
-} from '../../../../services/usergroups'
+} from '../../../../services/usergroup'
 import {
   findGroups,
   findGroupsFomUser,
   ITEMS_PER_PAGE_GROUPS,
   searchGroups,
-} from '../../../../services/groups'
+} from '../../../../services/group'
+import { getUser, patchUser } from '../../../../services/user'
 import { useRoute, ref, computed } from '#imports'
 
 const emit = defineEmits<{
@@ -376,7 +377,7 @@ const searchGroupsExceptJoined = async () => {
 }
 
 // Initialization
-currentUser.value = await usersStore.getUser(route.params.id as string)
+currentUser.value = await getUser(route.params.id as string)
 if (currentUser.value) {
   const res = await findGroupsFomUser(currentUser.value.id)
   currentGroupsForUser.value = res
@@ -446,7 +447,7 @@ const confirmSendVerifySignup = () => {
 
 const onSubmit = async () => {
   if (!currentUser.value) return
-  const res = await usersStore.patchUser(currentUser.value.id, {
+  const res = await patchUser(currentUser.value.id, {
     username: currentUser.value.username,
     lastName: currentUser.value.lastName,
     firstName: currentUser.value.firstName,
@@ -454,7 +455,7 @@ const onSubmit = async () => {
     profile: currentUser.value.profile,
   })
 
-  if (res) {
+  if (res && res.id) {
     response.value = res
     emit('patch-user', {
       id: currentUser.value.id,
@@ -543,7 +544,7 @@ const searchGroupsJoined = async () => {
 }
 
 const onReset = async () => {
-  currentUser.value = await usersStore.getUser(route.params.id as string)
+  currentUser.value = await getUser(route.params.id as string)
 }
 </script>
 

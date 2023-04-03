@@ -158,7 +158,8 @@ import { IdentityCard, FilterButton } from '@locokit/designsystem'
 import { COLUMN_TYPE } from '../../../helpers/filter'
 import { ROUTES_NAMES } from '../../../paths'
 import { useStoreUsers } from '../../../stores/users'
-import { Filter } from '../../../interfaces/toMigrate'
+import { searchUsers } from '../../../services/user'
+import { Filter, User } from '../../../interfaces/toMigrate'
 import { ref } from '#imports'
 
 const usersStore = useStoreUsers()
@@ -170,23 +171,23 @@ const wantedUser = ref(null)
 
 const columnsDefinition = [
   {
-    slug: 'name',
-    name: 'Name',
+    slug: 'username',
+    name: 'Username',
     column_type_id: COLUMN_TYPE.STRING,
     original_type_id: COLUMN_TYPE.STRING,
   },
 ]
 const applySearch = () => {
   setTimeout(() => {
-    searchUsers()
+    search()
   }, 300)
 }
 
-const searchUsers = async (
+const search = async (
   currentPageIndex = 0,
   limit: number | undefined = undefined,
 ) => {
-  suggestionUsers.value = await usersStore.searchUsers({
+  suggestionUsers.value = await searchUsers({
     query: wantedUser.value,
     filters: currentFilters.value,
     pageIndex: currentPageIndex,
@@ -196,12 +197,12 @@ const searchUsers = async (
 
 const applyFilters = (filters: Filter[]) => {
   currentFilters.value = filters
-  searchUsers()
+  search()
 }
 
 const onPage = (event: PageState) => {
   // event.page = New index page number
-  searchUsers(event.page, event.rows)
+  search(event.page, event.rows)
 }
 
 const patchUser = async (userForm: {
@@ -226,7 +227,7 @@ const patchUser = async (userForm: {
         userFound.lastName !== userForm.lastName ||
         userFound.firstName !== userForm.firstName)
     ) {
-      await searchUsers()
+      await search()
     }
   }
 }

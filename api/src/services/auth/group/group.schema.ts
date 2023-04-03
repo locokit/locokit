@@ -4,6 +4,12 @@ import { workspaceSchema } from '../../workspace/workspace.schema'
 import { workspaceOwnerSchema } from '../user/user.schema'
 import { queryStringExtend } from '../../../feathers-objection'
 
+export const queryStringExtend = {
+  $like: Type.String(),
+  $ilike: Type.String(),
+  $notlike: Type.String(),
+}
+
 // Schema for the basic data model (e.g. creating new entries)
 export const groupSchema = Type.Object(
   {
