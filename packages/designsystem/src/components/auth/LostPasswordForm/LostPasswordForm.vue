@@ -35,7 +35,7 @@
     <div class="flex flex-col">
       <ButtonWithStatus
         type="submit"
-        label-translation-key="components.lostPasswordForm.submit"
+        label-tk="components.lostPasswordForm.submit"
         class="!w-full"
         :disabled="loading || !valid || !touched"
         :status-form="error ? 'failed' : null"

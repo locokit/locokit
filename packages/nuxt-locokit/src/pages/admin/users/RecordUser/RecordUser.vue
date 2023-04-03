@@ -49,7 +49,7 @@
       </div>
       <div>
         <FormGeneric
-          label-key-button-submit="pages.recordUser.submit"
+          label-tk-button-submit="pages.recordUser.submit"
           :response="response || errorUserStore"
           :loading="loading"
           color-submit-button="secondary"

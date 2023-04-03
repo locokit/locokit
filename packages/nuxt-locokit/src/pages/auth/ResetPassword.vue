@@ -42,7 +42,7 @@
       <div v-else class="max-w-2xl mx-auto">
         <MessageForUser
           status="failed"
-          custom-msg-key-error-form="pages.resetPassword.missingToken"
+          custom-msg-tk-error-form="pages.resetPassword.missingToken"
         />
       </div>
     </div>

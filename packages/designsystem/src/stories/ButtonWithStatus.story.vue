@@ -2,43 +2,35 @@
   <Story title="ButtonWithStatus" icon="bi:file-code-fill">
     <Variant title="default" auto-props-disabled>
       <div class="flex flex-col gap-8">
-        <ButtonWithStatus label-translation-key="Submit" type="submit" />
+        <ButtonWithStatus label-tk="Submit" type="submit" />
         <ButtonWithStatus
-          label-translation-key="Snowing"
+          label-tk="Snowing"
           type="button"
           icon="bi-cloud-snow"
         />
         <ButtonWithStatus
-          label-translation-key="Snowing"
+          label-tk="Snowing"
           type="button"
           icon="bi-cloud-snow"
           class="!w-full"
         />
         <ButtonWithStatus type="button" icon="bi-cloud-snow" />
+        <ButtonWithStatus label-tk="Submit" type="submit" disabled />
+        <ButtonWithStatus label-tk="Submit" type="submit" icon="bi-check-lg" />
         <ButtonWithStatus
-          label-translation-key="Submit"
-          type="submit"
-          disabled
-        />
-        <ButtonWithStatus
-          label-translation-key="Submit"
-          type="submit"
-          icon="bi-check-lg"
-        />
-        <ButtonWithStatus
-          label-translation-key="Loading"
+          label-tk="Loading"
           type="submit"
           icon="bi-save2"
           :is-submitting="true"
         />
         <ButtonWithStatus
-          label-translation-key="Submit"
+          label-tk="Submit"
           type="submit"
           icon="bi-save2"
           status-form="success"
         />
         <ButtonWithStatus
-          label-translation-key="Submit"
+          label-tk="Submit"
           type="submit"
           icon="bi-save2"
           status-form="failed"
@@ -48,7 +40,7 @@
     <Variant title="submitButton">
       <div class="flex flex-col gap-8">
         <ButtonWithStatus
-          label-translation-key="Submit"
+          label-tk="Submit"
           type="submit"
           icon="bi-save2"
           class-button="!bg-primary !border-primary !focus:ring-primary-dark !enabled:hover:bg-primary-dark !enabled:hover:border-primary-dark"

@@ -1,6 +1,6 @@
 <template>
   <FormGeneric
-    label-key-button-submit="components.workspaceForm.submit"
+    label-tk-button-submit="components.workspaceForm.submit"
     :response="response"
     :loading="loading"
     @submit="onSubmit"

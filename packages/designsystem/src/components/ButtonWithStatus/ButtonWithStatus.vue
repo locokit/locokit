@@ -7,7 +7,7 @@
       classButton,
     ]"
     :type="type"
-    :aria-label="$t(labelTranslationKey)"
+    :aria-label="$t(labelTk)"
     :disabled="isDisabled"
   >
     <svg
@@ -31,7 +31,7 @@
     <i v-else-if="status === 'failed'" class="ml-1 bi bi-x-circle" />
     <i v-else-if="icon" class="mx-1 text-white" :class="icon" />
     <span
-      v-if="labelTranslationKey"
+      v-if="labelTk"
       class="flex-auto"
       :class="{ 'mr-3': icon, 'ml-1': status || isSubmitting }"
     >
@@ -46,7 +46,7 @@ import { computed, ref, watch } from 'vue'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
   defineProps<{
-    labelTranslationKey?: string | null
+    labelTk?: string | null
     icon?: string | null
     disabled?: boolean
     type: 'submit' | 'button' | 'reset'
@@ -57,7 +57,7 @@ const props = withDefaults(
     classButton?: string | null
   }>(),
   {
-    labelTranslationKey: '',
+    labelTk: '',
     disabled: false,
     icon: null,
     type: 'button',
@@ -90,7 +90,7 @@ const labelToDisplay = computed(() => {
   } else if (props.isSubmitting) {
     return 'components.buttonWithStatus.loading'
   }
-  return props.labelTranslationKey
+  return props.labelTk
 })
 
 watch(

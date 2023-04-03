@@ -38,7 +38,7 @@
       <div v-else class="max-w-2xl mx-auto">
         <MessageForUser
           status="failed"
-          custom-msg-key-error-form="pages.verifySignup.missingToken"
+          custom-msg-tk-error-form="pages.verifySignup.missingToken"
         />
       </div>
     </div>

@@ -19,7 +19,7 @@
         type="submit"
         :full-width-button="fullWidthButton"
         :label-translation-key="
-          labelKeyButtonSubmit || 'components.formGeneric.save'
+          labelTkButtonSubmit || 'components.formGeneric.save'
         "
         :disabled="loading || !valid || !touched"
         :status-form="status"
@@ -32,8 +32,8 @@
     <MessageForUser
       v-if="(status === 'success' && displayMsgSuccess) || status === 'failed'"
       :status="status"
-      :custom-msg-key-success-form="customMsgKeySuccessForm"
-      :custom-msg-key-error-form="customMsgKeyErrorForm"
+      :custom-msg-tk-success-form="customMsgTkSuccessForm"
+      :custom-msg-tk-error-form="customMsgTkErrorForm"
     />
   </Form>
 </template>
@@ -52,12 +52,12 @@ const props = withDefaults(
     loading?: boolean
     fullWidthButton?: boolean
     reset?: boolean
-    labelKeyButtonSubmit?: string | null
+    labelTkButtonSubmit?: string | null
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     response?: Error | Record<string, any> | null
     displayMsgSuccess?: boolean
-    customMsgKeySuccessForm?: string | null
-    customMsgKeyErrorForm?: string | null
+    customMsgTkSuccessForm?: string | null
+    customMsgTkErrorForm?: string | null
     classSubmitButton?: string | null
     resetFormWithEmptyValue?: boolean
   }>(),
@@ -67,10 +67,10 @@ const props = withDefaults(
     fullWidthButton: false,
     reset: false,
     response: null,
-    labelKeyButtonSubmit: null,
+    labelTkButtonSubmit: null,
     displayMsgSuccess: true,
-    customMsgKeySuccessForm: 'success.basic',
-    customMsgKeyErrorForm: 'error.basic',
+    customMsgTkSuccessForm: 'success.basic',
+    customMsgTkErrorForm: 'error.basic',
     classSubmitButton: null,
     resetFormWithEmptyValue: true,
   },
