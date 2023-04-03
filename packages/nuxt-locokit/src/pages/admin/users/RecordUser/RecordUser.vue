@@ -272,6 +272,43 @@
               />
             </div>
           </template>
+          <template #fromDataFooter>
+            <div>
+              <p>
+                {{
+                  $t('pages.recordUser.result', {
+                    elements:
+                      suggestGroups.limit > suggestGroups.data.length
+                        ? suggestGroups.data.length
+                        : suggestGroups.limit,
+                    total: suggestGroups.total,
+                  })
+                }}
+              </p>
+            </div>
+          </template>
+          <template #fromNoResult>
+            <p>{{ $t('pages.recordUser.noGroupFound') }}</p>
+          </template>
+          <template #toNoResult>
+            <p>{{ $t('pages.recordUser.noGroupFound') }}</p>
+          </template>
+          <template #toDataFooter>
+            <div>
+              <p>
+                {{
+                  $t('pages.recordUser.result', {
+                    elements:
+                      currentGroupsForUser.limit >
+                      currentGroupsForUser.data.length
+                        ? currentGroupsForUser.data.length
+                        : currentGroupsForUser.limit,
+                    total: currentGroupsForUser.total,
+                  })
+                }}
+              </p>
+            </div>
+          </template>
           <template #item="slotProps">
             <IdentityCard
               :title="slotProps.item.name"

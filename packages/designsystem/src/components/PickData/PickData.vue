@@ -9,11 +9,17 @@
       <transition-group
         name="picklist"
         tag="ul"
-        class="border border-slate-300 rounded-b-md py-2 bg-white outline-0 max-h-[36rem] min-h-[22rem] overflow-auto gap-2"
+        class="border border-slate-300 py-2 bg-white outline-0 max-h-[36rem] min-h-[22rem] overflow-auto gap-2"
         role="listbox"
         aria-multiselectable="true"
         :tabindex="fromData && fromData.length > 0 ? 0 : -1"
       >
+        <div
+          v-if="fromData.length === 0"
+          class="flex items-center justify-center min-h-[22rem]"
+        >
+          <slot name="fromNoResult" />
+        </div>
         <template v-for="(item, i) of fromData" :key="item.id">
           <li
             :id="item.id"
@@ -28,7 +34,10 @@
           </li>
         </template>
       </transition-group>
-      <div class="picklist-footer">
+      <div
+        v-if="fromData.length > 0"
+        class="bg-primary-lighten border-x border-b border-slate-300 rounded-b-md p-2"
+      >
         <slot name="fromDataFooter" />
       </div>
     </div>
@@ -59,11 +68,17 @@
       <transition-group
         name="picklist"
         tag="ul"
-        class="border border-slate-300 rounded-b-md py-2 bg-white outline-0 max-h-[36rem] min-h-[22rem] overflow-auto"
+        class="border border-slate-300 py-2 bg-white outline-0 max-h-[36rem] min-h-[22rem] overflow-auto"
         role="listbox"
         aria-multiselectable="true"
         :tabindex="toData && toData.length > 0 ? 0 : -1"
       >
+        <div
+          v-if="toData.length === 0"
+          class="flex items-center justify-center min-h-[22rem]"
+        >
+          <slot name="toNoResult" />
+        </div>
         <template v-for="(item, i) of toData" :key="item.id">
           <li
             :id="item.id"
@@ -78,8 +93,11 @@
           </li>
         </template>
       </transition-group>
-      <div class="picklist-footer">
-        <slot name="fromDataFooter" />
+      <div
+        v-if="toData.length > 0"
+        class="bg-primary-lighten border-x border-b border-slate-300 rounded-b-md p-2"
+      >
+        <slot name="toDataFooter" />
       </div>
     </div>
   </div>

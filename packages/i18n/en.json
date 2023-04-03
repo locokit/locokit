@@ -314,7 +314,9 @@
       "searchPlaceholder": "Search a group",
       "explanationAddingGroups": "To assign one or more groups to this user, select the groups in the left column and click on the button with the right arrow.",
       "explanationRemovingGroups": "It also possible to remove one or more groups for this user by selecting groups in the right column.",
-      "noUserFound": "No user found"
+      "noUserFound": "No user found",
+      "noGroupFound": "No group found",
+      "result": "Showing {elements} out of {total} groups."
     },
     "confirmUpdateEmail": {
       "title": "Updating your email",
