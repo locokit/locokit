@@ -7,7 +7,7 @@
       classButton,
     ]"
     :type="type"
-    :aria-label="label"
+    :aria-label="$t(labelTranslationKey)"
     :disabled="isDisabled"
   >
     <svg
@@ -31,7 +31,7 @@
     <i v-else-if="status === 'failed'" class="ml-1 bi bi-x-circle" />
     <i v-else-if="icon" class="mx-1 text-white" :class="icon" />
     <span
-      v-if="label"
+      v-if="labelTranslationKey"
       class="flex-auto"
       :class="{ 'mr-3': icon, 'ml-1': status || isSubmitting }"
     >
@@ -46,18 +46,18 @@ import { computed, ref, watch } from 'vue'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
   defineProps<{
-    label?: string | null
+    labelTranslationKey?: string | null
     icon?: string | null
     disabled?: boolean
     type: 'submit' | 'button' | 'reset'
-    statusForm?: string | null // success, failed, null
+    statusForm?: 'success' | 'failed' | null
     isSubmitting?: boolean
     fullWidthButton?: boolean
     submitCount?: number
     classButton?: string | null
   }>(),
   {
-    label: '',
+    labelTranslationKey: '',
     disabled: false,
     icon: null,
     type: 'button',
@@ -90,12 +90,12 @@ const labelToDisplay = computed(() => {
   } else if (props.isSubmitting) {
     return 'components.buttonWithStatus.loading'
   }
-  return props.label
+  return props.labelTranslationKey
 })
 
 watch(
   () => props.statusForm,
-  (statusForm: string | null) => {
+  (statusForm: 'success' | 'failed' | null) => {
     status.value = statusForm
     if (props.submitCount > 0) {
       setTimeout(() => {

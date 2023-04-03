@@ -8,7 +8,7 @@
     <i class="bi bi-exclamation-triangle-fill self-center text-error-light" />
     <div class="ml-2 text-error-light">
       <p>
-        {{ $t(customMsgErrorForm) }}
+        {{ $t(customMsgKeyErrorForm) }}
       </p>
       <p>
         {{ $t('error.redundantError') }}
@@ -21,7 +21,7 @@
   >
     <i class="bi bi-check2 self-center text-success-light" />
     <p class="ml-2 text-success-light">
-      {{ $t(customMsgSuccessForm) }}
+      {{ $t(customMsgKeySuccessForm) }}
     </p>
   </div>
 </template>
@@ -31,13 +31,13 @@
 const props = withDefaults(
   defineProps<{
     status?: 'failed' | 'success' | null
-    customMsgSuccessForm?: string
-    customMsgErrorForm?: string
+    customMsgKeySuccessForm?: string
+    customMsgKeyErrorForm?: string
   }>(),
   {
     status: null,
-    customMsgSuccessForm: 'success.basic',
-    customMsgErrorForm: 'error.basic',
+    customMsgKeySuccessForm: 'success.basic',
+    customMsgKeyErrorForm: 'error.basic',
   },
 )
 </script>

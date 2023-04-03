@@ -1,9 +1,12 @@
 <template>
   <Story auto-props-disabled title="MessageForUser" icon="bi:chat-fill">
     <Variant title="default">
-      <MessageForUser status="success" custom-msg-success-form="Good game" />
+      <MessageForUser
+        status="success"
+        custom-msg-key-success-form="Good game"
+      />
       <MessageForUser status="success" />
-      <MessageForUser status="failed" custom-msg-error-form="Try again" />
+      <MessageForUser status="failed" custom-msg-key-error-form="Try again" />
       <MessageForUser status="failed" />
     </Variant>
   </Story>

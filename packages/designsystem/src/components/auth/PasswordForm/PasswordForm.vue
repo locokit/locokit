@@ -84,7 +84,7 @@
     </Field>
     <ButtonWithStatus
       type="submit"
-      :label="labelSubmit"
+      :label-translation-key="labelSubmit"
       class="!w-full border"
       :disabled="loading || !valid || !touched"
       :status-form="error ? 'failed' : null"

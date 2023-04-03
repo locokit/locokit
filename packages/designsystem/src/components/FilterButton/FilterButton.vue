@@ -165,7 +165,7 @@
       <PrimeButton
         class="p-button-secondary p-button-rounded !font-semibold"
         icon="bi-check-lg"
-        label="Validate"
+        :label="$t('components.filterButton.submit')"
         @click="onClickFilters"
       />
     </div>

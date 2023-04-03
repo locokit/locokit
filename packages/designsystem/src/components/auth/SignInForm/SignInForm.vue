@@ -76,7 +76,7 @@
       <div class="flex flex-col">
         <ButtonWithStatus
           type="submit"
-          label="components.signInForm.signIn"
+          label-translation-key="components.signInForm.signIn"
           class="!w-full"
           :disabled="loading || !valid || !touched"
           :status-form="status"
@@ -86,7 +86,7 @@
         />
         <MessageForUser
           v-if="status === 'failed'"
-          custom-msg-error-form="error.notAuthenticated.description"
+          custom-msg-key-error-form="error.notAuthenticated.description"
           status="failed"
         />
       </div>

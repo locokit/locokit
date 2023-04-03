@@ -109,6 +109,7 @@
       "motif": "Motif",
       "addFilter": "Add a filter",
       "reset": "Reset",
+      "submit": "Validate",
       "select": {
         "operator": {
           "$or": "OR",

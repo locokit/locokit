@@ -1,7 +1,7 @@
 <template>
   <FormGeneric
     :display-reset-button="false"
-    label-button-submit="components.updateEmailForm.submit"
+    label-key-button-submit="components.updateEmailForm.submit"
     :response="response"
     :loading="loading"
     custom-msg-success-form="components.updateEmailForm.successMsg"

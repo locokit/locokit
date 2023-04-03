@@ -6,7 +6,7 @@
       </h1>
     </div>
     <FormGeneric
-      label-button-submit="pages.createUser.submit"
+      label-key-button-submit="pages.createUser.submit"
       :response="error"
       :loading="loading"
       color-submit-button="secondary"

@@ -1,7 +1,7 @@
 <template>
   <FormGeneric
     :display-reset-button="false"
-    label-button-submit="components.updatePasswordForm.submit"
+    label-key-button-submit="components.updatePasswordForm.submit"
     :response="response"
     :loading="loading"
     class="w-3/4"

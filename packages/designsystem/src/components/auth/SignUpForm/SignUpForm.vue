@@ -2,7 +2,7 @@
   <FormGeneric
     :display-reset-button="false"
     :full-width-button="true"
-    label-button-submit="components.signUpForm.signup"
+    label-key-button-submit="components.signUpForm.signup"
     :response="error"
     :loading="loading"
     @submit="onSubmit"
