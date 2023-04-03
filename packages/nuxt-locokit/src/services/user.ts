@@ -74,6 +74,7 @@ export async function searchUsers({
   sort?: Record<string, number> | null
 }) {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let parameters: Record<string, any> = {
       $limit: limit,
       $skip: pageIndex * limit,

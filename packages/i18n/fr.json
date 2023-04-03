@@ -324,6 +324,25 @@
       "message": "Cette opération a été effectuée avec succès. Vous pouvez maintenant vous connecter avec votre nouvel email.",
       "errorMessage": "Malheureusement, l'opération n'a pas pu être menée à bien. Si le problème persiste, veuillez contacter l'administrateur du site.",
       "signIn": "Se connecter"
+    },
+    "adminGroups": {
+      "title": "@:pages.admin.groups",
+      "addGroup": "Ajouter un groupe",
+      "emptyResult": "Aucun résultat trouvé",
+      "result": "Affichage de {elements} groupes sur {total}.",
+      "filters": {
+        "name": "Nom",
+        "workspace": "Espace de travail"
+      }
+    },
+    "aboutGroups": {
+      "title": "@:pages.admin.groups",
+      "manual": {
+        "intro": "À partir de cette page, il est possible de :",
+        "create": "Créer un groupe en cliquant sur le bouton.",
+        "search": "Trouver un groupe existant à partir de la barre de recherche et des filtres.",
+        "displayAndEdit": "Afficher et modifier les informations liées à un group en cliquant sur leur nom."
+      }
     }
   },
   "success": {

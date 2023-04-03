@@ -266,7 +266,7 @@
       }
     },
     "aboutUsers": {
-      "title": "Users administration",
+      "title": "@:pages.admin.users",
       "manual": {
         "intro": "From this page it is possible to:",
         "create": "Create a new user by clicking on the button.",
@@ -324,6 +324,25 @@
       "message": "This operation has been successfully completed. You can now log in with your new email.",
       "errorMessage": "Unfortunately, the operation could not be completed. If the problem persists, please contact the site administrator.",
       "signIn": "Sign in"
+    },
+    "adminGroups": {
+      "title": "@:pages.admin.groups",
+      "addGroup": "Add a group",
+      "emptyResult": "No result found",
+      "result": "Showing {elements} out of {total} groups.",
+      "filters": {
+        "name": "Name",
+        "workspace": "Workspace"
+      }
+    },
+    "aboutGroups": {
+      "title": "@:pages.admin.groups",
+      "manual": {
+        "intro": "From this page it is possible to:",
+        "create": "Create a new group by clicking on the button.",
+        "search": "Find an existing group using the search bar and filters.",
+        "displayAndEdit": "View and edit a group's record by clicking on their name."
+      }
     }
   },
   "success": {

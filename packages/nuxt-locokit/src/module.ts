@@ -231,6 +231,50 @@ export default defineNuxtModule<ModuleOptions>({
               },
             ],
           },
+          {
+            name: ROUTES_NAMES.ADMIN.GROUPS.HOME,
+            path: ROUTES_PATH.ADMIN.GROUPS.HOME,
+            meta: {
+              protected: true,
+            },
+            file: resolve(pagesDir, './admin/groups/index.vue'),
+            redirect: ROUTES_PATH.ADMIN.GROUPS.ABOUT,
+            children: [
+              {
+                name: ROUTES_NAMES.ADMIN.GROUPS.ABOUT,
+                path: ROUTES_PATH.ADMIN.GROUPS.ABOUT,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  pagesDir,
+                  './admin/groups/AboutGroups/AboutGroups.vue',
+                ),
+              },
+              //   {
+              //     name: ROUTES_NAMES.ADMIN.USERS.CREATE,
+              //     path: ROUTES_PATH.ADMIN.USERS.CREATE,
+              //     meta: {
+              //       protected: true,
+              //     },
+              //     file: resolve(
+              //       pagesDir,
+              //       './admin/users/CreateUser/CreateUser.vue',
+              //     ),
+              //   },
+              //   {
+              //     name: ROUTES_NAMES.ADMIN.USERS.RECORD,
+              //     path: ROUTES_PATH.ADMIN.USERS.RECORD,
+              //     meta: {
+              //       protected: true,
+              //     },
+              //     file: resolve(
+              //       pagesDir,
+              //       './admin/users/RecordUser/RecordUser.vue',
+              //     ),
+              //   },
+            ],
+          },
         ],
       })
 

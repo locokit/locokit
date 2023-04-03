@@ -15,7 +15,7 @@
       </NuxtLink>
       <NuxtLink
         class="nav-link bg-primary text-white"
-        :to="{ name: ROUTES_NAMES.HOME }"
+        :to="{ name: ROUTES_NAMES.ADMIN.GROUPS.HOME }"
       >
         <button
           v-tooltip="$t('pages.admin.groups')"
