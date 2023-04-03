@@ -270,6 +270,12 @@ span.failed {
   }
 }
 
+// Add icon magnifying glass to an input-text
+.search-input {
+  @apply py-2 px-[2.5rem];
+  background: white url('../assets/search.svg') no-repeat 10px center;
+}
+
 // To check if needed
 /*
   Custom cursor for vuedraggable

@@ -253,10 +253,3 @@ const patchUser = async (data: {
   }
 }
 </script>
-
-<style scoped>
-.search-input {
-  @apply py-2 px-[2.5rem];
-  background: white url('../../../assets/search.svg') no-repeat 10px center;
-}
-</style>
