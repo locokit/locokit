@@ -84,7 +84,7 @@
     </Field>
     <ButtonWithStatus
       type="submit"
-      :label-tk="labelSubmit"
+      :label-tk="labelTkSubmit"
       class="!w-full border"
       :disabled="loading || !valid || !touched"
       :status-form="error ? 'failed' : null"
@@ -114,7 +114,7 @@ const props = withDefaults(
   defineProps<{
     loading?: boolean
     error?: Error | null
-    labelSubmit: string
+    labelTkSubmit: string
   }>(),
   {
     loading: false,
