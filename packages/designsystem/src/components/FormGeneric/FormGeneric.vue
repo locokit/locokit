@@ -9,62 +9,57 @@
     <div class="text-right mb-4 flex justify-end">
       <PrimeButton
         v-if="displayResetButton"
-        class="p-button-outlined !mr-2"
+        class="p-button-outlined p-button-rounded !mr-2"
         :label="$t('components.formGeneric.reset')"
-        icon="bi bi-x"
+        icon="bi bi-arrow-counterclockwise"
         :class="[fullWidthButton ? 'w-full' : '!w-fit']"
-        @click="onCancel"
+        @click="onReset"
       />
       <ButtonWithStatus
         type="submit"
         :full-width-button="fullWidthButton"
-        :label="labelButtonSubmit || 'components.formGeneric.save'"
+        :label-translation-key="
+          labelTkButtonSubmit || 'components.formGeneric.save'
+        "
         :disabled="loading || !valid || !touched"
         :status-form="status"
-        icon="bi bi-save2"
+        icon="bi bi-check2"
         :is-submitting="loading"
         :submit-count="submitCount"
+        :class-button="classSubmitButton"
       />
     </div>
-    <div
-      v-if="status === 'failed' && displayErrorForm"
-      class="mt-4 p-text-error"
-      role="alert"
-      aria-live="assertive"
-    >
-      <p>
-        {{ $t('error.basic') }}
-      </p>
-      <p>{{ $t('error.redundantError') }}</p>
-    </div>
-    <div v-if="status === 'success' && displaySuccessForm" class="mt-4">
-      <p>
-        {{ $t('success.general') }}
-      </p>
-    </div>
+    <MessageForUser
+      v-if="(status === 'success' && displayMsgSuccess) || status === 'failed'"
+      :status="status"
+      :custom-msg-tk-success-form="customMsgTkSuccessForm"
+      :custom-msg-tk-error-form="customMsgTkErrorForm"
+    />
   </Form>
 </template>
 
 <script setup lang="ts">
 import PrimeButton from 'primevue/button'
 import ButtonWithStatus from '../ButtonWithStatus/ButtonWithStatus.vue'
+import MessageForUser from '../MessageForUser/MessageForUser.vue'
 import { Form } from 'vee-validate'
 import { computed, ref } from 'vue'
 
-const emit = defineEmits(['submit', 'cancel'])
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const emit = defineEmits(['submit', 'reset'])
 const props = withDefaults(
   defineProps<{
     displayResetButton?: boolean
     loading?: boolean
     fullWidthButton?: boolean
     reset?: boolean
-    labelButtonSubmit?: string | null
+    labelTkButtonSubmit?: string | null
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     response?: Error | Record<string, any> | null
-    displayErrorForm?: boolean
-    displaySuccessForm?: boolean
+    displayMsgSuccess?: boolean
+    customMsgTkSuccessForm?: string | null
+    customMsgTkErrorForm?: string | null
+    classSubmitButton?: string | null
+    resetFormWithEmptyValue?: boolean
   }>(),
   {
     displayResetButton: true,
@@ -72,16 +67,19 @@ const props = withDefaults(
     fullWidthButton: false,
     reset: false,
     response: null,
-    labelButtonSubmit: null,
-    displayErrorForm: true,
-    displaySuccessForm: false,
+    labelTkButtonSubmit: null,
+    displayMsgSuccess: true,
+    customMsgTkSuccessForm: 'success.basic',
+    customMsgTkErrorForm: 'error.basic',
+    classSubmitButton: null,
+    resetFormWithEmptyValue: true,
   },
 )
 
 const refForm = ref()
 
 const status = computed(() => {
-  if (props.response && props.response.name) {
+  if (props.response && props.response.name && props.response.message) {
     return 'failed'
   } else if (props.response) {
     return 'success'
@@ -95,8 +93,10 @@ const onSubmit = (values: any) => {
   emit('submit', values)
 }
 
-const onCancel = () => {
-  refForm.value.resetForm()
-  emit('cancel')
+const onReset = () => {
+  if (props.resetFormWithEmptyValue) {
+    refForm.value.resetForm()
+  }
+  emit('reset')
 }
 </script>

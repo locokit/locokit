@@ -51,6 +51,8 @@
           :class="{ 'p-invalid': errorMessage }"
           required
           :toggle-mask="true"
+          hide-icon="bi bi-eye-slash-fill"
+          show-icon="bi bi-eye-fill"
           :feedback="false"
           spellcheck="false"
           autocorrect="off"
@@ -74,7 +76,7 @@
       <div class="flex flex-col">
         <ButtonWithStatus
           type="submit"
-          label="components.signInForm.signIn"
+          label-tk="components.signInForm.signIn"
           class="!w-full"
           :disabled="loading || !valid || !touched"
           :status-form="status"
@@ -82,20 +84,11 @@
           :is-submitting="loading"
           :submit-count="submitCount"
         />
-        <div
+        <MessageForUser
           v-if="status === 'failed'"
-          class="flex flex-col mt-4 p-text-error"
-          role="alert"
-          aria-live="assertive"
-        >
-          <p v-if="response.name === 'NotAuthenticated'">
-            {{ $t('error.notAuthenticated.login') }}
-          </p>
-          <p v-else>
-            {{ $t('error.basic') }}
-          </p>
-          <p>{{ $t(`error.redundantError`) }}</p>
-        </div>
+          custom-msg-tk-error-form="error.notAuthenticated.description"
+          status="failed"
+        />
       </div>
     </Form>
 
@@ -112,6 +105,7 @@
 // And to date, no side effects have been encountered
 import PrimePassword from 'primevue/password'
 import PrimeInputText from 'primevue/inputtext'
+import MessageForUser from '../../MessageForUser/MessageForUser.vue'
 import { Field, Form } from 'vee-validate'
 import { computed, reactive } from 'vue'
 import ButtonWithStatus from '../../ButtonWithStatus/ButtonWithStatus.vue'

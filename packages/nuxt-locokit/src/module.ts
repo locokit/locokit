@@ -141,12 +141,6 @@ export default defineNuxtModule<ModuleOptions>({
     //   })
     // }
 
-    // module.addLayout(
-    //   {
-    //     src: resolve(layoutsDir, './WithBackground.vue'),
-    //   },
-    //   'WithBackground',
-    // )
     addLayout(
       {
         src: resolve(layoutsDir, './WithHeader.vue'),
@@ -180,6 +174,65 @@ export default defineNuxtModule<ModuleOptions>({
 
     extendPages(function (pages: NuxtPage[]) {
       const { submodules } = options
+
+      /**
+       * Register admin pages
+       */
+      pages.push({
+        name: ROUTES_NAMES.ADMIN.HOME,
+        path: ROUTES_PATH.ADMIN.HOME,
+        meta: {
+          protected: true,
+        },
+        file: resolve(pagesDir, './admin/index.vue'),
+        redirect: ROUTES_PATH.ADMIN.USERS.HOME,
+        children: [
+          {
+            name: ROUTES_NAMES.ADMIN.USERS.HOME,
+            path: ROUTES_PATH.ADMIN.USERS.HOME,
+            meta: {
+              protected: true,
+            },
+            file: resolve(pagesDir, './admin/users/index.vue'),
+            redirect: ROUTES_PATH.ADMIN.USERS.ABOUT,
+            children: [
+              {
+                name: ROUTES_NAMES.ADMIN.USERS.ABOUT,
+                path: ROUTES_PATH.ADMIN.USERS.ABOUT,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  pagesDir,
+                  './admin/users/AboutUsers/AboutUsers.vue',
+                ),
+              },
+              {
+                name: ROUTES_NAMES.ADMIN.USERS.CREATE,
+                path: ROUTES_PATH.ADMIN.USERS.CREATE,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  pagesDir,
+                  './admin/users/CreateUser/CreateUser.vue',
+                ),
+              },
+              {
+                name: ROUTES_NAMES.ADMIN.USERS.RECORD,
+                path: ROUTES_PATH.ADMIN.USERS.RECORD,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  pagesDir,
+                  './admin/users/RecordUser/RecordUser.vue',
+                ),
+              },
+            ],
+          },
+        ],
+      })
 
       /**
        * Register profile pages
@@ -246,7 +299,10 @@ export default defineNuxtModule<ModuleOptions>({
           protected: true,
           anonymous: false,
         },
-        file: resolve(pagesDir, './workspace/CreateWorkspace.vue'),
+        file: resolve(
+          pagesDir,
+          './workspace/CreateWorkspace/CreateWorkspace.vue',
+        ),
       })
 
       pages.push({

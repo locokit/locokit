@@ -1,12 +1,13 @@
 <template>
   <button
-    class="select-none m-0 rounded text-white bg-primary border border-primary border p-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 inline-flex"
+    class="select-none m-0 rounded rounded-[2rem] text-white border p-2 focus:outline-none focus:ring-2 focus:ring-inset inline-flex enabled:hover:text-white bg-secondary border-secondary focus:ring-secondary-dark enabled:hover:bg-secondary-dark enabled:hover:border-secondary-dark"
     :class="[
       { 'cursor-not-allowed opacity-70': isDisabled },
       fullWidthButton ? 'w-full' : 'w-fit',
+      classButton,
     ]"
     :type="type"
-    :aria-label="label"
+    :aria-label="$t(labelTk)"
     :disabled="isDisabled"
   >
     <svg
@@ -15,7 +16,7 @@
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-arrow-clockwise animate-spin h-5 w-5 text-gray-500"
+      class="ml-1 bi bi-arrow-clockwise animate-spin h-5 w-5"
       viewBox="0 0 16 16"
     >
       <path
@@ -26,13 +27,14 @@
         d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"
       />
     </svg>
-    <i
-      v-else-if="status === 'success'"
-      class="bi bi-check-circle text-gray-500"
-    />
-    <i v-else-if="status === 'failed'" class="bi bi-x-circle text-gray-500" />
-    <i v-else-if="icon" class="text-white" :class="'bi ' + icon" />
-    <span v-if="label" class="flex-auto" :class="{ 'ml-2': icon }">
+    <i v-else-if="status === 'success'" class="ml-1 bi bi-check-circle" />
+    <i v-else-if="status === 'failed'" class="ml-1 bi bi-x-circle" />
+    <i v-else-if="icon" class="mx-1 text-white" :class="icon" />
+    <span
+      v-if="labelTk"
+      class="flex-auto"
+      :class="{ 'mr-3': icon, 'ml-1': status || isSubmitting }"
+    >
       {{ $t(labelToDisplay) }}
     </span>
   </button>
@@ -44,17 +46,18 @@ import { computed, ref, watch } from 'vue'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
   defineProps<{
-    label?: string | null
+    labelTk?: string | null
     icon?: string | null
     disabled?: boolean
     type: 'submit' | 'button' | 'reset'
-    statusForm?: string | null // success, failed, null
+    statusForm?: 'success' | 'failed' | null
     isSubmitting?: boolean
     fullWidthButton?: boolean
     submitCount?: number
+    classButton?: string | null
   }>(),
   {
-    label: '',
+    labelTk: '',
     disabled: false,
     icon: null,
     type: 'button',
@@ -62,6 +65,7 @@ const props = withDefaults(
     isSubmitting: false,
     fullWidthButton: false,
     submitCount: 0,
+    classButton: null,
   },
 )
 
@@ -71,6 +75,8 @@ const isDisabled = computed(() => {
   if (props.disabled) {
     return true
   } else if (status.value !== null) {
+    return true
+  } else if (props.isSubmitting) {
     return true
   }
   return false
@@ -84,12 +90,12 @@ const labelToDisplay = computed(() => {
   } else if (props.isSubmitting) {
     return 'components.buttonWithStatus.loading'
   }
-  return props.label
+  return props.labelTk
 })
 
 watch(
   () => props.statusForm,
-  (statusForm: string | null) => {
+  (statusForm: 'success' | 'failed' | null) => {
     status.value = statusForm
     if (props.submitCount > 0) {
       setTimeout(() => {
@@ -99,12 +105,3 @@ watch(
   },
 )
 </script>
-
-<style scoped>
-button:enabled:hover {
-  background: var(--primary-color-dark);
-  color: var(--color-white);
-  border-color: var(--primary-color-dark);
-  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
-}
-</style>

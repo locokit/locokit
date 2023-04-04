@@ -66,6 +66,15 @@ export function getAuthPages(prefix: string): NuxtPage[] {
         protected: false,
       },
     },
+    {
+      name: ROUTES_NAMES.AUTH.CONFIRM_UPDATE_EMAIL,
+      path: prefix + ROUTES_PATH.AUTH.CONFIRM_UPDATE_EMAIL,
+      file: resolve('./pages/auth/ConfirmUpdateEmail.vue'),
+      meta: {
+        anonymous: true,
+        protected: false,
+      },
+    },
   ]
 }
 

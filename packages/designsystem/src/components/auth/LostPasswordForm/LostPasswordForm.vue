@@ -12,7 +12,7 @@
       rules="required|email"
       class="mb-4 p-field"
     >
-      <label for="email">
+      <label for="email" class="label-field-required">
         {{ $t('components.lostPasswordForm.email') }}
       </label>
       <PrimeInputText
@@ -35,7 +35,7 @@
     <div class="flex flex-col">
       <ButtonWithStatus
         type="submit"
-        :label="$t('components.lostPasswordForm.submit')"
+        label-tk="components.lostPasswordForm.submit"
         class="!w-full"
         :disabled="loading || !valid || !touched"
         :status-form="error ? 'failed' : null"
@@ -48,20 +48,7 @@
           {{ $t('components.lostPasswordForm.signIn') }}
         </a>
       </span>
-      <div
-        v-if="error"
-        class="flex flex-col mt-4 p-text-error"
-        role="alert"
-        aria-live="assertive"
-      >
-        <p v-if="error.name === 'BadRequest'">
-          {{ $t('error.badRequest.lostPassword') }}
-        </p>
-        <p v-else>
-          {{ $t('error.basic') }}
-        </p>
-        <p>{{ $t(`error.redundantError`) }}</p>
-      </div>
+      <MessageForUser v-if="error" status="failed" />
     </div>
   </Form>
 </template>
@@ -69,6 +56,7 @@
 <script setup lang="ts">
 import PrimeInputText from 'primevue/inputtext'
 import ButtonWithStatus from '../../ButtonWithStatus/ButtonWithStatus.vue'
+import MessageForUser from '../../MessageForUser/MessageForUser.vue'
 import { ref } from 'vue'
 import { Field, Form } from 'vee-validate'
 

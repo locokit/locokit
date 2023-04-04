@@ -7,7 +7,7 @@
         '(' +
         runtimeConfig.public.ERROR_BACKGROUND_IMAGE_URL +
         ')' +
-        'var(--color-primary)',
+        'var(--primary-color)',
     }"
   >
     <div class="container mx-auto text-center justify-center flex-1">

@@ -1,6 +1,6 @@
 <template>
   <FormGeneric
-    label-button-submit="components.workspaceForm.submit"
+    label-tk-button-submit="components.workspaceForm.submit"
     :response="response"
     :loading="loading"
     @submit="onSubmit"
@@ -43,15 +43,15 @@
     </div>
     <Field
       v-slot="{ field }"
-      v-model="summary"
+      v-model="documentation"
       class="mb-4"
-      name="workspaceForm.summary"
+      name="workspaceForm.documentation"
       as="div"
     >
-      <label for="summary">
-        {{ $t('components.workspaceForm.summary') }}
+      <label for="documentation">
+        {{ $t('components.workspaceForm.documentation') }}
       </label>
-      <PrimeTextarea id="summary" :auto-resize="true" v-bind="field" />
+      <PrimeTextarea id="documentation" :auto-resize="true" v-bind="field" />
     </Field>
     <Field
       v-slot="{ field }"
@@ -123,7 +123,7 @@ const emit = defineEmits<{
     e: 'submit',
     form: {
       name: string
-      summary: string | null
+      documentation: string | null
       public: boolean
       settings?: {
         color: string | null
@@ -155,7 +155,7 @@ const props = withDefaults(
 )
 
 const name = ref('')
-const summary = ref('')
+const documentation = ref('')
 const color = ref('')
 const icon = ref('')
 const isPublic = ref(false)
@@ -177,7 +177,7 @@ const autogenerateSlug = computed(() => {
 const onSubmit = () => {
   emit('submit', {
     name: name.value,
-    summary: summary.value,
+    documentation: documentation.value,
     public: isPublic.value,
     settings: {
       ...currentColor,

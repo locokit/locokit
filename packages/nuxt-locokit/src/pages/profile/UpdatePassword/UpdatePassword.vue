@@ -4,10 +4,12 @@
       {{ $t('pages.updatePassword.title') }}
     </h3>
     <UpdatePasswordForm
+      v-if="user"
       :response="response"
       :loading="loading"
       @submit="updatePassword"
     />
+    <p v-else>{{ $t('pages.updatePassword.userNotFound') }}</p>
   </div>
 </template>
 
@@ -21,22 +23,25 @@ import { ref, useHead } from '#imports'
 const { t } = useI18n({ useScope: 'global' })
 const authStore = useStoreAuth()
 
-const { error, loading } = storeToRefs(authStore)
+const { error, loading, user } = storeToRefs(authStore)
 const response = ref()
 
-const updatePassword = (data: {
+const updatePassword = async (data: {
   currentPassword: string
   newPassword: string
 }) => {
   response.value = null
-
-  // eslint-disable-next-line no-console
-  console.log('Done it !', data)
+  const res = await authStore.updatePassword({
+    email: user.value.email,
+    password: data.currentPassword,
+    newPassword: data.newPassword,
+  })
 
   if (error.value !== null) {
     response.value = error.value
+  } else {
+    response.value = res
   }
-  response.value = data
 }
 
 useHead({

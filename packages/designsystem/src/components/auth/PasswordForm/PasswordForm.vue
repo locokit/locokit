@@ -21,6 +21,8 @@
         v-bind="field"
         :feedback="true"
         :toggle-mask="true"
+        hide-icon="bi bi-eye-slash-fill"
+        show-icon="bi bi-eye-fill"
         :medium-regex="`${regexPasswordRules}(?=.{8,})`"
         :strong-regex="`${regexPasswordRules}(?=.{12,})`"
         :weak-label="$t('components.passwordForm.passwordStrength.weak')"
@@ -64,6 +66,8 @@
         v-bind="field"
         :feedback="false"
         :toggle-mask="true"
+        hide-icon="bi bi-eye-slash-fill"
+        show-icon="bi bi-eye-fill"
         required
         spellcheck="false"
         autocorrect="off"
@@ -80,24 +84,14 @@
     </Field>
     <ButtonWithStatus
       type="submit"
-      :label="labelSubmit"
+      :label-tk="labelSubmit"
       class="!w-full border"
       :disabled="loading || !valid || !touched"
       :status-form="error ? 'failed' : null"
       icon="bi bi-save2"
       :is-submitting="loading"
     />
-    <div
-      v-if="error"
-      class="flex flex-col mt-4 p-text-error"
-      role="alert"
-      aria-live="assertive"
-    >
-      <p>
-        {{ $t('error.basic') }}
-      </p>
-      <p>{{ $t('error.redundantError') }}</p>
-    </div>
+    <MessageForUser v-if="error" status="failed" />
   </Form>
 </template>
 
@@ -106,6 +100,7 @@
 // And to date, no side effects have been encountered
 import PrimePassword from 'primevue/password'
 import ButtonWithStatus from '../../ButtonWithStatus/ButtonWithStatus.vue'
+import MessageForUser from '../../MessageForUser/MessageForUser.vue'
 import { ref } from 'vue'
 import { Form, Field } from 'vee-validate'
 import { regexPasswordRules } from '../../../helpers/regex'

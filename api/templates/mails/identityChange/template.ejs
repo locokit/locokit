@@ -1,13 +1,13 @@
-Hello <%= user.name %>,
+Hello <%= user.username %>,
 
 
 Your account has been updated.
 
-Here is a summary :
+Here is a summary:
 
-Name                  : <%= user.name %>
-Current email address : <%= user.email %>
-Profile               : <%= user.profile %>
+Username: <%= user.username %>
+Current email address: <%= user.email %>
+Profile: <%= user.profile %>
 
 New desired email address : <%= user.verifyChanges.email %>
 
@@ -15,9 +15,12 @@ If this action was not from you,
 please contact us quickly to avoid an impersonation.
 
 
-To confirm your new email address, please follow this link :
+To confirm your new email, please follow this link:
 
 <%= identityChangeLink %>
+
+
+See you soon.
 
 
 The LocoKit team

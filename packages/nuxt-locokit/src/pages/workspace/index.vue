@@ -8,7 +8,7 @@
         {{ $t('pages.workspace.intro') }}
       </p>
       <NuxtLink :to="{ name: ROUTES_NAMES.WORKSPACE.CREATE }">
-        <PrimeButton class="!rounded-full !pr-5 !mt-4">
+        <PrimeButton class="p-button-rounded p-button-secondary !pr-5 !mt-4">
           <div
             class="relative flex flex-row justify-center text-center font-bold w-full"
           >

@@ -1,14 +1,14 @@
 <template>
   <WithHeader>
     <div
-      class="max-w-lg lg:h-full m-auto mt-8 pb-4 px-4 lg:px-0 flex flex-col justify-center"
+      class="h-full flex flex-col flex-wrap md:justify-center md:m-auto mt-8"
     >
       <div class="mb-8">
         <h1 class="text-center">
           {{ $t('pages.resetPassword.title') }}
         </h1>
       </div>
-      <div>
+      <div v-if="route.query.token" class="max-w-lg mx-auto">
         <div v-if="!formSentAndValid">
           <p class="mb-4">
             {{ $t('pages.resetPassword.description') }}
@@ -20,7 +20,7 @@
             @submit="resetPassword"
           />
         </div>
-        <div v-else class="text-center">
+        <div v-else class="text-center max-w-lg">
           <div class="flex items-center px-3 pt-4 pb-6">
             <i
               aria-hidden="true"
@@ -33,18 +33,24 @@
 
           <NuxtLink
             class="no-decoration-link"
-            :to="{ name: ROUTES_NAMES.HOME }"
+            :to="{ name: ROUTES_NAMES.AUTH.SIGN_IN }"
           >
-            {{ $t('pages.resetPassword.homeLink') }}
+            {{ $t('pages.resetPassword.signIn') }}
           </NuxtLink>
         </div>
+      </div>
+      <div v-else class="max-w-2xl mx-auto">
+        <MessageForUser
+          status="failed"
+          custom-msg-tk-error-form="pages.resetPassword.missingToken"
+        />
       </div>
     </div>
   </WithHeader>
 </template>
 
 <script setup lang="ts">
-import { PasswordForm } from '@locokit/designsystem'
+import { PasswordForm, MessageForUser } from '@locokit/designsystem'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import WithHeader from '../../layouts/WithHeader.vue'
@@ -62,11 +68,13 @@ const loading = ref(false) // check if necessary with vee-validate
 const formSentAndValid = ref(false)
 
 const resetPassword = async (data: string) => {
-  await authStore.resetPasswordLong({
-    token: route.query?.token as string,
-    password: data,
-  })
-  formSentAndValid.value = !error.value
+  if (route.query.token) {
+    await authStore.resetPasswordLong({
+      token: route.query.token as string,
+      password: data,
+    })
+    formSentAndValid.value = !error.value
+  }
 }
 
 definePageMeta({ middleware: ['anonymous-routes'] })

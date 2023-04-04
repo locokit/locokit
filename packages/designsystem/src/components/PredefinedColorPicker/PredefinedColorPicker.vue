@@ -8,6 +8,7 @@
       :options="COLOR_SCHEME"
       :model-value="currentColor"
       data-key="backgroundColor"
+      dropdown-icon="bi-chevron-down"
       :show-clear="true"
       @change="onInput"
     >

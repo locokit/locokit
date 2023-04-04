@@ -12,14 +12,14 @@ export const useStoreAuth = defineStore('auth', () => {
     loading.value = true
     error.value = null
     try {
-      const result = await sdkClient.authenticate({
+      const res = await sdkClient.authenticate({
         strategy: 'local',
         email: data.email,
         password: data.password,
       })
       const token = useCookie('token') // useCookie new hook in nuxt 3
-      token.value = result.accessToken
-      user.value = result.user
+      token.value = res.accessToken
+      user.value = res.user
       // if (result.user.rules) lckAbilities.update(result.user.rules)
       isAuthenticated.value = true
     } catch (err) {
@@ -34,12 +34,12 @@ export const useStoreAuth = defineStore('auth', () => {
   async function reAuthenticate() {
     loading.value = true
     error.value = null
-    const result = await sdkClient.reAuthenticate()
+    const res = await sdkClient.reAuthenticate() // Todo: Not working, impossible to send a request
     const token = useCookie('token') // useCookie new hook in nuxt 3
 
-    if (result.user) {
-      user.value = result.user
-      token.value = result.accessToken
+    if (res.user) {
+      user.value = res.user
+      token.value = res.accessToken
       // if (result.user.rules) lckAbilities.update(result.user.rules)
       isAuthenticated.value = true
     } else {
@@ -123,6 +123,108 @@ export const useStoreAuth = defineStore('auth', () => {
     loading.value = false
   }
 
+  async function sendEmailVerifySignup(userEmail: string) {
+    loading.value = true
+    error.value = null
+    try {
+      await sdkClient.service('auth-management').create({
+        action: 'resendVerifySignup',
+        value: { email: userEmail },
+      })
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err)
+      error.value = err as Error
+    }
+    loading.value = false
+  }
+
+  async function patchCurrentUser(id: string, data = {}) {
+    loading.value = true
+    error.value = null
+    try {
+      const res = await sdkClient.service('user').patch(id, data)
+      user.value = res
+      loading.value = false
+      return res
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err)
+      error.value = err as Error
+    }
+    loading.value = false
+  }
+
+  async function updateEmail(user: {
+    email: string
+    password: string
+    newEmail: string
+  }) {
+    loading.value = true
+    error.value = null
+    try {
+      const res = await sdkClient.service('auth-management').create({
+        action: 'identityChange',
+        value: {
+          user: { email: user.email },
+          password: user.password,
+          changes: { email: user.newEmail },
+        },
+      })
+      loading.value = false
+      return res
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err)
+      error.value = err as Error
+    }
+    loading.value = false
+  }
+
+  async function confirmUpdateEmail(token: string) {
+    loading.value = true
+    error.value = null
+    try {
+      const res = await sdkClient.service('auth-management').create({
+        action: 'verifySignupLong',
+        value: token,
+      })
+      loading.value = false
+      return res
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err)
+      error.value = err as Error
+    }
+    loading.value = false
+  }
+
+  async function updatePassword(user: {
+    email: string
+    password: string
+    newPassword: string
+  }) {
+    loading.value = true
+    error.value = null
+    try {
+      const res = await sdkClient.service('auth-management').create({
+        action: 'passwordChange',
+        value: {
+          user: { email: user.email },
+          oldPassword: user.password,
+          password: user.newPassword,
+        },
+      })
+      loading.value = false
+      return res
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err)
+      error.value = err as Error
+    }
+    loading.value = false
+  }
+
   return {
     loading,
     isAuthenticated,
@@ -135,5 +237,10 @@ export const useStoreAuth = defineStore('auth', () => {
     verifySignupAndSetPassword,
     signUp,
     logout,
+    sendEmailVerifySignup,
+    updateEmail,
+    confirmUpdateEmail,
+    updatePassword,
+    patchCurrentUser,
   }
 })

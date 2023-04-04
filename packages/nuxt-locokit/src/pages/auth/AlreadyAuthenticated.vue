@@ -1,7 +1,7 @@
 <template>
   <WithHeader>
     <div
-      class="max-w-lg lg:h-full m-auto mt-8 pb-4 px-4 lg:px-0 flex flex-col justify-center"
+      class="max-w-lg h-full flex flex-col flex-wrap md:justify-center md:m-auto mt-8"
     >
       <div class="mb-8">
         <h1 class="text-center">
@@ -15,11 +15,13 @@
         <div class="flex justify-around">
           <NuxtLink :to="{ name: ROUTES_NAMES.WORKSPACE.HOME }">
             <PrimeButton
+              class="p-button-rounded p-button-secondary"
               :label="$t('pages.alreadyAuthenticated.workspaceButton')"
               icon="bi bi-person-workspace"
             />
           </NuxtLink>
           <PrimeButton
+            class="p-button-rounded p-button-secondary p-button-outlined"
             :label="$t('pages.alreadyAuthenticated.logoutButton')"
             icon="bi bi-door-open-fill"
             @click="logout"

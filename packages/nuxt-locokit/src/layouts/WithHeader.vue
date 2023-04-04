@@ -1,17 +1,15 @@
 <template>
-  <div class="h-full flex flex-col">
-    <header class="relative z-10 bg-white lg:w-full shadow-md">
-      <div class="relative px-4 py-6 sm:px-6 lg:px-8">
-        <nav
-          class="relative flex items-center justify-between sm:h-10 lg:justify-start"
-        >
+  <div class="flex flex-col">
+    <header class="relative h-16 z-10 bg-white lg:w-full shadow-md">
+      <div class="relative h-full items-center px-4 sm:px-6 lg:px-8">
+        <nav class="h-full flex items-center justify-between">
           <div class="flex flex-shrink-0 flex-grow items-center">
             <div class="flex w-full items-center justify-between md:w-auto">
-              <NuxtLink class="h-16" :to="{ name: ROUTES_NAMES.HOME }">
+              <NuxtLink class="h-12" :to="{ name: ROUTES_NAMES.HOME }">
                 <span class="sr-only">
                   {{ runtimeConfig.public.PROJECT_NAME }}
                 </span>
-                <img alt="logo" class="h-16" src="/assets/logo.png" />
+                <img alt="logo" class="h-12" src="/assets/logo.png" />
               </NuxtLink>
               <div class="-mr-2 flex items-center md:hidden">
                 <button
@@ -21,23 +19,9 @@
                   @click="toggleMenu"
                 >
                   <span class="sr-only">
-                    {{ $t('layouts.WithHeader.openMenu') }}
+                    {{ $t('layouts.withHeader.openMenu') }}
                   </span>
-                  <svg
-                    class="h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                    />
-                  </svg>
+                  <i class="bi bi-list" aria-hidden="true" />
                 </button>
               </div>
             </div>
@@ -59,25 +43,25 @@
                 class="mr-1"
               />
               <p>
-                {{ $t('layouts.WithHeader.' + navLink.title) }}
+                {{ $t('layouts.withHeader.' + navLink.title) }}
               </p>
             </NuxtLink>
           </div>
           <button
             v-if="isAuthenticated"
             type="button"
-            class="items-center justify-center rounded bg-white p-2 text-gray-500 hover:bg-primary hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 hidden sm:inline-flex"
+            class="items-center justify-center rounded bg-white p-2 text-gray-500 hover:bg-primary hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 hidden md:ml-auto md:inline-flex"
             @click="logout"
           >
             <i class="bi bi-door-open-fill mr-1" />
-            <span> {{ $t('layouts.WithHeader.logout') }} </span>
+            <span> {{ $t('layouts.withHeader.logout') }}</span>
           </button>
         </nav>
       </div>
 
       <div
         v-if="menuOpened"
-        class="absolute inset-x-0 top-0 z-10 origin-top-right transform p-2 transition md:hidden"
+        class="absolute inset-x-0 top-0 z-10 origin-top-right transform p-1 transition md:hidden"
       >
         <div
           class="overflow-hidden rounded-md bg-white shadow-md ring-1 ring-black ring-opacity-5"
@@ -88,33 +72,19 @@
                 <span class="sr-only">
                   {{ runtimeConfig.public.PROJECT_NAME }}
                 </span>
-                <img alt="logo" class="h-8" src="/assets/logo.png" />
+                <img alt="logo" class="h-12" src="/assets/logo.png" />
               </NuxtLink>
             </div>
-            <div class="-mr-2">
+            <div class="-mr-4 mt-4 self-center">
               <button
                 type="button"
-                class="inline-flex items-center justify-center rounded-sm bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                class="items-center justify-center rounded bg-white p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
                 @click="toggleMenu"
               >
                 <span class="sr-only">
-                  {{ $t('layouts.WithHeader.closeMenu') }}
+                  {{ $t('layouts.withHeader.closeMenu') }}
                 </span>
-                <svg
-                  class="h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                <i class="bi bi-x-lg" aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -135,7 +105,7 @@
                 class="mr-1"
               />
               <p>
-                {{ $t('layouts.WithHeader.' + navLink.title) }}
+                {{ $t('layouts.withHeader.' + navLink.title) }}
               </p>
             </NuxtLink>
             <button
@@ -144,13 +114,13 @@
               @click="logout"
             >
               <i class="bi bi-door-open-fill mr-1" />
-              {{ $t('layouts.WithHeader.logout') }}
+              {{ $t('layouts.withHeader.logout') }}
             </button>
           </div>
         </div>
       </div>
     </header>
-    <div class="h-full">
+    <div class="content-main">
       <slot />
     </div>
   </div>
@@ -159,6 +129,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
+import { USER_PROFILE } from '@locokit/definitions'
 import { ROUTES_NAMES } from '../paths'
 import { useStoreAuth } from '../stores/auth'
 import { computed, useRouter, useRuntimeConfig } from '#imports'
@@ -167,7 +138,7 @@ const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const authStore = useStoreAuth()
 
-const { isAuthenticated } = storeToRefs(authStore)
+const { isAuthenticated, user } = storeToRefs(authStore)
 
 const menuOpened = ref(false)
 
@@ -184,28 +155,40 @@ const navLinks = computed(() => {
       icon: 'bi-person-workspace',
     },
   ]
-  return isAuthenticated.value
-    ? [
-        ...mainLinks,
+  if (isAuthenticated.value) {
+    const authen = [
+      ...mainLinks,
+      {
+        routeName: ROUTES_NAMES.PROFILE.HOME,
+        title: 'profile',
+        icon: 'bi-person-circle',
+      },
+    ]
+    if (user.value?.profile === USER_PROFILE.ADMIN) {
+      return [
+        ...authen,
         {
-          routeName: ROUTES_NAMES.PROFILE.HOME,
-          title: 'profile',
-          icon: 'bi-person-circle',
+          routeName: ROUTES_NAMES.ADMIN.HOME,
+          title: 'admin',
+          icon: 'bi-gear-fill',
         },
       ]
-    : [
-        ...mainLinks,
-        {
-          routeName: ROUTES_NAMES.AUTH.SIGN_IN,
-          title: 'signIn',
-          icon: 'bi-person-badge',
-        },
-        {
-          routeName: ROUTES_NAMES.AUTH.SIGN_UP,
-          title: 'signUp',
-          icon: 'bi-person-plus-fill',
-        },
-      ]
+    }
+    return authen
+  }
+  return [
+    ...mainLinks,
+    {
+      routeName: ROUTES_NAMES.AUTH.SIGN_IN,
+      title: 'signIn',
+      icon: 'bi-person-badge',
+    },
+    {
+      routeName: ROUTES_NAMES.AUTH.SIGN_UP,
+      title: 'signUp',
+      icon: 'bi-person-plus-fill',
+    },
+  ]
 })
 
 const toggleMenu = () => {
@@ -223,5 +206,9 @@ const logout = async () => {
 <style scoped>
 .nav-link.router-link-active {
   @apply border-primary border font-bold;
+}
+
+.content-main {
+  height: calc(100vh - 4rem);
 }
 </style>

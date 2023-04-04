@@ -1,7 +1,8 @@
 <template>
   <span
     v-if="label"
-    class="lck-tag px-2 ml-2 inline-flex min-w-0 max-w-full first-of-type:ml-0"
+    class="lck-tag py-0.5 px-1 ml-2 inline-flex min-w-0 max-w-full first-of-type:ml-0"
+    :class="[borderColor ? `border border[${borderColor}]` : '']"
     :style="{ color, backgroundColor }"
   >
     <span class="max-w-full text-ellipsis overflow-hidden inline-block">
@@ -17,20 +18,19 @@ const props = withDefaults(
     label?: string | undefined
     color?: string | null
     backgroundColor?: string | null
+    borderColor?: string | null
   }>(),
   {
     label: undefined,
     color: null,
     backgroundColor: null,
+    borderColor: null,
   },
 )
 </script>
 
-<style>
+<style scoped>
 .lck-tag {
-  border-radius: var(--border-radius);
-  /* for default purpose */
-  background-color: var(--primary-color);
-  color: var(--color-white);
+  @apply rounded-lck bg-primary text-white border-primary;
 }
 </style>
