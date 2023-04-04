@@ -260,8 +260,8 @@
       "result": "Showing {elements} out of {total} users.",
       "filters": {
         "username": "Username",
-        "firstName": "FirstName",
-        "lastName": "LastName",
+        "firstName": "First Name",
+        "lastName": "Last Name",
         "email": "Email"
       }
     },
@@ -307,7 +307,8 @@
       "isBlocked": "Is blocked?",
       "confirmation": "Confirmation",
       "messageResendVerifySignup": "Are you sure you want to resend a mail to sign up for this user: {username}?",
-      "messageBlockingUser": "Are you sure you want to block this user: {username}?",
+      "messageBlockingUser": "Are you sure you want to block this user's account: {username}?",
+      "messageUnblockingUser": "Are you sure you want to unblock this user's account: {username}?",
       "groups": "Groups",
       "groupsAvailable": "Available groups",
       "groupsJoined": "User's groups",

@@ -226,27 +226,27 @@ const onPage = (event: PageState) => {
   search(event.page, event.rows)
 }
 
-const patchUser = async (userForm: {
+const patchUser = async (data: {
   id: string
   username: string
   lastName: string | null
   firstName: string | null
 }) => {
   await usersStore.squashUsers({
-    id: userForm.id,
-    username: userForm.username,
-    lastName: userForm.lastName,
-    firstName: userForm.firstName,
+    id: data.id,
+    username: data.username,
+    lastName: data.lastName,
+    firstName: data.firstName,
   })
   if (suggestionUsers.value && suggestionUsers.value.total > 0) {
     const userFound = suggestionUsers.value.data.find(
-      ({ id }: { id: string }) => id === userForm.id,
+      ({ id }: { id: string }) => id === data.id,
     )
     if (
       userFound &&
-      (userFound.username !== userForm.username ||
-        userFound.lastName !== userForm.lastName ||
-        userFound.firstName !== userForm.firstName)
+      (userFound.username !== data.username ||
+        userFound.lastName !== data.lastName ||
+        userFound.firstName !== data.firstName)
     ) {
       await search()
     }

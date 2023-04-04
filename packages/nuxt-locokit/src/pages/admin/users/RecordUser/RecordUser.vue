@@ -24,7 +24,7 @@
               class="p-button-rounded p-button-outlined"
               icon="bi-envelope"
               :label="$t('pages.recordUser.send')"
-              @click="confirmBlockingUser"
+              @click="confirmToggleBlockAccount"
             />
           </div>
           <div class="flex flex-col">
@@ -443,25 +443,29 @@ const profile = computed<ProfileType>({
   },
 })
 
-const blockUser = async () => {
+const toggleBlockAccount = async () => {
   if (!currentUser.value) return
-  await usersStore.blockAccountUser(
+  await usersStore.toggleBlockAccountUser(
     currentUser.value.id,
     currentUser.value?.isBlocked,
   )
   actionFromButton.value = true
 }
 
-const confirmBlockingUser = () => {
+const confirmToggleBlockAccount = () => {
   if (!currentUser.value) return
   confirm.require({
-    message: t('pages.recordUser.messageBlockingUser', {
-      username: currentUser.value.username,
-    }),
+    message: currentUser.value.isBlocked
+      ? t('pages.recordUser.messageBlockingUser', {
+          username: currentUser.value.username,
+        })
+      : t('pages.recordUser.messageUnblockingUser', {
+          username: currentUser.value.username,
+        }),
     header: t('pages.recordUser.confirmation'),
     icon: 'bi bi-exclamation-triangle-fill',
     accept: () => {
-      blockUser()
+      toggleBlockAccount()
     },
   })
 }

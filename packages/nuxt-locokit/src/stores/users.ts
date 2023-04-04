@@ -26,7 +26,7 @@ export const useStoreUsers = defineStore('users', () => {
     loading.value = false
   }
 
-  async function blockAccountUser(id: string, blocked: boolean) {
+  async function toggleBlockAccountUser(id: string, blocked: boolean) {
     loading.value = true
     error.value = null
     const res = await patchUser(id, {
@@ -61,7 +61,7 @@ export const useStoreUsers = defineStore('users', () => {
     error,
     users,
     updateUsers,
-    blockAccountUser,
+    toggleBlockAccountUser,
     squashUsers,
   }
 })
