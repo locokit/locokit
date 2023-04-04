@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { describe, beforeAll, afterAll, it, expect, afterEach, vi } from 'vitest'
+import { describe, beforeAll, afterAll, afterEach, it, expect, vi } from 'vitest'
 
 import { Paginated } from '@feathersjs/feathers'
 import { SERVICES, USER_PROFILE } from '@locokit/definitions'
 import { UserResult } from '@/services/core/user/user.schema'
-import { createApp } from '../../../app'
+import { createApp } from '@/app'
 import axios from 'axios'
 import { BadRequest } from '@feathersjs/errors/lib'
 
@@ -21,26 +21,34 @@ describe("'signup' service", () => {
 
   beforeAll(async () => {
     // @ts-expect-error
-    app.service('mailer').create = vi.fn()
+    app.service(SERVICES.MISC_MAILER).create = vi.fn()
     await app.listen(port)
   })
 
   afterAll(async () => {
+    vi.restoreAllMocks()
     await app.teardown()
   })
 
+  /**
+   * Clean database with all signupuser accounts
+   */
   afterEach(async () => {
-    vi.restoreAllMocks()
-    // Clean DB
-    const usersToRemove = (await app.service(SERVICES.CORE_USER).find({
+    const users = (await app.service(SERVICES.CORE_USER).find({
       query: {
-        username: 'signupuser',
+        email: {
+          $like: '%signupuser%',
+        },
       },
     })) as Paginated<UserResult>
 
-    await Promise.all(
-      usersToRemove.data.map(async (u) => await app.service(SERVICES.CORE_USER).remove(u.id)),
-    )
+    await app.service(SERVICES.CORE_USER).remove(null, {
+      query: {
+        id: {
+          $in: users.data.map((u) => u.id),
+        },
+      },
+    })
   })
 
   it('registered the service', () => {
@@ -50,9 +58,11 @@ describe("'signup' service", () => {
   })
 
   it('create a user with valid credentials', async () => {
-    expect.assertions(2)
+    expect.assertions(3)
     // Create the user from the signup endpoint
-    await app.service(SERVICES.AUTH_SIGNUP).create(credentials)
+    const user = await app.service(SERVICES.AUTH_SIGNUP).create(credentials)
+
+    expect(user).toEqual(credentials)
 
     // Check that the user is created with the right properties
     const users = (await app.service(SERVICES.CORE_USER).find({
@@ -69,13 +79,15 @@ describe("'signup' service", () => {
         isVerified: false,
       }),
     )
+
+    await app.service(SERVICES.CORE_USER).remove(users.data[0].id)
   })
 
   it('if a user is already using the emitted email address, inform him', async () => {
     expect.assertions(4)
 
     // Create a user
-    const previousUser = await app.service(SERVICES.CORE_USER).create(credentials)
+    const previousUser = await app.service(SERVICES.CORE_USER).create({ ...credentials })
 
     // Start spying
     const spyOnMailer = vi.spyOn(app.service(SERVICES.MISC_MAILER), 'create')
@@ -100,6 +112,8 @@ describe("'signup' service", () => {
         to: 'signupuser@locokit.io',
       }),
     )
+
+    await app.service(SERVICES.CORE_USER).remove(previousUser.id)
   })
 
   it('throw a 429 if too many signups are registered', async () => {
@@ -107,10 +121,10 @@ describe("'signup' service", () => {
     const maxTries = app.get('settings').signup.rateLimitMax ?? 5
 
     for (let i = 0; i < maxTries; i++) {
+      console.log('creating user ', `signupuser${i}@locokit.io`)
       await axios.post(
         getUrl(SERVICES.AUTH_SIGNUP),
         {
-          name: `Signup user n°${i}`,
           username: `user${i}`,
           email: `signupuser${i}@locokit.io`,
         },
@@ -121,12 +135,12 @@ describe("'signup' service", () => {
         },
       )
     }
+    console.log('creating user signupusertoomuch@locokit.io')
 
     await expect(
       axios.post(
         getUrl(SERVICES.AUTH_SIGNUP),
         {
-          name: 'Signup user n° too much',
           username: 'signupusertoomuch',
           email: 'signupusertoomuch@locokit.io',
         },
@@ -140,34 +154,45 @@ describe("'signup' service", () => {
   })
 
   it('fails if the signup do not give a username when creating the new user', async () => {
-    expect.assertions(1)
+    expect.assertions(2)
     // Create the user from the signup endpoint without email
     // we add the ts-expect-error as it is not ok with typing
-    const call = await expect(
+    const fn = () =>
       // @ts-expect-error
       app.service(SERVICES.AUTH_SIGNUP).create({
         email: 'signupwithoutusername@locokit.io',
-      }),
-    )
+      })
 
-    call.rejects.toThrowError(/validation failed/)
-    call.rejects.toBeInstanceOf(BadRequest)
+    await expect(fn).rejects.toThrowError(/validation failed/)
+    await expect(fn).rejects.toBeInstanceOf(BadRequest)
   })
 
   it('fails if the signup is not authorized', async () => {
-    expect.assertions(1)
+    expect.assertions(2)
 
     // update the settings to forbid signup
     app.get('settings').signup.allowed = false
 
-    const call = await expect(app.service(SERVICES.AUTH_SIGNUP).create(credentials))
+    const fn = () => app.service(SERVICES.AUTH_SIGNUP).create(credentials)
 
     // try to create a user
-    call.rejects.toContain({ code: 403 })
-    call.rejects.toThrowError(/Signup is not authorized/)
+    await expect(fn).rejects.toContain({ code: 403 })
+    await expect(fn).rejects.toThrowError(/Signup is not authorized/)
 
     app.get('settings').signup.allowed = true
   })
 
-  it.todo('fails if the data sent contains unwanted keys')
+  it('fails if the data sent contains unwanted keys', async () => {
+    expect.assertions(2)
+
+    const fn = () =>
+      app.service(SERVICES.AUTH_SIGNUP).create({
+        ...credentials,
+        // @ts-expect-error
+        toto: 'pouet',
+      })
+
+    await expect(fn).rejects.toThrowError(/validation failed/)
+    await expect(fn).rejects.toBeInstanceOf(BadRequest)
+  })
 })

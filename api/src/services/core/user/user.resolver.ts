@@ -14,7 +14,7 @@ export const userCreateResolver = resolve<UserResult, HookContext>({
    * only for admin users creating another user
    * or for internal calls
    */
-  profile: async (profile, _data, context) => {
+  profile: async (profile, _data) => {
     return profile ?? USER_PROFILE.MEMBER
   },
   /**

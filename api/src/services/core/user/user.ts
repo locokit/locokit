@@ -25,7 +25,7 @@ export function user(app: Application): void {
     events: [],
     docs: createSwaggerServiceOptions({
       schemas: { userDataSchema, userQuerySchema, userSchema },
-      docs: { description: 'User service' },
+      docs: { description: 'User service', tag: 'core > user' },
     }),
   })
   // Initialize hooks

@@ -14,6 +14,7 @@ import {
   userPatchValidator,
   userQueryValidator,
 } from './user.schema'
+import { SERVICES } from '@locokit/definitions'
 
 export const hooks: HookOptions<Application, UserService> = {
   around: {
@@ -42,7 +43,10 @@ export const hooks: HookOptions<Application, UserService> = {
       validateData(userDataValidator),
       iff((context: HookContext) => {
         return isProvider('external')(context) && !isAdminProfile(context)
-      }, disallow()).else(addVerification('auth-management'), resolveData(userCreateResolver)),
+      }, disallow()).else(
+        addVerification(SERVICES.AUTH_MANAGEMENT),
+        resolveData(userCreateResolver),
+      ),
     ],
     /**
      * We forbid the update method

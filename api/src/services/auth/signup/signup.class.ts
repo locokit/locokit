@@ -1,43 +1,22 @@
 import { Conflict, Forbidden, TooManyRequests } from '@feathersjs/errors'
 import { Params } from '@feathersjs/feathers'
 import { SERVICES, USER_PROFILE } from '@locokit/definitions'
-import { ServiceSwaggerOptions } from 'feathers-swagger'
-import { JSONSchema } from 'objection'
 import { RateLimiterMemory } from 'rate-limiter-flexible'
 
 import { Application } from '../../../declarations'
 import { logger } from '../../../logger'
 import { authManagementSettings } from '../authmanagement/authmanagement.settings'
+import { SignUpData } from './signup.schema'
 
 const signupClassLogger = logger.child({ service: 'signup' })
 
-class SignUpModel {
-  email!: string
-  username!: string
-
-  static get jsonSchema(): JSONSchema {
-    return {
-      type: 'object',
-      properties: {
-        email: { type: 'string' },
-        username: { type: 'string' },
-      },
-      additionalProperties: false,
-    }
-  }
-}
-
 export class SignUpService {
   app: Application
-  public docs: ServiceSwaggerOptions
+  // public docs: ServiceSwaggerOptions
   rateLimiter: RateLimiterMemory
 
   constructor(app: Application) {
     this.app = app
-    this.docs = {
-      description: 'Signup service, allow user to create an account',
-      definition: SignUpModel.jsonSchema,
-    }
     this.rateLimiter = new RateLimiterMemory({
       keyPrefix: 'signup_consecutive',
       points: 5, // 5 requests for ctx.ip
@@ -46,7 +25,12 @@ export class SignUpService {
     })
   }
 
-  async create(credentials: SignUpModel, params?: Params): Promise<SignUpModel> {
+  async create(credentials: SignUpData, params?: Params): Promise<SignUpData> {
+    signupClassLogger.info(
+      '[create] email: %s, username: %s',
+      credentials.email,
+      credentials.username,
+    )
     /**
      * Use the rate limiter to protect the platform of signup attacks
      */
@@ -96,10 +80,9 @@ export class SignUpService {
        * with its email.
        */
       if (error instanceof Conflict) {
-        await authManagementSettings(this.app as Application).notifier(
-          'informUserConflict',
-          credentials,
-        )
+        await authManagementSettings(this.app as Application).notifier('informUserConflict', {
+          ...credentials,
+        })
       } else {
         throw error
       }
