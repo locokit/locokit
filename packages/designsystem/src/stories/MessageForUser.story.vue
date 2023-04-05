@@ -12,3 +12,9 @@
 <script setup lang="ts">
 import MessageForUser from '../components/MessageForUser/MessageForUser.vue'
 </script>
+
+<docs lang="md">
+### MessageForUser
+
+Allows you to display a message to the user to warn them of a failed or successful action.
+</docs>

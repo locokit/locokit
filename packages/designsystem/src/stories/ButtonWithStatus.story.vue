@@ -53,3 +53,18 @@
 <script setup lang="ts">
 import ButtonWithStatus from '../components/ButtonWithStatus/ButtonWithStatus.vue'
 </script>
+
+<docs lang="md">
+### ButtonWithStatus
+
+It is recommended to use it as a button submit within the form.
+
+The state of the button changes depending on the response sent by the API when the form is validated.
+
+There are 4 states:
+
+- failed
+- success
+- default
+- loading
+</docs>

@@ -13,7 +13,7 @@ export default {
       colors: {
         primary: 'var(--primary-color)',
         'primary-lighten': 'var(--primary-color-lighten)',
-        'primary-light': 'var--primary-color-light)',
+        'primary-light': 'var(--primary-color-light)',
         'primary-dark': 'var(--primary-color-dark)',
         secondary: 'var(--secondary-color)',
         'secondary-lighten': 'var(--secondary-color-lighten)',
@@ -31,6 +31,7 @@ export default {
         'warning-lighten': 'var(--color-warning-lighten)',
         'warning-light': 'var(--color-warning-light)',
         'warning-dark': 'var(--color-warning-dark)',
+        lck: 'var(--text-color)',
       },
       borderRadius: {
         lck: 'var(--border-radius)',

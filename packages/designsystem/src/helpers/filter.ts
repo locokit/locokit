@@ -71,7 +71,7 @@ export const COLUMN_TYPE = {
 export const ACTIONS: Record<string, FilterAction> = {
   MATCH: {
     label: 'match',
-    value: '$like',
+    value: '$ilike',
     patternPrefix: '%',
     patternSuffix: '%',
   },

@@ -21,7 +21,7 @@
         </div>
 
         <div>
-          <PrimeInput
+          <PrimeInputText
             v-model="wantedUser"
             class="search-input w-full !mb-4"
             type="text"
@@ -151,42 +151,64 @@
 
 <script setup lang="ts">
 import PrimeButton from 'primevue/button'
-import PrimeInput from 'primevue/inputtext'
+import PrimeInputText from 'primevue/inputtext'
 import PrimePaginator, { PageState } from 'primevue/paginator'
 import { storeToRefs } from 'pinia'
 import { IdentityCard, FilterButton } from '@locokit/designsystem'
+import { useI18n } from 'vue-i18n'
 import { COLUMN_TYPE } from '../../../helpers/filter'
 import { ROUTES_NAMES } from '../../../paths'
 import { useStoreUsers } from '../../../stores/users'
-import { Filter } from '../../../interfaces/toMigrate'
+import { searchUsers } from '../../../services/user'
+import { ApiUser, Filter } from '../../../interfaces/toMigrate'
 import { ref } from '#imports'
+
+const { t } = useI18n({ useScope: 'global' })
 
 const usersStore = useStoreUsers()
 const { users } = storeToRefs(usersStore)
 
-const suggestionUsers = ref(null)
+const suggestionUsers = ref<ApiUser | null>(null)
 const currentFilters = ref<Filter[] | null>(null)
 const wantedUser = ref(null)
 
 const columnsDefinition = [
   {
-    slug: 'name',
-    name: 'Name',
+    slug: 'username',
+    name: `${t('pages.adminUsers.filters.username')}`,
+    column_type_id: COLUMN_TYPE.STRING,
+    original_type_id: COLUMN_TYPE.STRING,
+  },
+  {
+    slug: 'firstName',
+    name: `${t('pages.adminUsers.filters.firstName')}`,
+    column_type_id: COLUMN_TYPE.STRING,
+    original_type_id: COLUMN_TYPE.STRING,
+  },
+  {
+    slug: 'lastName',
+    name: `${t('pages.adminUsers.filters.lastName')}`,
+    column_type_id: COLUMN_TYPE.STRING,
+    original_type_id: COLUMN_TYPE.STRING,
+  },
+  {
+    slug: 'email',
+    name: `${t('pages.adminUsers.filters.email')}`,
     column_type_id: COLUMN_TYPE.STRING,
     original_type_id: COLUMN_TYPE.STRING,
   },
 ]
 const applySearch = () => {
   setTimeout(() => {
-    searchUsers()
+    search()
   }, 300)
 }
 
-const searchUsers = async (
+const search = async (
   currentPageIndex = 0,
   limit: number | undefined = undefined,
 ) => {
-  suggestionUsers.value = await usersStore.searchUsers({
+  suggestionUsers.value = await searchUsers({
     query: wantedUser.value,
     filters: currentFilters.value,
     pageIndex: currentPageIndex,
@@ -196,37 +218,37 @@ const searchUsers = async (
 
 const applyFilters = (filters: Filter[]) => {
   currentFilters.value = filters
-  searchUsers()
+  search()
 }
 
 const onPage = (event: PageState) => {
   // event.page = New index page number
-  searchUsers(event.page, event.rows)
+  search(event.page, event.rows)
 }
 
-const patchUser = async (userForm: {
+const patchUser = async (data: {
   id: string
   username: string
   lastName: string | null
   firstName: string | null
 }) => {
-  usersStore.squashUsers({
-    id: userForm.id,
-    username: userForm.username,
-    lastName: userForm.lastName,
-    firstName: userForm.firstName,
+  await usersStore.squashUsers({
+    id: data.id,
+    username: data.username,
+    lastName: data.lastName,
+    firstName: data.firstName,
   })
   if (suggestionUsers.value && suggestionUsers.value.total > 0) {
     const userFound = suggestionUsers.value.data.find(
-      ({ id }: { id: string }) => id === userForm.id,
+      ({ id }: { id: string }) => id === data.id,
     )
     if (
       userFound &&
-      (userFound.username !== userForm.username ||
-        userFound.lastName !== userForm.lastName ||
-        userFound.firstName !== userForm.firstName)
+      (userFound.username !== data.username ||
+        userFound.lastName !== data.lastName ||
+        userFound.firstName !== data.firstName)
     ) {
-      await searchUsers()
+      await search()
     }
   }
 }

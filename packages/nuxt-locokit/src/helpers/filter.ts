@@ -115,23 +115,23 @@ export function getCurrentFilters(
             ((columnType, originalType) => {
               switch (columnType) {
                 case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-                  return `[data][${column.slug}.value]`
+                  return `[${column.slug}.value]`
                 case COLUMN_TYPE.LOOKED_UP_COLUMN:
                   switch (originalType) {
                     case COLUMN_TYPE.GROUP:
                     case COLUMN_TYPE.USER:
                     case COLUMN_TYPE.MULTI_USER:
-                      return `[data][${column.slug}.reference]`
+                      return `[${column.slug}.reference]`
                     default:
-                      return `[data][${column.slug}.value]`
+                      return `[${column.slug}.value]`
                   }
                 case COLUMN_TYPE.USER:
                 case COLUMN_TYPE.GROUP:
                 case COLUMN_TYPE.MULTI_USER:
                 case COLUMN_TYPE.MULTI_GROUP:
-                  return `[data][${column.slug}.reference]`
+                  return `[${column.slug}.reference]`
                 default:
-                  return `[data][${column.slug}]`
+                  return `[${column.slug}]`
               }
             })(column.column_type_id, column.original_type_id) +
             // Action

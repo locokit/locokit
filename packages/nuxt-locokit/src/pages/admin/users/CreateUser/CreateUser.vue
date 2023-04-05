@@ -164,16 +164,15 @@ import PrimeDropdown from 'primevue/dropdown'
 import { FormGeneric } from '@locokit/designsystem'
 import { Field } from 'vee-validate'
 import { ref } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useStoreUsers } from '../../../../stores/users'
 import { PROFILE } from '../../../../interfaces/toMigrate'
 import { ROUTES_NAMES } from '../../../../paths'
+import { createUser } from '../../../../services/user'
 import { useRouter } from '#imports'
 
-const usersStore = useStoreUsers()
-const { loading, error } = storeToRefs(usersStore)
 const router = useRouter()
 
+const loading = ref(false)
+const error = ref<Error | null>(null)
 const username = ref('')
 const lastName = ref(null)
 const firstName = ref(null)
@@ -181,8 +180,9 @@ const email = ref('')
 const profile = ref(PROFILE[0])
 
 const onSubmit = async () => {
+  loading.value = true
   if (!profile.value) return
-  const res = await usersStore.createUser({
+  const res = await createUser({
     username: username.value,
     lastName: lastName.value,
     firstName: firstName.value,
@@ -190,10 +190,15 @@ const onSubmit = async () => {
     profile: profile.value.value,
   })
 
-  await router.push({
-    name: ROUTES_NAMES.ADMIN.USERS.RECORD,
-    params: { id: res.id },
-  })
+  if (res && res.id) {
+    await router.push({
+      name: ROUTES_NAMES.ADMIN.USERS.RECORD,
+      params: { id: res.id },
+    })
+  } else {
+    error.value = res
+  }
+  loading.value = false
 }
 
 const onReset = () => {

@@ -14,6 +14,7 @@ import ButtonWithStatus from './components/ButtonWithStatus/ButtonWithStatus.vue
 import IdentityCard from './components/IdentityCard/IdentityCard.vue'
 import FilterButton from './components/FilterButton/FilterButton.vue'
 import MessageForUser from './components/MessageForUser/MessageForUser.vue'
+import PickData from './components/PickData/PickData.vue'
 
 export {
   SignInForm,
@@ -32,4 +33,5 @@ export {
   IdentityCard,
   FilterButton,
   MessageForUser,
+  PickData,
 }

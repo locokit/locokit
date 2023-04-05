@@ -257,7 +257,13 @@
       "title": "@:pages.admin.users",
       "addUser": "Ajouter un⋅e utilisateur⋅rice",
       "emptyResult": "Aucun résultat trouvé",
-      "result": "Affichage de {elements} utilisateurs⋅rices sur {total}."
+      "result": "Affichage de {elements} utilisateurs⋅rices sur {total}.",
+      "filters": {
+        "username": "Nom d'utilisateur⋅rice",
+        "firstName": "Prénom",
+        "lastName": "Nom",
+        "email": "Email"
+      }
     },
     "aboutUsers": {
       "title": "Administration des utilisateurs⋅rices",
@@ -301,8 +307,17 @@
       "isBlocked": "Personne bloquée ?",
       "confirmation": "Confirmation",
       "messageResendVerifySignup": "Êtes-vous sûr de vouloir renvoyer un e-mail pour l'inscription de cette personne : {username}?",
-      "messageBlockingUser": "Êtes-vous sûr de vouloir bloquer cette personne : {username}?",
-      "noUserFound": "Aucune personne trouvée"
+      "messageBlockingUser": "Êtes-vous sûr de vouloir bloquer le compte de cette personne : {username}?",
+      "messageUnblockingUser": "Êtes-vous sûr de vouloir débloquer le compte de cette personne : {username}?",
+      "groups": "Groupes",
+      "groupsAvailable": "Groupes disponible",
+      "groupsJoined": "Groupes de la personne",
+      "searchPlaceholder": "Chercher un groupe",
+      "explanationAddingGroups": "Pour attribuer un ou plusieurs groupes à cette personne, sélectionnez les groupes dans la colonne de gauche et cliquez sur le bouton avec la flèche vers la droite.",
+      "explanationRemovingGroups": "Il est également possible de supprimer un ou plusieurs groupes pour cette personne en sélectionnant les groupes dans la colonne de droite.",
+      "noUserFound": "Aucune personne trouvée",
+      "noGroupFound": "Aucun groupe trouvé",
+      "result": "Affichage de {elements} groupes sur {total}."
     },
     "confirmUpdateEmail": {
       "title": "Mettre à jour son email",

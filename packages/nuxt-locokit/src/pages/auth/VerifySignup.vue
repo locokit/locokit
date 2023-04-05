@@ -12,7 +12,7 @@
           <PasswordForm
             :loading="loading"
             :error="error"
-            :label-submit="$t('pages.verifySignup.labelSubmit')"
+            label-tk-submit="pages.verifySignup.labelSubmit"
             @submit="verifySignupAndSetPassword"
           />
         </div>

@@ -24,7 +24,7 @@
               class="p-button-rounded p-button-outlined"
               icon="bi-envelope"
               :label="$t('pages.recordUser.send')"
-              @click="confirmBlockingUser"
+              @click="confirmToggleBlockAccount"
             />
           </div>
           <div class="flex flex-col">
@@ -47,7 +47,7 @@
           status="failed"
         />
       </div>
-      <div>
+      <div class="mb-12">
         <FormGeneric
           label-tk-button-submit="pages.recordUser.submit"
           :response="response || errorUserStore"
@@ -228,6 +228,100 @@
           </div>
         </FormGeneric>
       </div>
+      <div>
+        <h2 class="mb-4">
+          {{ $t('pages.recordUser.groups') }}
+        </h2>
+        <p>
+          {{ $t('pages.recordUser.explanationAddingGroups') }}
+        </p>
+        <p class="mb-4">
+          {{ $t('pages.recordUser.explanationRemovingGroups') }}
+        </p>
+        <PickData
+          v-if="groups && suggestGroups"
+          v-model="groups"
+          :from-data="suggestGroups.data"
+          @update:model-value="updateUserGroupForCurrentUser"
+        >
+          <template #fromDataHeader>
+            <div>
+              <p>
+                {{ $t('pages.recordUser.groupsAvailable') }}
+              </p>
+              <PrimeInputText
+                v-model="queryForAvailableGroup"
+                :placeholder="$t('pages.recordUser.searchPlaceholder')"
+                type="text"
+                class="search-input"
+                @input="searchGroupsExceptJoined"
+              />
+            </div>
+          </template>
+          <template #toDataHeader>
+            <div>
+              <p>
+                {{ $t('pages.recordUser.groupsJoined') }}
+              </p>
+              <PrimeInputText
+                v-model="queryForJoinedGroup"
+                :placeholder="$t('pages.recordUser.searchPlaceholder')"
+                type="text"
+                class="search-input"
+                @input="searchGroupsJoined"
+              />
+            </div>
+          </template>
+          <template #fromDataFooter>
+            <div>
+              <p>
+                {{
+                  $t('pages.recordUser.result', {
+                    elements:
+                      suggestGroups.limit > suggestGroups.data.length
+                        ? suggestGroups.data.length
+                        : suggestGroups.limit,
+                    total: suggestGroups.total,
+                  })
+                }}
+              </p>
+            </div>
+          </template>
+          <template #fromNoResult>
+            <p>{{ $t('pages.recordUser.noGroupFound') }}</p>
+          </template>
+          <template #toNoResult>
+            <p>{{ $t('pages.recordUser.noGroupFound') }}</p>
+          </template>
+          <template #toDataFooter>
+            <div>
+              <p>
+                {{
+                  $t('pages.recordUser.result', {
+                    elements:
+                      currentGroupsForUser.limit >
+                      currentGroupsForUser.data.length
+                        ? currentGroupsForUser.data.length
+                        : currentGroupsForUser.limit,
+                    total: currentGroupsForUser.total,
+                  })
+                }}
+              </p>
+            </div>
+          </template>
+          <template #item="slotProps">
+            <IdentityCard
+              :title="slotProps.item.name"
+              :name-tag="slotProps.item.workspace.name"
+              icon="bi bi-people"
+              border-color-tag="var(--primary-color)"
+              color-tag="var(--primary-color)"
+              bg-color-tag="transparent"
+            />
+          </template>
+        </PickData>
+        <MessageForUser v-if="errorUserGroup" status="failed" />
+      </div>
     </div>
   </div>
 </template>
@@ -238,14 +332,36 @@ import PrimeSwitch from 'primevue/inputswitch'
 import PrimeInputText from 'primevue/inputtext'
 import PrimeDropdown from 'primevue/dropdown'
 import PrimeConfirmDialog from 'primevue/confirmdialog'
-import { FormGeneric, MessageForUser } from '@locokit/designsystem'
+import {
+  FormGeneric,
+  MessageForUser,
+  PickData,
+  IdentityCard,
+} from '@locokit/designsystem'
 import { Field } from 'vee-validate'
 import { storeToRefs } from 'pinia'
 import { useConfirm } from 'primevue/useconfirm'
 import { useI18n } from 'vue-i18n'
 import { useStoreUsers } from '../../../../stores/users'
-import { PROFILE, ProfileType, User } from '../../../../interfaces/toMigrate'
+import {
+  ApiGroup,
+  Group,
+  PROFILE,
+  ProfileType,
+  User,
+} from '../../../../interfaces/toMigrate'
 import { useStoreAuth } from '../../../../stores/auth'
+import {
+  removeUserGroup,
+  updateUserGroup,
+} from '../../../../services/usergroup'
+import {
+  findGroups,
+  findGroupsFomUser,
+  ITEMS_PER_PAGE_GROUPS,
+  searchGroups,
+} from '../../../../services/group'
+import { getUser, patchUser } from '../../../../services/user'
 import { useRoute, ref, computed } from '#imports'
 
 const emit = defineEmits<{
@@ -269,10 +385,48 @@ const { t } = useI18n()
 const confirm = useConfirm()
 
 const currentUser = ref<User>()
+const currentGroupsForUser = ref<ApiGroup | null>(null) // Member groups with Pagination
+const groups = ref<Group[]>([]) // Array for PickList based on currentGroupsForUser
+const suggestGroups = ref(null) // Other groups with Pagination
+const queryForAvailableGroup = ref<string | null>(null) // Query for search in available group
+const queryForJoinedGroup = ref<string | null>(null) // Query for search in joined group
 const actionFromButton = ref(false)
 const response = ref(null)
+const errorUserGroup = ref(false)
 
-currentUser.value = await usersStore.getUser(route.params.id as string)
+const searchGroupsExceptJoined = async () => {
+  if (groups.value.length > 0) {
+    const userGroupsIds = groups.value.reduce((acc: string[], group) => {
+      acc.push(group.id)
+      return acc
+    }, [])
+    if (queryForAvailableGroup.value) {
+      suggestGroups.value = await searchGroups({
+        query: queryForAvailableGroup.value,
+        params: { id: { $nin: userGroupsIds }, $eager: 'workspace' },
+      })
+    } else {
+      suggestGroups.value = await findGroups({
+        params: { id: { $nin: userGroupsIds }, $eager: 'workspace' },
+      })
+    }
+  } else {
+    suggestGroups.value = await findGroups({
+      params: { $eager: 'workspace' },
+    })
+  }
+}
+
+// Initialization
+currentUser.value = await getUser(route.params.id as string)
+if (currentUser.value) {
+  const res = await findGroupsFomUser(currentUser.value.id)
+  currentGroupsForUser.value = res
+  if (res && res.total >= 0) {
+    groups.value = [...res.data]
+    await searchGroupsExceptJoined()
+  }
+}
 
 const profile = computed<ProfileType>({
   get() {
@@ -289,25 +443,29 @@ const profile = computed<ProfileType>({
   },
 })
 
-const blockUser = async () => {
+const toggleBlockAccount = async () => {
   if (!currentUser.value) return
-  await usersStore.blockAccountUser(
+  await usersStore.toggleBlockAccountUser(
     currentUser.value.id,
     currentUser.value?.isBlocked,
   )
   actionFromButton.value = true
 }
 
-const confirmBlockingUser = () => {
+const confirmToggleBlockAccount = () => {
   if (!currentUser.value) return
   confirm.require({
-    message: t('pages.recordUser.messageBlockingUser', {
-      username: currentUser.value.username,
-    }),
+    message: currentUser.value.isBlocked
+      ? t('pages.recordUser.messageBlockingUser', {
+          username: currentUser.value.username,
+        })
+      : t('pages.recordUser.messageUnblockingUser', {
+          username: currentUser.value.username,
+        }),
     header: t('pages.recordUser.confirmation'),
     icon: 'bi bi-exclamation-triangle-fill',
     accept: () => {
-      blockUser()
+      toggleBlockAccount()
     },
   })
 }
@@ -334,7 +492,7 @@ const confirmSendVerifySignup = () => {
 
 const onSubmit = async () => {
   if (!currentUser.value) return
-  const res = await usersStore.patchUser(currentUser.value.id, {
+  const res = await patchUser(currentUser.value.id, {
     username: currentUser.value.username,
     lastName: currentUser.value.lastName,
     firstName: currentUser.value.firstName,
@@ -342,7 +500,7 @@ const onSubmit = async () => {
     profile: currentUser.value.profile,
   })
 
-  if (res) {
+  if (res && res.id) {
     response.value = res
     emit('patch-user', {
       id: currentUser.value.id,
@@ -353,7 +511,91 @@ const onSubmit = async () => {
   }
 }
 
+const addUserInGroup = () => {
+  ;(groups.value as Group[]).forEach(async (group) => {
+    const alreadyMember = (
+      currentGroupsForUser.value as ApiGroup
+    ).data.findIndex(({ id }) => id === group.id)
+    if (alreadyMember === -1) {
+      const res = await updateUserGroup({
+        userId: (currentUser.value as User).id,
+        groupId: group.id,
+      })
+      if (res instanceof Error) {
+        errorUserGroup.value = true
+      }
+    }
+  })
+}
+
+const removeUserInGroup = () => {
+  ;(currentGroupsForUser.value as ApiGroup).data.forEach(
+    async (groupForUser) => {
+      const revokedMember = (groups.value as Group[]).findIndex(
+        ({ id }) => id === groupForUser.id,
+      )
+
+      if (revokedMember === -1) {
+        const res = await removeUserGroup({
+          userId: (currentUser.value as User).id,
+          groupId: groupForUser.id,
+        })
+        if (res instanceof Error) {
+          errorUserGroup.value = true
+        }
+      }
+    },
+  )
+}
+
+const updateUserGroupForCurrentUser = async () => {
+  // Limit because there is no pagination (for now)
+  if (
+    groups.value &&
+    currentGroupsForUser.value &&
+    groups.value.length < ITEMS_PER_PAGE_GROUPS
+  ) {
+    if (groups.value.length > currentGroupsForUser.value.data.length) {
+      addUserInGroup()
+    }
+    if (groups.value.length < currentGroupsForUser.value.data.length) {
+      removeUserInGroup()
+    }
+    if (!errorUserGroup.value) {
+      queryForAvailableGroup.value = null
+      await searchGroupsExceptJoined()
+    }
+  }
+}
+
+const searchGroupsJoined = async () => {
+  if (groups.value) {
+    const userGroupsIds = groups.value.reduce((acc: string[], group) => {
+      acc.push(group.id)
+      return acc
+    }, [])
+
+    if (queryForJoinedGroup.value) {
+      const res = await searchGroups({
+        query: queryForJoinedGroup.value,
+        params: { id: { $in: userGroupsIds } },
+      })
+      groups.value = res.data
+    } else if (currentGroupsForUser.value) {
+      // Retrieve data from previous request
+      groups.value = currentGroupsForUser.value.data
+    }
+  }
+}
+
 const onReset = async () => {
-  currentUser.value = await usersStore.getUser(route.params.id as string)
+  currentUser.value = await getUser(route.params.id as string)
 }
 </script>
+
+<style scoped>
+.search-input {
+  @apply py-2 px-[2.5rem];
+  background: white url('../../../../assets/search.svg') no-repeat 10px center;
+}
+</style>

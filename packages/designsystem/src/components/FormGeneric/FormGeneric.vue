@@ -18,9 +18,7 @@
       <ButtonWithStatus
         type="submit"
         :full-width-button="fullWidthButton"
-        :label-translation-key="
-          labelTkButtonSubmit || 'components.formGeneric.save'
-        "
+        :label-tk="labelTkButtonSubmit || 'components.formGeneric.save'"
         :disabled="loading || !valid || !touched"
         :status-form="status"
         icon="bi bi-check2"

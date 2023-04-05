@@ -11,17 +11,6 @@ export interface ProfileType {
   value: string
 }
 
-export interface User {
-  id: string
-  username: string
-  lastName: string | null
-  firstName: string | null
-  email: string
-  profile: string
-  isBlocked: boolean
-  isVerified: boolean
-}
-
 export type inputPatternType =
   | boolean
   | number
@@ -67,3 +56,57 @@ export interface Filter {
   action: FilterAction | null
   motif: inputPatternType
 }
+
+interface Pagination<data> {
+  total: number
+  limit: number
+  skip: number
+  data: data[]
+}
+
+export interface Workspace {
+  id: string
+  name: string
+  slug: string
+  public: boolean
+  documentation: string | null
+  settings: {
+    color: string
+    backgroundColor: string
+    icon: string
+  } | null
+  createdAt: string
+  updatedAt: string
+  createdBy: string
+}
+
+export interface UserGroup {
+  userId: string
+  groupId: string
+}
+
+export interface Group {
+  id: string
+  name: string
+  documentation: string | null
+  workspaceId: string
+  roleId: string
+  workspace?: Workspace | null
+}
+
+export interface User {
+  id: string
+  username: string
+  lastName: string | null
+  firstName: string | null
+  email: string
+  profile: string
+  isBlocked: boolean
+  isVerified: boolean
+}
+
+export interface ApiUserGroup extends Pagination<UserGroup> {}
+
+export interface ApiGroup extends Pagination<Group> {}
+
+export interface ApiUser extends Pagination<User> {}

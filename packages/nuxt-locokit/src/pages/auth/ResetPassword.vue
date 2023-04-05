@@ -16,7 +16,7 @@
           <PasswordForm
             :loading="loading"
             :error="error"
-            :label-submit="$t('pages.resetPassword.labelSubmit')"
+            label-tk-submit="pages.resetPassword.labelSubmit"
             @submit="resetPassword"
           />
         </div>

@@ -2,7 +2,7 @@
   <Story title="Authentication/PasswordForm" icon="bi:shield-lock-fill">
     <Variant title="default">
       <PasswordForm
-        label-submit="Change password"
+        label-tk-submit="Change password"
         @submit="logEvent('submit', { email: $event })"
       />
     </Variant>

@@ -257,7 +257,13 @@
       "title": "@:pages.admin.users",
       "addUser": "Add a user",
       "emptyResult": "No result found",
-      "result": "Showing {elements} out of {total} users."
+      "result": "Showing {elements} out of {total} users.",
+      "filters": {
+        "username": "Username",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email"
+      }
     },
     "aboutUsers": {
       "title": "Users administration",
@@ -301,8 +307,17 @@
       "isBlocked": "Is blocked?",
       "confirmation": "Confirmation",
       "messageResendVerifySignup": "Are you sure you want to resend a mail to sign up for this user: {username}?",
-      "messageBlockingUser": "Are you sure you want to block this user: {username}?",
-      "noUserFound": "No user found"
+      "messageBlockingUser": "Are you sure you want to block this user's account: {username}?",
+      "messageUnblockingUser": "Are you sure you want to unblock this user's account: {username}?",
+      "groups": "Groups",
+      "groupsAvailable": "Available groups",
+      "groupsJoined": "User's groups",
+      "searchPlaceholder": "Search a group",
+      "explanationAddingGroups": "To assign one or more groups to this user, select the groups in the left column and click on the button with the right arrow.",
+      "explanationRemovingGroups": "It also possible to remove one or more groups for this user by selecting groups in the right column.",
+      "noUserFound": "No user found",
+      "noGroupFound": "No group found",
+      "result": "Showing {elements} out of {total} groups."
     },
     "confirmUpdateEmail": {
       "title": "Updating your email",
