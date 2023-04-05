@@ -1,6 +1,20 @@
-import { resolveData, validateData, validateQuery } from '@feathersjs/schema'
+import {
+  resolveData,
+  resolveDispatch,
+  resolveExternal,
+  resolveQuery,
+  resolveResult,
+  validateData,
+  validateQuery,
+} from '@feathersjs/schema'
 import { authenticate } from '@feathersjs/authentication'
-import { userCreateResolver, userPatchResolver, userPatchAdminResolver } from './user.resolver'
+import {
+  userCreateResolver,
+  userPatchResolver,
+  userPatchAdminResolver,
+  userQueryResolver,
+  userDispatchResolver,
+} from './user.resolver'
 import { disallow, iff, isProvider } from 'feathers-hooks-common'
 import { addVerification } from 'feathers-authentication-management'
 import { isAdminProfile } from '../../../hooks/profile.hooks'
@@ -18,32 +32,40 @@ import { SERVICES } from '@locokit/definitions'
 
 export const hooks: HookOptions<Application, UserService> = {
   around: {
-    all: [
-      authenticate('api-key', 'jwt'),
-      //  resolveAll<HookContext>(userResolvers)
-    ],
+    all: [authenticate('api-key', 'jwt'), resolveExternal(userDispatchResolver)],
   },
   before: {
     get: [
+      iff((context: HookContext) => {
+        return isProvider('external')(context) && !isAdminProfile(context)
+      }, validateQuery(userQueryValidator)),
       // limit the get to the current logged user
       // unless it's an admin
-      validateQuery(userQueryValidator),
+      resolveQuery(userQueryResolver),
     ],
     find: [
       // need to be admin to make queries on some fields
       // otherwise, could search on "username"
       // need to return only "username" for non admin users
-      validateQuery(userQueryValidator),
+      iff(
+        (context: HookContext) => {
+          return isProvider('external')(context) && !isAdminProfile(context)
+        },
+        // limit the get to the current logged user
+        // unless it's an admin
+        validateQuery(userQueryValidator),
+        resolveQuery(userQueryResolver),
+      ),
     ],
     create: [
       /**
        * We disable the creation of user
        * from external calls and user not admin
        */
-      validateData(userDataValidator),
       iff((context: HookContext) => {
         return isProvider('external')(context) && !isAdminProfile(context)
       }, disallow()).else(
+        validateData(userDataValidator),
         addVerification(SERVICES.AUTH_MANAGEMENT),
         resolveData(userCreateResolver),
       ),
@@ -60,10 +82,11 @@ export const hooks: HookOptions<Application, UserService> = {
     patch: [
       iff(
         isProvider('external'),
-        iff(isAdminProfile, validateData(userPatchAdminValidator)).else(
-          validateData(userPatchValidator),
-          resolveData(userPatchResolver),
-        ),
+        iff(
+          isAdminProfile,
+          validateData(userPatchAdminValidator),
+          resolveData(userPatchAdminResolver),
+        ).else(validateData(userPatchValidator), resolveData(userPatchResolver)),
       ),
       resolveData(userPatchAdminResolver),
     ],
@@ -81,7 +104,7 @@ export const hooks: HookOptions<Application, UserService> = {
        */
       (context: HookContext) => {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        authManagementSettings(context.app as Application).notifier(
+        return authManagementSettings(context.app as Application).notifier(
           'sendVerifySignup',
           context.result,
         )

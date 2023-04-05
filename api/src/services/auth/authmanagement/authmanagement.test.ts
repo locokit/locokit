@@ -1,12 +1,18 @@
 import { Paginated } from '@feathersjs/feathers'
 import { SERVICES } from '@locokit/definitions'
-import { describe, it, expect, afterEach, vi } from 'vitest'
+import { describe, it, expect, afterEach, vi, beforeAll, afterAll } from 'vitest'
 import { createApp } from '../../../app'
 import { UserResult } from '@/services/core/user/user.schema'
+
+import { builderTestEnvironment, SetupData } from '@/configure.test'
+import axios, { AxiosResponse } from 'axios'
 
 vi.mock('../../mailer/mailer.class')
 
 const app = createApp()
+const port = app.get('port') || 8998
+const getUrl = (pathname: string) =>
+  new URL(`http://${app.get('host') || 'localhost'}:${port}/${pathname}`).toString()
 
 const credentials = {
   username: 'authmanagement+verifyExpires',
@@ -21,7 +27,14 @@ function diffDays(verifyExpires?: string | number) {
   )
 }
 
-describe("'authManagement' service", () => {
+const builder = builderTestEnvironment('authmanagement')
+describe("'auth-management' service", () => {
+  let setupData: SetupData
+
+  beforeAll(async () => {
+    setupData = await builder.setupWorkspace()
+    await app.listen(port)
+  })
   afterEach(async () => {
     // Clean DB
     const usersToRemove = (await app.service(SERVICES.CORE_USER).find({
@@ -47,10 +60,46 @@ describe("'authManagement' service", () => {
      * We don't care about hours in this case.
      */
     expect.assertions(1)
-    const user = await app.service(SERVICES.CORE_USER).create(credentials)
+    const user = await app.service(SERVICES.CORE_USER).create({ ...credentials })
     expect(diffDays(user.verifyExpires)).toBe(10)
   })
 
   // implemented but need to be tester on several endpoints
-  it.todo('does not send user information as a result, only username and id')
+  it('does not send user information as a result, only username, email, firstName, lastName and id', async () => {
+    expect.assertions(14)
+
+    const response = (await axios.post(
+      getUrl(SERVICES.CORE_USER),
+      {
+        ...credentials,
+        firstname: 'First name',
+        lastname: 'Last name',
+      },
+      {
+        headers: {
+          Authorization: 'Bearer ' + setupData.userAdminAuthentication.accessToken,
+        },
+      },
+    )) as AxiosResponse<UserResult>
+
+    expect(response.data.verifyChanges).toBeUndefined()
+    expect(response.data.verifyToken).toBeUndefined()
+    expect(response.data.verifyShortToken).toBeUndefined()
+    expect(response.data.verifyExpires).toBeUndefined()
+    expect(response.data.password).toBeUndefined()
+    expect(response.data.resetAttempts).toBeUndefined()
+    expect(response.data.resetExpires).toBeUndefined()
+    expect(response.data.resetShortToken).toBeUndefined()
+    expect(response.data.resetToken).toBeUndefined()
+    expect(response.data.email).toBe(credentials.email)
+    expect(response.data.username).toBe(credentials.username)
+    expect(response.data.firstname).toBe('First name')
+    expect(response.data.lastname).toBe('Last name')
+    expect(response.data.id).toBeDefined()
+  })
+
+  afterAll(async () => {
+    await builder.teardownWorkspace()
+    await app.teardown()
+  })
 })

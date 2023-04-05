@@ -14,6 +14,7 @@ export const workspaceHooks = {
     all: [
       // schemaHooks.resolveExternal(workspaceResolvers.dispatch),
       // schemaHooks.validateData(workspaceDataValidator),
+      schemaHooks.resolveExternal(),
     ],
   },
   before: {

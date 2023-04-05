@@ -1,7 +1,7 @@
 import { NotAcceptable, BadRequest, Forbidden } from '@feathersjs/errors'
 import { SERVICES } from '@locokit/definitions'
 import { expect, describe, beforeEach, afterEach, it, vi } from 'vitest'
-import { createApp } from '../../../app'
+import { createApp } from '@/app'
 import { UserResult } from '@/services/core/user/user.schema'
 
 const app = createApp()
@@ -9,7 +9,7 @@ const app = createApp()
 /**
  * Mock the generatePassword with mock file in __mocks__
  */
-vi.mock('../../../utils/password.ts')
+vi.mock('@/utils/password.ts')
 
 let calls: Array<[string, any]> = []
 function notifierMock(type: string, user: any): void {
@@ -18,7 +18,7 @@ function notifierMock(type: string, user: any): void {
 vi.mock('./authmanagement.settings.ts', () => ({
   authManagementSettings() {
     return {
-      service: '/user',
+      service: SERVICES.CORE_USER,
       notifier: notifierMock,
     }
   },

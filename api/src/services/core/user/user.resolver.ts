@@ -18,12 +18,11 @@ export const userCreateResolver = resolve<UserResult, HookContext>({
     return profile ?? USER_PROFILE.MEMBER
   },
   /**
-   * We clean the email
-   * from spaces and uppercase
+   * We clean the email from spaces
    * before inserting data in db.
    */
   email: async (email) => {
-    return email?.trim().toLowerCase()
+    return email?.trim()
   },
   /**
    * When a user is created,
@@ -83,13 +82,12 @@ export const userPatchResolver = resolve<UserPatch, HookContext>({})
 // Resolver for making partial updates
 export const userPatchAdminResolver = resolve<UserPatchAdmin, HookContext>({
   /**
-   * We clean the email
-   * from spaces and uppercase
+   * We clean the email from spaces
    * before inserting data in db.
    */
-  // email: async (email) => {
-  //   return email?.trim().toLowerCase()
-  // },
+  email: async (email) => {
+    return email?.trim()
+  },
   resetExpires: async (resetExpires) => {
     if (typeof resetExpires === 'number') {
       return new Date(resetExpires).toISOString()
@@ -118,14 +116,10 @@ export const userPatchAdminResolver = resolve<UserPatchAdmin, HookContext>({
 
 // Resolver for the data that is being returned
 export const userResultResolver = resolve<UserResult, HookContext>({
-  // schema: userSchema,
-  validate: false,
-  properties: {
-    verifyChanges: async (verifyChanges) => {
-      if (typeof verifyChanges === 'string') {
-        return JSON.parse(verifyChanges)
-      } else return verifyChanges
-    },
+  verifyChanges: async (verifyChanges) => {
+    if (typeof verifyChanges === 'string') {
+      return JSON.parse(verifyChanges)
+    } else return verifyChanges
   },
 })
 
@@ -134,51 +128,42 @@ export const userDispatchResolver: Resolver<UserResult, HookContext> = resolve<
   UserResult,
   HookContext
 >({
-  // schema: userSchema,
-  validate: false,
-  properties: {
-    isVerified: async () => undefined,
-    blocked: async () => undefined,
-    avatarURL: async () => undefined,
-    createdAt: async () => undefined,
-    updatedAt: async () => undefined,
-    profile: async () => undefined,
-    firstname: async () => undefined,
-    lastname: async () => undefined,
-    lastConnection: async () => undefined,
-    email: async () => undefined,
-    password: async () => undefined,
-    verifyChanges: async () => undefined,
-    verifyExpires: async () => undefined,
-    resetExpires: async () => undefined,
-    verifyToken: async () => undefined,
-    verifyShortToken: async () => undefined,
-    resetToken: async () => undefined,
-    resetShortToken: async () => undefined,
-    resetAttempts: async () => undefined,
-    workspaces: async (workspaces, _data, context) => {
-      if (workspaces) {
-        return await Promise.all(
-          workspaces.map(async (w) => await workspaceDispatchResolver.resolve(w, context)),
-        )
-      }
-    },
+  isVerified: async () => undefined,
+  blocked: async () => undefined,
+  avatarURL: async () => undefined,
+  createdAt: async () => undefined,
+  updatedAt: async () => undefined,
+  profile: async () => undefined,
+  lastConnection: async () => undefined,
+  password: async () => undefined,
+  verifyChanges: async () => undefined,
+  verifyExpires: async () => undefined,
+  resetExpires: async () => undefined,
+  verifyToken: async () => undefined,
+  verifyShortToken: async () => undefined,
+  resetToken: async () => undefined,
+  resetShortToken: async () => undefined,
+  resetAttempts: async () => undefined,
+  workspaces: async (workspaces, _data, context) => {
+    if (workspaces) {
+      return await Promise.all(
+        workspaces.map(async (w) => await workspaceDispatchResolver.resolve(w, context)),
+      )
+    }
   },
 })
 
 // Resolver for allowed query properties
 export const userQueryResolver = resolve<UserQuery, HookContext>({
-  // schema: userQuerySchema,
-  validate: 'before',
-  properties: {
-    // If there is a user (e.g. with authentication), they are only allowed to see their own data
-    id: async (value, _user, context) => {
-      if (context.params.user) {
-        return context.params.user.id
-      }
+  // If there is a user (e.g. with authentication),
+  // they are only allowed to see their own data
+  // unless current user is an admin one
+  id: async (value, _user, context) => {
+    if (context.params.user) {
+      return context.params.user.id
+    }
 
-      return value
-    },
+    return value
   },
 })
 

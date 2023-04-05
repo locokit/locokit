@@ -78,6 +78,8 @@ export const userDataSchema = Type.Object(
     username: Type.String(),
     email: Type.String({ format: 'email' }),
     profile: Type.Optional(Type.String({ format: 'user-profile', default: USER_PROFILE.MEMBER })),
+    firstname: Type.Optional(Type.String()),
+    lastname: Type.Optional(Type.String()),
   },
   {
     $id: 'UserData',

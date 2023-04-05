@@ -201,7 +201,7 @@ export function builderTestEnvironment(prefix: string) {
       .getStrategies('local') as LocalStrategy[]
     const passwordHashed = await localStrategy.hashPassword(userPassword, {})
     // @ts-expect-error this should work as expected but don't respect the schemas
-    user1 = await app.services.user._create(
+    user1 = await app.service(SERVICES.CORE_USER)._create(
       {
         username: 'User 1',
         email: `${prefix}abilities-user1@locokit.io`,
@@ -212,7 +212,7 @@ export function builderTestEnvironment(prefix: string) {
       {},
     )
     // @ts-expect-error this should work as expected but don't respect the schemas
-    user2 = await app.services.user._create(
+    user2 = await app.service(SERVICES.CORE_USER)._create(
       {
         username: 'User 2',
         email: `${prefix}abilities-user2@locokit.io`,
@@ -222,7 +222,7 @@ export function builderTestEnvironment(prefix: string) {
       {},
     )
     // @ts-expect-error this should work as expected but don't respect the schemas
-    user3 = await app.services.user._create(
+    user3 = await app.service(SERVICES.CORE_USER)._create(
       {
         username: 'User 3',
         email: `${prefix}abilities-user3@locokit.io`,
@@ -232,7 +232,7 @@ export function builderTestEnvironment(prefix: string) {
       {},
     )
     // @ts-expect-error this should work as expected but don't respect the schemas
-    user4 = await app.services.user._create(
+    user4 = await app.service(SERVICES.CORE_USER)._create(
       {
         username: 'User 4',
         email: `${prefix}abilities-user4@locokit.io`,
@@ -242,7 +242,7 @@ export function builderTestEnvironment(prefix: string) {
       {},
     )
     // @ts-expect-error this should work as expected but don't respect the schemas
-    user5 = await app.services.user._create(
+    user5 = await app.service(SERVICES.CORE_USER)._create(
       {
         username: 'User 5',
         email: `${prefix}abilities-user5@locokit.io`,
@@ -252,7 +252,7 @@ export function builderTestEnvironment(prefix: string) {
       {},
     )
     // @ts-expect-error this should work as expected but don't respect the schemas
-    userAdmin = await app.services.user._create(
+    userAdmin = await app.service(SERVICES.CORE_USER)._create(
       {
         username: `${prefix} Admin`,
         email: `${prefix}admin@locokit.io`,
@@ -700,14 +700,14 @@ export function builderTestEnvironment(prefix: string) {
     await app.service('table').remove(table1.id)
     await app.service('table').remove(table2.id)
     */
-    // await app.services.usergroup.remove(`${user5.id},${group2.id}`)
-    // await app.services.usergroup.remove(`${user5.id},${group4.id}`)
-    // await app.services.usergroup.remove(`${user4.id},${group1.id}`)
-    // await app.services.usergroup.remove(`${user1.id},${group1.id}`)
-    // await app.services.usergroup.remove(`${user2.id},${group2.id}`)
-    // await app.services.usergroup.remove(`${user3.id},${group2.id}`)
-    // await app.services.usergroup.remove(`${user2.id},${group3.id}`)
-    // await app.services.usergroup.remove(`${user1.id},${group4.id}`)
+    // await app.service(SERVICES.CORE_USER)group.remove(`${user5.id},${group2.id}`)
+    // await app.service(SERVICES.CORE_USER)group.remove(`${user5.id},${group4.id}`)
+    // await app.service(SERVICES.CORE_USER)group.remove(`${user4.id},${group1.id}`)
+    // await app.service(SERVICES.CORE_USER)group.remove(`${user1.id},${group1.id}`)
+    // await app.service(SERVICES.CORE_USER)group.remove(`${user2.id},${group2.id}`)
+    // await app.service(SERVICES.CORE_USER)group.remove(`${user3.id},${group2.id}`)
+    // await app.service(SERVICES.CORE_USER)group.remove(`${user2.id},${group3.id}`)
+    // await app.service(SERVICES.CORE_USER)group.remove(`${user1.id},${group4.id}`)
 
     // await app.services.group.remove(group5.id)
     // await app.services.group.remove(group4.id)

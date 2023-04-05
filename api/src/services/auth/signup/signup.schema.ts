@@ -5,6 +5,8 @@ export const signUpDataSchema = Type.Object(
   {
     username: Type.String(),
     email: Type.String({ format: 'email' }),
+    firstname: Type.Optional(Type.String()),
+    lastname: Type.Optional(Type.String()),
   },
   {
     $id: 'SignUpData',
