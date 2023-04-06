@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   host: 'localhost',
   port: 3030,
   publicURL: 'http://localhost:3000',
