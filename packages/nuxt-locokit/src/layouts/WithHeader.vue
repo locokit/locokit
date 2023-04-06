@@ -14,7 +14,7 @@
               <div class="-mr-2 flex items-center md:hidden">
                 <button
                   type="button"
-                  class="inline-flex items-center justify-center rounded-sm bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                  class="inline-flex items-center justify-center rounded-sm bg-white p-2 text-lck hover:bg-primary-lighten focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-lighten"
                   aria-expanded="false"
                   @click="toggleMenu"
                 >
@@ -34,7 +34,7 @@
               v-for="navLink in navLinks"
               :key="navLink.routeName"
               :to="{ name: navLink.routeName }"
-              class="nav-link font-medium p-2 rounded text-gray-500 hover:bg-primary hover:text-gray-100 flex flex-row items-center"
+              class="nav-link font-medium p-2 rounded text-lck hover:bg-primary hover:text-gray-100 flex flex-row items-center"
               @click="toggleMenu"
             >
               <i
@@ -42,15 +42,13 @@
                 :class="'bi ' + navLink.icon"
                 class="mr-1"
               />
-              <p>
-                {{ $t('layouts.withHeader.' + navLink.title) }}
-              </p>
+              <p>{{ $t('layouts.withHeader.' + navLink.title) }}</p>
             </NuxtLink>
           </div>
           <button
             v-if="isAuthenticated"
             type="button"
-            class="items-center justify-center rounded bg-white p-2 text-gray-500 hover:bg-primary hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 hidden md:ml-auto md:inline-flex"
+            class="items-center justify-center rounded bg-white p-2 text-lck hover:bg-primary hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-lighten hidden md:ml-auto md:inline-flex"
             @click="logout"
           >
             <i class="bi bi-door-open-fill mr-1" />
@@ -66,19 +64,19 @@
         <div
           class="overflow-hidden rounded-md bg-white shadow-md ring-1 ring-black ring-opacity-5"
         >
-          <div class="flex items-center justify-between px-5 pt-4">
+          <div class="flex items-center justify-between mx-1 mt-1">
             <div>
-              <NuxtLink class="h-8" to="/">
+              <NuxtLink class="h-12" to="/">
                 <span class="sr-only">
                   {{ runtimeConfig.public.PROJECT_NAME }}
                 </span>
                 <img alt="logo" class="h-12" src="/assets/logo.png" />
               </NuxtLink>
             </div>
-            <div class="-mr-4 mt-4 self-center">
+            <div class="self-center">
               <button
                 type="button"
-                class="items-center justify-center rounded bg-white p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                class="inline-flex items-center justify-center rounded-sm bg-white p-2 text-lck hover:bg-primary-lighten focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-lighten"
                 @click="toggleMenu"
               >
                 <span class="sr-only">
@@ -96,7 +94,7 @@
               v-for="navLink in navLinks"
               :key="navLink.routeName"
               :to="{ name: navLink.routeName }"
-              class="block rounded-sm pl-3 py-2 text-base font-medium text-gray-700 hover:bg-gray-500 hover:text-gray-900 flex flex-row items-center"
+              class="block rounded-sm pl-3 py-2 text-base font-medium text-lck hover:bg-primary-lighten flex flex-row items-center focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-lighten"
               @click="toggleMenu"
             >
               <i
@@ -110,7 +108,7 @@
             </NuxtLink>
             <button
               type="button"
-              class="inline-flex items-center justify-center rounded-sm bg-white p-2 pl-3 text-gray-700 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+              class="inline-flex items-center justify-center rounded-sm bg-white p-2 pl-3 text-lck hover:bg-primary-lighten focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-lighten"
               @click="logout"
             >
               <i class="bi bi-door-open-fill mr-1" />
@@ -205,7 +203,7 @@ const logout = async () => {
 
 <style scoped>
 .nav-link.router-link-active {
-  @apply border-primary border font-bold;
+  @apply border-b-secondary border-b-4 font-bold;
 }
 
 .content-main {
