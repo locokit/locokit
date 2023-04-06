@@ -21,13 +21,11 @@
       </NuxtLink>
       <div class="mt-12">
         <div
-          v-if="
-            workspacesStore.workspaces && workspacesStore.workspaces.length > 0
-          "
+          v-if="workspaces && workspaces.total > 0"
           class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 mt-8 flex-wrap shrink-0"
         >
           <div
-            v-for="workspace in workspacesStore.workspaces"
+            v-for="workspace in workspaces.data"
             :key="workspace.slug"
             class="h-44 lg:h-56 bg-gray-200 text-black box-border rounded !border-dashed !border-2 !border-gray-300 hover:!border-primary"
             :style="{
@@ -64,18 +62,19 @@
 <script setup lang="ts">
 import PrimeButton from 'primevue/button'
 import { useI18n } from 'vue-i18n'
+import { storeToRefs } from 'pinia'
 import { ROUTES_NAMES } from '../../paths'
 import { useStoreWorkspaces } from '../../stores/workspaces'
 import WithBanner from '../../layouts/WithHeader.vue'
-import { useHead, onMounted } from '#imports'
+import { useHead } from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })
 
 const workspacesStore = useStoreWorkspaces()
+const { workspaces } = storeToRefs(workspacesStore)
 
-onMounted(async () => {
-  await workspacesStore.findWorkspaces()
-})
+// Initialization
+await workspacesStore.updateWorkspaces()
 
 useHead({
   titleTemplate: `${t('pages.workspace.title')} | %s`,

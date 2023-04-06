@@ -107,6 +107,8 @@ export interface User {
 
 export interface ApiUserGroup extends Pagination<UserGroup> {}
 
+export interface ApiWorkspace extends Pagination<Workspace> {}
+
 export interface ApiGroup extends Pagination<Group> {}
 
 export interface ApiUser extends Pagination<User> {}

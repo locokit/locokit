@@ -16,16 +16,14 @@
 <script setup lang="ts">
 import { WorkspaceForm } from '@locokit/designsystem'
 import { useI18n } from 'vue-i18n'
-import { storeToRefs } from 'pinia'
 import WithBanner from '../../../layouts/WithHeader.vue'
 import { ROUTES_NAMES } from '../../../paths'
-import { useStoreWorkspaces } from '../../../stores/workspaces'
-import { useHead, useRouter } from '#imports'
+import { createWorkspace } from '../../../services/workspace'
+import { useHead, useRouter, ref } from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })
 const router = useRouter()
-const workspacesStore = useStoreWorkspaces()
-const { error, loading } = storeToRefs(workspacesStore)
+const error = ref()
 
 const newWorkspace = async (data: {
   name: string
@@ -37,8 +35,11 @@ const newWorkspace = async (data: {
     icon: string | null
   }
 }) => {
-  await workspacesStore.createWorkspace(data)
-  if (error.value === null) {
+  const res = await createWorkspace(data)
+
+  if (res instanceof Error) {
+    error.value = res
+  } else {
     await router.push({
       name: ROUTES_NAMES.WORKSPACE.HOME,
     })
