@@ -182,7 +182,7 @@ export default defineNuxtModule<ModuleOptions>({
         name: ROUTES_NAMES.ADMIN.HOME,
         path: ROUTES_PATH.ADMIN.HOME,
         meta: {
-          protected: true,
+          // protected: true,
         },
         file: resolve(pagesDir, './admin/index.vue'),
         redirect: ROUTES_PATH.ADMIN.USERS.HOME,
@@ -191,7 +191,7 @@ export default defineNuxtModule<ModuleOptions>({
             name: ROUTES_NAMES.ADMIN.USERS.HOME,
             path: ROUTES_PATH.ADMIN.USERS.HOME,
             meta: {
-              protected: true,
+              // protected: true,
             },
             file: resolve(pagesDir, './admin/users/index.vue'),
             redirect: ROUTES_PATH.ADMIN.USERS.ABOUT,
@@ -200,7 +200,7 @@ export default defineNuxtModule<ModuleOptions>({
                 name: ROUTES_NAMES.ADMIN.USERS.ABOUT,
                 path: ROUTES_PATH.ADMIN.USERS.ABOUT,
                 meta: {
-                  protected: true,
+                  // protected: true,
                 },
                 file: resolve(
                   pagesDir,
@@ -211,7 +211,7 @@ export default defineNuxtModule<ModuleOptions>({
                 name: ROUTES_NAMES.ADMIN.USERS.CREATE,
                 path: ROUTES_PATH.ADMIN.USERS.CREATE,
                 meta: {
-                  protected: true,
+                  // protected: true,
                 },
                 file: resolve(
                   pagesDir,
@@ -222,7 +222,7 @@ export default defineNuxtModule<ModuleOptions>({
                 name: ROUTES_NAMES.ADMIN.USERS.RECORD,
                 path: ROUTES_PATH.ADMIN.USERS.RECORD,
                 meta: {
-                  protected: true,
+                  // protected: true,
                 },
                 file: resolve(
                   pagesDir,
@@ -235,7 +235,7 @@ export default defineNuxtModule<ModuleOptions>({
             name: ROUTES_NAMES.ADMIN.GROUPS.HOME,
             path: ROUTES_PATH.ADMIN.GROUPS.HOME,
             meta: {
-              protected: true,
+              // protected: true,
             },
             file: resolve(pagesDir, './admin/groups/index.vue'),
             redirect: ROUTES_PATH.ADMIN.GROUPS.ABOUT,
@@ -244,35 +244,35 @@ export default defineNuxtModule<ModuleOptions>({
                 name: ROUTES_NAMES.ADMIN.GROUPS.ABOUT,
                 path: ROUTES_PATH.ADMIN.GROUPS.ABOUT,
                 meta: {
-                  protected: true,
+                  // protected: true,
                 },
                 file: resolve(
                   pagesDir,
                   './admin/groups/AboutGroups/AboutGroups.vue',
                 ),
               },
-              //   {
-              //     name: ROUTES_NAMES.ADMIN.USERS.CREATE,
-              //     path: ROUTES_PATH.ADMIN.USERS.CREATE,
-              //     meta: {
-              //       protected: true,
-              //     },
-              //     file: resolve(
-              //       pagesDir,
-              //       './admin/users/CreateUser/CreateUser.vue',
-              //     ),
-              //   },
-              //   {
-              //     name: ROUTES_NAMES.ADMIN.USERS.RECORD,
-              //     path: ROUTES_PATH.ADMIN.USERS.RECORD,
-              //     meta: {
-              //       protected: true,
-              //     },
-              //     file: resolve(
-              //       pagesDir,
-              //       './admin/users/RecordUser/RecordUser.vue',
-              //     ),
-              //   },
+              {
+                name: ROUTES_NAMES.ADMIN.GROUPS.CREATE,
+                path: ROUTES_PATH.ADMIN.GROUPS.CREATE,
+                meta: {
+                  // protected: true,
+                },
+                file: resolve(
+                  pagesDir,
+                  './admin/groups/CreateGroup/CreateGroup.vue',
+                ),
+              },
+              {
+                name: ROUTES_NAMES.ADMIN.GROUPS.RECORD,
+                path: ROUTES_PATH.ADMIN.GROUPS.RECORD,
+                meta: {
+                  // protected: true,
+                },
+                file: resolve(
+                  pagesDir,
+                  './admin/groups/RecordGroup/RecordGroup.vue',
+                ),
+              },
             ],
           },
         ],

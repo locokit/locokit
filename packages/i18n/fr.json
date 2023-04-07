@@ -160,6 +160,7 @@
     "withAsideNav": {
       "workspaces": "Espaces de travail",
       "profile": "Profil",
+      "admin": "Admin",
       "logout": "Se déconnecter"
     }
   },
@@ -257,6 +258,7 @@
       "title": "@:pages.admin.users",
       "addUser": "Ajouter un⋅e utilisateur⋅rice",
       "emptyResult": "Aucun résultat trouvé",
+      "search": "Commencez la saisie pour rechercher…",
       "result": "Affichage de {elements} utilisateurs⋅rices sur {total}.",
       "filters": {
         "username": "Nom d'utilisateur⋅rice",
@@ -329,6 +331,7 @@
       "title": "@:pages.admin.groups",
       "addGroup": "Ajouter un groupe",
       "emptyResult": "Aucun résultat trouvé",
+      "search": "Commencez la saisie pour rechercher…",
       "result": "Affichage de {elements} groupes sur {total}.",
       "filters": {
         "name": "Nom",
@@ -343,6 +346,15 @@
         "search": "Trouver un groupe existant à partir de la barre de recherche et des filtres.",
         "displayAndEdit": "Afficher et modifier les informations liées à un group en cliquant sur leur nom."
       }
+    },
+    "createGroup": {
+      "title": "Créer ungroupe",
+      "submit": "Créer",
+      "name": "Nom",
+      "workspace": "Espace de travail",
+      "policy": "Droit d'accès du groupe",
+      "search": "Commencez la saisie pour rechercher…",
+      "emptyResult": "Aucun resultats trouvé"
     }
   },
   "success": {
@@ -467,6 +479,11 @@
       "recordUser": {
         "username": "@:pages.recordUser.username",
         "email": "@:pages.recordUser.username"
+      },
+      "createGroup": {
+        "name": "@:pages.createGroup.name",
+        "workspace": "@:pages.createGroup.workspace",
+        "policy": "@:pages.createGroup.policy"
       }
     },
     "messages": {
