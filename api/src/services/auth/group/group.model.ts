@@ -12,9 +12,9 @@ export class GroupModel extends Model {
 
   static readonly tableName = 'lck_group'
 
-  static get jsonSchema(): JSONSchema {
-    return groupSchema
-  }
+  // static get jsonSchema(): JSONSchema {
+  //   return groupSchema
+  // }
 
   static get relationMappings(): RelationMappings {
     return {

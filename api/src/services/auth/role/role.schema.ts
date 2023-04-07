@@ -1,5 +1,6 @@
 import { Type, querySyntax, Static, getDataValidator } from '@feathersjs/typebox'
 import { dataValidator } from '../../../commons/validators'
+import { queryStringExtend } from '../../../feathers-objection'
 
 // Schema for the basic data model (e.g. creating new entries)
 export const roleSchema = Type.Object(
@@ -51,7 +52,9 @@ export type RolePatch = Static<typeof rolePatchSchema>
 export type RoleResult = Static<typeof roleSchema>
 
 export const roleQuerySchema = Type.Intersect([
-  querySyntax(Type.Omit(roleSchema, ['workspace'])),
+  querySyntax(Type.Omit(roleSchema, ['workspace']), {
+    name: queryStringExtend,
+  }),
   querySyntax(
     Type.Object({
       'workspace:owner.name': Type.Optional(
