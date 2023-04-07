@@ -5,21 +5,40 @@ import { findUserGroups } from './usergroup'
 
 export const ITEMS_PER_PAGE_GROUPS = 20
 
-export async function findGroups({
-  params = {},
-  pageIndex = 0,
-  limit = ITEMS_PER_PAGE_GROUPS,
-  sort = {
-    createdAt: -1,
+export async function createGroup(data: Record<string, any> = {}) {
+  try {
+    return await sdkClient.service('group').create(data)
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err)
+    return err as Error
+  }
+}
+
+export async function findGroups(
+  {
+    params = {},
+    pageIndex = 0,
+    limit = ITEMS_PER_PAGE_GROUPS,
+    sort = {
+      createdAt: -1,
+    },
+  }: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    params?: Record<string, any>
+    pageIndex?: number
+    limit?: number
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    sort?: Record<string, any>
+  } = {
+    params: {},
+    pageIndex: 0,
+    limit: ITEMS_PER_PAGE_GROUPS,
+    sort: {
+      createdAt: -1,
+    },
   },
-}: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  params?: Record<string, any>
-  pageIndex?: number
-  limit?: number
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  sort?: Record<string, any>
-}) {
+) {
   try {
     return await sdkClient.service('group').find({
       query: {
@@ -65,7 +84,7 @@ export async function searchGroups({
     if (filters && query) {
       parameters = {
         ...parameters,
-        username: {
+        name: {
           $ilike: `%${query}%`,
         },
         ...getCurrentFilters(filters),
@@ -73,7 +92,7 @@ export async function searchGroups({
     } else if (query) {
       parameters = {
         ...parameters,
-        username: {
+        name: {
           $ilike: `%${query}%`,
         },
       }

@@ -1,6 +1,7 @@
 import { Filter } from '../interfaces/toMigrate'
 import { getCurrentFilters } from '../helpers/filter'
 import { sdkClient } from './api'
+import { ITEMS_PER_PAGE_GROUPS } from './group'
 
 const ITEMS_PER_PAGE = 10
 
@@ -35,16 +36,35 @@ export async function patchUser(id: string, data = {}) {
 }
 
 export async function findUsers(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  params?: Record<string, any>,
-  sort = {
-    createdAt: -1,
+  {
+    params = {},
+    pageIndex = 0,
+    limit = ITEMS_PER_PAGE_GROUPS,
+    sort = {
+      createdAt: -1,
+    },
+  }: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    params?: Record<string, any>
+    pageIndex?: number
+    limit?: number
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    sort?: Record<string, any>
+  } = {
+    params: {},
+    pageIndex: 0,
+    limit: ITEMS_PER_PAGE_GROUPS,
+    sort: {
+      createdAt: -1,
+    },
   },
 ) {
   try {
     return await sdkClient.service('user').find({
       query: {
-        params,
+        $limit: limit,
+        $skip: pageIndex * limit,
+        ...params,
         // $sort: sort,
       },
     })

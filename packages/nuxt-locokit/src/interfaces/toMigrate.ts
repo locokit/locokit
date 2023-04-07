@@ -64,6 +64,12 @@ interface Pagination<data> {
   data: data[]
 }
 
+export interface Policy {
+  id: string
+  name: string
+  documentation: string | null
+}
+
 export interface Workspace {
   id: string
   name: string
@@ -105,9 +111,11 @@ export interface User {
   isVerified: boolean
 }
 
-export interface ApiUserGroup extends Pagination<UserGroup> {}
+export interface ApiPolicy extends Pagination<Policy> {}
 
 export interface ApiWorkspace extends Pagination<Workspace> {}
+
+export interface ApiUserGroup extends Pagination<UserGroup> {}
 
 export interface ApiGroup extends Pagination<Group> {}
 

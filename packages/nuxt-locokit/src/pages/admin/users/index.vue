@@ -25,6 +25,7 @@
             v-model="wantedUser"
             class="search-input w-full !mb-4"
             type="text"
+            :placeholder="$t('pages.adminUsers.search')"
             @input="applySearch"
           />
 
@@ -46,6 +47,7 @@
             >
               <div v-for="user in users.data" :key="user.id" class="mb-2">
                 <NuxtLink
+                  class="nav-link"
                   :to="{
                     name: ROUTES_NAMES.ADMIN.USERS.RECORD,
                     params: {
@@ -95,6 +97,7 @@
                 class="mb-2"
               >
                 <NuxtLink
+                  class="nav-link"
                   :to="{
                     name: ROUTES_NAMES.ADMIN.USERS.RECORD,
                     params: {
@@ -253,3 +256,9 @@ const patchUser = async (data: {
   }
 }
 </script>
+
+<style scoped>
+.nav-link.router-link-active {
+  @apply block outline outline-1 outline-primary;
+}
+</style>

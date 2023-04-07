@@ -8,7 +8,7 @@
         <button
           v-tooltip="$t('pages.admin.users')"
           type="button"
-          class="select-none mx-auto h-12 w-full focus:outline-none focus:ring-1 focus:ring-inset focus:ring-primary hover:bg-primary-dark p-2"
+          class="select-none mx-auto h-12 w-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary hover:bg-primary-dark p-2"
         >
           <i class="bi bi-person-fill" aria-hidden="true" />
         </button>
@@ -45,11 +45,10 @@ const { t } = useI18n({ useScope: 'global' })
 const usersStore = useStoreUsers()
 const { users } = storeToRefs(usersStore)
 
-onMounted(async () => {
-  if (!users.value) {
-    await usersStore.updateUsers()
-  }
-})
+// Initialization
+if (!users.value) {
+  await usersStore.updateUsers()
+}
 
 useHead({
   titleTemplate: `${t('pages.admin.title')} | %s`,

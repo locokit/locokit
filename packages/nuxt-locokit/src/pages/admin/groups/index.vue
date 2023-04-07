@@ -25,6 +25,7 @@
             v-model="wantedGroup"
             class="search-input w-full !mb-4"
             type="text"
+            :placeholder="$t('pages.adminGroups.search')"
             @input="applySearch"
           />
 
@@ -46,6 +47,7 @@
             >
               <div v-for="group in groups.data" :key="group.id" class="mb-2">
                 <NuxtLink
+                  class="nav-link"
                   :to="{
                     name: ROUTES_NAMES.ADMIN.GROUPS.RECORD,
                     params: {
@@ -56,11 +58,12 @@
                   <IdentityCard
                     class="hover:outline hover:outline-1 hover:outline-primary"
                     :title="group.name"
+                    :subtitle="group?.workspace?.name"
                     icon="
                       bi-people-fill
                     "
                     color-icon="text-primary"
-                    :name-tag="group.workspace.name"
+                    name-tag="17"
                     border-color-tag="var(--primary-color)"
                     color-tag="var(--primary-color)"
                     bg-color-tag="var(--primary-color-lighten)"
@@ -81,13 +84,14 @@
                 </p>
               </div>
             </div>
-            <div v-else-if="searchGroups && searchGroups.total > 0">
+            <div v-else-if="suggestionGroups && suggestionGroups.total > 0">
               <div
-                v-for="suggestionGroup in searchGroups.data"
+                v-for="suggestionGroup in suggestionGroups.data"
                 :key="suggestionGroup.id"
                 class="mb-2"
               >
                 <NuxtLink
+                  class="nav-link"
                   :to="{
                     name: ROUTES_NAMES.ADMIN.GROUPS.RECORD,
                     params: {
@@ -98,11 +102,12 @@
                   <IdentityCard
                     class="hover:outline hover:outline-1 hover:outline-primary"
                     :title="suggestionGroup.name"
+                    :subtitle="suggestionGroup?.workspace?.name"
                     icon="
                       bi-people-fill
                     "
                     color-icon="text-primary"
-                    :name-tag="suggestionGroup.workspace.name"
+                    name-tag="17"
                     border-color-tag="var(--primary-color)"
                     color-tag="var(--primary-color)"
                     bg-color-tag="var(--primary-color-lighten)"
@@ -169,7 +174,10 @@ const columnsDefinition = [
   },
 ]
 
-console.log('Bouh')
+// Initialization
+if (!groups.value) {
+  await groupsStore.updateGroups({ $eager: 'workspace' })
+}
 
 const applySearch = () => {
   setTimeout(() => {
@@ -184,6 +192,9 @@ const search = async (
   suggestionGroups.value = await searchGroups({
     query: wantedGroup.value,
     filters: currentFilters.value,
+    params: {
+      $eager: 'workspace',
+    },
     pageIndex: currentPageIndex,
     limit,
   })
@@ -214,3 +225,9 @@ const patchGroup = async (data: { id: string; name: string }) => {
   }
 }
 </script>
+
+<style scoped>
+.nav-link.router-link-active {
+  @apply block outline outline-1 outline-primary;
+}
+</style>

@@ -33,7 +33,7 @@ export const useStoreGroups = defineStore('groups', () => {
         ({ id }: { id: string }) => id === data.id,
       )
       if (userFound > -1) {
-        groups.value = await findGroups({})
+        groups.value = await findGroups()
       }
     }
   }
