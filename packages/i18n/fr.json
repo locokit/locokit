@@ -265,7 +265,10 @@
         "firstName": "Prénom",
         "lastName": "Nom",
         "email": "Email"
-      }
+      },
+      "admin": "@:commons.userProfile.admin",
+      "creator": "@:commons.userProfile.creator",
+      "member": "@:commons.userProfile.member"
     },
     "aboutUsers": {
       "title": "Administration des utilisateurs⋅rices",
@@ -293,8 +296,6 @@
       "submit": "Mise à jour",
       "blocking": "Bloquer cette personne",
       "unblocking": "Débloquer cette personne",
-      "send": "Envoyer",
-      "resend": "Renvoyer",
       "inviting": "Réinviter cette personne",
       "id": "ID",
       "username": "Nom d'utilisateur⋅rice",
@@ -319,7 +320,7 @@
       "explanationRemovingGroups": "Il est également possible de supprimer un ou plusieurs groupes pour cette personne en sélectionnant les groupes dans la colonne de droite.",
       "noUserFound": "Aucune personne trouvée",
       "noGroupFound": "Aucun groupe trouvé",
-      "result": "Affichage de {elements} groupes sur {total}."
+      "result": "Affichage de maximum {elements} groupes."
     },
     "confirmUpdateEmail": {
       "title": "Mettre à jour son email",
@@ -353,8 +354,29 @@
       "name": "Nom",
       "workspace": "Espace de travail",
       "policy": "Droit d'accès du groupe",
+      "documentation": "Notes",
       "search": "Commencez la saisie pour rechercher…",
       "emptyResult": "Aucun resultats trouvé"
+    },
+    "recordGroup": {
+      "title": "Information d'un groupe",
+      "submit": "Mise à jour",
+      "id": "ID",
+      "name": "Nom",
+      "workspace": "Espace de travail",
+      "policy": "Droit d'accès",
+      "documentation": "Notes",
+      "search": "Commencez la saisie pour rechercher…",
+      "emptyResult": "Aucun resultats trouvé",
+      "users": "Personnes",
+      "usersAvailable": "Personnes",
+      "userMembers": "Membres",
+      "searchPlaceholder": "Chercher une personne",
+      "explanationAddingUsers": "Pour attribuer une ou plusieurs peronnes à ce groupe, sélectionnez les personnes dans la colonne de gauche et cliquez sur le bouton avec la flèche vers la droite",
+      "explanationRemovingUsers": "Il est également possible de supprimer une ou plusieurs personnes pour ce groupe en sélectionnant les personnes dans la colonne de droite.",
+      "noUserFound": "Aucune personne trouvée",
+      "noGroupFound": "Aucun groupe trouvé",
+      "result": "Affichage de maximum {elements} personnes."
     }
   },
   "success": {

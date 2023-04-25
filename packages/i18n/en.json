@@ -265,7 +265,10 @@
         "firstName": "First Name",
         "lastName": "Last Name",
         "email": "Email"
-      }
+      },
+      "admin": "@:commons.userProfile.admin",
+      "creator": "@:commons.userProfile.creator",
+      "member": "@:commons.userProfile.member"
     },
     "aboutUsers": {
       "title": "@:pages.admin.users",
@@ -291,11 +294,9 @@
     "recordUser": {
       "title": "User record",
       "submit": "Update",
-      "blocking": "Blocking a user",
-      "unblocking": "Unblocking a user",
-      "send": "Send",
-      "resend": "Resend",
-      "inviting": "Re-inviting a user",
+      "blocking": "Blocking user",
+      "unblocking": "Unblocking user",
+      "inviting": "Re-inviting user",
       "id": "ID",
       "username": "Username",
       "lastName": "Last name",
@@ -319,7 +320,7 @@
       "explanationRemovingGroups": "It also possible to remove one or more groups for this user by selecting groups in the right column.",
       "noUserFound": "No user found",
       "noGroupFound": "No group found",
-      "result": "Showing {elements} out of {total} groups."
+      "result": "Showing of maximum {elements} groups."
     },
     "confirmUpdateEmail": {
       "title": "Updating your email",
@@ -353,8 +354,29 @@
       "name": "Name",
       "workspace": "Workspace",
       "policy": "Access control policy",
+      "documentation": "Notes",
       "search": "Type to search…",
       "emptyResult": "No results found"
+    },
+    "recordGroup": {
+      "title": "Group record",
+      "submit": "Update",
+      "id": "ID",
+      "name": "Name",
+      "workspace": "Workspace",
+      "policy": "Access control policy",
+      "documentation": "Notes",
+      "search": "Type to search…",
+      "emptyResult": "No results found",
+      "users": "Users",
+      "usersAvailable": "Available users",
+      "userMembers": "Members",
+      "searchPlaceholder": "Search a user",
+      "explanationAddingUsers": "To assign one or more users to this group, select the users in the left column and click on the button with the right arrow.",
+      "explanationRemovingUsers": "It also possible to remove one or more users for this group by selecting users in the right column.",
+      "noUserFound": "No user found",
+      "noGroupFound": "No group found",
+      "result": "Showing of maximum {elements} users."
     }
   },
   "success": {
