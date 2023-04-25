@@ -69,14 +69,22 @@
                     :color-icon="
                       user.isVerified ? 'text-primary' : 'text-secondary'
                     "
-                    :name-tag="user.profile"
+                    :name-tag="
+                      $t(
+                        `pages.adminUsers.${
+                          PROFILE.find(
+                            (profile) => profile.value === user.profile,
+                          ).name
+                        }`,
+                      )
+                    "
                     border-color-tag="var(--primary-color)"
                     color-tag="var(--primary-color)"
                     bg-color-tag="var(--primary-color-lighten)"
                   />
                 </NuxtLink>
               </div>
-              <div class="bg-white p-2">
+              <div class="bg-white rounded p-2">
                 <p class="text-sm">
                   {{
                     $t('pages.adminUsers.result', {
@@ -123,7 +131,16 @@
                         ? 'text-primary'
                         : 'text-secondary'
                     "
-                    :name-tag="suggestionUser.profile"
+                    :name-tag="
+                      $t(
+                        `pages.adminUsers.${
+                          PROFILE.find(
+                            (profile) =>
+                              profile.value === suggestionUser.profile,
+                          ).name
+                        }`,
+                      )
+                    "
                     border-color-tag="var(--primary-color)"
                     color-tag="var(--primary-color)"
                     bg-color-tag="var(--primary-color-lighten)"
@@ -163,7 +180,7 @@ import { COLUMN_TYPE } from '../../../helpers/filter'
 import { ROUTES_NAMES } from '../../../paths'
 import { useStoreUsers } from '../../../stores/users'
 import { searchUsers } from '../../../services/user'
-import { ApiUser, Filter } from '../../../interfaces/toMigrate'
+import { ApiUser, Filter, PROFILE } from '../../../interfaces/toMigrate'
 import { ref } from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })
@@ -259,6 +276,6 @@ const patchUser = async (data: {
 
 <style scoped>
 .nav-link.router-link-active {
-  @apply block outline outline-1 outline-primary;
+  @apply block outline outline-1 outline-primary rounded;
 }
 </style>

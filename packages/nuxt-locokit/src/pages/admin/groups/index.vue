@@ -228,6 +228,6 @@ const patchGroup = async (data: { id: string; name: string }) => {
 
 <style scoped>
 .nav-link.router-link-active {
-  @apply block outline outline-1 outline-primary;
+  @apply block outline outline-1 outline-primary rounded;
 }
 </style>

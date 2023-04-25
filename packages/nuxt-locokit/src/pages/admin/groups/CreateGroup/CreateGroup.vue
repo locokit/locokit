@@ -115,12 +115,25 @@
           {{ errorMessage }}
         </span>
       </Field>
+      <Field
+        v-slot="{ field }"
+        v-model="documentation"
+        class="mb-4"
+        name="createGroup.documentation"
+        as="div"
+      >
+        <label for="name">
+          {{ $t('pages.createGroup.documentation') }}
+        </label>
+        <PrimeTextarea id="documentation" v-bind="field" auto-resize rows="5" />
+      </Field>
     </FormGeneric>
   </div>
 </template>
 
 <script setup lang="ts">
 import PrimeInputText from 'primevue/inputtext'
+import PrimeTextarea from 'primevue/textarea'
 import PrimeAutoComplete from 'primevue/autocomplete'
 import { FormGeneric } from '@locokit/designsystem'
 import { Field } from 'vee-validate'
@@ -129,7 +142,7 @@ import { ROUTES_NAMES } from '../../../../paths'
 import { createGroup } from '../../../../services/group'
 import { Policy, Workspace } from '../../../../interfaces/toMigrate'
 import { findWorkspaces } from '../../../../services/workspace'
-import { findPolicy } from '../../../../services/policy'
+import { findPolicies } from '../../../../services/policy'
 import { useStoreGroups } from '../../../../stores/groups'
 import { useRouter } from '#imports'
 
@@ -139,6 +152,7 @@ const groupsStore = useStoreGroups()
 const loading = ref(false)
 const error = ref<Error | null>(null)
 const name = ref('')
+const documentation = ref(null)
 const workspace = ref<Workspace | null>(null)
 const policy = ref<Policy | null>(null)
 const suggestedWorkspaces = ref<Workspace[] | null>(null)
@@ -151,6 +165,7 @@ const onSubmit = async () => {
     name: name.value,
     workspaceId: workspace.value.id,
     roleId: policy.value.id,
+    documentation: documentation.value,
   })
 
   if (res && res.id) {
@@ -169,6 +184,7 @@ const onReset = () => {
   name.value = ''
   workspace.value = null
   policy.value = null
+  documentation.value = null
 }
 
 const searchWorkspaces = async (event: {
@@ -190,7 +206,7 @@ const searchPolicies = async (event: {
   query: string
 }) => {
   suggestedPolicies.value = (
-    await findPolicy({
+    await findPolicies({
       params: {
         name: {
           $ilike: `%${event.query}%`,

@@ -1,13 +1,13 @@
 // Todo: to retrieve from definition
 
 export const PROFILE = [
-  { label: 'member', value: 'MEMBER' },
-  { label: 'creator', value: 'CREATOR' },
-  { label: 'admin', value: 'ADMIN' },
+  { name: 'member', value: 'MEMBER' },
+  { name: 'creator', value: 'CREATOR' },
+  { name: 'admin', value: 'ADMIN' },
 ]
 
-export interface ProfileType {
-  label: string
+export interface LabelValueType {
+  name: string
   value: string
 }
 
@@ -86,6 +86,17 @@ export interface Workspace {
   createdBy: string
 }
 
+export interface User {
+  id: string
+  username: string
+  lastName: string | null
+  firstName: string | null
+  email: string
+  profile: string
+  isBlocked: boolean
+  isVerified: boolean
+}
+
 export interface UserGroup {
   userId: string
   groupId: string
@@ -98,17 +109,8 @@ export interface Group {
   workspaceId: string
   roleId: string
   workspace?: Workspace | null
-}
-
-export interface User {
-  id: string
-  username: string
-  lastName: string | null
-  firstName: string | null
-  email: string
-  profile: string
-  isBlocked: boolean
-  isVerified: boolean
+  policy?: Policy | null
+  users?: User[] | null
 }
 
 export interface ApiPolicy extends Pagination<Policy> {}

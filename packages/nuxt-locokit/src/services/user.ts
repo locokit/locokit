@@ -1,7 +1,8 @@
-import { Filter } from '../interfaces/toMigrate'
+import { ApiUserGroup, Filter } from '../interfaces/toMigrate'
 import { getCurrentFilters } from '../helpers/filter'
 import { sdkClient } from './api'
-import { ITEMS_PER_PAGE_GROUPS } from './group'
+import { findGroups, ITEMS_PER_PAGE_GROUPS } from './group'
+import { findUserGroups } from './usergroup'
 
 const ITEMS_PER_PAGE = 10
 
@@ -130,4 +131,18 @@ export async function searchUsers({
     console.error(err)
     return err as Error
   }
+}
+
+export async function findMembersFomGroup(groupId: string) {
+  const usergroups: ApiUserGroup = await findUserGroups({ groupId })
+  if (usergroups && usergroups.total > 0) {
+    const userIds = usergroups.data.reduce((acc: string[], usergroup) => {
+      acc.push(usergroup.userId)
+      return acc
+    }, [])
+    return await findUsers({
+      params: { id: { $in: userIds } },
+    })
+  }
+  return { total: 0, data: [] }
 }

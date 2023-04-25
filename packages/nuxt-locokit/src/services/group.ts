@@ -5,9 +5,31 @@ import { findUserGroups } from './usergroup'
 
 export const ITEMS_PER_PAGE_GROUPS = 20
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function getGroup(id: string, params: null | any = null) {
+  try {
+    return await sdkClient.service('group').get(id, params)
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err)
+    return err as Error
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function createGroup(data: Record<string, any> = {}) {
   try {
     return await sdkClient.service('group').create(data)
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err)
+    return err as Error
+  }
+}
+
+export async function patchGroup(id: string, data = {}) {
+  try {
+    return await sdkClient.service('group').patch(id, data)
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error(err)

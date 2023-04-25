@@ -42,8 +42,8 @@
                 </p>
               </NuxtLink>
               <i
-                class="absolute -left-3 -bottom-3 text-9xl opacity-10"
-                :class="`bi ${workspace.settings?.icon}`"
+                class="absolute -left-3 -bottom-3 text-9xl opacity-50"
+                :class="workspace.settings?.icon"
               />
               <span
                 v-if="workspace.public"

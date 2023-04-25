@@ -26,7 +26,6 @@ export const useStoreGroups = defineStore('groups', () => {
     loading.value = false
   }
 
-  // Todo: Voir pour aggrégation users
   async function squashGroups(data: { id: string; name: string }) {
     if (groups.value && groups.value.total > 0) {
       const userFound = groups.value.data.findIndex(

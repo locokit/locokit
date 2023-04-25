@@ -2,7 +2,17 @@ import { sdkClient } from './api'
 
 const ITEMS_PER_PAGE = 10
 
-export async function findPolicy(
+export async function getPolicy(id: string) {
+  try {
+    return await sdkClient.service('role').get(id)
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err)
+    return err as Error
+  }
+}
+
+export async function findPolicies(
   {
     params = {},
     pageIndex = 0,
