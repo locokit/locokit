@@ -3,6 +3,7 @@ import { dataValidator, queryValidator } from '../../../commons/validators'
 import { workspaceSchema } from '../../workspace/workspace.schema'
 import { workspaceOwnerSchema } from '../user/user.schema'
 import { queryStringExtend } from '../../../feathers-objection'
+import { roleSchema } from '../role/role.schema'
 
 // Schema for the basic data model (e.g. creating new entries)
 export const groupSchema = Type.Object(
@@ -32,6 +33,16 @@ export const groupSchema = Type.Object(
         },
         {
           description: 'Related workspace',
+        },
+      ),
+    ),
+    role: Type.Optional(
+      Type.Object(
+        {
+          ...roleSchema.properties,
+        },
+        {
+          description: 'Related role',
         },
       ),
     ),
@@ -88,7 +99,7 @@ export const groupQuerySchema = Type.Intersect(
     Type.Object({
       $joinRelated: Type.Optional(
         Type.RegEx(
-          /workspace|users|\[workspace.owner\]|\[workspace,users\]|\[workspace.owner,users\]/,
+          /workspace|users|policy|\[workspace.owner\]|\[workspace,users\]|\[workspace,users,policy\]|\[workspace.owner,users\]|\[workspace.owner,users,policy\]/,
           {
             description: 'Join role to its relations (and nested).',
           },
@@ -96,7 +107,7 @@ export const groupQuerySchema = Type.Intersect(
       ),
       $joinEager: Type.Optional(
         Type.RegEx(
-          /workspace|users|\[workspace.owner\]|\[workspace,users\]|\[workspace.owner,users\]/,
+          /workspace|users|policy|\[workspace.owner\]|\[workspace,users\]|\[workspace,users,policy\]|\[workspace.owner,users\]|\[workspace.owner,users,policy\]/,
           {
             description: 'Join role to its relations (and nested).',
           },
@@ -104,7 +115,7 @@ export const groupQuerySchema = Type.Intersect(
       ),
       $eager: Type.Optional(
         Type.RegEx(
-          /workspace|users|\[workspace.owner\]|\[workspace,users\]|\[workspace.owner,users\]/,
+          /workspace|users|policy|\[workspace.owner\]|\[workspace,users\]|\[workspace,policy\]|\[workspace,users,policy\]|\[workspace.owner,users\]|\[workspace.owner,users,policy\]/,
           {
             description: 'Join role to its relations (and nested).',
           },

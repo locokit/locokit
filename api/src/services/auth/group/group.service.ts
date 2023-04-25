@@ -14,7 +14,7 @@ export function groupService(app: Application): void {
     Model: GroupModel,
     name: 'lck_group',
     schema: 'core',
-    allowedGraph: '[workspace.owner,users]',
+    allowedGraph: '[workspace.owner,users,policy]',
   }
 
   // Register our service on the Feathers application

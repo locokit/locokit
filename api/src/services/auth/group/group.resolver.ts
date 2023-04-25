@@ -3,6 +3,7 @@ import type { HookContext } from '../../../declarations'
 import { workspaceDispatchResolver } from '../../workspace/workspace.resolver'
 import { userDispatchResolver } from '../user/user.resolver'
 import { GroupQuery, GroupSchema } from './group.schema'
+import { roleDispatchResolver } from '../role/role.resolver'
 
 // Resolver for the basic data model (e.g. creating new entries)
 export const groupCreateResolver = resolve<GroupSchema, HookContext>({})
@@ -19,6 +20,10 @@ export const groupDefaultResolver: Resolver<GroupSchema, HookContext> = resolve<
    */
   async workspace(workspace, _data, context) {
     if (workspace) return await workspaceDispatchResolver.resolve(workspace, context)
+  },
+
+  async role(policy, _data, context) {
+    if (policy) return await roleDispatchResolver.resolve(policy, context)
   },
 
   async users(users, _data, context) {
