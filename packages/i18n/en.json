@@ -215,7 +215,7 @@
       "labelSubmit": "Set the password",
       "missingToken": "Unable to find your account. It seems that you did not use the link in the email sent by the app."
     },
-    "workspace": {
+    "workspacesList": {
       "title": "Workspaces",
       "intro": "You must create or select your workspace before adding data or templates.",
       "addWorkspace": "Add a workspace",

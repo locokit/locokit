@@ -41,7 +41,7 @@ const newWorkspace = async (data: {
     error.value = res
   } else {
     await router.push({
-      name: ROUTES_NAMES.WORKSPACE.HOME,
+      name: ROUTES_NAMES.WORKSPACES,
     })
   }
 }

@@ -56,7 +56,7 @@ const defaultOptions: ModuleOptions = {
     auth: {
       enabled: true,
       prefix: '',
-      redirectUserAfterLogin: ROUTES_PATH.WORKSPACE.HOME,
+      redirectUserAfterLogin: ROUTES_PATH.WORKSPACES,
     },
     user: {
       enabled: true,
@@ -324,29 +324,29 @@ export default defineNuxtModule<ModuleOptions>({
       })
 
       /**
-       * Register workspace pages
+       * Register workspaces page
        */
       pages.push({
-        name: ROUTES_NAMES.WORKSPACE.HOME,
-        path: ROUTES_PATH.WORKSPACE.HOME,
+        name: ROUTES_NAMES.WORKSPACES,
+        path: ROUTES_PATH.WORKSPACES,
         meta: {
           protected: false,
           anonymous: false,
         },
-        file: resolve(pagesDir, './workspace/index.vue'),
+        file: resolve(pagesDir, './WorkspacesList/WorkspacesList.vue'),
       })
 
+      /**
+       * Register create a workspace page
+       */
       pages.push({
-        name: ROUTES_NAMES.WORKSPACE.CREATE,
-        path: ROUTES_PATH.WORKSPACE.CREATE,
+        name: ROUTES_NAMES.CREATE_WORKSPACE,
+        path: ROUTES_PATH.CREATE_WORKSPACE,
         meta: {
           protected: true,
           anonymous: false,
         },
-        file: resolve(
-          pagesDir,
-          './workspace/CreateWorkspace/CreateWorkspace.vue',
-        ),
+        file: resolve(pagesDir, './CreateWorkspace/CreateWorkspace.vue'),
       })
 
       pages.push({
@@ -366,11 +366,6 @@ export default defineNuxtModule<ModuleOptions>({
         pages.push(...getAuthPages(prefix))
       }
 
-      // pages.push({
-      //   name: ROUTES.WORKSPACE.DETAIL,
-      //   path: ROUTES.WORKSPACE.DETAIL,
-      //   file: resolve(pagesDir, './w/bouh[w].vue'),
-      // })
       //
       // /**
       //  * Register back office pages
