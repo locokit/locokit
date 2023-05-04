@@ -377,6 +377,27 @@
       "noUserFound": "Aucune personne trouvée",
       "noGroupFound": "Aucun groupe trouvé",
       "result": "Affichage de maximum {elements} personnes."
+    },
+    "workspace": {
+      "title": "Espace de travail",
+      "noResult": "Aucun espace de travail trouvé",
+      "dashboard": "Tableau de bord",
+      "datasource": "Source des données"
+    },
+    "dashboard": {
+      "title": "@:pages.workspace.dashboard"
+    },
+    "datasource": {
+      "title": "@:pages.workspace.datasource",
+      "addDatasource": "Ajouter une source de données"
+    },
+    "aboutDatasource": {
+      "title": "@:pages.workspace.datasource",
+      "explainDatasource": "Pour commencer, il est nécessaire de créer ou d'importer une base de données pour stocker vos données via le bouton « @:pages.datasource.addDatasource ».",
+      "explainTable": "Dès lors, il est possible d'afficher une base de données sous forme de schéma ou d'afficher le détail d'une table."
+    },
+    "createDatasource": {
+      "title": "Créer une source de données"
     }
   },
   "success": {

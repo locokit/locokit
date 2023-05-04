@@ -170,13 +170,83 @@ export default defineNuxtModule<ModuleOptions>({
       const { submodules } = options
 
       /**
+       * Register workspace page
+       */
+      pages.push({
+        name: ROUTES_NAMES.WORKSPACE.HOME,
+        path: ROUTES_PATH.WORKSPACE.HOME,
+        meta: {
+          protected: true,
+        },
+        file: resolve(pagesDir, './workspace/index.vue'),
+        // redirect: ROUTES_PATH.WORKSPACE.DASHBOARD,
+        children: [
+          {
+            name: ROUTES_NAMES.WORKSPACE.DASHBOARD,
+            path: ROUTES_PATH.WORKSPACE.DASHBOARD,
+            meta: {
+              protected: true,
+            },
+            file: resolve(
+              pagesDir,
+              './workspace/DashboardPage/DashboardPage.vue',
+            ),
+          },
+          {
+            name: ROUTES_NAMES.WORKSPACE.DATASOURCE.HOME,
+            path: ROUTES_PATH.WORKSPACE.DATASOURCE.HOME,
+            meta: {
+              protected: true,
+            },
+            file: resolve(pagesDir, './workspace/datasource/index.vue'),
+            // redirect: ROUTES_PATH.WORKSPACE.DATABASE.ABOUT,
+            children: [
+              {
+                name: ROUTES_NAMES.WORKSPACE.DATASOURCE.ABOUT,
+                path: ROUTES_PATH.WORKSPACE.DATASOURCE.ABOUT,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  pagesDir,
+                  './workspace/datasource/AboutDatasource/AboutDatasource.vue',
+                ),
+              },
+              {
+                name: ROUTES_NAMES.WORKSPACE.DATASOURCE.CREATE,
+                path: ROUTES_PATH.WORKSPACE.DATASOURCE.CREATE,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  pagesDir,
+                  './workspace/datasource/CreateDatasource/CreateDatasource.vue',
+                ),
+              },
+              {
+                name: ROUTES_NAMES.WORKSPACE.DATASOURCE.SCHEMA,
+                path: ROUTES_PATH.WORKSPACE.DATASOURCE.SCHEMA,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  pagesDir,
+                  './workspace/datasource/SchemaDatasource/SchemaDatasource.vue',
+                ),
+              },
+            ],
+          },
+        ],
+      })
+
+      /**
        * Register admin pages
        */
       pages.push({
         name: ROUTES_NAMES.ADMIN.HOME,
         path: ROUTES_PATH.ADMIN.HOME,
         meta: {
-          // protected: true,
+          protected: true,
         },
         file: resolve(pagesDir, './admin/index.vue'),
         redirect: ROUTES_PATH.ADMIN.USERS.HOME,
@@ -185,7 +255,7 @@ export default defineNuxtModule<ModuleOptions>({
             name: ROUTES_NAMES.ADMIN.USERS.HOME,
             path: ROUTES_PATH.ADMIN.USERS.HOME,
             meta: {
-              // protected: true,
+              protected: true,
             },
             file: resolve(pagesDir, './admin/users/index.vue'),
             redirect: ROUTES_PATH.ADMIN.USERS.ABOUT,
@@ -194,7 +264,7 @@ export default defineNuxtModule<ModuleOptions>({
                 name: ROUTES_NAMES.ADMIN.USERS.ABOUT,
                 path: ROUTES_PATH.ADMIN.USERS.ABOUT,
                 meta: {
-                  // protected: true,
+                  protected: true,
                 },
                 file: resolve(
                   pagesDir,
@@ -205,7 +275,7 @@ export default defineNuxtModule<ModuleOptions>({
                 name: ROUTES_NAMES.ADMIN.USERS.CREATE,
                 path: ROUTES_PATH.ADMIN.USERS.CREATE,
                 meta: {
-                  // protected: true,
+                  protected: true,
                 },
                 file: resolve(
                   pagesDir,
@@ -216,7 +286,7 @@ export default defineNuxtModule<ModuleOptions>({
                 name: ROUTES_NAMES.ADMIN.USERS.RECORD,
                 path: ROUTES_PATH.ADMIN.USERS.RECORD,
                 meta: {
-                  // protected: true,
+                  protected: true,
                 },
                 file: resolve(
                   pagesDir,
@@ -229,7 +299,7 @@ export default defineNuxtModule<ModuleOptions>({
             name: ROUTES_NAMES.ADMIN.GROUPS.HOME,
             path: ROUTES_PATH.ADMIN.GROUPS.HOME,
             meta: {
-              // protected: true,
+              protected: true,
             },
             file: resolve(pagesDir, './admin/groups/index.vue'),
             redirect: ROUTES_PATH.ADMIN.GROUPS.ABOUT,
@@ -238,7 +308,7 @@ export default defineNuxtModule<ModuleOptions>({
                 name: ROUTES_NAMES.ADMIN.GROUPS.ABOUT,
                 path: ROUTES_PATH.ADMIN.GROUPS.ABOUT,
                 meta: {
-                  // protected: true,
+                  protected: true,
                 },
                 file: resolve(
                   pagesDir,
@@ -249,7 +319,7 @@ export default defineNuxtModule<ModuleOptions>({
                 name: ROUTES_NAMES.ADMIN.GROUPS.CREATE,
                 path: ROUTES_PATH.ADMIN.GROUPS.CREATE,
                 meta: {
-                  // protected: true,
+                  protected: true,
                 },
                 file: resolve(
                   pagesDir,
@@ -260,7 +330,7 @@ export default defineNuxtModule<ModuleOptions>({
                 name: ROUTES_NAMES.ADMIN.GROUPS.RECORD,
                 path: ROUTES_PATH.ADMIN.GROUPS.RECORD,
                 meta: {
-                  // protected: true,
+                  protected: true,
                 },
                 file: resolve(
                   pagesDir,

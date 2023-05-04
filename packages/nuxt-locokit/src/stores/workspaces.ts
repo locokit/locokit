@@ -1,17 +1,40 @@
 import { defineStore } from 'pinia'
-import { findWorkspaces } from '../services/workspace'
-import { ApiWorkspace } from '../interfaces/toMigrate'
+import { findWorkspaces, getWorkspace } from '../services/workspace'
+import { ApiWorkspace, Workspace } from '../interfaces/toMigrate'
 import { ref } from '#imports'
 
 export const useStoreWorkspaces = defineStore('workspace', () => {
   const loading = ref(false)
   const error = ref<Error | null>(null)
   const workspaces = ref<ApiWorkspace | undefined>()
+  const currentWorkspace = ref<Workspace>()
 
-  async function updateWorkspaces(params = {}) {
+  async function updateCurrentWorkspace(
+    id: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    params?: Record<string, any>,
+  ) {
     loading.value = true
     error.value = null
-    const res = await findWorkspaces()
+    const res = await getWorkspace(id, params)
+    if (res instanceof Error) {
+      error.value = res
+    } else {
+      currentWorkspace.value = res
+    }
+    loading.value = false
+  }
+
+  async function updateWorkspaces(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    params?: Record<string, any>,
+    sort = {
+      createdAt: -1,
+    },
+  ) {
+    loading.value = true
+    error.value = null
+    const res = await findWorkspaces({ params, sort })
     if (res instanceof Error) {
       error.value = res
     } else {
@@ -24,6 +47,8 @@ export const useStoreWorkspaces = defineStore('workspace', () => {
     loading,
     error,
     workspaces,
+    currentWorkspace,
     updateWorkspaces,
+    updateCurrentWorkspace,
   }
 })

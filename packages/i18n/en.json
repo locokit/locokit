@@ -377,6 +377,27 @@
       "noUserFound": "No user found",
       "noGroupFound": "No group found",
       "result": "Showing of maximum {elements} users."
+    },
+    "workspace": {
+      "title": "Workspace",
+      "noResult": "No workspace found",
+      "dashboard": "Dashboard",
+      "datasource": "Datasource"
+    },
+    "dashboard": {
+      "title": "@:pages.workspace.dashboard"
+    },
+    "datasource": {
+      "title": "@:pages.workspace.datasource",
+      "addDatasource": "Add datasource"
+    },
+    "aboutDatasource": {
+      "title": "@:pages.workspace.datasource",
+      "explainDatasource": "First thing to do, it is create or import a database to stock your data through the ” @:pages.datasource.addDatasource ” button.",
+      "explainTable": "Then, it is possible to display database diagram or to display details of a table."
+    },
+    "createDatasource": {
+      "title": "Create datasource"
     }
   },
   "success": {
