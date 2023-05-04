@@ -145,13 +145,7 @@ export default defineNuxtModule<ModuleOptions>({
       {
         src: resolve(layoutsDir, './WithHeader.vue'),
       },
-      'WithBanner',
-    )
-    addLayout(
-      {
-        src: resolve(layoutsDir, './WithAsideNavAndSidebar.vue'),
-      },
-      'WithAsideNavAndSidebar',
+      'WithHeader',
     )
     addLayout(
       {
@@ -159,17 +153,17 @@ export default defineNuxtModule<ModuleOptions>({
       },
       'WithAsideNav',
     )
+    // addLayout(
+    //   {
+    //     src: resolve(layoutsDir, './WithBackground.vue'),
+    //   },
+    //   'WithBackground',
+    // )
     addLayout(
       {
-        src: resolve(layoutsDir, './WithThinNav.vue'),
+        src: resolve(layoutsDir, './WithSidebar.vue'),
       },
-      'WithThinNav',
-    )
-    addLayout(
-      {
-        src: resolve(layoutsDir, './WithThinNavAndSidebar.vue'),
-      },
-      'WithThinNav',
+      'WithSidebar',
     )
 
     extendPages(function (pages: NuxtPage[]) {

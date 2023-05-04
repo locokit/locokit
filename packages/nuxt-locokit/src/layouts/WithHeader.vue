@@ -5,16 +5,20 @@
         <nav class="h-full flex items-center justify-between">
           <div class="flex flex-shrink-0 flex-grow items-center">
             <div class="flex w-full items-center justify-between md:w-auto">
-              <NuxtLink class="h-12" :to="{ name: ROUTES_NAMES.HOME }">
+              <NuxtLink :to="{ name: ROUTES_NAMES.HOME }">
                 <span class="sr-only">
                   {{ runtimeConfig.public.PROJECT_NAME }}
                 </span>
-                <img alt="logo" class="h-12" src="/assets/logo.png" />
+                <img
+                  alt="logo"
+                  class="max-w-[14rem] max-h-[4rem]"
+                  :src="runtimeConfig.public.LOGO_BG_PRIMARY_URL"
+                />
               </NuxtLink>
               <div class="-mr-2 flex items-center md:hidden">
                 <button
                   type="button"
-                  class="inline-flex items-center justify-center rounded-sm bg-white p-2 text-lck hover:bg-primary-lighten focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-lighten"
+                  class="inline-flex items-center justify-center rounded-sm bg-white p-2 text-lck hover:bg-primary-lighten focus:border focus:border-primary"
                   aria-expanded="false"
                   @click="toggleMenu"
                 >
@@ -28,13 +32,13 @@
           </div>
           <div
             v-if="navLinks && navLinks.length > 0"
-            class="hidden md:ml-auto md:flex md:space-x-8 md:pr-4 md:flex-row"
+            class="hidden md:ml-auto md:flex md:space-x-8 md:pr-8 md:flex-row"
           >
             <NuxtLink
               v-for="navLink in navLinks"
               :key="navLink.routeName"
               :to="{ name: navLink.routeName }"
-              class="nav-link font-medium p-2 rounded text-lck hover:bg-primary hover:text-gray-100 flex flex-row items-center"
+              class="nav-link font-medium p-2 rounded text-lck hover:bg-primary hover:text-gray-100 flex flex-row items-center focus:border focus:border-primary"
               @click="toggleMenu"
             >
               <i
@@ -48,7 +52,7 @@
           <button
             v-if="isAuthenticated"
             type="button"
-            class="items-center justify-center rounded bg-white p-2 text-lck hover:bg-primary hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-lighten hidden md:ml-auto md:inline-flex"
+            class="items-center justify-center rounded bg-white p-2 text-lck hover:bg-primary hover:text-gray-100 focus:border-2 focus:border-primary hidden md:ml-auto md:inline-flex"
             @click="logout"
           >
             <i class="bi bi-door-open-fill mr-1" />
@@ -141,41 +145,60 @@ const { isAuthenticated, user } = storeToRefs(authStore)
 const menuOpened = ref(false)
 
 const navLinks = computed(() => {
-  const mainLinks = [
-    {
-      routeName: ROUTES_NAMES.HOME,
-      title: 'home',
-      icon: 'bi-house',
-    },
-    {
-      routeName: ROUTES_NAMES.WORKSPACE.HOME,
-      title: 'workspaces',
-      icon: 'bi-person-workspace',
-    },
-  ]
   if (isAuthenticated.value) {
-    const authen = [
-      ...mainLinks,
+    if (user.value?.profile === USER_PROFILE.ADMIN) {
+      return [
+        {
+          routeName: ROUTES_NAMES.HOME,
+          title: 'home',
+          icon: 'bi-house',
+        },
+        {
+          routeName: ROUTES_NAMES.WORKSPACES,
+          title: 'workspaces',
+          icon: 'bi-person-workspace',
+        },
+        {
+          routeName: ROUTES_NAMES.ADMIN.HOME,
+          title: 'admin',
+          icon: 'bi-gear-fill',
+        },
+        {
+          routeName: ROUTES_NAMES.PROFILE.HOME,
+          title: 'profile',
+          icon: 'bi-person-circle',
+        },
+      ]
+    }
+    return [
+      {
+        routeName: ROUTES_NAMES.HOME,
+        title: 'home',
+        icon: 'bi-house',
+      },
+      {
+        routeName: ROUTES_NAMES.WORKSPACES,
+        title: 'workspaces',
+        icon: 'bi-person-workspace',
+      },
       {
         routeName: ROUTES_NAMES.PROFILE.HOME,
         title: 'profile',
         icon: 'bi-person-circle',
       },
     ]
-    if (user.value?.profile === USER_PROFILE.ADMIN) {
-      return [
-        ...authen,
-        {
-          routeName: ROUTES_NAMES.ADMIN.HOME,
-          title: 'admin',
-          icon: 'bi-gear-fill',
-        },
-      ]
-    }
-    return authen
   }
   return [
-    ...mainLinks,
+    {
+      routeName: ROUTES_NAMES.HOME,
+      title: 'home',
+      icon: 'bi-house',
+    },
+    {
+      routeName: ROUTES_NAMES.WORKSPACES,
+      title: 'workspaces',
+      icon: 'bi-person-workspace',
+    },
     {
       routeName: ROUTES_NAMES.AUTH.SIGN_IN,
       title: 'signIn',

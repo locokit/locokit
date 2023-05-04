@@ -1,5 +1,5 @@
 <template>
-  <WithBanner>
+  <WithHeader>
     <div class="flex flex-col w-full lg:max-w-7xl mx-auto mb-16">
       <div class="text-center mx-auto mt-16">
         <h1
@@ -92,9 +92,9 @@
         </div>
       </div>
     </div>
-  </WithBanner>
+  </WithHeader>
 </template>
 
 <script setup lang="ts">
-import WithBanner from '../layouts/WithHeader.vue'
+import WithHeader from '../layouts/WithHeader.vue'
 </script>

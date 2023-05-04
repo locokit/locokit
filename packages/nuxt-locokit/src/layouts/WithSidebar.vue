@@ -1,69 +1,39 @@
 <template>
-  <div class="relative flex h-screen">
-    <aside
-      tabindex="-1"
-      class="static flex flex-shrink-0 overflow-hidden bg-white border-r focus:outline-none"
-    >
-      <!-- Mini navigation -->
-      <div
-        class="bg-primary flex flex-col flex-shrink-0 h-full px-2 py-4 border-r"
-      >
-        <!-- Brand -->
-        <div class="flex-shrink-0">
-          <NuxtLink class="h-16 inline-block" :to="{ name: ROUTES_NAMES.HOME }">
-            <span class="sr-only">{{ runtimeConfig.public.PROJECT_NAME }}</span>
-            <img
-              alt="logo"
-              class="h-16"
-              :src="runtimeConfig.public.LOGO_MOBILE"
-            />
-          </NuxtLink>
-        </div>
-        <div class="flex flex-col flex-1 space-y-4">
-          <slot name="mini-navigation-items" />
-        </div>
-        <div class="relative flex justify-center flex-shrink-0 border-t">
-          <NuxtLink :to="{ name: ROUTES_NAMES.PROFILE.HOME }">
-            <PrimeButton icon="bi bi-person-fill" />
-          </NuxtLink>
-          <PrimeButton icon="bi bi-door-open-fill" @click="logout" />
-        </div>
-      </div>
-
-      <!-- nav links -->
-      <nav
-        class="flex-1 w-64 px-2 py-4 space-y-2 overflow-y-hidden hover:overflow-y-auto"
-      >
-        <slot name="sidebar-links" />
-      </nav>
-    </aside>
-
+  <div class="relative flex flex-row">
     <!-- Main content -->
-    <main class="flex-1">
+    <main class="flex-1 flex flex-col">
       <slot name="main" />
     </main>
 
-    <!-- Close button Sidebar -->
-    <div v-show="isSettingsPanelOpen" class="absolute right-0 top-0 p-2">
+    <!-- Hide/Display button Sidebar -->
+    <div
+      v-show="
+        canClosePanel === false ||
+        (isSettingsPanelOpen === false && openPanel !== undefined)
+      "
+      class="absolute right-0 top-0 m-0.5"
+    >
       <PrimeButton
         icon="bi bi-chevron-double-left"
         @click="handleSettingsPanel"
       />
     </div>
 
-    <!-- Sidebar -->
+    <!-- Panel -->
     <section
-      v-show="!isSettingsPanelOpen"
+      v-show="isSettingsPanelOpen"
       tabindex="-1"
-      class="relative w-full max-w-xs bg-white shadow-xl focus:outline-none"
+      class="relative flex-1 max-w-md bg-white shadow-xl"
     >
       <div class="flex flex-col h-screen">
         <div
           class="flex flex-col items-center justify-center flex-shrink-0 px-4 py-8 space-y-4 border-b"
         >
-          <div class="absolute left-0 p-2 transform -translate-x-full">
+          <div
+            class="absolute -left-0.5 top-0 my-0.5 transform -translate-x-full"
+          >
             <PrimeButton
-              icon="bi bi-chevron-double-right"
+              :icon="canClosePanel ? 'bi bi-x' : 'bi bi-chevron-double-right'"
               @click="handleSettingsPanel"
             />
           </div>
@@ -79,23 +49,33 @@
 
 <script setup lang="ts">
 import PrimeButton from 'primevue/button'
-import { ROUTES_NAMES } from '../paths'
-import { useStoreAuth } from '../stores/auth'
-import { ref, useRouter, useRuntimeConfig } from '#imports'
+import { ref, watch } from '#imports'
 
-const runtimeConfig = useRuntimeConfig()
-const router = useRouter()
-const authStore = useStoreAuth()
+const emit = defineEmits(['update:openPanel'])
+
+const props = withDefaults(
+  defineProps<{
+    canClosePanel?: boolean | undefined
+    openPanel?: boolean | undefined
+  }>(),
+  {
+    canClosePanel: undefined,
+    openPanel: undefined,
+  },
+)
 
 const isSettingsPanelOpen = ref(false)
 
-const handleSettingsPanel = () =>
-  (isSettingsPanelOpen.value = !isSettingsPanelOpen.value)
-
-const logout = async () => {
-  await authStore.logout()
-  await router.push({
-    name: ROUTES_NAMES.HOME,
-  })
+const handleSettingsPanel = () => {
+  isSettingsPanelOpen.value = !isSettingsPanelOpen.value
+  emit('update:openPanel', isSettingsPanelOpen.value)
 }
+
+watch(
+  () => props.openPanel,
+  (openPanel) => {
+    console.log(openPanel)
+    isSettingsPanelOpen.value = openPanel
+  },
+)
 </script>

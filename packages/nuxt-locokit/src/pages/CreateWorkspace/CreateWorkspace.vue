@@ -1,5 +1,5 @@
 <template>
-  <WithBanner>
+  <WithHeader>
     <div class="max-w-3xl mx-auto mt-8 pb-4 px-4 lg:px-0">
       <h1 class="mb-4">
         {{ $t('pages.createWorkspace.alternativeTitle') }}
@@ -10,15 +10,15 @@
         @submit="newWorkspace"
       />
     </div>
-  </WithBanner>
+  </WithHeader>
 </template>
 
 <script setup lang="ts">
 import { WorkspaceForm } from '@locokit/designsystem'
 import { useI18n } from 'vue-i18n'
-import WithBanner from '../../../layouts/WithHeader.vue'
-import { ROUTES_NAMES } from '../../../paths'
-import { createWorkspace } from '../../../services/workspace'
+import WithHeader from '../../layouts/WithHeader.vue'
+import { ROUTES_NAMES } from '../../paths'
+import { createWorkspace } from '../../services/workspace'
 import { useHead, useRouter, ref } from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })
