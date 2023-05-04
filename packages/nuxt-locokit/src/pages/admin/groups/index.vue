@@ -118,7 +118,7 @@
                 :rows="suggestionGroups.limit"
                 :total-records="suggestionGroups.total"
                 :page-link-size="3"
-                template="PageLinks RowsPerPageDropdown"
+                template="PrevPageLink PageLinks NextPageLink RowsPerPageDropdown"
                 :rows-per-page-options="[10, 20, 30]"
                 @page="onPage($event)"
               />
@@ -161,13 +161,13 @@ const wantedGroup = ref(null)
 
 const columnsDefinition = [
   {
-    slug: 'name',
+    field: 'name',
     name: `${t('pages.adminGroups.filters.name')}`,
     column_type_id: COLUMN_TYPE.STRING,
     original_type_id: COLUMN_TYPE.STRING,
   },
   {
-    slug: 'workspace ???',
+    field: 'workspace.name',
     name: `${t('pages.adminGroups.filters.workspace')}`,
     column_type_id: COLUMN_TYPE.STRING,
     original_type_id: COLUMN_TYPE.STRING,
@@ -193,7 +193,7 @@ const search = async (
     query: wantedGroup.value,
     filters: currentFilters.value,
     params: {
-      $eager: 'workspace',
+      $joinEager: 'workspace',
     },
     pageIndex: currentPageIndex,
     limit,

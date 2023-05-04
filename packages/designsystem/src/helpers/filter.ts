@@ -18,7 +18,7 @@ export interface Filter {
   operator: string
   column: null | {
     name: string
-    slug: string
+    field: string
     original_type_id: number
     column_type_id: number
   }
@@ -28,12 +28,12 @@ export interface Filter {
 
 export const OPERATORS = [
   {
-    label: 'or',
-    value: '$or',
-  },
-  {
     label: 'and',
     value: '$and',
+  },
+  {
+    label: 'or',
+    value: '$or',
   },
 ]
 

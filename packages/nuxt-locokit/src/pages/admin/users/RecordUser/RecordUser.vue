@@ -311,6 +311,7 @@
               border-color-tag="var(--primary-color)"
               color-tag="var(--primary-color)"
               bg-color-tag="transparent"
+              :with-tooltip="true"
             />
           </template>
         </PickData>

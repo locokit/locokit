@@ -49,7 +49,7 @@ export interface Filter {
   operator: string
   column: null | {
     name: string
-    slug: string
+    field: string
     original_type_id: number
     column_type_id: number
   }

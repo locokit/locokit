@@ -79,7 +79,7 @@
               aria-labelledby="column"
               class="w-full"
               :options="columnsDefinition"
-              data-key="slug"
+              data-key="field"
               option-label="name"
               dropdown-icon="bi-chevron-down"
               @input="onChangeColumn(index)"
@@ -199,7 +199,7 @@ const props = withDefaults(
     appendTo: string
     currentFilters?: Filter[]
     columnsDefinition: {
-      slug: string
+      field: string
       name: string
       column_type_id: number
       original_type_id: number

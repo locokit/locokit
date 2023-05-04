@@ -115,23 +115,23 @@ export function getCurrentFilters(
             ((columnType, originalType) => {
               switch (columnType) {
                 case COLUMN_TYPE.RELATION_BETWEEN_TABLES:
-                  return `[${column.slug}.value]`
+                  return `[${column.field}.value]`
                 case COLUMN_TYPE.LOOKED_UP_COLUMN:
                   switch (originalType) {
                     case COLUMN_TYPE.GROUP:
                     case COLUMN_TYPE.USER:
                     case COLUMN_TYPE.MULTI_USER:
-                      return `[${column.slug}.reference]`
+                      return `[${column.field}.reference]`
                     default:
-                      return `[${column.slug}.value]`
+                      return `[${column.field}.value]`
                   }
                 case COLUMN_TYPE.USER:
                 case COLUMN_TYPE.GROUP:
                 case COLUMN_TYPE.MULTI_USER:
                 case COLUMN_TYPE.MULTI_GROUP:
-                  return `[${column.slug}.reference]`
+                  return `[${column.field}.reference]`
                 default:
-                  return `[${column.slug}]`
+                  return `[${column.field}]`
               }
             })(column.column_type_id, column.original_type_id) +
             // Action
@@ -164,7 +164,7 @@ export function convertFiltersToAPI(
     ) {
       tableViewFilterToSave.push({
         action: filter.action.label,
-        column: filter.column.slug,
+        column: filter.column.field,
         dbAction: filter.action.value,
         pattern: getFormattedPattern(
           filter.motif,

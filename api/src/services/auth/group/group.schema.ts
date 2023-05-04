@@ -62,7 +62,7 @@ export const groupSchema = Type.Object(
   },
   {
     $id: 'GroupSchema',
-    additionalProperties: false,
+    additionalProperties: true,
   },
 )
 dataValidator.addSchema(groupSchema)
@@ -81,19 +81,26 @@ export type GroupResult = Static<typeof groupSchema>
 
 export const groupQuerySchema = Type.Intersect(
   [
-    querySyntax(Type.Omit(groupSchema, ['workspace', 'users']), {
-      name: queryStringExtend,
-    }),
     querySyntax(
-      Type.Object({
-        'workspace:owner.name': Type.Optional(
-          Type.String({
-            description: "Filter on related workspace, on the owner's name",
-          }),
-        ),
-      }),
+      Type.Intersect([
+        Type.Omit(groupSchema, ['workspace', 'users']),
+        Type.Object({
+          'workspace:owner.name': Type.Optional(
+            Type.String({
+              description: "Filter on related workspace, on the owner's name",
+            }),
+          ),
+          'workspace.name': Type.Optional(
+            Type.String({
+              description: "Filter on workspace's name, on the owner's name",
+            }),
+          ),
+        }),
+      ]),
       {
+        name: queryStringExtend,
         'workspace:owner.name': queryStringExtend,
+        'workspace.name': queryStringExtend,
       },
     ),
     Type.Object({

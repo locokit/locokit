@@ -151,7 +151,7 @@
                 :rows="suggestionUsers.limit"
                 :total-records="suggestionUsers.total"
                 :page-link-size="3"
-                template="PageLinks RowsPerPageDropdown"
+                template="PrevPageLink PageLinks NextPageLink RowsPerPageDropdown"
                 :rows-per-page-options="[10, 20, 30]"
                 @page="onPage($event)"
               />
@@ -218,6 +218,12 @@ const columnsDefinition = [
     original_type_id: COLUMN_TYPE.STRING,
   },
 ]
+
+// Initialization
+if (!users.value) {
+  await usersStore.updateUsers()
+}
+
 const applySearch = () => {
   setTimeout(() => {
     search()
