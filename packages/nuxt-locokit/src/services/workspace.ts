@@ -72,3 +72,24 @@ export async function createWorkspace(data: {
     return err as Error
   }
 }
+
+export async function patchWorkspace(
+  id: string,
+  data: {
+    documentation: string | null
+    public: boolean
+    settings?: {
+      color: string | null
+      backgroundColor: string | null
+      icon: string | null
+    }
+  },
+) {
+  try {
+    return await sdkClient.service('workspace').patch(id, data)
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err)
+    return err as Error
+  }
+}

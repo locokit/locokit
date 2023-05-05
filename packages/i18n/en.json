@@ -382,7 +382,8 @@
       "title": "Workspace",
       "noResult": "No workspace found",
       "dashboard": "Dashboard",
-      "datasource": "Datasource"
+      "datasource": "Datasource",
+      "settings": "Workspace settings"
     },
     "dashboard": {
       "title": "@:pages.workspace.dashboard"
@@ -398,6 +399,9 @@
     },
     "createDatasource": {
       "title": "Create datasource"
+    },
+    "settings": {
+      "title": "@:pages.workspace.settings"
     }
   },
   "success": {

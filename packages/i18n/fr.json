@@ -382,7 +382,8 @@
       "title": "Espace de travail",
       "noResult": "Aucun espace de travail trouvé",
       "dashboard": "Tableau de bord",
-      "datasource": "Source des données"
+      "datasource": "Source des données",
+      "settings": "Paramètres du workspace"
     },
     "dashboard": {
       "title": "@:pages.workspace.dashboard"
@@ -398,6 +399,9 @@
     },
     "createDatasource": {
       "title": "Créer une source de données"
+    },
+    "settings": {
+      "title": "@:pages.workspace.settings"
     }
   },
   "success": {
