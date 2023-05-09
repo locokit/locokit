@@ -26,7 +26,10 @@ export function userGroupService(app: Application): void {
     events: [],
     docs: createSwaggerServiceOptions({
       schemas: { userGroupDataSchema, userGroupQuerySchema, userGroupSchema },
-      docs: { description: 'User-group service, association between user and group' },
+      docs: {
+        description: 'User-group service, association between user and group',
+        tag: 'core > user-group',
+      },
     }),
   })
   // Initialize hooks

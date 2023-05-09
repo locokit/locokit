@@ -25,7 +25,7 @@ export function roleService(app: Application): void {
     events: [],
     docs: createSwaggerServiceOptions({
       schemas: { roleDataSchema, roleQuerySchema, roleSchema },
-      docs: { description: 'Role service' },
+      docs: { description: 'Role service', tag: 'core > role' },
     }),
   })
   // Initialize hooks

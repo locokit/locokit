@@ -26,7 +26,7 @@ export function workspaceService(app: Application): void {
     events: [],
     docs: createSwaggerServiceOptions({
       schemas: { workspaceDataSchema, workspaceQuerySchema, workspaceSchema },
-      docs: { description: 'Workspace service' },
+      docs: { description: 'Workspace service', tag: 'core > workspace' },
     }),
   })
   // Initialize hooks

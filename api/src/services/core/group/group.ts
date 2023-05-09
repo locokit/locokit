@@ -1,6 +1,6 @@
 import { SERVICES } from '@locokit/definitions'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
-import type { Application } from '../../../declarations'
+import type { Application } from '@/declarations'
 import { ObjectionAdapterOptions } from '@/feathers-objection'
 
 import { GroupService, groupHooks } from './group.class'
@@ -25,7 +25,7 @@ export function groupService(app: Application): void {
     events: [],
     docs: createSwaggerServiceOptions({
       schemas: { groupDataSchema, groupQuerySchema, groupSchema },
-      docs: { description: 'Group service' },
+      docs: { description: 'Group service', tag: 'core > group' },
     }),
   })
   // Initialize hooks
@@ -33,7 +33,7 @@ export function groupService(app: Application): void {
 }
 
 // Add this service to the service type index
-declare module '../../../declarations' {
+declare module '@/declarations' {
   interface ServiceTypes {
     [SERVICES.CORE_GROUP]: GroupService
   }
