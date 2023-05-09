@@ -40,6 +40,12 @@ describe('users service', () => {
 
   it.todo('trim the email when a user is created')
   it.todo('lowercase the email when a user is created')
+
+  it.todo('forbid to filter on verifyToken through an external call without being admin')
+  it.todo('forbid to filter on another field through an external call without being admin')
+  it.todo('forbid to filter through this endpoint if external call without being admin')
+
+  it.todo('forbid the filtering of users from this endpoint without being an admin user')
   afterAll(async () => {
     await app.teardown()
   })

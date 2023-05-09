@@ -17,4 +17,9 @@ describe('group service', () => {
   it.todo('creates a new group in a workspace if the user is CREATOR')
 
   it.todo('remove all sensitive data of users when retrieving users relation')
+
+  it.todo('filter on workspace name')
+  it.todo('filter on workspace owner username')
+
+  it.todo('filter on workspace name AND group name ($joinEager with objection + validation)')
 })

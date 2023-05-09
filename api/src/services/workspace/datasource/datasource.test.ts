@@ -23,4 +23,9 @@ describe('datasource service', () => {
   it.todo('remove a table when a new one appear in the datasource')
   it.todo('remove a field when a new one appear in the datasource')
   it.todo('remove a relation when a new one appear in the datasource')
+
+  it.todo('create a relation named correctly')
+  it.todo(
+    'create a relation named correctly if there are several relations to the same destination table',
+  )
 })

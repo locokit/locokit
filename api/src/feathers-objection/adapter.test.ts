@@ -14,4 +14,14 @@ describe('feathers-objection adapter', () => {
   it.todo('remove rows with composable key')
   it.todo('find rows with composable key')
   it.todo('get rows with composable key')
+
+  it.todo('sort correctly rows by a table column')
+  it.todo(
+    'sort correctly rows by a table column event with a $eager relation containing the same column',
+  )
+  it.todo('sort correctly rows by a table column event with a $joinRelated relation')
+  it.todo('sort correctly rows by a table column event with a $joinEager relation')
+
+  it.todo('filter a sqlite with a ilike operator')
+  it.todo('filter a pg with a ilike operator')
 })

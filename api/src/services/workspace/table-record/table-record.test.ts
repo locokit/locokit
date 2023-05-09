@@ -39,4 +39,10 @@ describe('table-record service', () => {
   it.todo('filter relations authorized with permissions')
 
   it.todo('test the regexp for filtering relations')
+
+  it.todo('allow access to the endpoint if public access is granted for a specific table')
+  it.todo('allow access to the endpoint if public access is granted for the workspace')
+  it.todo(
+    'forbid access to the endpoint on a table if public access is granted for the workspace but not the table',
+  )
 })
