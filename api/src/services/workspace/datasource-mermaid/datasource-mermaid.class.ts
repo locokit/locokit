@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
 import type { KnexAdapterParams } from '@feathersjs/knex'
 
 import { Application } from '@/declarations'

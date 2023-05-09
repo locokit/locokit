@@ -21,7 +21,7 @@ async function setWorkspaceSchema(context: HookContext) {
     },
   })
   console.log('datasource', datasource)
-  context.service.schema = `w_${datasource.workspace?.slug}`
+  context.service.schema = `w_${datasource.workspace?.slug as string}`
   return context
 }
 

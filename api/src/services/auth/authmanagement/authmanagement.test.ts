@@ -76,7 +76,7 @@ describe("'auth-management' service", () => {
       },
       {
         headers: {
-          Authorization: 'Bearer ' + setupData.userAdminAuthentication.accessToken,
+          Authorization: 'Bearer ' + (setupData.userAdminAuthentication.accessToken as string),
         },
       },
     )) as AxiosResponse<UserResult>

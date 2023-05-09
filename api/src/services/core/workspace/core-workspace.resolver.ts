@@ -44,7 +44,7 @@ export const workspaceDispatchResolver = resolve<WorkspaceSchema, HookContext>({
    * The relation `owner` is fetched when used in a find/get + $joinRelated
    */
   async owner(owner, _data, context) {
-    if (owner) return userDispatchResolver.resolve(owner, context)
+    if (owner) return await userDispatchResolver.resolve(owner, context)
   },
 
   /**
@@ -53,7 +53,9 @@ export const workspaceDispatchResolver = resolve<WorkspaceSchema, HookContext>({
    */
   async groups(groups, _data, context) {
     if (groups) {
-      return await Promise.all(groups.map((g) => groupDispatchResolver.resolve(g, context)))
+      return await Promise.all(
+        groups.map(async (g) => await groupDispatchResolver.resolve(g, context)),
+      )
     }
   },
 
@@ -65,7 +67,7 @@ export const workspaceDispatchResolver = resolve<WorkspaceSchema, HookContext>({
     if (roles) {
       let result: RoleSchema[] = []
       const rolesPromises: RoleSchema[] = await Promise.all(
-        roles.map((g) => roleDispatchResolver.resolve(g, context)),
+        roles.map(async (g) => await roleDispatchResolver.resolve(g, context)),
       )
       result = rolesPromises
       return result
@@ -134,7 +136,7 @@ export const workspaceQueryResolver = resolve<WorkspaceQuery, HookContext>({
     if (context.params?.public === true && value) {
       throw new Forbidden('Public API is not allowed to filter on the softDeletedAt field.')
     }
-    return value || null
+    return value ?? null
   },
 })
 

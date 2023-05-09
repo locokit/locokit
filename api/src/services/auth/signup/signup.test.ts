@@ -154,9 +154,9 @@ describe("'signup' service", () => {
     expect.assertions(2)
     // Create the user from the signup endpoint without email
     // we add the ts-expect-error as it is not ok with typing
-    const fn = () =>
+    const fn = async () =>
       // @ts-expect-error
-      app.service(SERVICES.AUTH_SIGNUP).create({
+      await app.service(SERVICES.AUTH_SIGNUP).create({
         email: 'signupwithoutusername@locokit.io',
       })
 
@@ -170,7 +170,7 @@ describe("'signup' service", () => {
     // update the settings to forbid signup
     app.get('settings').signup.allowed = false
 
-    const fn = () => app.service(SERVICES.AUTH_SIGNUP).create(credentials)
+    const fn = async () => await app.service(SERVICES.AUTH_SIGNUP).create(credentials)
 
     // try to create a user
     await expect(fn).rejects.toContain({ code: 403 })
@@ -182,8 +182,8 @@ describe("'signup' service", () => {
   it('fails if the data sent contains unwanted keys', async () => {
     expect.assertions(2)
 
-    const fn = () =>
-      app.service(SERVICES.AUTH_SIGNUP).create({
+    const fn = async () =>
+      await app.service(SERVICES.AUTH_SIGNUP).create({
         ...credentials,
         // @ts-expect-error
         toto: 'pouet',

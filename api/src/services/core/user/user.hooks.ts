@@ -1,9 +1,7 @@
 import {
   resolveData,
-  resolveDispatch,
   resolveExternal,
   resolveQuery,
-  resolveResult,
   validateData,
   validateQuery,
 } from '@feathersjs/schema'

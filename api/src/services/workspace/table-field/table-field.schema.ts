@@ -41,7 +41,7 @@ export const tableFieldSchema = Type.Object(
   },
 )
 
-type TableFieldTypes = {
+interface TableFieldTypes {
   type: keyof typeof FIELD_TYPE
   dbType: DB_TYPE
 }

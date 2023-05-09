@@ -81,7 +81,7 @@ We hope you will enjoy this tool!
 
 *The LocoKit team*
 `,
-          version: process.env.npm_package_version || 'dev',
+          version: process.env.npm_package_version ?? 'dev',
         },
       },
     }),

@@ -73,7 +73,7 @@ export const datasourceSchema = Type.Object(
   },
 )
 
-type DatasourceRelations = {
+interface DatasourceRelations {
   tables?: TableResult[]
 }
 

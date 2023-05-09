@@ -839,7 +839,7 @@ export class ObjectionAdapter<
         })
       }
     } else if (id !== null) {
-      queryId[`${name}.${idField}`] = id
+      queryId[`${name}.${idField as string}`] = id
     }
 
     const findParams = {
@@ -851,7 +851,7 @@ export class ObjectionAdapter<
       },
     }
 
-    return this._find(findParams as any) as any as Promise<Result[]>
+    return await (this._find(findParams as any) as any as Promise<Result[]>)
   }
 
   async _get(id: Id, params: ServiceParams = {} as ServiceParams): Promise<Result> {

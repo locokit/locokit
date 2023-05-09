@@ -4,14 +4,14 @@ import { transaction } from '@/feathers-objection'
 import { HookContext } from '@/declarations'
 
 import { tableRelationResolvers } from './table-relation.resolver'
-import { tableRelationDataValidator, tableRelationQueryValidator } from './table-relation.schema'
+import { tableRelationDataValidator } from './table-relation.schema'
 import { SERVICES } from '@locokit/definitions'
 import { MethodNotAllowed } from '@feathersjs/errors/lib'
 import { TableResult } from '../table/table.schema'
 
 async function setWorkspaceSchema(context: HookContext) {
   const { transaction } = context.params
-  if (['create', 'patch'].indexOf(context.method) === -1)
+  if (!['create', 'patch'].includes(context.method))
     throw new MethodNotAllowed(
       'Cannot set workspace schema. Only POST and PATCH methods are allowed',
     )
@@ -28,7 +28,7 @@ async function setWorkspaceSchema(context: HookContext) {
     .get(table.datasource.workspaceId, {
       transaction,
     })
-  context.service.schema = `w_${workspace.slug}`
+  context.service.schema = `w_${workspace.slug as string}`
   return context
 }
 

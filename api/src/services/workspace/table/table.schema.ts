@@ -1,4 +1,4 @@
-import { Type, Static, StringEnum, querySyntax, getValidator } from '@feathersjs/typebox'
+import { Type, Static, querySyntax, getValidator } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '@/commons/validators'
 import { DatasourceSchema } from '../datasource/datasource.schema'
 import { TableFieldSchema } from '../table-field/table-field.schema'
@@ -46,7 +46,7 @@ export const tableSchema = Type.Object(
   },
 )
 
-type TableRelations = {
+interface TableRelations {
   datasource?: DatasourceSchema
   fields?: TableFieldSchema[]
   relations?: TableRelationSchema[]

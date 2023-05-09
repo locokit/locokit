@@ -45,4 +45,10 @@ describe('table-record service', () => {
   it.todo(
     'forbid access to the endpoint on a table if public access is granted for the workspace but not the table',
   )
+
+  // Are missing :
+
+  // tests on all related endpoints for synchronization
+  // tests on record Create / Update / Delete using validators & resolvers
+  // tests on record query through nested relations using validators
 })

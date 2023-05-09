@@ -1,15 +1,13 @@
 import { HookContext, NextFunction } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES, USER_PROFILE } from '@locokit/definitions'
 import { BaserowAdapter } from '@locokit/engine/adapters/baserow'
 import { SQLAdapter } from '@locokit/engine/adapters/sql'
-import { Ajv, addFormats, Validator } from '@feathersjs/schema'
+import { Ajv, addFormats, Validator, hooks as schemaHooks } from '@feathersjs/schema'
 import type { FormatsPluginOptions } from '@feathersjs/schema'
 import ajvErrors from 'ajv-errors'
-import { USER_PROFILE } from '@locokit/definitions'
 import { NotFound } from '@feathersjs/errors/lib'
 import { Type, querySyntax, getValidator, TSchema } from '@feathersjs/typebox'
-import { hooks as schemaHooks } from '@feathersjs/schema'
 import { createAdapter } from '@locokit/engine'
 import { convertLocoKitFieldTypeToTypeboxSchema } from './table-record.helpers'
 
@@ -77,7 +75,13 @@ export const tableRecordHooks = {
       async function computeTypeBoxSchema(context: HookContext, next: NextFunction) {
         const { workspaceSlug, datasourceSlug, tableSlug } = context.params.route
         console.log(workspaceSlug, datasourceSlug, tableSlug, context.params.query)
-        context.params.$$id = 'WS_' + workspaceSlug + '_DS_' + datasourceSlug + '_TBL_' + tableSlug
+        context.params.$$id =
+          'WS_' +
+          (workspaceSlug as string) +
+          '_DS_' +
+          (datasourceSlug as string) +
+          '_TBL_' +
+          (tableSlug as string)
 
         // if validator already exist, we don't need to compute the typebox schema
         if (!validators[context.params.$$id]) {
@@ -87,13 +91,18 @@ export const tableRecordHooks = {
               $eager: '[fields,relations.[toTable]]',
             },
             route: {
-              workspaceSlug: workspaceSlug,
-              datasourceSlug: datasourceSlug,
+              workspaceSlug,
+              datasourceSlug,
             },
           })
 
           if (tableResponse.total !== 1)
-            throw new NotFound('Table ' + tableSlug + ' not found in workspace ' + workspaceSlug)
+            throw new NotFound(
+              'Table ' +
+                (tableSlug as string) +
+                ' not found in workspace ' +
+                (workspaceSlug as string),
+            )
 
           const table = tableResponse.data[0]
           const tableSchema: Record<string, TSchema> = {}
@@ -108,7 +117,7 @@ export const tableRecordHooks = {
                 acc.push(r.settings.toTable)
                 return acc
               }, [] as string[])
-              .join('|') || ''
+              .join('|') ?? ''
           const tableRelationRegexp = new RegExp(
             `^(${tableRelationsNames})|\\[(${tableRelationsNames})(,(${tableRelationsNames})(?!.*\\2))*\\]$`,
           )
@@ -155,7 +164,7 @@ export const tableRecordHooks = {
       // async function computeResolver(context: HookContext) { },
       // async function computeAbilities(context: HookContext) { },
       async function applyValidator(context: HookContext, next: NextFunction) {
-        return schemaHooks.validateQuery(context.params.$$validator)(context, next)
+        return await schemaHooks.validateQuery(context.params.$$validator)(context, next)
       },
       // async function applyResolver(context: HookContext) { },
       async function createAdapterIfNeeded(context: HookContext, next: NextFunction) {

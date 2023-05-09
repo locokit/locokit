@@ -53,6 +53,7 @@ export class Datasource extends ObjectionService<
   async setup(app: Application) {
     this.app = app
   }
+
   /**
    * This custom method will analyze diffs
    * between real schema and meta model stored in LocoKit
@@ -95,7 +96,7 @@ export class Datasource extends ObjectionService<
      */
     const diffToApply: Migration[] = []
 
-    schema.map((table) => {
+    schema.forEach((table) => {
       /**
        * Check if table already exist
        */
@@ -133,7 +134,7 @@ export class Datasource extends ObjectionService<
               nullable: field.is_nullable,
               primary: field.is_primary_key,
               default: field.default_value,
-              foreign: field.foreign_key_column ? true : false,
+              foreign: !!field.foreign_key_column,
               maxLength: field.max_length,
             },
           })
@@ -192,7 +193,7 @@ export class Datasource extends ObjectionService<
                 nullable: field.is_nullable,
                 primary: field.is_primary_key,
                 default: field.default_value,
-                foreign: field.foreign_key_column ? true : false,
+                foreign: !!field.foreign_key_column,
                 maxLength: field.max_length,
               },
             })
@@ -229,7 +230,7 @@ export class Datasource extends ObjectionService<
                 nullable: field.is_nullable,
                 primary: field.is_primary_key,
                 default: field.default_value,
-                foreign: field.foreign_key_column ? true : false,
+                foreign: !!field.foreign_key_column,
                 maxLength: field.max_length,
               },
             })
@@ -320,13 +321,13 @@ export class Datasource extends ObjectionService<
               {
                 name: m.settings.name as string,
                 slug: m.settings.name as string,
-                datasourceId: data!.id as string,
+                datasourceId: data?.id as string,
               },
               {
                 transaction: params.transaction,
               },
             )
-            matchingIds.set('table_' + m.settings.name, table.id)
+            matchingIds.set(`table_${m.settings.name as string}`, table.id)
           }),
       )
 
@@ -339,34 +340,39 @@ export class Datasource extends ObjectionService<
             (m) => m.direction === 'METAMODEL' && m.target === 'FIELD' && m.action === 'CREATE',
           )
           .map(async (m) => {
-            const tableId = matchingIds.get('table_' + m.settings.table)
+            const tableId = matchingIds.get(`table_${m.settings.table as string}`)
             datasourceLogger.debug('creating field %s', m.settings.name, {
               name: m.settings.name,
               slug: m.settings.name,
               type: convertDBTypeToFieldType(datasource.client, m.settings.dbType),
               dbType: m.settings.dbType,
               settings: m.settings,
-              tableId: matchingIds.get('table_' + m.settings.table),
+              tableId: matchingIds.get(`table_${m.settings.table as string}`),
             })
             if (!tableId)
               throw new Error(
-                `Sync error, no table matching for field ${m.settings.table}.${m.settings.name}`,
+                `Sync error, no table matching for field ${m.settings.table as string}.${
+                  m.settings.name as string
+                }`,
               )
 
-            const field = await this.options.app!.service(SERVICES.WORKSPACE_TABLE_FIELD).create(
+            const field = await this.options.app?.service(SERVICES.WORKSPACE_TABLE_FIELD).create(
               {
                 name: m.settings.name as string,
                 slug: m.settings.name as string,
                 type: convertDBTypeToFieldType(datasource.client, m.settings.dbType),
                 dbType: m.settings.dbType as DB_TYPE,
                 settings: m.settings,
-                tableId: matchingIds.get('table_' + m.settings.table),
+                tableId: matchingIds.get('table_' + (m.settings.table as string)),
               },
               {
                 transaction: params.transaction,
               },
             )
-            matchingIds.set('field_' + m.settings.table + '_' + m.settings.name, field.id)
+            matchingIds.set(
+              'field_' + (m.settings.table as string) + '_' + (m.settings.name as string),
+              field?.id,
+            )
           }),
       )
 
@@ -379,17 +385,19 @@ export class Datasource extends ObjectionService<
             (m) => m.direction === 'METAMODEL' && m.target === 'RELATION' && m.action === 'CREATE',
           )
           .map(async (m) => {
-            const fromTableId = matchingIds.get('table_' + m.settings.fromTable)
-            const toTableId = matchingIds.get('table_' + m.settings.toTable)
+            const fromTableId = matchingIds.get('table_' + (m.settings.fromTable as string))
+            const toTableId = matchingIds.get('table_' + (m.settings.toTable as string))
             const fromFieldId = matchingIds.get(
-              'field_' + m.settings.fromTable + '_' + m.settings.fromField,
+              'field_' + (m.settings.fromTable as string) + '_' + (m.settings.fromField as string),
             )
             const toFieldId = matchingIds.get(
-              'field_' + m.settings.toTable + '_' + m.settings.toField,
+              'field_' + (m.settings.toTable as string) + '_' + (m.settings.toField as string),
             )
             if (!fromTableId || !toTableId || !fromFieldId || !toFieldId)
               throw new Error(
-                `Sync error, missing table/field matching for relation between ${m.settings.fromTable} and ${m.settings.toTable}`,
+                `Sync error, missing table/field matching for relation between ${
+                  m.settings.fromTable as string
+                } and ${m.settings.toTable as string}`,
               )
 
             datasourceLogger.debug('creating relation %s', m.settings.name, {
@@ -401,7 +409,8 @@ export class Datasource extends ObjectionService<
               settings: m.settings,
             })
 
-            const relation = await this.app.service(SERVICES.WORKSPACE_TABLE_RELATION).create(
+            // const relation =
+            await this.app.service(SERVICES.WORKSPACE_TABLE_RELATION).create(
               {
                 fromTableId,
                 fromFieldId,

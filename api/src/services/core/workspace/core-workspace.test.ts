@@ -15,6 +15,7 @@ describe('workspace service', () => {
   let setupData: SetupData
   const port = app.get('port') || 8998
   const getUrl = (pathname: string) =>
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     new URL(`http://${app.get('host') || 'localhost'}:${port}${pathname}`).toString()
 
   beforeAll(async () => {
@@ -244,7 +245,7 @@ describe('workspace service', () => {
        */
       await axios.delete(getUrl(SERVICES.CORE_WORKSPACE) + '/' + resWorkspace.id, {
         headers: {
-          Authorization: 'Bearer ' + setupData.user1Authentication.accessToken,
+          Authorization: 'Bearer ' + (setupData.user1Authentication.accessToken as string),
         },
       })
 
@@ -789,7 +790,7 @@ $BODY$;
         public: false,
         createdBy: setupData.user1.id,
       })
-      const workspaceSlug = 'w_' + workspace.slug
+      const workspaceSlug = 'w_' + (workspace.slug as string)
 
       console.log(workspace)
 
@@ -844,11 +845,11 @@ $BODY$;
         public: false,
         createdBy: setupData.user1.id,
       })
-      const workspaceSlug = 'w_' + workspace.slug
+      const workspaceSlug = 'w_' + (workspace.slug as string)
       // setup / mock the core-workspace for overwrite the `_remove` function and fail
       const originalRemove = app.service(SERVICES.CORE_WORKSPACE)._remove
 
-      app.service(SERVICES.CORE_WORKSPACE)._remove = function (id) {
+      app.service(SERVICES.CORE_WORKSPACE)._remove = function (id: string) {
         throw new Error('Fail to remove workspace id ' + id)
       }
       // patch
@@ -924,14 +925,14 @@ $BODY$;
       })
       // try to patch the name => fail
       await expect(
-        //@ts-expect-error
+        // @ts-expect-error
         app.service(SERVICES.CORE_WORKSPACE).patch(workspace.id, {
           name: 'test',
         }),
       ).rejects.toThrow(BadRequest)
       // try to patch the slug => fail
       await expect(
-        //@ts-expect-error
+        // @ts-expect-error
         app.service(SERVICES.CORE_WORKSPACE).patch(workspace.id, {
           slug: 'test',
         }),

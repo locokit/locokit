@@ -4,13 +4,13 @@ import {
   WorkspaceResult,
   WorkspaceQuery,
   WorkspaceDataInternal,
+  WorkspacePatch,
 } from './core-workspace.schema'
-import { ObjectionService, transaction } from '@/feathers-objection'
+import { ObjectionService } from '@/feathers-objection'
 import { Id, NullableId } from '@feathersjs/feathers'
 import { UserResult } from '../user/user.schema'
 import { USER_PROFILE } from '@locokit/definitions'
 import { Forbidden } from '@feathersjs/errors/lib'
-import { WorkspacePatch } from './core-workspace.schema'
 import { Transaction } from 'objection'
 
 export interface WorkspaceParams extends KnexAdapterParams<WorkspaceQuery> {}
@@ -52,7 +52,9 @@ export class WorkspaceService extends ObjectionService<
 
     if (!isUserAdmin && !isUserOwner)
       throw new Forbidden(
-        `You're not authorized to remove the workspace "${currentWorkspace.name}": you're neither an admin or the workspace's owner.`,
+        `You're not authorized to remove the workspace "${
+          currentWorkspace.name as string
+        }": you're neither an admin or the workspace's owner.`,
         {
           id: currentWorkspace.id,
           name: currentWorkspace.name,

@@ -10,7 +10,7 @@ import {
   workspaceQueryValidator,
   workspaceResolvers,
 } from './core-workspace.resolver'
-import { disallow, iff, iffElse, isProvider } from 'feathers-hooks-common'
+import { disallow, iffElse, isProvider } from 'feathers-hooks-common'
 import {
   workspaceDataValidator,
   workspaceDataInternalValidator,

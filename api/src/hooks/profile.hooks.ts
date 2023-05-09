@@ -6,7 +6,9 @@ import { HookContext } from '../declarations'
  * Check if a user profile match a listing of PROFILE
  */
 export const isUserProfile =
-  (profile: (keyof typeof USER_PROFILE)[] | keyof typeof USER_PROFILE): PredicateFn<HookContext> =>
+  (
+    profile: Array<keyof typeof USER_PROFILE> | keyof typeof USER_PROFILE,
+  ): PredicateFn<HookContext> =>
   (context: HookContext): boolean => {
     const profiles = Array.isArray(profile) ? profile : [profile]
     const includeUserProfile = profiles.includes(
