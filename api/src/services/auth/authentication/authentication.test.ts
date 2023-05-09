@@ -5,14 +5,14 @@ import { Paginated } from '@feathersjs/feathers'
 import { builderTestEnvironment, SetupData } from '@/configure.test'
 import { SERVICES } from '@locokit/definitions'
 
-const app = createApp()
-const builder = builderTestEnvironment('authentication')
-let setupData: SetupData
-
-vi.mock('../../../utils/password')
-vi.mock('../../mailer/mailer.class')
-
 describe('authentication', () => {
+  const app = createApp()
+  const builder = builderTestEnvironment('authentication')
+  let setupData: SetupData
+
+  vi.mock('../../../utils/password')
+  vi.mock('../../mailer/mailer.class')
+
   const userInfo = {
     username: 'hello',
     email: 'someone@example.com',

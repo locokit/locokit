@@ -9,11 +9,6 @@ import axios, { AxiosResponse } from 'axios'
 
 vi.mock('../../mailer/mailer.class')
 
-const app = createApp()
-const port = app.get('port') || 8998
-const getUrl = (pathname: string) =>
-  new URL(`http://${app.get('host') || 'localhost'}:${port}/${pathname}`).toString()
-
 const credentials = {
   username: 'authmanagement+verifyExpires',
   email: 'authmanagement+verifyExpires@locokit.io',
@@ -27,9 +22,13 @@ function diffDays(verifyExpires?: string | number) {
   )
 }
 
-const builder = builderTestEnvironment('authmanagement')
 describe("'auth-management' service", () => {
   let setupData: SetupData
+  const app = createApp()
+  const port = app.get('port') || 8998
+  const getUrl = (pathname: string) =>
+    new URL(`http://${app.get('host') || 'localhost'}:${port}/${pathname}`).toString()
+  const builder = builderTestEnvironment('authmanagement')
 
   beforeAll(async () => {
     setupData = await builder.setupWorkspace()

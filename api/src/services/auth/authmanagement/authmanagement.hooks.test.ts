@@ -4,8 +4,6 @@ import { expect, describe, beforeEach, afterEach, it, vi } from 'vitest'
 import { createApp } from '@/app'
 import { UserResult } from '@/services/core/user/user.schema'
 
-const app = createApp()
-
 /**
  * Mock the generatePassword with mock file in __mocks__
  */
@@ -15,20 +13,22 @@ let calls: Array<[string, any]> = []
 function notifierMock(type: string, user: any): void {
   calls.push([type, user])
 }
-vi.mock('./authmanagement.settings.ts', () => ({
-  authManagementSettings() {
-    return {
-      service: SERVICES.CORE_USER,
-      notifier: notifierMock,
-    }
-  },
-}))
 
 describe("'auth-management' hooks for passwordChange action", () => {
   const userInfo = {
     email: 'locokit-authmngt@locokit.io',
     username: 'Someone !',
   }
+  vi.mock('./authmanagement.settings.ts', () => ({
+    authManagementSettings() {
+      return {
+        service: SERVICES.CORE_USER,
+        notifier: notifierMock,
+      }
+    },
+  }))
+  const app = createApp()
+
   let user: UserResult
   beforeEach(async () => {
     user = await app.service(SERVICES.CORE_USER).create({
@@ -120,6 +120,7 @@ describe("'auth-management' hooks for identityChange action", () => {
     username: 'Someone !',
   }
   const newEmailAddress = 'locokit-V2-authmngt@locokit.io'
+  const app = createApp()
 
   let user: UserResult
   beforeEach(async () => {
@@ -213,6 +214,8 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
     email: 'locokit-authmngt@locokit.io',
     username: 'Someone !',
   }
+  const app = createApp()
+
   let user: UserResult
   beforeEach(async () => {
     user = await app.service(SERVICES.CORE_USER).create({

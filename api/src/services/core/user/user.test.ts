@@ -1,10 +1,14 @@
 import { SERVICES } from '@locokit/definitions'
-import { describe, assert, it } from 'vitest'
+import { describe, assert, it, afterAll, beforeAll } from 'vitest'
 import { createApp } from '../../../app'
 
-const app = createApp()
-
 describe('users service', () => {
+  const app = createApp()
+  const port = app.get('port') || 8998
+
+  beforeAll(async () => {
+    await app.listen(port)
+  })
   it('registered the service', () => {
     const service = app.service(SERVICES.CORE_USER)
 
@@ -36,4 +40,7 @@ describe('users service', () => {
 
   it.todo('trim the email when a user is created')
   it.todo('lowercase the email when a user is created')
+  afterAll(async () => {
+    await app.teardown()
+  })
 })

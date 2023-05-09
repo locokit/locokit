@@ -8,12 +8,11 @@ import { createApp } from '@/app'
 import axios from 'axios'
 import { BadRequest } from '@feathersjs/errors/lib'
 
-const app = createApp()
-const port = app.get('port') || 8998
-const getUrl = (pathname: string) =>
-  new URL(`http://${app.get('host') || 'localhost'}:${port}/${pathname}`).toString()
-
 describe("'signup' service", () => {
+  const app = createApp()
+  const port = app.get('port') || 8998
+  const getUrl = (pathname: string) =>
+    new URL(`http://${app.get('host') || 'localhost'}:${port}/${pathname}`).toString()
   const credentials = {
     username: 'signupuser',
     email: 'signupuser@locokit.io',
@@ -121,7 +120,6 @@ describe("'signup' service", () => {
     const maxTries = app.get('settings').signup.rateLimitMax ?? 5
 
     for (let i = 0; i < maxTries; i++) {
-      console.log('creating user ', `signupuser${i}@locokit.io`)
       await axios.post(
         getUrl(SERVICES.AUTH_SIGNUP),
         {
@@ -135,7 +133,6 @@ describe("'signup' service", () => {
         },
       )
     }
-    console.log('creating user signupusertoomuch@locokit.io')
 
     await expect(
       axios.post(
