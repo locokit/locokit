@@ -31,18 +31,18 @@ export const services = (app: Application): void => {
    */
   app.configure(authentication)
   app.configure(authmanagement)
-  app.configure(user)
   app.configure(signup)
 
   /**
    * Core
    */
-  app.configure(workspaceService)
-  app.configure(coreDatasourceService)
-  app.configure(coreTableService)
+  app.configure(user)
   app.configure(groupService)
   app.configure(userGroupService)
+  app.configure(workspaceService)
   app.configure(roleService)
+  app.configure(coreDatasourceService)
+  app.configure(coreTableService)
 
   /**
    * Workspace dedicated endpoint
