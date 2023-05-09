@@ -1,28 +1,23 @@
 /**
  * Create an environment with users and super admins
+ *
+ * 5 users are created, and one admin user.
+ *
+ * A public workspace is created and affected to the user 1.
  */
 import { AuthenticationResult } from '@feathersjs/authentication/lib'
 import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
-// import { Paginated } from '@feathersjs/feathers'
 
 import { SERVICES, USER_PROFILE } from '@locokit/definitions'
 
 import { createApp } from './app'
-// import { Workspace } from '../models/workspace.model'
-
-// import { LckAclSet } from '../models/aclset.model'
-// import { Group } from '../models/group.model'
 import { UserResult } from './services/core/user/user.schema'
-// import { Database } from '../models/database.model'
-// import { Table } from '../models/table.model'
-// import { TableColumn } from '../models/tablecolumn.model'
-// import { TableRow } from '../models/tablerow.model'
-// import { dropWorkspace } from '../utils/dropWorkspace'
+import { WorkspaceResult, WorkspaceSchema } from './services/core/workspace/core-workspace.schema'
 
 const app = createApp()
 
 export interface SetupData {
-  // workspace1Id: string
+  publicWorkspaceId: string
   // workspace2Id: string
   // database1Id: string
   // database2Id: string
@@ -82,7 +77,7 @@ export function builderTestEnvironment(prefix: string) {
    * it won't setup data again, just return already injected.
    */
   let _data: SetupData
-  // let workspace1: Workspace
+  let publicWorkspace: WorkspaceResult
   // let workspace2: Workspace
   // let database1: Database
   // let database2: Database
@@ -153,9 +148,6 @@ export function builderTestEnvironment(prefix: string) {
      */
     if (_data) return _data
 
-    // workspace1 = await app.services.workspace.create({
-    //   text: `[${prefix} abilities] Workspace 1`,
-    // })
     // workspace2 = await app.services.workspace.create({
     //   text: `[${prefix} abilities] Workspace 2`,
     // })
@@ -311,6 +303,13 @@ export function builderTestEnvironment(prefix: string) {
       },
       {},
     )
+
+    publicWorkspace = await app.service(SERVICES.CORE_WORKSPACE).create({
+      name: `[${prefix}] Public workspace 1`,
+      documentation: 'Public workspace for user1',
+      createdBy: user1.id,
+      public: true,
+    })
 
     // group1 = await app.services.group.create({
     //   name: `[${prefix} abilities] Group 1`,
@@ -608,6 +607,7 @@ export function builderTestEnvironment(prefix: string) {
     // })
 
     _data = {
+      publicWorkspaceId: publicWorkspace.id,
       // workspace1Id: workspace1.id,
       // workspace2Id: workspace2.id,
       // database1Id: database1.id,
@@ -714,6 +714,16 @@ export function builderTestEnvironment(prefix: string) {
     // await app.services.group.remove(group3.id)
     // await app.services.group.remove(group2.id)
     // await app.services.group.remove(group1.id)
+
+    await app.service(SERVICES.CORE_WORKSPACE).patch(publicWorkspace.id, {
+      softDeletedAt: new Date(Date.now()).toISOString(),
+    })
+
+    await app.service(SERVICES.CORE_WORKSPACE).remove(publicWorkspace.id, {
+      user: userAdmin,
+      authenticated: true,
+      authentication: userAdminAuthentication,
+    })
 
     await app.service(SERVICES.CORE_USER).remove(userAdmin.id)
     // await app.service(SERVICES.CORE_USER).remove(userSuperAdmin.id)
