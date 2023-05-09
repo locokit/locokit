@@ -6,7 +6,7 @@ import type {
   WorkspaceResult,
   WorkspaceQuery,
 } from '@/services/core/workspace/core-workspace.schema'
-import type { UserData, UserResult, UserQuery } from '@/services/auth/user/user.schema'
+import type { UserData, UserResult, UserQuery } from '@/services/core/user/user.schema'
 import type { Service, TransportConnection, Params } from '@feathersjs/feathers'
 
 // export type { Apikey, ApikeyData, ApikeyQuery }
