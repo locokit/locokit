@@ -7,7 +7,7 @@
     "target": "es2020",
     "module": "NodeNext",
     "outDir": "./lib",
-    "rootDir": "./src",
+    "rootDir": "./",
     "declaration": true,
     "strict": true,
     "esModuleInterop": true,
@@ -23,6 +23,7 @@
     "src"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "test"
   ]
 }

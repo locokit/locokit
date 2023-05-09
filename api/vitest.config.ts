@@ -6,7 +6,11 @@ export default defineConfig(() => {
     build: { target: 'esnext' },
     plugins: [tsconfigPaths()],
     test: {
-      exclude: [...configDefaults.exclude, 'src/configure.test.ts'],
+      exclude: [...configDefaults.exclude, 'test/**', 'src/configure.test.ts'],
+      coverage: {
+        reporter: ['text', 'json', 'html'],
+      },
+      singleThread: true,
     },
   }
 })
