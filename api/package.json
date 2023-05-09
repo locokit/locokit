@@ -38,6 +38,8 @@
     "start": "npm run compile && node lib/",
     "previtest:test": "cross-env NODE_ENV=test npm run seed:run-test",
     "vitest:test": "cross-env NODE_ENV=test vitest",
+    "previtest:ui": "cross-env NODE_ENV=test npm run seed:run-test",
+    "vitest:ui": "cross-env NODE_ENV=test vitest --ui",
     "previtest:coverage": "cross-env NODE_ENV=test npm run migrate:latest",
     "vitest:coverage": "cross-env NODE_ENV=test vitest run --coverage",
     "migrate:latest": "knex migrate:latest",
@@ -103,7 +105,8 @@
     "@types/node": "^17.0.45",
     "@types/nodemailer": "^6.4.6",
     "@types/nodemailer-smtp-transport": "^2.7.5",
-    "@vitest/coverage-c8": "^0.28.4",
+    "@vitest/coverage-c8": "^0.31.0",
+    "@vitest/ui": "^0.31.0",
     "axios": "^0.27.2",
     "cross-env": "^7.0.3",
     "eslint-config-standard": "^17.0.0",
@@ -117,7 +120,8 @@
     "shx": "^0.3.4",
     "ts-node-dev": "^2.0.0",
     "vite-node": "^0.28.3",
-    "vite-tsconfig-paths": "^4.0.5"
+    "vite-tsconfig-paths": "^4.0.5",
+    "vitest": "^0.31.0"
   },
   "overrides": {
     "@feathersjs/adapter-commons": "^5.0.0",

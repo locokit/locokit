@@ -86,7 +86,12 @@ function feathers(Opts = {} as any) {
 
 export default defineConfig(() => {
   return {
-    plugins: [tsconfigPaths(), feathers({ app: 'src/app.ts', port: 3030 })],
+    plugins: [
+      tsconfigPaths({
+        root: './',
+      }),
+      feathers({ app: 'src/app.ts', port: 3030 }),
+    ],
     build: { target: 'esnext' },
   }
 })
