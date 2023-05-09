@@ -36,6 +36,7 @@
     "lint": "eslint src",
     "prettier": "prettier -c src",
     "start": "npm run compile && node lib/",
+    "previtest:test": "cross-env NODE_ENV=test npm run seed:run-test",
     "vitest:test": "cross-env NODE_ENV=test vitest",
     "previtest:coverage": "cross-env NODE_ENV=test npm run migrate:latest",
     "vitest:coverage": "cross-env NODE_ENV=test vitest run --coverage",
@@ -45,7 +46,7 @@
     "migrate:make": "knex migrate:make",
     "seed:make": "knex seed:make",
     "seed:run-init": "knex seed:run --specific init.ts",
-    "seed:run-test": "knex seed:run --specific test.ts"
+    "seed:run-test": "NODE_ENV=test knex seed:run --specific test.ts"
   },
   "dependencies": {
     "@casl/ability": "^5.0.0",
@@ -62,8 +63,8 @@
     "@feathersjs/transport-commons": "^5.0.0",
     "@feathersjs/typebox": "^5.0.0",
     "@koa/cors": "^3.4.1",
-    "@locokit/definitions": "^0.8.0",
-    "@locokit/engine": "^0.8.0",
+    "@locokit/definitions": "*",
+    "@locokit/engine": "*",
     "ajv-errors": "^3.0.0",
     "ajv-formats": "^2.1.1",
     "dotenv": "^16.0.3",
