@@ -1,7 +1,6 @@
 import { Type, querySyntax, Static, getValidator } from '@feathersjs/typebox'
 import { dataValidator } from '@/commons/validators'
 import { workspaceOwnerSchema } from '@/services/core/user/user.schema'
-
 import { queryStringExtend } from '@/feathers-objection'
 
 export const workspaceSchema = Type.Object(
@@ -10,7 +9,8 @@ export const workspaceSchema = Type.Object(
       format: 'uuid',
     }),
     name: Type.String({
-      description: 'Name of the workspace',
+      description: 'Name of the workspace (limited to 50 chars)',
+      maxLength: 50,
     }),
     slug: Type.String({
       description: 'Slug to reference the workspace in URL, easier to read/memorize for end users',
@@ -45,10 +45,18 @@ export const workspaceSchema = Type.Object(
         },
       ),
     ),
-    createdBy: Type.Number({
-      description: "Workspace's user creator",
+    createdBy: Type.String({
+      description: "Workspace's user creator id",
     }),
-    // owner: Type.Optional(Type.Ref(workspaceOwnerSchema)),
+    softDeletedAt: Type.Union([
+      Type.Optional(
+        Type.String({
+          format: 'date-time',
+          description: 'Is the workspace and when has it been soft-deleted ?',
+        }),
+      ),
+      Type.Null(),
+    ]),
     owner: Type.Optional(
       Type.Object(
         {
@@ -71,57 +79,86 @@ export const workspaceSchema = Type.Object(
 )
 export type WorkspaceSchema = Static<typeof workspaceSchema>
 
-export const workspaceDataSchema = Type.Omit(workspaceSchema, [
-  'id',
-  'createdBy',
-  'slug',
-  'owner',
-  'groups',
-  'datasources',
-])
+/**
+ * Schema for creating workspace from internal calls
+ * We authorized the createdBy field
+ */
+export const workspaceDataInternalSchema = Type.Omit(
+  workspaceSchema,
+  ['id', 'slug', 'softDeletedAt', 'owner', 'groups', 'datasources', 'roles'],
+  {
+    $id: 'WorkspaceDataInternalSchema',
+  },
+)
+export type WorkspaceDataInternal = Static<typeof workspaceDataInternalSchema>
+export const workspaceDataInternalValidator = getValidator(
+  workspaceDataInternalSchema,
+  dataValidator,
+)
+
+/**
+ * Schema for creating workspace from external calls
+ * We forbid the createdBy field
+ */
+export const workspaceDataSchema = Type.Omit(workspaceDataInternalSchema, ['createdBy'], {
+  $id: 'WorkspaceDataSchema',
+})
 export type WorkspaceData = Static<typeof workspaceDataSchema>
+export const workspaceDataValidator = getValidator(workspaceDataSchema, dataValidator)
 
 // Schema for making partial updates
-export const workspacePatchSchema = Type.Omit(workspaceSchema, [
-  'id',
-  'createdBy',
-  'slug',
-  'owner',
-  'groups',
-  'datasources',
-])
+export const workspacePatchSchema = Type.Partial(
+  Type.Omit(workspaceSchema, ['id', 'createdBy', 'name', 'slug', 'owner', 'groups', 'datasources']),
+  {
+    $id: 'WorkspacePatchSchema',
+  },
+)
 
 export type WorkspacePatch = Static<typeof workspacePatchSchema>
+export const workspacePatchValidator = getValidator(workspacePatchSchema, dataValidator)
 
 // Schema for the data that is being returned
-export const workspaceResultSchema = workspaceSchema
+export const workspaceResultSchema = Type.Intersect(
+  [
+    Type.Omit(workspaceSchema, ['softDeletedAt']),
+    Type.Object({
+      softDeletedAt: Type.Optional(
+        Type.Date({
+          description: 'Is the workspace and when has it been soft-deleted',
+        }),
+      ),
+      createdAt: Type.Date({
+        description: 'When the workspace has been created',
+      }),
+      updatedAt: Type.Date({
+        description: 'Last time the workspace has been updated',
+      }),
+    }),
+  ],
+  {
+    $id: 'WorkspaceResultSchema',
+  },
+)
 export type WorkspaceResult = Static<typeof workspaceResultSchema>
 
 // Schema for allowed query properties
 export const workspaceQuerySchema = Type.Intersect(
   [
-    querySyntax(Type.Omit(workspaceSchema, ['owner', 'groups', 'roles', 'datasources']), {
-      name: queryStringExtend,
-    }),
     querySyntax(
-      Type.Object({
-        'owner.username': Type.Optional(
-          Type.String({
-            description: "Filter workspaces on the owner's name",
-          }),
-        ),
-      }),
+      Type.Intersect([
+        Type.Omit(workspaceSchema, ['owner', 'groups', 'roles', 'datasources'], {
+          name: queryStringExtend,
+        }),
+        Type.Object({
+          'owner.username': Type.Optional(
+            Type.String({
+              description: "Filter workspaces on the owner's name",
+            }),
+          ),
+        }),
+      ]),
       {
-        'owner.username': {
-          // @ts-expect-error
-          $like: {
-            type: 'string',
-          },
-          // @ts-expect-error
-          $ilike: {
-            type: 'string',
-          },
-        },
+        'owner.username': queryStringExtend,
       },
     ),
 
@@ -141,17 +178,8 @@ export const workspaceQuerySchema = Type.Intersect(
           description: 'Join workspace to its relation. Only `owner` is accepted.',
         }),
       ),
-      // $select: Type.Optional(
-      //   Type.Array(
-      //     Type.String({
-      //       description: 'Join workspace to its relation. Only `owner` is accepted.',
-      //     }),
-      //   ),
-      // ),
     }),
   ],
   { additionalProperties: false },
 )
 export type WorkspaceQuery = Static<typeof workspaceQuerySchema>
-
-export const workspaceDataValidator = getValidator(workspaceDataSchema, dataValidator)

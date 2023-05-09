@@ -3,11 +3,19 @@ import { Forbidden } from '@feathersjs/errors'
 import { HookContext } from '@feathersjs/feathers'
 import { hooks as schemaHooks } from '@feathersjs/schema'
 import { USER_PROFILE } from '@locokit/definitions'
-import { Id } from 'objection'
 import { transaction } from '@/feathers-objection'
 import { UserResult } from '@/services/core/user/user.schema'
-import { workspaceQueryValidator, workspaceResolvers } from './core-workspace.resolver'
-// import { workspaceDataValidator } from './core-workspace.schema'
+import {
+  workspacePatchResolver,
+  workspaceQueryValidator,
+  workspaceResolvers,
+} from './core-workspace.resolver'
+import { disallow, iff, iffElse, isProvider } from 'feathers-hooks-common'
+import {
+  workspaceDataValidator,
+  workspaceDataInternalValidator,
+  workspacePatchValidator,
+} from './core-workspace.schema'
 
 export const workspaceHooks = {
   around: {
@@ -27,33 +35,34 @@ export const workspaceHooks = {
     ],
     create: [
       authenticate('jwt'),
-      schemaHooks.resolveData(workspaceResolvers.data.create),
-      async function checkProfile(context: HookContext) {
-        const user: UserResult = context.params.user
-        const profile = user.profile
-
-        if (profile === USER_PROFILE.MEMBER)
-          throw new Forbidden("You don't have sufficient privilege to create a workspace.")
-      },
-    ],
-    patch: [authenticate('jwt')],
-    remove: [
-      authenticate('jwt'),
 
       /**
-       * Remove the dedicated schema
+       * Check the profile of user if external calls (rest, socketio)
        */
-      async function removeDedicatedSchema(context: HookContext) {
-        /**
-         * Execution of the createWorkspaceSchema function
-         */
+      iffElse(
+        isProvider('external'),
+        [
+          schemaHooks.validateData(workspaceDataValidator),
+          async function checkProfile(context: HookContext) {
+            const user: UserResult = context.params.user
+            const profile = user.profile
 
-        const knex = transaction.getKnex(context)
-        await knex
-          .raw('SELECT core."dropWorkspaceSchema"(?)', context.id as Id)
-          .transacting(context.params.transaction.trx)
-      },
+            if (profile === USER_PROFILE.MEMBER)
+              throw new Forbidden("You don't have sufficient privilege to create a workspace.")
+          },
+        ],
+        [schemaHooks.validateData(workspaceDataInternalValidator)],
+      ),
+
+      schemaHooks.resolveData(workspaceResolvers.data.create),
     ],
+    update: [disallow()],
+    patch: [
+      authenticate('jwt'),
+      schemaHooks.validateData(workspacePatchValidator),
+      schemaHooks.resolveData(workspacePatchResolver),
+    ],
+    remove: [authenticate('jwt')],
   },
   after: {
     all: [],
@@ -74,6 +83,7 @@ export const workspaceHooks = {
       },
       transaction.end(),
     ],
+    patch: [transaction.end()],
     remove: [transaction.end()],
   },
   error: {
