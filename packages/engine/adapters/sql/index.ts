@@ -325,9 +325,79 @@ export class SQLAdapter implements GenericAdapter {
     return result
   }
 
-  async getRecord<T>(tableName: string, id: string | number): Promise<T> {
+  async getRecord<T>(tableName: string, id: string | number, params?: Params): Promise<T> {
     console.log(tableName, id, this.databaseObjectionModel)
-    const result = await this.databaseObjectionModel[tableName].query(this.database).findById(id)
+    const { $joinRelated, $select } = params?.query ?? {}
+
+    const model = this.databaseObjectionModel[tableName]
+
+    if (!model) throw new Error(`Table ${tableName} is unknown.`)
+
+    const query = model.query(this.database)
+
+    if ($joinRelated) {
+      /**
+       * Add relation to the query,
+       * $joinRelated need to be an array
+       */
+      if (Array.isArray($joinRelated)) {
+        $joinRelated.forEach((r) => {
+          query.withGraphFetched(r)
+
+          query.joinRelated(r)
+
+          /**
+           * Find if some $select rules
+           * apply to the current relation,
+           * and so apply it to the select of graphFetched
+           */
+          if ($select) {
+            const allSubSelect: string[] = []
+            $select.forEach((currentSelect: string, index: number) => {
+              if (currentSelect.indexOf(r) === 0) {
+                console.log('$select for relation ', r, currentSelect)
+                allSubSelect.push(currentSelect)
+                $select.splice(index, 1)
+              }
+            })
+            if (allSubSelect.length > 0) {
+              query.modifyGraph(r, (builder) => {
+                builder.select(allSubSelect)
+              })
+            }
+          }
+          /**
+           * Find if there is a realQuery key related to this relation
+           */
+          // const relationQuery = Object.keys(realQuery).filter(
+          //   (key) => key.indexOf(r) === 0
+          // )
+          // relationQuery.forEach((rq) => {
+          //   console.log('fetch joined modify graph', rq, r, {
+          //     [rq.substring(r.length + 1)]: realQuery[rq],
+          //   })
+          //   query.modifyGraph(r, (builder) =>
+          //     objectify(builder, {
+          //       [rq.substring(r.length + 1)]: realQuery[rq],
+          //     })
+          //   )
+          //   objectify(query, { rq: realQuery[rq] })
+          //   delete realQuery[rq]
+          // })
+        })
+      }
+    }
+
+    if ($select) {
+      const selectFields = Array.isArray($select) ? $select : [$select]
+      /**
+       * for each field, add the table as a prefix if not set
+       */
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      query.select(selectFields)
+    }
+
+    const result = await query.findById(id)
     return result as unknown as T
   }
 

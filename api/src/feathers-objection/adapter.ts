@@ -676,13 +676,13 @@ export class ObjectionAdapter<
     //   delete filters.$modify
     // }
 
-    if (joinRelated) {
-      const groupByColumns = this.getGroupByColumns(builder)
+    // if (joinRelated) {
+    //   const groupByColumns = this.getGroupByColumns(builder)
 
-      if (!groupByColumns) {
-        builder.distinct(`${this.Model.tableName}.*`)
-      }
-    }
+    //   if (!groupByColumns) {
+    //     builder.distinct(`${this.Model.tableName}.*`)
+    //   }
+    // }
 
     // apply eager filters if specified
     if (this.eagerFilters) {
@@ -728,13 +728,13 @@ export class ObjectionAdapter<
     //   })
     // }
 
-    // Handle $sort
-    if (filters.$sort) {
-      return Object.keys(filters.$sort).reduce(
-        (currentQuery, key) => currentQuery.orderBy(key, filters.$sort[key] === 1 ? 'asc' : 'desc'),
-        builder,
-      )
-    }
+    // // Handle $sort
+    // if (filters.$sort) {
+    //   return Object.keys(filters.$sort).reduce(
+    //     (currentQuery, key) => currentQuery.orderBy(key, filters.$sort[key] === 1 ? 'asc' : 'desc'),
+    //     builder,
+    //   )
+    // }
 
     return builder
   }
@@ -822,7 +822,7 @@ export class ObjectionAdapter<
 
   async _findOrGet(id: NullableId, params: ServiceParams = {} as ServiceParams) {
     const { name, id: idField } = this.getOptions(params)
-    objectionLogger.info('_findOrGet %s', id, idField)
+    objectionLogger.info('_findOrGet for id: %s, with idField: %s', id, idField)
 
     /**
      * Compute ids query for comoposable keys
