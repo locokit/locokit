@@ -11,10 +11,6 @@ import { Type, querySyntax, getValidator, TSchema } from '@feathersjs/typebox'
 import { createAdapter } from '@locokit/engine'
 import { convertLocoKitFieldTypeToTypeboxSchema } from './table-record.helpers'
 
-// class EngineParams implements Params<any> {
-//   $$lckTable: string | null = null
-//   $$adapter: BaserowAdapter | SQLAdapter | null = null
-// }
 const adapters: Record<string, BaserowAdapter | SQLAdapter> = {}
 
 const validators: Record<string, Validator> = {}

@@ -43,7 +43,7 @@ describe("'auth-management' service", () => {
     })) as Paginated<UserResult>
 
     await Promise.all(
-      usersToRemove.data.map(async (u) => await app.service(SERVICES.CORE_USER).remove(u.id)),
+      usersToRemove.data.map(async (u) => app.service(SERVICES.CORE_USER).remove(u.id)),
     )
   })
 

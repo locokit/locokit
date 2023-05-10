@@ -80,7 +80,7 @@ export class SignUpService {
        * with its email.
        */
       if (error instanceof Conflict) {
-        await authManagementSettings(this.app as Application).notifier('informUserConflict', {
+        await authManagementSettings(this.app).notifier('informUserConflict', {
           ...credentials,
         })
       } else {

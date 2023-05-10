@@ -676,14 +676,6 @@ export class ObjectionAdapter<
     //   delete filters.$modify
     // }
 
-    // if (joinRelated) {
-    //   const groupByColumns = this.getGroupByColumns(builder)
-
-    //   if (!groupByColumns) {
-    //     builder.distinct(`${this.Model.tableName}.*`)
-    //   }
-    // }
-
     // apply eager filters if specified
     if (this.eagerFilters) {
       objectionLogger.debug('eagerFilters', this.eagerFilters)
@@ -793,19 +785,20 @@ export class ObjectionAdapter<
        */
       const countColumn = Array.isArray(this.id) ? '*' : `${this.table}.${this.id}`
 
-      const countBuilder = params.objection
-        ? params.objection.clone()
-        : /**
-           * if countColumn is *,
-           * we can't make a count(distinct *),
-           * so we do a simple count
-           */
-          this._createCountQuery(params)[countColumn === '*' ? 'count' : 'countDistinct'](
-            countColumn,
-            {
-              as: 'total',
-            },
-          )
+      let countBuilder: QueryBuilder<Model>
+      if (params.objection) {
+        countBuilder = params.objection.clone()
+      } else {
+        /**
+         * if countColumn is *,
+         * we can't make a count(distinct *),
+         * so we do a simple count
+         */
+        const countMethod = countColumn === '*' ? 'count' : 'countDistinct'
+        countBuilder = this._createCountQuery(params)[countMethod](countColumn, {
+          as: 'total',
+        })
+      }
 
       const total = await countBuilder.then((count: any) => parseInt(count[0] ? count[0].total : 0))
 
@@ -832,10 +825,15 @@ export class ObjectionAdapter<
       /**
        * if id is set, and is is not an array, maybe this is in a comma separated values
        */
-      const idValues = Array.isArray(id) ? id : id ? (id as string).split(',') : null
+      let idValues: any[] | null = null
+      if (Array.isArray(id)) {
+        idValues = id as any[]
+      } else if (id) {
+        idValues = (id as string).split(',')
+      }
       if (idValues) {
         idField.forEach((f, i) => {
-          queryId[f] = idValues[i]
+          queryId[f] = (idValues as any[])[i]
         })
       }
     } else if (id !== null) {

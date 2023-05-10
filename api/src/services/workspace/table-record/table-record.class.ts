@@ -6,11 +6,13 @@ import { TSchema } from '@feathersjs/typebox'
 
 import { EngineAdapter } from '@locokit/engine'
 
+type nullTArrayT<T> = null | T | T[]
+
 type EngineParams = Partial<Params> & {
   /**
    * Id of the TypeboxSchema / AJV compilation $id
    */
-  $$id: String
+  $$id: string
   /**
    * AJV Validator
    */
@@ -92,7 +94,7 @@ export class TableRecord<T = any, D = Partial<T>>
 
   async create(data: D, params: EngineParams): Promise<T>
   async create(data: D[], params: EngineParams): Promise<T[]>
-  async create(data: D | D[], params: EngineParams): Promise<null | T | T[]> {
+  async create(data: D | D[], params: EngineParams): Promise<nullTArrayT<T>> {
     console.log('create', data)
     if (Array.isArray(data)) throw new NotImplemented('Multi creation is not yet implemented.')
     const adapter = params.$$adapter as EngineAdapter
@@ -102,7 +104,7 @@ export class TableRecord<T = any, D = Partial<T>>
 
   async update(id: Id, data: Partial<D>, params: EngineParams): Promise<T>
   async update(id: null, data: Partial<D>, params: EngineParams): Promise<T[]>
-  async update(id: Id | null, data: Partial<D>, params: EngineParams): Promise<null | T | T[]> {
+  async update(id: Id | null, data: Partial<D>, params: EngineParams): Promise<nullTArrayT<T>> {
     if (!id) throw new NotImplemented('Multi update is not yet implemented')
     console.log('update', id, data)
     const adapter = params.$$adapter as EngineAdapter
@@ -112,7 +114,7 @@ export class TableRecord<T = any, D = Partial<T>>
 
   async patch(id: Id, data: Partial<D>, params: EngineParams): Promise<T>
   async patch(id: null, data: Partial<D>, params: EngineParams): Promise<T[]>
-  async patch(id: Id | null, data: Partial<D>, params: EngineParams): Promise<null | T | T[]> {
+  async patch(id: Id | null, data: Partial<D>, params: EngineParams): Promise<nullTArrayT<T>> {
     if (!id) throw new NotImplemented('Multi patch is not yet implemented')
     console.log('patch', id, data)
     const adapter = params.$$adapter as EngineAdapter
@@ -122,7 +124,7 @@ export class TableRecord<T = any, D = Partial<T>>
 
   async remove(id: Id, params: EngineParams): Promise<T>
   async remove(id: null, params: EngineParams): Promise<T[]>
-  async remove(id: Id | null, params: EngineParams): Promise<null | T | T[]> {
+  async remove(id: Id | null, params: EngineParams): Promise<nullTArrayT<T>> {
     if (!id)
       throw new NotImplemented('Id for removal is mandatory. Multi remove are not yet implemented.')
     console.log('remove', id, params)

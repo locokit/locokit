@@ -7,6 +7,8 @@ import { generatePassword } from '../../../utils/password'
 import { workspaceDispatchResolver } from '@/services/core/workspace/core-workspace.resolver'
 import { USER_PROFILE } from '@locokit/definitions'
 
+type stringNumberUndefined = string | number | undefined
+
 // Resolver for the basic data model (e.g. creating new entries)
 export const userCreateResolver = resolve<UserResult, HookContext>({
   /**
@@ -54,7 +56,7 @@ export const userCreateResolver = resolve<UserResult, HookContext>({
   },
 
   createdAt: async (createdAt) => {
-    let stringToConvert: string | number | undefined = createdAt
+    let stringToConvert: stringNumberUndefined = createdAt
     if (!stringToConvert) stringToConvert = Date.now()
     if (typeof stringToConvert === 'number') {
       return new Date(stringToConvert).toISOString()
@@ -62,7 +64,7 @@ export const userCreateResolver = resolve<UserResult, HookContext>({
   },
 
   updatedAt: async (updatedAt) => {
-    let stringToConvert: string | number | undefined = updatedAt
+    let stringToConvert: stringNumberUndefined = updatedAt
     if (!stringToConvert) stringToConvert = Date.now()
     if (typeof stringToConvert === 'number') {
       return new Date(stringToConvert).toISOString()
@@ -70,7 +72,7 @@ export const userCreateResolver = resolve<UserResult, HookContext>({
   },
 
   lastConnection: async (lastConnection) => {
-    const stringToConvert: string | number | undefined = lastConnection
+    const stringToConvert: stringNumberUndefined = lastConnection
     if (typeof stringToConvert === 'number') {
       return new Date(stringToConvert).toISOString()
     } else return lastConnection
@@ -106,7 +108,7 @@ export const userPatchAdminResolver = resolve<UserPatchAdmin, HookContext>({
   },
 
   updatedAt: async (updatedAt) => {
-    let stringToConvert: string | number | undefined = updatedAt
+    let stringToConvert: stringNumberUndefined = updatedAt
     if (!stringToConvert) stringToConvert = Date.now()
     if (typeof stringToConvert === 'number') {
       return new Date(stringToConvert).toISOString()
@@ -147,7 +149,7 @@ export const userDispatchResolver: Resolver<UserResult, HookContext> = resolve<
   workspaces: async (workspaces, _data, context) => {
     if (workspaces) {
       return await Promise.all(
-        workspaces.map(async (w) => await workspaceDispatchResolver.resolve(w, context)),
+        workspaces.map(async (w) => workspaceDispatchResolver.resolve(w, context)),
       )
     }
   },

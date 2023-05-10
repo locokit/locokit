@@ -309,8 +309,8 @@ export class SQLAdapter implements GenericAdapter {
     Object.keys(realQuery)
       .filter((k) => k === 'id')
       .forEach((k) => {
-        realQuery[tableName + '.id'] = realQuery['id']
-        delete realQuery['id']
+        realQuery[tableName + '.id'] = realQuery.id
+        delete realQuery.id
       })
     objectify(totalQuery, realQuery)
     const total = (await totalQuery) as unknown as Array<{
@@ -354,7 +354,7 @@ export class SQLAdapter implements GenericAdapter {
           if ($select) {
             const allSubSelect: string[] = []
             $select.forEach((currentSelect: string, index: number) => {
-              if (currentSelect.indexOf(r) === 0) {
+              if (currentSelect.startsWith(r)) {
                 console.log('$select for relation ', r, currentSelect)
                 allSubSelect.push(currentSelect)
                 $select.splice(index, 1)

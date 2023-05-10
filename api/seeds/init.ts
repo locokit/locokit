@@ -52,8 +52,8 @@ export async function seed(knex: Knex): Promise<any> {
     {
       name: 'Workspace Nutrieduc',
       slug: 'nutrieduc',
-      createdBy: usersInserted[1].id
-    }
+      createdBy: usersInserted[1].id,
+    },
   ]
   const workspacesInserted = await knex('lck_workspace')
     .withSchema('core')
@@ -61,7 +61,9 @@ export async function seed(knex: Knex): Promise<any> {
     .insert(workspacesToInsert)
     .returning('id')
 
-  await knex.raw('SELECT core."createWorkspaceSchema"(?);', workspacesInserted[0].id).transacting(trx)
+  await knex
+    .raw('SELECT core."createWorkspaceSchema"(?);', workspacesInserted[0].id)
+    .transacting(trx)
 
   /**
    * Datasource
@@ -71,10 +73,10 @@ export async function seed(knex: Knex): Promise<any> {
       name: 'DS Nut',
       slug: 'ds_nutrieduc13',
       client: 'sqlite3',
-      connection: './nutrieduc13.db'
-    }
+      connection: './nutrieduc13.db',
+    },
   ]
-  const datasourcesInserted = await knex('datasource')
+  await knex('datasource')
     .withSchema('w_nutrieduc')
     .transacting(trx)
     .insert(datasourcesToInsert)
