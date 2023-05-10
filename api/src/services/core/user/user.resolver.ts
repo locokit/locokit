@@ -149,7 +149,7 @@ export const userDispatchResolver: Resolver<UserResult, HookContext> = resolve<
   workspaces: async (workspaces, _data, context) => {
     if (workspaces) {
       return await Promise.all(
-        workspaces.map(async (w) => workspaceDispatchResolver.resolve(w, context)),
+        workspaces.map(async (w) => await workspaceDispatchResolver.resolve(w, context)),
       )
     }
   },
