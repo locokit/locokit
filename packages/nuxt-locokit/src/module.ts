@@ -236,6 +236,17 @@ export default defineNuxtModule<ModuleOptions>({
               },
             ],
           },
+          {
+            name: ROUTES_NAMES.WORKSPACE.SETTINGS,
+            path: ROUTES_PATH.WORKSPACE.SETTINGS,
+            meta: {
+              protected: true,
+            },
+            file: resolve(
+              pagesDir,
+              './workspace/SettingsPage/SettingsPage.vue',
+            ),
+          },
         ],
       })
 

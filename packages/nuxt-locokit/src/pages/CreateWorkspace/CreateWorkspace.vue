@@ -16,13 +16,18 @@
 <script setup lang="ts">
 import { WorkspaceForm } from '@locokit/designsystem'
 import { useI18n } from 'vue-i18n'
+import { storeToRefs } from 'pinia'
 import WithHeader from '../../layouts/WithHeader.vue'
 import { ROUTES_NAMES } from '../../paths'
 import { createWorkspace } from '../../services/workspace'
+import { useStoreWorkspaces } from '../../stores/workspaces'
 import { useHead, useRouter, ref } from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })
 const router = useRouter()
+const workspacesStore = useStoreWorkspaces()
+const { loading } = storeToRefs(workspacesStore)
+
 const error = ref()
 
 const newWorkspace = async (data: {
@@ -40,6 +45,7 @@ const newWorkspace = async (data: {
   if (res instanceof Error) {
     error.value = res
   } else {
+    await workspacesStore.updateWorkspaces()
     await router.push({
       name: ROUTES_NAMES.WORKSPACES,
     })

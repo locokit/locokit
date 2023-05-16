@@ -98,9 +98,14 @@ const MINI_NAV = [
     nameTK: 'pages.workspace.dashboard',
   },
   {
-    icon: 'bi bi-database',
+    icon: 'bi bi-database-fill',
     routeName: ROUTES_NAMES.WORKSPACE.DATASOURCE.HOME,
     nameTK: 'pages.workspace.datasource',
+  },
+  {
+    icon: 'bi bi-gear-fill',
+    routeName: ROUTES_NAMES.WORKSPACE.SETTINGS,
+    nameTK: 'pages.workspace.settings',
   },
 ]
 

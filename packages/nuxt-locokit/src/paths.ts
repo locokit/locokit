@@ -22,6 +22,7 @@ export const ROUTES_NAMES = {
       CREATE: 'CreateDatasource',
       SCHEMA: 'SchemaDatasource',
     },
+    SETTINGS: 'Settings',
   },
 
   PROFILE: {
@@ -98,5 +99,6 @@ export const ROUTES_PATH = {
       CREATE: '/w/:id/datasource/create',
       SCHEMA: '/w/:id/datasource/schema',
     },
+    SETTINGS: '/w/:id/settings',
   },
 }
