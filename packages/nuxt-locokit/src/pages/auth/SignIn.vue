@@ -38,7 +38,7 @@ const authenticate = async (data: { email: string; password: string }) => {
 
   if (authStore.isAuthenticated) {
     await router.push({
-      name: ROUTES_NAMES.WORKSPACES,
+      name: ROUTES_NAMES.WORKSPACE.WORKSPACES,
     })
   }
 }

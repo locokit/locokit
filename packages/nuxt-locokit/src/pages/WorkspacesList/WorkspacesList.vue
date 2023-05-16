@@ -7,7 +7,7 @@
       <p class="mt-4">
         {{ $t('pages.workspacesList.intro') }}
       </p>
-      <NuxtLink :to="{ name: ROUTES_NAMES.CREATE_WORKSPACE }">
+      <NuxtLink :to="{ name: ROUTES_NAMES.WORKSPACE.CREATE_WORKSPACE }">
         <PrimeButton class="p-button-rounded p-button-secondary !pr-5 !mt-4">
           <div
             class="relative flex flex-row justify-center text-center font-bold w-full"

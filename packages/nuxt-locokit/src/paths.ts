@@ -1,7 +1,5 @@
 export const ROUTES_NAMES = {
   HOME: 'Home',
-  WORKSPACES: 'Workspaces',
-  CREATE_WORKSPACE: 'CreateWorkspace',
 
   AUTH: {
     LOST_PASSWORD: 'LostPassword',
@@ -14,6 +12,8 @@ export const ROUTES_NAMES = {
   },
 
   WORKSPACE: {
+    WORKSPACES: 'Workspaces',
+    CREATE_WORKSPACE: 'CreateWorkspace',
     HOME: 'Workspace',
     DASHBOARD: 'Dashboard',
     DATASOURCE: {
@@ -51,8 +51,6 @@ export const ROUTES_NAMES = {
 
 export const ROUTES_PATH = {
   HOME: '/',
-  WORKSPACES: '/w',
-  CREATE_WORKSPACE: '/w/create',
 
   AUTH: {
     LOST_PASSWORD: '/auth/lost-password',
@@ -91,6 +89,8 @@ export const ROUTES_PATH = {
    * Workspace paths
    */
   WORKSPACE: {
+    WORKSPACES: '/w',
+    CREATE_WORKSPACE: '/w/create',
     HOME: '/w/:id',
     DASHBOARD: '/w/:id/dashboard',
     DATASOURCE: {

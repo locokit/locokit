@@ -56,7 +56,7 @@ const defaultOptions: ModuleOptions = {
     auth: {
       enabled: true,
       prefix: '',
-      redirectUserAfterLogin: ROUTES_PATH.WORKSPACES,
+      redirectUserAfterLogin: ROUTES_PATH.WORKSPACE.WORKSPACES,
     },
     user: {
       enabled: true,
@@ -402,8 +402,8 @@ export default defineNuxtModule<ModuleOptions>({
        * Register workspaces page
        */
       pages.push({
-        name: ROUTES_NAMES.WORKSPACES,
-        path: ROUTES_PATH.WORKSPACES,
+        name: ROUTES_NAMES.WORKSPACE.WORKSPACES,
+        path: ROUTES_PATH.WORKSPACE.WORKSPACES,
         meta: {
           protected: false,
           anonymous: false,
@@ -415,8 +415,8 @@ export default defineNuxtModule<ModuleOptions>({
        * Register create a workspace page
        */
       pages.push({
-        name: ROUTES_NAMES.CREATE_WORKSPACE,
-        path: ROUTES_PATH.CREATE_WORKSPACE,
+        name: ROUTES_NAMES.WORKSPACE.CREATE_WORKSPACE,
+        path: ROUTES_PATH.WORKSPACE.CREATE_WORKSPACE,
         meta: {
           protected: true,
           anonymous: false,

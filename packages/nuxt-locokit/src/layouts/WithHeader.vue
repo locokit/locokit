@@ -154,7 +154,7 @@ const navLinks = computed(() => {
           icon: 'bi-house',
         },
         {
-          routeName: ROUTES_NAMES.WORKSPACES,
+          routeName: ROUTES_NAMES.WORKSPACE.WORKSPACES,
           title: 'workspaces',
           icon: 'bi-person-workspace',
         },
@@ -177,7 +177,7 @@ const navLinks = computed(() => {
         icon: 'bi-house',
       },
       {
-        routeName: ROUTES_NAMES.WORKSPACES,
+        routeName: ROUTES_NAMES.WORKSPACE.WORKSPACES,
         title: 'workspaces',
         icon: 'bi-person-workspace',
       },
@@ -195,7 +195,7 @@ const navLinks = computed(() => {
       icon: 'bi-house',
     },
     {
-      routeName: ROUTES_NAMES.WORKSPACES,
+      routeName: ROUTES_NAMES.WORKSPACE.WORKSPACES,
       title: 'workspaces',
       icon: 'bi-person-workspace',
     },
