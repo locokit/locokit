@@ -124,7 +124,7 @@ export const workspaceResultSchema = Type.Intersect(
     Type.Object({
       softDeletedAt: Type.Optional(
         Type.Date({
-          description: 'Is the workspace and when has it been soft-deleted',
+          description: 'Is the workspace soft-deleted and when was it soft-deleted',
         }),
       ),
       createdAt: Type.Date({
