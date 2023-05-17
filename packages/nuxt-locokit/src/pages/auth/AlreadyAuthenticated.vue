@@ -13,7 +13,7 @@
           {{ $t('pages.alreadyAuthenticated.message') }}
         </p>
         <div class="flex justify-around">
-          <NuxtLink :to="{ name: ROUTES_NAMES.WORKSPACE.HOME }">
+          <NuxtLink :to="{ name: ROUTES_NAMES.WORKSPACE.WORKSPACES }">
             <PrimeButton
               class="p-button-rounded p-button-secondary"
               :label="$t('pages.alreadyAuthenticated.workspaceButton')"

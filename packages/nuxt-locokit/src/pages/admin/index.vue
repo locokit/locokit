@@ -20,7 +20,7 @@
     <template #header-items>
       <NuxtLink
         class="nav-link self-center mr-4"
-        :to="{ name: ROUTES_NAMES.WORKSPACES }"
+        :to="{ name: ROUTES_NAMES.WORKSPACE.WORKSPACES }"
         tabindex="0"
       >
         <button

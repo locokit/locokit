@@ -1,5 +1,5 @@
 <template>
-  <WithBanner>
+  <WithHeader>
     <div class="max-w-6xl mx-auto mt-8 pb-4 px-4 lg:px-0">
       <div class="flex items-start">
         <ul class="flex flex-col flex-wrap list-none border-b-0 pl-0 w-4/12">
@@ -42,12 +42,12 @@
         </div>
       </div>
     </div>
-  </WithBanner>
+  </WithHeader>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import WithBanner from '../../layouts/WithHeader.vue'
+import WithHeader from '../../layouts/WithHeader.vue'
 import { ROUTES_NAMES } from '../../paths'
 import { useHead } from '#imports'
 
