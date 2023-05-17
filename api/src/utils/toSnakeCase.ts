@@ -11,6 +11,7 @@ export function toSnakeCase(text: string): string {
       .replace(/[\u0300-\u036f]/g, '') // remove all diacritics
       /* eslint-disable no-useless-escape */
       .replace(/[[ ,\-'"\.\]()/]/g, '_')
+      .replace(/[^a-z0-9_]/g, '_')
       .replace(/_+/g, '_')
       .replace(/_$/, '')
   )

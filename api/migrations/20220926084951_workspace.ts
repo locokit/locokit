@@ -7,7 +7,7 @@ export async function up(knex: Knex): Promise<void> {
     .createTable('lck_workspace', (table) => {
       table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
       table.string('name', 50).notNullable()
-      table.string('slug', 60).unique()
+      table.string('slug', 50).unique()
       table.index('slug', 'IDX_workspace_slug')
       table.boolean('legacy').defaultTo(false)
       table.boolean('public').defaultTo(false)
@@ -81,8 +81,8 @@ export async function up(knex: Knex): Promise<void> {
      */
     .createTable('lck_datasource', (table) => {
       table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
-      table.string('name', 255).notNullable()
-      table.string('slug')
+      table.string('name', 50).notNullable()
+      table.string('slug', 50).notNullable()
       table.index('slug', 'IDX_datasource_slug')
       table.unique(['slug', 'workspaceId'], { indexName: 'IDX_UNQ_datasource_slug' })
       table.text('documentation')
@@ -117,8 +117,8 @@ export async function up(knex: Knex): Promise<void> {
      */
     .createTable('lck_table', (table) => {
       table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
-      table.string('name', 255).notNullable()
-      table.string('slug')
+      table.string('name', 50).notNullable()
+      table.string('slug', 50).notNullable()
       table.index('slug', 'IDX_table_slug')
       table.string('schema')
       table.unique(['schema', 'slug', 'datasourceId'], { indexName: 'IDX_UNQ_table_schema_slug' })
@@ -141,7 +141,7 @@ export async function up(knex: Knex): Promise<void> {
     .createTable('lck_dataset', (table) => {
       table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
       table.string('name').notNullable()
-      table.string('slug')
+      table.string('slug').notNullable()
       table.index('slug', 'IDX_dataset_slug')
       table.unique(['slug', 'tableId'], { indexName: 'IDX_UNQ_dataset_slug' })
       table.text('documentation')

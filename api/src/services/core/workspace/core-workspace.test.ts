@@ -896,11 +896,71 @@ $BODY$;
       expect.assertions(1)
       await expect(
         app.service(SERVICES.CORE_WORKSPACE).create({
-          name: 'pouet pouet pouet pouet pouet pouic pouic pouic pouic pouic pouic pwet pwet pwet pwet pwet',
+          name: 'pouet pouet pouet pouic pouic pouic pwet pwet pwet pwet',
           documentation: 'Testing long workspace name',
           createdBy: setupData.user2.id,
         }),
       ).rejects.toThrow(BadRequest)
+    })
+
+    it('manage long workspace name up to 50 chars', async () => {
+      expect.assertions(2)
+      const ws = await app.service(SERVICES.CORE_WORKSPACE).create({
+        name: 'pouet pouet pouet pouet pouic pouic pouic pouic pw',
+        documentation: 'Testing long long long workspace name',
+        createdBy: setupData.user2.id,
+      })
+      expect(ws).toBeDefined()
+      expect(ws.slug).toBe('pouet_pouet_pouet_pouet_pouic_pouic_pouic_pouic_pw')
+
+      await app.service(SERVICES.CORE_WORKSPACE).patch(ws.id, {
+        softDeletedAt: new Date(Date.now()).toISOString(),
+      })
+      await app.service(SERVICES.CORE_WORKSPACE).remove(ws.id, {
+        authenticated: true,
+        user: setupData.userAdmin,
+        authentication: setupData.userAdminAuthentication,
+      })
+    })
+
+    it('manage long workspace name up to 50 chars and diacritics', async () => {
+      expect.assertions(2)
+      const ws = await app.service(SERVICES.CORE_WORKSPACE).create({
+        name: 'pouèt pöuét poüet pouïc?poùic%pouic/pwet!pwet$pwèt',
+        documentation: 'Testing long long long workspace name',
+        createdBy: setupData.user2.id,
+      })
+      expect(ws).toBeDefined()
+      expect(ws.slug).toBe('pouet_pouet_pouet_pouic_pouic_pouic_pwet_pwet_pwet')
+
+      await app.service(SERVICES.CORE_WORKSPACE).patch(ws.id, {
+        softDeletedAt: new Date(Date.now()).toISOString(),
+      })
+      await app.service(SERVICES.CORE_WORKSPACE).remove(ws.id, {
+        authenticated: true,
+        user: setupData.userAdmin,
+        authentication: setupData.userAdminAuthentication,
+      })
+    })
+
+    it('manage long workspace name up to 50 chars and diacritics and numbers', async () => {
+      expect.assertions(2)
+      const ws = await app.service(SERVICES.CORE_WORKSPACE).create({
+        name: 'pouèt pöuét 0123poüet pouïc?poùic%12/pwet!pwet$pwè',
+        documentation: 'Testing long long long workspace name',
+        createdBy: setupData.user2.id,
+      })
+      expect(ws).toBeDefined()
+      expect(ws.slug).toBe('pouet_pouet_0123pouet_pouic_pouic_12_pwet_pwet_pwe')
+
+      await app.service(SERVICES.CORE_WORKSPACE).patch(ws.id, {
+        softDeletedAt: new Date(Date.now()).toISOString(),
+      })
+      await app.service(SERVICES.CORE_WORKSPACE).remove(ws.id, {
+        authenticated: true,
+        user: setupData.userAdmin,
+        authentication: setupData.userAdminAuthentication,
+      })
     })
   })
 

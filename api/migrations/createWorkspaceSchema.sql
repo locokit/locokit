@@ -177,10 +177,10 @@ BEGIN
 
   CREATE TABLE "tableField" (
     id uuid NOT NULL DEFAULT gen_random_uuid(),
-    name character varying(255),
+    name character varying(50),
     type character varying(20),
     "dbType" character varying(20),
-    slug character varying(255),
+    slug character varying(50),
     documentation text,
     position integer,
     reference boolean NOT NULL default(false),
@@ -258,8 +258,8 @@ BEGIN
   CREATE TABLE "tableRelation" (
     id uuid NOT NULL DEFAULT gen_random_uuid(),
 
-    name character varying(255),
-    slug character varying(255),
+    name character varying(50),
+    slug character varying(50),
 
     "fromTableId" uuid NOT NULL,
     "toTableId" uuid NOT NULL,
