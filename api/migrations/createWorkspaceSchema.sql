@@ -84,17 +84,17 @@ BEGIN
   --
   -- CREATE tables from core schema
   --
-  EXECUTE format('CREATE TABLE "role" (
+  EXECUTE format('CREATE TABLE "policy" (
     workspaceId uuid DEFAULT ''%s'',
 
-    CONSTRAINT "PK_role" PRIMARY KEY (id),
+    CONSTRAINT "PK_policy" PRIMARY KEY (id),
 
-    CONSTRAINT "FK_role_workspace" FOREIGN KEY ("workspaceId")
+    CONSTRAINT "FK_policy_workspace" FOREIGN KEY ("workspaceId")
       REFERENCES "core"."lck_workspace" (id) MATCH SIMPLE
       ON UPDATE NO ACTION
       ON DELETE NO ACTION
 
-  ) INHERITS ("core"."lck_role")', $1);
+  ) INHERITS ("core"."lck_policy")', $1);
 
   EXECUTE format('CREATE TABLE "group" (
     workspaceId uuid DEFAULT ''%s'',
@@ -106,16 +106,16 @@ BEGIN
       ON UPDATE NO ACTION
       ON DELETE NO ACTION,
 
-    CONSTRAINT "FK_group_role" FOREIGN KEY ("roleId")
-      REFERENCES "role" (id) MATCH SIMPLE
+    CONSTRAINT "FK_group_policy" FOREIGN KEY ("policyId")
+      REFERENCES "policy" (id) MATCH SIMPLE
       ON UPDATE NO ACTION
       ON DELETE NO ACTION
 
   ) INHERITS ("core"."lck_group")', $1);
 
-  CREATE INDEX IF NOT EXISTS "IDX_group_role"
+  CREATE INDEX IF NOT EXISTS "IDX_group_policy"
     ON "group" USING btree
-    ("roleId" ASC NULLS LAST)
+    ("policyId" ASC NULLS LAST)
     TABLESPACE pg_default;
 
   CREATE TABLE "userGroup" (
@@ -205,10 +205,10 @@ BEGIN
 
       'NUMBER'::text,
       'FLOAT'::text,
-      
+
       'STRING'::text,
       'TEXT'::text,
-      
+
       'DATE'::text,
       'DATETIME'::text,
       --

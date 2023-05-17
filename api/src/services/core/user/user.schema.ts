@@ -167,17 +167,17 @@ export const userQuerySchema = Type.Intersect(
     Type.Object({
       $joinRelated: Type.Optional(
         Type.RegEx(/workspaces/, {
-          description: 'Join role to its relations (and nested).',
+          description: 'Join user to its relations (and nested).',
         }),
       ),
       $joinEager: Type.Optional(
         Type.RegEx(/workspaces/, {
-          description: 'Join role to its relations (and nested).',
+          description: 'Join user to its relations (and nested).',
         }),
       ),
       $eager: Type.Optional(
         Type.RegEx(/workspaces/, {
-          description: 'Join role to its relations (and nested).',
+          description: 'Join user to its relations (and nested).',
         }),
       ),
     }),

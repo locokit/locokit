@@ -19,7 +19,7 @@ export const SERVICES = {
   CORE_USER: '/core/user',
   CORE_GROUP: '/core/group',
   CORE_USERGROUP: '/core/user-group',
-  CORE_ROLE: '/core/role',
+  CORE_POLICY: '/core/policy',
 
   /**
    * Workspaces dedicated service
@@ -30,7 +30,7 @@ export const SERVICES = {
   WORKSPACE_USER: '/workspace/:workspaceSlug/user',
   WORKSPACE_GROUP: '/workspace/:workspaceSlug/group',
   WORKSPACE_USERGROUP: '/workspace/:workspaceSlug/user-group',
-  WORKSPACE_ROLE: '/workspace/:workspaceSlug/role',
+  WORKSPACE_POLICY: '/workspace/:workspaceSlug/policy',
 
   WORKSPACE_TABLE: '/workspace/:workspaceSlug/datasource/:datasourceSlug/table',
   WORKSPACE_TABLE_FIELD:

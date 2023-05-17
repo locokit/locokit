@@ -8,7 +8,7 @@ import { signup } from './auth/signup/signup'
 import { workspaceService } from './core/workspace/core-workspace'
 import { coreDatasourceService } from './core/datasource/core-datasource'
 import { coreTableService } from './core/table/core-table'
-import { roleService } from './core/role/role'
+import { policyService } from './core/policy/policy'
 import { groupService } from './core/group/group'
 import { userGroupService } from './core/user-group/user-group'
 
@@ -40,7 +40,7 @@ export const services = (app: Application): void => {
   app.configure(groupService)
   app.configure(userGroupService)
   app.configure(workspaceService)
-  app.configure(roleService)
+  app.configure(policyService)
   app.configure(coreDatasourceService)
   app.configure(coreTableService)
 

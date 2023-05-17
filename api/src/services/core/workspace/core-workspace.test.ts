@@ -153,8 +153,8 @@ describe('workspace service', () => {
       const hasTableGroup = await app.get('db').schema.withSchema(schemaName).hasTable('group')
       expect(hasTableGroup).toBe(true)
 
-      const hasTableRole = await app.get('db').schema.withSchema(schemaName).hasTable('role')
-      expect(hasTableRole).toBe(true)
+      const hasTablePolicy = await app.get('db').schema.withSchema(schemaName).hasTable('policy')
+      expect(hasTablePolicy).toBe(true)
 
       const hasTableTable = await app.get('db').schema.withSchema(schemaName).hasTable('table')
       expect(hasTableTable).toBe(true)

@@ -4,8 +4,8 @@ import type { HookContext } from '@/declarations'
 import { queryValidator } from '@/commons/validators'
 import { toSnakeCase } from '@/utils/toSnakeCase'
 import { groupDispatchResolver } from '@/services/core/group/group.resolver'
-import { roleDispatchResolver } from '@/services/core/role/role.resolver'
-import { RoleSchema } from '@/services/core/role/role.schema'
+import { policyDispatchResolver } from '@/services/core/policy/policy.resolver'
+import { PolicySchema } from '@/services/core/policy/policy.schema'
 import { userDispatchResolver } from '@/services/core/user/user.resolver'
 
 import { WorkspaceQuery, workspaceQuerySchema, WorkspaceSchema } from './core-workspace.schema'
@@ -60,16 +60,16 @@ export const workspaceDispatchResolver = resolve<WorkspaceSchema, HookContext>({
   },
 
   /**
-   * The resolver of the role is used, for each item,
+   * The resolver of the policy is used, for each item,
    * to remove / complete data sent
    */
-  async roles(roles, _data, context) {
-    if (roles) {
-      let result: RoleSchema[] = []
-      const rolesPromises: RoleSchema[] = await Promise.all(
-        roles.map(async (g) => await roleDispatchResolver.resolve(g, context)),
+  async policies(policys, _data, context) {
+    if (policys) {
+      let result: PolicySchema[] = []
+      const policysPromises: PolicySchema[] = await Promise.all(
+        policys.map(async (g) => await policyDispatchResolver.resolve(g, context)),
       )
-      result = rolesPromises
+      result = policysPromises
       return result
     }
   },

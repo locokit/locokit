@@ -1,6 +1,6 @@
 import { Model, RelationMappings } from 'objection'
 import { GroupModel } from '@/services/core/group/group.model'
-import { RoleModel } from '@/services/core/role/role.model'
+import { PolicyModel } from '@/services/core/policy/policy.model'
 import { UserModel } from '@/services/core/user/user.model'
 import { CoreDatasourceModel } from '../datasource/core-datasource.model'
 
@@ -38,12 +38,12 @@ export class WorkspaceModel extends Model {
           to: 'lck_group.workspaceId',
         },
       },
-      roles: {
+      policies: {
         relation: Model.HasManyRelation,
-        modelClass: RoleModel,
+        modelClass: PolicyModel,
         join: {
           from: 'lck_workspace.id',
-          to: 'lck_role.workspaceId',
+          to: 'lck_policy.workspaceId',
         },
       },
     }

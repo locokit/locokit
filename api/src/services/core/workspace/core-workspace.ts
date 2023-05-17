@@ -15,7 +15,7 @@ export function workspaceService(app: Application): void {
     Model: WorkspaceModel,
     name: 'lck_workspace',
     schema: 'core',
-    allowedGraph: '[owner,groups,roles]',
+    allowedGraph: '[owner,groups,policies]',
   }
 
   // Register our service on the Feathers application

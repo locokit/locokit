@@ -68,7 +68,7 @@ export const workspaceSchema = Type.Object(
       ),
     ),
     groups: Type.Optional(Type.Array(Type.Any())),
-    roles: Type.Optional(Type.Array(Type.Any())),
+    policies: Type.Optional(Type.Array(Type.Any())),
     datasources: Type.Optional(Type.Array(Type.Any())),
     // medias: Type.Optional(Type.Array(Type.Any())),
   },
@@ -85,7 +85,7 @@ export type WorkspaceSchema = Static<typeof workspaceSchema>
  */
 export const workspaceDataInternalSchema = Type.Omit(
   workspaceSchema,
-  ['id', 'slug', 'softDeletedAt', 'owner', 'groups', 'datasources', 'roles'],
+  ['id', 'slug', 'softDeletedAt', 'owner', 'groups', 'datasources', 'policies'],
   {
     $id: 'WorkspaceDataInternalSchema',
   },
@@ -146,7 +146,7 @@ export const workspaceQuerySchema = Type.Intersect(
   [
     querySyntax(
       Type.Intersect([
-        Type.Omit(workspaceSchema, ['owner', 'groups', 'roles', 'datasources'], {
+        Type.Omit(workspaceSchema, ['owner', 'groups', 'policies', 'datasources'], {
           name: queryStringExtend,
         }),
         Type.Object({
@@ -164,19 +164,28 @@ export const workspaceQuerySchema = Type.Intersect(
 
     Type.Object({
       $joinRelated: Type.Optional(
-        Type.RegEx(/owner|groups|roles|\[owner,groups\]|\[owner,roles\]|\[owner,groups,roles\]/, {
-          description: 'Join workspace to its relation. Only `owner` is accepted.',
-        }),
+        Type.RegEx(
+          /owner|groups|policies|\[owner,groups\]|\[owner,policies\]|\[owner,groups,policies\]/,
+          {
+            description: 'Join workspace to its relation. Only `owner` is accepted.',
+          },
+        ),
       ),
       $joinEager: Type.Optional(
-        Type.RegEx(/owner|groups|roles|\[owner,groups\]|\[owner,roles\]|\[owner,groups,roles\]/, {
-          description: 'Join workspace to its relation. Only `owner` is accepted.',
-        }),
+        Type.RegEx(
+          /owner|groups|policies|\[owner,groups\]|\[owner,policies\]|\[owner,groups,policies\]/,
+          {
+            description: 'Join workspace to its relation. Only `owner` is accepted.',
+          },
+        ),
       ),
       $eager: Type.Optional(
-        Type.RegEx(/owner|groups|roles|\[owner,groups\]|\[owner,roles\]|\[owner,groups,roles\]/, {
-          description: 'Join workspace to its relation. Only `owner` is accepted.',
-        }),
+        Type.RegEx(
+          /owner|groups|policies|\[owner,groups\]|\[owner,policies\]|\[owner,groups,policies\]/,
+          {
+            description: 'Join workspace to its relation. Only `owner` is accepted.',
+          },
+        ),
       ),
     }),
   ],

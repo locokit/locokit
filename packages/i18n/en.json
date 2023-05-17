@@ -62,7 +62,7 @@
       "iconPlaceholder": "e.g. pi-cart",
       "iconHelp": "Fill with icon id, list is available on BootstrapIcons.",
       "public": "Available for everyone (public)",
-      "publicHelp": "Before activating it, please check that the public role is as expected and that a dedicated page has been made.",
+      "publicHelp": "Before activating it, please check that the public policy is as expected and that a dedicated page has been made.",
       "reset": "Reset",
       "submit": "Submit"
     },
@@ -71,7 +71,7 @@
       "firstName": "First name",
       "username": "Username",
       "email": "Email",
-      "role": "Role",
+      "policy": "Group policy",
       "submit": "Submit",
       "admin": "@:commons.userProfile.admin",
       "creator": "@:commons.userProfile.creator",

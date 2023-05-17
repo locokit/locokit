@@ -28,16 +28,16 @@ export async function up(knex: Knex): Promise<void> {
     /**
      * Role / Permission table
      */
-    .createTable('lck_role', (table) => {
+    .createTable('lck_policy', (table) => {
       table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
       table.string('name', 255).notNullable()
       table.text('documentation')
       table.uuid('workspaceId').notNullable()
       table
-        .foreign('workspaceId', 'FK_role_workspace')
+        .foreign('workspaceId', 'FK_policy_workspace')
         .references('id')
         .inTable('core.lck_workspace')
-      table.index('workspaceId', 'IDX_role_workspaceId')
+      table.index('workspaceId', 'IDX_policy_workspaceId')
       table.boolean('manager').notNullable().defaultTo(false)
       table.boolean('public').notNullable().defaultTo(false)
       table.datetime('createdAt').defaultTo(knex.fn.now())
@@ -57,9 +57,9 @@ export async function up(knex: Knex): Promise<void> {
         .references('id')
         .inTable('core.lck_workspace')
       table.index('workspaceId', 'IDX_group_workspaceId')
-      table.uuid('roleId').notNullable()
-      table.foreign('roleId', 'FK_group_role').references('id').inTable('core.lck_role')
-      table.index('roleId', 'IDX_group_roleId')
+      table.uuid('policyId').notNullable()
+      table.foreign('policyId', 'FK_group_policy').references('id').inTable('core.lck_policy')
+      table.index('policyId', 'IDX_group_policyId')
       table.datetime('createdAt').defaultTo(knex.fn.now())
       table.datetime('updatedAt').defaultTo(knex.fn.now())
     })
@@ -162,6 +162,6 @@ export async function down(knex: Knex): Promise<void> {
     .dropTable('lck_datasource')
     .dropTable('lck_userGroup')
     .dropTable('lck_group')
-    .dropTable('lck_role')
+    .dropTable('lck_policy')
     .dropTable('lck_workspace')
 }

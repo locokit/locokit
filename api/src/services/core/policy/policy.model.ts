@@ -3,12 +3,12 @@ import { WorkspaceModel } from '@/services/core/workspace/core-workspace.model'
 import { GroupModel } from '../group/group.model'
 
 /**
- * Role objection Model
+ * Policy objection Model
  */
-export class RoleModel extends Model {
-  static readonly model = 'role'
+export class PolicyModel extends Model {
+  static readonly model = 'policy'
 
-  static readonly tableName = 'lck_role'
+  static readonly tableName = 'lck_policy'
 
   static get relationMappings(): RelationMappings {
     return {
@@ -16,7 +16,7 @@ export class RoleModel extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: WorkspaceModel,
         join: {
-          from: 'lck_role.workspaceId',
+          from: 'lck_policy.workspaceId',
           to: 'lck_workspace.id',
         },
       },
@@ -24,8 +24,8 @@ export class RoleModel extends Model {
         relation: Model.HasManyRelation,
         modelClass: GroupModel,
         join: {
-          from: 'lck_role.id',
-          to: 'lck_group.roleId',
+          from: 'lck_policy.id',
+          to: 'lck_group.policyId',
         },
       },
     }

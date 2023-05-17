@@ -71,7 +71,7 @@
       "firstName": "Prénom",
       "username": "Nom d'utilisateur",
       "email": "Email",
-      "role": "Rôle",
+      "policy": "Groupe de stratégie",
       "submit": "Enregistrer",
       "admin": "@:commons.userProfile.admin",
       "creator": "@:commons.userProfile.creator",

@@ -4,14 +4,14 @@ import type { HookContext } from '../../../declarations'
 import { queryValidator } from '@/commons/validators'
 import { workspaceDispatchResolver } from '@/services/core/workspace/core-workspace.resolver'
 import { groupDispatchResolver } from '../group/group.resolver'
-import { RoleQuery, roleQuerySchema, RoleSchema } from './role.schema'
+import { PolicyQuery, policyQuerySchema, PolicySchema } from './policy.schema'
 
 // Resolver for the basic data model (e.g. creating new entries)
-export const roleCreateResolver = resolve<RoleSchema, HookContext>({})
+export const policyCreateResolver = resolve<PolicySchema, HookContext>({})
 
-export const roleDefaultResolver = resolve<RoleSchema, HookContext>({})
+export const policyDefaultResolver = resolve<PolicySchema, HookContext>({})
 
-export const roleDispatchResolver = resolve<RoleSchema, HookContext>({
+export const policyDispatchResolver = resolve<PolicySchema, HookContext>({
   /**
    * This resolver is used for the relation workspace
    * We need to use the dispatch resolver to avoid send sensible data
@@ -19,7 +19,7 @@ export const roleDispatchResolver = resolve<RoleSchema, HookContext>({
    * The relation `workspace` is fetched when used in a find/get + $joinRelated
    */
   async workspace(workspace, _data, context) {
-    if (workspace) return await workspaceDispatchResolver.resolve(workspace, context)
+    if (workspace) return workspaceDispatchResolver.resolve(workspace, context)
   },
 
   /**
@@ -36,19 +36,19 @@ export const roleDispatchResolver = resolve<RoleSchema, HookContext>({
 })
 
 // Resolver for query properties
-export const roleQueryResolver = resolve<RoleQuery, HookContext>({})
+export const policyQueryResolver = resolve<PolicyQuery, HookContext>({})
 
 // @ts-expect-error
-export const roleQueryValidator = getValidator(roleQuerySchema, queryValidator)
+export const policyQueryValidator = getValidator(policyQuerySchema, queryValidator)
 
 // Export all resolvers in a format that can be used with the resolveAll hook
-export const roleResolvers = {
-  result: roleDefaultResolver,
-  dispatch: roleDispatchResolver,
+export const policyResolvers = {
+  result: policyDefaultResolver,
+  dispatch: policyDispatchResolver,
   data: {
-    create: roleCreateResolver,
-    update: roleDefaultResolver,
-    patch: roleDefaultResolver,
+    create: policyCreateResolver,
+    update: policyDefaultResolver,
+    patch: policyDefaultResolver,
   },
-  query: roleQueryResolver,
+  query: policyQueryResolver,
 }
