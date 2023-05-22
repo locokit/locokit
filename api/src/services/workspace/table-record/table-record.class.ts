@@ -95,7 +95,6 @@ export class TableRecord<T = any, D = Partial<T>>
   async create(data: D, params: EngineParams): Promise<T>
   async create(data: D[], params: EngineParams): Promise<T[]>
   async create(data: D | D[], params: EngineParams): Promise<nullTArrayT<T>> {
-    console.log('create', data)
     if (Array.isArray(data)) throw new NotImplemented('Multi creation is not yet implemented.')
     const adapter = params.$$adapter as EngineAdapter
 
@@ -106,7 +105,6 @@ export class TableRecord<T = any, D = Partial<T>>
   async update(id: null, data: Partial<D>, params: EngineParams): Promise<T[]>
   async update(id: Id | null, data: Partial<D>, params: EngineParams): Promise<nullTArrayT<T>> {
     if (!id) throw new NotImplemented('Multi update is not yet implemented')
-    console.log('update', id, data)
     const adapter = params.$$adapter as EngineAdapter
 
     return await adapter.updateRecord<D>(params.$$lckTable, id, data)
@@ -116,7 +114,6 @@ export class TableRecord<T = any, D = Partial<T>>
   async patch(id: null, data: Partial<D>, params: EngineParams): Promise<T[]>
   async patch(id: Id | null, data: Partial<D>, params: EngineParams): Promise<nullTArrayT<T>> {
     if (!id) throw new NotImplemented('Multi patch is not yet implemented')
-    console.log('patch', id, data)
     const adapter = params.$$adapter as EngineAdapter
 
     return await adapter.patchRecord<D>(params.$$lckTable, id, data)
@@ -127,7 +124,6 @@ export class TableRecord<T = any, D = Partial<T>>
   async remove(id: Id | null, params: EngineParams): Promise<nullTArrayT<T>> {
     if (!id)
       throw new NotImplemented('Id for removal is mandatory. Multi remove are not yet implemented.')
-    console.log('remove', id, params)
     const adapter = params.$$adapter as EngineAdapter
 
     return await adapter.deleteRecord(params.$$lckTable, id)
