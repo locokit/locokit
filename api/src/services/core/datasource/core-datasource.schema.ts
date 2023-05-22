@@ -1,5 +1,6 @@
 import { Type, Static, StringEnum, querySyntax } from '@feathersjs/typebox'
 import { WorkspaceResult } from '../workspace/core-workspace.schema'
+import { queryStringExtend } from '@/feathers-objection'
 
 export const coreDatasourceSchema = Type.Object(
   {
@@ -95,16 +96,7 @@ export const coreDatasourceQuerySchema = Type.Intersect(
         ),
       }),
       {
-        'workspace.slug': {
-          // @ts-expect-error
-          $like: {
-            type: 'string',
-          },
-          // @ts-expect-error
-          $ilike: {
-            type: 'string',
-          },
-        },
+        'workspace.slug': queryStringExtend,
       },
     ),
 
