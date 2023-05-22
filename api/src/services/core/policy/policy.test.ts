@@ -2,10 +2,10 @@ import { SERVICES } from '@locokit/definitions'
 import { describe, it, assert } from 'vitest'
 import { createApp } from '../../../app'
 
-describe('group service', () => {
+describe('policy service', () => {
   const app = createApp()
   it('registered the service', () => {
-    const service = app.service(SERVICES.CORE_ROLE)
+    const service = app.service(SERVICES.CORE_POLICY)
 
     assert.ok(service, 'Registered the service')
   })
