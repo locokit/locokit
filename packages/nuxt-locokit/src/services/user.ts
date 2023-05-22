@@ -1,7 +1,6 @@
 import { ApiUserGroup, Filter } from '../interfaces/toMigrate'
 import { getCurrentFilters } from '../helpers/filter'
 import { sdkClient } from './api'
-import { findGroups, ITEMS_PER_PAGE_GROUPS } from './group'
 import { findUserGroups } from './usergroup'
 
 const ITEMS_PER_PAGE = 10
@@ -40,7 +39,7 @@ export async function findUsers(
   {
     params = {},
     pageIndex = 0,
-    limit = ITEMS_PER_PAGE_GROUPS,
+    limit = ITEMS_PER_PAGE,
     sort = {
       createdAt: -1,
     },
@@ -54,7 +53,7 @@ export async function findUsers(
   } = {
     params: {},
     pageIndex: 0,
-    limit: ITEMS_PER_PAGE_GROUPS,
+    limit: ITEMS_PER_PAGE,
     sort: {
       createdAt: -1,
     },
@@ -92,45 +91,39 @@ export async function searchUsers({
   params?: Record<string, any>
   pageIndex?: number
   limit?: number
-  sort?: Record<string, number> | null
+  sort?: Record<string, number>
 }) {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let parameters: Record<string, any> = {
-      $limit: limit,
-      $skip: pageIndex * limit,
-      // $sort: sort,
-      ...params,
-    }
-    if (filters && query) {
-      parameters = {
-        ...parameters,
-        username: {
-          $ilike: `%${query}%`,
-        },
-        ...getCurrentFilters(filters),
-      }
-    } else if (query) {
-      parameters = {
-        ...parameters,
-        username: {
-          $ilike: `%${query}%`,
-        },
-      }
-    } else if (filters) {
-      parameters = {
-        ...parameters,
-        ...getCurrentFilters(filters),
-      }
-    }
-    return await sdkClient.service('user').find({
-      query: parameters,
-    })
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err)
-    return err as Error
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let parameters: Record<string, any> = {
+    $limit: limit,
+    $skip: pageIndex * limit,
+    // $sort: sort,
+    ...params,
   }
+  if (filters && query) {
+    parameters = {
+      ...parameters,
+      username: {
+        $ilike: `%${query}%`,
+      },
+      ...getCurrentFilters(filters),
+    }
+  } else if (query) {
+    parameters = {
+      ...parameters,
+      username: {
+        $ilike: `%${query}%`,
+      },
+    }
+  } else if (filters) {
+    parameters = {
+      ...parameters,
+      ...getCurrentFilters(filters),
+    }
+  }
+  return await sdkClient.service('user').find({
+    query: parameters,
+  })
 }
 
 export async function findMembersFomGroup(groupId: string) {

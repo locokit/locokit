@@ -90,12 +90,12 @@
               {{ $t('components.filterButton.action') }}
             </label>
             <PrimeDropdown
+              v-if="filter.column"
               v-model="filter.action"
               input-id="action"
               class="w-full"
               :disabled="!filter.column"
               :options="
-                filter.column &&
                 COLUMN_FILTERS_CONFIG[filter.column.original_type_id].actions
               "
               option-label="label"
@@ -186,20 +186,18 @@ import {
 } from '../../helpers/filter'
 import { OverlayPanel } from '../../types/prime.d.'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const emit = defineEmits<{
   (e: 'submit-filters', filters: Filter[]): void
   (e: 'save-filters', filters: Filter[]): void
   (e: 'reset-filters'): void
 }>()
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
   defineProps<{
     appendTo: string
     currentFilters?: Filter[]
     columnsDefinition: {
-      field: string
+      slug: string
       name: string
       column_type_id: number
       original_type_id: number

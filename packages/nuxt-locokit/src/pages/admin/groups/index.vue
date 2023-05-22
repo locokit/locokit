@@ -19,8 +19,8 @@
             </PrimeButton>
           </NuxtLink>
         </div>
-
-        <div>
+        <MessageForUser v-if="errorGroups" status="failed" />
+        <div v-else>
           <PrimeInputText
             v-model="wantedGroup"
             class="search-input w-full !mb-4"
@@ -73,13 +73,17 @@
               <div class="bg-white p-2">
                 <p class="text-sm">
                   {{
-                    $t('pages.adminGroups.result', {
-                      elements:
-                        groups.limit > groups.data.length
-                          ? groups.data.length
-                          : groups.limit,
-                      total: groups.total,
-                    })
+                    t(
+                      'pages.adminGroups.result',
+                      {
+                        elements:
+                          groups.limit > groups.data.length
+                            ? groups.data.length
+                            : groups.limit,
+                        total: groups.total,
+                      },
+                      groups.data.length,
+                    )
                   }}
                 </p>
               </div>
@@ -123,6 +127,7 @@
                 @page="onPage($event)"
               />
             </div>
+            <MessageForUser v-else-if="error" status="failed" />
             <div v-else>
               <p>{{ $t('pages.adminGroups.emptyResult') }}</p>
             </div>
@@ -141,7 +146,11 @@ import PrimeButton from 'primevue/button'
 import PrimeInputText from 'primevue/inputtext'
 import PrimePaginator, { PageState } from 'primevue/paginator'
 import { storeToRefs } from 'pinia'
-import { IdentityCard, FilterButton } from '@locokit/designsystem'
+import {
+  IdentityCard,
+  FilterButton,
+  MessageForUser,
+} from '@locokit/designsystem'
 import { useI18n } from 'vue-i18n'
 import { COLUMN_TYPE } from '../../../helpers/filter'
 import { ROUTES_NAMES } from '../../../paths'
@@ -153,21 +162,22 @@ import { ref } from '#imports'
 const { t } = useI18n({ useScope: 'global' })
 
 const groupsStore = useStoreGroups()
-const { groups } = storeToRefs(groupsStore)
+const { groups, error: errorGroups } = storeToRefs(groupsStore)
 
 const suggestionGroups = ref<ApiGroup | null>(null)
 const currentFilters = ref<Filter[] | null>(null)
 const wantedGroup = ref(null)
+const error = ref(false)
 
 const columnsDefinition = [
   {
-    field: 'name',
+    slug: 'name',
     name: `${t('pages.adminGroups.filters.name')}`,
     column_type_id: COLUMN_TYPE.STRING,
     original_type_id: COLUMN_TYPE.STRING,
   },
   {
-    field: 'workspace.name',
+    slug: 'workspace.name',
     name: `${t('pages.adminGroups.filters.workspace')}`,
     column_type_id: COLUMN_TYPE.STRING,
     original_type_id: COLUMN_TYPE.STRING,
@@ -189,7 +199,8 @@ const search = async (
   currentPageIndex = 0,
   limit: number | undefined = undefined,
 ) => {
-  suggestionGroups.value = await searchGroups({
+  error.value = false
+  const res = await searchGroups({
     query: wantedGroup.value,
     filters: currentFilters.value,
     params: {
@@ -198,16 +209,21 @@ const search = async (
     pageIndex: currentPageIndex,
     limit,
   })
+  if (res instanceof Error) {
+    error.value = true
+  } else {
+    suggestionGroups.value = res
+  }
 }
 
-const applyFilters = (filters: Filter[]) => {
+const applyFilters = async (filters: Filter[]) => {
   currentFilters.value = filters
-  search()
+  await search()
 }
 
-const onPage = (event: PageState) => {
+const onPage = async (event: PageState) => {
   // event.page = New index page number
-  search(event.page, event.rows)
+  await search(event.page, event.rows)
 }
 
 const patchGroup = async (data: { id: string; name: string }) => {

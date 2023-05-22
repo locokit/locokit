@@ -51,7 +51,12 @@ export const useStoreUsers = defineStore('users', () => {
         ({ id }: { id: string }) => id === data.id,
       )
       if (userFound > -1) {
-        users.value = await findUsers()
+        const res = await findUsers()
+        if (res instanceof Error) {
+          error.value = res
+        } else {
+          users.value = res
+        }
       }
     }
   }

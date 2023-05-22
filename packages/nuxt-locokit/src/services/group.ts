@@ -7,34 +7,16 @@ export const ITEMS_PER_PAGE_GROUPS = 20
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getGroup(id: string, params: null | any = null) {
-  try {
-    return await sdkClient.service('group').get(id, params)
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err)
-    return err as Error
-  }
+  return await sdkClient.service('group').get(id, params)
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function createGroup(data: Record<string, any> = {}) {
-  try {
-    return await sdkClient.service('group').create(data)
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err)
-    return err as Error
-  }
+  return await sdkClient.service('group').create(data)
 }
 
 export async function patchGroup(id: string, data = {}) {
-  try {
-    return await sdkClient.service('group').patch(id, data)
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err)
-    return err as Error
-  }
+  return await sdkClient.service('group').patch(id, data)
 }
 
 export async function findGroups(
@@ -50,8 +32,7 @@ export async function findGroups(
     params?: Record<string, any>
     pageIndex?: number
     limit?: number
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    sort?: Record<string, any>
+    sort?: Record<string, number>
   } = {
     params: {},
     pageIndex: 0,
@@ -61,20 +42,14 @@ export async function findGroups(
     },
   },
 ) {
-  try {
-    return await sdkClient.service('group').find({
-      query: {
-        $limit: limit,
-        $skip: pageIndex * limit,
-        ...params,
-        // $sort: sort,
-      },
-    })
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err)
-    return err as Error
-  }
+  return await sdkClient.service('group').find({
+    query: {
+      $limit: limit,
+      $skip: pageIndex * limit,
+      ...params,
+      // $sort: sort,
+    },
+  })
 }
 
 export async function searchGroups({
@@ -93,45 +68,39 @@ export async function searchGroups({
   params?: Record<string, any>
   pageIndex?: number
   limit?: number
-  sort?: Record<string, number> | null
+  sort?: Record<string, number>
 }) {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let parameters: Record<string, any> = {
-      $limit: limit,
-      $skip: pageIndex * limit,
-      // $sort: sort,
-      ...params,
-    }
-    if (filters && query) {
-      parameters = {
-        ...parameters,
-        name: {
-          $ilike: `%${query}%`,
-        },
-        ...getCurrentFilters(filters),
-      }
-    } else if (query) {
-      parameters = {
-        ...parameters,
-        name: {
-          $ilike: `%${query}%`,
-        },
-      }
-    } else if (filters) {
-      parameters = {
-        ...parameters,
-        ...getCurrentFilters(filters),
-      }
-    }
-    return await sdkClient.service('group').find({
-      query: parameters,
-    })
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err)
-    return err as Error
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let parameters: Record<string, any> = {
+    $limit: limit,
+    $skip: pageIndex * limit,
+    // $sort: sort,
+    ...params,
   }
+  if (filters && query) {
+    parameters = {
+      ...parameters,
+      name: {
+        $ilike: `%${query}%`,
+      },
+      ...getCurrentFilters(filters),
+    }
+  } else if (query) {
+    parameters = {
+      ...parameters,
+      name: {
+        $ilike: `%${query}%`,
+      },
+    }
+  } else if (filters) {
+    parameters = {
+      ...parameters,
+      ...getCurrentFilters(filters),
+    }
+  }
+  return await sdkClient.service('group').find({
+    query: parameters,
+  })
 }
 
 export async function findGroupsFomUser(userId: string) {
@@ -141,9 +110,13 @@ export async function findGroupsFomUser(userId: string) {
       acc.push(usergroup.groupId)
       return acc
     }, [])
-    return await findGroups({
+    const foundGroups = await findGroups({
       params: { id: { $in: userGroupsIds }, $eager: 'workspace' },
     })
+    if (foundGroups?.total) {
+      return foundGroups
+    }
+    return { total: 0, data: [] }
   }
   return { total: 0, data: [] }
 }

@@ -322,23 +322,47 @@ const queryForUserMembers = ref<string | null>(null) // Query for search to find
 const errorUserGroup = ref(false)
 
 const searchUsersExceptMembers = async () => {
+  // Check if user already member of some groups
   if (users.value.length > 0) {
     const userGroupsIds = users.value.reduce((acc: string[], user) => {
       acc.push(user.id)
       return acc
     }, [])
+    // Search specific user
     if (queryForAvailableUser.value) {
-      suggestUsers.value = await searchUsers({
+      const res = await searchUsers({
         query: queryForAvailableUser.value,
         params: { id: { $nin: userGroupsIds } },
       })
+      if (res instanceof Error) {
+        errorUserGroup.value = true
+      } else {
+        suggestUsers.value = res
+      }
     } else {
+      // Display all users
       suggestUsers.value = await findUsers({
         params: { id: { $nin: userGroupsIds } },
       })
     }
+    // Case for new group without users
+  } else if (queryForAvailableUser.value) {
+    const res = await searchUsers({
+      query: queryForAvailableUser.value,
+    })
+    if (res instanceof Error) {
+      errorUserGroup.value = true
+    } else {
+      suggestUsers.value = res
+    }
   } else {
-    suggestUsers.value = await findUsers()
+    // Display all users
+    const foundUsers = await findUsers()
+    if (foundUsers instanceof Error) {
+      errorUserGroup.value = true
+    } else {
+      suggestUsers.value = foundUsers
+    }
   }
 }
 
@@ -399,7 +423,7 @@ const searchWorkspaces = async (event: {
       },
     },
   })
-  if (workspaces.total > 0) {
+  if (workspaces.total && workspaces.total > 0) {
     suggestedWorkspaces.value = workspaces.data
   }
 }

@@ -1,17 +1,10 @@
 import { sdkClient } from './api'
-import { ITEMS_PER_PAGE_GROUPS } from './group'
 
 const ITEMS_PER_PAGE = 10
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getWorkspace(id: string, params: null | any = null) {
-  try {
-    return await sdkClient.service('workspace').get(id, params)
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err)
-    return err as Error
-  }
+  return await sdkClient.service('workspace').get(id, params)
 }
 
 export async function findWorkspaces(
@@ -27,8 +20,7 @@ export async function findWorkspaces(
     params?: Record<string, any>
     pageIndex?: number
     limit?: number
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    sort?: Record<string, any>
+    sort?: Record<string, number>
   } = {
     params: {},
     pageIndex: 0,
@@ -64,13 +56,7 @@ export async function createWorkspace(data: {
     icon: string | null
   }
 }) {
-  try {
-    return await sdkClient.service('workspace').create(data)
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err)
-    return err as Error
-  }
+  return await sdkClient.service('workspace').create(data)
 }
 
 export async function patchWorkspace(
@@ -85,11 +71,5 @@ export async function patchWorkspace(
     }
   },
 ) {
-  try {
-    return await sdkClient.service('workspace').patch(id, data)
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err)
-    return err as Error
-  }
+  return await sdkClient.service('workspace').patch(id, data)
 }

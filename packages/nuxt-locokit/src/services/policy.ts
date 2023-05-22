@@ -3,13 +3,7 @@ import { sdkClient } from './api'
 const ITEMS_PER_PAGE = 10
 
 export async function getPolicy(id: string) {
-  try {
-    return await sdkClient.service('role').get(id)
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err)
-    return err as Error
-  }
+  return await sdkClient.service('role').get(id)
 }
 
 export async function findPolicies(
@@ -25,8 +19,7 @@ export async function findPolicies(
     params?: Record<string, any>
     pageIndex?: number
     limit?: number
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    sort?: Record<string, any>
+    sort?: Record<string, number>
   } = {
     params: {},
     pageIndex: 0,
@@ -36,18 +29,12 @@ export async function findPolicies(
     },
   },
 ) {
-  try {
-    return await sdkClient.service('role').find({
-      query: {
-        $limit: limit,
-        $skip: pageIndex * limit,
-        ...params,
-        // $sort: sort,
-      },
-    })
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err)
-    return err as Error
-  }
+  return await sdkClient.service('role').find({
+    query: {
+      $limit: limit,
+      $skip: pageIndex * limit,
+      ...params,
+      // $sort: sort,
+    },
+  })
 }

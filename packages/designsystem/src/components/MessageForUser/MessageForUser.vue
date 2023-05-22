@@ -31,8 +31,8 @@
 const props = withDefaults(
   defineProps<{
     status?: 'failed' | 'success' | null
-    customMsgTkSuccessForm?: string
-    customMsgTkErrorForm?: string
+    customMsgTkSuccessForm?: string | null
+    customMsgTkErrorForm?: string | null
   }>(),
   {
     status: null,

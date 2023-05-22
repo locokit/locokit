@@ -1,9 +1,8 @@
-import { JSONSchema, Model, RelationMappings } from 'objection'
+import { Model, RelationMappings } from 'objection'
 import { WorkspaceModel } from '../../workspace/workspace.model'
 import { UserGroupModel } from '../user-group/user-group.model'
 import { UserModel } from '../user/user.model'
 import { RoleModel } from '../role/role.model'
-import { groupSchema } from './group.schema'
 
 /**
  * Group objection Model
@@ -12,10 +11,6 @@ export class GroupModel extends Model {
   static readonly model = 'group'
 
   static readonly tableName = 'lck_group'
-
-  // static get jsonSchema(): JSONSchema {
-  //   return groupSchema
-  // }
 
   static get relationMappings(): RelationMappings {
     return {

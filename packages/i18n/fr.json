@@ -259,7 +259,7 @@
       "addUser": "Ajouter un⋅e utilisateur⋅rice",
       "emptyResult": "Aucun résultat trouvé",
       "search": "Commencez la saisie pour rechercher…",
-      "result": "Affichage de {elements} utilisateurs⋅rices sur {total}.",
+      "result": "Affichage d'un⋅e utilisateur⋅rice sur {total}. | Affichage de {elements} utilisateurs⋅rices sur {total}.",
       "filters": {
         "username": "Nom d'utilisateur⋅rice",
         "firstName": "Prénom",
@@ -333,7 +333,7 @@
       "addGroup": "Ajouter un groupe",
       "emptyResult": "Aucun résultat trouvé",
       "search": "Commencez la saisie pour rechercher…",
-      "result": "Affichage de {elements} groupes sur {total}.",
+      "result": "Affichage d'un groupe sur {total}. | Affichage de {elements} groupes sur {total}.",
       "filters": {
         "name": "Nom",
         "workspace": "Espace de travail"
@@ -349,7 +349,7 @@
       }
     },
     "createGroup": {
-      "title": "Créer ungroupe",
+      "title": "Créer un groupe",
       "submit": "Créer",
       "name": "Nom",
       "workspace": "Espace de travail",

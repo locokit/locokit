@@ -386,29 +386,61 @@ const suggestGroups = ref(null) // Other groups with Pagination
 const queryForAvailableGroup = ref<string | null>(null) // Query for search in available group
 const queryForJoinedGroup = ref<string | null>(null) // Query for search in joined group
 const actionFromButton = ref(false)
-const response = ref(null)
+const response = ref<Error | null>(null)
 const errorUserGroup = ref(false)
 
 const searchGroupsExceptJoined = async () => {
+  errorUserGroup.value = false
+  // Check if user already member of some groups
   if (groups.value.length > 0) {
     const userGroupsIds = groups.value.reduce((acc: string[], group) => {
       acc.push(group.id)
       return acc
     }, [])
+    // Search specific group
     if (queryForAvailableGroup.value) {
-      suggestGroups.value = await searchGroups({
+      const res = await searchGroups({
         query: queryForAvailableGroup.value,
         params: { id: { $nin: userGroupsIds }, $eager: 'workspace' },
       })
+      if (res instanceof Error) {
+        errorUserGroup.value = true
+      } else {
+        suggestGroups.value = res
+      }
     } else {
-      suggestGroups.value = await findGroups({
+      // Display all groups
+      const foundGroups = await findGroups({
         params: { id: { $nin: userGroupsIds }, $eager: 'workspace' },
       })
+      if (foundGroups instanceof Error) {
+        errorUserGroup.value = true
+      } else {
+        suggestGroups.value = foundGroups
+      }
     }
-  } else {
-    suggestGroups.value = await findGroups({
+    // Case for new user without groups
+  } else if (queryForAvailableGroup.value) {
+    // Search specific group
+    const res = await searchGroups({
+      query: queryForAvailableGroup.value,
       params: { $eager: 'workspace' },
     })
+    if (res instanceof Error) {
+      errorUserGroup.value = true
+    } else {
+      suggestGroups.value = res
+    }
+  } else {
+    // Display all groups
+    const foundGroups = await findGroups({
+      params: { $eager: 'workspace' },
+    })
+    if (foundGroups instanceof Error) {
+      errorUserGroup.value = true
+    } else {
+      suggestGroups.value = foundGroups
+    }
   }
 }
 
@@ -573,7 +605,7 @@ const searchGroupsJoined = async () => {
     if (queryForJoinedGroup.value) {
       const res = await searchGroups({
         query: queryForJoinedGroup.value,
-        params: { id: { $in: userGroupsIds } },
+        params: { id: { $in: userGroupsIds }, $eager: 'workspace' },
       })
       groups.value = res.data
     } else if (currentGroupsForUser.value) {
@@ -584,6 +616,11 @@ const searchGroupsJoined = async () => {
 }
 
 const onReset = async () => {
-  currentUser.value = await getUser(route.params.id as string)
+  const res = await getUser(route.params.id as string)
+  if (res instanceof Error) {
+    response.value = res
+  } else {
+    currentUser.value = res
+  }
 }
 </script>

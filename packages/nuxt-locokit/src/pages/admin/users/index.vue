@@ -4,7 +4,9 @@
       class="w-72 px-2 py-4 space-y-2 overflow-y-hidden hover:overflow-y-auto bg-primary-lighten"
     >
       <div class="ml-2">
-        <h2 class="mb-4">{{ $t('pages.adminUsers.title') }}</h2>
+        <h2 class="mb-4">
+          {{ $t('pages.adminUsers.title') }}
+        </h2>
         <div class="mb-4">
           <NuxtLink :to="{ name: ROUTES_NAMES.ADMIN.USERS.CREATE }">
             <PrimeButton class="p-button-rounded p-button-secondary w-full">
@@ -19,8 +21,8 @@
             </PrimeButton>
           </NuxtLink>
         </div>
-
-        <div>
+        <MessageForUser v-if="errorUsers" status="failed" />
+        <div v-else>
           <PrimeInputText
             v-model="wantedUser"
             class="search-input w-full !mb-4"
@@ -87,13 +89,17 @@
               <div class="bg-white rounded p-2">
                 <p class="text-sm">
                   {{
-                    $t('pages.adminUsers.result', {
-                      elements:
-                        users.limit > users.data.length
-                          ? users.data.length
-                          : users.limit,
-                      total: users.total,
-                    })
+                    t(
+                      'pages.adminUsers.result',
+                      {
+                        elements:
+                          users.limit > users.data.length
+                            ? users.data.length
+                            : users.limit,
+                        total: users.total,
+                      },
+                      1,
+                    )
                   }}
                 </p>
               </div>
@@ -156,6 +162,7 @@
                 @page="onPage($event)"
               />
             </div>
+            <MessageForUser v-else-if="error" status="failed" />
             <div v-else>
               <p>{{ $t('pages.adminUsers.emptyResult') }}</p>
             </div>
@@ -174,7 +181,11 @@ import PrimeButton from 'primevue/button'
 import PrimeInputText from 'primevue/inputtext'
 import PrimePaginator, { PageState } from 'primevue/paginator'
 import { storeToRefs } from 'pinia'
-import { IdentityCard, FilterButton } from '@locokit/designsystem'
+import {
+  IdentityCard,
+  FilterButton,
+  MessageForUser,
+} from '@locokit/designsystem'
 import { useI18n } from 'vue-i18n'
 import { COLUMN_TYPE } from '../../../helpers/filter'
 import { ROUTES_NAMES } from '../../../paths'
@@ -186,11 +197,12 @@ import { ref } from '#imports'
 const { t } = useI18n({ useScope: 'global' })
 
 const usersStore = useStoreUsers()
-const { users } = storeToRefs(usersStore)
+const { users, error: errorUsers } = storeToRefs(usersStore)
 
 const suggestionUsers = ref<ApiUser | null>(null)
 const currentFilters = ref<Filter[] | null>(null)
 const wantedUser = ref(null)
+const error = ref(false)
 
 const columnsDefinition = [
   {
@@ -234,12 +246,17 @@ const search = async (
   currentPageIndex = 0,
   limit: number | undefined = undefined,
 ) => {
-  suggestionUsers.value = await searchUsers({
+  const res = await searchUsers({
     query: wantedUser.value,
     filters: currentFilters.value,
     pageIndex: currentPageIndex,
     limit,
   })
+  if (res instanceof Error) {
+    error.value = true
+  } else {
+    suggestionUsers.value = res
+  }
 }
 
 const applyFilters = (filters: Filter[]) => {
