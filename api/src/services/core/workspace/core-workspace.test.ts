@@ -5,7 +5,7 @@ import { builderTestEnvironment, SetupData } from '@/configure.test'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { WorkspaceResult } from './core-workspace.schema'
 import { Paginated } from '@feathersjs/feathers'
-import { BadRequest, Forbidden, NotFound } from '@feathersjs/errors/lib'
+import { BadRequest, Forbidden } from '@feathersjs/errors/lib'
 import path from 'path'
 import fs from 'fs'
 
