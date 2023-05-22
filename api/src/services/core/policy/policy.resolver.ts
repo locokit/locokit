@@ -19,7 +19,7 @@ export const policyDispatchResolver = resolve<PolicySchema, HookContext>({
    * The relation `workspace` is fetched when used in a find/get + $joinRelated
    */
   async workspace(workspace, _data, context) {
-    if (workspace) return workspaceDispatchResolver.resolve(workspace, context)
+    if (workspace) return await workspaceDispatchResolver.resolve(workspace, context)
   },
 
   /**
