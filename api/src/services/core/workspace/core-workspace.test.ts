@@ -43,7 +43,7 @@ describe('workspace service', () => {
       expect(workspace.name).toBe('core-workspace public')
 
       await app.service(SERVICES.CORE_WORKSPACE).patch(workspace.id, {
-        softDeletedAt: new Date(Date.now()).toISOString(),
+        softDeletedAt: new Date().toISOString(),
       })
       await app.service(SERVICES.CORE_WORKSPACE).remove(workspace.id, {
         user: setupData.userAdmin,
@@ -178,7 +178,7 @@ describe('workspace service', () => {
       expect(hasTableUserGroup).toBe(true)
 
       await app.service(SERVICES.CORE_WORKSPACE).patch(ws.id, {
-        softDeletedAt: new Date(Date.now()).toISOString(),
+        softDeletedAt: new Date().toISOString(),
       })
       await app.service(SERVICES.CORE_WORKSPACE).remove(ws.id, {
         user: setupData.userAdmin,
@@ -197,7 +197,7 @@ describe('workspace service', () => {
       expect(schemasBeforeDelete.rowCount).toBe(1)
 
       await app.service(SERVICES.CORE_WORKSPACE).patch(ws.id, {
-        softDeletedAt: new Date(Date.now()).toISOString(),
+        softDeletedAt: new Date().toISOString(),
       })
       await app.service(SERVICES.CORE_WORKSPACE).remove(ws.id, {
         authenticated: true,
@@ -364,7 +364,7 @@ describe('workspace service', () => {
 
       // remove it with admin user
       await app.service(SERVICES.CORE_WORKSPACE).patch(resWorkspace.id, {
-        softDeletedAt: new Date(Date.now()).toISOString(),
+        softDeletedAt: new Date().toISOString(),
       })
       await app.service(SERVICES.CORE_WORKSPACE).remove(resWorkspace.id, {
         authenticated: true,
@@ -457,7 +457,7 @@ describe('workspace service', () => {
 
     it('allow patch softDeletedAt for admin', async () => {
       expect.assertions(1)
-      const dataISOString = new Date(Date.now()).toISOString()
+      const dataISOString = new Date().toISOString()
       const resPatched = await app.service(SERVICES.CORE_WORKSPACE).patch(
         resWorkspace.id,
         {
@@ -473,7 +473,7 @@ describe('workspace service', () => {
     })
     it('forbid patch softDeletedAt for owner', async () => {
       expect.assertions(1)
-      const dataISOString = new Date(Date.now()).toISOString()
+      const dataISOString = new Date().toISOString()
       await expect(
         app.service(SERVICES.CORE_WORKSPACE).patch(
           resWorkspace.id,
@@ -490,7 +490,7 @@ describe('workspace service', () => {
     })
     it('forbid patch softDeletedAt for other users', async () => {
       expect.assertions(1)
-      const dataISOString = new Date(Date.now()).toISOString()
+      const dataISOString = new Date().toISOString()
       await expect(
         app.service(SERVICES.CORE_WORKSPACE).patch(
           resWorkspace.id,
@@ -512,7 +512,7 @@ describe('workspace service', () => {
 
       // remove it with admin user
       await app.service(SERVICES.CORE_WORKSPACE).patch(resWorkspace.id, {
-        softDeletedAt: new Date(Date.now()).toISOString(),
+        softDeletedAt: new Date().toISOString(),
       })
       await app.service(SERVICES.CORE_WORKSPACE).remove(resWorkspace.id, {
         authenticated: true,
@@ -693,7 +693,7 @@ describe('workspace service', () => {
     afterEach(async () => {
       // remove it with admin user
       await app.service(SERVICES.CORE_WORKSPACE).patch(privateWorkspace.id, {
-        softDeletedAt: new Date(Date.now()).toISOString(),
+        softDeletedAt: new Date().toISOString(),
       })
       await app.service(SERVICES.CORE_WORKSPACE).remove(privateWorkspace.id, {
         authenticated: true,
@@ -701,7 +701,7 @@ describe('workspace service', () => {
         authentication: setupData.userAdminAuthentication,
       })
       await app.service(SERVICES.CORE_WORKSPACE).patch(privateWorkspace2.id, {
-        softDeletedAt: new Date(Date.now()).toISOString(),
+        softDeletedAt: new Date().toISOString(),
       })
       await app.service(SERVICES.CORE_WORKSPACE).remove(privateWorkspace2.id, {
         authenticated: true,
@@ -796,7 +796,7 @@ $BODY$;
 
       // patch to soft delete
       await app.service(SERVICES.CORE_WORKSPACE).patch(workspace.id, {
-        softDeletedAt: new Date(Date.now()).toISOString(),
+        softDeletedAt: new Date().toISOString(),
       })
 
       // remove should fail
@@ -854,7 +854,7 @@ $BODY$;
       }
       // patch
       await app.service(SERVICES.CORE_WORKSPACE).patch(workspace.id, {
-        softDeletedAt: new Date(Date.now()).toISOString(),
+        softDeletedAt: new Date().toISOString(),
       })
 
       // remove that fail
@@ -914,7 +914,7 @@ $BODY$;
       expect(ws.slug).toBe('pouet_pouet_pouet_pouet_pouic_pouic_pouic_pouic_pw')
 
       await app.service(SERVICES.CORE_WORKSPACE).patch(ws.id, {
-        softDeletedAt: new Date(Date.now()).toISOString(),
+        softDeletedAt: new Date().toISOString(),
       })
       await app.service(SERVICES.CORE_WORKSPACE).remove(ws.id, {
         authenticated: true,
@@ -934,7 +934,7 @@ $BODY$;
       expect(ws.slug).toBe('pouet_pouet_pouet_pouic_pouic_pouic_pwet_pwet_pwet')
 
       await app.service(SERVICES.CORE_WORKSPACE).patch(ws.id, {
-        softDeletedAt: new Date(Date.now()).toISOString(),
+        softDeletedAt: new Date().toISOString(),
       })
       await app.service(SERVICES.CORE_WORKSPACE).remove(ws.id, {
         authenticated: true,
@@ -954,7 +954,7 @@ $BODY$;
       expect(ws.slug).toBe('pouet_pouet_0123pouet_pouic_pouic_12_pwet_pwet_pwe')
 
       await app.service(SERVICES.CORE_WORKSPACE).patch(ws.id, {
-        softDeletedAt: new Date(Date.now()).toISOString(),
+        softDeletedAt: new Date().toISOString(),
       })
       await app.service(SERVICES.CORE_WORKSPACE).remove(ws.id, {
         authenticated: true,
@@ -1001,7 +1001,7 @@ $BODY$;
       // teardown
 
       await app.service(SERVICES.CORE_WORKSPACE).patch(workspace.id, {
-        softDeletedAt: new Date(Date.now()).toISOString(),
+        softDeletedAt: new Date().toISOString(),
       })
       await app.service(SERVICES.CORE_WORKSPACE).remove(workspace.id, {
         authenticated: true,

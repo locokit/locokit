@@ -716,7 +716,7 @@ export function builderTestEnvironment(prefix: string) {
     // await app.services.group.remove(group1.id)
 
     await app.service(SERVICES.CORE_WORKSPACE).patch(publicWorkspace.id, {
-      softDeletedAt: new Date(Date.now()).toISOString(),
+      softDeletedAt: new Date().toISOString(),
     })
 
     await app.service(SERVICES.CORE_WORKSPACE).remove(publicWorkspace.id, {

@@ -71,7 +71,7 @@ export class WorkspaceService extends ObjectionService<
         return await this._patch(
           id,
           {
-            softDeletedAt: new Date(Date.now()).toISOString(),
+            softDeletedAt: new Date().toISOString(),
           },
           {
             transaction: params.transaction,
