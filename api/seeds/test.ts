@@ -35,8 +35,8 @@ export async function seed(knex: Knex): Promise<any> {
     console.log('Inserting test users...')
     const usersToInsert = [
       {
-        firstname: 'Master',
-        lastname: 'ADMIN',
+        firstName: 'Master',
+        lastName: 'ADMIN',
         username: 'master',
         email: 'admin@locokit.io',
         password: hashPassword,
@@ -44,8 +44,8 @@ export async function seed(knex: Knex): Promise<any> {
         isVerified: true,
       },
       {
-        firstname: 'Leonardo',
-        lastname: 'CREATOR',
+        firstName: 'Leonardo',
+        lastName: 'CREATOR',
         username: 'leonardo',
         email: 'creator@locokit.io',
         password: hashPassword,
@@ -53,8 +53,8 @@ export async function seed(knex: Knex): Promise<any> {
         isVerified: true,
       },
       {
-        firstname: 'Jack',
-        lastname: 'MEMBER',
+        firstName: 'Jack',
+        lastName: 'MEMBER',
         username: 'jack',
         email: 'member@locokit.io',
         password: hashPassword,

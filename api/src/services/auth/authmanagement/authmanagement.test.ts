@@ -71,8 +71,8 @@ describe("'auth-management' service", () => {
       getUrl(SERVICES.CORE_USER),
       {
         ...credentials,
-        firstname: 'First name',
-        lastname: 'Last name',
+        firstName: 'First name',
+        lastName: 'Last name',
       },
       {
         headers: {
@@ -92,8 +92,8 @@ describe("'auth-management' service", () => {
     expect(response.data.resetToken).toBeUndefined()
     expect(response.data.email).toBe(credentials.email)
     expect(response.data.username).toBe(credentials.username)
-    expect(response.data.firstname).toBe('First name')
-    expect(response.data.lastname).toBe('Last name')
+    expect(response.data.firstName).toBe('First name')
+    expect(response.data.lastName).toBe('Last name')
     expect(response.data.id).toBeDefined()
   })
 

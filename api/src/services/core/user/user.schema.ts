@@ -7,8 +7,8 @@ import { queryStringExtend } from '@/feathers-objection'
 export const userSchema = Type.Object(
   {
     id: Type.String({ format: 'uuid' }),
-    firstname: Type.Optional(Type.String()),
-    lastname: Type.Optional(Type.String()),
+    firstName: Type.Optional(Type.String()),
+    lastName: Type.Optional(Type.String()),
     username: Type.String(),
     avatarURL: Type.Optional(Type.String()),
     email: Type.String({ format: 'email' }),
@@ -77,8 +77,8 @@ export const userDataSchema = Type.Object(
     username: Type.String(),
     email: Type.String({ format: 'email' }),
     profile: Type.Optional(Type.String({ format: 'user-profile', default: USER_PROFILE.MEMBER })),
-    firstname: Type.Optional(Type.String()),
-    lastname: Type.Optional(Type.String()),
+    firstName: Type.Optional(Type.String()),
+    lastName: Type.Optional(Type.String()),
   },
   {
     $id: 'UserData',
@@ -160,8 +160,8 @@ export const userQuerySchema = Type.Intersect(
       {
         email: queryStringExtend,
         username: queryStringExtend,
-        firstname: queryStringExtend,
-        lastname: queryStringExtend,
+        firstName: queryStringExtend,
+        lastName: queryStringExtend,
       },
     ),
     Type.Object({

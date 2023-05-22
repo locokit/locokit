@@ -607,7 +607,7 @@ describe('workspace service', () => {
         app.service(SERVICES.CORE_WORKSPACE).find({
           query: {
             // @ts-expect-error
-            'owner.firstname': 'trying',
+            'owner.firstName': 'trying',
           },
         }),
       ).rejects.toThrow(BadRequest)
@@ -619,7 +619,7 @@ describe('workspace service', () => {
         app.service(SERVICES.CORE_WORKSPACE).find({
           query: {
             // @ts-expect-error
-            'owner.firstname': 'trying',
+            'owner.firstName': 'trying',
           },
           authenticated: false,
           authentication: {
