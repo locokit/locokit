@@ -17,12 +17,12 @@ describe('datasource service', () => {
   it.todo('add a table when a new one appear in the datasource')
   it.todo('add a field when a new one appear in the datasource')
   it.todo('add a relation when a new one appear in the datasource')
-  it.todo('update a table when a new one appear in the datasource')
-  it.todo('update a field when a new one appear in the datasource')
-  it.todo('update a relation when a new one appear in the datasource')
-  it.todo('remove a table when a new one appear in the datasource')
-  it.todo('remove a field when a new one appear in the datasource')
-  it.todo('remove a relation when a new one appear in the datasource')
+  it.todo('update a table when it is updated in the datasource')
+  it.todo('update a field when it is updated in the datasource')
+  it.todo('update a relation when it is updated in the datasource')
+  it.todo('remove a table when it is removed in the datasource')
+  it.todo('remove a field when it is removed in the datasource')
+  it.todo('remove a relation when it is removed in the datasource')
 
   it.todo('create a relation named correctly')
   it.todo(

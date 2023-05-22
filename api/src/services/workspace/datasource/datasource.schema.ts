@@ -133,7 +133,7 @@ export const datasourceQuerySchema = Type.Intersect(
         Type.RegEx(
           /tables|tables\.fields|tables\.relations\[tables\]|\[tables.\[fields\]\]|\[tables.\[relations\]\]|\[tables.\[fields,relations\]\]/,
           {
-            description: 'Join workspace to its relation. Only `table` is accepted.',
+            description: 'Join datasource to its related ressources (and nested).',
           },
         ),
       ),
@@ -141,7 +141,7 @@ export const datasourceQuerySchema = Type.Intersect(
         Type.RegEx(
           /tables|tables\.fields|tables\.relations\[tables\]|\[tables.\[fields\]\]|\[tables.\[relations\]\]|\[tables.\[fields,relations\]\]/,
           {
-            description: 'Join workspace to its relation. Only `table` is accepted.',
+            description: 'Join datasource to its related ressources (and nested).',
           },
         ),
       ),
@@ -149,7 +149,7 @@ export const datasourceQuerySchema = Type.Intersect(
         Type.RegEx(
           /tables|tables\.fields|tables\.relations\[tables\]|\[tables.\[fields\]\]|\[tables.\[relations\]\]|\[tables.\[fields,relations\]\]/,
           {
-            description: 'Join workspace to its relation. Only `owner` is accepted.',
+            description: 'Join datasource to its related ressources (and nested).',
           },
         ),
       ),

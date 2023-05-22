@@ -187,7 +187,7 @@ describe('workspace service', () => {
       })
     })
 
-    it('remove the dedicated schema when removing a "soft-deleted" workspace', async () => {
+    it('remove the dedicated schema when removing a workspace', async () => {
       expect.assertions(2)
       const schemasBeforeDelete = await app
         .get('db')
@@ -212,9 +212,9 @@ describe('workspace service', () => {
         ])
       expect(schemasAfterRemove.rowCount).toBe(0)
     })
-    it.todo('remove the related groups when removing a "soft-deleted" workspace')
-    it.todo('remove the related roles when removing a "soft-deleted" workspace')
-    it.todo('remove the related datasources when removing a "soft-deleted" workspace')
+    it.todo('remove the related groups when removing a workspace')
+    it.todo('remove the related roles when removing a workspace')
+    it.todo('remove the related datasources when removing a workspace')
   })
 
   describe('with soft-deleted', () => {
@@ -351,38 +351,6 @@ describe('workspace service', () => {
           authentication: setupData.user1Authentication,
         }),
       ).rejects.toThrowError(/Workspace is already soft-deleted./)
-    })
-
-    it('remove definitively workspace soft-deleted for admin users', async () => {
-      expect.assertions(4)
-
-      const resultBeforeRemoval = await app
-        .get('db')
-        .raw('SELECT * FROM pg_catalog.pg_namespace WHERE nspname = ?', schemaName)
-      expect(resultBeforeRemoval.rowCount).toBe(1)
-      expect(resultBeforeRemoval.rows[0].nspname).toBe(schemaName)
-
-      // remove it with admin user
-      await app.service(SERVICES.CORE_WORKSPACE).patch(resWorkspace.id, {
-        softDeletedAt: new Date().toISOString(),
-      })
-      await app.service(SERVICES.CORE_WORKSPACE).remove(resWorkspace.id, {
-        authenticated: true,
-        user: setupData.userAdmin,
-        authentication: setupData.userAdminAuthentication,
-      })
-      alreadyRemoved = true
-
-      // check the workspace don't exist anymore in DB
-      await expect(app.service(SERVICES.CORE_WORKSPACE).get(resWorkspace.id)).rejects.toThrow(
-        NotFound,
-      )
-
-      // check the dedicated schema don't exist anymore too
-      const result = await app
-        .get('db')
-        .raw('SELECT * FROM pg_catalog.pg_namespace WHERE nspname = ?', schemaName)
-      expect(result.rowCount).toBe(0)
     })
 
     it('returns only workspace not "soft-deleted"', async () => {
@@ -525,10 +493,13 @@ describe('workspace service', () => {
   // don't know if we need to implement this usecase
   // need to be checked with permissions implementation
   describe.todo('with $forCurrentUser option', () => {
-    it.todo('returns only workspace of a user when using the $forCurrentUser option', () => {})
+    it.todo(
+      'returns only workspace available for a user (owner or not) when using the $forCurrentUser option',
+      () => {},
+    )
 
     it.todo(
-      'returns all workspaces of the current logged user AND public workspaces when not using the $forCurrentUser option',
+      'returns all workspaces of the current logged user AND public workspaces he is not member when not using the $forCurrentUser option',
       () => {},
     )
   })
@@ -677,6 +648,7 @@ describe('workspace service', () => {
       expect(resultAfterRemove.data.total).toBe(1)
       expect(resultAfterRemove.data.data[0].id).toBe(setupData.publicWorkspaceId)
     })
+    it.todo('do not show for authenticated users the soft-deleted workspaces they do not own')
     it('throw error for unauthenticated users if a soft-deleted filter is wished', async () => {
       expect.assertions(4)
       try {
