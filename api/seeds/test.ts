@@ -62,7 +62,7 @@ export async function seed(knex: Knex): Promise<any> {
         isVerified: true,
       },
     ]
-    const usersInserted: any[] = await knex('lck_user')
+    const usersInserted: Array<{ id: string }> = await knex('lck_user')
       .withSchema('core')
       .transacting(trx)
       .insert(usersToInsert)
