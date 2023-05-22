@@ -792,8 +792,6 @@ $BODY$;
       })
       const workspaceSlug = 'w_' + (workspace.slug as string)
 
-      console.log(workspace)
-
       // patch to soft delete
       await app.service(SERVICES.CORE_WORKSPACE).patch(workspace.id, {
         softDeletedAt: new Date().toISOString(),

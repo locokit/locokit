@@ -19,7 +19,6 @@ export const datasourceHooks = {
       schemaHooks.resolveQuery(datasourceResolvers.query),
       schemaHooks.validateQuery(datasourceQueryValidator),
       async function setWorkspaceSchema(context: HookContext) {
-        console.log('setWorkspaceSchema', context.params.query.workspaceId)
         const workspace: WorkspaceResult = await context.app
           .service(SERVICES.CORE_WORKSPACE)
           .get(context.params.query.workspaceId)

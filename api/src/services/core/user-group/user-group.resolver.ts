@@ -22,11 +22,9 @@ export const userGroupDispatchResolver: Resolver<UserGroupSchema, HookContext> =
    * The relation `workspace` is fetched when used in a find/get + $joinRelated
    */
   async group(group, _data, context) {
-    console.log('userGroup dispatch', group)
     if (group) return await groupDispatchResolver.resolve(group, context)
   },
   async user(user, _data, context) {
-    console.log('userGroup dispatch', user)
     if (user) return await userDispatchResolver.resolve(user, context)
   },
 })

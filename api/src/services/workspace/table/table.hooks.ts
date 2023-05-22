@@ -8,7 +8,6 @@ import { tableDataValidator, tableQueryValidator } from './table.schema'
 import { SERVICES } from '@locokit/definitions'
 
 async function setWorkspaceSchema(context: HookContext) {
-  console.log('setWorkspaceSchema')
   const { transaction } = context.params
 
   const datasourceId =
@@ -20,7 +19,6 @@ async function setWorkspaceSchema(context: HookContext) {
       $eager: 'workspace',
     },
   })
-  console.log('datasource', datasource)
   context.service.schema = `w_${datasource.workspace?.slug as string}`
   return context
 }

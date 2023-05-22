@@ -70,7 +70,7 @@ export const tableRecordHooks = {
       },
       async function computeTypeBoxSchema(context: HookContext, next: NextFunction) {
         const { workspaceSlug, datasourceSlug, tableSlug } = context.params.route
-        console.log(workspaceSlug, datasourceSlug, tableSlug, context.params.query)
+        // console.log(workspaceSlug, datasourceSlug, tableSlug, context.params.query)
         context.params.$$id =
           'WS_' +
           (workspaceSlug as string) +
@@ -109,7 +109,7 @@ export const tableRecordHooks = {
           const tableRelationsNames: string =
             table.relations
               ?.reduce((acc, r) => {
-                console.log(r.settings)
+                // console.log(r.settings)
                 acc.push(r.settings.toTable)
                 return acc
               }, [] as string[])
@@ -117,7 +117,7 @@ export const tableRecordHooks = {
           const tableRelationRegexp = new RegExp(
             `^(${tableRelationsNames})|\\[(${tableRelationsNames})(,(${tableRelationsNames})(?!.*\\2))*\\]$`,
           )
-          console.log(tableRelationsNames, tableRelationRegexp)
+          // console.log(tableRelationsNames, tableRelationRegexp)
 
           const tableQuerySchema = Type.Intersect(
             [
@@ -164,7 +164,7 @@ export const tableRecordHooks = {
       },
       // async function applyResolver(context: HookContext) { },
       async function createAdapterIfNeeded(context: HookContext, next: NextFunction) {
-        console.log('[createAdapterIfNeeded]', context.params.route)
+        // console.log('[createAdapterIfNeeded]', context.params.route)
         const {
           workspaceSlug,
           datasourceSlug,
@@ -175,7 +175,7 @@ export const tableRecordHooks = {
           tableSlug: string
         } = context.params.route
 
-        console.log('[createAdapterIfNeeded]', workspaceSlug, datasourceSlug)
+        // console.log('[createAdapterIfNeeded]', workspaceSlug, datasourceSlug)
 
         const adapterKey = 'w_' + workspaceSlug + '_ds_' + datasourceSlug
 
@@ -183,7 +183,7 @@ export const tableRecordHooks = {
          * Check if the adapter already exist
          */
         if (!adapters[adapterKey]) {
-          console.log('[createAdapterIfNeeded] Adapter need to be created.')
+          // console.log('[createAdapterIfNeeded] Adapter need to be created.')
 
           /**
            * Find the datasource
@@ -197,7 +197,7 @@ export const tableRecordHooks = {
             },
           })
           if (datasource.total === 1) {
-            console.log('[createAdapterIfNeeded] Adapter being created...', datasource.data)
+            // console.log('[createAdapterIfNeeded] Adapter being created...', datasource.data)
 
             /**
              * Create the adapter
