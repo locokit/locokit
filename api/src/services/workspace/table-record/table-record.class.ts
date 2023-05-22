@@ -1,6 +1,6 @@
 import { Application } from '@/declarations'
 import { NotImplemented } from '@feathersjs/errors/lib'
-import { Id, Paginated, Params, ServiceMethods } from '@feathersjs/feathers'
+import { Id, NullableId, Paginated, Params, ServiceMethods } from '@feathersjs/feathers'
 import { Validator } from '@feathersjs/schema'
 import { TSchema } from '@feathersjs/typebox'
 
@@ -103,7 +103,7 @@ export class TableRecord<T = any, D = Partial<T>>
 
   async update(id: Id, data: Partial<D>, params: EngineParams): Promise<T>
   async update(id: null, data: Partial<D>, params: EngineParams): Promise<T[]>
-  async update(id: Id | null, data: Partial<D>, params: EngineParams): Promise<nullTArrayT<T>> {
+  async update(id: NullableId, data: Partial<D>, params: EngineParams): Promise<nullTArrayT<T>> {
     if (!id) throw new NotImplemented('Multi update is not yet implemented')
     const adapter = params.$$adapter as EngineAdapter
 
@@ -112,7 +112,7 @@ export class TableRecord<T = any, D = Partial<T>>
 
   async patch(id: Id, data: Partial<D>, params: EngineParams): Promise<T>
   async patch(id: null, data: Partial<D>, params: EngineParams): Promise<T[]>
-  async patch(id: Id | null, data: Partial<D>, params: EngineParams): Promise<nullTArrayT<T>> {
+  async patch(id: NullableId, data: Partial<D>, params: EngineParams): Promise<nullTArrayT<T>> {
     if (!id) throw new NotImplemented('Multi patch is not yet implemented')
     const adapter = params.$$adapter as EngineAdapter
 
@@ -121,7 +121,7 @@ export class TableRecord<T = any, D = Partial<T>>
 
   async remove(id: Id, params: EngineParams): Promise<T>
   async remove(id: null, params: EngineParams): Promise<T[]>
-  async remove(id: Id | null, params: EngineParams): Promise<nullTArrayT<T>> {
+  async remove(id: NullableId, params: EngineParams): Promise<nullTArrayT<T>> {
     if (!id)
       throw new NotImplemented('Id for removal is mandatory. Multi remove are not yet implemented.')
     const adapter = params.$$adapter as EngineAdapter
