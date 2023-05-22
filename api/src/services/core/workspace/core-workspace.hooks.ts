@@ -45,9 +45,8 @@ export const workspaceHooks = {
           schemaHooks.validateData(workspaceDataValidator),
           async function checkProfile(context: HookContext) {
             const user: UserResult = context.params.user
-            const profile = user.profile
 
-            if (profile === USER_PROFILE.MEMBER)
+            if (user.profile === USER_PROFILE.MEMBER)
               throw new Forbidden("You don't have sufficient privilege to create a workspace.")
           },
         ],
