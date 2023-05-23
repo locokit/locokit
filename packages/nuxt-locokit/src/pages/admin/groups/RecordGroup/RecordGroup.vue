@@ -464,8 +464,8 @@ const searchUserMembers = async () => {
   }
 }
 
-const addUserInGroup = () => {
-  ;(users.value as User[]).forEach(async (user) => {
+const addUserInGroup = async () => {
+  for (const user of users.value as User[]) {
     const alreadyMember = (
       currentUsersForGroup.value as ApiUser
     ).data.findIndex(({ id }) => id === user.id)
@@ -478,11 +478,11 @@ const addUserInGroup = () => {
         errorUserGroup.value = true
       }
     }
-  })
+  }
 }
 
-const removeUserInGroup = () => {
-  ;(currentUsersForGroup.value as ApiUser).data.forEach(async (user) => {
+const removeUserInGroup = async () => {
+  for (const user of (currentUsersForGroup.value as ApiUser).data) {
     const revokedMember = (users.value as User[]).findIndex(
       ({ id }) => id === user.id,
     )
@@ -496,7 +496,7 @@ const removeUserInGroup = () => {
         errorUserGroup.value = true
       }
     }
-  })
+  }
 }
 
 const updateUserGroupForCurrentUser = async () => {

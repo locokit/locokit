@@ -190,8 +190,8 @@ if (!groups.value) {
 }
 
 const applySearch = () => {
-  setTimeout(() => {
-    search()
+  setTimeout(async () => {
+    await search()
   }, 300)
 }
 

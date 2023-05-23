@@ -540,8 +540,8 @@ const onSubmit = async () => {
   }
 }
 
-const addUserInGroup = () => {
-  ;(groups.value as Group[]).forEach(async (group) => {
+const addUserInGroup = async () => {
+  for (const group of groups.value as Group[]) {
     const alreadyMember = (
       currentGroupsForUser.value as ApiGroup
     ).data.findIndex(({ id }) => id === group.id)
@@ -554,11 +554,11 @@ const addUserInGroup = () => {
         errorUserGroup.value = true
       }
     }
-  })
+  }
 }
 
-const removeUserInGroup = () => {
-  ;(currentGroupsForUser.value as ApiGroup).data.forEach(async (group) => {
+const removeUserInGroup = async () => {
+  for (const group of (currentGroupsForUser.value as ApiGroup).data) {
     const revokedMember = (groups.value as Group[]).findIndex(
       ({ id }) => id === group.id,
     )
@@ -572,7 +572,7 @@ const removeUserInGroup = () => {
         errorUserGroup.value = true
       }
     }
-  })
+  }
 }
 
 const updateUserGroupForCurrentUser = async () => {
