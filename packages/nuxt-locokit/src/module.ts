@@ -56,7 +56,7 @@ const defaultOptions: ModuleOptions = {
     auth: {
       enabled: true,
       prefix: '',
-      redirectUserAfterLogin: ROUTES_PATH.WORKSPACE.HOME,
+      redirectUserAfterLogin: ROUTES_PATH.WORKSPACE.WORKSPACES,
     },
     user: {
       enabled: true,
@@ -145,13 +145,7 @@ export default defineNuxtModule<ModuleOptions>({
       {
         src: resolve(layoutsDir, './WithHeader.vue'),
       },
-      'WithBanner',
-    )
-    addLayout(
-      {
-        src: resolve(layoutsDir, './WithAsideNavAndSidebar.vue'),
-      },
-      'WithAsideNavAndSidebar',
+      'WithHeader',
     )
     addLayout(
       {
@@ -159,21 +153,102 @@ export default defineNuxtModule<ModuleOptions>({
       },
       'WithAsideNav',
     )
+    // addLayout(
+    //   {
+    //     src: resolve(layoutsDir, './WithBackground.vue'),
+    //   },
+    //   'WithBackground',
+    // )
     addLayout(
       {
-        src: resolve(layoutsDir, './WithThinNav.vue'),
+        src: resolve(layoutsDir, './WithSidebar.vue'),
       },
-      'WithThinNav',
-    )
-    addLayout(
-      {
-        src: resolve(layoutsDir, './WithThinNavAndSidebar.vue'),
-      },
-      'WithThinNav',
+      'WithSidebar',
     )
 
     extendPages(function (pages: NuxtPage[]) {
       const { submodules } = options
+
+      /**
+       * Register workspace page
+       */
+      pages.push({
+        name: ROUTES_NAMES.WORKSPACE.HOME,
+        path: ROUTES_PATH.WORKSPACE.HOME,
+        meta: {
+          protected: true,
+        },
+        file: resolve(pagesDir, './workspace/index.vue'),
+        // redirect: ROUTES_PATH.WORKSPACE.DASHBOARD,
+        children: [
+          {
+            name: ROUTES_NAMES.WORKSPACE.DASHBOARD,
+            path: ROUTES_PATH.WORKSPACE.DASHBOARD,
+            meta: {
+              protected: true,
+            },
+            file: resolve(
+              pagesDir,
+              './workspace/DashboardPage/DashboardPage.vue',
+            ),
+          },
+          {
+            name: ROUTES_NAMES.WORKSPACE.DATASOURCE.HOME,
+            path: ROUTES_PATH.WORKSPACE.DATASOURCE.HOME,
+            meta: {
+              protected: true,
+            },
+            file: resolve(pagesDir, './workspace/datasource/index.vue'),
+            // redirect: ROUTES_PATH.WORKSPACE.DATABASE.ABOUT,
+            children: [
+              {
+                name: ROUTES_NAMES.WORKSPACE.DATASOURCE.ABOUT,
+                path: ROUTES_PATH.WORKSPACE.DATASOURCE.ABOUT,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  pagesDir,
+                  './workspace/datasource/AboutDatasource/AboutDatasource.vue',
+                ),
+              },
+              {
+                name: ROUTES_NAMES.WORKSPACE.DATASOURCE.CREATE,
+                path: ROUTES_PATH.WORKSPACE.DATASOURCE.CREATE,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  pagesDir,
+                  './workspace/datasource/CreateDatasource/CreateDatasource.vue',
+                ),
+              },
+              {
+                name: ROUTES_NAMES.WORKSPACE.DATASOURCE.SCHEMA,
+                path: ROUTES_PATH.WORKSPACE.DATASOURCE.SCHEMA,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  pagesDir,
+                  './workspace/datasource/SchemaDatasource/SchemaDatasource.vue',
+                ),
+              },
+            ],
+          },
+          {
+            name: ROUTES_NAMES.WORKSPACE.SETTINGS,
+            path: ROUTES_PATH.WORKSPACE.SETTINGS,
+            meta: {
+              protected: true,
+            },
+            file: resolve(
+              pagesDir,
+              './workspace/SettingsPage/SettingsPage.vue',
+            ),
+          },
+        ],
+      })
 
       /**
        * Register admin pages
@@ -231,6 +306,50 @@ export default defineNuxtModule<ModuleOptions>({
               },
             ],
           },
+          {
+            name: ROUTES_NAMES.ADMIN.GROUPS.HOME,
+            path: ROUTES_PATH.ADMIN.GROUPS.HOME,
+            meta: {
+              protected: true,
+            },
+            file: resolve(pagesDir, './admin/groups/index.vue'),
+            redirect: ROUTES_PATH.ADMIN.GROUPS.ABOUT,
+            children: [
+              {
+                name: ROUTES_NAMES.ADMIN.GROUPS.ABOUT,
+                path: ROUTES_PATH.ADMIN.GROUPS.ABOUT,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  pagesDir,
+                  './admin/groups/AboutGroups/AboutGroups.vue',
+                ),
+              },
+              {
+                name: ROUTES_NAMES.ADMIN.GROUPS.CREATE,
+                path: ROUTES_PATH.ADMIN.GROUPS.CREATE,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  pagesDir,
+                  './admin/groups/CreateGroup/CreateGroup.vue',
+                ),
+              },
+              {
+                name: ROUTES_NAMES.ADMIN.GROUPS.RECORD,
+                path: ROUTES_PATH.ADMIN.GROUPS.RECORD,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  pagesDir,
+                  './admin/groups/RecordGroup/RecordGroup.vue',
+                ),
+              },
+            ],
+          },
         ],
       })
 
@@ -280,29 +399,29 @@ export default defineNuxtModule<ModuleOptions>({
       })
 
       /**
-       * Register workspace pages
+       * Register workspaces page
        */
       pages.push({
-        name: ROUTES_NAMES.WORKSPACE.HOME,
-        path: ROUTES_PATH.WORKSPACE.HOME,
+        name: ROUTES_NAMES.WORKSPACE.WORKSPACES,
+        path: ROUTES_PATH.WORKSPACE.WORKSPACES,
         meta: {
           protected: false,
           anonymous: false,
         },
-        file: resolve(pagesDir, './workspace/index.vue'),
+        file: resolve(pagesDir, './WorkspacesList/WorkspacesList.vue'),
       })
 
+      /**
+       * Register create a workspace page
+       */
       pages.push({
-        name: ROUTES_NAMES.WORKSPACE.CREATE,
-        path: ROUTES_PATH.WORKSPACE.CREATE,
+        name: ROUTES_NAMES.WORKSPACE.CREATE_WORKSPACE,
+        path: ROUTES_PATH.WORKSPACE.CREATE_WORKSPACE,
         meta: {
           protected: true,
           anonymous: false,
         },
-        file: resolve(
-          pagesDir,
-          './workspace/CreateWorkspace/CreateWorkspace.vue',
-        ),
+        file: resolve(pagesDir, './CreateWorkspace/CreateWorkspace.vue'),
       })
 
       pages.push({
@@ -322,11 +441,6 @@ export default defineNuxtModule<ModuleOptions>({
         pages.push(...getAuthPages(prefix))
       }
 
-      // pages.push({
-      //   name: ROUTES.WORKSPACE.DETAIL,
-      //   path: ROUTES.WORKSPACE.DETAIL,
-      //   file: resolve(pagesDir, './w/bouh[w].vue'),
-      // })
       //
       // /**
       //  * Register back office pages

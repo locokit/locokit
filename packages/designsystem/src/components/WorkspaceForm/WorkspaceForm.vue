@@ -5,7 +5,14 @@
     :loading="loading"
     @submit="onSubmit"
   >
+    <div v-if="workspaceData?.name" class="mb-4">
+      <label for="name" class="label-field-required">
+        {{ $t('components.workspaceForm.name') }}
+      </label>
+      <PrimeInputText id="name" v-model="name" :disabled="true" />
+    </div>
     <Field
+      v-else
       v-slot="{ field, errorMessage, meta: { valid, touched } }"
       v-model="name"
       class="mb-4"
@@ -31,16 +38,16 @@
       >
         {{ errorMessage }}
       </span>
+      <div class="flex flex-row mb-4">
+        <p class="mr-1">{{ $t('components.workspaceForm.explainsSlugUse') }}</p>
+        <p
+          v-if="name"
+          class="px-2 max-w-fit rounded bg-gray-300 text-black text-sm"
+        >
+          {{ autogenerateSlug }}
+        </p>
+      </div>
     </Field>
-    <div class="flex flex-row mb-4">
-      <p class="mr-1">{{ $t('components.workspaceForm.explainsSlugUse') }}</p>
-      <p
-        v-if="name"
-        class="px-2 max-w-fit rounded bg-gray-300 text-black text-sm"
-      >
-        {{ autogenerateSlug }}
-      </p>
-    </div>
     <Field
       v-slot="{ field }"
       v-model="documentation"
@@ -134,34 +141,27 @@ const emit = defineEmits<{
   ): void
 }>()
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
   defineProps<{
     loading?: boolean
-    logInAgain?: boolean
-    displaySignUpLink?: boolean
     response?: Error | null
-    signupRoute?: string
-    lostPasswordRoute?: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    workspaceData?: Record<string, any> | null | undefined
   }>(),
   {
     loading: false,
-    logInAgain: false,
-    displaySignUpLink: false,
     response: null,
-    signupRoute: '',
-    lostPasswordRoute: '',
+    workspaceData: null,
   },
 )
 
-const name = ref('')
-const documentation = ref('')
-const color = ref('')
-const icon = ref('')
-const isPublic = ref(false)
+const name = ref(props.workspaceData?.name)
+const documentation = ref(props.workspaceData?.documentation)
+const icon = ref(props.workspaceData?.settings.icon)
+const isPublic = ref(props.workspaceData?.public)
 const currentColor = reactive<ColorScheme>({
-  backgroundColor: null,
-  color: null,
+  backgroundColor: props.workspaceData?.settings?.backgroundColor,
+  color: props.workspaceData?.settings?.color,
 })
 
 const updateColor = (newValue: ColorScheme) => {

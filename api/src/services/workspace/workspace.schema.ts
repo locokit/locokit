@@ -3,6 +3,8 @@ import { dataValidator } from '../../commons/validators'
 // import { groupSchema } from '../auth/group/group.schema'
 import { workspaceOwnerSchema } from '../auth/user/user.schema'
 
+import { queryStringExtend } from '../../feathers-objection'
+
 export const workspaceSchema = Type.Object(
   {
     id: Type.String({
@@ -103,7 +105,9 @@ export type WorkspaceResult = Static<typeof workspaceResultSchema>
 // Schema for allowed query properties
 export const workspaceQuerySchema = Type.Intersect(
   [
-    querySyntax(Type.Omit(workspaceSchema, ['owner', 'groups'])),
+    querySyntax(Type.Omit(workspaceSchema, ['owner', 'groups']), {
+      name: queryStringExtend,
+    }),
     querySyntax(
       Type.Object({
         'owner.name': Type.Optional(

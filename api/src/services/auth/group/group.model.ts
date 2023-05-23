@@ -1,8 +1,8 @@
-import { JSONSchema, Model, RelationMappings } from 'objection'
+import { Model, RelationMappings } from 'objection'
 import { WorkspaceModel } from '../../workspace/workspace.model'
 import { UserGroupModel } from '../user-group/user-group.model'
 import { UserModel } from '../user/user.model'
-import { groupSchema } from './group.schema'
+import { RoleModel } from '../role/role.model'
 
 /**
  * Group objection Model
@@ -12,10 +12,6 @@ export class GroupModel extends Model {
 
   static readonly tableName = 'lck_group'
 
-  static get jsonSchema(): JSONSchema {
-    return groupSchema
-  }
-
   static get relationMappings(): RelationMappings {
     return {
       workspace: {
@@ -24,6 +20,14 @@ export class GroupModel extends Model {
         join: {
           from: 'lck_group.workspaceId',
           to: 'lck_workspace.id',
+        },
+      },
+      policy: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: RoleModel,
+        join: {
+          from: 'lck_group.roleId',
+          to: 'lck_role.id',
         },
       },
       userGroups: {

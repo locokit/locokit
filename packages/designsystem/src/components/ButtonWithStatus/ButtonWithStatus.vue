@@ -1,6 +1,6 @@
 <template>
   <button
-    class="select-none m-0 rounded rounded-[2rem] text-white border p-2 focus:outline-none focus:ring-2 focus:ring-inset inline-flex enabled:hover:text-white bg-secondary border-secondary focus:ring-secondary-dark enabled:hover:bg-secondary-dark enabled:hover:border-secondary-dark"
+    class="select-none m-0 rounded-[2rem] text-white border p-2 focus:outline-none focus:ring-2 focus:ring-inset inline-flex enabled:hover:text-white bg-secondary border-secondary focus:ring-secondary-dark enabled:hover:bg-secondary-dark enabled:hover:border-secondary-dark"
     :class="[
       { 'cursor-not-allowed opacity-70': isDisabled },
       fullWidthButton ? 'w-full' : 'w-fit',

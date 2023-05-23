@@ -160,6 +160,7 @@
     "withAsideNav": {
       "workspaces": "Espaces de travail",
       "profile": "Profil",
+      "admin": "Admin",
       "logout": "Se déconnecter"
     }
   },
@@ -214,7 +215,7 @@
       "labelSubmit": "Définir le mot de passe",
       "missingToken": "Impossible de retrouver votre compte. Il semble que vous n'avez pas utilisé le lien présent dans le mail envoyé par l'application"
     },
-    "workspace": {
+    "workspacesList": {
       "title": "Espaces de travail",
       "intro": "Vous devez créer un workspace et le sélectionner avant d'ajouter des données ou des gabarits de pages.",
       "addWorkspace": "Ajouter un espace de travail",
@@ -257,13 +258,17 @@
       "title": "@:pages.admin.users",
       "addUser": "Ajouter un⋅e utilisateur⋅rice",
       "emptyResult": "Aucun résultat trouvé",
-      "result": "Affichage de {elements} utilisateurs⋅rices sur {total}.",
+      "search": "Commencez la saisie pour rechercher…",
+      "result": "Affichage d'un⋅e utilisateur⋅rice sur {total}. | Affichage de {elements} utilisateurs⋅rices sur {total}.",
       "filters": {
         "username": "Nom d'utilisateur⋅rice",
         "firstName": "Prénom",
         "lastName": "Nom",
         "email": "Email"
-      }
+      },
+      "admin": "@:commons.userProfile.admin",
+      "creator": "@:commons.userProfile.creator",
+      "member": "@:commons.userProfile.member"
     },
     "aboutUsers": {
       "title": "Administration des utilisateurs⋅rices",
@@ -291,8 +296,6 @@
       "submit": "Mise à jour",
       "blocking": "Bloquer cette personne",
       "unblocking": "Débloquer cette personne",
-      "send": "Envoyer",
-      "resend": "Renvoyer",
       "inviting": "Réinviter cette personne",
       "id": "ID",
       "username": "Nom d'utilisateur⋅rice",
@@ -317,13 +320,88 @@
       "explanationRemovingGroups": "Il est également possible de supprimer un ou plusieurs groupes pour cette personne en sélectionnant les groupes dans la colonne de droite.",
       "noUserFound": "Aucune personne trouvée",
       "noGroupFound": "Aucun groupe trouvé",
-      "result": "Affichage de {elements} groupes sur {total}."
+      "result": "Affichage de maximum {elements} groupes."
     },
     "confirmUpdateEmail": {
       "title": "Mettre à jour son email",
       "message": "Cette opération a été effectuée avec succès. Vous pouvez maintenant vous connecter avec votre nouvel email.",
       "errorMessage": "Malheureusement, l'opération n'a pas pu être menée à bien. Si le problème persiste, veuillez contacter l'administrateur du site.",
       "signIn": "Se connecter"
+    },
+    "adminGroups": {
+      "title": "@:pages.admin.groups",
+      "addGroup": "Ajouter un groupe",
+      "emptyResult": "Aucun résultat trouvé",
+      "search": "Commencez la saisie pour rechercher…",
+      "result": "Affichage d'un groupe sur {total}. | Affichage de {elements} groupes sur {total}.",
+      "filters": {
+        "name": "Nom",
+        "workspace": "Espace de travail"
+      }
+    },
+    "aboutGroups": {
+      "title": "@:pages.admin.groups",
+      "manual": {
+        "intro": "À partir de cette page, il est possible de :",
+        "create": "Créer un groupe en cliquant sur le bouton.",
+        "search": "Trouver un groupe existant à partir de la barre de recherche et des filtres.",
+        "displayAndEdit": "Afficher et modifier les informations liées à un group en cliquant sur leur nom."
+      }
+    },
+    "createGroup": {
+      "title": "Créer un groupe",
+      "submit": "Créer",
+      "name": "Nom",
+      "workspace": "Espace de travail",
+      "policy": "Droit d'accès du groupe",
+      "documentation": "Notes",
+      "search": "Commencez la saisie pour rechercher…",
+      "emptyResult": "Aucun resultats trouvé"
+    },
+    "recordGroup": {
+      "title": "Information d'un groupe",
+      "submit": "Mise à jour",
+      "id": "ID",
+      "name": "Nom",
+      "workspace": "Espace de travail",
+      "policy": "Droit d'accès",
+      "documentation": "Notes",
+      "search": "Commencez la saisie pour rechercher…",
+      "emptyResult": "Aucun resultats trouvé",
+      "users": "Personnes",
+      "usersAvailable": "Personnes",
+      "userMembers": "Membres",
+      "searchPlaceholder": "Chercher une personne",
+      "explanationAddingUsers": "Pour attribuer une ou plusieurs peronnes à ce groupe, sélectionnez les personnes dans la colonne de gauche et cliquez sur le bouton avec la flèche vers la droite",
+      "explanationRemovingUsers": "Il est également possible de supprimer une ou plusieurs personnes pour ce groupe en sélectionnant les personnes dans la colonne de droite.",
+      "noUserFound": "Aucune personne trouvée",
+      "noGroupFound": "Aucun groupe trouvé",
+      "result": "Affichage de maximum {elements} personnes."
+    },
+    "workspace": {
+      "title": "Espace de travail",
+      "noResult": "Aucun espace de travail trouvé",
+      "dashboard": "Tableau de bord",
+      "datasource": "Source des données",
+      "settings": "Paramètres du workspace"
+    },
+    "dashboard": {
+      "title": "@:pages.workspace.dashboard"
+    },
+    "datasource": {
+      "title": "@:pages.workspace.datasource",
+      "addDatasource": "Ajouter une source de données"
+    },
+    "aboutDatasource": {
+      "title": "@:pages.workspace.datasource",
+      "explainDatasource": "Pour commencer, il est nécessaire de créer ou d'importer une base de données pour stocker vos données via le bouton « @:pages.datasource.addDatasource ».",
+      "explainTable": "Dès lors, il est possible d'afficher une base de données sous forme de schéma ou d'afficher le détail d'une table."
+    },
+    "createDatasource": {
+      "title": "Créer une source de données"
+    },
+    "settings": {
+      "title": "@:pages.workspace.settings"
     }
   },
   "success": {
@@ -448,6 +526,11 @@
       "recordUser": {
         "username": "@:pages.recordUser.username",
         "email": "@:pages.recordUser.username"
+      },
+      "createGroup": {
+        "name": "@:pages.createGroup.name",
+        "workspace": "@:pages.createGroup.workspace",
+        "policy": "@:pages.createGroup.policy"
       }
     },
     "messages": {

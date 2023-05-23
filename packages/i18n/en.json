@@ -160,6 +160,7 @@
     "withAsideNav": {
       "workspaces": "Workspaces",
       "profile": "Profile",
+      "admin": "Admin",
       "logout": "Logout"
     }
   },
@@ -214,7 +215,7 @@
       "labelSubmit": "Set the password",
       "missingToken": "Unable to find your account. It seems that you did not use the link in the email sent by the app."
     },
-    "workspace": {
+    "workspacesList": {
       "title": "Workspaces",
       "intro": "You must create or select your workspace before adding data or templates.",
       "addWorkspace": "Add a workspace",
@@ -257,16 +258,20 @@
       "title": "@:pages.admin.users",
       "addUser": "Add a user",
       "emptyResult": "No result found",
+      "search": "Type to search…",
       "result": "Showing {elements} out of {total} users.",
       "filters": {
         "username": "Username",
         "firstName": "First Name",
         "lastName": "Last Name",
         "email": "Email"
-      }
+      },
+      "admin": "@:commons.userProfile.admin",
+      "creator": "@:commons.userProfile.creator",
+      "member": "@:commons.userProfile.member"
     },
     "aboutUsers": {
-      "title": "Users administration",
+      "title": "@:pages.admin.users",
       "manual": {
         "intro": "From this page it is possible to:",
         "create": "Create a new user by clicking on the button.",
@@ -289,11 +294,9 @@
     "recordUser": {
       "title": "User record",
       "submit": "Update",
-      "blocking": "Blocking a user",
-      "unblocking": "Unblocking a user",
-      "send": "Send",
-      "resend": "Resend",
-      "inviting": "Re-inviting a user",
+      "blocking": "Blocking user",
+      "unblocking": "Unblocking user",
+      "inviting": "Re-inviting user",
       "id": "ID",
       "username": "Username",
       "lastName": "Last name",
@@ -317,13 +320,88 @@
       "explanationRemovingGroups": "It also possible to remove one or more groups for this user by selecting groups in the right column.",
       "noUserFound": "No user found",
       "noGroupFound": "No group found",
-      "result": "Showing {elements} out of {total} groups."
+      "result": "Showing of maximum {elements} groups."
     },
     "confirmUpdateEmail": {
       "title": "Updating your email",
       "message": "This operation has been successfully completed. You can now log in with your new email.",
       "errorMessage": "Unfortunately, the operation could not be completed. If the problem persists, please contact the site administrator.",
       "signIn": "Sign in"
+    },
+    "adminGroups": {
+      "title": "@:pages.admin.groups",
+      "addGroup": "Add a group",
+      "emptyResult": "No result found",
+      "search": "Type to search…",
+      "result": "Showing {elements} out of {total} groups.",
+      "filters": {
+        "name": "Name",
+        "workspace": "Workspace"
+      }
+    },
+    "aboutGroups": {
+      "title": "@:pages.admin.groups",
+      "manual": {
+        "intro": "From this page it is possible to:",
+        "create": "Create a new group by clicking on the button.",
+        "search": "Find an existing group using the search bar and filters.",
+        "displayAndEdit": "View and edit a group's record by clicking on their name."
+      }
+    },
+    "createGroup": {
+      "title": "Add a group",
+      "submit": "Create",
+      "name": "Name",
+      "workspace": "Workspace",
+      "policy": "Access control policy",
+      "documentation": "Notes",
+      "search": "Type to search…",
+      "emptyResult": "No results found"
+    },
+    "recordGroup": {
+      "title": "Group record",
+      "submit": "Update",
+      "id": "ID",
+      "name": "Name",
+      "workspace": "Workspace",
+      "policy": "Access control policy",
+      "documentation": "Notes",
+      "search": "Type to search…",
+      "emptyResult": "No results found",
+      "users": "Users",
+      "usersAvailable": "Available users",
+      "userMembers": "Members",
+      "searchPlaceholder": "Search a user",
+      "explanationAddingUsers": "To assign one or more users to this group, select the users in the left column and click on the button with the right arrow.",
+      "explanationRemovingUsers": "It also possible to remove one or more users for this group by selecting users in the right column.",
+      "noUserFound": "No user found",
+      "noGroupFound": "No group found",
+      "result": "Showing of maximum {elements} users."
+    },
+    "workspace": {
+      "title": "Workspace",
+      "noResult": "No workspace found",
+      "dashboard": "Dashboard",
+      "datasource": "Datasource",
+      "settings": "Workspace settings"
+    },
+    "dashboard": {
+      "title": "@:pages.workspace.dashboard"
+    },
+    "datasource": {
+      "title": "@:pages.workspace.datasource",
+      "addDatasource": "Add datasource"
+    },
+    "aboutDatasource": {
+      "title": "@:pages.workspace.datasource",
+      "explainDatasource": "First thing to do, it is create or import a database to stock your data through the ” @:pages.datasource.addDatasource ” button.",
+      "explainTable": "Then, it is possible to display database diagram or to display details of a table."
+    },
+    "createDatasource": {
+      "title": "Create datasource"
+    },
+    "settings": {
+      "title": "@:pages.workspace.settings"
     }
   },
   "success": {
@@ -448,6 +526,11 @@
       "recordUser": {
         "username": "@:pages.recordUser.username",
         "email": "@:pages.recordUser.username"
+      },
+      "createGroup": {
+        "name": "@:pages.createGroup.name",
+        "workspace": "@:pages.createGroup.workspace",
+        "policy": "@:pages.createGroup.policy"
       }
     },
     "messages": {

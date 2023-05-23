@@ -3,6 +3,7 @@ import { dataValidator, queryValidator } from '../../../commons/validators'
 import { workspaceSchema } from '../../workspace/workspace.schema'
 import { workspaceOwnerSchema } from '../user/user.schema'
 import { queryStringExtend } from '../../../feathers-objection'
+import { roleSchema } from '../role/role.schema'
 
 // Schema for the basic data model (e.g. creating new entries)
 export const groupSchema = Type.Object(
@@ -35,6 +36,16 @@ export const groupSchema = Type.Object(
         },
       ),
     ),
+    role: Type.Optional(
+      Type.Object(
+        {
+          ...roleSchema.properties,
+        },
+        {
+          description: 'Related role',
+        },
+      ),
+    ),
     users: Type.Optional(
       Type.Array(
         Type.Object(
@@ -51,7 +62,7 @@ export const groupSchema = Type.Object(
   },
   {
     $id: 'GroupSchema',
-    additionalProperties: false,
+    additionalProperties: true,
   },
 )
 dataValidator.addSchema(groupSchema)
@@ -70,25 +81,32 @@ export type GroupResult = Static<typeof groupSchema>
 
 export const groupQuerySchema = Type.Intersect(
   [
-    querySyntax(Type.Omit(groupSchema, ['workspace', 'users']), {
-      name: queryStringExtend,
-    }),
     querySyntax(
-      Type.Object({
-        'workspace:owner.name': Type.Optional(
-          Type.String({
-            description: "Filter on related workspace, on the owner's name",
-          }),
-        ),
-      }),
+      Type.Intersect([
+        Type.Omit(groupSchema, ['workspace', 'users']),
+        Type.Object({
+          'workspace:owner.name': Type.Optional(
+            Type.String({
+              description: "Filter on related workspace, on the owner's name",
+            }),
+          ),
+          'workspace.name': Type.Optional(
+            Type.String({
+              description: "Filter on workspace's name, on the owner's name",
+            }),
+          ),
+        }),
+      ]),
       {
+        name: queryStringExtend,
         'workspace:owner.name': queryStringExtend,
+        'workspace.name': queryStringExtend,
       },
     ),
     Type.Object({
       $joinRelated: Type.Optional(
         Type.RegEx(
-          /workspace|users|\[workspace.owner\]|\[workspace,users\]|\[workspace.owner,users\]/,
+          /workspace|users|policy|\[workspace.owner\]|\[workspace,users\]|\[workspace,users,policy\]|\[workspace.owner,users\]|\[workspace.owner,users,policy\]/,
           {
             description: 'Join role to its relations (and nested).',
           },
@@ -96,7 +114,7 @@ export const groupQuerySchema = Type.Intersect(
       ),
       $joinEager: Type.Optional(
         Type.RegEx(
-          /workspace|users|\[workspace.owner\]|\[workspace,users\]|\[workspace.owner,users\]/,
+          /workspace|users|policy|\[workspace.owner\]|\[workspace,users\]|\[workspace,users,policy\]|\[workspace.owner,users\]|\[workspace.owner,users,policy\]/,
           {
             description: 'Join role to its relations (and nested).',
           },
@@ -104,7 +122,7 @@ export const groupQuerySchema = Type.Intersect(
       ),
       $eager: Type.Optional(
         Type.RegEx(
-          /workspace|users|\[workspace.owner\]|\[workspace,users\]|\[workspace.owner,users\]/,
+          /workspace|users|policy|\[workspace.owner\]|\[workspace,users\]|\[workspace,policy\]|\[workspace,users,policy\]|\[workspace.owner,users\]|\[workspace.owner,users,policy\]/,
           {
             description: 'Join role to its relations (and nested).',
           },

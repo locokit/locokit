@@ -4,7 +4,9 @@
       class="w-72 px-2 py-4 space-y-2 overflow-y-hidden hover:overflow-y-auto bg-primary-lighten"
     >
       <div class="ml-2">
-        <h2 class="mb-4">{{ $t('pages.adminUsers.title') }}</h2>
+        <h2 class="mb-4">
+          {{ $t('pages.adminUsers.title') }}
+        </h2>
         <div class="mb-4">
           <NuxtLink :to="{ name: ROUTES_NAMES.ADMIN.USERS.CREATE }">
             <PrimeButton class="p-button-rounded p-button-secondary w-full">
@@ -19,12 +21,13 @@
             </PrimeButton>
           </NuxtLink>
         </div>
-
-        <div>
+        <MessageForUser v-if="errorUsers" status="failed" />
+        <div v-else>
           <PrimeInputText
             v-model="wantedUser"
             class="search-input w-full !mb-4"
             type="text"
+            :placeholder="$t('pages.adminUsers.search')"
             @input="applySearch"
           />
 
@@ -46,6 +49,7 @@
             >
               <div v-for="user in users.data" :key="user.id" class="mb-2">
                 <NuxtLink
+                  class="nav-link"
                   :to="{
                     name: ROUTES_NAMES.ADMIN.USERS.RECORD,
                     params: {
@@ -67,23 +71,35 @@
                     :color-icon="
                       user.isVerified ? 'text-primary' : 'text-secondary'
                     "
-                    :name-tag="user.profile"
+                    :name-tag="
+                      $t(
+                        `pages.adminUsers.${
+                          PROFILE.find(
+                            (profile) => profile.value === user.profile,
+                          ).name
+                        }`,
+                      )
+                    "
                     border-color-tag="var(--primary-color)"
                     color-tag="var(--primary-color)"
                     bg-color-tag="var(--primary-color-lighten)"
                   />
                 </NuxtLink>
               </div>
-              <div class="bg-white p-2">
+              <div class="bg-white rounded p-2">
                 <p class="text-sm">
                   {{
-                    $t('pages.adminUsers.result', {
-                      elements:
-                        users.limit > users.data.length
-                          ? users.data.length
-                          : users.limit,
-                      total: users.total,
-                    })
+                    t(
+                      'pages.adminUsers.result',
+                      {
+                        elements:
+                          users.limit > users.data.length
+                            ? users.data.length
+                            : users.limit,
+                        total: users.total,
+                      },
+                      1,
+                    )
                   }}
                 </p>
               </div>
@@ -95,6 +111,7 @@
                 class="mb-2"
               >
                 <NuxtLink
+                  class="nav-link"
                   :to="{
                     name: ROUTES_NAMES.ADMIN.USERS.RECORD,
                     params: {
@@ -120,7 +137,16 @@
                         ? 'text-primary'
                         : 'text-secondary'
                     "
-                    :name-tag="suggestionUser.profile"
+                    :name-tag="
+                      $t(
+                        `pages.adminUsers.${
+                          PROFILE.find(
+                            (profile) =>
+                              profile.value === suggestionUser.profile,
+                          ).name
+                        }`,
+                      )
+                    "
                     border-color-tag="var(--primary-color)"
                     color-tag="var(--primary-color)"
                     bg-color-tag="var(--primary-color-lighten)"
@@ -131,11 +157,12 @@
                 :rows="suggestionUsers.limit"
                 :total-records="suggestionUsers.total"
                 :page-link-size="3"
-                template="PageLinks RowsPerPageDropdown"
+                template="PrevPageLink PageLinks NextPageLink RowsPerPageDropdown"
                 :rows-per-page-options="[10, 20, 30]"
                 @page="onPage($event)"
               />
             </div>
+            <MessageForUser v-else-if="error" status="failed" />
             <div v-else>
               <p>{{ $t('pages.adminUsers.emptyResult') }}</p>
             </div>
@@ -154,23 +181,28 @@ import PrimeButton from 'primevue/button'
 import PrimeInputText from 'primevue/inputtext'
 import PrimePaginator, { PageState } from 'primevue/paginator'
 import { storeToRefs } from 'pinia'
-import { IdentityCard, FilterButton } from '@locokit/designsystem'
+import {
+  IdentityCard,
+  FilterButton,
+  MessageForUser,
+} from '@locokit/designsystem'
 import { useI18n } from 'vue-i18n'
 import { COLUMN_TYPE } from '../../../helpers/filter'
 import { ROUTES_NAMES } from '../../../paths'
 import { useStoreUsers } from '../../../stores/users'
 import { searchUsers } from '../../../services/user'
-import { ApiUser, Filter } from '../../../interfaces/toMigrate'
+import { ApiUser, Filter, PROFILE } from '../../../interfaces/toMigrate'
 import { ref } from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })
 
 const usersStore = useStoreUsers()
-const { users } = storeToRefs(usersStore)
+const { users, error: errorUsers } = storeToRefs(usersStore)
 
 const suggestionUsers = ref<ApiUser | null>(null)
 const currentFilters = ref<Filter[] | null>(null)
 const wantedUser = ref(null)
+const error = ref(false)
 
 const columnsDefinition = [
   {
@@ -198,6 +230,12 @@ const columnsDefinition = [
     original_type_id: COLUMN_TYPE.STRING,
   },
 ]
+
+// Initialization
+if (!users.value) {
+  await usersStore.updateUsers()
+}
+
 const applySearch = () => {
   setTimeout(() => {
     search()
@@ -208,12 +246,17 @@ const search = async (
   currentPageIndex = 0,
   limit: number | undefined = undefined,
 ) => {
-  suggestionUsers.value = await searchUsers({
+  const res = await searchUsers({
     query: wantedUser.value,
     filters: currentFilters.value,
     pageIndex: currentPageIndex,
     limit,
   })
+  if (res instanceof Error) {
+    error.value = true
+  } else {
+    suggestionUsers.value = res
+  }
 }
 
 const applyFilters = (filters: Filter[]) => {
@@ -255,8 +298,7 @@ const patchUser = async (data: {
 </script>
 
 <style scoped>
-.search-input {
-  @apply py-2 px-[2.5rem];
-  background: white url('../../../assets/search.svg') no-repeat 10px center;
+.nav-link.router-link-active {
+  @apply block outline outline-1 outline-primary rounded;
 }
 </style>

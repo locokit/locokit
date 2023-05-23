@@ -44,7 +44,7 @@
         </span>
       </Field>
       <Field
-        v-slot="{ field, errorMessage, meta: { valid, touched } }"
+        v-slot="{ field, meta: { valid, touched } }"
         v-model="lastName"
         class="mb-4"
         name="createUser.lastName"
@@ -58,17 +58,9 @@
           v-bind="field"
           :class="{ 'p-invalid': !valid && touched }"
         />
-        <span
-          v-if="errorMessage"
-          class="p-text-error"
-          role="alert"
-          aria-live="assertive"
-        >
-          {{ errorMessage }}
-        </span>
       </Field>
       <Field
-        v-slot="{ field, errorMessage, meta: { valid, touched } }"
+        v-slot="{ field, meta: { valid, touched } }"
         v-model="firstName"
         class="mb-4"
         name="createUser.firstName"
@@ -82,14 +74,6 @@
           v-bind="field"
           :class="{ 'p-invalid': !valid && touched }"
         />
-        <span
-          v-if="errorMessage"
-          class="p-text-error"
-          role="alert"
-          aria-live="assertive"
-        >
-          {{ errorMessage }}
-        </span>
       </Field>
       <Field
         v-slot="{ field, errorMessage, meta: { valid, touched } }"

@@ -1,45 +1,44 @@
 import { defineStore } from 'pinia'
-import { sdkClient } from '../services/api'
+import { findWorkspaces, getWorkspace } from '../services/workspace'
+import { ApiWorkspace, Workspace } from '../interfaces/toMigrate'
 import { ref } from '#imports'
 
 export const useStoreWorkspaces = defineStore('workspace', () => {
   const loading = ref(false)
   const error = ref<Error | null>(null)
-  const workspaces = ref([])
+  const workspaces = ref<ApiWorkspace | undefined>()
+  const currentWorkspace = ref<Workspace>()
 
-  async function findWorkspaces(params = {}) {
+  async function updateCurrentWorkspace(
+    id: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    params?: Record<string, any>,
+  ) {
     loading.value = true
     error.value = null
-    try {
-      const result = await sdkClient.service('workspace').find(params)
-      workspaces.value = result.data
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(err)
-      error.value = err as Error
+    const res = await getWorkspace(id, params)
+    if (res instanceof Error) {
+      error.value = res
+    } else {
+      currentWorkspace.value = res
     }
     loading.value = false
   }
 
-  async function createWorkspace(data: {
-    name: string
-    documentation: string | null
-    public: boolean
-    settings?: {
-      color: string | null
-      backgroundColor: string | null
-      icon: string | null
-    }
-  }) {
+  async function updateWorkspaces(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    params?: Record<string, any>,
+    sort = {
+      createdAt: -1,
+    },
+  ) {
     loading.value = true
     error.value = null
-    try {
-      const res = await sdkClient.service('workspace').create(data)
-      workspaces.value.push(res)
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(err)
-      error.value = err as Error
+    const res = await findWorkspaces({ params, sort })
+    if (res instanceof Error) {
+      error.value = res
+    } else {
+      workspaces.value = res
     }
     loading.value = false
   }
@@ -48,7 +47,8 @@ export const useStoreWorkspaces = defineStore('workspace', () => {
     loading,
     error,
     workspaces,
-    findWorkspaces,
-    createWorkspace,
+    currentWorkspace,
+    updateWorkspaces,
+    updateCurrentWorkspace,
   }
 })

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row w-full py-1 shadow h-12">
+  <div class="flex flex-row w-full py-1 shadow h-12 rounded">
     <i class="self-center mx-2 bi" :class="[icon, colorIcon]" />
     <div class="flex flex-col w-full mr-1">
       <span>
@@ -9,8 +9,17 @@
         {{ subtitle }}
       </p>
     </div>
-    <div v-if="nameTag" class="flex-1 self-center text-xs mr-1 min-w-20">
+    <div v-if="nameTag" class="self-center text-xs mr-1">
       <SingleTag
+        v-if="withTooltip"
+        v-tooltip="nameTag"
+        :label="nameTag"
+        :color="colorTag"
+        :background-color="bgColorTag"
+        :border-color="borderColorTag"
+      />
+      <SingleTag
+        v-else
         :label="nameTag"
         :color="colorTag"
         :background-color="bgColorTag"
@@ -34,6 +43,7 @@ const props = withDefaults(
     colorTag?: string | null
     bgColorTag?: string | null
     borderColorTag?: string | null
+    withTooltip?: boolean
   }>(),
   {
     subtitle: null,
@@ -42,6 +52,7 @@ const props = withDefaults(
     colorTag: null,
     bgColorTag: null,
     borderColorTag: null,
+    withTooltip: false,
   },
 )
 </script>

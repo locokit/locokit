@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-md lg:h-full mx-auto px-4 lg:px-0 flex flex-col">
+  <div class="max-w-2xl lg:h-full mx-auto px-4 lg:px-0 flex flex-col">
     <div class="my-8">
       <h1>
         {{ $t('pages.recordUser.title') }}
@@ -12,35 +12,56 @@
     <div v-else>
       <div class="flex flex-col mb-8">
         <PrimeConfirmDialog />
-        <div class="flex flex-row justify-around">
-          <div class="flex flex-col">
-            <span v-if="currentUser.blocked">
-              {{ $t('pages.recordUser.unblocking') }}
-            </span>
-            <span v-else>
-              {{ $t('pages.recordUser.blocking') }}
-            </span>
+        <div class="grid grid-cols-2 gap-x-14 gap-y-2">
+          <div class="flex flex-row justify-between">
+            <div class="flex items-center">
+              <PrimeCheckbox
+                id="isBlocked"
+                v-model="currentUser.blocked"
+                binary
+                class="self-center mr-2"
+                :disabled="true"
+              />
+              <label for="isBlocked">
+                {{ $t('pages.recordUser.isBlocked') }}
+              </label>
+            </div>
             <PrimeButton
               class="p-button-rounded p-button-outlined"
               icon="bi-envelope"
-              :label="$t('pages.recordUser.send')"
+              :label="
+                currentUser.blocked
+                  ? $t('pages.recordUser.unblocking')
+                  : $t('pages.recordUser.blocking')
+              "
               @click="confirmToggleBlockAccount"
             />
           </div>
-          <div class="flex flex-col">
-            <span>{{ $t('pages.recordUser.inviting') }}</span>
+          <div class="flex flex-row justify-between">
+            <div class="flex items-center">
+              <PrimeCheckbox
+                id="isVerified"
+                v-model="currentUser.isVerified"
+                binary
+                class="self-center mr-2"
+                :disabled="true"
+              />
+              <label for="isVerified">
+                {{ $t('pages.recordUser.isVerified') }}
+              </label>
+            </div>
             <PrimeButton
               :disabled="currentUser.isVerified"
               class="p-button-rounded p-button-outlined"
               icon="bi-envelope"
-              :label="$t('pages.recordUser.resend')"
+              :label="$t('pages.recordUser.inviting')"
               @click="confirmSendVerifySignup"
             />
           </div>
         </div>
         <MessageForUser
           v-if="
-            ((errorUserStore && errorUserStore.name) ||
+            ((errorUsersStore && errorUsersStore.name) ||
               (errorAuthStore && errorAuthStore.name)) &&
             actionFromButton
           "
@@ -50,7 +71,7 @@
       <div class="mb-12">
         <FormGeneric
           label-tk-button-submit="pages.recordUser.submit"
-          :response="response || errorUserStore"
+          :response="response || errorUsersStore"
           :loading="loading"
           color-submit-button="secondary"
           :full-width-button="true"
@@ -59,172 +80,154 @@
           @submit="onSubmit"
           @reset="onReset"
         >
-          <div class="mb-4">
-            <label for="id">
-              {{ $t('pages.recordUser.id') }}
-            </label>
-            <PrimeInputText id="id" v-model="currentUser.id" :disabled="true" />
-          </div>
-          <Field
-            v-slot="{ field, errorMessage, meta: { valid, touched } }"
-            v-model="currentUser.username"
-            class="mb-4"
-            name="recordUser.username"
-            rules="required"
-            as="div"
-          >
-            <label for="username" class="label-field-required">
-              {{ $t('pages.recordUser.username') }}
-            </label>
-            <PrimeInputText
-              id="username"
-              v-bind="field"
-              :class="{ 'p-invalid': !valid && touched }"
-              required
-            />
-            <span
-              v-if="errorMessage"
-              class="p-text-error"
-              role="alert"
-              aria-live="assertive"
+          <div class="grid grid-cols-2 gap-x-14 gap-y-2">
+            <div class="mb-4">
+              <label for="id">
+                {{ $t('pages.recordUser.id') }}
+              </label>
+              <PrimeInputText
+                id="id"
+                v-model="currentUser.id"
+                :disabled="true"
+              />
+            </div>
+            <Field
+              v-slot="{ field, errorMessage, meta: { valid, touched } }"
+              v-model="currentUser.username"
+              class="mb-4"
+              name="recordUser.username"
+              rules="required"
+              as="div"
             >
-              {{ errorMessage }}
-            </span>
-          </Field>
-          <Field
-            v-slot="{ field, errorMessage, meta: { valid, touched } }"
-            v-model="currentUser.lastName"
-            class="mb-4"
-            name="recordUser.lastName"
-            as="div"
-          >
-            <label for="lastName">
-              {{ $t('pages.recordUser.lastName') }}
-            </label>
-            <PrimeInputText
-              id="lastName"
-              v-bind="field"
-              :class="{ 'p-invalid': !valid && touched }"
-            />
-            <span
-              v-if="errorMessage"
-              class="p-text-error"
-              role="alert"
-              aria-live="assertive"
+              <label for="username" class="label-field-required">
+                {{ $t('pages.recordUser.username') }}
+              </label>
+              <PrimeInputText
+                id="username"
+                v-bind="field"
+                :class="{ 'p-invalid': !valid && touched }"
+                required
+              />
+              <span
+                v-if="errorMessage"
+                class="p-text-error"
+                role="alert"
+                aria-live="assertive"
+              >
+                {{ errorMessage }}
+              </span>
+            </Field>
+            <Field
+              v-slot="{ field, errorMessage, meta: { valid, touched } }"
+              v-model="currentUser.firstName"
+              class="mb-4"
+              name="recordUser.firstName"
+              as="div"
             >
-              {{ errorMessage }}
-            </span>
-          </Field>
-          <Field
-            v-slot="{ field, errorMessage, meta: { valid, touched } }"
-            v-model="currentUser.firstName"
-            class="mb-4"
-            name="recordUser.firstName"
-            as="div"
-          >
-            <label for="firstName">
-              {{ $t('pages.recordUser.firstName') }}
-            </label>
-            <PrimeInputText
-              id="firstName"
-              v-bind="field"
-              :class="{ 'p-invalid': !valid && touched }"
-            />
-            <span
-              v-if="errorMessage"
-              class="p-text-error"
-              role="alert"
-              aria-live="assertive"
+              <label for="firstName">
+                {{ $t('pages.recordUser.firstName') }}
+              </label>
+              <PrimeInputText
+                id="firstName"
+                v-bind="field"
+                :class="{ 'p-invalid': !valid && touched }"
+              />
+              <span
+                v-if="errorMessage"
+                class="p-text-error"
+                role="alert"
+                aria-live="assertive"
+              >
+                {{ errorMessage }}
+              </span>
+            </Field>
+            <Field
+              v-slot="{ field, errorMessage, meta: { valid, touched } }"
+              v-model="currentUser.lastName"
+              class="mb-4"
+              name="recordUser.lastName"
+              as="div"
             >
-              {{ errorMessage }}
-            </span>
-          </Field>
-          <Field
-            v-slot="{ field, errorMessage, meta: { valid, touched } }"
-            v-model="currentUser.email"
-            class="mb-4"
-            name="recordUser.email"
-            rules="required|email"
-            as="div"
-          >
-            <label for="email" class="label-field-required">
-              {{ $t('pages.recordUser.email') }}
-            </label>
-            <PrimeInputText
-              id="email"
-              type="email"
-              v-bind="field"
-              :class="{ 'p-invalid': !valid && touched }"
-              required
-            />
-            <span
-              v-if="errorMessage"
-              class="p-text-error"
-              role="alert"
-              aria-live="assertive"
+              <label for="lastName">
+                {{ $t('pages.recordUser.lastName') }}
+              </label>
+              <PrimeInputText
+                id="lastName"
+                v-bind="field"
+                :class="{ 'p-invalid': !valid && touched }"
+              />
+              <span
+                v-if="errorMessage"
+                class="p-text-error"
+                role="alert"
+                aria-live="assertive"
+              >
+                {{ errorMessage }}
+              </span>
+            </Field>
+            <Field
+              v-slot="{ field, errorMessage, meta: { valid, touched } }"
+              v-model="currentUser.email"
+              class="mb-4"
+              name="recordUser.email"
+              rules="required|email"
+              as="div"
             >
-              {{ errorMessage }}
-            </span>
-          </Field>
-          <Field
-            v-slot="{ field }"
-            v-model="profile"
-            class="mb-4"
-            name="recordUser.profile"
-            rules="required"
-            as="div"
-          >
-            <label for="profile" class="label-field-required">
-              {{ $t('pages.recordUser.profile') }}
-            </label>
-            <PrimeDropdown
-              v-bind="{
-                ...field,
-                onChange: ({ value: newValue }) =>
-                  field.onChange.forEach((fct) => fct(newValue)),
-                'model-value': field.value,
-              }"
-              input-id="profile"
-              :options="PROFILE"
-              option-label="label"
-              dropdown-icon="bi-chevron-down"
-              required
+              <label for="email" class="label-field-required">
+                {{ $t('pages.recordUser.email') }}
+              </label>
+              <PrimeInputText
+                id="email"
+                type="email"
+                v-bind="field"
+                :class="{ 'p-invalid': !valid && touched }"
+                required
+              />
+              <span
+                v-if="errorMessage"
+                class="p-text-error"
+                role="alert"
+                aria-live="assertive"
+              >
+                {{ errorMessage }}
+              </span>
+            </Field>
+            <Field
+              v-slot="{ field }"
+              v-model="profile"
+              class="mb-8"
+              name="recordUser.profile"
+              rules="required"
+              as="div"
             >
-              <template #value="slotProps">
-                <span v-if="slotProps.value">
-                  {{ $t(`pages.recordUser.${slotProps.value.label}`) }}
-                </span>
-              </template>
-              <template #option="slotProps">
-                <span>
-                  {{ $t(`pages.recordUser.${slotProps.option.label}`) }}
-                </span>
-              </template>
-            </PrimeDropdown>
-          </Field>
-          <div class="mb-4 flex flex-col">
-            <label for="isVerified">
-              {{ $t('pages.recordUser.isVerified') }}
-            </label>
-            <PrimeSwitch
-              id="isVerified"
-              v-model="currentUser.isVerified"
-              :true-value="true"
-              :false-value="false"
-              :disabled="true"
-            />
-          </div>
-          <div class="mb-4 flex flex-col">
-            <label for="isBlocked">
-              {{ $t('pages.recordUser.isBlocked') }}
-            </label>
-            <PrimeSwitch
-              id="isBlocked"
-              v-model="currentUser.blocked"
-              :true-value="true"
-              :false-value="false"
-              :disabled="true"
-            />
+              <label for="profile" class="label-field-required">
+                {{ $t('pages.recordUser.profile') }}
+              </label>
+              <PrimeDropdown
+                v-bind="{
+                  ...field,
+                  onChange: ({ value: newValue }) =>
+                    field.onChange.forEach((fct) => fct(newValue)),
+                  'model-value': field.value,
+                }"
+                input-id="profile"
+                :options="PROFILE"
+                option-label="name"
+                dropdown-icon="bi-chevron-down"
+                required
+              >
+                <template #value="slotProps">
+                  <span v-if="slotProps.value">
+                    {{ $t(`pages.recordUser.${slotProps.value.name}`) }}
+                  </span>
+                </template>
+                <template #option="slotProps">
+                  <span>
+                    {{ $t(`pages.recordUser.${slotProps.option.name}`) }}
+                  </span>
+                </template>
+              </PrimeDropdown>
+            </Field>
           </div>
         </FormGeneric>
       </div>
@@ -277,11 +280,7 @@
               <p>
                 {{
                   $t('pages.recordUser.result', {
-                    elements:
-                      suggestGroups.limit > suggestGroups.data.length
-                        ? suggestGroups.data.length
-                        : suggestGroups.limit,
-                    total: suggestGroups.total,
+                    elements: suggestGroups.limit,
                   })
                 }}
               </p>
@@ -298,12 +297,7 @@
               <p>
                 {{
                   $t('pages.recordUser.result', {
-                    elements:
-                      currentGroupsForUser.limit >
-                      currentGroupsForUser.data.length
-                        ? currentGroupsForUser.data.length
-                        : currentGroupsForUser.limit,
-                    total: currentGroupsForUser.total,
+                    elements: suggestGroups.limit,
                   })
                 }}
               </p>
@@ -317,6 +311,7 @@
               border-color-tag="var(--primary-color)"
               color-tag="var(--primary-color)"
               bg-color-tag="transparent"
+              :with-tooltip="true"
             />
           </template>
         </PickData>
@@ -328,7 +323,7 @@
 
 <script setup lang="ts">
 import PrimeButton from 'primevue/button'
-import PrimeSwitch from 'primevue/inputswitch'
+import PrimeCheckbox from 'primevue/checkbox'
 import PrimeInputText from 'primevue/inputtext'
 import PrimeDropdown from 'primevue/dropdown'
 import PrimeConfirmDialog from 'primevue/confirmdialog'
@@ -342,15 +337,15 @@ import { Field } from 'vee-validate'
 import { storeToRefs } from 'pinia'
 import { useConfirm } from 'primevue/useconfirm'
 import { useI18n } from 'vue-i18n'
+import { useStoreAuth } from '../../../../stores/auth'
 import { useStoreUsers } from '../../../../stores/users'
 import {
   ApiGroup,
   Group,
   PROFILE,
-  ProfileType,
+  LabelValueType,
   User,
 } from '../../../../interfaces/toMigrate'
-import { useStoreAuth } from '../../../../stores/auth'
 import {
   removeUserGroup,
   updateUserGroup,
@@ -378,7 +373,7 @@ const emit = defineEmits<{
 
 const route = useRoute()
 const usersStore = useStoreUsers()
-const { loading, error: errorUserStore } = storeToRefs(usersStore)
+const { loading, error: errorUsersStore } = storeToRefs(usersStore)
 const authStore = useStoreAuth()
 const { error: errorAuthStore } = storeToRefs(authStore)
 const { t } = useI18n()
@@ -391,34 +386,68 @@ const suggestGroups = ref(null) // Other groups with Pagination
 const queryForAvailableGroup = ref<string | null>(null) // Query for search in available group
 const queryForJoinedGroup = ref<string | null>(null) // Query for search in joined group
 const actionFromButton = ref(false)
-const response = ref(null)
+const response = ref<Error | null>(null)
 const errorUserGroup = ref(false)
 
 const searchGroupsExceptJoined = async () => {
+  errorUserGroup.value = false
+  // Check if user already member of some groups
   if (groups.value.length > 0) {
     const userGroupsIds = groups.value.reduce((acc: string[], group) => {
       acc.push(group.id)
       return acc
     }, [])
+    // Search specific group
     if (queryForAvailableGroup.value) {
-      suggestGroups.value = await searchGroups({
+      const res = await searchGroups({
         query: queryForAvailableGroup.value,
         params: { id: { $nin: userGroupsIds }, $eager: 'workspace' },
       })
+      if (res instanceof Error) {
+        errorUserGroup.value = true
+      } else {
+        suggestGroups.value = res
+      }
     } else {
-      suggestGroups.value = await findGroups({
+      // Display all groups
+      const foundGroups = await findGroups({
         params: { id: { $nin: userGroupsIds }, $eager: 'workspace' },
       })
+      if (foundGroups instanceof Error) {
+        errorUserGroup.value = true
+      } else {
+        suggestGroups.value = foundGroups
+      }
     }
-  } else {
-    suggestGroups.value = await findGroups({
+    // Case for new user without groups
+  } else if (queryForAvailableGroup.value) {
+    // Search specific group
+    const res = await searchGroups({
+      query: queryForAvailableGroup.value,
       params: { $eager: 'workspace' },
     })
+    if (res instanceof Error) {
+      errorUserGroup.value = true
+    } else {
+      suggestGroups.value = res
+    }
+  } else {
+    // Display all groups
+    const foundGroups = await findGroups({
+      params: { $eager: 'workspace' },
+    })
+    if (foundGroups instanceof Error) {
+      errorUserGroup.value = true
+    } else {
+      suggestGroups.value = foundGroups
+    }
   }
 }
 
 // Initialization
-currentUser.value = await getUser(route.params.id as string)
+
+const resUser = await getUser(route.params.id as string)
+if (resUser.id) currentUser.value = resUser
 if (currentUser.value) {
   const res = await findGroupsFomUser(currentUser.value.id)
   currentGroupsForUser.value = res
@@ -428,11 +457,11 @@ if (currentUser.value) {
   }
 }
 
-const profile = computed<ProfileType>({
+const profile = computed<LabelValueType>({
   get() {
     return PROFILE.find(
       ({ value }) => value === currentUser.value?.profile,
-    ) as ProfileType
+    ) as LabelValueType
   },
   set(newValue) {
     if (!currentUser.value || !newValue || !newValue.value) return
@@ -497,7 +526,7 @@ const onSubmit = async () => {
     lastName: currentUser.value.lastName,
     firstName: currentUser.value.firstName,
     email: currentUser.value.email,
-    profile: currentUser.value.profile,
+    profile: profile.value.value,
   })
 
   if (res && res.id) {
@@ -511,8 +540,8 @@ const onSubmit = async () => {
   }
 }
 
-const addUserInGroup = () => {
-  ;(groups.value as Group[]).forEach(async (group) => {
+const addUserInGroup = async () => {
+  for (const group of groups.value as Group[]) {
     const alreadyMember = (
       currentGroupsForUser.value as ApiGroup
     ).data.findIndex(({ id }) => id === group.id)
@@ -525,31 +554,29 @@ const addUserInGroup = () => {
         errorUserGroup.value = true
       }
     }
-  })
+  }
 }
 
-const removeUserInGroup = () => {
-  ;(currentGroupsForUser.value as ApiGroup).data.forEach(
-    async (groupForUser) => {
-      const revokedMember = (groups.value as Group[]).findIndex(
-        ({ id }) => id === groupForUser.id,
-      )
+const removeUserInGroup = async () => {
+  for (const group of (currentGroupsForUser.value as ApiGroup).data) {
+    const revokedMember = (groups.value as Group[]).findIndex(
+      ({ id }) => id === group.id,
+    )
 
-      if (revokedMember === -1) {
-        const res = await removeUserGroup({
-          userId: (currentUser.value as User).id,
-          groupId: groupForUser.id,
-        })
-        if (res instanceof Error) {
-          errorUserGroup.value = true
-        }
+    if (revokedMember === -1) {
+      const res = await removeUserGroup({
+        userId: (currentUser.value as User).id,
+        groupId: group.id,
+      })
+      if (res instanceof Error) {
+        errorUserGroup.value = true
       }
-    },
-  )
+    }
+  }
 }
 
 const updateUserGroupForCurrentUser = async () => {
-  // Limit because there is no pagination (for now)
+  // Limit because there is no pagination in PickData (for now)
   if (
     groups.value &&
     currentGroupsForUser.value &&
@@ -578,7 +605,7 @@ const searchGroupsJoined = async () => {
     if (queryForJoinedGroup.value) {
       const res = await searchGroups({
         query: queryForJoinedGroup.value,
-        params: { id: { $in: userGroupsIds } },
+        params: { id: { $in: userGroupsIds }, $eager: 'workspace' },
       })
       groups.value = res.data
     } else if (currentGroupsForUser.value) {
@@ -589,13 +616,11 @@ const searchGroupsJoined = async () => {
 }
 
 const onReset = async () => {
-  currentUser.value = await getUser(route.params.id as string)
+  const res = await getUser(route.params.id as string)
+  if (res instanceof Error) {
+    response.value = res
+  } else {
+    currentUser.value = res
+  }
 }
 </script>
-
-<style scoped>
-.search-input {
-  @apply py-2 px-[2.5rem];
-  background: white url('../../../../assets/search.svg') no-repeat 10px center;
-}
-</style>

@@ -79,7 +79,7 @@
               aria-labelledby="column"
               class="w-full"
               :options="columnsDefinition"
-              data-key="slug"
+              data-key="field"
               option-label="name"
               dropdown-icon="bi-chevron-down"
               @input="onChangeColumn(index)"
@@ -90,12 +90,12 @@
               {{ $t('components.filterButton.action') }}
             </label>
             <PrimeDropdown
+              v-if="filter.column"
               v-model="filter.action"
               input-id="action"
               class="w-full"
               :disabled="!filter.column"
               :options="
-                filter.column &&
                 COLUMN_FILTERS_CONFIG[filter.column.original_type_id].actions
               "
               option-label="label"
@@ -186,14 +186,12 @@ import {
 } from '../../helpers/filter'
 import { OverlayPanel } from '../../types/prime.d.'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const emit = defineEmits<{
   (e: 'submit-filters', filters: Filter[]): void
   (e: 'save-filters', filters: Filter[]): void
   (e: 'reset-filters'): void
 }>()
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
   defineProps<{
     appendTo: string
