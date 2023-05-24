@@ -7,7 +7,7 @@ export async function up(knex: Knex): Promise<void> {
     .createTable('lck_workspace', (table) => {
       table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
       table.string('name', 50).notNullable()
-      table.string('slug', 50).unique()
+      table.string('slug', 50).notNullable().unique()
       table.index('slug', 'IDX_workspace_slug')
       table.boolean('legacy').defaultTo(false)
       table.boolean('public').defaultTo(false)
