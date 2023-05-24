@@ -12,9 +12,9 @@ export async function seed(knex: Knex): Promise<any> {
    */
   const usersToInsert = [
     {
-      firstName: 'Master',
+      firstName: 'John',
       lastName: 'ADMIN',
-      username: 'master',
+      username: 'john',
       email: 'admin@locokit.io',
       password: hashPassword,
       profile: USER_PROFILE.ADMIN,

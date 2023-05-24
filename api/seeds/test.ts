@@ -35,9 +35,9 @@ export async function seed(knex: Knex): Promise<any> {
     console.log('Inserting test users...')
     const usersToInsert = [
       {
-        firstName: 'Master',
+        firstName: 'John',
         lastName: 'ADMIN',
-        username: 'master',
+        username: 'john',
         email: 'admin@locokit.io',
         password: hashPassword,
         profile: USER_PROFILE.ADMIN,
