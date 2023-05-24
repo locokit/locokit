@@ -92,7 +92,7 @@ BEGIN
     CONSTRAINT "FK_policy_workspace" FOREIGN KEY ("workspaceId")
       REFERENCES "core"."lck_workspace" (id) MATCH SIMPLE
       ON UPDATE NO ACTION
-      ON DELETE NO ACTION
+      ON DELETE DELETE
 
   ) INHERITS ("core"."lck_policy")', $1);
 
@@ -104,7 +104,7 @@ BEGIN
     CONSTRAINT "FK_group_workspace" FOREIGN KEY ("workspaceId")
       REFERENCES "core"."lck_workspace" (id) MATCH SIMPLE
       ON UPDATE NO ACTION
-      ON DELETE NO ACTION,
+      ON DELETE DELETE,
 
     CONSTRAINT "FK_group_policy" FOREIGN KEY ("policyId")
       REFERENCES "policy" (id) MATCH SIMPLE
@@ -280,15 +280,15 @@ BEGIN
     CONSTRAINT "FK_tableRelation_from" FOREIGN KEY ("fromTableId")
         REFERENCES "table" (id) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
+        ON DELETE DELETE,
     CONSTRAINT "FK_tableRelation_to" FOREIGN KEY ("toTableId")
         REFERENCES "table" (id) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
+        ON DELETE DELETE,
     CONSTRAINT "FK_tableRelation_through" FOREIGN KEY ("throughTableId")
         REFERENCES "table" (id) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
+        ON DELETE DELETE,
     CONSTRAINT "FK_tableRelation_fromField" FOREIGN KEY ("fromFieldId")
         REFERENCES "tableField" (id) MATCH SIMPLE
         ON UPDATE NO ACTION
