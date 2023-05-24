@@ -71,7 +71,7 @@
       "firstName": "First name",
       "username": "Username",
       "email": "Email",
-      "policy": "Group policy",
+      "role": "Role",
       "submit": "Submit",
       "admin": "@:commons.userProfile.admin",
       "creator": "@:commons.userProfile.creator",
