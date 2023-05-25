@@ -2,7 +2,7 @@ import { Type, querySyntax, Static, getValidator } from '@feathersjs/typebox'
 import { workspaceSchema } from '@/services/core/workspace/core-workspace.schema'
 import { dataValidator, queryValidator } from '@/commons/validators'
 import { workspaceOwnerSchema } from '@/services/core/user/user.schema'
-import { roleSchema } from '../role/role.schema'
+import { policySchema } from '../policy/policy.schema'
 import { queryStringExtend } from '@/feathers-objection'
 
 // Schema for the basic data model (e.g. creating new entries)
@@ -44,13 +44,13 @@ export const groupSchema = Type.Object(
         },
       ),
     ),
-    role: Type.Optional(
+    policy: Type.Optional(
       Type.Object(
         {
-          ...roleSchema.properties,
+          ...policySchema.properties,
         },
         {
-          description: 'Related role',
+          description: 'Related policy',
         },
       ),
     ),

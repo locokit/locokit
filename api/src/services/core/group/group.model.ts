@@ -1,7 +1,7 @@
 import { Model, RelationMappings } from 'objection'
 import { WorkspaceModel } from '@/services/core/workspace/core-workspace.model'
 import { UserGroupModel } from '../user-group/user-group.model'
-import { RoleModel } from '../role/role.model'
+import { PolicyModel } from '../policy/policy.model'
 import { UserModel } from '../../core/user/user.model'
 
 /**
@@ -24,10 +24,10 @@ export class GroupModel extends Model {
       },
       policy: {
         relation: Model.BelongsToOneRelation,
-        modelClass: RoleModel,
+        modelClass: PolicyModel,
         join: {
-          from: 'lck_group.roleId',
-          to: 'lck_role.id',
+          from: 'lck_group.policyId',
+          to: 'lck_policy.id',
         },
       },
       userGroups: {
