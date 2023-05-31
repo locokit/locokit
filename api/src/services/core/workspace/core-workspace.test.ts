@@ -492,7 +492,7 @@ describe('workspace service', () => {
 
   // don't know if we need to implement this usecase
   // need to be checked with permissions implementation
-  describe.todo('with $forCurrentUser option', () => {
+  describe.todo('for authenticated users', () => {
     it.todo(
       'returns only workspace available for a user (owner or not) when using the $forCurrentUser option',
       () => {},
