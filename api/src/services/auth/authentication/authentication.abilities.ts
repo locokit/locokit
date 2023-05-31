@@ -2,7 +2,7 @@ import { AbilityBuilder, AnyMongoAbility } from '@casl/ability'
 import { USER_PROFILE } from '@locokit/definitions'
 import { AppAbility, resolveAction } from '../../../abilities/definitions'
 import makeAbilityFromRules from '../../../abilities/makeAbilityFromRules'
-import { UserResult } from '../user/user.schema'
+import { UserResult } from '@/services/core/user/user.schema'
 
 export function defineAbilities(user: UserResult): AnyMongoAbility {
   // also see https://casl.js.org/v5/en/guide/define-rules

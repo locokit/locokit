@@ -5,8 +5,8 @@ import {
 } from '@feathersjs/authentication'
 import { AnyMongoAbility } from '@casl/ability'
 
-import { UserResult } from '../user/user.schema'
-import { logger } from '../../../logger'
+import { UserResult } from '@/services/core/user/user.schema'
+import { logger } from '@/logger'
 import { defineAbilities } from './authentication.abilities'
 
 const jwtLogger = logger.child({ service: 'authentication-jwt-enhanced' })
@@ -30,7 +30,7 @@ export class JWTStrategyEnhanced extends JWTStrategy {
     user: UserResult
     ability: AnyMongoAbility
   }> {
-    jwtLogger.info('authenticate() with params', params)
+    jwtLogger.info('authenticate()')
     const superResult = (await super.authenticate(authentication, params)) as {
       accessToken: any
       authentication: {

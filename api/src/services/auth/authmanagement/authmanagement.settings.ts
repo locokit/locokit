@@ -5,6 +5,7 @@ import path from 'path'
 import { marked } from 'marked'
 import { NotificationType, NotifierOptions, User } from 'feathers-authentication-management'
 import { logger } from '../../../logger'
+import { SERVICES } from '@locokit/definitions'
 
 const authMgtLogger = logger.child({ service: 'service-auth-mgmt' })
 
@@ -188,7 +189,7 @@ export function authManagementSettings(app: Application): {
         portalName: app.get('publicPortalName'),
       })
 
-      return await app.service('mailer').create({
+      return await app.service(SERVICES.MISC_MAILER).create({
         to: notifierOptions?.emailAddress ?? user.email, // Use the specified email address or the user one
         subject: emailSubject,
         text: emailText,

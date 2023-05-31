@@ -2,11 +2,10 @@ import { describe, beforeAll, afterAll, it, expect } from 'vitest'
 import axios from 'axios'
 import { createApp } from './app'
 
-const app = createApp()
-const port = app.get('port')
-const appUrl = `http://${app.get('host')}:${port}`
-
 describe('Feathers application tests', () => {
+  const app = createApp()
+  const port = app.get('port')
+  const appUrl = `http://${app.get('host')}:${port}`
   beforeAll(async () => {
     await app.listen(port)
   })

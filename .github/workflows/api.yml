@@ -7,6 +7,7 @@ on:
     branches:
       - next
   pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
 
@@ -70,12 +71,19 @@ jobs:
         run: npm ci
       - name: Lint code
         run: npm run lint --workspace api
+      - name: Prettier
+        run: npm run prettier --workspace api
       - name: Unit tests
         run: npm run vitest:coverage --workspace api
         env:
           NODE_OPTIONS: --max_old_space_size=4096
       - name: Tar coverage
         run: tar -cvzf lck-api-quality-artifact.tar.gz api/coverage
+      # - name: SonarCloud Scan
+      #   uses: SonarSource/sonarcloud-github-action@master
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Archive production artifacts
         if: always()
         uses: actions/upload-artifact@v3

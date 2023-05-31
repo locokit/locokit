@@ -19,8 +19,8 @@ And each `workspace` will have its own schema.
 This schema contains several tables :
 * `user`: all users
 * `workspace`: all workspaces created
-* `role`: related to a `workspace`, is a set of permission
-* `group`: related to a `workspace` and a `role`, is a set of users
+* `policy`: related to a `workspace`, is a set of permission
+* `group`: related to a `workspace` and a `policy`, is a set of users
 * `userGroup`: the association table between `user` and `group`
 * `settings`: settings of LocoKit instance
 
@@ -35,7 +35,7 @@ does the second see the new columns ?
 ## Workspace databases
 
 Each datasource managed by LocoKit (so, for any new datasource not wired to an actual database)
-will have its own database with three dedicated roles :
+will have its own database with three dedicated roles (in a PostGreSQL meaning) :
 * `lck_{workspaceSlug}_readonly` : used for read-only
 * `lck_{workspaceSlug}_readwrite` : used for read-write access
 * `lck_{workspaceSlug}_alter` : used for schema alteration

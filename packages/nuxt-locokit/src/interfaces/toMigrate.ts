@@ -107,7 +107,7 @@ export interface Group {
   name: string
   documentation: string | null
   workspaceId: string
-  roleId: string
+  policyId: string
   workspace?: Workspace | null
   policy?: Policy | null
   users?: User[] | null

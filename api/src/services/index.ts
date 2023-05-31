@@ -1,16 +1,29 @@
-import type { Application } from '../declarations'
-import { authentication } from './auth/authentication/authentication.service'
-import { authmanagement } from './auth/authmanagement/authmanagement.service'
-import { user } from './auth/user/user.service'
-import { groupService } from './auth/group/group.service'
-import { workspaceService } from './workspace/workspace.service'
-import { mailer } from './mailer/mailer.service'
-import { signup } from './auth/signup/signup.service'
-import { datasourceService } from './workspace/datasource/datasource.service'
-import { roleService } from './auth/role/role.service'
-import { userGroupService } from './auth/user-group/user-group.service'
-// import { tableService } from './workspace/datasource/table/table.service'
-// import { recordService } from './workspace/datasource/table/record/record.service'
+import type { Application } from '@/declarations'
+
+import { authentication } from './auth/authentication/authentication'
+import { authmanagement } from './auth/authmanagement/authmanagement'
+import { user } from './core/user/user'
+import { signup } from './auth/signup/signup'
+
+import { workspaceService } from './core/workspace/core-workspace'
+import { coreDatasourceService } from './core/datasource/core-datasource'
+import { coreTableService } from './core/table/core-table'
+import { policyService } from './core/policy/policy'
+import { groupService } from './core/group/group'
+import { userGroupService } from './core/user-group/user-group'
+
+import { datasourceService } from './workspace/datasource/datasource'
+// import { migrationService } from './workspace/migration/migration'
+import { tableService } from './workspace/table/table'
+import { tableFieldService } from './workspace/table-field/table-field'
+import { tableRecordService } from './workspace/table-record/table-record'
+import { tableRelationService } from './workspace/table-relation/table-relation'
+// import { datasetService } from './workspace/dataset/dataset'
+// import { datasetFieldService } from './workspace/datasetField/datasetField'
+// import { datasetRecordService } from './workspace/datasetRecord/datasetRecord'
+
+import { mailer } from './mailer/mailer'
+import { datasourceMermaidService } from './workspace/datasource-mermaid/datasource-mermaid'
 
 export const services = (app: Application): void => {
   /**
@@ -18,29 +31,41 @@ export const services = (app: Application): void => {
    */
   app.configure(authentication)
   app.configure(authmanagement)
-  app.configure(user)
-  app.configure(groupService)
-  app.configure(userGroupService)
-  app.configure(roleService)
   app.configure(signup)
 
   /**
-   * Workspaces
+   * Core
    */
+  app.configure(user)
+  app.configure(groupService)
+  app.configure(userGroupService)
   app.configure(workspaceService)
-  app.configure(datasourceService)
-  // app.configure(tableService)
-  // app.configure(recordService)
-  // app.configure(tableRelationService)
-  // app.configure(fieldService)
-  // app.configure(datasetService)
+  app.configure(policyService)
+  app.configure(coreDatasourceService)
+  app.configure(coreTableService)
 
   /**
-   * Automations ?
+   * Workspace dedicated endpoint
+   * These endpoints are available as root endpoints
+   * but also with route params
+   */
+  app.configure(datasourceService)
+  app.configure(datasourceMermaidService)
+  // app.configure(migrationService)
+  app.configure(tableService)
+  app.configure(tableFieldService)
+  app.configure(tableRelationService)
+  app.configure(tableRecordService)
+  // app.configure(datasetService)
+  // app.configure(datasetFieldService)
+  // app.configure(datasetRecordService)
+
+  /**
+   * Automations (when it will be done)
    */
 
   /**
-   * Utils
+   * Utils, unavailable for external
    */
   app.configure(mailer)
 }

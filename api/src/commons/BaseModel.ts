@@ -1,7 +1,7 @@
 import { Model, AjvValidator } from 'objection'
 import { addFormats } from '@feathersjs/schema'
 import { formats } from './validators'
-import { USERGROUP_PROFILE, USER_PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/definitions'
 
 export default class BaseModel extends Model {
   static createValidator() {
@@ -11,10 +11,6 @@ export default class BaseModel extends Model {
         ajv.addFormat('user-profile', {
           type: 'string',
           validate: (x: string) => Object.keys(USER_PROFILE).includes(x),
-        })
-        ajv.addFormat('user-group-profile', {
-          type: 'string',
-          validate: (x: string) => Object.keys(USERGROUP_PROFILE).includes(x),
         })
       },
       options: {

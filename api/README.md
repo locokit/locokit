@@ -46,6 +46,22 @@ this is a good practice to have a database up-to-date.
 npm run migrate:latest
 ```
 
+**Knex seeds**
+
+You can populate the database with some default data, 
+for development purpose.
+
+```sh
+npm run seed:run-init
+```
+
+You'll have access to 3 users : 
+* admin@locokit.io with ADMIN profile
+* creator@locokit.io with CREATOR profile
+* member@locokit.io with MEMBER profile
+
+A workspace is also created by the CREATOR user.
+
 ## Testing
 
 Run `npm test` and all your tests in the `test/` directory will be run.

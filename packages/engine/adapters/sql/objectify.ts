@@ -23,21 +23,14 @@ const OPERATORS = {
  */
 export function objectify<T extends Model>(
   knexQuery: QueryBuilder<T, T[]>,
-  query: Record<
-    string | keyof typeof METHODS,
-    Object | string | number | null
-  > = {},
+  query: Record<string | keyof typeof METHODS, Object | string | number | null> = {},
   parentKey?: string,
 ): QueryBuilder<T, T[]> {
   return Object.keys(query || {}).reduce((currentQuery, key) => {
     const value = query[key]
 
     if (typeof value === 'object') {
-      return objectify(
-        currentQuery,
-        value as Record<string, Object | string | number | null>,
-        key,
-      )
+      return objectify(currentQuery, value as Record<string, Object | string | number | null>, key)
     }
 
     const column = parentKey ?? key

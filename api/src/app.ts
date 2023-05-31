@@ -5,8 +5,6 @@
 import dotenv from 'dotenv-flow'
 dotenv.config()
 
-import { version } from '../package.json'
-
 import serveStatic from 'koa-static'
 import { feathers } from '@feathersjs/feathers'
 import configuration from '@feathersjs/configuration'
@@ -83,7 +81,7 @@ We hope you will enjoy this tool!
 
 *The LocoKit team*
 `,
-          version,
+          version: process.env.npm_package_version ?? 'dev',
         },
       },
     }),

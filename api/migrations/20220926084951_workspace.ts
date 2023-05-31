@@ -6,8 +6,8 @@ export async function up(knex: Knex): Promise<void> {
 
     .createTable('lck_workspace', (table) => {
       table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
-      table.string('name').notNullable()
-      table.string('slug').unique()
+      table.string('name', 50).notNullable()
+      table.string('slug', 50).notNullable().unique()
       table.index('slug', 'IDX_workspace_slug')
       table.boolean('legacy').defaultTo(false)
       table.boolean('public').defaultTo(false)
@@ -22,22 +22,26 @@ export async function up(knex: Knex): Promise<void> {
       table.uuid('createdBy').notNullable()
       table.foreign('createdBy', 'FK_workspace_user').references('id').inTable('core.lck_user')
       table.index('createdBy', 'IDX_workspace_createdBy')
+      table.datetime('softDeletedAt')
     })
 
     /**
      * Role / Permission table
      */
-    .createTable('lck_role', (table) => {
+    .createTable('lck_policy', (table) => {
       table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
       table.string('name', 255).notNullable()
       table.text('documentation')
       table.uuid('workspaceId').notNullable()
       table
-        .foreign('workspaceId', 'FK_role_workspace')
+        .foreign('workspaceId', 'FK_policy_workspace')
         .references('id')
         .inTable('core.lck_workspace')
-      table.index('workspaceId', 'IDX_role_workspaceId')
+      table.index('workspaceId', 'IDX_policy_workspaceId')
       table.boolean('manager').notNullable().defaultTo(false)
+      table.boolean('public').notNullable().defaultTo(false)
+      table.datetime('createdAt').defaultTo(knex.fn.now())
+      table.datetime('updatedAt').defaultTo(knex.fn.now())
     })
 
     /**
@@ -53,9 +57,11 @@ export async function up(knex: Knex): Promise<void> {
         .references('id')
         .inTable('core.lck_workspace')
       table.index('workspaceId', 'IDX_group_workspaceId')
-      table.uuid('roleId').notNullable()
-      table.foreign('roleId', 'FK_group_role').references('id').inTable('core.lck_role')
-      table.index('roleId', 'IDX_group_roleId')
+      table.uuid('policyId').notNullable()
+      table.foreign('policyId', 'FK_group_policy').references('id').inTable('core.lck_policy')
+      table.index('policyId', 'IDX_group_policyId')
+      table.datetime('createdAt').defaultTo(knex.fn.now())
+      table.datetime('updatedAt').defaultTo(knex.fn.now())
     })
     .createTable('lck_userGroup', (table) => {
       table.uuid('groupId').notNullable()
@@ -64,7 +70,8 @@ export async function up(knex: Knex): Promise<void> {
       table.uuid('userId').notNullable()
       table.foreign('userId', 'FK_userGroup_user').references('id').inTable('core.lck_user')
       table.index('userId', 'IDX_userGroup_userId')
-      table.enum('userGroupRole', ['OWNER', 'ADMIN', 'MEMBER']).notNullable().defaultTo('MEMBER')
+      table.datetime('createdAt').defaultTo(knex.fn.now())
+      table.datetime('updatedAt').defaultTo(knex.fn.now())
 
       table.primary(['userId', 'groupId'])
     })
@@ -74,12 +81,13 @@ export async function up(knex: Knex): Promise<void> {
      */
     .createTable('lck_datasource', (table) => {
       table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
-      table.string('name').notNullable()
-      table.string('slug')
+      table.string('name', 50).notNullable()
+      table.string('slug', 50).notNullable()
       table.index('slug', 'IDX_datasource_slug')
-      table.unique(['slug', 'workspaceId'], { indexName: 'IDX_UNQ_ds_slug' })
+      table.unique(['slug', 'workspaceId'], { indexName: 'IDX_UNQ_datasource_slug' })
       table.text('documentation')
-      table.enum('client', ['sqlite3', 'pg', 'legacy']).notNullable()
+      table.enum('client', ['sqlite3', 'pg']).notNullable()
+      table.enum('type', ['remote', 'local']).notNullable()
       table.string('connection').notNullable()
       table.jsonb('credentialsRead').defaultTo({
         username: null,
@@ -103,14 +111,57 @@ export async function up(knex: Knex): Promise<void> {
         .inTable('core.lck_workspace')
       table.index('workspaceId', 'IDX_datasource_workspaceId')
     })
+
+    /**
+     * Table table
+     */
+    .createTable('lck_table', (table) => {
+      table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
+      table.string('name', 50).notNullable()
+      table.string('slug', 50).notNullable()
+      table.index('slug', 'IDX_table_slug')
+      table.string('schema')
+      table.unique(['schema', 'slug', 'datasourceId'], { indexName: 'IDX_UNQ_table_schema_slug' })
+      table.text('documentation')
+      table.jsonb('settings').defaultTo({})
+      table.datetime('createdAt').defaultTo(knex.fn.now())
+      table.datetime('updatedAt').defaultTo(knex.fn.now())
+
+      table.uuid('datasourceId').notNullable()
+      table
+        .foreign('datasourceId', 'FK_table_datasource')
+        .references('id')
+        .inTable('core.lck_datasource')
+      table.index('datasourceId', 'IDX_table_datasourceId')
+    })
+
+    /**
+     * Table dataset
+     */
+    .createTable('lck_dataset', (table) => {
+      table.uuid('id', { primaryKey: true }).defaultTo(knex.raw('gen_random_uuid()'))
+      table.string('name').notNullable()
+      table.string('slug').notNullable()
+      table.index('slug', 'IDX_dataset_slug')
+      table.unique(['slug', 'tableId'], { indexName: 'IDX_UNQ_dataset_slug' })
+      table.text('documentation')
+      table.datetime('createdAt').defaultTo(knex.fn.now())
+      table.datetime('updatedAt').defaultTo(knex.fn.now())
+
+      table.uuid('tableId').notNullable()
+      table.foreign('tableId', 'FK_dataset_table').references('id').inTable('core.lck_table')
+      table.index('tableId', 'IDX_dataset_tableId')
+    })
 }
 
 export async function down(knex: Knex): Promise<void> {
   await knex.schema
     .withSchema('core')
+    .dropTable('lck_dataset')
+    .dropTable('lck_table')
     .dropTable('lck_datasource')
     .dropTable('lck_userGroup')
     .dropTable('lck_group')
-    .dropTable('lck_role')
+    .dropTable('lck_policy')
     .dropTable('lck_workspace')
 }

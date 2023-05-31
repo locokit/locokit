@@ -5,7 +5,7 @@ import {
   AuthenticationResult,
 } from '@feathersjs/authentication'
 import { IncomingMessage } from 'node:http'
-import { logger } from '../../../logger'
+import { logger } from '@/logger'
 
 const publicLogger = logger.child({ service: 'authentication-public' })
 

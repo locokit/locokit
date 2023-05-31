@@ -6,7 +6,7 @@
 import { createApp } from './app'
 import { logger } from './logger'
 
-const app = createApp()
+export const app = createApp()
 
 const port = app.get('port')
 const host = app.get('host')

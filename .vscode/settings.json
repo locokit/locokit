@@ -13,8 +13,16 @@
   "workbench.colorCustomizations": {
     "activityBar.background": "#29264F",
     "titleBar.activeBackground": "#4b9c6d",
-    "titleBar.activeForeground": "#29264F",
-    "titleBar.border": "#29264F"
+    "titleBar.activeForeground": "#e3e1ff",
+    "titleBar.border": "#29264F",
+    "activityBar.foreground": "#fff",
+    "activityBar.inactiveForeground": "#e3e1ff"
   },
-  "workbench.colorTheme": "Sublime Monokai"
+  "workbench.colorTheme": "Default Light+ Experimental",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

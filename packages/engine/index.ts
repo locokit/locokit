@@ -4,9 +4,7 @@ import { SQLAdapter } from './adapters/sql'
 
 export type EngineAdapter = BaserowAdapter | SQLAdapter
 
-export async function createAdapter(
-  adapterOptions: Connexion,
-): Promise<EngineAdapter> {
+export async function createAdapter(adapterOptions: Connexion): Promise<EngineAdapter> {
   let adapter
   switch (adapterOptions.type) {
     case 'baserow':

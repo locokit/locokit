@@ -1,4 +1,5 @@
 import { Column } from 'knex-schema-inspector/dist/types/column'
+import { Table as KnexInspectorTable } from 'knex-schema-inspector/dist/types/table'
 import { Params } from '@feathersjs/feathers'
 
 /**
@@ -10,8 +11,7 @@ export type Field = Column
 /**
  * Table for a datasource
  */
-export interface Table {
-  name: string
+export interface Table extends KnexInspectorTable {
   fields: Field[]
 }
 
@@ -65,7 +65,7 @@ export interface PaginatedResult<T> {
   /**
    * Array of records
    */
-  records: Array<TableRecord<T>>
+  data: Array<TableRecord<T>>
 }
 
 export interface GenericAdapter {
@@ -95,21 +95,21 @@ export interface GenericAdapter {
     params?: Params & { query: Record<string, any> },
   ) => Promise<PaginatedResult<T>>
 
-  createRecord: <T>(tableName: string, record: Partial<T>) => Promise<T>
+  createRecord: <Result>(tableName: string, record: Partial<Result>) => Promise<Result>
 
-  getRecord: <T>(tableName: string, id: string | number) => Promise<T>
+  getRecord: <Result>(tableName: string, id: string | number) => Promise<Result>
 
-  patchRecord: <T>(
+  patchRecord: <Result, PatchData extends Partial<Result> = Partial<Result>>(
     tableName: string,
     id: string | number,
-    record: Partial<T>,
-  ) => Promise<T>
+    record: PatchData,
+  ) => Promise<Result>
 
-  updateRecord: <T>(
+  updateRecord: <Result, UpdateData extends Partial<Result> = Partial<Result>>(
     tableName: string,
     id: string | number,
-    record: Partial<T>,
-  ) => Promise<T>
+    record: UpdateData,
+  ) => Promise<Result>
 
-  deleteRecord: (tableName: string, id: string | number) => Promise<number>
+  deleteRecord: <Result>(tableName: string, id: string | number) => Promise<Result | null>
 }

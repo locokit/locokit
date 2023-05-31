@@ -1,9 +1,12 @@
 import { authenticate } from '@feathersjs/authentication'
 import { HookOptions } from '@feathersjs/feathers'
+import { resolveExternal, validateData } from '@feathersjs/schema/lib'
 import { AuthenticationManagementService } from 'feathers-authentication-management/dist'
 import { iff, lowerCase, ContextFunction } from 'feathers-hooks-common'
 import { Application, HookContext } from '../../../declarations'
+import { userDispatchResolver } from '@/services/core/user/user.resolver'
 import { enforcePasswordPolicy } from './enforcePasswordPolicy.hook'
+import { authManagementDataValidator } from './authmanagement.schema'
 
 const isAction =
   (...args: string[]): ContextFunction<boolean, HookContext> =>
@@ -13,8 +16,12 @@ const isAction =
 const getPassword = (hook: HookContext): string => hook.data.value.password
 
 export const hooks: HookOptions<Application, AuthenticationManagementService> = {
+  around: {
+    create: [resolveExternal(userDispatchResolver)],
+  },
   before: {
     create: [
+      validateData(authManagementDataValidator),
       iff(isAction('resendVerifySignup'), lowerCase('value.email')),
       iff(isAction('passwordChange', 'identityChange'), authenticate('jwt')),
       iff(isAction('identityChange'), lowerCase('value.changes.email')),

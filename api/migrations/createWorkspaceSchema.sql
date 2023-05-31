@@ -24,9 +24,9 @@ BEGIN
   SET search_path = core;
 
   -- SELECT the workspace
-  EXECUTE 'SELECT *
+  EXECUTE format('SELECT *
   FROM lck_workspace
-  WHERE id = ''' || $1 || ''''
+  WHERE id = ''%s''', $1)
   INTO v_workspace
   USING workspace_id;
 
@@ -59,7 +59,7 @@ BEGIN
 
   -- GRANT access to core.lck_user
   EXECUTE format('GRANT USAGE ON SCHEMA core TO %I', v_role_readonly);
-  EXECUTE format('GRANT SELECT (id, name, profile) ON core.lck_user TO %I', v_role_readonly);
+  EXECUTE format('GRANT SELECT (id, username, profile) ON core.lck_user TO %I', v_role_readonly);
 
   -- GRANT access to readwrite (manager of the workspace)
   EXECUTE format('GRANT %I TO %I', v_role_readonly, v_role_readwrite);
@@ -84,17 +84,17 @@ BEGIN
   --
   -- CREATE tables from core schema
   --
-  EXECUTE format('CREATE TABLE "role" (
+  EXECUTE format('CREATE TABLE "policy" (
     workspaceId uuid DEFAULT ''%s'',
 
-    CONSTRAINT "PK_role" PRIMARY KEY (id),
+    CONSTRAINT "PK_policy" PRIMARY KEY (id),
 
-    CONSTRAINT "FK_role_workspace" FOREIGN KEY ("workspaceId")
+    CONSTRAINT "FK_policy_workspace" FOREIGN KEY ("workspaceId")
       REFERENCES "core"."lck_workspace" (id) MATCH SIMPLE
       ON UPDATE NO ACTION
-      ON DELETE NO ACTION
+      ON DELETE CASCADE
 
-  ) INHERITS ("core"."lck_role")', $1);
+  ) INHERITS ("core"."lck_policy")', $1);
 
   EXECUTE format('CREATE TABLE "group" (
     workspaceId uuid DEFAULT ''%s'',
@@ -104,18 +104,18 @@ BEGIN
     CONSTRAINT "FK_group_workspace" FOREIGN KEY ("workspaceId")
       REFERENCES "core"."lck_workspace" (id) MATCH SIMPLE
       ON UPDATE NO ACTION
-      ON DELETE NO ACTION,
+      ON DELETE CASCADE,
 
-    CONSTRAINT "FK_group_role" FOREIGN KEY ("roleId")
-      REFERENCES "role" (id) MATCH SIMPLE
+    CONSTRAINT "FK_group_policy" FOREIGN KEY ("policyId")
+      REFERENCES "policy" (id) MATCH SIMPLE
       ON UPDATE NO ACTION
       ON DELETE NO ACTION
 
   ) INHERITS ("core"."lck_group")', $1);
 
-  CREATE INDEX IF NOT EXISTS "IDX_group_role"
+  CREATE INDEX IF NOT EXISTS "IDX_group_policy"
     ON "group" USING btree
-    ("roleId" ASC NULLS LAST)
+    ("policyId" ASC NULLS LAST)
     TABLESPACE pg_default;
 
   CREATE TABLE "userGroup" (
@@ -149,28 +149,22 @@ BEGIN
     CONSTRAINT "PK_datasource" PRIMARY KEY (id),
     CONSTRAINT "UNQ_ds_slug" UNIQUE (slug, "workspaceId"),
     CONSTRAINT "CHECK_datasource_client"
-      CHECK (client = ANY (ARRAY[''sqlite3''::text, ''pg''::text, ''legacy''::text]))
+      CHECK (client = ANY (ARRAY[''sqlite3''::text, ''pg''::text])),
+    CONSTRAINT "CHECK_datasource_type"
+      CHECK (client = ANY (ARRAY[''remote''::text, ''local''::text]))
 
   ) INHERITS ("core"."lck_datasource")', $1);
 
   -- CREATE all tables for metamodel
 
   CREATE TABLE "table" (
-    id uuid NOT NULL DEFAULT gen_random_uuid(),
-    name character varying(255) NOT NULL,
-    slug character varying(255),
-    documentation text,
-    settings jsonb DEFAULT '{}'::jsonb,
-    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    "datasourceId" uuid NOT NULL,
     CONSTRAINT "PK_table" PRIMARY KEY (id),
-    CONSTRAINT "UNQ_table_slug" UNIQUE (slug),
+    CONSTRAINT "UNQ_table_slug" UNIQUE ("schema", slug, "datasourceId"),
     CONSTRAINT "FK_table_datasource" FOREIGN KEY ("datasourceId")
       REFERENCES "datasource" (id) MATCH SIMPLE
       ON UPDATE NO ACTION
       ON DELETE CASCADE
-  );
+  ) INHERITS ("core"."lck_table");
 
   CREATE INDEX IF NOT EXISTS "IDX_table_slug"
     ON "table" USING btree
@@ -181,51 +175,12 @@ BEGIN
     ("datasourceId" ASC NULLS LAST)
     TABLESPACE pg_default;
 
-
-  CREATE TABLE "tableRelation" (
-    "fromId" uuid NOT NULL,
-    "toId" uuid NOT NULL,
-    "throughId" uuid,
-    type character varying(3),
-
-    settings jsonb DEFAULT '{}'::jsonb,
-    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT "FK_tableRelation_from" FOREIGN KEY ("fromId")
-        REFERENCES "table" (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-    CONSTRAINT "FK_tableRelation_to" FOREIGN KEY ("toId")
-        REFERENCES "table" (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-    CONSTRAINT "FK_tableRelation_through" FOREIGN KEY ("throughId")
-        REFERENCES "table" (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-    CONSTRAINT "PK_tableRelation" PRIMARY KEY ("fromId", "toId", "throughId"),
-    CONSTRAINT "CHECK_tableRelation_type" CHECK (type = ANY (ARRAY['1-n'::text, 'n-1'::text, 'n-n'::text, '1-1'::text]))
-  );
-
-  CREATE INDEX IF NOT EXISTS "IDX_tableRelation_from"
-    ON "tableRelation" USING btree
-    ("fromId" ASC NULLS LAST)
-    TABLESPACE pg_default;
-  CREATE INDEX IF NOT EXISTS "IDX_tableRelation_to"
-    ON "tableRelation" USING btree
-    ("toId" ASC NULLS LAST)
-    TABLESPACE pg_default;
-  CREATE INDEX IF NOT EXISTS "IDX_tableRelation_through"
-    ON "tableRelation" USING btree
-    ("throughId" ASC NULLS LAST)
-    TABLESPACE pg_default;
-
   CREATE TABLE "tableField" (
     id uuid NOT NULL DEFAULT gen_random_uuid(),
-    name character varying(255),
+    name character varying(50),
     type character varying(20),
-    slug character varying(255),
+    "dbType" character varying(20),
+    slug character varying(50),
     documentation text,
     position integer,
     reference boolean NOT NULL default(false),
@@ -240,17 +195,21 @@ BEGIN
         REFERENCES "table" (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE,
+    CONSTRAINT "UNQ_tableField_slug" UNIQUE (slug, "tableId"),
     CONSTRAINT "PK_tableField" PRIMARY KEY (id),
     CONSTRAINT "CHECK_tableField_type" CHECK (type = ANY (ARRAY[
       --
       -- Primitives
       --
       'BOOLEAN'::text,
-      'STRING'::text,
+
       'NUMBER'::text,
       'FLOAT'::text,
-      'DATE'::text,
+
+      'STRING'::text,
       'TEXT'::text,
+
+      'DATE'::text,
       'DATETIME'::text,
       --
       -- Users / groups
@@ -272,6 +231,8 @@ BEGIN
       'SINGLE_SELECT'::text,
       'MULTI_SELECT'::text,
       'FORMULA'::text,
+      'JSON'::text,
+      'NETWORK'::text,
       --
       -- Media
       --
@@ -280,6 +241,7 @@ BEGIN
       --
       -- Geometry
       --
+      'GEOMETRY'::text,
       'GEOMETRY_POINT'::text,
       'GEOMETRY_POLYGON'::text,
       'GEOMETRY_LINESTRING'::text,
@@ -293,9 +255,85 @@ BEGIN
     ("tableId" ASC NULLS LAST)
     TABLESPACE pg_default;
 
+  CREATE TABLE "tableRelation" (
+    id uuid NOT NULL DEFAULT gen_random_uuid(),
+
+    name character varying(50),
+    slug character varying(50),
+
+    "fromTableId" uuid NOT NULL,
+    "toTableId" uuid NOT NULL,
+
+    "fromFieldId" uuid NOT NULL,
+    "toFieldId" uuid NOT NULL,
+
+    "throughTableId" uuid,
+    "throughFieldId" uuid,
+    type character varying(3),
+
+    settings jsonb DEFAULT '{}'::jsonb,
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "PK_tableRelation" PRIMARY KEY (id),
+    CONSTRAINT "UNQ_tableRelation_slug" UNIQUE (slug, "fromTableId"),
+    CONSTRAINT "FK_tableRelation_from" FOREIGN KEY ("fromTableId")
+        REFERENCES "table" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE,
+    CONSTRAINT "FK_tableRelation_to" FOREIGN KEY ("toTableId")
+        REFERENCES "table" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE,
+    CONSTRAINT "FK_tableRelation_through" FOREIGN KEY ("throughTableId")
+        REFERENCES "table" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE,
+    CONSTRAINT "FK_tableRelation_fromField" FOREIGN KEY ("fromFieldId")
+        REFERENCES "tableField" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT "FK_tableRelation_toField" FOREIGN KEY ("toFieldId")
+        REFERENCES "tableField" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT "FK_tableRelation_throughField" FOREIGN KEY ("throughFieldId")
+        REFERENCES "tableField" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT "CHECK_tableRelation_type" CHECK (type = ANY (ARRAY['1-n'::text, 'n-1'::text, 'n-m'::text, '1-1'::text]))
+  );
+
+  CREATE INDEX IF NOT EXISTS "IDX_tableRelation_fromTable"
+    ON "tableRelation" USING btree
+    ("fromTableId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+  CREATE INDEX IF NOT EXISTS "IDX_tableRelation_toTable"
+    ON "tableRelation" USING btree
+    ("toTableId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+  CREATE INDEX IF NOT EXISTS "IDX_tableRelation_throughTable"
+    ON "tableRelation" USING btree
+    ("throughTableId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+  CREATE INDEX IF NOT EXISTS "IDX_tableRelation_fromField"
+    ON "tableRelation" USING btree
+    ("fromFieldId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+  CREATE INDEX IF NOT EXISTS "IDX_tableRelation_toField"
+    ON "tableRelation" USING btree
+    ("toFieldId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+  CREATE INDEX IF NOT EXISTS "IDX_tableRelation_throughField"
+    ON "tableRelation" USING btree
+    ("throughFieldId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+
   CREATE TABLE dataset (
     id uuid NOT NULL DEFAULT gen_random_uuid(),
     name character varying(255),
+    slug character varying(255),
     documentation text,
     "tableId" uuid NOT NULL,
 
@@ -303,12 +341,13 @@ BEGIN
     "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "PK_dataset" PRIMARY KEY (id),
+    CONSTRAINT "UNQ_dataset_slug" UNIQUE (slug, "tableId"),
 
     CONSTRAINT "FK_dataset_tableId" FOREIGN KEY ("tableId")
       REFERENCES "table" (id) MATCH SIMPLE
       ON UPDATE NO ACTION
       ON DELETE CASCADE
-  );
+  ) INHERITS ("core"."lck_dataset");
   CREATE INDEX IF NOT EXISTS "IDX_dataset_table"
     ON "dataset" USING btree
     ("tableId" ASC NULLS LAST)
