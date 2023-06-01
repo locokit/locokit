@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url'
 import {
   addLayout,
   addPlugin,
+  addRouteMiddleware,
   createResolver,
   defineNuxtModule,
   extendPages,
@@ -91,10 +92,14 @@ export default defineNuxtModule<ModuleOptions>({
     // const componentsDir = fileURLToPath(
     //   new URL('../src/components', import.meta.url),
     // )
+    const middlewareDir = fileURLToPath(
+      new URL('../src/middleware', import.meta.url),
+    )
     const runtimeDir = fileURLToPath(new URL('../src/runtime', import.meta.url))
     const pluginsDir = fileURLToPath(new URL('../src/plugins', import.meta.url))
     await installModule('@nuxtjs/tailwindcss', {
-      configPath: resolve(runtimeDir, 'tailwind.config'),
+      configPath: resolve(runtimeDir, 'tailwind.config.ts'),
+      cssPath: resolve(__dirname, '../src/assets/css/tailwind.css'),
     })
     await installModule('@pinia/nuxt')
     // nuxt.options.build.transpile.push(runtimeDir)
@@ -141,6 +146,9 @@ export default defineNuxtModule<ModuleOptions>({
     //   })
     // }
 
+    /**
+     * Register all layouts
+     */
     addLayout(
       {
         src: resolve(layoutsDir, './WithHeader.vue'),
@@ -153,12 +161,7 @@ export default defineNuxtModule<ModuleOptions>({
       },
       'WithAsideNav',
     )
-    // addLayout(
-    //   {
-    //     src: resolve(layoutsDir, './WithBackground.vue'),
-    //   },
-    //   'WithBackground',
-    // )
+
     addLayout(
       {
         src: resolve(layoutsDir, './WithSidebar.vue'),
@@ -458,6 +461,12 @@ export default defineNuxtModule<ModuleOptions>({
       //   pages.push(...getFrontofficePages(prefix))
       // }
     })
+
+    addRouteMiddleware({
+      name: 'anonymous-routes',
+      path: resolve(middlewareDir, './anonymousRoutes.ts'),
+    })
+
     console.log('[nuxt-module] setup ok.')
   },
 })

@@ -1,9 +1,7 @@
 <template>
   <div class="relative flex flex-col h-screen overflow-hidden">
     <!-- Brand -->
-    <div
-      class="w-full bg-primary-lighten h-16 border-b-2 border-primary bg-primary-lighten flex"
-    >
+    <div class="w-full bg-primary-lighten h-16 border-b-2 border-primary flex">
       <slot name="header-insert" />
 
       <div class="flex flex-row w-full justify-end">

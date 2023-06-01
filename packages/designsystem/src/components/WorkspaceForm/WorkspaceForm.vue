@@ -38,7 +38,7 @@
       >
         {{ errorMessage }}
       </span>
-      <div class="flex flex-row mb-4">
+      <div class="flex flex-row mb-4 mt-1">
         <p class="mr-1">{{ $t('components.workspaceForm.explainsSlugUse') }}</p>
         <p
           v-if="name"
@@ -60,18 +60,8 @@
       </label>
       <PrimeTextarea id="documentation" :auto-resize="true" v-bind="field" />
     </Field>
-    <Field
-      v-slot="{ field }"
-      v-model="currentColor"
-      class="mb-4"
-      name="workspaceForm.currentColor"
-      as="div"
-    >
-      <PredefinedColorPicker
-        :current-color="currentColor"
-        v-bind="field"
-        @update:current-color="updateColor"
-      />
+    <Field class="mb-4" name="workspaceForm.currentColor" as="div">
+      <PredefinedColorPicker v-model="colorAndBg" />
     </Field>
     <Field
       v-slot="{ field }"
@@ -159,15 +149,10 @@ const name = ref(props.workspaceData?.name)
 const documentation = ref(props.workspaceData?.documentation)
 const icon = ref(props.workspaceData?.settings.icon)
 const isPublic = ref(props.workspaceData?.public)
-const currentColor = reactive<ColorScheme>({
+const colorAndBg = ref<ColorScheme>({
   backgroundColor: props.workspaceData?.settings?.backgroundColor,
   color: props.workspaceData?.settings?.color,
 })
-
-const updateColor = (newValue: ColorScheme) => {
-  currentColor.color = newValue.color
-  currentColor.backgroundColor = newValue.backgroundColor
-}
 
 const autogenerateSlug = computed(() => {
   if (name.value) return createSlug(name.value)
@@ -180,7 +165,7 @@ const onSubmit = () => {
     documentation: documentation.value,
     public: isPublic.value,
     settings: {
-      ...currentColor,
+      ...colorAndBg.value,
       icon: icon.value,
     },
   })

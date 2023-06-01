@@ -1,9 +1,6 @@
-import { defineNuxtConfig } from 'nuxt'
+import { defineNuxtConfig } from 'nuxt/config'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  modules: [
-    '@nuxtjs/eslint-module',
-    'nuxt-locokit'
-  ],
+  modules: ['nuxt-locokit'],
 })

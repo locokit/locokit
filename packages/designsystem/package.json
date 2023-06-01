@@ -22,19 +22,19 @@
   "devDependencies": {
     "@histoire/plugin-screenshot": "^0.16.1",
     "@histoire/plugin-vue": "^0.16.1",
-    "@rushstack/eslint-patch": "^1.2.0",
-    "@vitejs/plugin-vue": "^3.2.0",
-    "@vue/eslint-config-typescript": "^11.0.2",
-    "autoprefixer": "^10.4.8",
+    "@rushstack/eslint-patch": "^1.3.0",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "@vue/eslint-config-typescript": "^11.0.3",
+    "autoprefixer": "^10.4.14",
     "capture-website": "^3.2.0",
-    "eslint": "^8.25.0",
+    "eslint": "^8.41.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-vue": "^9.11.0",
+    "eslint-plugin-vue": "^9.14.0",
     "histoire": "^0.16.1",
     "postcss": "^8.4.23",
     "prettier": "^2.8.8",
-    "tailwindcss": "^3.3.1",
-    "vue": "^3.2.45"
+    "tailwindcss": "^3.3.2",
+    "vue": "^3.3.4"
   },
   "overrides": {
     "@histoire/plugin-screenshot": {

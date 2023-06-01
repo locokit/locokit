@@ -74,7 +74,6 @@ const handleSettingsPanel = () => {
 watch(
   () => props.openPanel,
   (openPanel) => {
-    console.log(openPanel)
     isSettingsPanelOpen.value = openPanel
   },
 )

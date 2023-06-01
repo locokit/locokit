@@ -1,22 +1,17 @@
 <template>
   <Story title="PredefinedColorPicker" icon="bi:palette-fill">
     <Variant title="default">
-      <PredefinedColorPicker
-        :current-color="currentColor"
-        label="Color"
-        @update:current-color="logEvent('update:currentColor', $event)"
-      />
+      <PredefinedColorPicker v-model="currentColor" />
     </Variant>
   </Story>
 </template>
 
 <script setup lang="ts">
 import PredefinedColorPicker from '../components/PredefinedColorPicker/PredefinedColorPicker.vue'
-import { reactive } from 'vue'
-import { logEvent } from 'histoire/client'
+import { ref } from 'vue'
 import { ColorScheme } from '../helpers/color'
 
-const currentColor = reactive<ColorScheme>({
+const currentColor = ref<ColorScheme>({
   backgroundColor: null,
   color: null,
 })

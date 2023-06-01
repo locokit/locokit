@@ -5,14 +5,14 @@ import {
   useCookie,
   useNuxtApp,
 } from '#app'
-import { storeToRefs } from 'pinia'
+import { Pinia, storeToRefs } from 'pinia'
 import { useStoreAuth } from '../stores/auth'
 import { checkPathAvailable } from '../middleware/global'
 import { ROUTES_PATH } from '../paths'
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.hook('app:mounted', async () => {
-    const authStore = useStoreAuth(nuxtApp.$pinia)
+    const authStore = useStoreAuth(nuxtApp.$pinia as Pinia)
     const { isAuthenticated } = storeToRefs(authStore)
 
     if (isAuthenticated.value) {
@@ -26,11 +26,12 @@ export default defineNuxtPlugin((nuxtApp) => {
     (to: RouteLocationNormalized, _from: RouteLocationNormalized) => {
       const nuxtApp = useNuxtApp()
       const token = useCookie('token') // get token from cookies
-      const authStore = useStoreAuth(nuxtApp.$pinia)
+      const authStore = useStoreAuth(nuxtApp.$pinia as Pinia)
       const { isAuthenticated } = storeToRefs(authStore)
       // console.log(import.meta.env.SSR)
 
       // To handle children routes (to get meta from parents), Nuxt recommend to use to.matched
+
       const needAuthentication: boolean = to.matched.some(
         (m) => m.meta.protected,
       )

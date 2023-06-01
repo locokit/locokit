@@ -2,17 +2,17 @@
   <div
     class="h-screen bg-cover bg-no-repeat bg-center grow flex justify-center items-center relative columns-1"
     :style="{
-      'background-image': 'url(' + backgroundImage + ')',
+      'background-image': 'url(' + bgImage + ')',
     }"
   >
     <client-only>
       <div class="flex-grow max-w-2xl">
         <NuxtLink
-          v-if="backgroundLogo"
+          v-if="bgLogo"
           class="text-center"
           :to="{ name: ROUTES_NAMES.HOME }"
         >
-          <img alt="logo" :src="backgroundLogo" aria-hidden="true" />
+          <img alt="logo" :src="bgLogo" aria-hidden="true" />
         </NuxtLink>
         <slot />
       </div>
@@ -43,12 +43,12 @@ const props = withDefaults(
 )
 
 // Needed "computed" to initialise this var
-const backgroundImage = computed(
+const bgImage = computed(
   () => props.backgroundImage ?? runtimeConfig.public.HOME_BACKGROUND_IMAGE_URL,
 )
 
 // Needed "computed" to initialise this var
-const backgroundLogo = computed(
+const bgLogo = computed(
   () => props.backgroundLogo ?? runtimeConfig.public.LOGO_BG_PRIMARY_URL,
 )
 </script>
