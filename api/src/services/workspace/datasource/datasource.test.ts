@@ -28,4 +28,8 @@ describe('datasource service', () => {
   it.todo(
     'create a relation named correctly if there are several relations to the same destination table',
   )
+
+  it.todo(
+    'create a datasource in the dedicated schema but is also visible at the core datasource service',
+  )
 })

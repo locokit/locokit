@@ -77,6 +77,10 @@ export type CoreDatasourceResult = Static<typeof coreDatasourceResultSchema> & {
   workspace?: WorkspaceResult
 }
 
+// Schema for creating datasource
+export const coreDatasourceDataSchema = Type.Omit(coreDatasourceSchema, ['id', 'slug'])
+export type CoreDatasourceData = Static<typeof coreDatasourceDataSchema>
+
 // Schema for allowed query properties
 export const coreDatasourceQuerySchema = Type.Intersect(
   [

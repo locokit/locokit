@@ -2,6 +2,7 @@ import { Type, querySyntax, Static, getValidator } from '@feathersjs/typebox'
 import { dataValidator } from '@/commons/validators'
 import { workspaceOwnerSchema } from '@/services/core/user/user.schema'
 import { queryStringExtend } from '@/feathers-objection'
+import { toEagerRegExp } from '@/utils/toEagerRegExp'
 
 export const workspaceSchema = Type.Object(
   {
@@ -142,6 +143,7 @@ export const workspaceResultSchema = Type.Intersect(
 export type WorkspaceResult = Static<typeof workspaceResultSchema>
 
 // Schema for allowed query properties
+const eagerRegExp = toEagerRegExp('owner|groups|policies|datasources')
 export const workspaceQuerySchema = Type.Intersect(
   [
     querySyntax(
@@ -164,28 +166,19 @@ export const workspaceQuerySchema = Type.Intersect(
 
     Type.Object({
       $joinRelated: Type.Optional(
-        Type.RegEx(
-          /owner|groups|policies|\[owner,groups\]|\[owner,policies\]|\[owner,groups,policies\]/,
-          {
-            description: 'Join workspace to its relation. Only `owner` is accepted.',
-          },
-        ),
+        Type.RegEx(eagerRegExp, {
+          description: 'Join workspace to its relation. Only `owner` is accepted.',
+        }),
       ),
       $joinEager: Type.Optional(
-        Type.RegEx(
-          /owner|groups|policies|\[owner,groups\]|\[owner,policies\]|\[owner,groups,policies\]/,
-          {
-            description: 'Join workspace to its relation. Only `owner` is accepted.',
-          },
-        ),
+        Type.RegEx(eagerRegExp, {
+          description: 'Join workspace to its relation. Only `owner` is accepted.',
+        }),
       ),
       $eager: Type.Optional(
-        Type.RegEx(
-          /owner|groups|policies|\[owner,groups\]|\[owner,policies\]|\[owner,groups,policies\]/,
-          {
-            description: 'Join workspace to its relation. Only `owner` is accepted.',
-          },
-        ),
+        Type.RegEx(eagerRegExp, {
+          description: 'Join workspace to its relation. Only `owner` is accepted.',
+        }),
       ),
     }),
   ],

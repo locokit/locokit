@@ -4,7 +4,10 @@ import { HookContext } from '@/declarations'
 import { USER_PROFILE } from '@locokit/definitions'
 import { Forbidden } from '@feathersjs/errors/lib'
 import { hooks as schemaHooks } from '@feathersjs/schema'
-import { coreDatasourcePatchResolver } from './core-datasource.resolver'
+import {
+  coreDatasourcePatchResolver,
+  coreDatasourceCreateResolver,
+} from './core-datasource.resolver'
 
 export const coreDatasourceHooks = {
   around: {
@@ -26,6 +29,7 @@ export const coreDatasourceHooks = {
       },
       transaction.start(),
     ],
+    create: [schemaHooks.resolveData(coreDatasourceCreateResolver)],
     patch: [schemaHooks.resolveData(coreDatasourcePatchResolver)],
   },
   after: {

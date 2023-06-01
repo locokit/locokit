@@ -10,6 +10,7 @@ import { NotFound } from '@feathersjs/errors/lib'
 import { Type, querySyntax, getValidator, TSchema } from '@feathersjs/typebox'
 import { createAdapter } from '@locokit/engine'
 import { convertLocoKitFieldTypeToTypeboxSchema } from './table-record.helpers'
+import { toEagerRegExp } from '@/utils/toEagerRegExp'
 
 const adapters: Record<string, BaserowAdapter | SQLAdapter> = {}
 
@@ -114,9 +115,7 @@ export const tableRecordHooks = {
                 return acc
               }, [] as string[])
               .join('|') ?? ''
-          const tableRelationRegexp = new RegExp(
-            `^(${tableRelationsNames})|\\[(${tableRelationsNames})(,(${tableRelationsNames})(?!.*\\2))*\\]$`,
-          )
+          const tableRelationRegexp = toEagerRegExp(tableRelationsNames)
           // console.log(tableRelationsNames, tableRelationRegexp)
 
           const tableQuerySchema = Type.Intersect(
