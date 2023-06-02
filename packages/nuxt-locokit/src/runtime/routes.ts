@@ -10,12 +10,12 @@ const { resolve } = createResolver(import.meta.url)
  * @param prefix Prefix to add to auth pages paths
  * @returns
  */
-export function getAuthPages(prefix: string): NuxtPage[] {
+export function getAuthPages(prefix: string, pagesDir: string): NuxtPage[] {
   return [
     {
       name: ROUTES_NAMES.AUTH.SIGN_IN,
       path: prefix + ROUTES_PATH.AUTH.SIGN_IN,
-      file: resolve('./pages/auth/SignIn.vue'),
+      file: resolve(pagesDir, './auth/SignIn.vue'),
       meta: {
         anonymous: true,
         protected: false,
@@ -24,7 +24,7 @@ export function getAuthPages(prefix: string): NuxtPage[] {
     {
       name: ROUTES_NAMES.AUTH.LOST_PASSWORD,
       path: prefix + ROUTES_PATH.AUTH.LOST_PASSWORD,
-      file: resolve('./pages/auth/LostPassword.vue'),
+      file: resolve(pagesDir, './auth/LostPassword.vue'),
       meta: {
         anonymous: true,
         protected: false,
@@ -33,7 +33,7 @@ export function getAuthPages(prefix: string): NuxtPage[] {
     {
       name: ROUTES_NAMES.AUTH.VERIFY_SIGNUP,
       path: prefix + ROUTES_PATH.AUTH.VERIFY_SIGNUP,
-      file: resolve('./pages/auth/VerifySignup.vue'),
+      file: resolve(pagesDir, './auth/VerifySignup.vue'),
       meta: {
         anonymous: true,
         protected: false,
@@ -42,7 +42,7 @@ export function getAuthPages(prefix: string): NuxtPage[] {
     {
       name: ROUTES_NAMES.AUTH.RESET_PASSWORD,
       path: prefix + ROUTES_PATH.AUTH.RESET_PASSWORD,
-      file: resolve('./pages/auth/ResetPassword.vue'),
+      file: resolve(pagesDir, './auth/ResetPassword.vue'),
       meta: {
         anonymous: true,
         protected: false,
@@ -51,7 +51,7 @@ export function getAuthPages(prefix: string): NuxtPage[] {
     {
       name: ROUTES_NAMES.AUTH.SIGN_UP,
       path: prefix + ROUTES_PATH.AUTH.SIGN_UP,
-      file: resolve('./pages/auth/SignUp.vue'),
+      file: resolve(pagesDir, './auth/SignUp.vue'),
       meta: {
         anonymous: true,
         protected: false,
@@ -60,7 +60,7 @@ export function getAuthPages(prefix: string): NuxtPage[] {
     {
       name: ROUTES_NAMES.AUTH.ALREADY_AUTHENTICATED,
       path: prefix + ROUTES_PATH.AUTH.ALREADY_AUTHENTICATED,
-      file: resolve('./pages/auth/AlreadyAuthenticated.vue'),
+      file: resolve(pagesDir, './auth/AlreadyAuthenticated.vue'),
       meta: {
         anonymous: true,
         protected: false,
@@ -69,7 +69,7 @@ export function getAuthPages(prefix: string): NuxtPage[] {
     {
       name: ROUTES_NAMES.AUTH.CONFIRM_UPDATE_EMAIL,
       path: prefix + ROUTES_PATH.AUTH.CONFIRM_UPDATE_EMAIL,
-      file: resolve('./pages/auth/ConfirmUpdateEmail.vue'),
+      file: resolve(pagesDir, './auth/ConfirmUpdateEmail.vue'),
       meta: {
         anonymous: true,
         protected: false,

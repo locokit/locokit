@@ -1,7 +1,7 @@
-import { defineNuxtRouteMiddleware, useNuxtApp } from '#app'
 import { Pinia, storeToRefs } from 'pinia'
-import { ROUTES_NAMES } from '../paths'
-import { useStoreAuth } from '../stores/auth'
+import { ROUTES_NAMES } from '../runtime/paths'
+import { useStoreAuth } from '../runtime/stores/auth'
+import { defineNuxtRouteMiddleware, useNuxtApp } from '#app'
 
 // Check if user is already authenticated
 export default defineNuxtRouteMiddleware((to, _from) => {

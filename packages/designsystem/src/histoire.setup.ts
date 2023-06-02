@@ -3,9 +3,9 @@ import { definePluginI18n } from '../plugins/i18n'
 import { definePluginPrimeHistoire } from '../plugins/primevue'
 
 import './tailwind.css'
-import '../../nuxt-locokit/src/styles/index.scss'
-import '../../nuxt-locokit/src/styles/global.scss'
-import '../../nuxt-locokit/src/styles/theme.css'
+import '../../nuxt-locokit/src/runtime/styles/index.scss'
+import '../../nuxt-locokit/src/runtime/styles/global.scss'
+import '../../nuxt-locokit/src/runtime/styles/theme.css'
 import '../plugins/vee-validate'
 
 export const setupVue3 = defineSetupVue3(({ app, story, variant }) => {

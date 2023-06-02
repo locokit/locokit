@@ -1,14 +1,14 @@
 import { RouteLocationNormalized } from 'vue-router'
+import { Pinia, storeToRefs } from 'pinia'
+import { useStoreAuth } from '../runtime/stores/auth'
+import { checkPathAvailable } from '../middleware/global'
+import { ROUTES_PATH } from '../runtime/paths'
 import {
   addRouteMiddleware,
   defineNuxtPlugin,
   useCookie,
   useNuxtApp,
 } from '#app'
-import { Pinia, storeToRefs } from 'pinia'
-import { useStoreAuth } from '../stores/auth'
-import { checkPathAvailable } from '../middleware/global'
-import { ROUTES_PATH } from '../paths'
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.hook('app:mounted', async () => {

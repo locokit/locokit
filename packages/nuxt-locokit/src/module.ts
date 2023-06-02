@@ -10,8 +10,8 @@ import {
   installModule,
 } from '@nuxt/kit'
 import { Nuxt, NuxtOptions, NuxtPage } from '@nuxt/schema'
-import { ROUTES_NAMES, ROUTES_PATH } from './paths'
-import { getAuthPages } from './routes'
+import { ROUTES_NAMES, ROUTES_PATH } from './runtime/paths'
+import { getAuthPages } from './runtime/routes'
 
 const { resolve } = createResolver(import.meta.url)
 
@@ -99,7 +99,7 @@ export default defineNuxtModule<ModuleOptions>({
     const pluginsDir = fileURLToPath(new URL('../src/plugins', import.meta.url))
     await installModule('@nuxtjs/tailwindcss', {
       configPath: resolve(runtimeDir, 'tailwind.config.ts'),
-      cssPath: resolve(__dirname, '../src/assets/css/tailwind.css'),
+      cssPath: resolve(runtimeDir, 'assets/css/tailwind.css'),
     })
     await installModule('@pinia/nuxt')
     // nuxt.options.build.transpile.push(runtimeDir)
@@ -126,17 +126,23 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.css = nuxt.options.css ?? []
     nuxt.options.css.push('primevue/resources/primevue.css')
     nuxt.options.css.push('bootstrap-icons/font/bootstrap-icons.css')
-    nuxt.options.css.push(resolve(__dirname, '../src/styles/index.scss'))
-    nuxt.options.css.push(resolve(__dirname, '../src/styles/global.scss'))
-    nuxt.options.css.push(resolve(__dirname, '../src/styles/theme.css'))
+    nuxt.options.css.push(resolve(runtimeDir, 'styles/index.scss'))
+    nuxt.options.css.push(resolve(runtimeDir, 'styles/global.scss'))
+    nuxt.options.css.push(resolve(runtimeDir, 'styles/theme.css'))
 
     //
     nuxt.options.build.transpile.push('primevue')
     //
     // console.log('[nuxt-locokit][plugin-locokit] Registering components...')
 
-    const layoutsDir = fileURLToPath(new URL('../src/layouts', import.meta.url))
-    const pagesDir = fileURLToPath(new URL('../src/pages', import.meta.url))
+    // const layoutsDir = fileURLToPath(
+    //   new URL('../src/runtime/layouts', import.meta.url),
+    // )
+    // const pagesDir = fileURLToPath(
+    //   new URL('../src/runtime/pages', import.meta.url),
+    // )
+    const layoutsDir = resolve(runtimeDir, 'layouts')
+    const pagesDir = resolve(runtimeDir, 'pages')
 
     // for (const name in components) {
     //   console.log('[nuxt-locokit][plugin-locokit] Registering component ' + name + '...')
@@ -441,7 +447,7 @@ export default defineNuxtModule<ModuleOptions>({
        */
       if (submodules.auth.enabled) {
         const prefix = submodules.auth.prefix
-        pages.push(...getAuthPages(prefix))
+        pages.push(...getAuthPages(prefix, pagesDir))
       }
 
       //
