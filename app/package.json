@@ -16,7 +16,8 @@
     "vue": "latest"
   },
   "dependencies": {
-    "pinia": "^2.1.3",
-    "nuxt-locokit": "file:../packages/nuxt-locokit/dist/module.cjs"
+    "@nuxt/devtools": "^0.5.5",
+    "nuxt-locokit": "file:../packages/nuxt-locokit/dist/module.cjs",
+    "pinia": "^2.1.3"
   }
 }
