@@ -130,12 +130,12 @@ export const userDispatchResolver: Resolver<UserResult, HookContext> = resolve<
   UserResult,
   HookContext
 >({
-  isVerified: async () => undefined,
-  blocked: async () => undefined,
-  avatarURL: async () => undefined,
-  createdAt: async () => undefined,
+  // isVerified: async () => undefined,
+  // blocked: async () => undefined,
+  // avatarURL: async () => undefined,
+  // createdAt: async () => undefined,
   updatedAt: async () => undefined,
-  profile: async () => undefined,
+  // profile: async () => undefined,
   lastConnection: async () => undefined,
   password: async () => undefined,
   verifyChanges: async () => undefined,

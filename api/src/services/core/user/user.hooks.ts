@@ -15,9 +15,9 @@ import {
 } from './user.resolver'
 import { disallow, iff, isProvider } from 'feathers-hooks-common'
 import { addVerification } from 'feathers-authentication-management'
-import { isAdminProfile } from '../../../hooks/profile.hooks'
+import { isAdminProfile } from '@/hooks/profile.hooks'
 import { HookOptions } from '@feathersjs/feathers'
-import type { Application, HookContext } from '../../../declarations'
+import type { Application, HookContext } from '@/declarations'
 import { UserService } from './user.class'
 import { authManagementSettings } from '@/services/auth/authmanagement/authmanagement.settings'
 import {
