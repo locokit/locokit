@@ -118,9 +118,6 @@ export default defineNuxtModule<ModuleOptions>({
     // })
 
     /**
-     * Register all layouts
-     */
-    /**
      * Add local styles
      */
     nuxt.options.css = nuxt.options.css ?? []

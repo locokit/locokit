@@ -493,8 +493,8 @@ const confirmToggleBlockAccount = () => {
         }),
     header: t('pages.recordUser.confirmation'),
     icon: 'bi bi-exclamation-triangle-fill',
-    accept: () => {
-      toggleBlockAccount()
+    accept: async () => {
+      await toggleBlockAccount()
     },
   })
 }
@@ -513,8 +513,8 @@ const confirmSendVerifySignup = () => {
     }),
     header: t('pages.recordUser.confirmation'),
     icon: 'bi bi-exclamation-triangle-fill',
-    accept: () => {
-      sendVerifySignup()
+    accept: async () => {
+      await sendVerifySignup()
     },
   })
 }
@@ -583,10 +583,10 @@ const updateUserGroupForCurrentUser = async () => {
     groups.value.length < ITEMS_PER_PAGE_GROUPS
   ) {
     if (groups.value.length > currentGroupsForUser.value.data.length) {
-      addUserInGroup()
+      await addUserInGroup()
     }
     if (groups.value.length < currentGroupsForUser.value.data.length) {
-      removeUserInGroup()
+      await removeUserInGroup()
     }
     if (!errorUserGroup.value) {
       queryForAvailableGroup.value = null

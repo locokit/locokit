@@ -237,8 +237,8 @@ if (!users.value) {
 }
 
 const applySearch = () => {
-  setTimeout(() => {
-    search()
+  setTimeout(async () => {
+    await search()
   }, 300)
 }
 
@@ -259,14 +259,14 @@ const search = async (
   }
 }
 
-const applyFilters = (filters: Filter[]) => {
+const applyFilters = async (filters: Filter[]) => {
   currentFilters.value = filters
-  search()
+  await search()
 }
 
-const onPage = (event: PageState) => {
+const onPage = async (event: PageState) => {
   // event.page = New index page number
-  search(event.page, event.rows)
+  await search(event.page, event.rows)
 }
 
 const patchUser = async (data: {
