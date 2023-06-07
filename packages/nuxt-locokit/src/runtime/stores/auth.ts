@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { SERVICES } from '@locokit/definitions'
 import { sdkClient } from '../services/api'
 import { ref, useCookie } from '#imports'
 
@@ -34,7 +35,8 @@ export const useStoreAuth = defineStore('auth', () => {
   async function reAuthenticate() {
     loading.value = true
     error.value = null
-    const res = await sdkClient.reAuthenticate() // Todo: Not working, impossible to send a request
+    // Todo: Not working, impossible to send a request
+    const res = await sdkClient.reAuthenticate()
     const token = useCookie('token') // useCookie new hook in nuxt 3
 
     if (res.user) {
@@ -53,7 +55,7 @@ export const useStoreAuth = defineStore('auth', () => {
     loading.value = true
     error.value = null
     try {
-      await sdkClient.service('auth-management').create({
+      await sdkClient.service(SERVICES.AUTH_AUTHENTICATION).create({
         action: 'sendResetPwd',
         value: data,
       })
@@ -69,7 +71,7 @@ export const useStoreAuth = defineStore('auth', () => {
     loading.value = true
     error.value = null
     try {
-      await sdkClient.service('auth-management').create({
+      await sdkClient.service(SERVICES.AUTH_AUTHENTICATION).create({
         action: 'resetPwdLong',
         value: data,
       })
@@ -88,7 +90,7 @@ export const useStoreAuth = defineStore('auth', () => {
     loading.value = true
     error.value = null
     try {
-      await sdkClient.service('auth-management').create({
+      await sdkClient.service(SERVICES.AUTH_AUTHENTICATION).create({
         action: 'verifySignupSetPasswordLong',
         value: data,
       })
@@ -127,7 +129,7 @@ export const useStoreAuth = defineStore('auth', () => {
     loading.value = true
     error.value = null
     try {
-      await sdkClient.service('auth-management').create({
+      await sdkClient.service(SERVICES.AUTH_AUTHENTICATION).create({
         action: 'resendVerifySignup',
         value: { email: userEmail },
       })
@@ -163,7 +165,7 @@ export const useStoreAuth = defineStore('auth', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await sdkClient.service('auth-management').create({
+      const res = await sdkClient.service(SERVICES.AUTH_AUTHENTICATION).create({
         action: 'identityChange',
         value: {
           user: { email: user.email },
@@ -185,7 +187,7 @@ export const useStoreAuth = defineStore('auth', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await sdkClient.service('auth-management').create({
+      const res = await sdkClient.service(SERVICES.AUTH_AUTHENTICATION).create({
         action: 'verifySignupLong',
         value: token,
       })
@@ -207,7 +209,7 @@ export const useStoreAuth = defineStore('auth', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await sdkClient.service('auth-management').create({
+      const res = await sdkClient.service(SERVICES.AUTH_AUTHENTICATION).create({
         action: 'passwordChange',
         value: {
           user: { email: user.email },

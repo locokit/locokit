@@ -1,9 +1,10 @@
+import { SERVICES } from '@locokit/definitions'
 import { sdkClient } from './api'
 
 const ITEMS_PER_PAGE = 20
 
 export async function findUserGroups(params: Record<string, string> = {}) {
-  return await sdkClient.service('user-group').find({
+  return await sdkClient.service(SERVICES.CORE_USERGROUP).find({
     query: {
       $limit: ITEMS_PER_PAGE,
       ...params,
@@ -12,7 +13,7 @@ export async function findUserGroups(params: Record<string, string> = {}) {
 }
 
 export async function updateUserGroup(data: Record<string, string> = {}) {
-  return await sdkClient.service('user-group').create(data)
+  return await sdkClient.service(SERVICES.CORE_USERGROUP).create(data)
 }
 
 export async function removeUserGroup({
@@ -22,5 +23,7 @@ export async function removeUserGroup({
   userId: string
   groupId: string
 }) {
-  return await sdkClient.service('user-group').remove(`${userId},${groupId}`)
+  return await sdkClient
+    .service(SERVICES.CORE_USERGROUP)
+    .remove(`${userId},${groupId}`)
 }

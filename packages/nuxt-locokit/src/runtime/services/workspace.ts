@@ -1,10 +1,11 @@
+import { SERVICES } from '@locokit/definitions'
 import { sdkClient } from './api'
 
 const ITEMS_PER_PAGE = 10
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getWorkspace(id: string, params: null | any = null) {
-  return await sdkClient.service('workspace').get(id, params)
+  return await sdkClient.service(SERVICES.CORE_WORKSPACE).get(id, params)
 }
 
 export async function findWorkspaces(
@@ -31,7 +32,7 @@ export async function findWorkspaces(
   },
 ) {
   try {
-    return await sdkClient.service('workspace').find({
+    return await sdkClient.service(SERVICES.CORE_WORKSPACE).find({
       query: {
         $limit: limit,
         $skip: pageIndex * limit,
@@ -56,7 +57,7 @@ export async function createWorkspace(data: {
     icon: string | null
   }
 }) {
-  return await sdkClient.service('workspace').create(data)
+  return await sdkClient.service(SERVICES.CORE_WORKSPACE).create(data)
 }
 
 export async function patchWorkspace(
@@ -71,5 +72,5 @@ export async function patchWorkspace(
     }
   },
 ) {
-  return await sdkClient.service('workspace').patch(id, data)
+  return await sdkClient.service(SERVICES.CORE_WORKSPACE).patch(id, data)
 }

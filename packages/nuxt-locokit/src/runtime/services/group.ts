@@ -1,3 +1,4 @@
+import { SERVICES } from '@locokit/definitions'
 import { ApiUserGroup, Filter } from '../interfaces/toMigrate'
 import { getCurrentFilters } from '../helpers/filter'
 import { sdkClient } from './api'
@@ -7,16 +8,16 @@ export const ITEMS_PER_PAGE_GROUPS = 20
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getGroup(id: string, params: null | any = null) {
-  return await sdkClient.service('group').get(id, params)
+  return await sdkClient.service(SERVICES.CORE_GROUP).get(id, params)
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function createGroup(data: Record<string, any> = {}) {
-  return await sdkClient.service('group').create(data)
+  return await sdkClient.service(SERVICES.CORE_GROUP).create(data)
 }
 
 export async function patchGroup(id: string, data = {}) {
-  return await sdkClient.service('group').patch(id, data)
+  return await sdkClient.service(SERVICES.CORE_GROUP).patch(id, data)
 }
 
 export async function findGroups(
@@ -42,7 +43,7 @@ export async function findGroups(
     },
   },
 ) {
-  return await sdkClient.service('group').find({
+  return await sdkClient.service(SERVICES.CORE_GROUP).find({
     query: {
       $limit: limit,
       $skip: pageIndex * limit,
@@ -98,7 +99,7 @@ export async function searchGroups({
       ...getCurrentFilters(filters),
     }
   }
-  return await sdkClient.service('group').find({
+  return await sdkClient.service(SERVICES.CORE_GROUP).find({
     query: parameters,
   })
 }

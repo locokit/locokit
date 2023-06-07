@@ -1,9 +1,10 @@
+import { SERVICES } from '@locokit/definitions'
 import { sdkClient } from './api'
 
 const ITEMS_PER_PAGE = 10
 
 export async function getPolicy(id: string) {
-  return await sdkClient.service('role').get(id)
+  return await sdkClient.service(SERVICES.CORE_POLICY).get(id)
 }
 
 export async function findPolicies(
@@ -29,7 +30,7 @@ export async function findPolicies(
     },
   },
 ) {
-  return await sdkClient.service('role').find({
+  return await sdkClient.service(SERVICES.CORE_POLICY).find({
     query: {
       $limit: limit,
       $skip: pageIndex * limit,

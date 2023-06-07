@@ -1,3 +1,4 @@
+import { SERVICES } from '@locokit/definitions'
 import { ApiUserGroup, Filter } from '../interfaces/toMigrate'
 import { getCurrentFilters } from '../helpers/filter'
 import { sdkClient } from './api'
@@ -7,7 +8,7 @@ const ITEMS_PER_PAGE = 10
 
 export async function getUser(id: string) {
   try {
-    return await sdkClient.service('user').get(id)
+    return await sdkClient.service(SERVICES.CORE_USER).get(id)
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error(err)
@@ -17,7 +18,7 @@ export async function getUser(id: string) {
 
 export async function createUser(data = {}) {
   try {
-    return await sdkClient.service('user').create(data)
+    return await sdkClient.service(SERVICES.CORE_USER).create(data)
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error(err)
@@ -27,7 +28,7 @@ export async function createUser(data = {}) {
 
 export async function patchUser(id: string, data = {}) {
   try {
-    return await sdkClient.service('user').patch(id, data)
+    return await sdkClient.service(SERVICES.CORE_USER).patch(id, data)
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error(err)
@@ -60,7 +61,7 @@ export async function findUsers(
   },
 ) {
   try {
-    return await sdkClient.service('user').find({
+    return await sdkClient.service(SERVICES.CORE_USER).find({
       query: {
         $limit: limit,
         $skip: pageIndex * limit,
@@ -121,7 +122,7 @@ export async function searchUsers({
       ...getCurrentFilters(filters),
     }
   }
-  return await sdkClient.service('user').find({
+  return await sdkClient.service(SERVICES.CORE_USER).find({
     query: parameters,
   })
 }

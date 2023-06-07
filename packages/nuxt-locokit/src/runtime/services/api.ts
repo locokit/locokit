@@ -12,6 +12,7 @@
 import { feathers } from '@feathersjs/feathers'
 import restClient from '@feathersjs/rest-client'
 import authentication from '@feathersjs/authentication-client'
+import { SERVICES } from '@locokit/definitions'
 
 // import { manageExpiredToken } from './hooks'
 
@@ -19,6 +20,7 @@ export const sdkClient = feathers()
 
 const sdkAuth = authentication({
   storageKey: 'locokit-next-jwt',
+  path: SERVICES.AUTH_AUTHENTICATION,
 })
 
 const fetchConnection =
