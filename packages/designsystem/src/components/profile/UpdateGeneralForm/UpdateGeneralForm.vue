@@ -138,8 +138,8 @@ const props = withDefaults(
     response: null,
   },
 )
-const lastName = ref(props.user.lastname)
-const firstName = ref(props.user.firstname)
+const lastName = ref(props.user.lastName)
+const firstName = ref(props.user.firstName)
 const username = ref(props.user.username)
 
 const onSubmit = () => {

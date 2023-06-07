@@ -30,19 +30,19 @@ const response = ref()
 const updateUsername = async ({
   id,
   username,
-  firstname,
-  lastname,
+  firstName,
+  lastName,
 }: {
   id: string
   username: string
-  firstname: string | null
-  lastname: string | null
+  firstName: string | null
+  lastName: string | null
 }) => {
   response.value = null
 
   const res = await authStore.patchCurrentUser(id, {
-    lastname,
-    firstname,
+    lastName,
+    firstName,
     username,
   })
 

@@ -61,8 +61,8 @@
                     class="hover:outline hover:outline-1 hover:outline-primary"
                     :title="user.username"
                     :subtitle="
-                      user.lastname && user.firstname
-                        ? `${user.lastname} ${user.firstname}`
+                      user.lastName && user.firstName
+                        ? `${user.lastName} ${user.firstName}`
                         : null
                     "
                     :icon="
@@ -123,8 +123,8 @@
                     class="hover:outline hover:outline-1 hover:outline-primary"
                     :title="suggestionUser.username"
                     :subtitle="
-                      suggestionUser.lastname && suggestionUser.firstname
-                        ? `${suggestionUser.lastname} ${suggestionUser.firstname}`
+                      suggestionUser.lastName && suggestionUser.firstName
+                        ? `${suggestionUser.lastName} ${suggestionUser.firstName}`
                         : null
                     "
                     :icon="
