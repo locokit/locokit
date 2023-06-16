@@ -2,8 +2,9 @@
 /**
  * First load the .env file
  */
-import dotenv from 'dotenv-flow'
-dotenv.config()
+import * as dotenv from 'dotenv'
+
+dotenv.config({ path: process.env.NODE_ENV ? `.env.${process.env.NODE_ENV as string}` : '.env' })
 
 import serveStatic from 'koa-static'
 import { feathers } from '@feathersjs/feathers'

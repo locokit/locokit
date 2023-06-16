@@ -1,4 +1,4 @@
-name: pull_request
+name: Packages quality workflow
 
 on:
   push:
