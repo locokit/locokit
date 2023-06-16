@@ -162,7 +162,6 @@ export const userQuerySchema = Type.Intersect(
         username: queryStringExtend,
         firstName: queryStringExtend,
         lastName: queryStringExtend,
-        profile: queryStringExtend,
       },
     ),
     Type.Object({

@@ -12,12 +12,11 @@ import { SERVICES, USER_PROFILE } from '@locokit/definitions'
 
 import { createApp } from './app'
 import { UserResult } from './services/core/user/user.schema'
-import { WorkspaceResult } from './services/core/workspace/core-workspace.schema'
 
 const app = createApp()
 
 export interface SetupData {
-  publicWorkspaceId: string
+  // publicWorkspaceId: string
   // workspace2Id: string
   // database1Id: string
   // database2Id: string
@@ -35,6 +34,7 @@ export interface SetupData {
   user4: UserResult
   user5: UserResult
   userAdmin: UserResult
+  userBlocked: UserResult
   user1Authentication: AuthenticationResult
   user2Authentication: AuthenticationResult
   user3Authentication: AuthenticationResult
@@ -77,7 +77,7 @@ export function builderTestEnvironment(prefix: string) {
    * it won't setup data again, just return already injected.
    */
   let _data: SetupData
-  let publicWorkspace: WorkspaceResult
+  // let publicWorkspace: WorkspaceResult
   // let workspace2: Workspace
   // let database1: Database
   // let database2: Database
@@ -97,6 +97,7 @@ export function builderTestEnvironment(prefix: string) {
   let user4: UserResult
   let user5: UserResult
   let userAdmin: UserResult
+  let userBlocked: UserResult
   let user1Authentication: AuthenticationResult
   let user2Authentication: AuthenticationResult
   let user3Authentication: AuthenticationResult
@@ -210,6 +211,8 @@ export function builderTestEnvironment(prefix: string) {
         email: `${prefix}abilities-user2@locokit.io`,
         isVerified: true,
         password: passwordHashed,
+        firstName: 'User',
+        lastName: 'Two',
       },
       {},
     )
@@ -246,11 +249,22 @@ export function builderTestEnvironment(prefix: string) {
     // @ts-expect-error this should work as expected but don't respect the schemas
     userAdmin = await app.service(SERVICES.CORE_USER)._create(
       {
-        username: `${prefix} Admin`,
+        username: 'Admin',
         email: `${prefix}admin@locokit.io`,
         isVerified: true,
         password: passwordHashed,
         profile: USER_PROFILE.ADMIN,
+      },
+      {},
+    )
+    // @ts-expect-error this should work as expected but don't respect the schemas
+    userBlocked = await app.service(SERVICES.CORE_USER)._create(
+      {
+        username: 'Blocked User',
+        email: `${prefix}abilities-user-blocked@locokit.io`,
+        isVerified: true,
+        blocked: true,
+        password: passwordHashed,
       },
       {},
     )
@@ -304,12 +318,12 @@ export function builderTestEnvironment(prefix: string) {
       {},
     )
 
-    publicWorkspace = await app.service(SERVICES.CORE_WORKSPACE).create({
-      name: `[${prefix}] Public workspace 1`,
-      documentation: 'Public workspace for user1',
-      createdBy: user1.id,
-      public: true,
-    })
+    // publicWorkspace = await app.service(SERVICES.CORE_WORKSPACE).create({
+    //   name: `[${prefix}] Public workspace 1`,
+    //   documentation: 'Public workspace for user1',
+    //   createdBy: user1.id,
+    //   public: true,
+    // })
 
     // group1 = await app.services.group.create({
     //   name: `[${prefix} abilities] Group 1`,
@@ -607,28 +621,14 @@ export function builderTestEnvironment(prefix: string) {
     // })
 
     _data = {
-      publicWorkspaceId: publicWorkspace.id,
-      // workspace1Id: workspace1.id,
-      // workspace2Id: workspace2.id,
-      // database1Id: database1.id,
-      // database2Id: database2.id,
-      // table1Id: table1.id,
-      // table2Id: table2.id,
-      // table1Workspace2Id: table1Workspace2.id,
-      // columnTable1GroupId: columnTable1Group.id,
-      // columnTable1UserId: columnTable1User.id,
-      // columnTable1BooleanId: columnTable1Boolean.id,
-      // columnTable1FormulaId: columnTable1Formula.id,
-      // columnTable2LkdUpUserId: columnTable2LkdUpUser.id,
-      // columnTable2LkdUpGroupId: columnTable2LkdUpGroup.id,
-      // columnTable1W2Ref: columnTable1W2Ref.id,
-      // columnTable1W2Name: columnTable1W2Name.id,
+      // publicWorkspaceId: publicWorkspace.id,
       user1,
       user2,
       user3,
       user4,
       user5,
       userAdmin,
+      userBlocked,
       user1Authentication,
       user2Authentication,
       user3Authentication,
@@ -658,76 +658,19 @@ export function builderTestEnvironment(prefix: string) {
   }
 
   async function teardownWorkspace(): Promise<void> {
-    // try {
-    //   await app.service('row').remove(row1Table2.id)
-    //   await app.service('row').remove(row2Table2.id)
-    //   await app.service('row').remove(row3Table2.id)
-    //   await app.service('row').remove(row1Table1.id)
-    //   await app.service('row').remove(row2Table1.id)
-    //   await app.service('row').remove(row3Table1.id)
-    //   await app.service('row').remove(row4Table1.id)
-    // } catch (e) {
-    //   console.error('[teardownWorkspace] error : ', e)
-    // }
-
-    // await app.service('column').remove(columnTable2RelationBetweenTables.id)
-    // await app.service('column').remove(columnTable2LkdUpGroup.id)
-    // await app.service('column').remove(columnTable2LkdUpUser.id)
-    // await app.service('column').remove(columnTable2Ref.id)
-    // await app.service('column').remove(columnTable2Name.id)
-
-    // await app.service('column').remove(columnTable1Boolean.id)
-    // await app.service('column').remove(columnTable1Number.id)
-    // await app.service('column').remove(columnTable1Date.id)
-    // await app.service('column').remove(columnTable1DateTime.id)
-    // await app.service('column').remove(columnTable1String.id)
-    // await app.service('column').remove(columnTable1Float.id)
-    // await app.service('column').remove(columnTable1User.id)
-    // await app.service('column').remove(columnTable1Group.id)
-    // await app.service('column').remove(columnTable1SingleSelect.id)
-    // await app.service('column').remove(columnTable1MultiSelect.id)
-    // await app.service('column').remove(columnTable1Formula.id)
-    // await app.service('column').remove(columnTable1File.id)
-    // await app.service('column').remove(columnTable1MultiUser.id)
-    // await app.service('column').remove(columnTable1MultiGroup.id)
-    // await app.service('column').remove(columnTable1Text.id)
-    // await app.service('column').remove(columnTable1URL.id)
-    // await app.service('column').remove(columnTable1GeomPoint.id)
-    // await app.service('column').remove(columnTable1GeomPolygon.id)
-    // await app.service('column').remove(columnTable1GeomLinestring.id)
-
-    /*
-    await app.service('table').remove(table1.id)
-    await app.service('table').remove(table2.id)
-    */
-    // await app.service(SERVICES.CORE_USER)group.remove(`${user5.id},${group2.id}`)
-    // await app.service(SERVICES.CORE_USER)group.remove(`${user5.id},${group4.id}`)
-    // await app.service(SERVICES.CORE_USER)group.remove(`${user4.id},${group1.id}`)
-    // await app.service(SERVICES.CORE_USER)group.remove(`${user1.id},${group1.id}`)
-    // await app.service(SERVICES.CORE_USER)group.remove(`${user2.id},${group2.id}`)
-    // await app.service(SERVICES.CORE_USER)group.remove(`${user3.id},${group2.id}`)
-    // await app.service(SERVICES.CORE_USER)group.remove(`${user2.id},${group3.id}`)
-    // await app.service(SERVICES.CORE_USER)group.remove(`${user1.id},${group4.id}`)
-
-    // await app.services.group.remove(group5.id)
-    // await app.services.group.remove(group4.id)
-    // await app.services.group.remove(group3.id)
-    // await app.services.group.remove(group2.id)
-    // await app.services.group.remove(group1.id)
-
-    await app.service(SERVICES.CORE_WORKSPACE).patch(publicWorkspace.id, {
-      softDeletedAt: new Date().toISOString(),
-    })
-
-    await app.service(SERVICES.CORE_WORKSPACE).remove(publicWorkspace.id, {
-      user: userAdmin,
-      authenticated: true,
-      authentication: userAdminAuthentication,
-    })
+    // await app.service(SERVICES.CORE_WORKSPACE).patch(publicWorkspace.id, {
+    //   softDeletedAt: new Date().toISOString(),
+    // })
+    //
+    // await app.service(SERVICES.CORE_WORKSPACE).remove(publicWorkspace.id, {
+    //   user: userAdmin,
+    //   authenticated: true,
+    //   authentication: userAdminAuthentication,
+    // })
 
     await app.service(SERVICES.CORE_USER).remove(userAdmin.id)
-    // await app.service(SERVICES.CORE_USER).remove(userSuperAdmin.id)
 
+    await app.service(SERVICES.CORE_USER).remove(userBlocked.id)
     await app.service(SERVICES.CORE_USER).remove(user5.id)
     await app.service(SERVICES.CORE_USER).remove(user4.id)
     await app.service(SERVICES.CORE_USER).remove(user3.id)

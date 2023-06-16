@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { resolve, Resolver } from '@feathersjs/schema'
 import { passwordHash } from '@feathersjs/authentication-local'
-import type { HookContext } from '../../../declarations'
+import type { HookContext } from '@/declarations'
 import { UserPatch, UserResult, UserQuery, UserPatchAdmin } from './user.schema'
-import { generatePassword } from '../../../utils/password'
+import { generatePassword } from '@/utils/password'
 import { workspaceDispatchResolver } from '@/services/core/workspace/core-workspace.resolver'
 import { USER_PROFILE } from '@locokit/definitions'
 
@@ -130,12 +130,7 @@ export const userDispatchResolver: Resolver<UserResult, HookContext> = resolve<
   UserResult,
   HookContext
 >({
-  // isVerified: async () => undefined,
-  // blocked: async () => undefined,
-  // avatarURL: async () => undefined,
-  // createdAt: async () => undefined,
   updatedAt: async () => undefined,
-  // profile: async () => undefined,
   lastConnection: async () => undefined,
   password: async () => undefined,
   verifyChanges: async () => undefined,
@@ -155,6 +150,61 @@ export const userDispatchResolver: Resolver<UserResult, HookContext> = resolve<
   },
 })
 
+// Resolver for the "safe" version that external clients are allowed to see
+export const userRestrictedDispatchResolver: Resolver<UserResult, HookContext> = resolve<
+  UserResult,
+  HookContext
+>({
+  firstName: async (firstName, _data, context) => {
+    if (context.params.user?.profile === USER_PROFILE.ADMIN) {
+      return firstName
+    }
+    return undefined
+  },
+  lastName: async (lastName, _data, context) => {
+    if (context.params.user?.profile === USER_PROFILE.ADMIN) {
+      return lastName
+    }
+    return undefined
+  },
+  email: async (email, _data, context) => {
+    if (context.params.user?.profile === USER_PROFILE.ADMIN) {
+      return email
+    }
+    return undefined
+  },
+  profile: async (profile, _data, context) => {
+    if (context.params.user?.profile === USER_PROFILE.ADMIN) {
+      return profile
+    }
+    return undefined
+  },
+  blocked: async (blocked, _data, context) => {
+    if (context.params.user?.profile === USER_PROFILE.ADMIN) {
+      return blocked
+    }
+    return undefined
+  },
+  isVerified: async (isVerified, _data, context) => {
+    if (context.params.user?.profile === USER_PROFILE.ADMIN) {
+      return isVerified
+    }
+    return undefined
+  },
+  updatedAt: async () => undefined,
+  lastConnection: async () => undefined,
+  password: async () => undefined,
+  verifyChanges: async () => undefined,
+  verifyExpires: async () => undefined,
+  resetExpires: async () => undefined,
+  verifyToken: async () => undefined,
+  verifyShortToken: async () => undefined,
+  resetToken: async () => undefined,
+  resetShortToken: async () => undefined,
+  resetAttempts: async () => undefined,
+  workspaces: async () => undefined,
+})
+
 // Resolver for allowed query properties
 export const userQueryResolver = resolve<UserQuery, HookContext>({
   // If there is a user (e.g. with authentication),
@@ -164,7 +214,6 @@ export const userQueryResolver = resolve<UserQuery, HookContext>({
     if (context.params.user) {
       return context.params.user.id
     }
-
     return value
   },
 })
