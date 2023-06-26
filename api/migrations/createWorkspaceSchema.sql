@@ -19,7 +19,7 @@ DECLARE
 
 BEGIN
 
-  RAISE NOTICE 'Calling createWorkspaceSchema(''%'')', $1;
+  RAISE NOTICE 'Calling createWorkspaceSchema(''%'')', workspace_id;
 
   SET search_path = core;
 
@@ -94,7 +94,7 @@ BEGIN
       ON UPDATE NO ACTION
       ON DELETE CASCADE
 
-  ) INHERITS ("core"."lck_policy")', $1);
+  ) INHERITS ("core"."lck_policy")', workspace_id);
 
   EXECUTE format('CREATE TABLE "group" (
     workspaceId uuid DEFAULT ''%s'',
@@ -111,7 +111,7 @@ BEGIN
       ON UPDATE NO ACTION
       ON DELETE NO ACTION
 
-  ) INHERITS ("core"."lck_group")', $1);
+  ) INHERITS ("core"."lck_group")', workspace_id);
 
   CREATE INDEX IF NOT EXISTS "IDX_group_policy"
     ON "group" USING btree
@@ -153,7 +153,7 @@ BEGIN
     CONSTRAINT "CHECK_datasource_type"
       CHECK (client = ANY (ARRAY[''remote''::text, ''local''::text]))
 
-  ) INHERITS ("core"."lck_datasource")', $1);
+  ) INHERITS ("core"."lck_datasource")', workspace_id);
 
   -- CREATE all tables for metamodel
 

@@ -12,10 +12,7 @@ const dropWorkspaceSchemaCode = fs.readFileSync(
 )
 
 export async function up(knex: Knex): Promise<void> {
-  await knex.schema
-    .withSchema('core')
-    .raw(createWorkspaceSchemaCode)
-    .raw(dropWorkspaceSchemaCode)
+  await knex.schema.withSchema('core').raw(createWorkspaceSchemaCode).raw(dropWorkspaceSchemaCode)
 }
 
 export async function down(knex: Knex): Promise<void> {

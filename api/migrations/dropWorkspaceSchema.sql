@@ -9,8 +9,9 @@ AS $BODY$
 
 DECLARE
   v_schema varchar;
-  v_role_readonly varchar;
-  v_role_readwrite varchar;
+  cur_roles cursor (role_prefix text) for
+    SELECT rolname FROM pg_catalog.pg_roles
+    WHERE rolname LIKE role_prefix || '%' ;
 
 BEGIN
 
@@ -19,28 +20,25 @@ BEGIN
   SET search_path = core;
 
   v_schema := 'w_' || workspace_slug;
-  v_role_readonly := v_schema || '_ro';
-  v_role_readwrite := v_schema || '_rw';
 
   -- DROP workspace schema
   EXECUTE format('DROP SCHEMA IF EXISTS %I CASCADE', v_schema);
 
   RAISE NOTICE 'Schema ''%'' dropped.', v_schema;
 
-  -- DROP v_role_readwrite as it inherit from v_role_readonly
-  EXECUTE format('DROP ROLE IF EXISTS %I', v_role_readwrite);
-  RAISE NOTICE 'Role ''%'' dropped.', v_role_readwrite;
+  FOR v_current_role IN cur_roles(v_schema) LOOP
+    RAISE NOTICE 'Current role ''%''', v_current_role.rolname;
 
-  -- REVOKE access to core.user
-  EXECUTE format('REVOKE ALL ON core.lck_user FROM %I', v_role_readonly);
-  EXECUTE format('REVOKE USAGE ON SCHEMA core FROM %I', v_role_readonly);
+    -- REVOKE access to core.user
+    EXECUTE format('REVOKE ALL ON core.lck_user FROM %I', v_current_role.rolname);
+    EXECUTE format('REVOKE USAGE ON SCHEMA core FROM %I', v_current_role.rolname);
 
-  EXECUTE format('DROP ROLE IF EXISTS %I', v_role_readonly);
-  RAISE NOTICE 'Role ''%'' dropped.', v_role_readonly;
+    EXECUTE format('DROP ROLE IF EXISTS %I', v_current_role.rolname);
+    RAISE NOTICE 'Role ''%'' dropped.', v_current_role.rolname;
 
-RAISE NOTICE 'End of drop of the workspace ''%''.', v_schema;
+  END LOOP;
 
+  RAISE NOTICE 'End of drop of the workspace ''%''.', v_schema;
 
-END
+END;
 $BODY$
-;
