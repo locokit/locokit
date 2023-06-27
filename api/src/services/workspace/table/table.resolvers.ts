@@ -2,7 +2,7 @@ import { resolve } from '@feathersjs/schema'
 import type { HookContext } from '@/declarations'
 import { toSnakeCase } from '@/utils/toSnakeCase'
 
-import type { TableData, TablePatch, TableResult, TableQuery } from './table.schema'
+import type { TableDataInternal, TablePatch, TableResult, TableQuery } from './table.schema'
 import { NotFound } from '@feathersjs/errors/lib'
 import { Paginated } from '@feathersjs/feathers'
 import { WorkspaceResult } from '@/services/core/workspace/core-workspace.schema'
@@ -10,7 +10,7 @@ import { DatasourceResult } from '../datasource/datasource.schema'
 import { SERVICES } from '@locokit/definitions'
 
 // Resolver for the basic data model (e.g. creating new entries)
-export const tableDataResolver = resolve<TableData, HookContext>({
+export const tableDataResolver = resolve<TableDataInternal, HookContext>({
   /**
    * Compute a slug before insertion too
    */

@@ -59,12 +59,19 @@ export type TableResult = Static<typeof tableResultSchema> & TableRelations
 /**
  * Creation
  */
-export const tableDataSchema = Type.Omit(tableSchema, ['id', 'datasource', 'fields'], {
+export const tableDataSchema = Type.Omit(tableSchema, ['id', 'slug', 'datasource', 'fields'], {
   $id: 'TableDataSchema',
   additionalProperties: false,
 })
 export type TableData = Static<typeof tableDataSchema>
 export const tableDataValidator = getValidator(tableDataSchema, dataValidator)
+
+export const tableDataInternalSchema = Type.Omit(tableSchema, ['id', 'datasource', 'fields'], {
+  $id: 'TableDataInternalSchema',
+  additionalProperties: false,
+})
+export type TableDataInternal = Static<typeof tableDataInternalSchema>
+export const tableDataInternalValidator = getValidator(tableDataInternalSchema, dataValidator)
 
 /**
  * Patch

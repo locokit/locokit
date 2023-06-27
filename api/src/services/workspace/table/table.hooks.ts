@@ -4,7 +4,7 @@ import { hooks as schemaHooks } from '@feathersjs/schema'
 import { transaction } from '@/feathers-objection'
 
 import { tableResolvers } from './table.resolvers'
-import { tableDataValidator, tableQueryValidator } from './table.schema'
+import { tableDataValidator, tableQueryValidator, tableDataInternalValidator } from './table.schema'
 import { SERVICES } from '@locokit/definitions'
 
 async function setWorkspaceSchema(context: HookContext) {
@@ -40,8 +40,9 @@ export const tableHooks = {
       setWorkspaceSchema,
     ],
     create: [
-      schemaHooks.resolveData(tableResolvers.data.create),
       schemaHooks.validateData(tableDataValidator),
+      schemaHooks.resolveData(tableResolvers.data.create),
+      schemaHooks.validateData(tableDataInternalValidator),
       setWorkspaceSchema,
     ],
   },

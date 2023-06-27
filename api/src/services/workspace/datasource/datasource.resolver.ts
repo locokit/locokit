@@ -70,11 +70,13 @@ export const datasourceQueryResolver = resolve<DatasourceQuery, HookContext>({
    */
   async workspaceId(value, _data, context) {
     datasourceLogger.debug(
-      '[%s] workspaceId resolver with id %s and slug %s',
+      '[%s] workspaceId resolver with id %s, slug %s, workspaceId %s',
       context.method,
       context.id,
-      context.params.route.workspaceSlug,
+      context.params?.route?.workspaceSlug,
+      value,
     )
+
     if (value) return value
     const { transaction } = context.params
 
@@ -91,7 +93,7 @@ export const datasourceQueryResolver = resolve<DatasourceQuery, HookContext>({
       /**
        * For find
        */
-      const { workspaceSlug } = context.params.route
+      const { workspaceSlug } = context.params?.route
 
       if (!workspaceSlug) throw new NotFound('Workspace not found')
       const workspace: Paginated<WorkspaceResult> = await context.app
