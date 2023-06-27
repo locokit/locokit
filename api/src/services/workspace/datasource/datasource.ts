@@ -1,5 +1,5 @@
 import { SERVICES } from '@locokit/definitions'
-import type { Application } from '../../../declarations'
+import type { Application } from '@/declarations'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
 
 import { Datasource } from './datasource.class'

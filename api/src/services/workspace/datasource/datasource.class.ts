@@ -9,11 +9,11 @@ import { logger } from '@/logger'
 
 import type { DatasourceData, DatasourceResult, DatasourceQuery } from './datasource.schema'
 import { TableResult } from '../table/table.schema'
-// import { TableField } from '../table-field/table-field.class'
 import { TableFieldResult } from '../table-field/table-field.schema'
 import { convertDBTypeToFieldType, DB_TYPE } from '@locokit/definitions/src/fieldType'
 import { Application } from '@/declarations'
 import { SERVICES } from '@locokit/definitions'
+import { Transaction } from 'objection'
 
 const datasourceLogger = logger.child({ service: 'datasource' })
 
@@ -52,6 +52,36 @@ export class Datasource extends ObjectionService<
 
   async setup(app: Application) {
     this.app = app
+  }
+
+  async create(data: DatasourceData, params?: DatasourceParams): Promise<DatasourceResult>
+  async create(data: DatasourceData[], params?: DatasourceParams): Promise<DatasourceResult[]>
+  async create(
+    data: DatasourceData | DatasourceData[],
+    params?: DatasourceParams,
+  ): Promise<DatasourceResult | DatasourceResult[]> {
+    const currentDatasource = await this._create(data, params)
+
+    /**
+     * Create the dedicated schema for the current datasource
+     * or all created datasources, depending their configuration
+     */
+    const knex = this.Model.knex()
+
+    if (Array.isArray(currentDatasource)) {
+      await Promise.all(
+        currentDatasource.map(async (w) => {
+          await knex
+            .raw('SELECT core."createDatasourceSchema"(?)', w.id)
+            .transacting(params?.transaction?.trx as Transaction)
+        }),
+      )
+    } else {
+      await knex
+        .raw('SELECT core."createDatasourceSchema"(?)', currentDatasource.id)
+        .transacting(params?.transaction?.trx as Transaction)
+    }
+    return currentDatasource
   }
 
   /**

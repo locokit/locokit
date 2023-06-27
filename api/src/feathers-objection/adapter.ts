@@ -637,10 +637,13 @@ export class ObjectionAdapter<
 
     // crow code
     // $eager for Objection eager queries
-    if (filters?.$eager) {
-      builder.joinRelated(filters.$eager, eagerOptions)
-      delete filters.$eager
-    }
+
+    // WE DON'T set $eager for COUNT queries
+    // as it's only a loading of related data ?
+    // if (filters?.$eager) {
+    //   builder.joinRelated(filters.$eager, eagerOptions)
+    //   delete filters.$eager
+    // }
 
     if (this.allowedGraph) {
       builder.allowGraph(this.allowedGraph)

@@ -14,5 +14,6 @@ export function toSnakeCase(text: string): string {
       .replace(/[^a-z0-9_]/g, '_')
       .replace(/_+/g, '_')
       .replace(/_$/, '')
+      .replace(/^_/, '')
   )
 }

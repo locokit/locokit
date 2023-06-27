@@ -1,5 +1,5 @@
 import { resolve } from '@feathersjs/schema'
-import type { HookContext } from '../../../declarations'
+import type { HookContext } from '@/declarations'
 import { toSnakeCase } from '@/utils/toSnakeCase'
 
 import type {

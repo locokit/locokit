@@ -15,7 +15,7 @@ export const logger = createLogger({
     format.printf(({ level, message, timestamp, ms, service, stack, ...meta }) => {
       let messageToDisplay = `${timestamp as string} ${level} ${
         service ? '[' + (service as string) + ']' : '[LocoKit]'
-      } : ${message as string} (${ms as string})`
+      } ${meta.name as string} : ${message as string} (${ms as string})`
       if (stack) messageToDisplay += `\n${stack as string}`
       // clean the meta from symbols
       const metaWithoutSymbol = Object.entries(meta).reduce((acc: Record<string, any>, [k, v]) => {

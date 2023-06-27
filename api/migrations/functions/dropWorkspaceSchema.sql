@@ -9,7 +9,12 @@ AS $BODY$
 
 DECLARE
   v_schema varchar;
-  cur_roles cursor (role_prefix text) for
+  
+  cur_datasource cursor (workspace_id uuid) for
+    SELECT * FROM core.lck_datasource
+    WHERE workspace_id = workspace_id;
+
+  cur_workspace_roles cursor (role_prefix text) for
     SELECT rolname FROM pg_catalog.pg_roles
     WHERE rolname LIKE role_prefix || '%' ;
 
@@ -26,7 +31,7 @@ BEGIN
 
   RAISE NOTICE 'Schema ''%'' dropped.', v_schema;
 
-  FOR v_current_role IN cur_roles(v_schema) LOOP
+  FOR v_current_role IN cur_workspace_roles(v_schema) LOOP
     RAISE NOTICE 'Current role ''%''', v_current_role.rolname;
 
     -- REVOKE access to core.user

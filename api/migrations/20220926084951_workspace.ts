@@ -109,6 +109,7 @@ export async function up(knex: Knex): Promise<void> {
         .foreign('workspaceId', 'FK_datasource_workspace')
         .references('id')
         .inTable('core.lck_workspace')
+        .onDelete('CASCADE')
       table.index('workspaceId', 'IDX_datasource_workspaceId')
     })
 
@@ -132,6 +133,7 @@ export async function up(knex: Knex): Promise<void> {
         .foreign('datasourceId', 'FK_table_datasource')
         .references('id')
         .inTable('core.lck_datasource')
+        .onDelete('CASCADE')
       table.index('datasourceId', 'IDX_table_datasourceId')
     })
 
@@ -149,7 +151,11 @@ export async function up(knex: Knex): Promise<void> {
       table.datetime('updatedAt').defaultTo(knex.fn.now())
 
       table.uuid('tableId').notNullable()
-      table.foreign('tableId', 'FK_dataset_table').references('id').inTable('core.lck_table')
+      table
+        .foreign('tableId', 'FK_dataset_table')
+        .references('id')
+        .inTable('core.lck_table')
+        .onDelete('CASCADE')
       table.index('tableId', 'IDX_dataset_tableId')
     })
 }

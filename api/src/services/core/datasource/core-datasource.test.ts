@@ -1,25 +1,12 @@
-import {
-  describe,
-  it,
-  expect,
-  beforeAll,
-  afterAll,
-  // afterEach,
-  // beforeEach,
-} from 'vitest'
+import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { createApp } from '@/app'
 import { SERVICES } from '@locokit/definitions'
 import { builderTestEnvironment, SetupData } from '@/configure.test'
-import { WorkspaceResult } from '../workspace/core-workspace.schema'
+import { WorkspaceResult } from '@/services/core/workspace/core-workspace.schema'
 import { CoreDatasourceResult } from '@/services/core/datasource/core-datasource.schema'
-// import axios, { AxiosError, AxiosResponse } from 'axios'
-// import { WorkspaceResult } from './core-workspace.schema'
-// import { Paginated } from '@feathersjs/feathers'
-// import { BadRequest, Forbidden } from '@feathersjs/errors/lib'
-// import path from 'path'
-// import fs from 'fs'
+import { Forbidden, MethodNotAllowed } from '@feathersjs/errors/lib'
 
-describe('datasource service', () => {
+describe('[core] datasource service', () => {
   const app = createApp()
   const builder = builderTestEnvironment('core-workspace')
   let setupData: SetupData
@@ -43,83 +30,137 @@ describe('datasource service', () => {
   describe('general purpose', async () => {
     let generalDatasource: CoreDatasourceResult
     beforeAll(async () => {
-      generalDatasource = await app.service(SERVICES.CORE_DATASOURCE).create({
-        workspaceId: workspace.id,
+      generalDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create({
         name: 'Testing datasource general',
         client: 'pg',
         type: 'local',
         connection: '',
+        workspaceId: workspace.id,
       })
     })
+
     it('registered the service', () => {
       const service = app.service(SERVICES.CORE_DATASOURCE)
       expect(service).toBeDefined()
     })
     it('allow user to retrieve datasource from a workspace id', async () => {
       expect.assertions(5)
-      const datasources1 = await app.service(SERVICES.CORE_WORKSPACE).find({
+      const workspaces = await app.service(SERVICES.CORE_WORKSPACE).find({
         query: {
           $eager: 'datasources',
+          name: 'Testing workspace datasource',
         },
       })
-      expect(datasources1.total).toBe(1)
-      expect(datasources1.data[0].datasources?.length).toBe(1)
-      expect(datasources1.data[0].datasources?.[0].id).toBe(generalDatasource.id)
-      const datasources2 = await app.service(SERVICES.CORE_DATASOURCE).find({
+      expect(workspaces.total).toBe(1)
+      expect(workspaces.data[0].datasources?.length).toBe(1)
+      expect(workspaces.data[0].datasources?.[0].id).toBe(generalDatasource.id)
+
+      const datasources = await app.service(SERVICES.CORE_DATASOURCE).find({
         query: {
           workspaceId: workspace.id,
         },
       })
-      expect(datasources2.total).toBe(1)
-      expect(datasources2.data[0].id).toBe(generalDatasource.id)
+      expect(datasources.total).toBe(1)
+      expect(datasources.data[0].id).toBe(generalDatasource.id)
     })
+
     afterAll(async () => {
-      await app.service(SERVICES.CORE_DATASOURCE).remove(generalDatasource.id)
+      await app.service(SERVICES.WORKSPACE_DATASOURCE).remove(generalDatasource.id)
     })
   })
 
-  describe.todo('manage permission', () => {
-    it.todo('forbid user to retrieve datasource of workspace they do not have access to')
-    it.todo('allow user to patch datasource on workspace they manage')
-    it.todo('does not return credentials when user is not admin / manager of the workspace')
-  })
+  describe('manage permissions / forbid methods', async () => {
+    let forbidDatasource: CoreDatasourceResult
+    beforeAll(async () => {
+      forbidDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create({
+        name: 'Testing datasource forbids',
+        client: 'pg',
+        type: 'local',
+        connection: '',
+        workspaceId: workspace.id,
+      })
+    })
 
-  describe.todo('remote pg datasource', () => {
-    it.todo('allow user to create a remote pg datasource')
+    it('forbid create', async () => {
+      expect.assertions(1)
+      await expect(
+        app.service(SERVICES.CORE_DATASOURCE).create({
+          name: 'Testing datasource general',
+          client: 'pg',
+          type: 'local',
+          connection: '',
+          workspaceId: workspace.id,
+        }),
+      ).rejects.toThrowError(MethodNotAllowed)
+    })
+    it('forbid update', async () => {
+      expect.assertions(1)
+      await expect(
+        app.service(SERVICES.CORE_DATASOURCE).update(forbidDatasource.id, {
+          name: 'Testing datasource general',
+          client: 'pg',
+          type: 'local',
+          connection: '',
+          workspaceId: workspace.id,
+        }),
+      ).rejects.toThrowError(MethodNotAllowed)
+    })
+    it('forbid patch', async () => {
+      expect.assertions(1)
+      await expect(
+        app.service(SERVICES.CORE_DATASOURCE).patch(forbidDatasource.id, {
+          name: 'Testing datasource general',
+          client: 'pg',
+          type: 'local',
+          connection: '',
+          workspaceId: workspace.id,
+        }),
+      ).rejects.toThrowError(MethodNotAllowed)
+    })
+    it('forbid remove', async () => {
+      expect.assertions(1)
+      await expect(
+        app.service(SERVICES.CORE_DATASOURCE).remove(forbidDatasource.id),
+      ).rejects.toThrowError(MethodNotAllowed)
+    })
 
-    it.todo(
-      'allow to sync the datasource model in locokit meta model (tables + fields + relations)',
-    )
-    it.todo(
-      'allow to create a migration and apply it to sync datasource model in LocoKit meta model (tables + fields + relations)',
-    )
-    it.todo('allow to retrieve migrations')
-  })
-  describe.todo('remote sqlite datasource', () => {
-    it.todo('allow user to create a remote sqlite datasource')
-    it.todo(
-      'allow to sync the datasource model in locokit meta model (tables + fields + relations)',
-    )
-    it.todo(
-      'allow to create a migration and apply it to sync datasource model in LocoKit meta model (tables + fields + relations)',
-    )
-    it.todo('allow to retrieve migrations')
-  })
-  describe.todo('local pg datasource', () => {
-    it.todo('create a dedicated schema in database', async () => {})
-    it.todo(
-      'can create a migration and apply it to sync datasource model in LocoKit meta model (tables + fields + relations)',
-      async () => {},
-    )
-    it.todo(
-      'can sync the datasource model in locokit meta model (tables + fields + relations)',
-      async () => {},
-    )
-    it.todo('can retrieve migrations', async () => {})
-  })
-  describe.todo('remove with a soft-delete ?', () => {
-    it.todo('should remove all tables / fields / ... related ressources')
-    it.todo('should remove dedicated schema if this is a local pg datasource')
+    it('forbid external calls for non ADMIN users', async () => {
+      expect.assertions(1)
+      await expect(
+        app.service(SERVICES.CORE_DATASOURCE).get(forbidDatasource.id, {
+          provider: 'external',
+          authenticated: true,
+          user: setupData.user1,
+          authentication: setupData.user1Authentication,
+        }),
+      ).rejects.toThrowError(Forbidden)
+    })
+
+    it('forbid internal calls for non ADMIN users', async () => {
+      expect.assertions(1)
+      await expect(
+        app.service(SERVICES.CORE_DATASOURCE).get(forbidDatasource.id, {
+          authenticated: true,
+          user: setupData.user1,
+          authentication: setupData.user1Authentication,
+        }),
+      ).rejects.toThrowError(Forbidden)
+    })
+
+    it('allow internal calls for ADMIN users', async () => {
+      expect.assertions(2)
+      const datasource = await app.service(SERVICES.CORE_DATASOURCE).get(forbidDatasource.id, {
+        authenticated: true,
+        user: setupData.userAdmin,
+        authentication: setupData.userAdminAuthentication,
+      })
+      expect(datasource).toBeDefined()
+      expect(datasource.id).toBe(forbidDatasource.id)
+    })
+
+    afterAll(async () => {
+      await app.service(SERVICES.WORKSPACE_DATASOURCE).remove(forbidDatasource.id)
+    })
   })
 
   afterAll(async () => {

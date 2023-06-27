@@ -1,4 +1,6 @@
-import { Type, Static, StringEnum, querySyntax } from '@feathersjs/typebox'
+import { Type, Static, StringEnum, querySyntax, getValidator } from '@feathersjs/typebox'
+import { dataValidator } from '@/commons/validators'
+
 import { WorkspaceResult } from '../workspace/core-workspace.schema'
 import { queryStringExtend } from '@/feathers-objection'
 
@@ -67,9 +69,13 @@ export const coreDatasourceSchema = Type.Object(
 export type CoreDatasourceSchema = Static<typeof coreDatasourceSchema>
 
 // Schema for making partial updates
-export const coreDatasourcePatchSchema = Type.Omit(coreDatasourceSchema, ['id'])
+export const coreDatasourcePatchSchema = Type.Omit(coreDatasourceSchema, ['id'], {
+  additionalProperties: false,
+  $id: 'CoreDatasourcePatchSchema',
+})
 
 export type CoreDatasourcePatch = Static<typeof coreDatasourcePatchSchema>
+export const coreDatasourcePatchValidator = getValidator(coreDatasourcePatchSchema, dataValidator)
 
 // Schema for the data that is being returned
 export const coreDatasourceResultSchema = coreDatasourceSchema
@@ -78,8 +84,12 @@ export type CoreDatasourceResult = Static<typeof coreDatasourceResultSchema> & {
 }
 
 // Schema for creating datasource
-export const coreDatasourceDataSchema = Type.Omit(coreDatasourceSchema, ['id', 'slug'])
+export const coreDatasourceDataSchema = Type.Omit(coreDatasourceSchema, ['id', 'slug'], {
+  additionalProperties: false,
+  $id: 'CoreDatasourceDataSchema',
+})
 export type CoreDatasourceData = Static<typeof coreDatasourceDataSchema>
+export const coreDatasourceDataValidator = getValidator(coreDatasourceDataSchema, dataValidator)
 
 // Schema for allowed query properties
 export const coreDatasourceQuerySchema = Type.Intersect(

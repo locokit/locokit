@@ -3,7 +3,7 @@ import type { HookContext } from '@/declarations'
 import { toSnakeCase } from '@/utils/toSnakeCase'
 
 import type {
-  DatasourceData,
+  DatasourceDataInternal,
   DatasourcePatch,
   DatasourceResult,
   DatasourceQuery,
@@ -17,7 +17,7 @@ import { SERVICES } from '@locokit/definitions'
 const datasourceLogger = logger.child({ service: 'datasource-hooks' })
 
 // Resolver for the basic data model (e.g. creating new entries)
-export const datasourceDataResolver = resolve<DatasourceData, HookContext>({
+export const datasourceDataResolver = resolve<DatasourceDataInternal, HookContext>({
   /**
    * Compute a slug before insertion too
    */
