@@ -1,3 +1,6 @@
-import { describe } from 'vitest'
+import { describe, it } from 'vitest'
 
-describe.skip("'table-field' service")
+describe.todo("'table-field' service", () => {
+  it.todo('is well configured')
+  it.todo('use the right role to access dedicated schema')
+})

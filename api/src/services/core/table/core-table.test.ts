@@ -1,6 +1,6 @@
 import { describe, it } from 'vitest'
 
-describe('table service', () => {
+describe('[core] table service', () => {
   it.todo('is well configured')
   it.todo('allow user to retrieve table from a datasource id')
   it.todo('forbid user to retrieve table of workspace they do not have access to')

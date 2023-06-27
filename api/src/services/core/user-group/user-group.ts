@@ -37,7 +37,7 @@ export function userGroupService(app: Application): void {
 }
 
 // Add this service to the service type index
-declare module '../../../declarations' {
+declare module '@/declarations' {
   interface ServiceTypes {
     [SERVICES.CORE_USERGROUP]: UserGroupService
   }

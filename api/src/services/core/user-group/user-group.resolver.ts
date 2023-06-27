@@ -1,6 +1,6 @@
 import { resolve, Resolver } from '@feathersjs/schema'
 import { getValidator } from '@feathersjs/typebox'
-import type { HookContext } from '../../../declarations'
+import type { HookContext } from '@/declarations'
 import { queryValidator } from '@/commons/validators'
 import { groupDispatchResolver } from '../group/group.resolver'
 import { userDispatchResolver } from '../../core/user/user.resolver'

@@ -9,7 +9,7 @@ import { BadRequest, Forbidden } from '@feathersjs/errors/lib'
 import path from 'path'
 import fs from 'fs'
 
-describe('workspace service', () => {
+describe('[core] workspace service', () => {
   const app = createApp()
   const builder = builderTestEnvironment('core-workspace')
   let setupData: SetupData
@@ -980,6 +980,8 @@ $BODY$;
       })
     })
   })
+
+  it.todo("don't take in consideration a slug given for creation (and maybe throw an error ?)")
 
   afterAll(async () => {
     await builder.teardownWorkspace()

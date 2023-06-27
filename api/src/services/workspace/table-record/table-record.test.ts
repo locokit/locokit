@@ -51,4 +51,10 @@ describe('table-record service', () => {
   // tests on all related endpoints for synchronization
   // tests on record Create / Update / Delete using validators & resolvers
   // tests on record query through nested relations using validators
+
+  it.todo('use the right role to access dedicated schema for GET')
+  it.todo('use the right role to access dedicated schema for POST')
+  it.todo('use the right role to access dedicated schema for PUT')
+  it.todo('use the right role to access dedicated schema for DELETE')
+  it.todo('use the right role to access dedicated schema for ?')
 })
