@@ -34,3 +34,5 @@ declare module '@feathersjs/feathers' {
     docs?: ServiceSwaggerOptions
   }
 }
+
+export type stringNumberUndefined = string | number | undefined
