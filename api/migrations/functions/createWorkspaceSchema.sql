@@ -153,6 +153,32 @@ BEGIN
 
   -- CREATE all tables for metamodel
 
+  CREATE TABLE "migration" (
+    id uuid NOT NULL DEFAULT gen_random_uuid(),
+
+    name character varying(50),
+
+    "datasourceId" uuid NOT NULL,
+
+    applied timestamp with time zone DEFAULT null,
+    reverted timestamp with time zone DEFAULT null,
+
+    "diffToApply" jsonb DEFAULT null,
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "PK_migration" PRIMARY KEY (id),
+    CONSTRAINT "FK_migration_datasource" FOREIGN KEY ("datasourceId")
+      REFERENCES "datasource" (id) MATCH SIMPLE
+      ON UPDATE NO ACTION
+      ON DELETE CASCADE
+  );
+
+  CREATE INDEX IF NOT EXISTS "IDX_migration_datasource"
+    ON "migration" USING btree
+    ("datasourceId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+
   CREATE TABLE "table" (
     CONSTRAINT "PK_table" PRIMARY KEY (id),
     CONSTRAINT "UNQ_table_slug" UNIQUE ("schema", slug, "datasourceId"),
@@ -194,6 +220,12 @@ BEGIN
     CONSTRAINT "UNQ_tableField_slug" UNIQUE (slug, "tableId"),
     CONSTRAINT "PK_tableField" PRIMARY KEY (id),
     CONSTRAINT "CHECK_tableField_type" CHECK (type = ANY (ARRAY[
+      --
+      -- Ids
+      --
+      'ID_NUMBER'::text,
+      'ID_UUID'::text,
+
       --
       -- Primitives
       --
