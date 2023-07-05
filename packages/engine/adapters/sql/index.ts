@@ -1,9 +1,15 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { Params } from '@feathersjs/feathers'
 import knex, { Knex } from 'knex'
 import schemaInspector from 'knex-schema-inspector'
 import { Column } from 'knex-schema-inspector/dist/types/column'
-import { ConnexionSQL, GenericAdapter, Field, Table, PaginatedResult } from '../interface'
+import {
+  ConnexionSQL,
+  GenericAdapter,
+  Field,
+  Table,
+  PaginatedResult,
+  GenericMigrationItem,
+} from '../interface'
 import {
   Model,
   JSONSchema,
@@ -13,12 +19,18 @@ import {
 } from 'objection'
 import { getJSONTypeFromSQLType } from '../../utils/sqlTypeConverter'
 import { objectify } from './objectify'
+import { logger } from '../../logger'
+import { DB_TYPE } from '@locokit/definitions'
+
+const adapterLogger = logger.child({ service: 'engine', name: 'sql-adapter' })
 
 const implementedEngines = ['sqlite3', 'pg']
 
 export class SQLAdapter implements GenericAdapter {
   database: Knex
   databaseObjectionModel: Record<string, typeof Model> = {}
+
+  connexion: ConnexionSQL
 
   constructor(connexion: ConnexionSQL) {
     /**
@@ -29,10 +41,11 @@ export class SQLAdapter implements GenericAdapter {
         // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         'This engine is unknown. Please use one of ' + implementedEngines.concat(', ') + '.',
       )
+    this.connexion = connexion
     this.database = knex({
       client: connexion.type,
       connection: connexion.options,
-      debug: true,
+      // debug: true,
     })
   }
 
@@ -41,6 +54,12 @@ export class SQLAdapter implements GenericAdapter {
    * create objection model according table + columns schema
    */
   async boot(): Promise<void> {
+    if (this.connexion.type === 'pg') {
+      if (this.connexion.role) await this.database.raw('SET ROLE ??', [this.connexion.role])
+      if (this.connexion.schema) {
+        await this.database.raw('SET SEARCH_PATH TO ??', [this.connexion.schema])
+      }
+    }
     const inspector = schemaInspector(this.database)
     /**
      * Fetch all tables to create Objection's Model for each one
@@ -178,9 +197,10 @@ export class SQLAdapter implements GenericAdapter {
    *
    * If type is API like, will ask for an Open API spec ?
    */
-  async retrieveSchema() {
+  async retrieveSchema(schema?: string): Promise<Table[]> {
     const result: Table[] = []
     const inspector = schemaInspector(this.database)
+    if (schema) inspector.withSchema?.(schema)
     const tables = await inspector.tables()
     await Promise.all(
       tables.map(async (tableName: string) => {
@@ -201,6 +221,11 @@ export class SQLAdapter implements GenericAdapter {
     return tables
   }
 
+  async retrieveTable(tableName: string): Promise<Table> {
+    const inspector = schemaInspector(this.database)
+    return await inspector.tableInfo(tableName)
+  }
+
   async retrieveTableSchema(tableName: string) {
     const result = {
       name: tableName,
@@ -211,17 +236,130 @@ export class SQLAdapter implements GenericAdapter {
     return result
   }
 
-  async retrieveTable(tableName: string) {
-    const inspector = schemaInspector(this.database)
-    const result = await inspector.tableInfo(tableName)
-    return result
+  async applyMigration(migrationItems: GenericMigrationItem[]): Promise<void> {
+    adapterLogger.info('migration applying for schema %s...', this.connexion.schema)
+    const itemsCreated: string[] = []
+    if (this.connexion.schema) this.database.schema.withSchema(this.connexion.schema)
+
+    /**
+     * Create a transaction
+     */
+    const transaction = await this.database.transaction()
+    try {
+      /**
+       * First, create all tables that need to be created
+       * and their fields
+       */
+      const tables = migrationItems.filter((m) => m.target === 'TABLE' && m.action === 'CREATE')
+      const fields = migrationItems.filter((m) => m.target === 'FIELD' && m.action === 'CREATE')
+      const relations = migrationItems.filter(
+        (m) => m.target === 'RELATION' && m.action === 'CREATE',
+      )
+      const query = this.database.schema
+      tables.forEach((t) => {
+        const tableName = t.settings.name
+        adapterLogger.info('creating table %s', tableName)
+
+        const tableFields = fields.filter((f) => f.settings.table === tableName)
+        const tableRelations = relations.filter((r) => r.settings.fromTable === tableName)
+
+        query.withSchema(t.settings.schema).createTable(tableName, (table) => {
+          tableFields.forEach((f) => {
+            const fieldName = f.settings.name
+            adapterLogger.info('creating column %s.%s', tableName, f.settings.name)
+            let field: Knex.ColumnBuilder
+            switch (f.settings.dbType as DB_TYPE) {
+              case 'uuid':
+                field = table.uuid(fieldName)
+                if (f.settings.primary) field.defaultTo(this.database.raw('gen_random_uuid()'))
+                break
+              case 'datetime':
+              case 'timestamp':
+              case 'timestamptz':
+                field = table.datetime(fieldName)
+                break
+              case 'integer':
+                field = table.integer(fieldName)
+                break
+              case 'geometry':
+                field = table.geometry(fieldName)
+                break
+              default:
+                field = table.string(fieldName)
+            }
+            if (f.settings.default) {
+              switch (f.settings.dbType as DB_TYPE) {
+                case 'datetime':
+                case 'date':
+                  if (f.settings.default === 'NOW') field.defaultTo(this.database.fn.now())
+                  break
+                default:
+                  field.defaultTo(f.settings.default)
+              }
+            }
+            if (f.settings.unique) field.unique()
+            if (f.settings.primary) field.primary()
+            if (f.settings.notNullable) field.notNullable()
+            if (f.settings.indexable) {
+              table.index(fieldName)
+            }
+
+            itemsCreated.push(`${tableName as string}.${fieldName as string}`)
+          })
+          tableRelations.forEach((r) => {
+            adapterLogger.info('creating foreign key %s.%s', tableName, r.settings.name)
+            table
+              .foreign(
+                r.settings.fromField,
+                `FK_${tableName as string}_${r.settings.fromField as string}`,
+              )
+              .references(r.settings.toField)
+              .inTable(`${r.settings.toSchema as string}.${r.settings.toTable as string}`)
+          })
+          itemsCreated.push(`${tableName as string}`)
+        })
+      })
+
+      /**
+       * Then, create all fields that need to be created
+       * for existing tables
+       */
+
+      /**
+       * Add new relations / constraint
+       */
+
+      /**
+       * Then, updates all tables that need to be updated
+       */
+
+      /**
+       * Fields to be udpated
+       */
+
+      /**
+       * Relations...
+       */
+
+      /**
+       * Now, remove old stuff
+       */
+
+      await query
+
+      await transaction.commit()
+    } catch (error: any) {
+      adapterLogger.error('migration did not succeed.', error)
+      await transaction.rollback()
+    }
+    adapterLogger.info('end of migration')
   }
 
-  async queryTable<T>(tableName: string, params?: Params): Promise<PaginatedResult<T>> {
-    console.log('queryTable', tableName, params?.query)
+  async query<T>(tableName: string, params?: any): Promise<PaginatedResult<T>> {
+    adapterLogger.debug('queryTable', tableName, params?.query)
     const { $limit = 20, $offset = 0, $joinRelated, $select, ...realQuery } = params?.query ?? {}
 
-    console.log($limit, $offset, $joinRelated, realQuery)
+    adapterLogger.debug($limit, $offset, $joinRelated, realQuery)
     const result = {
       total: 0,
       limit: $limit,
@@ -243,7 +381,7 @@ export class SQLAdapter implements GenericAdapter {
        */
       if (Array.isArray($joinRelated)) {
         $joinRelated.forEach((r) => {
-          console.log('join ', r)
+          adapterLogger.debug('join ', r)
           query.withGraphFetched(r)
           totalQuery.withGraphFetched(r)
 
@@ -255,12 +393,12 @@ export class SQLAdapter implements GenericAdapter {
            * apply to the current relation,
            * and so apply it to the select of graphFetched
            */
-          console.log($select)
+          adapterLogger.debug($select)
           if ($select) {
             const allSubSelect: string[] = []
             $select.forEach((currentSelect: string, index: number) => {
               if (currentSelect.indexOf(r) === 0) {
-                console.log('$select for relation ', r, currentSelect)
+                adapterLogger.debug('$select for relation ', r, currentSelect)
                 allSubSelect.push(currentSelect)
                 $select.splice(index, 1)
               }
@@ -278,7 +416,7 @@ export class SQLAdapter implements GenericAdapter {
           //   (key) => key.indexOf(r) === 0
           // )
           // relationQuery.forEach((rq) => {
-          //   console.log('fetch joined modify graph', rq, r, {
+          //   adapterLogger.debug('fetch joined modify graph', rq, r, {
           //     [rq.substring(r.length + 1)]: realQuery[rq],
           //   })
           //   query.modifyGraph(r, (builder) =>
@@ -301,7 +439,7 @@ export class SQLAdapter implements GenericAdapter {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       query.select(selectFields)
     }
-    console.log('real query', realQuery)
+    adapterLogger.debug('real query', realQuery)
     /**
      * Remove id filter to add tableName in front of to avoid incoherence
      * TODO: need to be recursive
@@ -318,15 +456,15 @@ export class SQLAdapter implements GenericAdapter {
     }>
     result.total = parseInt(total[0].count, 10)
 
-    console.log(realQuery, $select)
+    adapterLogger.debug(realQuery, $select)
     objectify(query, realQuery)
 
     result.data = (await query) as unknown as T[]
     return result
   }
 
-  async getRecord<T>(tableName: string, id: string | number, params?: Params): Promise<T> {
-    console.log(tableName, id, this.databaseObjectionModel)
+  async get<T>(tableName: string, id: string | number, params?: any): Promise<T> {
+    adapterLogger.debug(tableName, id, this.databaseObjectionModel)
     const { $joinRelated, $select } = params?.query ?? {}
 
     const model = this.databaseObjectionModel[tableName]
@@ -355,7 +493,7 @@ export class SQLAdapter implements GenericAdapter {
             const allSubSelect: string[] = []
             $select.forEach((currentSelect: string, index: number) => {
               if (currentSelect.startsWith(r)) {
-                console.log('$select for relation ', r, currentSelect)
+                adapterLogger.debug('$select for relation ', r, currentSelect)
                 allSubSelect.push(currentSelect)
                 $select.splice(index, 1)
               }
@@ -373,7 +511,7 @@ export class SQLAdapter implements GenericAdapter {
           //   (key) => key.indexOf(r) === 0
           // )
           // relationQuery.forEach((rq) => {
-          //   console.log('fetch joined modify graph', rq, r, {
+          //   adapterLogger.debug('fetch joined modify graph', rq, r, {
           //     [rq.substring(r.length + 1)]: realQuery[rq],
           //   })
           //   query.modifyGraph(r, (builder) =>
@@ -401,54 +539,54 @@ export class SQLAdapter implements GenericAdapter {
     return result as unknown as T
   }
 
-  async createRecord<T>(tableName: string, data: Partial<T>): Promise<T> {
-    console.log('createRecord lck engine', tableName, data)
-    console.log('createRecord lck engine', this.databaseObjectionModel[tableName])
-    console.log(this.databaseObjectionModel[tableName])
+  async create<T>(tableName: string, data: Partial<T>): Promise<T> {
+    adapterLogger.debug('createRecord lck engine', tableName, data)
+    adapterLogger.debug('createRecord lck engine', this.databaseObjectionModel[tableName])
+    adapterLogger.debug(this.databaseObjectionModel[tableName])
 
     return (await this.databaseObjectionModel[tableName]
       .query(this.database)
       .insertAndFetch(data)) as unknown as T
   }
 
-  async updateRecord<T>(tableName: string, id: string | number, record: Partial<T>): Promise<T> {
-    console.log('updateRecord lck engine', tableName, id, record)
-    console.log('updateRecord lck engine', this.databaseObjectionModel[tableName])
+  async update<T>(tableName: string, id: string | number, record: Partial<T>): Promise<T> {
+    adapterLogger.debug('updateRecord lck engine', tableName, id, record)
+    adapterLogger.debug('updateRecord lck engine', this.databaseObjectionModel[tableName])
     const object = await this.databaseObjectionModel[tableName].query(this.database).findById(id)
 
-    console.log(object)
+    adapterLogger.debug(object)
 
-    console.log(this.databaseObjectionModel[tableName])
+    adapterLogger.debug(this.databaseObjectionModel[tableName])
 
     return (await this.databaseObjectionModel[tableName]
       .query(this.database)
       .updateAndFetchById(id, record)) as unknown as T
   }
 
-  async patchRecord<T>(tableName: string, id: string | number, record: Partial<T>): Promise<T> {
-    console.log('patchRecord lck engine', tableName, id, record)
-    console.log('patchRecord lck engine', this.databaseObjectionModel[tableName])
+  async patch<T>(tableName: string, id: string | number, record: Partial<T>): Promise<T> {
+    adapterLogger.debug('patchRecord lck engine', tableName, id, record)
+    adapterLogger.debug('patchRecord lck engine', this.databaseObjectionModel[tableName])
     const object = await this.databaseObjectionModel[tableName].query(this.database).findById(id)
 
-    console.log(object)
+    adapterLogger.debug(object)
 
-    console.log(this.databaseObjectionModel[tableName])
+    adapterLogger.debug(this.databaseObjectionModel[tableName])
 
     return (await this.databaseObjectionModel[tableName]
       .query(this.database)
       .patchAndFetchById(id, record)) as unknown as T
   }
 
-  async deleteRecord<T>(tableName: string, id: string | number): Promise<T | null> {
-    console.log('deleteRecord lck engine', tableName, id)
-    console.log('deleteRecord lck engine', this.databaseObjectionModel[tableName])
+  async delete<T>(tableName: string, id: string | number): Promise<T | null> {
+    adapterLogger.debug('deleteRecord lck engine', tableName, id)
+    adapterLogger.debug('deleteRecord lck engine', this.databaseObjectionModel[tableName])
     const object = await this.databaseObjectionModel[tableName].query(this.database).findById(id)
 
-    console.log(object)
+    adapterLogger.debug(object)
 
     if (!object) throw new Error('Record not found')
 
-    console.log(this.databaseObjectionModel[tableName])
+    adapterLogger.debug(this.databaseObjectionModel[tableName])
 
     await this.databaseObjectionModel[tableName].query(this.database).deleteById(id)
 
