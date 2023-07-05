@@ -9,6 +9,12 @@ import { sqliteDbTypes } from './sqlite/dbType'
  */
 export const FIELD_TYPE = Object.freeze({
   /**
+   * Ids
+   */
+  ID_NUMBER: 'ID_NUMBER',
+  ID_UUID: 'ID_UUID',
+
+  /**
    * Primitives
    */
   BOOLEAN: 'BOOLEAN',
@@ -67,10 +73,6 @@ export const FIELD_TYPE = Object.freeze({
 
 export type DB_TYPE = pgDbTypes | sqliteDbTypes
 export type DB_DIALECT = 'pg' | 'sqlite3'
-// Object.freeze({
-//   pg: 'pg',
-//   sqlite3: 'sqlite3',
-// })
 
 export function convertDBTypeToFieldType(
   dbDialect: DB_DIALECT,
@@ -141,6 +143,7 @@ export function convertDBTypeToFieldType(
             return FIELD_TYPE.STRING
           }
       }
+      break
     /**
      * Check https://www.sqlite.org/datatype3.html
      */
@@ -170,6 +173,8 @@ export function convertDBTypeToFieldType(
           throw new Error('New data type found without matching field type : ' + dbType)
       }
     default:
-      throw new Error('New dialect found without matching : ' + dbDialect)
+      throw new Error(`New dialect found without matching : ${dbDialect as string}`)
   }
+
+  throw new Error(`No matching found`)
 }

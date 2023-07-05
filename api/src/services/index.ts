@@ -13,7 +13,7 @@ import { groupService } from './core/group/group'
 import { userGroupService } from './core/user-group/user-group'
 
 import { datasourceService } from './workspace/datasource/datasource'
-// import { migrationService } from './workspace/migration/migration'
+import { migrationService } from './workspace/migration/migration'
 import { tableService } from './workspace/table/table'
 import { tableFieldService } from './workspace/table-field/table-field'
 import { tableRecordService } from './workspace/table-record/table-record'
@@ -46,12 +46,11 @@ export const services = (app: Application): void => {
 
   /**
    * Workspace dedicated endpoint
-   * These endpoints are available as root endpoints
-   * but also with route params
+   * These endpoints are available with route params (only ?...)
    */
   app.configure(datasourceService)
   app.configure(datasourceMermaidService)
-  // app.configure(migrationService)
+  app.configure(migrationService)
   app.configure(tableService)
   app.configure(tableFieldService)
   app.configure(tableRelationService)
@@ -62,6 +61,10 @@ export const services = (app: Application): void => {
 
   /**
    * Automations (when it will be done)
+   */
+
+  /**
+   * Applications (when it will be done)
    */
 
   /**

@@ -1,14 +1,13 @@
 import { SERVICES } from '@locokit/definitions'
 import type { Application } from '@/declarations'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
-
-import { Datasource } from './datasource.class'
-import { datasourceDataSchema, datasourceQuerySchema, datasourceSchema } from './datasource.schema'
-import { DatasourceModel } from './datasource.model'
-import { datasourceHooks } from './datasource.hooks'
+import { MigrationModel } from './migration.model'
+import { Migration } from './migration.class'
+import { migrationDataSchema, migrationQuerySchema, migrationSchema } from './migration.schema'
+import { migrationHooks } from './migration.hooks'
 
 /**
- * The datasource is pointing a table `datasource`
+ * The migration is pointing a table `migration`
  * but it needs a schema.
  *
  * The schema is specific to the workspace.
@@ -16,37 +15,37 @@ import { datasourceHooks } from './datasource.hooks'
  * We can't know the schema in advance,
  * so it is set dynamically with a dedicated hook.
  */
-export function datasourceService(app: Application): void {
+export function migrationService(app: Application): void {
   const options = {
     paginate: app.get('paginate'),
-    Model: DatasourceModel,
-    name: 'datasource',
+    Model: MigrationModel,
+    name: 'migration',
   }
 
   // Register our service on the Feathers application
-  app.use(SERVICES.WORKSPACE_DATASOURCE, new Datasource(options), {
+  app.use(SERVICES.WORKSPACE_MIGRATION, new Migration(options), {
     // A list of all methods this service exposes externally
-    methods: ['find', 'get', 'create', 'update', 'patch', 'remove'],
+    methods: ['create', 'patch', 'remove', 'apply', 'revert'],
     // You can add additional custom events to be sent to clients here
     events: [],
     docs: createSwaggerServiceOptions({
       schemas: {
-        datasourceDataSchema,
-        datasourceQuerySchema,
-        datasourceSchema,
+        migrationDataSchema,
+        migrationQuerySchema,
+        migrationSchema,
       },
       docs: {
-        tag: 'workspace > datasource',
+        tag: 'workspace > migration',
       },
     }),
   })
   // Initialize hooks
-  app.service(SERVICES.WORKSPACE_DATASOURCE).hooks(datasourceHooks)
+  app.service(SERVICES.WORKSPACE_MIGRATION).hooks(migrationHooks)
 }
 
 // Add this service to the service type index
 declare module '@/declarations' {
   interface ServiceTypes {
-    [SERVICES.WORKSPACE_DATASOURCE]: Datasource
+    [SERVICES.WORKSPACE_MIGRATION]: Migration
   }
 }

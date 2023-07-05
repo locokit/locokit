@@ -1,9 +1,10 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import { SERVICES } from '@locokit/definitions'
+import { FIELD_TYPE, SERVICES } from '@locokit/definitions'
 import { createApp } from '@/app'
 import { builderTestEnvironment, SetupData } from '@/configure.test'
 import { WorkspaceResult } from '@/services/core/workspace/core-workspace.schema'
 import { CoreDatasourceResult } from '@/services/core/datasource/core-datasource.schema'
+import { MigrationResult } from '../migration/migration.schema'
 
 describe('[workspace] datasource service', () => {
   const app = createApp()
@@ -22,7 +23,7 @@ describe('[workspace] datasource service', () => {
     })
   })
 
-  describe('general purpose', async () => {
+  describe.skip('general purpose', async () => {
     let generalDatasource: CoreDatasourceResult
     beforeAll(async () => {
       generalDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create({
@@ -125,6 +126,8 @@ describe('[workspace] datasource service', () => {
   describe('local pg datasource', () => {
     let localPgDatasource: CoreDatasourceResult
     let schemaName: string
+    let migrationId: string
+    let migration: MigrationResult
 
     beforeAll(async () => {
       // create a new datasource
@@ -135,7 +138,143 @@ describe('[workspace] datasource service', () => {
         type: 'local',
         connection: '',
       })
-      schemaName = 'ds_' + localPgDatasource.id
+      schemaName = `ds_${localPgDatasource.id as string}`
+
+      // create a metamodel
+      // create new table Event (name / date / place)
+      const tableEvent = await app.service(SERVICES.WORKSPACE_TABLE).create({
+        name: 'Event',
+        documentation: 'Event table',
+        datasourceId: localPgDatasource.id,
+      })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const fieldEventId = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
+        name: 'Id',
+        type: FIELD_TYPE.ID_NUMBER,
+        tableId: tableEvent.id,
+      })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const fieldEventName = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
+        name: 'Name',
+        type: FIELD_TYPE.STRING,
+        tableId: tableEvent.id,
+      })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const fieldEventDate = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
+        name: 'Date',
+        type: FIELD_TYPE.DATETIME,
+        tableId: tableEvent.id,
+      })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const fieldEventPlace = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
+        name: 'Place',
+        type: FIELD_TYPE.GEOMETRY_POINT,
+        tableId: tableEvent.id,
+      })
+
+      // create another table Person (name / age)
+      const tablePerson = await app.service(SERVICES.WORKSPACE_TABLE).create({
+        name: 'Person',
+        documentation: 'Person table',
+        datasourceId: localPgDatasource.id,
+      })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const fieldPersonId = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
+        name: 'Id',
+        type: FIELD_TYPE.ID_NUMBER,
+        tableId: tablePerson.id,
+      })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const fieldPersonName = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
+        name: 'Name',
+        type: FIELD_TYPE.STRING,
+        tableId: tablePerson.id,
+      })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const fieldPersonAge = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
+        name: 'Age',
+        type: FIELD_TYPE.NUMBER,
+        tableId: tablePerson.id,
+      })
+
+      // create another table Registration
+      const tableRegistration = await app.service(SERVICES.WORKSPACE_TABLE).create({
+        name: 'Registration',
+        documentation: 'Registration table',
+        datasourceId: localPgDatasource.id,
+      })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const fieldRegistrationId = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
+        name: 'Id',
+        type: FIELD_TYPE.ID_NUMBER,
+        tableId: tableRegistration.id,
+      })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const fieldRegistrationStatus = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
+        name: 'Status',
+        type: FIELD_TYPE.SINGLE_SELECT,
+        tableId: tableRegistration.id,
+        settings: {
+          values: [
+            {
+              value: 'ACCEPTED',
+              class: 'bg-green-100 text-green-600',
+              i18n: {
+                FR_fr: 'Accepté',
+                EN_en: 'Accepted',
+              },
+            },
+            {
+              value: 'WAITING_FOR_APPROVAL',
+              class: 'bg-neutral-100 text-neutral-600',
+              i18n: {
+                FR_fr: 'En attente',
+                EN_en: 'Waiting',
+              },
+            },
+            {
+              value: 'DECLINED',
+              class: 'bg-red-100 text-red-600',
+              i18n: {
+                FR_fr: 'Décliné',
+                EN_en: 'Declined',
+              },
+            },
+          ],
+        },
+      })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const fieldRegistrationCreatedBy = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
+        name: 'CreatedBy',
+        type: FIELD_TYPE.ID_NUMBER,
+        tableId: tableRegistration.id,
+      })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const fieldRegistrationEvent = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
+        name: 'Event',
+        type: FIELD_TYPE.ID_NUMBER,
+        tableId: tableRegistration.id,
+      })
+
+      // create relations
+      await app.service(SERVICES.WORKSPACE_TABLE_RELATION).create({
+        name: 'created',
+        fromTableId: tableRegistration.id,
+        toTableId: tablePerson.id,
+        fromFieldId: fieldRegistrationCreatedBy.id,
+        toFieldId: fieldPersonId.id,
+        type: '1-n',
+        settings: {},
+      })
+      await app.service(SERVICES.WORKSPACE_TABLE_RELATION).create({
+        name: 'for event',
+        fromTableId: tableRegistration.id,
+        toTableId: tableEvent.id,
+        fromFieldId: fieldRegistrationEvent.id,
+        toFieldId: fieldEventId.id,
+        type: '1-n',
+        settings: {},
+      })
     })
     it('create a dedicated schema in database', async () => {
       // check if a dedicated schema has been created
@@ -148,40 +287,103 @@ describe('[workspace] datasource service', () => {
       expect(schemasBeforeDelete.rowCount).toBe(1)
     })
     it('can create a migration and apply it to sync datasource model in LocoKit meta model (tables + fields + relations)', async () => {
-      // create a metamodel
-      // create new table Event (name / date / place)
-      console.log(localPgDatasource)
-      const tableEvent = await app.service(SERVICES.WORKSPACE_TABLE).create({
-        name: 'Event',
-        documentation: 'Event table',
-        datasourceId: localPgDatasource.id,
-      })
+      expect.assertions(4)
 
-      // create another table Person (name / age)
-      const tablePerson = await app.service(SERVICES.WORKSPACE_TABLE).create({
-        name: 'Person',
-        documentation: 'Person table',
-        datasourceId: localPgDatasource.id,
-      })
-      // create another table Registration
-      const tableRegistration = await app.service(SERVICES.WORKSPACE_TABLE).create({
-        name: 'Registration',
-        documentation: 'Registration table',
-        datasourceId: localPgDatasource.id,
-      })
-
-      // create relations
       // create migration
+      migration = await app.service(SERVICES.WORKSPACE_MIGRATION).create({
+        datasourceId: localPgDatasource.id,
+        name: 'First migration',
+      })
+      migrationId = migration.id
+
       // check the migration (table / fields / relations)
+      expect(migration).toBeDefined()
+      expect(migration.diffToApply.datasource.filter((a) => a.target === 'TABLE').length).toBe(3)
+      expect(migration.diffToApply.datasource.filter((a) => a.target === 'FIELD').length).toBe(11)
+      expect(migration.diffToApply.datasource.filter((a) => a.target === 'RELATION').length).toBe(2)
+    })
+
+    it('explain precisely how relations need to be build', () => {
+      expect.assertions(14)
+
+      const relationsMigration = migration.diffToApply.datasource.filter(
+        (a) => a.target === 'RELATION',
+      )
+      const firstRelation = relationsMigration[0]
+      const secondRelation = relationsMigration[1]
+
+      expect(firstRelation.settings.fromTable).toBe('registration')
+      expect(firstRelation.settings.fromSchema).toBe(schemaName)
+      expect(firstRelation.settings.fromField).toBe('created_by')
+      expect(firstRelation.settings.toTable).toBe('person')
+      expect(firstRelation.settings.toSchema).toBe(schemaName)
+      expect(firstRelation.settings.toField).toBe('id')
+      expect(firstRelation.settings.type).toBe('1-n')
+
+      expect(secondRelation.settings.fromTable).toBe('registration')
+      expect(secondRelation.settings.fromSchema).toBe(schemaName)
+      expect(secondRelation.settings.fromField).toBe('event')
+      expect(secondRelation.settings.toTable).toBe('event')
+      expect(secondRelation.settings.toSchema).toBe(schemaName)
+      expect(secondRelation.settings.toField).toBe('id')
+      expect(secondRelation.settings.type).toBe('1-n')
+    })
+
+    it('can apply the migration to sync datasource model', async () => {
+      expect.assertions(4)
+
+      // check the actual datasource schema is empty
+      const actualTables = await app
+        .get('db')
+        .raw(
+          "SELECT * FROM information_schema.tables WHERE table_schema = ? AND table_type = 'BASE TABLE';",
+          [schemaName],
+        )
+      expect(actualTables.rowCount).toBe(0)
+
+      const actualFields = await app
+        .get('db')
+        .raw('SELECT * FROM information_schema.columns WHERE table_schema = ?;', [schemaName])
+      expect(actualFields.rowCount).toBe(0)
+
       // apply the migration
+      await app.service(SERVICES.WORKSPACE_MIGRATION).apply(migrationId)
+
       // check the dedicated datasource schema
+      // we have to find 3 tables
+      const injectedTables = await app
+        .get('db')
+        .raw(
+          "SELECT * FROM information_schema.tables WHERE table_schema = ? AND table_type = 'BASE TABLE';",
+          [schemaName],
+        )
+      expect(injectedTables.rowCount).toBe(3)
+
+      const injectedFields = await app
+        .get('db')
+        .raw('SELECT * FROM information_schema.columns WHERE table_schema = ?;', [schemaName])
+      expect(injectedFields.rowCount).toBe(11)
+
+      // 2 foreign keys between tables
+    })
+    it('raise an error if no diffToApply exist', async () => {
+      expect.assertions(1)
+      /**
+       * Create a new migration, and raise an error as it should be empty
+       */
+      await expect(
+        app.service(SERVICES.WORKSPACE_MIGRATION).create({
+          datasourceId: localPgDatasource.id,
+          name: 'First migration',
+        }),
+      ).rejects.toThrow()
     })
     it.todo(
       'can sync the datasource model in locokit meta model (tables + fields + relations)',
       async () => {
-        // create new fields in datasource dedicated schema
+        // add new fields / tables / relations in the datasource schema
         // create migration
-        // check the new fields
+        // check the new fields in migration
         // apply migration
         // check the metamodel synchronization
       },

@@ -67,7 +67,7 @@ export type TableRelationSchema = Static<typeof tableRelationSchema>
 
 export const tableRelationDataSchema = Type.Omit(
   tableRelationSchema,
-  ['id', 'createdAt', 'updatedAt'],
+  ['id', 'slug', 'createdAt', 'updatedAt'],
   {
     $id: 'TableRelationData',
     additionalProperties: false,
@@ -75,6 +75,20 @@ export const tableRelationDataSchema = Type.Omit(
 )
 export type TableRelationData = Static<typeof tableRelationDataSchema>
 export const tableRelationDataValidator = getValidator(tableRelationDataSchema, dataValidator)
+
+export const tableRelationDataInternalSchema = Type.Omit(
+  tableRelationSchema,
+  ['id', 'createdAt', 'updatedAt'],
+  {
+    $id: 'TableRelationDataInternal',
+    additionalProperties: false,
+  },
+)
+export type TableRelationDataInternal = Static<typeof tableRelationDataInternalSchema>
+export const tableRelationDataInternalValidator = getValidator(
+  tableRelationDataInternalSchema,
+  dataValidator,
+)
 
 export const tableRelationPatchSchema = Type.Omit(
   tableRelationDataSchema,

@@ -23,6 +23,42 @@ export class WorkspaceService extends ObjectionService<
   WorkspaceParams,
   Partial<WorkspacePatch>
 > {
+  async create(
+    data: WorkspaceData | WorkspaceDataInternal,
+    params?: WorkspaceParams,
+  ): Promise<WorkspaceResult>
+  async create(
+    data: WorkspaceData[] | WorkspaceDataInternal[],
+    params?: WorkspaceParams,
+  ): Promise<WorkspaceResult[]>
+  async create(
+    data: WorkspaceData | WorkspaceDataInternal | WorkspaceData[] | WorkspaceDataInternal[],
+    params?: WorkspaceParams,
+  ): Promise<WorkspaceResult | WorkspaceResult[]> {
+    const currentWorkspace = await this._create(data, params)
+
+    /**
+     * Create the dedicated schema for the current workspace
+     * or all created workspaces
+     */
+    const knex = this.Model.knex()
+
+    if (Array.isArray(currentWorkspace)) {
+      await Promise.all(
+        currentWorkspace.map(async (w) => {
+          await knex
+            .raw('SELECT core."createWorkspaceSchema"(?)', w.id)
+            .transacting(params?.transaction?.trx as Transaction)
+        }),
+      )
+    } else {
+      await knex
+        .raw('SELECT core."createWorkspaceSchema"(?)', currentWorkspace.id)
+        .transacting(params?.transaction?.trx as Transaction)
+    }
+    return currentWorkspace
+  }
+
   /**
    * Remove a workspace, according to authenticated user :
    * * if the user is a member / creator, mark the workspace as "soft-deleted"

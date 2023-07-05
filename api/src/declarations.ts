@@ -10,6 +10,8 @@ import { ConfigurationSchema } from './commons/configuration.schema'
 import { ServiceSwaggerOptions } from 'feathers-swagger'
 
 import { UserResult } from './services/core/user/user.schema'
+import { WorkspaceResult } from './services/core/workspace/core-workspace.schema'
+import { CoreDatasourceResult } from './services/core/datasource/core-datasource.schema'
 
 export { NextFunction }
 
@@ -21,7 +23,14 @@ export interface ServiceTypes {}
 // The application instance type that will be used everywhere else
 export type Application = FeathersApplication<ServiceTypes, Configuration>
 
-export type HookContext<S = any> = FeathersHookContext<Application, S>
+export type HookContext<S = any> = FeathersHookContext<Application, S> & {
+  $locokit?: {
+    currentWorkspace?: WorkspaceResult
+    currentWorkspaceSlug?: string
+    currentDatasource?: CoreDatasourceResult
+    currentDatasourceSlug?: string
+  }
+}
 export type Hook<S = any> = FeathersHook<Application, S>
 export type HookFunction<S = any> = FeathersHookFunction<Application, S>
 

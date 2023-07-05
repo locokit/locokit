@@ -2,6 +2,7 @@ import { Type, Static, StringEnum, querySyntax, getValidator } from '@feathersjs
 import { dataValidator, queryValidator } from '@/commons/validators'
 import { TableResult } from '../table/table.schema'
 import { DB_DIALECT } from '@locokit/definitions'
+import { WorkspaceResult } from '@/services/core/workspace/core-workspace.schema'
 
 export const datasourceSchema = Type.Object(
   {
@@ -85,6 +86,7 @@ export const datasourceResultSchema = datasourceSchema
 export type DatasourceResult = Static<typeof datasourceResultSchema> &
   DatasourceRelations & {
     client: DB_DIALECT
+    workspace?: WorkspaceResult
   }
 
 // Schema / validator for creation

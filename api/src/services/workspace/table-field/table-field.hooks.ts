@@ -1,30 +1,14 @@
 import { authenticate } from '@feathersjs/authentication'
 import { hooks as schemaHooks } from '@feathersjs/schema'
 import { transaction } from '@/feathers-objection'
-import { HookContext } from '@/declarations'
 
 import { tableFieldResolvers } from './table-field.resolver'
-import { tableFieldDataValidator, tableFieldQueryValidator } from './table-field.schema'
-import { SERVICES } from '@locokit/definitions'
-import { TableResult } from '../table/table.schema'
-
-async function setWorkspaceSchema(context: HookContext) {
-  const { transaction } = context.params
-  const tableId = context.method === 'create' ? context.data.tableId : context.params.query.tableId
-  const table = (await context.app.service(SERVICES.CORE_TABLE).get(tableId, {
-    transaction,
-    query: {
-      $eager: 'datasource',
-    },
-  })) as TableResult
-  const workspace = await context.app
-    .service(SERVICES.CORE_WORKSPACE)
-    .get(table.datasource.workspaceId, {
-      transaction,
-    })
-  context.service.schema = `w_${workspace.slug}`
-  return context
-}
+import {
+  tableFieldDataValidator,
+  tableFieldDataInternalValidator,
+  tableFieldQueryValidator,
+} from './table-field.schema'
+import { setLocoKitContext } from '@/hooks/locokit'
 
 export const tableFieldHooks = {
   around: {
@@ -35,17 +19,18 @@ export const tableFieldHooks = {
     get: [
       schemaHooks.resolveQuery(tableFieldResolvers.query),
       schemaHooks.validateData(tableFieldQueryValidator),
-      setWorkspaceSchema,
+      setLocoKitContext,
     ],
     find: [
       schemaHooks.resolveQuery(tableFieldResolvers.query),
       schemaHooks.validateData(tableFieldQueryValidator),
-      setWorkspaceSchema,
+      setLocoKitContext,
     ],
     create: [
-      schemaHooks.resolveData(tableFieldResolvers.data.create),
       schemaHooks.validateData(tableFieldDataValidator),
-      setWorkspaceSchema,
+      setLocoKitContext,
+      schemaHooks.resolveData(tableFieldResolvers.data.create),
+      schemaHooks.validateData(tableFieldDataInternalValidator),
     ],
   },
   after: {

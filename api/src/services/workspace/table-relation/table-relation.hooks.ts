@@ -1,36 +1,14 @@
 import { authenticate } from '@feathersjs/authentication'
 import { hooks as schemaHooks } from '@feathersjs/schema'
 import { transaction } from '@/feathers-objection'
-import { HookContext } from '@/declarations'
+import { disallow } from 'feathers-hooks-common'
 
 import { tableRelationResolvers } from './table-relation.resolver'
-import { tableRelationDataValidator } from './table-relation.schema'
-import { SERVICES } from '@locokit/definitions'
-import { MethodNotAllowed } from '@feathersjs/errors/lib'
-import { TableResult } from '../table/table.schema'
-
-async function setWorkspaceSchema(context: HookContext) {
-  const { transaction } = context.params
-  if (!['create', 'patch'].includes(context.method))
-    throw new MethodNotAllowed(
-      'Cannot set workspace schema. Only POST and PATCH methods are allowed',
-    )
-
-  const tableId = context.data.fromTableId
-  const table = (await context.app.service(SERVICES.CORE_TABLE).get(tableId, {
-    transaction,
-    query: {
-      $eager: 'datasource',
-    },
-  })) as TableResult
-  const workspace = await context.app
-    .service(SERVICES.CORE_WORKSPACE)
-    .get(table.datasource.workspaceId, {
-      transaction,
-    })
-  context.service.schema = `w_${workspace.slug as string}`
-  return context
-}
+import {
+  tableRelationDataValidator,
+  tableRelationDataInternalValidator,
+} from './table-relation.schema'
+import { setLocoKitContext } from '@/hooks/locokit'
 
 export const tableRelationHooks = {
   around: {
@@ -38,15 +16,22 @@ export const tableRelationHooks = {
   },
   before: {
     all: [transaction.start()],
+
+    get: [disallow()],
+    find: [disallow()],
+    update: [disallow()],
+    remove: [disallow()],
+
     create: [
-      schemaHooks.resolveData(tableRelationResolvers.data.create),
       schemaHooks.validateData(tableRelationDataValidator),
-      setWorkspaceSchema,
+      setLocoKitContext,
+      schemaHooks.resolveData(tableRelationResolvers.data.create),
+      schemaHooks.validateData(tableRelationDataInternalValidator),
     ],
     patch: [
       schemaHooks.resolveData(tableRelationResolvers.data.patch),
       schemaHooks.validateData(tableRelationDataValidator),
-      setWorkspaceSchema,
+      setLocoKitContext,
     ],
   },
   after: {
