@@ -307,7 +307,7 @@ export class SQLAdapter implements GenericAdapter {
             itemsCreated.push(`${tableName as string}.${fieldName as string}`)
           })
           tableRelations.forEach((r) => {
-            adapterLogger.info('creating foreign key %s.%s', tableName, r.settings.name)
+            adapterLogger.info('creating foreign key %s.%s', tableName, r.settings.fromField)
             table
               .foreign(
                 r.settings.fromField,
