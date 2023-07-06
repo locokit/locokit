@@ -30,7 +30,7 @@ export class Migration extends ObjectionService<MigrationResult, MigrationData, 
    *
    * Real schema > Meta model
    */
-  async apply(id: Id, params?: MigrationParams) {
+  async apply(id: Id, params?: MigrationParams): Promise<MigrationResult> {
     /**
      * Retrieve the migration to apply and which schema
      */
@@ -202,7 +202,11 @@ export class Migration extends ObjectionService<MigrationResult, MigrationData, 
       )
     }
 
-    // throw new NotImplemented('apply migration is not yet implemented')
+    return this._patch(
+      id,
+      { applied: new Date().toISOString() },
+      { transaction: params?.transaction },
+    )
   }
 
   async revert() {
