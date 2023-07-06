@@ -341,17 +341,16 @@ export const migrationDataResolver = resolve<MigrationDataInternal, HookContext>
           })
         })
         table.relations?.forEach((relation: TableRelationResult) => {
-          console.log(relation)
           diffToApply.datasource.push({
             action: 'CREATE',
             target: 'RELATION',
             settings: {
               fromTable: table.slug,
               fromSchema: table.schema || `ds_${datasource.id as string}`,
-              fromField: relation.fromField.slug,
-              toTable: relation.toTable.slug,
-              toField: relation.toField.slug,
-              toSchema: relation.toTable.schema || `ds_${datasource.id as string}`,
+              fromField: relation.fromField?.slug,
+              toTable: relation.toTable?.slug,
+              toField: relation.toField?.slug,
+              toSchema: `ds_${relation.toTable?.datasourceId as string}`,
               type: relation.type,
             },
           })
@@ -362,8 +361,7 @@ export const migrationDataResolver = resolve<MigrationDataInternal, HookContext>
     /**
      * Check that there is no conflict between both directions MM <> DS,
      * eg if there is a migration for the same field / table / relation
-     */
-    /**
+     *
      * If so, raise an error for the moment to avoid any circular problem
      */
 
