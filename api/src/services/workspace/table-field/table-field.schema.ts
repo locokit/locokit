@@ -10,6 +10,11 @@ export const tableFieldSchema = Type.Object(
     name: Type.String({
       description: 'Name of the field',
     }),
+    documentation: Type.Optional(
+      Type.String({
+        description: 'Documentation of the field',
+      }),
+    ),
     type: Type.String({
       description: 'Type of the field',
     }),
