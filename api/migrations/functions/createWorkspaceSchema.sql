@@ -85,7 +85,7 @@ BEGIN
   -- CREATE tables from core schema
   --
   EXECUTE format('CREATE TABLE "policy" (
-    workspaceId uuid DEFAULT ''%s'',
+    "workspaceId" uuid DEFAULT ''%s'',
 
     CONSTRAINT "PK_policy" PRIMARY KEY (id),
 
@@ -97,7 +97,7 @@ BEGIN
   ) INHERITS ("core"."lck_policy")', workspace_id);
 
   EXECUTE format('CREATE TABLE "group" (
-    workspaceId uuid DEFAULT ''%s'',
+    "workspaceId" uuid DEFAULT ''%s'',
 
     CONSTRAINT "PK_group" PRIMARY KEY (id),
 
