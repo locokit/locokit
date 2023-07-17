@@ -18,6 +18,7 @@ export function toSnakeCase(text: string): string {
       (_, s1: string, s2: string, s3: string) => s1 + s2.toLowerCase() + s3,
     )
     .replace(/([A-Z]+)([A-Z][a-z])/g, (_, s1: string, s2: string) => s1.toLowerCase() + ' ' + s2)
+    .replace(/([A-Z])([A-Z]+)/g, (_, s1: string, s2: string) => `${s1}${s2.toLowerCase()}`)
     .replace(/\W+/g, ' ')
     .split(/ |\B(?=[A-Z])/)
     .map((word) => word.toLowerCase())

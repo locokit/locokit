@@ -9,6 +9,7 @@ describe('[toSnakeCase] utils to snake case', () => {
     snakeCase: 'snake_case',
     CustomerID: 'customer_id',
     GPS: 'gps',
+    'IP address': 'ip_address',
     'IP-address': 'ip_address',
     'Another & Another, one too': 'another_another_one_too',
     'random ----- Thing123': 'random_thing123',
