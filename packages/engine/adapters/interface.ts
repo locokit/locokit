@@ -66,7 +66,6 @@ export interface PaginatedResult<T> {
   /**
    * Offset used to retrieve records
    */
-  offset: number
   skip: number
   /**
    * Array of records

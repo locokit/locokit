@@ -1,4 +1,5 @@
 import { Params } from '@feathersjs/feathers'
+import { DiffItem } from '@locokit/definitions'
 import { ConnexionBaserow, GenericAdapter, Field, Table } from '../interface'
 
 export class BaserowAdapter implements GenericAdapter {
@@ -77,7 +78,7 @@ export class BaserowAdapter implements GenericAdapter {
     return result
   }
 
-  async applyMigration(migration: GenericMigrationItem[]): Promise<void> {
+  async applyMigration(migration: DiffItem[]): Promise<void> {
     throw new Error('Migration is not yet implemented for BaseRow Adapter.')
   }
 

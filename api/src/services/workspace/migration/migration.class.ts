@@ -437,11 +437,16 @@ export class Migration extends ObjectionService<
       throw new NotAcceptable('No diff found between datasource and metamodel.')
     }
 
+    // actually, we set diffToApply and the schema is not "accepting it"
+    // we could do the computation of diffToApply in a resolver,
+    // but errors thrown are encapsulated in a generic BadRequest error
+    // need to create an issue on GitHub for this use case
+    // @ts-expect-error
     data.diffToApply = diffToApply
 
     await migrationDataInternalValidator(data)
 
-    return await this._create(data, params)
+    return this._create(data, params)
   }
 
   /**
@@ -637,7 +642,7 @@ export class Migration extends ObjectionService<
       }, Promise.resolve())
     }
 
-    return await this._patch(
+    return this._patch(
       id,
       { applied: new Date().toISOString(), updatedAt: new Date().toISOString() },
       { transaction: params?.transaction },

@@ -3,7 +3,11 @@ import type { Application } from '@/declarations'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
 import { MigrationModel } from './migration.model'
 import { Migration } from './migration.class'
-import { migrationDataSchema, migrationQuerySchema, migrationSchema } from './migration.schema'
+import {
+  migrationDataExternalSchema,
+  migrationQuerySchema,
+  migrationSchema,
+} from './migration.schema'
 import { migrationHooks } from './migration.hooks'
 
 /**
@@ -30,7 +34,7 @@ export function migrationService(app: Application): void {
     events: [],
     docs: createSwaggerServiceOptions({
       schemas: {
-        migrationDataSchema,
+        migrationDataExternalSchema,
         migrationQuerySchema,
         migrationSchema,
       },

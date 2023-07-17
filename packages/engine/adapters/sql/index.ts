@@ -396,13 +396,13 @@ export class SQLAdapter implements GenericAdapter {
 
   async query<T>(tableName: string, params?: any): Promise<PaginatedResult<T>> {
     adapterLogger.debug('queryTable', tableName, params?.query)
-    const { $limit = 20, $offset = 0, $joinRelated, $select, ...realQuery } = params?.query ?? {}
+    const { $limit = 20, $skip = 0, $joinRelated, $select, ...realQuery } = params?.query ?? {}
 
-    adapterLogger.debug($limit, $offset, $joinRelated, realQuery)
+    adapterLogger.debug($limit, $skip, $joinRelated, realQuery)
     const result = {
       total: 0,
       limit: $limit,
-      offset: $offset,
+      skip: $skip,
       data: [] as T[],
     }
 
@@ -410,7 +410,7 @@ export class SQLAdapter implements GenericAdapter {
 
     if (!model) throw new Error(`Table ${tableName} is unknown.`)
 
-    const query = model.query(this.database).limit($limit).offset($offset)
+    const query = model.query(this.database).limit($limit).offset($skip)
     const totalQuery = model.query(this.database).countDistinct(tableName + '.id', { as: 'count' })
 
     if ($joinRelated) {
