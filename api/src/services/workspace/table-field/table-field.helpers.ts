@@ -15,13 +15,13 @@ export function convertLocoKitFieldTypeToDBType(
           return 'uuid'
         case FIELD_TYPE.SINGLE_SELECT:
         case FIELD_TYPE.STRING:
-          return 'varchar'
+          return 'character varying'
         case FIELD_TYPE.TEXT:
           return 'text'
         case FIELD_TYPE.DATE:
           return 'date'
         case FIELD_TYPE.DATETIME:
-          return 'timestamptz'
+          return 'timestamp with time zone'
         case FIELD_TYPE.BOOLEAN:
           return 'boolean'
         case FIELD_TYPE.NUMBER:

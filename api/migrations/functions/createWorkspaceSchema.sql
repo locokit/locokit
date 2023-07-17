@@ -239,6 +239,9 @@ BEGIN
 
       'DATE'::text,
       'DATETIME'::text,
+
+      'UUID'::text,
+
       --
       -- Users / groups
       --

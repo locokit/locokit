@@ -28,6 +28,8 @@ export const FIELD_TYPE = Object.freeze({
   DATE: 'DATE',
   DATETIME: 'DATETIME',
 
+  UUID: 'UUID',
+
   /**
    * Users / groups
    */
@@ -77,6 +79,7 @@ export type DB_DIALECT = 'pg' | 'sqlite3'
 export function convertDBTypeToFieldType(
   dbDialect: DB_DIALECT,
   dbType: DB_TYPE | undefined,
+  primary: boolean = false,
 ): keyof typeof FIELD_TYPE {
   if (!dbDialect) throw new Error('Dialect undefined.')
   if (!dbType) throw new Error('Data type undefined.')
@@ -109,7 +112,7 @@ export function convertDBTypeToFieldType(
         case 'smallint':
         case 'integer':
         case 'bigint':
-          return FIELD_TYPE.NUMBER
+          return primary ? FIELD_TYPE.ID_NUMBER : FIELD_TYPE.NUMBER
         case 'numeric':
           return FIELD_TYPE.FLOAT
 
@@ -137,6 +140,8 @@ export function convertDBTypeToFieldType(
           return FIELD_TYPE.JSON
         case 'inet':
           return FIELD_TYPE.NETWORK
+        case 'uuid':
+          return primary ? FIELD_TYPE.ID_UUID : FIELD_TYPE.UUID
         default:
           if (process.env.NODE_ENV === 'production') {
             console.warn('New data type found without matching field type : ' + dbType)
