@@ -200,8 +200,8 @@ BEGIN
   CREATE TABLE "tableField" (
     id uuid NOT NULL DEFAULT gen_random_uuid(),
     name character varying(50),
-    type character varying(20),
-    "dbType" character varying(20),
+    type character varying(24),
+    "dbType" character varying(30),
     slug character varying(50),
     documentation text,
     position integer,
