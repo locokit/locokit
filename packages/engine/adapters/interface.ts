@@ -67,6 +67,7 @@ export interface PaginatedResult<T> {
    * Offset used to retrieve records
    */
   offset: number
+  skip: number
   /**
    * Array of records
    */
@@ -105,7 +106,11 @@ export interface GenericAdapter {
     params?: Params & { query: Record<string, any> },
   ) => Promise<PaginatedResult<T>>
 
-  get: <Result>(tableName: string, id: string | number) => Promise<Result>
+  get: <Result>(
+    tableName: string,
+    id: string | number,
+    params?: Params & { query: Record<string, any> },
+  ) => Promise<Result>
 
   create: <Result>(tableName: string, record: Partial<Result>) => Promise<Result>
 

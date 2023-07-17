@@ -93,7 +93,7 @@ export const datasourceQueryResolver = resolve<DatasourceQuery, HookContext>({
       /**
        * For find
        */
-      const { workspaceSlug } = context.params?.route
+      const { workspaceSlug } = context.params?.route ?? {}
 
       if (!workspaceSlug) throw new NotFound('Workspace not found')
       const workspace: Paginated<WorkspaceResult> = await context.app

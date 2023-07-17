@@ -1,5 +1,5 @@
 import { Params } from '@feathersjs/feathers'
-import { ConnexionBaserow, GenericAdapter, Field, Table, GenericMigrationItem } from '../interface'
+import { ConnexionBaserow, GenericAdapter, Field, Table } from '../interface'
 
 export class BaserowAdapter implements GenericAdapter {
   apiURL

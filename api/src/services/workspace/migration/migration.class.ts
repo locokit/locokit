@@ -441,7 +441,7 @@ export class Migration extends ObjectionService<
 
     await migrationDataInternalValidator(data)
 
-    return this._create(data, params)
+    return await this._create(data, params)
   }
 
   /**
@@ -637,7 +637,7 @@ export class Migration extends ObjectionService<
       }, Promise.resolve())
     }
 
-    return this._patch(
+    return await this._patch(
       id,
       { applied: new Date().toISOString(), updatedAt: new Date().toISOString() },
       { transaction: params?.transaction },

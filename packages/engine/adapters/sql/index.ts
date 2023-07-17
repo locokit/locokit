@@ -13,7 +13,13 @@ import {
 import { getJSONTypeFromSQLType } from '../../utils/sqlTypeConverter'
 import { objectify } from './objectify'
 import { logger } from '../../logger'
-import { DB_TYPE } from '@locokit/definitions'
+import {
+  DB_TYPE,
+  DiffItem,
+  DiffItemField,
+  DiffItemRelation,
+  DiffItemTable,
+} from '@locokit/definitions'
 
 const adapterLogger = logger.child({ service: 'engine', name: 'sql-adapter' })
 
@@ -256,7 +262,7 @@ export class SQLAdapter implements GenericAdapter {
     return result
   }
 
-  async applyMigration(migrationItems: GenericMigrationItem[]): Promise<void> {
+  async applyMigration(migrationItems: DiffItem[]): Promise<void> {
     adapterLogger.info('migration applying for schema %s...', this.connexion.schema)
     const itemsCreated: string[] = []
     if (this.connexion.schema) this.database.schema.withSchema(this.connexion.schema)
@@ -270,11 +276,15 @@ export class SQLAdapter implements GenericAdapter {
        * First, create all tables that need to be created
        * and their fields
        */
-      const tables = migrationItems.filter((m) => m.target === 'TABLE' && m.action === 'CREATE')
-      const fields = migrationItems.filter((m) => m.target === 'FIELD' && m.action === 'CREATE')
+      const tables = migrationItems.filter(
+        (m) => m.target === 'TABLE' && m.action === 'CREATE',
+      ) as DiffItemTable[]
+      const fields = migrationItems.filter(
+        (m) => m.target === 'FIELD' && m.action === 'CREATE',
+      ) as DiffItemField[]
       const relations = migrationItems.filter(
         (m) => m.target === 'RELATION' && m.action === 'CREATE',
-      )
+      ) as DiffItemRelation[]
       const query = this.database.schema
       tables.forEach((t) => {
         const tableName = t.settings.name
@@ -283,8 +293,9 @@ export class SQLAdapter implements GenericAdapter {
         const tableFields = fields.filter((f) => f.settings.table === tableName)
         const tableRelations = relations.filter((r) => r.settings.fromTable === tableName)
 
-        query.withSchema(t.settings.schema).createTable(tableName, (table) => {
-          table.comment(t.settings.documentation)
+        t.settings.schema && query.withSchema(t.settings.schema)
+        query.createTable(tableName, (table) => {
+          t.settings.documentation && table.comment(t.settings.documentation)
           tableFields.forEach((f) => {
             const fieldName = f.settings.name
             adapterLogger.info('creating column %s.%s', tableName, f.settings.name)
@@ -322,10 +333,10 @@ export class SQLAdapter implements GenericAdapter {
             if (f.settings.unique) field.unique()
             if (f.settings.primary) field.primary()
             if (!f.settings.nullable) field.notNullable()
-            if (f.settings.indexable) {
-              table.index(fieldName)
-            }
-            field.comment(f.settings.documentation)
+            // if (f.settings.indexable) {
+            //   table.index(fieldName)
+            // }
+            f.settings.documentation && field.comment(f.settings.documentation)
 
             itemsCreated.push(`${tableName as string}.${fieldName as string}`)
           })
