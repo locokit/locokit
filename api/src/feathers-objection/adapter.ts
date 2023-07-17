@@ -818,7 +818,7 @@ export class ObjectionAdapter<
 
   async _findOrGet(id: NullableId, params: ServiceParams = {} as ServiceParams) {
     const { name, id: idField } = this.getOptions(params)
-    objectionLogger.info('_findOrGet for id: %s, with idField: %s', id, idField)
+    objectionLogger.debug('_findOrGet for id: %s, with idField: %s', id, idField)
 
     /**
      * Compute ids query for comoposable keys

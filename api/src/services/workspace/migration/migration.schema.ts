@@ -1,5 +1,6 @@
-import { Type, Static, StringEnum, querySyntax, getValidator } from '@feathersjs/typebox'
+import { Type, Static, querySyntax, getValidator } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '@/commons/validators'
+import { diffSchema } from '@locokit/definitions'
 
 export const migrationSchema = Type.Object(
   {
@@ -32,28 +33,7 @@ export const migrationSchema = Type.Object(
      *
      * https://stackoverflow.com/questions/60526168/how-to-create-a-column-that-can-store-an-array-of-objects-using-knex-postgres
      */
-    diffToApply: Type.Object(
-      {
-        datasource: Type.Array(
-          Type.Object({
-            action: StringEnum(['CREATE', 'UPDATE', 'REMOVE']),
-            target: StringEnum(['TABLE', 'FIELD', 'RELATION']),
-            settings: Type.Any({}),
-          }),
-        ),
-        metamodel: Type.Array(
-          Type.Object({
-            action: StringEnum(['CREATE', 'UPDATE', 'REMOVE']),
-            target: StringEnum(['TABLE', 'FIELD', 'RELATION']),
-            settings: Type.Any({}),
-          }),
-        ),
-      },
-      {
-        description: 'Diff to apply when migration is applied',
-        default: [],
-      },
-    ),
+    diffToApply: Type.Ref(diffSchema),
     createdAt: Type.String({
       format: 'date-time',
       description: 'Creation date of the migration',
@@ -75,31 +55,44 @@ export type MigrationSchema = Static<typeof migrationSchema>
 export const migrationResultSchema = migrationSchema
 export type MigrationResult = Static<typeof migrationResultSchema>
 
-export const migrationDataSchema = Type.Omit(
+export const migrationDataExternalSchema = Type.Omit(
   migrationSchema,
-  ['id', 'diffToApply', 'createdAt', 'updatedAt'],
+  ['id', 'diffToApply', 'applied', 'reverted', 'createdAt', 'updatedAt'],
   {
     $id: 'MigrationData',
     additionalProperties: false,
   },
 )
-export type MigrationData = Static<typeof migrationDataSchema>
-export const migrationDataValidator = getValidator(migrationDataSchema, dataValidator)
 
-export const migrationDataInternalSchema = Type.Omit(migrationSchema, ['id'], {
-  $id: 'MigrationDataInternal',
-  additionalProperties: false,
-})
+export type MigrationData = Static<typeof migrationDataExternalSchema>
+export const migrationDataExternalValidator = getValidator(
+  migrationDataExternalSchema,
+  dataValidator,
+)
+
+export const migrationDataInternalSchema = Type.Omit(
+  migrationSchema,
+  ['id', 'applied', 'reverted'],
+  {
+    $id: '#/locokit/MigrationDataInternal',
+    additionalProperties: false,
+  },
+)
 export type MigrationDataInternal = Static<typeof migrationDataInternalSchema>
+
 export const migrationDataInternalValidator = getValidator(
   migrationDataInternalSchema,
   dataValidator,
 )
 
-export const migrationPatchSchema = Type.Pick(migrationSchema, ['name', 'applied', 'reverted'], {
-  $id: 'MigrationPatch',
-  additionalProperties: false,
-})
+export const migrationPatchSchema = Type.Pick(
+  migrationSchema,
+  ['applied', 'reverted', 'updatedAt'],
+  {
+    $id: 'MigrationPatch',
+    additionalProperties: false,
+  },
+)
 export type MigrationPatch = Static<typeof migrationPatchSchema>
 export const migrationPatchValidator = getValidator(migrationPatchSchema, dataValidator)
 

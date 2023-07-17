@@ -5,6 +5,9 @@ import { SERVICES } from '@locokit/definitions'
 
 import workspaceMigrationHelper from './workspaceMigration.helper'
 import workspaceDatasourceHelper from './workspaceDatasource.helper'
+import { logger } from '@/logger'
+
+const locokitContextLogger = logger.child({ service: 'hook-locokit-context' })
 
 /**
  * Set LocoKit data useful for services :
@@ -16,6 +19,7 @@ import workspaceDatasourceHelper from './workspaceDatasource.helper'
  * Those data are populated according route params
  */
 export async function setLocoKitContext(context: HookContext) {
+  locokitContextLogger.info('starting...')
   const { transaction } = context.params
 
   context.$locokit = {}
@@ -23,6 +27,7 @@ export async function setLocoKitContext(context: HookContext) {
   const { workspaceSlug, datasourceSlug /* tableSlug, datasetSlug */ } = context.params?.route || {}
 
   if (workspaceSlug) {
+    locokitContextLogger.debug('workspace slug found: %s', workspaceSlug)
     const workspace = await context.app.service(SERVICES.CORE_WORKSPACE).find({
       transaction,
       query: {
@@ -36,6 +41,8 @@ export async function setLocoKitContext(context: HookContext) {
     context.service.schema = `w_${workspace.data[0].slug as string}`
 
     if (datasourceSlug) {
+      locokitContextLogger.debug('datasource slug found: %s', datasourceSlug)
+
       const datasource = await context.app.service(SERVICES.WORKSPACE_DATASOURCE).find({
         transaction,
         query: {
@@ -48,6 +55,8 @@ export async function setLocoKitContext(context: HookContext) {
       context.$locokit.currentDatasource = datasource.data[0]
     }
   } else {
+    locokitContextLogger.debug('what is the service of "%s" ?', context.path)
+
     /**
      * For service TABLE_FIELD,
      * we try to search the workspace,
@@ -55,12 +64,15 @@ export async function setLocoKitContext(context: HookContext) {
      */
     switch ('/' + context.path) {
       case SERVICES.WORKSPACE_DATASOURCE:
+        locokitContextLogger.debug('workspace datasource service found (method %s)', context.method)
         await workspaceDatasourceHelper(context)
         break
       case SERVICES.WORKSPACE_MIGRATION:
+        locokitContextLogger.debug('workspace migration service found (method %s)', context.method)
         await workspaceMigrationHelper(context)
         break
       case SERVICES.WORKSPACE_TABLE:
+        locokitContextLogger.debug('workspace table service found (method %s)', context.method)
         const datasourceId =
           context.method === 'create'
             ? context.data.datasourceId
@@ -83,6 +95,10 @@ export async function setLocoKitContext(context: HookContext) {
 
         break
       case SERVICES.WORKSPACE_TABLE_FIELD:
+        locokitContextLogger.debug(
+          'workspace table field service found (method %s)',
+          context.method,
+        )
         switch (context.method) {
           /**
            * We know the tableId,
@@ -115,6 +131,10 @@ export async function setLocoKitContext(context: HookContext) {
         }
         break
       case SERVICES.WORKSPACE_TABLE_RELATION:
+        locokitContextLogger.debug(
+          'workspace table relation service found (method %s)',
+          context.method,
+        )
         const tableId = context.data.fromTableId
         const table = (await context.app.service(SERVICES.CORE_TABLE).get(tableId, {
           transaction,
@@ -140,6 +160,7 @@ export async function setLocoKitContext(context: HookContext) {
         throw new NotImplemented('LocoKit context is uncomplete. Need to implement this.')
     }
   }
+  locokitContextLogger.info('ending... schema found: %s', context.service.schema)
 
   return context
 }

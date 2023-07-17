@@ -1,10 +1,11 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import { FIELD_TYPE, SERVICES } from '@locokit/definitions'
+import { DiffItemRelation, FIELD_TYPE, SERVICES } from '@locokit/definitions'
 import { createApp } from '@/app'
 import { builderTestEnvironment, SetupData } from '@/configure.test'
 import { WorkspaceResult } from '@/services/core/workspace/core-workspace.schema'
 import { CoreDatasourceResult } from '@/services/core/datasource/core-datasource.schema'
 import { MigrationResult } from '../migration/migration.schema'
+import { NotAcceptable } from '@feathersjs/errors'
 
 describe('[workspace] datasource service', () => {
   const app = createApp()
@@ -147,24 +148,28 @@ describe('[workspace] datasource service', () => {
         documentation: 'Event table',
         datasourceId: localPgDatasource.id,
       })
+
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const fieldEventId = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
         name: 'Id',
         type: FIELD_TYPE.ID_NUMBER,
         tableId: tableEvent.id,
       })
+
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const fieldEventName = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
         name: 'Name',
         type: FIELD_TYPE.STRING,
         tableId: tableEvent.id,
       })
+
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const fieldEventDate = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
         name: 'Date',
         type: FIELD_TYPE.DATETIME,
         tableId: tableEvent.id,
       })
+
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const fieldEventPlace = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
         name: 'Place',
@@ -215,6 +220,12 @@ describe('[workspace] datasource service', () => {
         type: FIELD_TYPE.SINGLE_SELECT,
         tableId: tableRegistration.id,
         settings: {
+          primary: false,
+          unique: false,
+          foreign: false,
+          nullable: true,
+          default: 'ACCEPTED',
+          maxLength: null,
           values: [
             {
               value: 'ACCEPTED',
@@ -248,12 +259,28 @@ describe('[workspace] datasource service', () => {
         name: 'CreatedBy',
         type: FIELD_TYPE.ID_NUMBER,
         tableId: tableRegistration.id,
+        settings: {
+          primary: false,
+          unique: false,
+          foreign: true,
+          nullable: false,
+          default: null,
+          maxLength: null,
+        },
       })
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const fieldRegistrationEvent = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
         name: 'Event',
         type: FIELD_TYPE.ID_NUMBER,
         tableId: tableRegistration.id,
+        settings: {
+          primary: false,
+          unique: false,
+          foreign: true,
+          nullable: false,
+          default: null,
+          maxLength: null,
+        },
       })
 
       // create relations
@@ -286,8 +313,8 @@ describe('[workspace] datasource service', () => {
         ])
       expect(schemasBeforeDelete.rowCount).toBe(1)
     })
-    it('can create a migration and apply it to sync datasource model in LocoKit meta model (tables + fields + relations)', async () => {
-      expect.assertions(4)
+    it('can create a migration', async () => {
+      expect.assertions(5)
 
       // create migration
       migration = await app.service(SERVICES.WORKSPACE_MIGRATION).create({
@@ -298,6 +325,7 @@ describe('[workspace] datasource service', () => {
 
       // check the migration (table / fields / relations)
       expect(migration).toBeDefined()
+      expect(migration.diffToApply.metamodel.length).toBe(0)
       expect(migration.diffToApply.datasource.filter((a) => a.target === 'TABLE').length).toBe(3)
       expect(migration.diffToApply.datasource.filter((a) => a.target === 'FIELD').length).toBe(11)
       expect(migration.diffToApply.datasource.filter((a) => a.target === 'RELATION').length).toBe(2)
@@ -308,7 +336,7 @@ describe('[workspace] datasource service', () => {
 
       const relationsMigration = migration.diffToApply.datasource.filter(
         (a) => a.target === 'RELATION',
-      )
+      ) as DiffItemRelation[]
       const firstRelation = relationsMigration[0]
       const secondRelation = relationsMigration[1]
 
@@ -329,7 +357,7 @@ describe('[workspace] datasource service', () => {
       expect(secondRelation.settings.type).toBe('1-n')
     })
 
-    it('can apply the migration to sync datasource model', async () => {
+    it('can apply the migration to sync datasource model in LocoKit meta model (tables + fields + relations)', async () => {
       expect.assertions(4)
 
       // check the actual datasource schema is empty
@@ -374,21 +402,91 @@ describe('[workspace] datasource service', () => {
       await expect(
         app.service(SERVICES.WORKSPACE_MIGRATION).create({
           datasourceId: localPgDatasource.id,
-          name: 'First migration',
+          name: 'After first migration',
         }),
-      ).rejects.toThrow()
+      ).rejects.toThrowError(NotAcceptable)
     })
-    it.todo(
-      'can sync the datasource model in locokit meta model (tables + fields + relations)',
-      async () => {
-        // add new fields / tables / relations in the datasource schema
-        // create migration
-        // check the new fields in migration
-        // apply migration
-        // check the metamodel synchronization
-      },
-    )
-    it.todo('can retrieve migrations', async () => {})
+    it('can sync the datasource model in locokit meta model (tables + fields + relations)', async () => {
+      expect.assertions(15)
+
+      // add new fields / tables / relations in the datasource schema
+      await app
+        .get('db')
+        .schema.withSchema(schemaName)
+        .createTable('city', (table) => {
+          table.uuid('id', { primaryKey: true }).defaultTo(app.get('db').raw('gen_random_uuid()'))
+          table.string('name', 255).notNullable()
+          table.string('state', 255).notNullable()
+          table.unique(['name', 'state'])
+          table.specificType('coordinates', 'public.geometry').notNullable()
+        })
+      await app
+        .get('db')
+        .schema.withSchema(schemaName)
+        .table('person', (table) => {
+          table.uuid('preferredCity')
+          table
+            .foreign('preferredCity', 'FK_person_city')
+            .references('id')
+            .inTable(`${schemaName}.city`)
+          table.index('preferredCity', 'IDX_person_city')
+        })
+
+      // create migration
+      const migration = await app.service(SERVICES.WORKSPACE_MIGRATION).create({
+        datasourceId: localPgDatasource.id,
+        name: 'Second migration',
+      })
+      migrationId = migration.id
+
+      // check the migration (table / fields / relations)
+      expect(migration).toBeDefined()
+      expect(migration.diffToApply.datasource.length).toBe(0)
+      expect(migration.diffToApply.metamodel.length).toBe(7)
+      expect(migration.diffToApply.metamodel.filter((a) => a.target === 'TABLE').length).toBe(1)
+      const fieldsMetaModel = migration.diffToApply.metamodel.filter((a) => a.target === 'FIELD')
+      expect(fieldsMetaModel.length).toBe(5)
+      const relationsMetaModel = migration.diffToApply.metamodel.filter(
+        (a) => a.target === 'RELATION',
+      )
+      expect(relationsMetaModel.length).toBe(1)
+
+      // apply migration
+      await app.service(SERVICES.WORKSPACE_MIGRATION).apply(migrationId)
+
+      // check the metamodel synchronization
+      // we normally will have 4 tables
+      const datasource = await app
+        .service(SERVICES.WORKSPACE_DATASOURCE)
+        .get(localPgDatasource.id, {
+          query: {
+            $eager: 'tables.[fields, relations]',
+          },
+        })
+      expect(datasource.tables?.length).toBe(4)
+      expect(datasource.tables?.[0].fields?.length).toBe(4)
+      expect(datasource.tables?.[1].fields?.length).toBe(4)
+      expect(datasource.tables?.[2].fields?.length).toBe(4)
+      expect(datasource.tables?.[3].fields?.length).toBe(4)
+
+      expect(datasource.tables?.[0].relations?.length).toBe(0)
+      expect(datasource.tables?.[1].relations?.length).toBe(1)
+      expect(datasource.tables?.[2].relations?.length).toBe(2)
+      expect(datasource.tables?.[3].relations?.length).toBe(0)
+    })
+    it('can retrieve migrations', async () => {
+      expect.assertions(4)
+
+      const migrations = await app.service(SERVICES.WORKSPACE_MIGRATION).find({
+        query: {
+          datasourceId: localPgDatasource.id,
+        },
+      })
+      expect(migrations).toBeDefined()
+      expect(migrations.data.length).toBe(2)
+      expect(migrations.data[0].applied).toBeDefined()
+      expect(migrations.data[1].applied).toBeDefined()
+    })
     it.todo('prevent to sync at the same time the meta model ? (type of transaction ?)')
 
     it.todo('add a table when a new one appear in the datasource')
@@ -400,6 +498,16 @@ describe('[workspace] datasource service', () => {
     it.todo('remove a table when it is removed in the datasource')
     it.todo('remove a field when it is removed in the datasource')
     it.todo('remove a relation when it is removed in the datasource')
+
+    it.todo('add a table when a new one appear in the metamodel')
+    it.todo('add a field when a new one appear in the metamodel')
+    it.todo('add a relation when a new one appear in the metamodel')
+    it.todo('update a table when it is updated in the metamodel')
+    it.todo('update a field when it is updated in the metamodel')
+    it.todo('update a relation when it is updated in the metamodel')
+    it.todo('remove a table when it is removed in the metamodel')
+    it.todo('remove a field when it is removed in the metamodel')
+    it.todo('remove a relation when it is removed in the metamodel')
 
     it.todo('create a relation named correctly')
     it.todo(

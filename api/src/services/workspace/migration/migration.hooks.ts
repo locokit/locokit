@@ -5,8 +5,8 @@ import { transaction } from '@/feathers-objection'
 
 import { migrationResolvers } from './migration.resolver'
 import {
-  migrationDataValidator,
-  migrationDataInternalValidator,
+  migrationDataExternalValidator,
+  migrationPatchValidator,
   migrationQueryValidator,
 } from './migration.schema'
 import { setLocoKitContext } from '@/hooks/locokit'
@@ -21,44 +21,23 @@ export const migrationHooks = {
       schemaHooks.resolveQuery(migrationResolvers.query),
       schemaHooks.validateQuery(migrationQueryValidator),
       setLocoKitContext,
-      // async function setWorkspaceSchema(context: HookContext) {
-      //   const migration: MigrationResult = await context.app
-      //     .service(SERVICES.CORE_DATASOURCE)
-      //     .get(context.id as Id)
-      //   context.service.schema = `w_${migration.workspace?.slug as string}`
-      //   return context
-      // },
     ],
     find: [
       schemaHooks.resolveQuery(migrationResolvers.query),
       schemaHooks.validateQuery(migrationQueryValidator),
       setLocoKitContext,
-      // async function setWorkspaceSchema(context: HookContext) {
-      //   const workspace: WorkspaceResult = await context.app
-      //     .service(SERVICES.CORE_WORKSPACE)
-      //     .get(context.params.query.workspaceId)
-      //   context.service.schema = `w_${workspace.slug as string}`
-      //   return context
-      // },
     ],
     create: [
-      // validator without slug property
       setLocoKitContext,
-      schemaHooks.validateData(migrationDataValidator),
+      schemaHooks.validateData(migrationDataExternalValidator),
       schemaHooks.resolveData(migrationResolvers.data.create),
-      // validator with slug property
-      schemaHooks.validateData(migrationDataInternalValidator),
     ],
-    remove: [
+    patch: [
       setLocoKitContext,
-      // async function setWorkspaceSchema(context: HookContext) {
-      //   const migration: MigrationResult = await context.app
-      //     .service(SERVICES.CORE_DATASOURCE)
-      //     .get(context.id as Id, { query: { $eager: 'workspace' } })
-      //   context.service.schema = `w_${migration.workspace?.slug as string}`
-      //   return context
-      // },
+      schemaHooks.validateData(migrationPatchValidator),
+      schemaHooks.resolveData(migrationResolvers.data.patch),
     ],
+    remove: [setLocoKitContext],
   },
   after: {
     all: [transaction.end()],

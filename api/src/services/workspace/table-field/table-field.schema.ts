@@ -1,6 +1,53 @@
 import { Type, Static, querySyntax, getValidator } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '@/commons/validators'
-import { DB_TYPE, FIELD_TYPE } from '@locokit/definitions'
+import { DB_TYPE, FIELD_TYPE, OptionalNullable, Nullable } from '@locokit/definitions'
+
+export const tableFieldSettings = Type.Object(
+  {
+    primary: Type.Boolean({
+      default: false,
+    }),
+    unique: Type.Boolean({
+      default: false,
+    }),
+    foreign: Type.Boolean({
+      default: false,
+    }),
+    nullable: Type.Boolean({
+      default: true,
+    }),
+    default: Nullable(Type.String({})),
+    /**
+     * Used for STRING fields and DB configuration
+     */
+    maxLength: Nullable(
+      Type.Number({
+        maximum: 255,
+      }),
+    ),
+    /**
+     * Used for SINGLE_SELECT / MULTI_SELECT fields
+     */
+    values: OptionalNullable(
+      Type.Array(
+        Type.Object({
+          value: Type.String(),
+          class: Type.String(),
+          i18n: Type.Object({
+            FR_fr: OptionalNullable(Type.String()),
+            EN_en: OptionalNullable(Type.String()),
+          }),
+        }),
+        {
+          default: null,
+        },
+      ),
+    ),
+  },
+  {
+    description: 'Field settings',
+  },
+)
 
 export const tableFieldSchema = Type.Object(
   {
@@ -10,7 +57,7 @@ export const tableFieldSchema = Type.Object(
     name: Type.String({
       description: 'Name of the field',
     }),
-    documentation: Type.Optional(
+    documentation: OptionalNullable(
       Type.String({
         description: 'Documentation of the field',
       }),
@@ -30,11 +77,7 @@ export const tableFieldSchema = Type.Object(
       format: 'uuid',
       description: 'Related table of the tableField',
     }),
-    settings: Type.Optional(
-      Type.Any({
-        description: 'Field settings',
-      }),
-    ),
+    settings: tableFieldSettings,
     createdAt: Type.String({
       format: 'date-time',
       description: 'Creation date of the field',
@@ -57,9 +100,13 @@ interface TableFieldTypes {
 
 export type TableFieldSchema = Static<typeof tableFieldSchema> & TableFieldTypes
 
-export const tableFieldDataSchema = Type.Omit(
-  tableFieldSchema,
-  ['id', 'slug', 'createdAt', 'updatedAt'],
+export const tableFieldDataSchema = Type.Intersect(
+  [
+    Type.Omit(tableFieldSchema, ['id', 'slug', 'settings', 'createdAt', 'updatedAt']),
+    Type.Object({
+      settings: Type.Optional(tableFieldSettings),
+    }),
+  ],
   {
     $id: 'TableFieldData',
     additionalProperties: false,

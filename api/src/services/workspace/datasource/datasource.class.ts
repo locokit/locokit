@@ -1,8 +1,4 @@
-// import { KnexService } from '@feathersjs/knex'
 import type { KnexAdapterParams } from '@feathersjs/knex'
-import { Column as KnexInspectorColumn } from 'knex-schema-inspector/dist/types/column'
-import { Table as KnexInspectorTable } from 'knex-schema-inspector/dist/types/table'
-import { DB_TYPE } from '@locokit/definitions/src/fieldType'
 
 import { ObjectionService } from '@/feathers-objection'
 
@@ -11,30 +7,6 @@ import { Application } from '@/declarations'
 import { Transaction } from 'objection'
 
 export interface DatasourceParams extends KnexAdapterParams<DatasourceQuery> {}
-
-export interface Migration {
-  action: 'CREATE' | 'UPDATE' | 'REMOVE'
-  target: 'TABLE' | 'FIELD' | 'RELATION'
-  direction: 'METAMODEL' | 'DATASOURCE'
-  settings: Partial<KnexInspectorTable> &
-    Partial<KnexInspectorColumn> &
-    Partial<{
-      dbType: DB_TYPE
-      documentation: string | null
-      type: string | null
-      nullable: boolean
-      primary: boolean
-      default: string | number | null
-      foreign: boolean
-      maxLength: number | null
-      fromTable: string
-      fromSchema: string | null
-      fromField: string
-      toTable: string | null
-      toField: string
-      toSchema: string | null
-    }>
-}
 
 export class Datasource extends ObjectionService<
   DatasourceResult,

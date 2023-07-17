@@ -1,7 +1,7 @@
 import { Ajv, addFormats } from '@feathersjs/schema'
 import type { FormatsPluginOptions } from '@feathersjs/schema'
 import ajvErrors from 'ajv-errors'
-import { USER_PROFILE } from '@locokit/definitions'
+import { addDiffSchemaToValidator, USER_PROFILE } from '@locokit/definitions'
 
 export const formats: FormatsPluginOptions = [
   'date-time',
@@ -34,6 +34,10 @@ dataValidator.addFormat('user-profile', {
   type: 'string',
   validate: (x: string) => Object.keys(USER_PROFILE).includes(x),
 })
+/**
+ * Add definitions schema
+ */
+addDiffSchemaToValidator(dataValidator)
 
 export const queryValidator = ajvErrors(
   addFormats(
@@ -49,3 +53,4 @@ queryValidator.addFormat('user-profile', {
   type: 'string',
   validate: (x: string) => Object.keys(USER_PROFILE).includes(x),
 })
+addDiffSchemaToValidator(queryValidator)

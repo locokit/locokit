@@ -77,7 +77,7 @@
     "feathers-locokit": "",
     "feathers-swagger": "^3.0.0",
     "knex": "^2.1.0",
-    "knex-schema-inspector": "^2.0.2",
+    "knex-schema-inspector": "^3.0.1",
     "koa-helmet": "^6.1.0",
     "koa-ratelimit": "^5.0.1",
     "koa-static": "^5.0.0",

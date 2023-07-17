@@ -2,14 +2,7 @@
 import knex, { Knex } from 'knex'
 import schemaInspector from 'knex-schema-inspector'
 import { Column } from 'knex-schema-inspector/dist/types/column'
-import {
-  ConnexionSQL,
-  GenericAdapter,
-  Field,
-  Table,
-  PaginatedResult,
-  GenericMigrationItem,
-} from '../interface'
+import { ConnexionSQL, GenericAdapter, Field, Table, PaginatedResult } from '../interface'
 import {
   Model,
   JSONSchema,
@@ -36,6 +29,7 @@ export class SQLAdapter implements GenericAdapter {
     /**
      * Check the type is well known for SQL
      */
+    adapterLogger.info('creating adapter for %s', connexion.type)
     if (!implementedEngines.includes(connexion.type))
       throw new Error(
         // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
@@ -54,13 +48,21 @@ export class SQLAdapter implements GenericAdapter {
    * create objection model according table + columns schema
    */
   async boot(): Promise<void> {
+    adapterLogger.info('[boot] booting...')
+
+    const inspector = schemaInspector(this.database)
+
     if (this.connexion.type === 'pg') {
-      if (this.connexion.role) await this.database.raw('SET ROLE ??', [this.connexion.role])
+      if (this.connexion.role) {
+        adapterLogger.info('switching role to %s', this.connexion.role)
+        await this.database.raw('SET ROLE ??', [this.connexion.role])
+      }
       if (this.connexion.schema) {
+        adapterLogger.info('set search path to %s', this.connexion.schema)
         await this.database.raw('SET SEARCH_PATH TO ??', [this.connexion.schema])
+        inspector.withSchema?.(this.connexion.schema)
       }
     }
-    const inspector = schemaInspector(this.database)
     /**
      * Fetch all tables to create Objection's Model for each one
      */
@@ -79,6 +81,8 @@ export class SQLAdapter implements GenericAdapter {
       }),
       {},
     )
+    adapterLogger.info('[boot] %s tables found', Object.keys(tables).length)
+
     /**
      * Fetch also all column info for all of the table
      */
@@ -183,6 +187,7 @@ export class SQLAdapter implements GenericAdapter {
         }
       }
     })
+    adapterLogger.info('[boot] end')
   }
 
   async destroy() {
@@ -198,17 +203,32 @@ export class SQLAdapter implements GenericAdapter {
    * If type is API like, will ask for an Open API spec ?
    */
   async retrieveSchema(schema?: string): Promise<Table[]> {
+    adapterLogger.info('[retrieveSchema] inspecting schema %s', schema)
     const result: Table[] = []
     const inspector = schemaInspector(this.database)
     if (schema) inspector.withSchema?.(schema)
     const tables = await inspector.tables()
+    adapterLogger.info('[retrieveSchema] %s tables found', tables.length)
+
     await Promise.all(
       tables.map(async (tableName: string) => {
+        adapterLogger.info('[retrieveSchema] inspecting table %s', tableName)
         const table = await inspector.tableInfo(tableName)
+        // remove the double quotes for better comparaison
+        const regexpRemovingDoubleQuotes = /^"(.*)"$/
         const columnInfos = await inspector.columnInfo(tableName)
+        columnInfos.forEach((c) => {
+          c.schema = regexpRemovingDoubleQuotes.exec(c.schema ?? '')?.[1]
+        })
+        const foreignInfos = await inspector.foreignKeys(tableName)
+        foreignInfos.forEach((f) => {
+          f.foreign_key_schema = regexpRemovingDoubleQuotes.exec(f.foreign_key_schema ?? '')?.[1]
+        })
         result.push({
           ...table,
+          schema: regexpRemovingDoubleQuotes.exec(table.schema ?? '')?.[1],
           fields: columnInfos,
+          foreigns: foreignInfos,
         })
       }),
     )
@@ -264,6 +284,7 @@ export class SQLAdapter implements GenericAdapter {
         const tableRelations = relations.filter((r) => r.settings.fromTable === tableName)
 
         query.withSchema(t.settings.schema).createTable(tableName, (table) => {
+          table.comment(t.settings.documentation)
           tableFields.forEach((f) => {
             const fieldName = f.settings.name
             adapterLogger.info('creating column %s.%s', tableName, f.settings.name)
@@ -276,6 +297,7 @@ export class SQLAdapter implements GenericAdapter {
               case 'datetime':
               case 'timestamp':
               case 'timestamptz':
+              case 'timestamp with time zone':
                 field = table.datetime(fieldName)
                 break
               case 'integer':
@@ -299,19 +321,25 @@ export class SQLAdapter implements GenericAdapter {
             }
             if (f.settings.unique) field.unique()
             if (f.settings.primary) field.primary()
-            if (f.settings.notNullable) field.notNullable()
+            if (!f.settings.nullable) field.notNullable()
             if (f.settings.indexable) {
               table.index(fieldName)
             }
+            field.comment(f.settings.documentation)
 
             itemsCreated.push(`${tableName as string}.${fieldName as string}`)
           })
           tableRelations.forEach((r) => {
-            adapterLogger.info('creating foreign key %s.%s', tableName, r.settings.fromField)
+            adapterLogger.info(
+              'creating foreign key %s.%s with name %s',
+              tableName,
+              r.settings.fromField,
+              r.settings.name,
+            )
             table
               .foreign(
                 r.settings.fromField,
-                `FK_${tableName as string}_${r.settings.fromField as string}`,
+                r.settings.name ?? `FK_${tableName as string}_${r.settings.fromField as string}`,
               )
               .references(r.settings.toField)
               .inTable(`${r.settings.toSchema as string}.${r.settings.toTable as string}`)

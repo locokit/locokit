@@ -1,6 +1,8 @@
 import { Column } from 'knex-schema-inspector/dist/types/column'
 import { Table as KnexInspectorTable } from 'knex-schema-inspector/dist/types/table'
 import { Params } from '@feathersjs/feathers'
+import { DiffItem } from '@locokit/definitions'
+import { ForeignKey } from 'knex-schema-inspector/dist/types/foreign-key'
 
 /**
  * Field propertys,
@@ -13,6 +15,7 @@ export type Field = Column
  */
 export interface Table extends KnexInspectorTable {
   fields?: Field[]
+  foreigns?: ForeignKey[]
 }
 
 /**
@@ -70,17 +73,6 @@ export interface PaginatedResult<T> {
   data: Array<TableRecord<T>>
 }
 
-export interface GenericMigrationItem {
-  action: 'CREATE' | 'UPDATE' | 'REMOVE'
-  target: 'TABLE' | 'FIELD' | 'RELATION'
-  settings: any
-}
-
-export interface GenericMigration {
-  datasource: GenericMigrationItem[]
-  metamodel: GenericMigrationItem[]
-}
-
 export interface GenericAdapter {
   boot: () => Promise<void>
 
@@ -106,7 +98,7 @@ export interface GenericAdapter {
   /**
    * Apply a migration
    */
-  applyMigration: (migration: GenericMigrationItem[]) => Promise<void>
+  applyMigration: (migration: DiffItem[]) => Promise<void>
 
   query: <T>(
     tableName: string,

@@ -2,6 +2,8 @@ import { BaserowAdapter } from './adapters/baserow'
 import { Connexion, GenericAdapter } from './adapters/interface'
 import { SQLAdapter } from './adapters/sql'
 
+export * from './adapters/interface'
+
 export async function createAdapter(adapterOptions: Connexion): Promise<GenericAdapter> {
   let adapter
   switch (adapterOptions.type) {

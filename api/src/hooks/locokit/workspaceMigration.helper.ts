@@ -16,7 +16,7 @@ export default async function (context: HookContext) {
      * we can find the correlated workspace in core schema
      */
     case 'create':
-      const datasource = await context.app
+      const datasourceCreate = await context.app
         .service(SERVICES.CORE_DATASOURCE)
         .get(context.data.datasourceId, {
           transaction,
@@ -24,21 +24,42 @@ export default async function (context: HookContext) {
             $eager: 'workspace',
           },
         })
-      if (!datasource)
+      if (!datasourceCreate)
         throw new NotAcceptable('Referenced datasource for this migration have not been found.')
 
-      const workspace = datasource.workspace
-      context.$locokit.currentWorkspaceSlug = workspace?.slug
-      context.$locokit.currentWorkspace = workspace
-      context.service.schema = `w_${workspace?.slug as string}`
-      context.$locokit.currentDatasourceSlug = datasource.slug
-      context.$locokit.currentDatasource = datasource
+      const workspaceCreate = datasourceCreate.workspace
+      context.$locokit.currentWorkspaceSlug = workspaceCreate?.slug
+      context.$locokit.currentWorkspace = workspaceCreate
+      context.service.schema = `w_${workspaceCreate?.slug as string}`
+      context.$locokit.currentDatasourceSlug = datasourceCreate.slug
+      context.$locokit.currentDatasource = datasourceCreate
+      break
+    case 'find':
+      const queryDatasourceId = context.params.query.datasourceId
+      if (!queryDatasourceId) throw new NotAcceptable('query param `datasourceId` is mandatory.')
+      const datasourceFind = await context.app
+        .service(SERVICES.CORE_DATASOURCE)
+        .get(queryDatasourceId, {
+          transaction,
+          query: {
+            $eager: 'workspace',
+          },
+        })
+      if (!datasourceFind)
+        throw new NotAcceptable('Referenced datasource for this migration have not been found.')
+
+      const workspaceFind = datasourceFind.workspace
+      context.$locokit.currentWorkspaceSlug = workspaceFind?.slug
+      context.$locokit.currentWorkspace = workspaceFind
+      context.service.schema = `w_${workspaceFind?.slug as string}`
+      context.$locokit.currentDatasourceSlug = datasourceFind.slug
+      context.$locokit.currentDatasource = datasourceFind
       break
     default:
       throw new NotImplemented(
         `LocoKit context is uncomplete. Method "${
           context.method as string
-        }" for table field service need to be implemented.`,
+        }" for workspace migration service need to be implemented.`,
       )
   }
 }
