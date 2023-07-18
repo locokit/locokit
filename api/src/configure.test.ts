@@ -12,11 +12,12 @@ import { SERVICES, USER_PROFILE } from '@locokit/definitions'
 
 import { createApp } from './app'
 import { UserResult } from './services/core/user/user.schema'
+import { WorkspaceResult } from './services/core/workspace/core-workspace.schema'
 
 const app = createApp()
 
 export interface SetupData {
-  // publicWorkspaceId: string
+  publicWorkspaceId: string
   // workspace2Id: string
   // database1Id: string
   // database2Id: string
@@ -77,7 +78,7 @@ export function builderTestEnvironment(prefix: string) {
    * it won't setup data again, just return already injected.
    */
   let _data: SetupData
-  // let publicWorkspace: WorkspaceResult
+  let publicWorkspace: WorkspaceResult
   // let workspace2: Workspace
   // let database1: Database
   // let database2: Database
@@ -318,12 +319,12 @@ export function builderTestEnvironment(prefix: string) {
       {},
     )
 
-    // publicWorkspace = await app.service(SERVICES.CORE_WORKSPACE).create({
-    //   name: `[${prefix}] Public workspace 1`,
-    //   documentation: 'Public workspace for user1',
-    //   createdBy: user1.id,
-    //   public: true,
-    // })
+    publicWorkspace = await app.service(SERVICES.CORE_WORKSPACE).create({
+      name: `[${prefix}] Public workspace 1`,
+      documentation: 'Public workspace for user1',
+      createdBy: user1.id,
+      public: true,
+    })
 
     // group1 = await app.services.group.create({
     //   name: `[${prefix} abilities] Group 1`,
@@ -621,7 +622,7 @@ export function builderTestEnvironment(prefix: string) {
     // })
 
     _data = {
-      // publicWorkspaceId: publicWorkspace.id,
+      publicWorkspaceId: publicWorkspace.id,
       user1,
       user2,
       user3,
@@ -658,15 +659,15 @@ export function builderTestEnvironment(prefix: string) {
   }
 
   async function teardownWorkspace(): Promise<void> {
-    // await app.service(SERVICES.CORE_WORKSPACE).patch(publicWorkspace.id, {
-    //   softDeletedAt: new Date().toISOString(),
-    // })
-    //
-    // await app.service(SERVICES.CORE_WORKSPACE).remove(publicWorkspace.id, {
-    //   user: userAdmin,
-    //   authenticated: true,
-    //   authentication: userAdminAuthentication,
-    // })
+    await app.service(SERVICES.CORE_WORKSPACE).patch(publicWorkspace.id, {
+      softDeletedAt: new Date().toISOString(),
+    })
+
+    await app.service(SERVICES.CORE_WORKSPACE).remove(publicWorkspace.id, {
+      user: userAdmin,
+      authenticated: true,
+      authentication: userAdminAuthentication,
+    })
 
     await app.service(SERVICES.CORE_USER).remove(userAdmin.id)
 

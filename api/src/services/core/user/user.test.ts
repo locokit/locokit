@@ -1,5 +1,5 @@
 import { SERVICES } from '@locokit/definitions'
-import { describe, assert, it, afterAll, beforeAll, expect } from 'vitest'
+import { describe, it, afterAll, beforeAll, expect } from 'vitest'
 import { createApp } from '@/app'
 import axios from 'axios'
 import { builderTestEnvironment, SetupData } from '@/configure.test'
@@ -24,11 +24,11 @@ describe('users service', () => {
 
   it('registered the service', () => {
     const service = app.service(SERVICES.CORE_USER)
-    assert.ok(service, 'Registered the service')
+    expect(service).toBeDefined()
   })
 
   describe('External call', () => {
-    it('Try get user data with not authenticated user', async () => {
+    it('Try to get user data with unauthenticated user', async () => {
       expect.assertions(1)
       await expect(
         axios({
@@ -195,6 +195,15 @@ describe('users service', () => {
       expect(res.data.data[0]).not.toHaveProperty('email')
     })
   })
+
+  it.todo('return groups of a user when using the $joinRelated option')
+
+  it.todo('allow admin users to filter on all users')
+  it.todo('allow admin users to filter on all users by username')
+  it.todo('allow users to get themselves')
+  it.todo('forbid users to get another user')
+  it.todo('allow users to find users and retrieve their username')
+  it.todo('allow users to find users and filter on their username')
 
   it.todo('forbid the creation of a user from external calls')
   it.todo('forbid the creation of a user from external calls for public users')
