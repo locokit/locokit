@@ -92,6 +92,12 @@ export default defineConfig(() => {
       }),
       feathers({ app: 'src/app.ts', port: 3030 }),
     ],
-    build: { target: 'esnext' },
+    build: {
+      lib: {
+        entry: 'src/index.ts',
+        name: 'locokit-api',
+      },
+      target: 'node18',
+    },
   }
 })
