@@ -17,6 +17,6 @@
   "author": "Mathieu Dartigues",
   "license": "MIT",
   "dependencies": {
-    "@locokit/engine": "^0.8.0"
+    "@locokit/engine": "*"
   }
 }

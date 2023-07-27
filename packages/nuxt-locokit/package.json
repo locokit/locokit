@@ -11,6 +11,7 @@
     }
   },
   "main": "./dist/module.cjs",
+  "module": "./dist/module.mjs",
   "types": "./dist/types.d.ts",
   "files": [
     "dist"
@@ -26,19 +27,20 @@
     "@feathersjs/authentication-client": "^5.0.0",
     "@feathersjs/feathers": "^5.0.0",
     "@feathersjs/rest-client": "^5.0.0",
-    "@locokit/definitions": "^0.8.0",
-    "@locokit/designsystem": "^0.8.0",
-    "@locokit/i18n": "0.8.0",
-    "@locokit/sdk": "^0.8.0",
+    "@locokit/definitions": "*",
+    "@locokit/designsystem": "*",
+    "@locokit/i18n": "*",
+    "@locokit/sdk": "*",
     "@nuxt/kit": "^3.5.3",
     "@pinia/nuxt": "^0.4.11",
     "@vee-validate/rules": "^4.9.5",
     "bootstrap-icons": "^1.10.5",
+    "date-fns": "^2.30.0",
     "pinia": "^2.1.3",
     "primevue": "^3.29.1",
+    "tailwindcss": "^3.3.1",
     "vee-validate": "^4.9.5",
-    "vue-i18n": "^9.3.0-beta.17",
-    "date-fns": "^2.29.3"
+    "vue-i18n": "^9.3.0-beta.17"
   },
   "devDependencies": {
     "@nuxt/module-builder": "latest",
