@@ -2,5 +2,8 @@
   "extends": "./tsconfig.json",
   "exclude": [
     "src/**/*.test.ts"
-  ]
+  ],
+  "compilerOptions": {
+    "module": "es2020"
+  }
 }
