@@ -1,9 +1,9 @@
 import {
   resolveData,
-  resolveExternal,
   resolveQuery,
   validateData,
   validateQuery,
+  hooks as schemaHooks,
 } from '@feathersjs/schema'
 import { authenticate } from '@feathersjs/authentication'
 import {
@@ -12,12 +12,13 @@ import {
   userPatchAdminResolver,
   userQueryResolver,
   userDispatchResolver,
+  userRestrictedDispatchResolver,
 } from './user.resolver'
 import { disallow, iff, isProvider } from 'feathers-hooks-common'
 import { addVerification } from 'feathers-authentication-management'
-import { isAdminProfile } from '../../../hooks/profile.hooks'
+import { isAdminProfile } from '@/hooks/profile.hooks'
 import { HookOptions } from '@feathersjs/feathers'
-import type { Application, HookContext } from '../../../declarations'
+import type { Application, HookContext } from '@/declarations'
 import { UserService } from './user.class'
 import { authManagementSettings } from '@/services/auth/authmanagement/authmanagement.settings'
 import {
@@ -30,30 +31,32 @@ import { SERVICES } from '@locokit/definitions'
 
 export const hooks: HookOptions<Application, UserService> = {
   around: {
-    all: [authenticate('api-key', 'jwt'), resolveExternal(userDispatchResolver)],
+    all: [authenticate('api-key', 'jwt')],
+    get: [schemaHooks.resolveExternal(userDispatchResolver)],
+    find: [schemaHooks.resolveExternal(userRestrictedDispatchResolver)],
+    create: [schemaHooks.resolveExternal(userDispatchResolver)],
+    update: [schemaHooks.resolveExternal(userDispatchResolver)],
+    patch: [schemaHooks.resolveExternal(userDispatchResolver)],
+    remove: [schemaHooks.resolveExternal(userDispatchResolver)],
   },
   before: {
     get: [
-      iff((context: HookContext) => {
-        return isProvider('external')(context) && !isAdminProfile(context)
-      }, validateQuery(userQueryValidator)),
-      // limit the get to the current logged user
-      // unless it's an admin
-      resolveQuery(userQueryResolver),
+      iff(
+        (context: HookContext) => {
+          return isProvider('external')(context) && !isAdminProfile(context)
+        },
+        validateQuery(userQueryValidator),
+        resolveQuery(userQueryResolver),
+      ),
+      validateQuery(userQueryValidator),
     ],
     find: [
       // need to be admin to make queries on some fields
       // otherwise, could search on "username"
       // need to return only "username" for non admin users
-      iff(
-        (context: HookContext) => {
-          return isProvider('external')(context) && !isAdminProfile(context)
-        },
-        // limit the get to the current logged user
-        // unless it's an admin
-        validateQuery(userQueryValidator),
-        resolveQuery(userQueryResolver),
-      ),
+      iff((context: HookContext) => {
+        return isProvider('external')(context) && !isAdminProfile(context)
+      }, validateQuery(userQueryValidator)),
     ],
     create: [
       /**

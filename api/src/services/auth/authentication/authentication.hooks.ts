@@ -6,6 +6,7 @@ import { AbilityBuilder } from '@casl/ability'
 import { AppAbility, resolveAction } from '@/abilities/definitions'
 import { HookContext } from '@/declarations'
 import makeAbilityFromRules from '@/abilities/makeAbilityFromRules'
+
 // Don't remove this comment. It's needed to format import lines nicely.
 
 export async function addRulesToUser(context: HookContext): Promise<HookContext> {

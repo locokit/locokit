@@ -9,7 +9,7 @@ export default defineConfig({
     }),
   ],
   test: {
-    exclude: [...configDefaults.exclude, 'test/**', 'src/configure.test.ts'],
+    exclude: [...configDefaults.exclude, 'test/**', 'src/configure.test.ts', 'seeds/test.ts'],
     coverage: {
       provider: 'c8',
       reporter: ['text', 'json', 'html', 'lcov'],

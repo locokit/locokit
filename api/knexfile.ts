@@ -1,4 +1,7 @@
 /* eslint-disable import/first */
+// import * as dotenv from 'dotenv'
+
+// dotenv.config({ path: process.env.NODE_ENV ? `.env.${process.env.NODE_ENV as string}` : '.env' })
 import dotenv from 'dotenv-flow'
 dotenv.config()
 

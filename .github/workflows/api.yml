@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
-name: API quality worklow
+name: API quality workflow
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
   #     - name: NPM Version
   #       run: npm -v
   #     - name: Install dependencies
-  #       run: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
+  #       run: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci --ignore-scripts
   #     - name: lint
   #       run: npm run lint
   #       env:
@@ -68,7 +68,7 @@ jobs:
       - name: NPM Version
         run: npm -v
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
       - name: Lint code
         run: npm run lint --workspace api
       - name: Prettier
@@ -99,7 +99,7 @@ jobs:
       - name: NPM Version
         run: npm -v
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
       - name: Build API lib
         run: npm run compile --workspace api
       - name: Tar build
@@ -125,7 +125,7 @@ jobs:
       #   with:
       #     node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
       - name: Build documentation
         run: npm run docs:build
       - name: Tar docs

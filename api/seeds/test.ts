@@ -1,10 +1,7 @@
-import bcrypt from 'bcryptjs'
-import { USER_PROFILE } from '@locokit/definitions'
 import { Knex } from 'knex'
 
 export async function seed(knex: Knex): Promise<any> {
   try {
-    const hashPassword = await bcrypt.hash('locokit', 10)
 
     const trx = await knex.transaction()
     /**
@@ -31,44 +28,6 @@ export async function seed(knex: Knex): Promise<any> {
     console.log('Removing users...')
     await knex('lck_user').withSchema('core').transacting(trx).delete()
     console.log('Users removed')
-
-    console.log('Inserting test users...')
-    const usersToInsert = [
-      {
-        firstName: 'John',
-        lastName: 'ADMIN',
-        username: 'john',
-        email: 'admin@locokit.io',
-        password: hashPassword,
-        profile: USER_PROFILE.ADMIN,
-        isVerified: true,
-      },
-      {
-        firstName: 'Leonardo',
-        lastName: 'CREATOR',
-        username: 'leonardo',
-        email: 'creator@locokit.io',
-        password: hashPassword,
-        profile: USER_PROFILE.CREATOR,
-        isVerified: true,
-      },
-      {
-        firstName: 'Jack',
-        lastName: 'MEMBER',
-        username: 'jack',
-        email: 'member@locokit.io',
-        password: hashPassword,
-        profile: USER_PROFILE.MEMBER,
-        isVerified: true,
-      },
-    ]
-    const usersInserted: Array<{ id: string }> = await knex('lck_user')
-      .withSchema('core')
-      .transacting(trx)
-      .insert(usersToInsert)
-      .returning('id')
-
-    console.log(usersInserted)
 
     await trx.commit()
   } catch (error) {

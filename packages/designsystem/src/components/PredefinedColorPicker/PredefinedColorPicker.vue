@@ -38,22 +38,29 @@
 import PrimeDropdown from 'primevue/dropdown'
 import { COLOR_SCHEME, ColorScheme } from '../../helpers/color'
 import { SingleTag } from '@locokit/designsystem'
+import { ref } from 'vue'
 
 const emit = defineEmits<{
-  (e: 'update:currentColor', value: ColorScheme): void
+  (e: 'update:modelValue', value: ColorScheme): void
 }>()
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
   defineProps<{
-    currentColor: ColorScheme | null
+    modelValue: ColorScheme | null
   }>(),
   {
-    currentColor: null,
+    modelValue: null,
   },
 )
 
+const currentColor = ref(props.modelValue)
+
 const onInput = (event: { value: ColorScheme }) => {
-  emit('update:currentColor', event.value)
+  currentColor.value = {
+    color: event.value.color,
+    backgroundColor: event.value.backgroundColor,
+  }
+  emit('update:modelValue', currentColor.value)
 }
 </script>
