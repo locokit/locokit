@@ -70,6 +70,7 @@
     "ajv-errors": "^3.0.0",
     "ajv-formats": "^2.1.1",
     "dotenv": "^16.1.4",
+    "dotenv-flow": "^3.2.0",
     "ejs": "^3.1.8",
     "feathers-authentication-management": "^5.0.0-pre.0",
     "feathers-hooks-common": "^7.0.3",

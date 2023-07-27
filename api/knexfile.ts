@@ -1,7 +1,9 @@
 /* eslint-disable import/first */
-import * as dotenv from 'dotenv'
+// import * as dotenv from 'dotenv'
 
-dotenv.config({ path: process.env.NODE_ENV ? `.env.${process.env.NODE_ENV as string}` : '.env' })
+// dotenv.config({ path: process.env.NODE_ENV ? `.env.${process.env.NODE_ENV as string}` : '.env' })
+import dotenv from 'dotenv-flow'
+dotenv.config()
 
 import { feathers } from '@feathersjs/feathers'
 import configuration from '@feathersjs/configuration'
