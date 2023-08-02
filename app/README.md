@@ -1,21 +1,24 @@
-# Nuxt 3 Minimal Starter
+# Nuxt LocoKit Application
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This is the folder to develop the LocoKit Application.
+
+This Nuxt app is based on the `nuxt-locokit` package,
+in the `../packages/nuxt-locokit` folder.
 
 ## Setup
 
-Make sure to install the dependencies:
+Make sure to install the dependencies at the repository level (folder above).
+
+We use `npm` as the package manager, please keep using it.
 
 ```bash
-# yarn
-yarn install
-
 # npm
 npm install
-
-# pnpm
-pnpm install
 ```
+
+To `prepare` the Nuxt app, we have to build first the `nuxt-locokit` package.
+
+
 
 ## Development Server
 

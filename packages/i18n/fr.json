@@ -165,10 +165,13 @@
     }
   },
   "pages": {
-    "404": {
-      "title": "Page non trouvée",
-      "alternativeTitle": "Oups ! … On dirait que vous êtes perdus",
-      "link": "Retourner sur la page d'accueil"
+    "error": {
+      "link": "Retourner sur la page d'accueil",
+      "defaultTitle": "Une erreur vient de se produire",
+      "404": {
+        "title": "Page non trouvée",
+        "alternativeTitle": "Oups ! … On dirait que vous êtes perdus"
+      }
     },
     "signIn": {
       "title": "Page de connexion"

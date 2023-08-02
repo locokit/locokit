@@ -70,7 +70,7 @@
 import PrimeButton from 'primevue/button'
 import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
-import { ROUTES_NAMES } from '../../paths'
+import { ROUTES_NAMES } from '../../locokit-paths'
 import { useStoreWorkspaces } from '../../stores/workspaces'
 import WithHeader from '../../layouts/WithHeader.vue'
 import { useHead } from '#imports'

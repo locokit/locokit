@@ -1,16 +1,17 @@
 /* eslint-disable no-console */
-import { fileURLToPath } from 'node:url'
+// import { fileURLToPath } from 'node:url'
 import {
-  addLayout,
+  // addLayout,
   addPlugin,
   addRouteMiddleware,
   createResolver,
   defineNuxtModule,
   extendPages,
   installModule,
+  addTemplate,
 } from '@nuxt/kit'
 import { Nuxt, NuxtOptions, NuxtPage } from '@nuxt/schema'
-import { ROUTES_NAMES, ROUTES_PATH } from './runtime/paths'
+import { ROUTES_NAMES, ROUTES_PATH } from './runtime/locokit-paths'
 import { getAuthPages } from './runtime/routes'
 
 const { resolve } = createResolver(import.meta.url)
@@ -88,29 +89,30 @@ export default defineNuxtModule<ModuleOptions>({
   },
   defaults: defaultOptions,
   async setup(options, nuxt) {
+    // Transpile runtime
+    nuxt.options.build.transpile.push(resolve('./runtime'))
+
     console.log('[nuxt-module] setup...')
-    // const componentsDir = fileURLToPath(
-    //   new URL('../src/components', import.meta.url),
-    // )
-    const middlewareDir = fileURLToPath(
-      new URL('../src/middleware', import.meta.url),
-    )
-    const runtimeDir = fileURLToPath(new URL('../src/runtime', import.meta.url))
-    const pluginsDir = fileURLToPath(new URL('../src/plugins', import.meta.url))
+
+    const runtimeDir = resolve('./runtime')
+    const isDevelopment =
+      runtimeDir.endsWith('src/runtime') || runtimeDir.endsWith('src\\runtime')
+
+    const styleExtension = isDevelopment ? 'scss' : 'css'
+    const scriptExtension = isDevelopment ? 'ts' : 'mjs'
+
     await installModule('@nuxtjs/tailwindcss', {
-      configPath: resolve(runtimeDir, 'tailwind.config.ts'),
-      cssPath: resolve(runtimeDir, 'assets/css/tailwind.css'),
+      configPath: resolve('./runtime/tailwind.config.' + scriptExtension),
+      cssPath: resolve('./runtime/assets/css/tailwind.css'),
     })
     await installModule('@pinia/nuxt')
-    // nuxt.options.build.transpile.push(runtimeDir)
 
-    // addPlugin(resolve(runtimeDir, 'tailwind.config'))
-    addPlugin(resolve(pluginsDir, 'middlewares'))
-    addPlugin(resolve(pluginsDir, 'primevue'))
-    // addPlugin(resolve(pluginsDir, 'locokit'))
-    addPlugin(resolve(pluginsDir, 'i18n'))
-    addPlugin(resolve(pluginsDir, 'vee-validate'))
-    addPlugin(resolve(pluginsDir, 'directive'))
+    addPlugin(resolve('./runtime/plugins/middlewares'))
+    addPlugin(resolve('./runtime/plugins/primevue'))
+    addPlugin(resolve('./runtime/plugins/i18n'))
+    addPlugin(resolve('./runtime/plugins/vee-validate'))
+    addPlugin(resolve('./runtime/plugins/directive'))
+    addPlugin(resolve('./runtime/plugins/error'))
 
     // await addComponentsDir({
     //   path: resolve(componentsDir),
@@ -123,23 +125,15 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.css = nuxt.options.css ?? []
     nuxt.options.css.push('primevue/resources/primevue.css')
     nuxt.options.css.push('bootstrap-icons/font/bootstrap-icons.css')
-    nuxt.options.css.push(resolve(runtimeDir, 'styles/index.scss'))
-    nuxt.options.css.push(resolve(runtimeDir, 'styles/global.scss'))
-    nuxt.options.css.push(resolve(runtimeDir, 'styles/theme.css'))
+
+    nuxt.options.css.push(resolve('./runtime/styles/index.' + styleExtension))
+    nuxt.options.css.push(resolve('./runtime/styles/global.' + styleExtension))
+    nuxt.options.css.push(resolve('./runtime/styles/theme.css'))
 
     //
     nuxt.options.build.transpile.push('primevue')
     //
     // console.log('[nuxt-locokit][plugin-locokit] Registering components...')
-
-    // const layoutsDir = fileURLToPath(
-    //   new URL('../src/runtime/layouts', import.meta.url),
-    // )
-    // const pagesDir = fileURLToPath(
-    //   new URL('../src/runtime/pages', import.meta.url),
-    // )
-    const layoutsDir = resolve(runtimeDir, 'layouts')
-    const pagesDir = resolve(runtimeDir, 'pages')
 
     // for (const name in components) {
     //   console.log('[nuxt-locokit][plugin-locokit] Registering component ' + name + '...')
@@ -150,27 +144,23 @@ export default defineNuxtModule<ModuleOptions>({
     // }
 
     /**
-     * Register all layouts
+     * Register files needed out of the module
+     * * src : file to a .mjs one
+     * * filename : #build/filename paths to be accessed in the nuxt app (or playground)
      */
-    addLayout(
+    const filesToTemplate = [
       {
-        src: resolve(layoutsDir, './WithHeader.vue'),
+        /**
+         * This file can be used in the Error.vue component for example,
+         * to redirect the user to the home page
+         */
+        src: resolve('./runtime/locokit-paths.mjs'),
+        filename: 'locokit-paths.mjs',
       },
-      'WithHeader',
-    )
-    addLayout(
-      {
-        src: resolve(layoutsDir, './WithAsideNav.vue'),
-      },
-      'WithAsideNav',
-    )
-
-    addLayout(
-      {
-        src: resolve(layoutsDir, './WithSidebar.vue'),
-      },
-      'WithSidebar',
-    )
+    ]
+    filesToTemplate.forEach((f) => {
+      addTemplate(f)
+    })
 
     extendPages(function (pages: NuxtPage[]) {
       const { submodules } = options
@@ -184,7 +174,7 @@ export default defineNuxtModule<ModuleOptions>({
         meta: {
           protected: true,
         },
-        file: resolve(pagesDir, './workspace/index.vue'),
+        file: resolve('./runtime/pages/workspace/index.vue'),
         // redirect: ROUTES_PATH.WORKSPACE.DASHBOARD,
         children: [
           {
@@ -194,8 +184,7 @@ export default defineNuxtModule<ModuleOptions>({
               protected: true,
             },
             file: resolve(
-              pagesDir,
-              './workspace/DashboardPage/DashboardPage.vue',
+              './runtime/pages/workspace/DashboardPage/DashboardPage.vue',
             ),
           },
           {
@@ -204,7 +193,7 @@ export default defineNuxtModule<ModuleOptions>({
             meta: {
               protected: true,
             },
-            file: resolve(pagesDir, './workspace/datasource/index.vue'),
+            file: resolve('./runtime/pages/workspace/datasource/index.vue'),
             // redirect: ROUTES_PATH.WORKSPACE.DATABASE.ABOUT,
             children: [
               {
@@ -214,8 +203,7 @@ export default defineNuxtModule<ModuleOptions>({
                   protected: true,
                 },
                 file: resolve(
-                  pagesDir,
-                  './workspace/datasource/AboutDatasource/AboutDatasource.vue',
+                  './runtime/pages/workspace/datasource/AboutDatasource/AboutDatasource.vue',
                 ),
               },
               {
@@ -225,8 +213,7 @@ export default defineNuxtModule<ModuleOptions>({
                   protected: true,
                 },
                 file: resolve(
-                  pagesDir,
-                  './workspace/datasource/CreateDatasource/CreateDatasource.vue',
+                  './runtime/pages/workspace/datasource/CreateDatasource/CreateDatasource.vue',
                 ),
               },
               {
@@ -236,8 +223,7 @@ export default defineNuxtModule<ModuleOptions>({
                   protected: true,
                 },
                 file: resolve(
-                  pagesDir,
-                  './workspace/datasource/SchemaDatasource/SchemaDatasource.vue',
+                  './runtime/pages/workspace/datasource/SchemaDatasource/SchemaDatasource.vue',
                 ),
               },
             ],
@@ -249,8 +235,7 @@ export default defineNuxtModule<ModuleOptions>({
               protected: true,
             },
             file: resolve(
-              pagesDir,
-              './workspace/SettingsPage/SettingsPage.vue',
+              './runtime/pages/workspace/SettingsPage/SettingsPage.vue',
             ),
           },
         ],
@@ -265,7 +250,7 @@ export default defineNuxtModule<ModuleOptions>({
         meta: {
           protected: true,
         },
-        file: resolve(pagesDir, './admin/index.vue'),
+        file: resolve('./runtime/pages/admin/index.vue'),
         redirect: ROUTES_PATH.ADMIN.USERS.HOME,
         children: [
           {
@@ -274,7 +259,7 @@ export default defineNuxtModule<ModuleOptions>({
             meta: {
               protected: true,
             },
-            file: resolve(pagesDir, './admin/users/index.vue'),
+            file: resolve('./runtime/pages/admin/users/index.vue'),
             redirect: ROUTES_PATH.ADMIN.USERS.ABOUT,
             children: [
               {
@@ -284,8 +269,7 @@ export default defineNuxtModule<ModuleOptions>({
                   protected: true,
                 },
                 file: resolve(
-                  pagesDir,
-                  './admin/users/AboutUsers/AboutUsers.vue',
+                  './runtime/pages/admin/users/AboutUsers/AboutUsers.vue',
                 ),
               },
               {
@@ -295,8 +279,7 @@ export default defineNuxtModule<ModuleOptions>({
                   protected: true,
                 },
                 file: resolve(
-                  pagesDir,
-                  './admin/users/CreateUser/CreateUser.vue',
+                  './runtime/pages/admin/users/CreateUser/CreateUser.vue',
                 ),
               },
               {
@@ -306,8 +289,7 @@ export default defineNuxtModule<ModuleOptions>({
                   protected: true,
                 },
                 file: resolve(
-                  pagesDir,
-                  './admin/users/RecordUser/RecordUser.vue',
+                  './runtime/pages/admin/users/RecordUser/RecordUser.vue',
                 ),
               },
             ],
@@ -318,7 +300,7 @@ export default defineNuxtModule<ModuleOptions>({
             meta: {
               protected: true,
             },
-            file: resolve(pagesDir, './admin/groups/index.vue'),
+            file: resolve('./runtime/pages/admin/groups/index.vue'),
             redirect: ROUTES_PATH.ADMIN.GROUPS.ABOUT,
             children: [
               {
@@ -328,8 +310,7 @@ export default defineNuxtModule<ModuleOptions>({
                   protected: true,
                 },
                 file: resolve(
-                  pagesDir,
-                  './admin/groups/AboutGroups/AboutGroups.vue',
+                  './runtime/pages/admin/groups/AboutGroups/AboutGroups.vue',
                 ),
               },
               {
@@ -339,8 +320,7 @@ export default defineNuxtModule<ModuleOptions>({
                   protected: true,
                 },
                 file: resolve(
-                  pagesDir,
-                  './admin/groups/CreateGroup/CreateGroup.vue',
+                  './runtime/pages/admin/groups/CreateGroup/CreateGroup.vue',
                 ),
               },
               {
@@ -350,8 +330,7 @@ export default defineNuxtModule<ModuleOptions>({
                   protected: true,
                 },
                 file: resolve(
-                  pagesDir,
-                  './admin/groups/RecordGroup/RecordGroup.vue',
+                  './runtime/pages/admin/groups/RecordGroup/RecordGroup.vue',
                 ),
               },
             ],
@@ -368,7 +347,7 @@ export default defineNuxtModule<ModuleOptions>({
         meta: {
           protected: true,
         },
-        file: resolve(pagesDir, './profile/index.vue'),
+        file: resolve('./runtime/pages/profile/index.vue'),
         redirect: ROUTES_PATH.PROFILE.UPDATE_GENERAL,
         children: [
           {
@@ -378,8 +357,7 @@ export default defineNuxtModule<ModuleOptions>({
               protected: true,
             },
             file: resolve(
-              pagesDir,
-              './profile/UpdateGeneral/UpdateGeneral.vue',
+              './runtime/pages/profile/UpdateGeneral/UpdateGeneral.vue',
             ),
           },
           {
@@ -388,7 +366,9 @@ export default defineNuxtModule<ModuleOptions>({
             meta: {
               protected: true,
             },
-            file: resolve(pagesDir, './profile/UpdateEmail/UpdateEmail.vue'),
+            file: resolve(
+              './runtime/pages/profile/UpdateEmail/UpdateEmail.vue',
+            ),
           },
           {
             name: ROUTES_NAMES.PROFILE.UPDATE_PASSWORD,
@@ -397,16 +377,15 @@ export default defineNuxtModule<ModuleOptions>({
               protected: true,
             },
             file: resolve(
-              pagesDir,
-              './profile/UpdatePassword/UpdatePassword.vue',
+              './runtime/pages/profile/UpdatePassword/UpdatePassword.vue',
             ),
           },
         ],
       })
 
-      /**
-       * Register workspaces page
-       */
+      //   /**
+      //    * Register workspaces page
+      //    */
       pages.push({
         name: ROUTES_NAMES.WORKSPACE.WORKSPACES,
         path: ROUTES_PATH.WORKSPACE.WORKSPACES,
@@ -414,7 +393,7 @@ export default defineNuxtModule<ModuleOptions>({
           protected: false,
           anonymous: false,
         },
-        file: resolve(pagesDir, './WorkspacesList/WorkspacesList.vue'),
+        file: resolve('./runtime/pages/WorkspacesList/WorkspacesList.vue'),
       })
 
       /**
@@ -427,49 +406,120 @@ export default defineNuxtModule<ModuleOptions>({
           protected: true,
           anonymous: false,
         },
-        file: resolve(pagesDir, './CreateWorkspace/CreateWorkspace.vue'),
+        file: resolve('./runtime/pages/CreateWorkspace/CreateWorkspace.vue'),
       })
 
       pages.push({
         name: ROUTES_NAMES.HOME,
         path: ROUTES_PATH.HOME,
-        file: resolve(pagesDir, './index.vue'),
+        file: resolve('./runtime/pages/index.vue'),
         meta: {
           protected: false,
         },
+      })
+      pages.push({
+        name: 'simple',
+        path: '/simple',
+        file: resolve('./runtime/pages/simple.vue'),
       })
 
       /**
        * Register auth pages
        */
+      console.log('auth enabled ?', submodules.auth.enabled)
       if (submodules.auth.enabled) {
+        console.log('[nuxt-locokit] registering auth routes...')
         const prefix = submodules.auth.prefix
-        pages.push(...getAuthPages(prefix, pagesDir))
+        pages.push(
+          ...[
+            {
+              name: ROUTES_NAMES.AUTH.SIGN_IN,
+              path: prefix + ROUTES_PATH.AUTH.SIGN_IN,
+              file: resolve('./runtime/pages/auth/SignIn.vue'),
+              meta: {
+                anonymous: true,
+                protected: false,
+              },
+            },
+            {
+              name: ROUTES_NAMES.AUTH.LOST_PASSWORD,
+              path: prefix + ROUTES_PATH.AUTH.LOST_PASSWORD,
+              file: resolve('./runtime/pages/auth/LostPassword.vue'),
+              meta: {
+                anonymous: true,
+                protected: false,
+              },
+            },
+            {
+              name: ROUTES_NAMES.AUTH.VERIFY_SIGNUP,
+              path: prefix + ROUTES_PATH.AUTH.VERIFY_SIGNUP,
+              file: resolve('./runtime/pages/auth/VerifySignup.vue'),
+              meta: {
+                anonymous: true,
+                protected: false,
+              },
+            },
+            {
+              name: ROUTES_NAMES.AUTH.RESET_PASSWORD,
+              path: prefix + ROUTES_PATH.AUTH.RESET_PASSWORD,
+              file: resolve('./runtime/pages/auth/ResetPassword.vue'),
+              meta: {
+                anonymous: true,
+                protected: false,
+              },
+            },
+            {
+              name: ROUTES_NAMES.AUTH.SIGN_UP,
+              path: prefix + ROUTES_PATH.AUTH.SIGN_UP,
+              file: resolve('./runtime/pages/auth/SignUp.vue'),
+              meta: {
+                anonymous: true,
+                protected: false,
+              },
+            },
+            {
+              name: ROUTES_NAMES.AUTH.ALREADY_AUTHENTICATED,
+              path: prefix + ROUTES_PATH.AUTH.ALREADY_AUTHENTICATED,
+              file: resolve('./runtime/pages/auth/AlreadyAuthenticated.vue'),
+              meta: {
+                anonymous: true,
+                protected: false,
+              },
+            },
+            {
+              name: ROUTES_NAMES.AUTH.CONFIRM_UPDATE_EMAIL,
+              path: prefix + ROUTES_PATH.AUTH.CONFIRM_UPDATE_EMAIL,
+              file: resolve('./runtime/pages/auth/ConfirmUpdateEmail.vue'),
+              meta: {
+                anonymous: true,
+                protected: false,
+              },
+            },
+          ],
+        )
       }
 
-      //
-      // /**
-      //  * Register back office pages
-      //  */
-      // if (submodules.backoffice.enabled) {
-      //   const prefix = submodules.backoffice.prefix
-      //   pages.push(...getBackofficePages(prefix))
-      // }
-      //
-      // /**
-      //  * Register front office pages
-      //  */
-      // if (submodules.frontoffice.enabled) {
-      //   const prefix = submodules.frontoffice.prefix
-      //   pages.push(...getFrontofficePages(prefix))
-      // }
+      /**
+       * Register back office pages
+       */
+      if (submodules.backoffice.enabled) {
+        //   const prefix = submodules.backoffice.prefix
+        //   pages.push(...getBackofficePages(prefix))
+      }
+
+      /**
+       * Register front office pages
+       */
+      if (submodules.frontoffice.enabled) {
+        //   const prefix = submodules.frontoffice.prefix
+        //   pages.push(...getFrontofficePages(prefix))
+      }
     })
 
     addRouteMiddleware({
       name: 'anonymous-routes',
-      path: resolve(middlewareDir, './anonymousRoutes.ts'),
+      path: resolve('./runtime/middleware/anonymousRoutes'),
     })
-
     console.log('[nuxt-module] setup ok.')
   },
 })

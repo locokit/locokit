@@ -96,8 +96,13 @@ export default defineConfig(() => {
     build: {
       sourcemap: true,
       lib: {
-        entry: ['src/index.ts', 'knexfile.ts'],
+        entry: {
+          index: 'src/index.ts',
+          knexfile: 'knexfile.ts',
+          'config/default': 'config/default.ts',
+        },
         name: 'locokitapi',
+        formats: ['cjs'],
       },
       rollupOptions: {
         external: Object.keys(pkg.dependencies),

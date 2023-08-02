@@ -6,7 +6,9 @@ import { ref, useCookie } from '#imports'
 export const useStoreAuth = defineStore('auth', () => {
   const loading = ref(false)
   const isAuthenticated = ref(false)
-  const error = ref<Error | null>(null)
+  const error = ref<
+    Error | null | { code: string | null; content: string | null }
+  >(null)
   const user = ref()
 
   async function authenticate(data: { email: string; password: string }) {

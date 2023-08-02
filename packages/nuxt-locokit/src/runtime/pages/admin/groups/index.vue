@@ -153,7 +153,7 @@ import {
 } from '@locokit/designsystem'
 import { useI18n } from 'vue-i18n'
 import { COLUMN_TYPE } from '../../../helpers/filter'
-import { ROUTES_NAMES } from '../../../paths'
+import { ROUTES_NAMES } from '../../../locokit-paths'
 import { useStoreGroups } from '../../../stores/groups'
 import { searchGroups } from '../../../services/group'
 import { ApiGroup, Filter } from '../../../interfaces/toMigrate'

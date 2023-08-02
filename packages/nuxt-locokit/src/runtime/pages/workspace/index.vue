@@ -79,7 +79,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
-import { ROUTES_NAMES } from '../../paths'
+import { ROUTES_NAMES } from '../../locokit-paths'
 import WithAsideNav from '../../layouts/WithAsideNav.vue'
 import { useStoreWorkspaces } from '../../stores/workspaces'
 import { ref, useHead, useRoute, onMounted, onUnmounted } from '#imports'

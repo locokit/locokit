@@ -9,10 +9,10 @@
   "types": "dist/src/index.d.ts",
   "scripts": {
     "lint": "eslint .",
-    "story:dev": "histoire dev",
+    "dev": "histoire dev",
     "story:build": "histoire build",
     "story:preview": "histoire preview",
-    "vite:build": "rm -rf dist && vite build"
+    "build": "rm -rf dist && vite build"
   },
   "dependencies": {
     "@locokit/i18n": "*",

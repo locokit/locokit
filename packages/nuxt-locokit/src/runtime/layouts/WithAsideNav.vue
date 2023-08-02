@@ -56,8 +56,8 @@
 </template>
 
 <script setup lang="ts">
-import { ROUTES_NAMES } from '../paths'
 import { useStoreAuth } from '../stores/auth'
+import { ROUTES_NAMES } from '../locokit-paths'
 import { useRouter } from '#imports'
 
 const router = useRouter()

@@ -165,10 +165,13 @@
     }
   },
   "pages": {
-    "404": {
-      "title": "Page not found",
-      "alternativeTitle": "Whooops?!… sounds you're lost…",
-      "link": "Come back home"
+    "error": {
+      "link": "Come back home",
+      "defaultTitle": "An error has occured",
+      "404": {
+        "title": "Page not found",
+        "alternativeTitle": "Whooops?!… sounds you're lost…"
+      }
     },
     "signIn": {
       "title": "Welcome"

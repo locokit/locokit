@@ -132,8 +132,8 @@
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { USER_PROFILE } from '@locokit/definitions'
-import { ROUTES_NAMES } from '../paths'
 import { useStoreAuth } from '../stores/auth'
+import { ROUTES_NAMES } from '../locokit-paths'
 import { computed, useRouter, useRuntimeConfig } from '#imports'
 
 const runtimeConfig = useRuntimeConfig()

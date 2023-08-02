@@ -149,7 +149,7 @@ import { FormGeneric } from '@locokit/designsystem'
 import { Field } from 'vee-validate'
 import { ref } from 'vue'
 import { PROFILE } from '../../../../interfaces/toMigrate'
-import { ROUTES_NAMES } from '../../../../paths'
+import { ROUTES_NAMES } from '../../../../locokit-paths'
 import { createUser } from '../../../../services/user'
 import { useRouter } from '#imports'
 
