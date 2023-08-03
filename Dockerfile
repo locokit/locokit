@@ -19,9 +19,13 @@ FROM base AS builder
 # we need to install all dependencies for building purpose
 ENV NODE_ENV=dev
 WORKDIR /code
-RUN npm i -g turbo
-COPY . .
-RUN npm ci
+RUN npm i -g turbo --ignore-scripts
+COPY *.json .
+COPY api .
+COPY app .
+COPY docs .
+COPY packages .
+RUN npm ci --ignore-scripts
 RUN turbo run build
 RUN turbo prune --scope=locokit-api --out-dir=locokit-api --docker
 
@@ -30,14 +34,11 @@ RUN turbo prune --scope=locokit-api --out-dir=locokit-api --docker
 # NodeJS web server for the Feathers API
 #
 FROM base AS locokit-api
-# Don't run production as root
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 locokit
 USER locokit
 WORKDIR /code
-COPY --from=builder --chown=locokit:nodejs /code/locokit-api/json .
-RUN npm ci
-COPY --from=builder --chown=locokit:nodejs /code/locokit-api/full/api/dist/server .
+COPY --from=builder /code/locokit-api/json .
+RUN npm ci --ignore-scripts
+COPY --from=builder /code/locokit-api/full/api/dist/server .
 
 CMD node index.js
 
@@ -47,12 +48,9 @@ CMD node index.js
 # Nitro web server for the Nuxt application
 #
 FROM base AS locokit-app
-# Don't run production as root
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 locokit
 USER locokit
 WORKDIR /code
-COPY --from=builder --chown=locokit:nodejs /code/app/.output .
+COPY --from=builder /code/app/.output .
 
 CMD node server/index.mjs
 
