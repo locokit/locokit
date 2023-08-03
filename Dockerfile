@@ -20,11 +20,11 @@ FROM base AS builder
 ENV NODE_ENV=dev
 WORKDIR /code
 RUN npm i -g turbo --ignore-scripts
-COPY *.json .
-COPY api .
-COPY app .
-COPY docs .
-COPY packages .
+COPY *.json ./
+COPY api api
+COPY app app
+COPY docs docs
+COPY packages packages
 RUN npm ci --ignore-scripts
 RUN turbo run build
 RUN turbo prune --scope=locokit-api --out-dir=locokit-api --docker
@@ -34,7 +34,6 @@ RUN turbo prune --scope=locokit-api --out-dir=locokit-api --docker
 # NodeJS web server for the Feathers API
 #
 FROM base AS locokit-api
-USER locokit
 WORKDIR /code
 COPY --from=builder /code/locokit-api/json .
 RUN npm ci --ignore-scripts
@@ -48,7 +47,6 @@ CMD node index.js
 # Nitro web server for the Nuxt application
 #
 FROM base AS locokit-app
-USER locokit
 WORKDIR /code
 COPY --from=builder /code/app/.output .
 
