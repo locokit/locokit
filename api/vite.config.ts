@@ -2,6 +2,8 @@ import { defineConfig, loadEnv } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { resolve } from 'node:path'
 import pkg from './package.json'
+import glob from 'glob'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 const sleep = async (s) => await new Promise((r) => setTimeout(r, (s * 1e3) | 0))
 const delayedError = async (e) => {
@@ -87,12 +89,7 @@ function feathers(Opts = {} as any) {
 
 export default defineConfig(() => {
   return {
-    plugins: [
-      tsconfigPaths({
-        root: './',
-      }),
-      feathers({ app: 'src/app.ts', port: 3030 }),
-    ],
+    publicDir: false,
     build: {
       sourcemap: true,
       lib: {
@@ -100,6 +97,18 @@ export default defineConfig(() => {
           index: 'src/index.ts',
           knexfile: 'knexfile.ts',
           'config/default': 'config/default.ts',
+          /**
+           * Compile migrations files
+           */
+          ...Object.fromEntries(
+            glob.sync('migrations/**/*.ts').map((f: string) => [f.replace('.ts', ''), f]),
+          ),
+          /**
+           * Seed files
+           */
+          ...Object.fromEntries(
+            glob.sync('seeds/**/*.ts').map((f: string) => [f.replace('.ts', ''), f]),
+          ),
         },
         name: 'locokitapi',
         formats: ['cjs'],
@@ -109,5 +118,27 @@ export default defineConfig(() => {
       },
       target: 'node18',
     },
+    plugins: [
+      tsconfigPaths({
+        root: './',
+      }),
+      feathers({ app: 'src/app.ts', port: 3030 }),
+      viteStaticCopy({
+        targets: [
+          {
+            src: 'templates',
+            dest: '',
+          },
+          {
+            src: 'public',
+            dest: '',
+          },
+          {
+            src: 'migrations/*.sql',
+            dest: 'migrations',
+          },
+        ],
+      }),
+    ],
   }
 })

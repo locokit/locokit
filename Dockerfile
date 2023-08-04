@@ -6,6 +6,9 @@
 FROM node:18-alpine AS base
 RUN apk add --no-cache libc6-compat nano
 RUN apk update
+RUN npm i --ignore-scripts -g pm2
+RUN addgroup -S locokit \
+    && adduser -S locokit -G locokit
 
 # Environment variables default values
 ENV NODE_ENV=production
@@ -19,7 +22,7 @@ FROM base AS builder
 # we need to install all dependencies for building purpose
 ENV NODE_ENV=dev
 WORKDIR /code
-RUN npm i -g turbo --ignore-scripts
+RUN npm i --ignore-scripts -g turbo
 COPY *.json ./
 COPY api api
 COPY app app
@@ -31,16 +34,19 @@ RUN turbo prune --scope=locokit-api --out-dir=locokit-api --docker
 
 #
 # LocoKit API image
-# NodeJS web server for the Feathers API
+# Koa NodeJS web server for the Feathers API
 #
 FROM base AS locokit-api
 WORKDIR /code
 COPY --from=builder /code/locokit-api/json .
 RUN npm ci --ignore-scripts
 COPY --from=builder /code/locokit-api/full/api/dist/server .
+COPY --from=builder /code/locokit-api/full/api/dist/server /code/api/dist/server
+COPY --from=builder /code/locokit-api/full/packages/definitions/dist /code/packages/definitions/dist
+COPY --from=builder /code/locokit-api/full/packages/engine/dist /code/packages/engine/dist
 
-CMD node index.js
-
+USER locokit
+CMD pm2 start index.js
 
 #
 # LocoKit APP image
@@ -50,5 +56,6 @@ FROM base AS locokit-app
 WORKDIR /code
 COPY --from=builder /code/app/.output .
 
-CMD node server/index.mjs
+USER locokit
+CMD pm2 start server/index.mjs
 

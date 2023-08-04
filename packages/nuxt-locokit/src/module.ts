@@ -1,18 +1,14 @@
 /* eslint-disable no-console */
-// import { fileURLToPath } from 'node:url'
 import {
-  // addLayout,
   addPlugin,
   addRouteMiddleware,
   createResolver,
   defineNuxtModule,
   extendPages,
   installModule,
-  addTemplate,
 } from '@nuxt/kit'
 import { Nuxt, NuxtOptions, NuxtPage } from '@nuxt/schema'
 import { ROUTES_NAMES, ROUTES_PATH } from './runtime/locokit-paths'
-import { getAuthPages } from './runtime/routes'
 
 const { resolve } = createResolver(import.meta.url)
 
@@ -130,9 +126,8 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.css.push(resolve('./runtime/styles/global.' + styleExtension))
     nuxt.options.css.push(resolve('./runtime/styles/theme.css'))
 
-    //
     nuxt.options.build.transpile.push('primevue')
-    //
+
     // console.log('[nuxt-locokit][plugin-locokit] Registering components...')
 
     // for (const name in components) {
@@ -142,25 +137,6 @@ export default defineNuxtModule<ModuleOptions>({
     //     extends: components[name],
     //   })
     // }
-
-    /**
-     * Register files needed out of the module
-     * * src : file to a .mjs one
-     * * filename : #build/filename paths to be accessed in the nuxt app (or playground)
-     */
-    const filesToTemplate = [
-      {
-        /**
-         * This file can be used in the Error.vue component for example,
-         * to redirect the user to the home page
-         */
-        src: resolve('./runtime/locokit-paths.mjs'),
-        filename: 'locokit-paths.mjs',
-      },
-    ]
-    filesToTemplate.forEach((f) => {
-      addTemplate(f)
-    })
 
     extendPages(function (pages: NuxtPage[]) {
       const { submodules } = options
@@ -416,11 +392,6 @@ export default defineNuxtModule<ModuleOptions>({
         meta: {
           protected: false,
         },
-      })
-      pages.push({
-        name: 'simple',
-        path: '/simple',
-        file: resolve('./runtime/pages/simple.vue'),
       })
 
       /**

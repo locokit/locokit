@@ -1,20 +1,18 @@
 <template>
-  <div class="h-screen bg-cover bg-no-repeat bg-center">
-    <h1>Error</h1>
-
-    <h2>[{{ error.statusCode }}] {{ error.statusMessage }} {{ error.url }}</h2>
-
+  <div
+    class="h-screen bg-cover bg-no-repeat bg-center"
+    :style="{
+      background:
+        'bottom center / contain no-repeat url' +
+        '(' +
+        runtimeConfig.public.ERROR_BACKGROUND_IMAGE_URL +
+        ')' +
+        'var(--primary-color)',
+    }"
+  >
     <div
       v-if="error.statusCode === 404"
       class="container mx-auto text-center justify-center flex-1"
-      :style="{
-        background:
-          'bottom center / contain no-repeat url' +
-          '(' +
-          runtimeConfig.public.ERROR_BACKGROUND_IMAGE_URL +
-          ')' +
-          'var(--primary-color)',
-      }"
     >
       <span class="text-white pt-8 mb-2 text-3xl text-9xl font-black sr-only"
         >404</span
@@ -27,11 +25,21 @@
       </h2>
     </div>
 
-    <code v-html="error.message.replaceAll('\n', '<br>')" />
+    <div v-else class="container mx-auto text-center justify-center flex-1">
+      <span class="text-white pt-8 mb-2 text-3xl text-9xl font-black sr-only">{{
+        error.statusCode
+      }}</span>
+      <h1 class="text-white pt-8 mb-2 text-3xl font-bold tracking-tight">
+        {{ t('pages.error.defaultTitle') }}
+      </h1>
+      <p class="text-white pt-8 mb-2 text-xl font-bold tracking-tight">
+        {{ error.message }}
+      </p>
+    </div>
 
     <div class="container mx-auto text-center justify-center flex-1">
       <NuxtLink
-        :to="{ name: ROUTES_NAMES.HOME }"
+        to="/"
         class="inline-block mt-4 p-component bg-green-600 hover:bg-green-800 text-white rounded-lg p-4 cursor-pointer ease-out hover:ease-in duration-500 border-solid border border-green-800"
       >
         <span
@@ -46,7 +54,6 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { ROUTES_NAMES } from '#build/locokit-paths'
 import { useRuntimeConfig, useHead, useError } from '#imports'
 
 const error = useError() as Ref<{

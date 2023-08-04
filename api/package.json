@@ -117,6 +117,7 @@
     "shx": "^0.3.4",
     "ts-node-dev": "^2.0.0",
     "vite-node": "^0.28.3",
+    "vite-plugin-static-copy": "^0.17.0",
     "vite-tsconfig-paths": "^4.0.5",
     "vitest": "^0.32.0"
   }
