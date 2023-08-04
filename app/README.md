@@ -18,6 +18,12 @@ npm install
 
 To `prepare` the Nuxt app, we have to build first the `nuxt-locokit` package.
 
+For this, we should use `turbo` that is able to prepare
+our Nuxt app by resolving local package dependencies.
+
+```bash
+turbo run nuxt:prepare
+```
 
 
 ## Development Server
