@@ -49,6 +49,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           target: locokit-api
           labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7
       # - name: Build and push locokit/app
       #   uses: docker/build-push-action@v4
       #   with:
@@ -97,3 +98,4 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           target: locokit-app
           labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7
