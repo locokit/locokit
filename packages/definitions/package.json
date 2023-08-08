@@ -9,6 +9,6 @@
   "author": "Mathieu Dartigues",
   "license": "MIT",
   "dependencies": {
-    "@sinclair/typebox": "^0.30.2"
+    "@sinclair/typebox": "~0.25.0"
   }
 }
