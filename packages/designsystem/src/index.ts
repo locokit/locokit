@@ -16,6 +16,8 @@ import FilterButton from './components/FilterButton/FilterButton.vue'
 import MessageForUser from './components/MessageForUser/MessageForUser.vue'
 import PickData from './components/PickData/PickData.vue'
 
+import { setup as setupVeeValidate } from './plugins/vee-validate'
+
 export {
   SignInForm,
   LostPasswordForm,
@@ -34,4 +36,5 @@ export {
   FilterButton,
   MessageForUser,
   PickData,
+  setupVeeValidate,
 }
