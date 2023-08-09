@@ -134,13 +134,13 @@ export default defineConfig(() => {
             dest: '',
           },
           {
-            src: 'migrations/*.sql',
-            dest: 'migrations',
+            src: 'migrations/functions/*.sql',
+            dest: 'migrations/functions',
           },
           {
             src: 'config/*.json',
             dest: 'config',
-          }
+          },
         ],
       }),
     ],
