@@ -4,7 +4,7 @@ import { Id, NullableId, Paginated, Params, ServiceMethods } from '@feathersjs/f
 import { Validator } from '@feathersjs/schema'
 import { TSchema } from '@feathersjs/typebox'
 
-import { EngineAdapter } from '@locokit/engine'
+import { GenericAdapter } from '@locokit/engine'
 
 type EngineParams = Partial<Params> & {
   /**
@@ -22,15 +22,15 @@ type EngineParams = Partial<Params> & {
   /**
    * LocoKit Engine adapter to the datasource
    */
-  $$adapter: EngineAdapter
+  $$adapter: GenericAdapter
   /**
    * LocoKit table / endpoint
    */
   $$lckTable: string
 }
 
-export class TableRecord<T = any, D = Partial<T>>
-  implements ServiceMethods<T | Paginated<T>, D, EngineParams, D>
+export class TableRecord<T = any, Data = Partial<T>, PatchData = Partial<Data>>
+  implements ServiceMethods<T | Paginated<T>, Data, EngineParams, PatchData>
 {
   app!: Application
 
@@ -64,8 +64,8 @@ export class TableRecord<T = any, D = Partial<T>>
      * * validate result
      * * return result
      */
-    const adapter = params.$$adapter as EngineAdapter
-    return await adapter.queryTable<T>(params.$$lckTable as string, {
+    const adapter = params.$$adapter as GenericAdapter
+    return await adapter.query<T>(params.$$lckTable as string, {
       ...params,
       query: {
         ...params.query,
@@ -78,8 +78,8 @@ export class TableRecord<T = any, D = Partial<T>>
 
   async get(id: Id, params: EngineParams): Promise<T>
   async get(id: Id, params: EngineParams): Promise<null | T> {
-    const adapter = params.$$adapter as EngineAdapter
-    return await adapter.getRecord(params.$$lckTable, id, {
+    const adapter = params.$$adapter as GenericAdapter
+    return await adapter.get(params.$$lckTable, id, {
       ...params,
       query: {
         ...params.query,
@@ -90,31 +90,34 @@ export class TableRecord<T = any, D = Partial<T>>
     })
   }
 
-  async create(data: D, params: EngineParams): Promise<T>
-  async create(data: D[], params: EngineParams): Promise<T[]>
-  async create(data: D | D[], params: EngineParams): Promise<T | T[]> {
+  async create(data: Data, params: EngineParams): Promise<T>
+  async create(data: Data[], params: EngineParams): Promise<T[]>
+  async create(data: Data | Data[], params: EngineParams): Promise<T | T[]> {
     if (Array.isArray(data)) throw new NotImplemented('Multi creation is not yet implemented.')
-    const adapter = params.$$adapter as EngineAdapter
+    const adapter = params.$$adapter as GenericAdapter
 
-    return await adapter.createRecord<T>(params.$$lckTable, data)
+    // @ts-expect-error
+    return await adapter.create<T>(params.$$lckTable, data)
   }
 
-  async update(id: Id, data: Partial<D>, params: EngineParams): Promise<T>
-  async update(id: null, data: Partial<D>, params: EngineParams): Promise<T[]>
-  async update(id: NullableId, data: Partial<D>, params: EngineParams): Promise<T | T[]> {
+  async update(id: Id, data: Data, params: EngineParams): Promise<T>
+  async update(id: null, data: Data, params: EngineParams): Promise<T[]>
+  async update(id: NullableId, data: Data, params: EngineParams): Promise<T | T[]> {
     if (!id) throw new NotImplemented('Multi update is not yet implemented')
-    const adapter = params.$$adapter as EngineAdapter
+    const adapter = params.$$adapter as GenericAdapter
 
-    return await adapter.updateRecord<D>(params.$$lckTable, id, data)
+    // @ts-expect-error
+    return await adapter.update<T>(params.$$lckTable, id, data)
   }
 
-  async patch(id: Id, data: Partial<D>, params: EngineParams): Promise<T>
-  async patch(id: null, data: Partial<D>, params: EngineParams): Promise<T[]>
-  async patch(id: NullableId, data: Partial<D>, params: EngineParams): Promise<T | T[]> {
+  async patch(id: Id, data: PatchData, params: EngineParams): Promise<T>
+  async patch(id: null, data: PatchData, params: EngineParams): Promise<T[]>
+  async patch(id: NullableId, data: PatchData, params: EngineParams): Promise<T | T[]> {
     if (!id) throw new NotImplemented('Multi patch is not yet implemented')
-    const adapter = params.$$adapter as EngineAdapter
+    const adapter = params.$$adapter as GenericAdapter
 
-    return await adapter.patchRecord<D>(params.$$lckTable, id, data)
+    // @ts-expect-error
+    return await adapter.patch<T>(params.$$lckTable, id, data)
   }
 
   async remove(id: Id, params: EngineParams): Promise<T>
@@ -122,8 +125,8 @@ export class TableRecord<T = any, D = Partial<T>>
   async remove(id: NullableId, params: EngineParams): Promise<null | T | T[]> {
     if (!id)
       throw new NotImplemented('Id for removal is mandatory. Multi remove are not yet implemented.')
-    const adapter = params.$$adapter as EngineAdapter
+    const adapter = params.$$adapter as GenericAdapter
 
-    return await adapter.deleteRecord(params.$$lckTable, id)
+    return await adapter.delete(params.$$lckTable, id)
   }
 }

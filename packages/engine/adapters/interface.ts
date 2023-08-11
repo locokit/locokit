@@ -1,6 +1,8 @@
 import { Column } from 'knex-schema-inspector/dist/types/column'
 import { Table as KnexInspectorTable } from 'knex-schema-inspector/dist/types/table'
 import { Params } from '@feathersjs/feathers'
+import { DiffItem } from '@locokit/definitions'
+import { ForeignKey } from 'knex-schema-inspector/dist/types/foreign-key'
 
 /**
  * Field propertys,
@@ -12,7 +14,8 @@ export type Field = Column
  * Table for a datasource
  */
 export interface Table extends KnexInspectorTable {
-  fields: Field[]
+  fields?: Field[]
+  foreigns?: ForeignKey[]
 }
 
 /**
@@ -30,6 +33,8 @@ export type TableRecord<T> = {
 export interface ConnexionSQL {
   type: 'sqlite3' | 'pg'
   options: string
+  role?: string
+  schema?: string
 }
 
 export interface ConnexionBaserow {
@@ -61,7 +66,7 @@ export interface PaginatedResult<T> {
   /**
    * Offset used to retrieve records
    */
-  offset: number
+  skip: number
   /**
    * Array of records
    */
@@ -69,47 +74,56 @@ export interface PaginatedResult<T> {
 }
 
 export interface GenericAdapter {
+  boot: () => Promise<void>
+
   /**
    * Call this function to close properly
    * dependencies or connexions
    */
   destroy: () => Promise<void>
 
-  boot: () => Promise<void>
-
   /**
    * Retrieve the schema of datasource,
    * mainly tables for SQL databases
    */
-  retrieveSchema: () => Promise<Table[]>
+  retrieveSchema: (schema?: string) => Promise<Table[]>
 
   /**
    * Retrieve the schema of a datasource's table.
    *
    * Name, and fields.
    */
-  retrieveTableSchema: (tableName: string) => Promise<Table>
+  retrieveTable: (tableName: string) => Promise<Table>
 
-  queryTable: <T>(
+  /**
+   * Apply a migration
+   */
+  applyMigration: (migration: DiffItem[]) => Promise<void>
+
+  query: <T>(
     tableName: string,
     params?: Params & { query: Record<string, any> },
   ) => Promise<PaginatedResult<T>>
 
-  createRecord: <Result>(tableName: string, record: Partial<Result>) => Promise<Result>
+  get: <Result>(
+    tableName: string,
+    id: string | number,
+    params?: Params & { query: Record<string, any> },
+  ) => Promise<Result>
 
-  getRecord: <Result>(tableName: string, id: string | number) => Promise<Result>
+  create: <Result>(tableName: string, record: Partial<Result>) => Promise<Result>
 
-  patchRecord: <Result, PatchData extends Partial<Result> = Partial<Result>>(
+  patch: <Result, PatchData extends Partial<Result> = Partial<Result>>(
     tableName: string,
     id: string | number,
     record: PatchData,
   ) => Promise<Result>
 
-  updateRecord: <Result, UpdateData extends Partial<Result> = Partial<Result>>(
+  update: <Result, UpdateData extends Partial<Result> = Partial<Result>>(
     tableName: string,
     id: string | number,
     record: UpdateData,
   ) => Promise<Result>
 
-  deleteRecord: <Result>(tableName: string, id: string | number) => Promise<Result | null>
+  delete: <Result>(tableName: string, id: string | number) => Promise<Result | null>
 }

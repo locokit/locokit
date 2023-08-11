@@ -637,10 +637,13 @@ export class ObjectionAdapter<
 
     // crow code
     // $eager for Objection eager queries
-    if (filters?.$eager) {
-      builder.joinRelated(filters.$eager, eagerOptions)
-      delete filters.$eager
-    }
+
+    // WE DON'T set $eager for COUNT queries
+    // as it's only a loading of related data ?
+    // if (filters?.$eager) {
+    //   builder.joinRelated(filters.$eager, eagerOptions)
+    //   delete filters.$eager
+    // }
 
     if (this.allowedGraph) {
       builder.allowGraph(this.allowedGraph)
@@ -815,7 +818,7 @@ export class ObjectionAdapter<
 
   async _findOrGet(id: NullableId, params: ServiceParams = {} as ServiceParams) {
     const { name, id: idField } = this.getOptions(params)
-    objectionLogger.info('_findOrGet for id: %s, with idField: %s', id, idField)
+    objectionLogger.debug('_findOrGet for id: %s, with idField: %s', id, idField)
 
     /**
      * Compute ids query for comoposable keys

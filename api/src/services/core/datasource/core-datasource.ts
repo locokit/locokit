@@ -1,5 +1,5 @@
 import { SERVICES } from '@locokit/definitions'
-import type { Application } from '../../../declarations'
+import type { Application } from '@/declarations'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
 
 import { CoreDatasource } from './core-datasource.class'
@@ -36,7 +36,7 @@ export function coreDatasourceService(app: Application): void {
 }
 
 // Add this service to the service type index
-declare module '../../../declarations' {
+declare module '@/declarations' {
   interface ServiceTypes {
     [SERVICES.CORE_DATASOURCE]: CoreDatasource
   }

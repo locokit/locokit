@@ -2,7 +2,6 @@ import { Knex } from 'knex'
 
 export async function seed(knex: Knex): Promise<any> {
   try {
-
     const trx = await knex.transaction()
     /**
      * remove each workspace
@@ -18,10 +17,9 @@ export async function seed(knex: Knex): Promise<any> {
     )
 
     console.log('All workspaces dedicated schemas removed')
-
     await knex('lck_workspace').withSchema('core').transacting(trx).delete()
-
     console.log('Workspaces removed')
+
     /**
      * remove all users
      */

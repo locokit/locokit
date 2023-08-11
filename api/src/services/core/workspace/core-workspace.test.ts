@@ -4,12 +4,12 @@ import { expect, describe, it, beforeAll, afterAll, afterEach, beforeEach } from
 import { builderTestEnvironment, SetupData } from '@/configure.test'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { WorkspaceResult } from './core-workspace.schema'
-import { Paginated } from '@feathersjs/feathers'
+import { Id, Paginated } from '@feathersjs/feathers'
 import { BadRequest, Forbidden } from '@feathersjs/errors/lib'
 import path from 'path'
 import fs from 'fs'
 
-describe('workspace service', () => {
+describe('[core] workspace service', () => {
   const app = createApp()
   const builder = builderTestEnvironment('core-workspace')
   let setupData: SetupData
@@ -686,20 +686,22 @@ describe('workspace service', () => {
   describe('manage failures...', () => {
     it('do not create the workspace if an error occured when the dedicated schema have been created (transaction)', async () => {
       expect.assertions(3)
+
+      // setup
       // mock the createWorkspaceSchema db function
       const mockCreateWorkspaceSchemaFunction = `
 CREATE OR REPLACE FUNCTION "core"."createWorkspaceSchema" (IN "workspace_id" uuid)
-  RETURNS void
-  LANGUAGE 'plpgsql'
-  VOLATILE
-  PARALLEL UNSAFE
-  COST 100
+RETURNS void
+LANGUAGE 'plpgsql'
+VOLATILE
+PARALLEL UNSAFE
+COST 100
 
 AS $BODY$
 
 BEGIN
 
-  RAISE EXCEPTION 'Mock creation of workspace for testing purpose : abort ! abort !';
+RAISE EXCEPTION 'Mock creation of workspace for testing purpose : abort ! abort !';
 
 END
 $BODY$;
@@ -729,17 +731,19 @@ $BODY$;
         .raw('SELECT * FROM pg_catalog.pg_namespace WHERE nspname ILIKE ?', 'failing')
       expect(result.rowCount).toBe(0)
 
+      // teardown
       // restore the createWorkspaceSchema db function
       const createWorkspaceSchemaCode = fs.readFileSync(
-        path.join(__dirname, '../../../../migrations/createWorkspaceSchema.sql'),
+        path.join(__dirname, '../../../../migrations/functions/createWorkspaceSchema.sql'),
         'utf-8',
       )
-
       await app.get('db').schema.withSchema('core').raw(createWorkspaceSchemaCode)
     })
 
     it('do not delete the workspace if an error occured when removing its dedicated schema (transaction)', async () => {
       expect.assertions(3)
+
+      // setup
       // mock the createWorkspaceSchema db function
       const mockDropWorkspaceSchemaFunction = `
 CREATE OR REPLACE FUNCTION core."dropWorkspaceSchema"(IN "workspace_slug" text)
@@ -756,7 +760,7 @@ $BODY$;
 `
       await app.get('db').schema.withSchema('core').raw(mockDropWorkspaceSchemaFunction)
 
-      const workspace = await app.service(SERVICES.CORE_WORKSPACE).create({
+      const workspace: WorkspaceResult = await app.service(SERVICES.CORE_WORKSPACE).create({
         name: 'for removal purpose',
         documentation: 'Core workspace for testing forbid workspace removal for non admin users',
         public: false,
@@ -795,9 +799,10 @@ $BODY$;
         .raw('SELECT * FROM pg_catalog.pg_namespace WHERE nspname ILIKE ?', workspaceSlug)
       expect(result.rowCount).toBe(1)
 
+      // teardown
       // restore the dropWorkspaceSchema db function
       const dropWorkspaceSchemaCode = fs.readFileSync(
-        path.join(__dirname, '../../../../migrations/dropWorkspaceSchema.sql'),
+        path.join(__dirname, '../../../../migrations/functions/dropWorkspaceSchema.sql'),
         'utf-8',
       )
 
@@ -819,8 +824,8 @@ $BODY$;
       // setup / mock the core-workspace for overwrite the `_remove` function and fail
       const originalRemove = app.service(SERVICES.CORE_WORKSPACE)._remove
 
-      app.service(SERVICES.CORE_WORKSPACE)._remove = function (id: string) {
-        throw new Error('Fail to remove workspace id ' + id)
+      app.service(SERVICES.CORE_WORKSPACE)._remove = async function (id: Id, params?: any) {
+        throw new Error(`Fail to remove workspace id ${id as string}`)
       }
       // patch
       await app.service(SERVICES.CORE_WORKSPACE).patch(workspace.id, {
@@ -980,6 +985,8 @@ $BODY$;
       })
     })
   })
+
+  it.todo("don't take in consideration a slug given for creation (and maybe throw an error ?)")
 
   afterAll(async () => {
     await builder.teardownWorkspace()

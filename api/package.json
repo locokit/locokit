@@ -76,8 +76,8 @@
     "feathers-hooks-common": "^7.0.3",
     "feathers-locokit": "",
     "feathers-swagger": "^3.0.0",
-    "knex": "^2.1.0",
-    "knex-schema-inspector": "^2.0.2",
+    "knex": "^2.5.1",
+    "knex-schema-inspector": "^3.0.1",
     "koa-helmet": "^6.1.0",
     "koa-ratelimit": "^5.0.1",
     "koa-static": "^5.0.0",
@@ -122,21 +122,5 @@
     "vite-node": "^0.28.3",
     "vite-tsconfig-paths": "^4.0.5",
     "vitest": "^0.32.0"
-  },
-  "overrides": {
-    "@feathersjs/adapter-commons": "^5.0.0",
-    "@feathersjs/authentication": "^5.0.0",
-    "@feathersjs/authentication-client": "^5.0.0",
-    "@feathersjs/authentication-local": "^5.0.0",
-    "@feathersjs/authentication-oauth": "^5.0.0",
-    "@feathersjs/configuration": "^5.0.0",
-    "@feathersjs/errors": "^5.0.0",
-    "@feathersjs/feathers": "^5.0.0",
-    "@feathersjs/knex": "^5.0.0",
-    "@feathersjs/koa": "^5.0.0",
-    "@feathersjs/schema": "^5.0.0",
-    "@feathersjs/socketio": "^5.0.0",
-    "@feathersjs/transport-commons": "^5.0.0",
-    "@feathersjs/typebox": "^5.0.0"
   }
 }

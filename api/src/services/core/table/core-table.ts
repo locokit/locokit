@@ -18,6 +18,11 @@ export function coreTableService(app: Application): void {
   // Register our service on the Feathers application
   app.use(SERVICES.CORE_TABLE, new CoreTable(options), {
     // A list of all methods this service exposes externally
+    // we must not create tables from this service
+    // core/table is here to access all tables from all workspaces,
+    // and maybe patch them
+    // workspace/table is the endpoint to use for creating tables,
+    // related to a specific workspace
     methods: ['find', 'get', 'patch'],
     // You can add additional custom events to be sent to clients here
     events: [],
@@ -36,7 +41,7 @@ export function coreTableService(app: Application): void {
 }
 
 // Add this service to the service type index
-declare module '../../../declarations' {
+declare module '@/declarations' {
   interface ServiceTypes {
     [SERVICES.CORE_TABLE]: CoreTable
   }

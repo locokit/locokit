@@ -1,6 +1,6 @@
 import { SERVICES } from '@locokit/definitions'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
-import type { Application } from '../../../declarations'
+import type { Application } from '@/declarations'
 import { ObjectionAdapterOptions } from '@/feathers-objection'
 
 import { PolicyService, policyHooks } from './policy.class'

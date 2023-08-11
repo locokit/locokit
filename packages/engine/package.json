@@ -11,5 +11,11 @@
     "nocode"
   ],
   "author": "Mathieu Dartigues",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "knex": "^2.4.2",
+    "knex-schema-inspector": "^3.0.1",
+    "objection": "^3.0.4",
+    "winston": "^3.8.1"
+  }
 }

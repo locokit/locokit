@@ -2,14 +2,23 @@ import { resolve } from '@feathersjs/schema'
 import type { HookContext } from '@/declarations'
 
 import type {
-  TableRelationData,
+  TableRelationDataInternal,
   TableRelationPatch,
   TableRelationResult,
   TableRelationQuery,
 } from './table-relation.schema'
+import { toSnakeCase } from '@/utils/toSnakeCase'
 
 // Resolver for the basic data model (e.g. creating new entries)
-export const tableRelationDataResolver = resolve<TableRelationData, HookContext>({})
+export const tableRelationDataResolver = resolve<TableRelationDataInternal, HookContext>({
+  /**
+   * Compute a slug before insertion too
+   */
+  async slug(slug, data) {
+    if (slug) return slug
+    return toSnakeCase(data.name)
+  },
+})
 
 // Resolver for making partial updates
 export const tableRelationPatchResolver = resolve<TableRelationPatch, HookContext>({})

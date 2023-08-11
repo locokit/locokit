@@ -19,7 +19,7 @@ DECLARE
 
 BEGIN
 
-  RAISE NOTICE 'Calling createWorkspaceSchema(''%'')', $1;
+  RAISE NOTICE 'Calling createWorkspaceSchema(''%'')', workspace_id;
 
   SET search_path = core;
 
@@ -85,7 +85,7 @@ BEGIN
   -- CREATE tables from core schema
   --
   EXECUTE format('CREATE TABLE "policy" (
-    workspaceId uuid DEFAULT ''%s'',
+    "workspaceId" uuid DEFAULT ''%s'',
 
     CONSTRAINT "PK_policy" PRIMARY KEY (id),
 
@@ -94,10 +94,10 @@ BEGIN
       ON UPDATE NO ACTION
       ON DELETE CASCADE
 
-  ) INHERITS ("core"."lck_policy")', $1);
+  ) INHERITS ("core"."lck_policy")', workspace_id);
 
   EXECUTE format('CREATE TABLE "group" (
-    workspaceId uuid DEFAULT ''%s'',
+    "workspaceId" uuid DEFAULT ''%s'',
 
     CONSTRAINT "PK_group" PRIMARY KEY (id),
 
@@ -111,7 +111,7 @@ BEGIN
       ON UPDATE NO ACTION
       ON DELETE NO ACTION
 
-  ) INHERITS ("core"."lck_group")', $1);
+  ) INHERITS ("core"."lck_group")', workspace_id);
 
   CREATE INDEX IF NOT EXISTS "IDX_group_policy"
     ON "group" USING btree
@@ -147,15 +147,37 @@ BEGIN
     "workspaceId" uuid NOT NULL DEFAULT ''%s'',
 
     CONSTRAINT "PK_datasource" PRIMARY KEY (id),
-    CONSTRAINT "UNQ_ds_slug" UNIQUE (slug, "workspaceId"),
-    CONSTRAINT "CHECK_datasource_client"
-      CHECK (client = ANY (ARRAY[''sqlite3''::text, ''pg''::text])),
-    CONSTRAINT "CHECK_datasource_type"
-      CHECK (client = ANY (ARRAY[''remote''::text, ''local''::text]))
+    CONSTRAINT "UNQ_ds_slug" UNIQUE (slug, "workspaceId")
 
-  ) INHERITS ("core"."lck_datasource")', $1);
+  ) INHERITS ("core"."lck_datasource")', workspace_id);
 
   -- CREATE all tables for metamodel
+
+  CREATE TABLE "migration" (
+    id uuid NOT NULL DEFAULT gen_random_uuid(),
+
+    name character varying(50),
+
+    "datasourceId" uuid NOT NULL,
+
+    applied timestamp with time zone DEFAULT null,
+    reverted timestamp with time zone DEFAULT null,
+
+    "diffToApply" jsonb DEFAULT null,
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "PK_migration" PRIMARY KEY (id),
+    CONSTRAINT "FK_migration_datasource" FOREIGN KEY ("datasourceId")
+      REFERENCES "datasource" (id) MATCH SIMPLE
+      ON UPDATE NO ACTION
+      ON DELETE CASCADE
+  );
+
+  CREATE INDEX IF NOT EXISTS "IDX_migration_datasource"
+    ON "migration" USING btree
+    ("datasourceId" ASC NULLS LAST)
+    TABLESPACE pg_default;
 
   CREATE TABLE "table" (
     CONSTRAINT "PK_table" PRIMARY KEY (id),
@@ -178,8 +200,8 @@ BEGIN
   CREATE TABLE "tableField" (
     id uuid NOT NULL DEFAULT gen_random_uuid(),
     name character varying(50),
-    type character varying(20),
-    "dbType" character varying(20),
+    type character varying(24),
+    "dbType" character varying(30),
     slug character varying(50),
     documentation text,
     position integer,
@@ -199,6 +221,12 @@ BEGIN
     CONSTRAINT "PK_tableField" PRIMARY KEY (id),
     CONSTRAINT "CHECK_tableField_type" CHECK (type = ANY (ARRAY[
       --
+      -- Ids
+      --
+      'ID_NUMBER'::text,
+      'ID_UUID'::text,
+
+      --
       -- Primitives
       --
       'BOOLEAN'::text,
@@ -211,6 +239,9 @@ BEGIN
 
       'DATE'::text,
       'DATETIME'::text,
+
+      'UUID'::text,
+
       --
       -- Users / groups
       --

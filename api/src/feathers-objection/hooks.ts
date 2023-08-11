@@ -44,7 +44,7 @@ export const start =
           transaction.id = Date.now()
 
           context.params = { ...context.params, transaction }
-          objectionLogger.info(
+          objectionLogger.debug(
             '[%s] new transaction [%s] %s',
             transaction.id,
             context.method,
@@ -75,14 +75,14 @@ export const end = () => (context: HookContext) => {
   context.params = { ...context.params, transaction: parent }
   transaction.starting = false
 
-  objectionLogger.info('[%s] commiting...', id)
+  objectionLogger.debug('[%s] commiting...', id)
 
   return trx
     .commit()
     .then(() => promise)
     .then(() => transaction.resolve?.(true))
     .then(() => {
-      objectionLogger.info('[%s] transaction end', id)
+      objectionLogger.debug('[%s] transaction end', id)
     })
     .then(() => context)
 }

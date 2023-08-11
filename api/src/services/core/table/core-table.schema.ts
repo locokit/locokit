@@ -1,4 +1,5 @@
 import { Type, Static, querySyntax } from '@feathersjs/typebox'
+import { CoreDatasourceSchema } from '../datasource/core-datasource.schema'
 
 export const coreTableSchema = Type.Object(
   {
@@ -20,6 +21,9 @@ export const coreTableSchema = Type.Object(
       format: 'uuid',
       description: 'Related datasource',
     }),
+    datasource: Type.Optional(
+      Type.Any({ description: 'Related datasource', $schema: 'DatasourceSchema' }),
+    ),
   },
   {
     $id: 'CoreTableSchema',
@@ -30,13 +34,15 @@ export const coreTableSchema = Type.Object(
 export type CoreTableSchema = Static<typeof coreTableSchema>
 
 // Schema for making partial updates
-export const coreTablePatchSchema = Type.Omit(coreTableSchema, ['id'])
+export const coreTablePatchSchema = Type.Omit(coreTableSchema, ['id', 'datasource'])
 
 export type CoreTablePatch = Static<typeof coreTablePatchSchema>
 
 // Schema for the data that is being returned
 export const coreTableResultSchema = coreTableSchema
-export type CoreTableResult = Static<typeof coreTableResultSchema>
+export type CoreTableResult = Static<typeof coreTableResultSchema> & {
+  datasource?: CoreDatasourceSchema
+}
 
 // Schema for allowed query properties
 export const coreTableQuerySchema = Type.Intersect(

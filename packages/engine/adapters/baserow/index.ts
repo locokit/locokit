@@ -1,4 +1,5 @@
 import { Params } from '@feathersjs/feathers'
+import { DiffItem } from '@locokit/definitions'
 import { ConnexionBaserow, GenericAdapter, Field, Table } from '../interface'
 
 export class BaserowAdapter implements GenericAdapter {
@@ -57,7 +58,7 @@ export class BaserowAdapter implements GenericAdapter {
     return this.tableIds.map((id) => 'table_' + id)
   }
 
-  async retrieveTableSchema(tableName: string) {
+  async retrieveTable(tableName: string) {
     const tableId = tableName.replace('table_', '')
     const result = {
       name: tableName,
@@ -77,7 +78,11 @@ export class BaserowAdapter implements GenericAdapter {
     return result
   }
 
-  async getRecord<T>(tableName: string, id: string | number) {
+  async applyMigration(migration: DiffItem[]): Promise<void> {
+    throw new Error('Migration is not yet implemented for BaseRow Adapter.')
+  }
+
+  async get<T>(tableName: string, id: string | number): Promise<T> {
     const apiURL =
       this.apiURL + 'api/database/rows/table/' + tableName.replace('table_', '') + '/' + id
     const response = await fetch(apiURL, {
@@ -89,7 +94,7 @@ export class BaserowAdapter implements GenericAdapter {
     return rows.results
   }
 
-  async queryTable(tableName: string, params?: Params) {
+  async query(tableName: string, params?: Params) {
     const apiURL = this.apiURL + 'api/database/rows/table/' + tableName.replace('table_', '') + '/'
     const response = await fetch(apiURL, {
       headers: {
@@ -100,7 +105,7 @@ export class BaserowAdapter implements GenericAdapter {
     return rows.results
   }
 
-  async createRecord(tableName: string, data: any) {
+  async create(tableName: string, data: any) {
     console.log('create record', tableName, data)
     const apiURL = this.apiURL + 'api/database/rows/table/' + tableName.replace('table_', '') + '/'
     const response = await fetch(apiURL, {
@@ -112,7 +117,7 @@ export class BaserowAdapter implements GenericAdapter {
     return rows.results
   }
 
-  async patchRecord<T>(tableName: string, id: string | number, record: Partial<T>) {
+  async patch<T>(tableName: string, id: string | number, record: Partial<T>) {
     console.log('patch record', tableName, id)
     const apiURL = this.apiURL + 'api/database/rows/table/' + tableName.replace('table_', '') + '/'
     const response = await fetch(apiURL, {
@@ -124,7 +129,7 @@ export class BaserowAdapter implements GenericAdapter {
     return rows.results
   }
 
-  async updateRecord<T>(tableName: string, id: string | number, record: Partial<T>) {
+  async update<T>(tableName: string, id: string | number, record: Partial<T>) {
     console.log('update record', tableName, id)
     const apiURL = this.apiURL + 'api/database/rows/table/' + tableName.replace('table_', '') + '/'
     const response = await fetch(apiURL, {
@@ -136,10 +141,10 @@ export class BaserowAdapter implements GenericAdapter {
     return rows.results
   }
 
-  async deleteRecord<T>(tableName: string, id: string | number): Promise<T | null> {
+  async delete<T>(tableName: string, id: string | number): Promise<T | null> {
     console.log('delete record', tableName, id)
     const apiURL = this.apiURL + 'api/database/rows/table/' + tableName.replace('table_', '') + '/'
-    const response = await fetch(apiURL, {
+    await fetch(apiURL, {
       headers: {
         Authorization: 'Token ' + this.token,
       },

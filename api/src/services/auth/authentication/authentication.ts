@@ -3,12 +3,12 @@ import { LocalStrategy } from '@feathersjs/authentication-local'
 import { SERVICES } from '@locokit/definitions'
 import { ServiceSwaggerOptions } from 'feathers-swagger'
 
-import type { Application } from '../../../declarations'
+import type { Application } from '@/declarations'
 import { hooks } from './authentication.hooks'
 import { JWTStrategyEnhanced } from './jwt.strategy'
 import { PublicStrategy } from './public.strategy'
 
-declare module '../../../declarations' {
+declare module '@/declarations' {
   interface ServiceTypes {
     [SERVICES.AUTH_AUTHENTICATION]: AuthenticationService
   }

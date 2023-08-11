@@ -4,7 +4,7 @@ import { createApp } from '@/app'
 import axios from 'axios'
 import { builderTestEnvironment, SetupData } from '@/configure.test'
 
-describe('users service', () => {
+describe('[core] user service', () => {
   const app = createApp()
   const port = (app.get('port') as number) || 8998
   const builder = builderTestEnvironment('authentication')
@@ -204,6 +204,8 @@ describe('users service', () => {
   it.todo('forbid users to get another user')
   it.todo('allow users to find users and retrieve their username')
   it.todo('allow users to find users and filter on their username')
+  it.todo('forbid users to find users and filter on other fields than username')
+  it.todo('does not return firstname and lastname')
 
   it.todo('forbid the creation of a user from external calls')
   it.todo('forbid the creation of a user from external calls for public users')

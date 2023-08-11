@@ -1,4 +1,4 @@
-import { Application } from '../../../declarations'
+import { Application } from '@/declarations'
 import { disallow } from 'feathers-hooks-common'
 
 import nodemailer, { SendMailOptions, SentMessageInfo, Transporter } from 'nodemailer'

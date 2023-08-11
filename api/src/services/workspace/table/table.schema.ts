@@ -3,6 +3,7 @@ import { dataValidator, queryValidator } from '@/commons/validators'
 import { DatasourceSchema } from '../datasource/datasource.schema'
 import { TableFieldSchema } from '../table-field/table-field.schema'
 import { TableRelationSchema } from '../table-relation/table-relation.schema'
+import { OptionalNullable } from '@locokit/definitions'
 
 /**
  * Main schema
@@ -18,7 +19,7 @@ export const tableSchema = Type.Object(
     slug: Type.String({
       description: 'Table name in the database',
     }),
-    documentation: Type.Optional(
+    documentation: OptionalNullable(
       Type.String({
         description: 'Explain what is this table',
       }),
@@ -59,12 +60,19 @@ export type TableResult = Static<typeof tableResultSchema> & TableRelations
 /**
  * Creation
  */
-export const tableDataSchema = Type.Omit(tableSchema, ['id', 'datasource', 'fields'], {
+export const tableDataSchema = Type.Omit(tableSchema, ['id', 'slug', 'datasource', 'fields'], {
   $id: 'TableDataSchema',
   additionalProperties: false,
 })
 export type TableData = Static<typeof tableDataSchema>
 export const tableDataValidator = getValidator(tableDataSchema, dataValidator)
+
+export const tableDataInternalSchema = Type.Omit(tableSchema, ['id', 'datasource', 'fields'], {
+  $id: 'TableDataInternalSchema',
+  additionalProperties: false,
+})
+export type TableDataInternal = Static<typeof tableDataInternalSchema>
+export const tableDataInternalValidator = getValidator(tableDataInternalSchema, dataValidator)
 
 /**
  * Patch

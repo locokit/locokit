@@ -2,9 +2,7 @@ import { Type, Static, StringEnum, querySyntax, getValidator } from '@feathersjs
 import { dataValidator, queryValidator } from '@/commons/validators'
 import { TableResult } from '../table/table.schema'
 import { DB_DIALECT } from '@locokit/definitions'
-
-// Schema for the basic data model (e.g. creating new entries)
-// export const datasourceDataJSONSchema: JSONSchemaDefinition =
+import { WorkspaceResult } from '@/services/core/workspace/core-workspace.schema'
 
 export const datasourceSchema = Type.Object(
   {
@@ -23,6 +21,7 @@ export const datasourceSchema = Type.Object(
       }),
     ),
     client: StringEnum(['pg', 'sqlite3']),
+    type: StringEnum(['remote', 'local']),
     connection: Type.String({
       description: 'Connexion string to your datasource',
     }),
@@ -87,10 +86,11 @@ export const datasourceResultSchema = datasourceSchema
 export type DatasourceResult = Static<typeof datasourceResultSchema> &
   DatasourceRelations & {
     client: DB_DIALECT
+    workspace?: WorkspaceResult
   }
 
 // Schema / validator for creation
-export const datasourceDataSchema = Type.Omit(datasourceSchema, ['id'], {
+export const datasourceDataSchema = Type.Omit(datasourceSchema, ['id', 'tables', 'slug'], {
   $id: 'DatasourceData',
   additionalProperties: false,
 })
@@ -98,6 +98,18 @@ export type DatasourceData = Static<typeof datasourceDataSchema> & {
   client: DB_DIALECT
 }
 export const datasourceDataValidator = getValidator(datasourceDataSchema, dataValidator)
+
+export const datasourceDataInternalSchema = Type.Omit(datasourceSchema, ['id', 'tables'], {
+  $id: 'DatasourceDataInternal',
+  additionalProperties: false,
+})
+export type DatasourceDataInternal = Static<typeof datasourceDataInternalSchema> & {
+  client: DB_DIALECT
+}
+export const datasourceDataInternalValidator = getValidator(
+  datasourceDataInternalSchema,
+  dataValidator,
+)
 
 // Schema for making partial updates
 export const datasourcePatchSchema = Type.Omit(datasourceSchema, ['id'])

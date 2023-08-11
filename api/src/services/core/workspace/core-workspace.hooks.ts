@@ -67,21 +67,7 @@ export const workspaceHooks = {
     all: [],
     get: [schemaHooks.resolveData(workspaceResolvers.result), transaction.end()],
     find: [schemaHooks.resolveData(workspaceResolvers.result), transaction.end()],
-    create: [
-      /**
-       * Creation of the dedicated schema
-       */
-      async function createDedicatedSchema(context: HookContext) {
-        /**
-         * Execution of the createWorkspaceSchema function
-         */
-        const knex = transaction.getKnex(context)
-        await knex
-          .raw('SELECT core."createWorkspaceSchema"(?)', context.result.id)
-          .transacting(context.params.transaction.trx)
-      },
-      transaction.end(),
-    ],
+    create: [transaction.end()],
     patch: [transaction.end()],
     remove: [transaction.end()],
   },

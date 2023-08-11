@@ -2,7 +2,7 @@ import { SERVICES } from '@locokit/definitions'
 import { describe, it, assert } from 'vitest'
 import { createApp } from '../../../app'
 
-describe('policy service', () => {
+describe('[core] policy service', () => {
   const app = createApp()
   it('registered the service', () => {
     const service = app.service(SERVICES.CORE_POLICY)

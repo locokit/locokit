@@ -1,17 +1,16 @@
 import { HookContext, NextFunction } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
 import { SERVICES, USER_PROFILE } from '@locokit/definitions'
-import { BaserowAdapter } from '@locokit/engine/adapters/baserow'
-import { SQLAdapter } from '@locokit/engine/adapters/sql'
 import { Ajv, addFormats, Validator, hooks as schemaHooks } from '@feathersjs/schema'
 import type { FormatsPluginOptions } from '@feathersjs/schema'
 import ajvErrors from 'ajv-errors'
 import { NotFound } from '@feathersjs/errors/lib'
 import { Type, querySyntax, getValidator, TSchema } from '@feathersjs/typebox'
-import { createAdapter } from '@locokit/engine'
+import { createAdapter, GenericAdapter } from '@locokit/engine'
 import { convertLocoKitFieldTypeToTypeboxSchema } from './table-record.helpers'
+import { toEagerRegExp } from '@/utils/toEagerRegExp'
 
-const adapters: Record<string, BaserowAdapter | SQLAdapter> = {}
+const adapters: Record<string, GenericAdapter> = {}
 
 const validators: Record<string, Validator> = {}
 
@@ -114,9 +113,7 @@ export const tableRecordHooks = {
                 return acc
               }, [] as string[])
               .join('|') ?? ''
-          const tableRelationRegexp = new RegExp(
-            `^(${tableRelationsNames})|\\[(${tableRelationsNames})(,(${tableRelationsNames})(?!.*\\2))*\\]$`,
-          )
+          const tableRelationRegexp = toEagerRegExp(tableRelationsNames)
           // console.log(tableRelationsNames, tableRelationRegexp)
 
           const tableQuerySchema = Type.Intersect(

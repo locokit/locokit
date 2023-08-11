@@ -3,7 +3,7 @@ import { Params } from '@feathersjs/feathers'
 import { SERVICES, USER_PROFILE } from '@locokit/definitions'
 import { RateLimiterMemory } from 'rate-limiter-flexible'
 
-import { Application } from '../../../declarations'
+import { Application } from '@/declarations'
 import { logger } from '../../../logger'
 import { authManagementSettings } from '../authmanagement/authmanagement.settings'
 import { SignUpData } from './signup.schema'

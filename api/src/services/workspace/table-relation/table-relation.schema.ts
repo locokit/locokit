@@ -1,21 +1,19 @@
 import { Type, Static, querySyntax, getValidator, StringEnum } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '@/commons/validators'
+import { TableResult } from '../table/table.schema'
+import { TableFieldResult } from '../table-field/table-field.schema'
 
 export const tableRelationSchema = Type.Object(
   {
     id: Type.String({
       format: 'uuid',
     }),
-    name: Type.Optional(
-      Type.String({
-        description: 'Name of the relation',
-      }),
-    ),
-    slug: Type.Optional(
-      Type.String({
-        description: 'Slug of the relation, needed for joining relation',
-      }),
-    ),
+    name: Type.String({
+      description: 'Name of the relation',
+    }),
+    slug: Type.String({
+      description: 'Slug of the relation, needed for joining relation',
+    }),
     fromTableId: Type.String({
       format: 'uuid',
       description: 'From table',
@@ -44,7 +42,7 @@ export const tableRelationSchema = Type.Object(
         description: 'Through table field',
       }),
     ),
-    type: StringEnum(['1-n', 'n-1', 'n-m', '1-1']),
+    type: StringEnum(['1-n', 'n-m', '1-1']),
     settings: Type.Any({
       description: 'Relation settings',
     }),
@@ -63,11 +61,20 @@ export const tableRelationSchema = Type.Object(
   },
 )
 
-export type TableRelationSchema = Static<typeof tableRelationSchema>
+interface TableRelationEager {
+  fromField?: TableFieldResult
+  fromTable?: TableResult
+  toField?: TableFieldResult
+  toTable?: TableResult
+  throughTable?: TableResult
+  throughField?: TableFieldResult
+}
+
+export type TableRelationSchema = Static<typeof tableRelationSchema> & TableRelationEager
 
 export const tableRelationDataSchema = Type.Omit(
   tableRelationSchema,
-  ['id', 'createdAt', 'updatedAt'],
+  ['id', 'slug', 'createdAt', 'updatedAt'],
   {
     $id: 'TableRelationData',
     additionalProperties: false,
@@ -75,6 +82,20 @@ export const tableRelationDataSchema = Type.Omit(
 )
 export type TableRelationData = Static<typeof tableRelationDataSchema>
 export const tableRelationDataValidator = getValidator(tableRelationDataSchema, dataValidator)
+
+export const tableRelationDataInternalSchema = Type.Omit(
+  tableRelationSchema,
+  ['id', 'createdAt', 'updatedAt'],
+  {
+    $id: 'TableRelationDataInternal',
+    additionalProperties: false,
+  },
+)
+export type TableRelationDataInternal = Static<typeof tableRelationDataInternalSchema>
+export const tableRelationDataInternalValidator = getValidator(
+  tableRelationDataInternalSchema,
+  dataValidator,
+)
 
 export const tableRelationPatchSchema = Type.Omit(
   tableRelationDataSchema,
@@ -92,7 +113,7 @@ export const tableRelationResultSchema = Type.Omit(tableRelationSchema, [], {
   $id: 'TableRelationResult',
   additionalProperties: false,
 })
-export type TableRelationResult = Static<typeof tableRelationResultSchema>
+export type TableRelationResult = Static<typeof tableRelationResultSchema> & TableRelationEager
 
 // Schema for allowed query properties
 export const tableRelationQuerySchema = Type.Intersect([
