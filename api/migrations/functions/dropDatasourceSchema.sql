@@ -16,7 +16,7 @@ DECLARE
 
 BEGIN
 
-  RAISE NOTICE 'Calling dropDatasourceSchema(''%'')', $1;
+  RAISE NOTICE 'Calling dropDatasourceSchema(''%'')', datasource_id;
 
   SET search_path = core;
 
