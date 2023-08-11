@@ -440,7 +440,7 @@ export class Migration extends ObjectionService<
     // actually, we set diffToApply and the schema is not "accepting it"
     // we could do the computation of diffToApply in a resolver,
     // but errors thrown are encapsulated in a generic BadRequest error
-    // need to create an issue on GitHub for this use case
+    // cf https://github.com/locokit/locokit/issues/244
     // @ts-expect-error
     data.diffToApply = diffToApply
 
