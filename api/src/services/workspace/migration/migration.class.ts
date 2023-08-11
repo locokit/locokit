@@ -111,7 +111,7 @@ export class Migration extends ObjectionService<
         const schema = `ds_${datasourceFromMetaModel.id as string}`
         // const role = `${schema as string}_ro`
         dsParams.options = process.env.LCK_DATABASE_URL as string
-        // TODO: enable the read only role
+        // TODO: enable the read only role : https://github.com/locokit/locokit/issues/243
         // actually there is an error when the ro role access to the schema inspector
         // a function pg_get_serial_sequence try to access some schemas (tiger) the role can't
         // see knex-schema-inspector/lib/dialect/postgres.ts L302

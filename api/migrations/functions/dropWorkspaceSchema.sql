@@ -20,7 +20,7 @@ DECLARE
 
 BEGIN
 
-  RAISE NOTICE 'Calling dropWorkspaceSchema(''%'')', workspace_id;
+  RAISE NOTICE 'Calling dropWorkspaceSchema(''%'')', workspace_slug;
 
   SET search_path = core;
 
