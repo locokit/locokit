@@ -56,5 +56,5 @@ describe('table-record service', () => {
   it.todo('use the right role to access dedicated schema for POST')
   it.todo('use the right role to access dedicated schema for PUT')
   it.todo('use the right role to access dedicated schema for DELETE')
-  it.todo('use the right role to access dedicated schema for ?')
+  it.todo('use the right role to access dedicated schema for find')
 })
