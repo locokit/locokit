@@ -684,71 +684,68 @@ describe('[core] workspace service', () => {
   })
 
   describe('manage failures...', () => {
-    describe('do not create the workspace if an error occured when the dedicated schema have been created (transaction)', async () => {
-      beforeAll(async () => {
-        // mock the createWorkspaceSchema db function
-        const mockCreateWorkspaceSchemaFunction = `
+    it('do not create the workspace if an error occured when the dedicated schema have been created (transaction)', async () => {
+      expect.assertions(3)
+
+      // setup
+      // mock the createWorkspaceSchema db function
+      const mockCreateWorkspaceSchemaFunction = `
 CREATE OR REPLACE FUNCTION "core"."createWorkspaceSchema" (IN "workspace_id" uuid)
-  RETURNS void
-  LANGUAGE 'plpgsql'
-  VOLATILE
-  PARALLEL UNSAFE
-  COST 100
+RETURNS void
+LANGUAGE 'plpgsql'
+VOLATILE
+PARALLEL UNSAFE
+COST 100
 
 AS $BODY$
 
 BEGIN
 
-  RAISE EXCEPTION 'Mock creation of workspace for testing purpose : abort ! abort !';
+RAISE EXCEPTION 'Mock creation of workspace for testing purpose : abort ! abort !';
 
 END
 $BODY$;
 `
-        await app.get('db').schema.withSchema('core').raw(mockCreateWorkspaceSchemaFunction)
+      await app.get('db').schema.withSchema('core').raw(mockCreateWorkspaceSchemaFunction)
+
+      // creation should fail
+      await expect(
+        app.service(SERVICES.CORE_WORKSPACE).create({
+          name: 'ws failing for schema creation',
+          createdBy: setupData.user2.id,
+          documentation: 'documentation',
+        }),
+      ).rejects.toThrow()
+
+      // no workspace should be created in db
+      const wsResult = await app.service(SERVICES.CORE_WORKSPACE).find({
+        query: {
+          name: 'ws failing for schema creation',
+        },
       })
+      expect(wsResult.total).toBe(0)
 
-      it('expecting...', async () => {
-        expect.assertions(3)
+      // no dedicated schema should exist
+      const result = await app
+        .get('db')
+        .raw('SELECT * FROM pg_catalog.pg_namespace WHERE nspname ILIKE ?', 'failing')
+      expect(result.rowCount).toBe(0)
 
-        // creation should fail
-        await expect(
-          app.service(SERVICES.CORE_WORKSPACE).create({
-            name: 'ws failing for schema creation',
-            createdBy: setupData.user2.id,
-            documentation: 'documentation',
-          }),
-        ).rejects.toThrow()
-
-        // no workspace should be created in db
-        const wsResult = await app.service(SERVICES.CORE_WORKSPACE).find({
-          query: {
-            name: 'ws failing for schema creation',
-          },
-        })
-        expect(wsResult.total).toBe(0)
-
-        // no dedicated schema should exist
-        const result = await app
-          .get('db')
-          .raw('SELECT * FROM pg_catalog.pg_namespace WHERE nspname ILIKE ?', 'failing')
-        expect(result.rowCount).toBe(0)
-      })
-
-      afterAll(async () => {
-        // restore the createWorkspaceSchema db function
-        const createWorkspaceSchemaCode = fs.readFileSync(
-          path.join(__dirname, '../../../../migrations/functions/createWorkspaceSchema.sql'),
-          'utf-8',
-        )
-        await app.get('db').schema.withSchema('core').raw(createWorkspaceSchemaCode)
-      })
+      // teardown
+      // restore the createWorkspaceSchema db function
+      const createWorkspaceSchemaCode = fs.readFileSync(
+        path.join(__dirname, '../../../../migrations/functions/createWorkspaceSchema.sql'),
+        'utf-8',
+      )
+      await app.get('db').schema.withSchema('core').raw(createWorkspaceSchemaCode)
     })
 
-    describe('do not delete the workspace if an error occured when removing its dedicated schema (transaction)', async () => {
-      let workspace: WorkspaceResult
-      beforeAll(async () => {
-        // mock the createWorkspaceSchema db function
-        const mockDropWorkspaceSchemaFunction = `
+    it('do not delete the workspace if an error occured when removing its dedicated schema (transaction)', async () => {
+      expect.assertions(3)
+
+      // setup
+      // mock the createWorkspaceSchema db function
+      const mockDropWorkspaceSchemaFunction = `
 CREATE OR REPLACE FUNCTION core."dropWorkspaceSchema"(IN "workspace_slug" text)
  RETURNS void
  LANGUAGE plpgsql
@@ -761,63 +758,59 @@ BEGIN
 END
 $BODY$;
 `
-        await app.get('db').schema.withSchema('core').raw(mockDropWorkspaceSchemaFunction)
+      await app.get('db').schema.withSchema('core').raw(mockDropWorkspaceSchemaFunction)
+
+      const workspace: WorkspaceResult = await app.service(SERVICES.CORE_WORKSPACE).create({
+        name: 'for removal purpose',
+        documentation: 'Core workspace for testing forbid workspace removal for non admin users',
+        public: false,
+        createdBy: setupData.user1.id,
       })
-      it('expecting', async () => {
-        expect.assertions(3)
+      const workspaceSlug = 'w_' + (workspace.slug as string)
 
-        workspace = await app.service(SERVICES.CORE_WORKSPACE).create({
-          name: 'for removal purpose',
-          documentation: 'Core workspace for testing forbid workspace removal for non admin users',
-          public: false,
-          createdBy: setupData.user1.id,
-        })
-        const workspaceSlug = 'w_' + (workspace.slug as string)
-
-        // patch to soft delete
-        await app.service(SERVICES.CORE_WORKSPACE).patch(workspace.id, {
-          softDeletedAt: new Date().toISOString(),
-        })
-
-        // remove should fail
-        await expect(
-          app.service(SERVICES.CORE_WORKSPACE).remove(workspace.id, {
-            authenticated: true,
-            user: setupData.userAdmin,
-            authentication: setupData.userAdminAuthentication,
-          }),
-        ).rejects.toThrow()
-
-        // no workspace should be droped in db
-        const wsResult = await app.service(SERVICES.CORE_WORKSPACE).find({
-          query: {
-            name: 'for removal purpose',
-            softDeletedAt: {
-              $ne: null,
-            },
-          },
-        })
-        expect(wsResult.total).toBe(1)
-
-        // dedicated schema should exist
-        const result = await app
-          .get('db')
-          .raw('SELECT * FROM pg_catalog.pg_namespace WHERE nspname ILIKE ?', workspaceSlug)
-        expect(result.rowCount).toBe(1)
+      // patch to soft delete
+      await app.service(SERVICES.CORE_WORKSPACE).patch(workspace.id, {
+        softDeletedAt: new Date().toISOString(),
       })
-      afterAll(async () => {
-        // restore the dropWorkspaceSchema db function
-        const dropWorkspaceSchemaCode = fs.readFileSync(
-          path.join(__dirname, '../../../../migrations/functions/dropWorkspaceSchema.sql'),
-          'utf-8',
-        )
 
-        await app.get('db').schema.withSchema('core').raw(dropWorkspaceSchemaCode)
-        await app.service(SERVICES.CORE_WORKSPACE).remove(workspace.id, {
+      // remove should fail
+      await expect(
+        app.service(SERVICES.CORE_WORKSPACE).remove(workspace.id, {
           authenticated: true,
           user: setupData.userAdmin,
           authentication: setupData.userAdminAuthentication,
-        })
+        }),
+      ).rejects.toThrow()
+
+      // no workspace should be droped in db
+      const wsResult = await app.service(SERVICES.CORE_WORKSPACE).find({
+        query: {
+          name: 'for removal purpose',
+          softDeletedAt: {
+            $ne: null,
+          },
+        },
+      })
+      expect(wsResult.total).toBe(1)
+
+      // dedicated schema should exist
+      const result = await app
+        .get('db')
+        .raw('SELECT * FROM pg_catalog.pg_namespace WHERE nspname ILIKE ?', workspaceSlug)
+      expect(result.rowCount).toBe(1)
+
+      // teardown
+      // restore the dropWorkspaceSchema db function
+      const dropWorkspaceSchemaCode = fs.readFileSync(
+        path.join(__dirname, '../../../../migrations/functions/dropWorkspaceSchema.sql'),
+        'utf-8',
+      )
+
+      await app.get('db').schema.withSchema('core').raw(dropWorkspaceSchemaCode)
+      await app.service(SERVICES.CORE_WORKSPACE).remove(workspace.id, {
+        authenticated: true,
+        user: setupData.userAdmin,
+        authentication: setupData.userAdminAuthentication,
       })
     })
     it('do not delete the workspace if an error occured when removing the lck_workspace record (transaction)', async () => {
