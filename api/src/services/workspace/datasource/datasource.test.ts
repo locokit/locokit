@@ -24,7 +24,7 @@ describe('[workspace] datasource service', () => {
     })
   })
 
-  describe.skip('general purpose', async () => {
+  describe('general purpose', async () => {
     let generalDatasource: CoreDatasourceResult
     beforeAll(async () => {
       generalDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create({
