@@ -397,7 +397,6 @@ export default defineNuxtModule<ModuleOptions>({
       /**
        * Register auth pages
        */
-      console.log('auth enabled ?', submodules.auth.enabled)
       if (submodules.auth.enabled) {
         console.log('[nuxt-locokit] registering auth routes...')
         const prefix = submodules.auth.prefix
