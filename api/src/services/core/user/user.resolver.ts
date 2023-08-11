@@ -53,20 +53,12 @@ export const userCreateResolver = resolve<UserResult, HookContext>({
     } else return verifyChanges
   },
 
-  createdAt: async (createdAt) => {
-    let stringToConvert: stringNumberUndefined = createdAt
-    if (!stringToConvert) stringToConvert = Date.now()
-    if (typeof stringToConvert === 'number') {
-      return new Date(stringToConvert).toISOString()
-    } else return createdAt
+  createdAt: async () => {
+    return new Date().toISOString()
   },
 
-  updatedAt: async (updatedAt) => {
-    let stringToConvert: stringNumberUndefined = updatedAt
-    if (!stringToConvert) stringToConvert = Date.now()
-    if (typeof stringToConvert === 'number') {
-      return new Date(stringToConvert).toISOString()
-    } else return updatedAt
+  updatedAt: async () => {
+    return new Date().toISOString()
   },
 
   lastConnection: async (lastConnection) => {
@@ -105,12 +97,8 @@ export const userPatchAdminResolver = resolve<UserPatchAdmin, HookContext>({
     } else return verifyChanges
   },
 
-  updatedAt: async (updatedAt) => {
-    let stringToConvert: stringNumberUndefined = updatedAt
-    if (!stringToConvert) stringToConvert = Date.now()
-    if (typeof stringToConvert === 'number') {
-      return new Date(stringToConvert).toISOString()
-    } else return updatedAt
+  updatedAt: async () => {
+    return new Date().toISOString()
   },
 })
 
