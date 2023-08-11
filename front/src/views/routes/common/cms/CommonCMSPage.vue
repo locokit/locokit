@@ -1000,7 +1000,7 @@ export default {
       lckHelpers.downloadAttachment(url, filename, mime)
     },
     async onGeoDataEdit (block: LckBlockExtended, features = []) {
-      const { rowId, columnId, sourceId } = features[0]?.properties
+      const { rowId, columnId, sourceId } = features[0]?.properties || {}
       const column = this.getBlockDefinition(block)[sourceId].columns.find(c => c.id === columnId)
       if (rowId && columnId && sourceId && column) {
         await this.onUpdateCell(block, {
@@ -1012,7 +1012,7 @@ export default {
       }
     },
     async onGeoDataRemove (block: LckBlock, features = []) {
-      const { rowId, columnId, sourceId } = features[0]?.properties
+      const { rowId, columnId, sourceId } = features[0]?.properties || {}
       if (rowId && columnId && sourceId) {
         await this.onUpdateCell(block, {
           rowId,
