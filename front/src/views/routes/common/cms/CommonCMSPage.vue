@@ -468,7 +468,14 @@ export default {
       if (Object.keys(this.sources).length === 0) return
       const tableViews = await lckHelpers.retrieveViewDefinition(Object.keys(this.sources)) || []
       tableViews.forEach(tv => {
+        // find sortable columns
+        const sort = tv.columns.filter(c => !!c.sort).reduce((pv, cv) => {
+          pv[`ref(data:${cv.id})`] = cv.sort
+          return pv
+        }, {})
+        // affect options of the source too for sorting
         this.$set(this.sources[tv.id], 'definition', tv)
+        this.$set(this.sources[tv.id].options, 'sort', sort)
       })
     },
     getSourcesByTableId (tableId: string) {
