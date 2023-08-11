@@ -24,7 +24,7 @@ const blockExternalApp = {
   },
   content: {
     'first-source': {
-      id: 'demo.',
+      id: 'docs.',
     },
     'second-source': {
       data: {
@@ -40,7 +40,7 @@ describe('ExternalApp', () => {
     expect.assertions(1)
     expect(wrapper.html()).toMatchSnapshot()
   })
-  it('display the iframe to demo locokit', async () => {
+  it('display the iframe to docs locokit', async () => {
     const wrapper = await shallowMount(ExternalApp, {
       propsData: {
         settings: blockExternalApp.settings,
@@ -50,7 +50,7 @@ describe('ExternalApp', () => {
     expect.assertions(3)
     const iframe = wrapper.findAll('iframe')
     expect(iframe.length).toBe(1)
-    expect(iframe.at(0).attributes().src).toBe('https://demo.locokit.io')
+    expect(iframe.at(0).attributes().src).toBe('https://docs.locokit.io')
     expect(wrapper.html()).toMatchSnapshot()
   })
   it('display an iframe with broken URL if one of the part is null', async () => {
@@ -66,7 +66,7 @@ describe('ExternalApp', () => {
     expect.assertions(3)
     const iframe = wrapper.findAll('iframe')
     expect(iframe.length).toBe(1)
-    expect(iframe.at(0).attributes().src).toBe('https://demo..io')
+    expect(iframe.at(0).attributes().src).toBe('https://docs..io')
     expect(wrapper.html()).toMatchSnapshot()
   })
 })
