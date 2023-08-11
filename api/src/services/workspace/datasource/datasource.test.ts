@@ -149,7 +149,6 @@ describe('[workspace] datasource service', () => {
         datasourceId: localPgDatasource.id,
       })
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const fieldEventId = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
         name: 'Id',
         type: FIELD_TYPE.ID_NUMBER,
