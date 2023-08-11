@@ -468,7 +468,14 @@ export default {
       if (Object.keys(this.sources).length === 0) return
       const tableViews = await lckHelpers.retrieveViewDefinition(Object.keys(this.sources)) || []
       tableViews.forEach(tv => {
+        // find sortable columns
+        const sort = tv.columns.filter(c => !!c.sort).reduce((pv, cv) => {
+          pv[`ref(data:${cv.id})`] = cv.sort
+          return pv
+        }, {})
+        // affect options of the source too for sorting
         this.$set(this.sources[tv.id], 'definition', tv)
+        this.$set(this.sources[tv.id].options, 'sort', sort)
       })
     },
     getSourcesByTableId (tableId: string) {
@@ -993,7 +1000,7 @@ export default {
       lckHelpers.downloadAttachment(url, filename, mime)
     },
     async onGeoDataEdit (block: LckBlockExtended, features = []) {
-      const { rowId, columnId, sourceId } = features[0]?.properties
+      const { rowId, columnId, sourceId } = features[0]?.properties || {}
       const column = this.getBlockDefinition(block)[sourceId].columns.find(c => c.id === columnId)
       if (rowId && columnId && sourceId && column) {
         await this.onUpdateCell(block, {
@@ -1005,7 +1012,7 @@ export default {
       }
     },
     async onGeoDataRemove (block: LckBlock, features = []) {
-      const { rowId, columnId, sourceId } = features[0]?.properties
+      const { rowId, columnId, sourceId } = features[0]?.properties || {}
       if (rowId && columnId && sourceId) {
         await this.onUpdateCell(block, {
           rowId,

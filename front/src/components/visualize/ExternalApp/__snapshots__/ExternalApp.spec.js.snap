@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ExternalApp display an iframe with broken URL if one of the part is null 1`] = `<iframe src="https://demo..io"></iframe>`;
+exports[`ExternalApp display an iframe with broken URL if one of the part is null 1`] = `<iframe src="https://docs..io"></iframe>`;
 
-exports[`ExternalApp display the iframe to demo locokit 1`] = `<iframe src="https://demo.locokit.io"></iframe>`;
+exports[`ExternalApp display the iframe to docs locokit 1`] = `<iframe src="https://docs.locokit.io"></iframe>`;
 
 exports[`ExternalApp match snapshot without any settings 1`] = `""`;
