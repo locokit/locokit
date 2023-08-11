@@ -1,7 +1,7 @@
-# This docker-compose is for testing purpose only
-# For a deployment, you'll need to set a mail server
-# and security with helmet environment variables,
-# maybe a nginx for serving front and reverse proxy to the api and the file storage.
+# This docker-compose is for use on Raspberry Pi
+# LocoKit is built also for ARM architecture, 32 & 64 bits
+# This is still a work in progress docker-compose as mailhog don't work on Raspberry
+# You'll have to host your own mail server, or use SMTP SAAS
 version: '3'
 services:
   lck-db:
@@ -42,10 +42,11 @@ services:
     container_name: lck-api
     volumes:
       - lck-fs-storage:/code/fs-storage/
-      - ./api/config/production.json:/code/config/production.json:ro
     networks:
       - lck
-    env_file: lck-api.env
+    # this file is located under the api folder
+    # this is only for example
+    env_file: api/.env.prod.example
     command: pm2-runtime index.js -n locokit-api -i max
 
   lck-app:
