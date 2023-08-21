@@ -188,7 +188,7 @@ import {
 } from '@locokit/designsystem'
 import { useI18n } from 'vue-i18n'
 import { COLUMN_TYPE } from '../../../helpers/filter'
-import { ROUTES_NAMES } from '../../../paths'
+import { ROUTES_NAMES } from '../../../locokit-paths'
 import { useStoreUsers } from '../../../stores/users'
 import { searchUsers } from '../../../services/user'
 import { ApiUser, Filter, PROFILE } from '../../../interfaces/toMigrate'

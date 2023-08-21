@@ -39,7 +39,7 @@ import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import WithHeader from '../../layouts/WithHeader.vue'
 import { useStoreAuth } from '../../stores/auth'
-import { ROUTES_NAMES } from '../../paths'
+import { ROUTES_NAMES } from '../../locokit-paths'
 import { useHead, useRoute } from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })

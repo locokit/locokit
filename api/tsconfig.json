@@ -1,23 +1,13 @@
 {
+  "extends": "../tsconfig.json",
   "ts-node": {
     "files": true
   },
   "compilerOptions": {
     "baseUrl": "./",
-    "target": "es2020",
     "module": "NodeNext",
     "outDir": "./lib",
-    "rootDir": "./",
-    "declaration": true,
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "paths": {
-      "@/*": ["src/*"],
-    }
+    "rootDir": "./"
   },
   "include": [
     "src"

@@ -1,0 +1,69 @@
+# This docker-compose is for use on Raspberry Pi
+# LocoKit is built also for ARM architecture, 32 & 64 bits
+# This is still a work in progress docker-compose as mailhog don't work on Raspberry
+# You'll have to host your own mail server, or use SMTP SAAS
+version: '3'
+services:
+  lck-db:
+    image: tobi312/rpi-postgresql-postgis:15-3.3-alpine-arm
+    environment:
+      POSTGRES_DB: public
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourPostgresPassword
+    # restart: always
+    volumes:
+      - lck-db-data:/var/lib/postgresql/data
+      - ./dumps:/dumps
+    container_name: lck-db
+    networks:
+      - lck
+
+  # mailhog doesn't work on rpi
+  lck-mail:
+    image: mailhog/mailhog:latest
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /home/mailhog
+    volumes:
+      - mailhog:/home/mailhog/
+    ports:
+      # - 1025:1025
+      - 8025:8025
+    container_name: lck-mail
+    networks:
+      - lck
+
+  lck-api:
+    image: locokit/api:pr-241
+    ports:
+      - "8002:8002"
+    depends_on:
+      - lck-mail
+    container_name: lck-api
+    volumes:
+      - lck-fs-storage:/code/fs-storage/
+    networks:
+      - lck
+    # this file is located under the api folder
+    # this is only for example
+    env_file: api/.env.prod.example
+    command: pm2-runtime index.js -n locokit-api -i max
+
+  lck-app:
+    image: locokit/app:pr-241
+    ports:
+      - "3000:3000"
+    depends_on:
+      - lck-api
+    container_name: lck-app
+    networks:
+      - lck
+    command: pm2-runtime server/index.mjs -n locokit-app -i max
+
+volumes:
+  lck-db-data:
+  mailhog:
+  lck-fs-storage:
+
+networks:
+  lck:

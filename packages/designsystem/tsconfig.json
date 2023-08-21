@@ -1,14 +1,12 @@
 {
+  "extends": "../../tsconfig.json",
+  "declaration": true,
   "compilerOptions": {
-    "module": "commonjs",
-    /* Specify what module code is generated. */
-    "resolveJsonModule": true,
-    /* Enable importing .json files. */
-    "forceConsistentCasingInFileNames": true,
-    /* Ensure that casing is correct in imports. */
-    "strict": true,
-    /* Enable all strict type-checking options. */
-    "esModuleInterop": true
-    /* Needed to import @locokit/i18n */
-  }
+    "module": "ESNext",
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": [
+    "src"
+  ],
 }

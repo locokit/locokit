@@ -1,8 +1,8 @@
 import { RouteLocationNormalized } from 'vue-router'
 import { Pinia, storeToRefs } from 'pinia'
-import { useStoreAuth } from '../runtime/stores/auth'
+import { useStoreAuth } from '../stores/auth'
 import { checkPathAvailable } from '../middleware/global'
-import { ROUTES_PATH } from '../runtime/paths'
+import { ROUTES_PATH } from '../locokit-paths'
 import {
   addRouteMiddleware,
   defineNuxtPlugin,

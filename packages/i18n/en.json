@@ -165,10 +165,13 @@
     }
   },
   "pages": {
-    "404": {
-      "title": "Page not found",
-      "alternativeTitle": "Whooops?!… sounds you're lost…",
-      "link": "Come back home"
+    "error": {
+      "link": "Come back home",
+      "defaultTitle": "An error has occured",
+      "404": {
+        "title": "Page not found",
+        "alternativeTitle": "Whooops?!… sounds you're lost…"
+      }
     },
     "signIn": {
       "title": "Welcome"
@@ -177,7 +180,7 @@
       "presentation": "LocoKit is an open source LCAP (Low Code Application Platform) that provides Database Management as a Spreadsheet with an App Builder.",
       "buildData": "Build your data",
       "shareSecurely": "and share it securely",
-      "createDatabase": "Create your database, according to your job. Share your data, according to the permissions you set!",
+      "createDatabase": "Create your database, according to your business. Share your data, according to the permissions you set!",
       "shareData": "Share your data",
       "craftingApp": "by crafting your app",
       "afterBuilding": "After building your database, build the app your users will use. They will see your data through UI screens you will make, accordingly the permissions you previously configured.",
@@ -411,7 +414,7 @@
     "basic": "Something goes wrong. Please try again later.",
     "redundantError": "If this issue keeps happening, contact the app administrator.",
     "notAuthenticated": {
-      "description": "Unable to log in with this information. Can you please check your input?"
+      "description": "Unable to log in with this information.\nCan you please check your input?"
     }
   },
   "localePrime": {

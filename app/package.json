@@ -1,12 +1,12 @@
 {
-  "name": "nuxt-app",
+  "name": "locokit-app",
   "private": true,
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "nuxt:generate": "nuxt generate",
+    "nuxt:preview": "nuxt preview",
+    "nuxt:prepare": "nuxt prepare"
   },
   "devDependencies": {
     "@nuxt/devtools": "^0.5.5",

@@ -1,10 +1,9 @@
 // import { isAfter, isValid } from 'date-fns'
 import { configure, defineRule } from 'vee-validate'
 import { email, required, regex } from '@vee-validate/rules'
-import { defineNuxtPlugin } from '#app'
 import { i18n } from './i18n'
 
-export default defineNuxtPlugin((_nuxtApp) => {
+export function setup() {
   defineRule('email', email)
   // defineRule('required_if', required_if)
   defineRule('required', required)
@@ -70,4 +69,4 @@ export default defineNuxtPlugin((_nuxtApp) => {
       ) as string
     },
   })
-})
+}

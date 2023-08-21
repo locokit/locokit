@@ -1,5 +1,4 @@
-export { FIELD_TYPE, convertDBTypeToFieldType } from './fieldType'
-export type { DB_TYPE, DB_DIALECT } from './fieldType'
+export { FIELD_TYPE, type DB_TYPE, type DB_DIALECT, convertDBTypeToFieldType } from './fieldType'
 export { SERVICES } from './services'
 export * from './diff'
 export * from './diff/typebox'

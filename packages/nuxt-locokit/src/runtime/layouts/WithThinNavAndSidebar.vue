@@ -79,7 +79,7 @@
 
 <script setup lang="ts">
 import PrimeButton from 'primevue/button'
-import { ROUTES_NAMES } from '../paths'
+import { ROUTES_NAMES } from '../locokit-paths'
 import { useStoreAuth } from '../stores/auth'
 import { ref, useRouter, useRuntimeConfig, watch } from '#imports'
 

@@ -24,8 +24,8 @@
 </template>
 
 <script setup lang="ts">
-import { ROUTES_NAMES } from '../paths'
 import { version } from '../../package.json'
+import { ROUTES_NAMES } from '../locokit-paths'
 import { computed, useRuntimeConfig } from '#imports'
 
 // To retrieve config and environment variables

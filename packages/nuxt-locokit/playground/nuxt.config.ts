@@ -16,6 +16,27 @@ export default defineNuxtConfig({
       LOGO_BG_PRIMARY_URL: '/theme/default/img/logo.svg', // can be overridden by NUXT_LOGO_BG_PRIMARY_URL environment variable
     },
   },
-  modules: ['nuxt-locokit'],
+  modules: [
+    [
+      '../src/module',
+      {
+        submodules: {
+          backoffice: {
+            enabled: true,
+          },
+          frontoffice: {
+            enabled: true,
+          },
+        },
+      },
+    ],
+  ],
   sourcemap: true,
+  devtools: {
+    enabled: true,
+
+    timeline: {
+      enabled: true,
+    },
+  },
 })

@@ -37,7 +37,7 @@
 <script setup lang="ts">
 import PrimeDropdown from 'primevue/dropdown'
 import { COLOR_SCHEME, ColorScheme } from '../../helpers/color'
-import { SingleTag } from '@locokit/designsystem'
+import SingleTag from '../SingleTag/SingleTag.vue'
 import { ref } from 'vue'
 
 const emit = defineEmits<{

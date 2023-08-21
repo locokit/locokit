@@ -39,3 +39,7 @@ pnpm-debug.log*
 
 # Others
 .DS_Store
+
+.turbo
+locokit-api
+locokit-app

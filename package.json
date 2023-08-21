@@ -9,7 +9,6 @@
     "packages/definitions",
     "packages/designsystem",
     "packages/engine",
-    "packages/feathers-locokit",
     "packages/nuxt-locokit",
     "packages/sdk",
     "packages/i18n"
