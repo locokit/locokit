@@ -25,6 +25,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
       - name: Docker meta
         id: metapi
         uses: docker/metadata-action@v3
@@ -40,6 +41,7 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
@@ -61,6 +63,9 @@ jobs:
           target: locokit-api
           labels: ${{ steps.metapi.outputs.labels }}
           platforms: ${{ matrix.platform }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
       - name: Docker meta
         id: metapp
         uses: docker/metadata-action@v3
@@ -86,3 +91,5 @@ jobs:
           target: locokit-app
           labels: ${{ steps.metapp.outputs.labels }}
           platforms: ${{ matrix.platform }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
