@@ -1,4 +1,14 @@
 #
+# This file is here to build 2 docker images : locokit-api & locokit-app
+#
+# This docker file can work for both amd64 and arm32/64 platforms (v6, v7, v8)
+# as it doesn't use turbo (https://turbo.build/)
+#
+# Indeed, turbo doesn't work for arm32 platforms
+# see https://github.com/vercel/turbo/issues/4935
+#
+
+#
 # Base image
 #
 # To be used by all others images
