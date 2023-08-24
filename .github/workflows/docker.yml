@@ -13,8 +13,6 @@ on:
   push:
     branches:
       - next
-  # TODO: when the 239 branch will be merged in next, remove this line
-  pull_request:
 
 jobs:
   locokit-api-all:

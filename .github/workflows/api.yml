@@ -11,6 +11,10 @@ on:
 
 jobs:
 
+  #
+  # Quality section
+  #
+
   ## Design system
   # design-system-quality:
   #   runs-on: ubuntu-latest
@@ -101,29 +105,6 @@ jobs:
           name: lck-api-quality-artifact.tar.gz
           path: lck-api-quality-artifact.tar.gz
 
-  api-build:
-    runs-on: ubuntu-latest
-    container: node:18
-    steps:
-      - uses: actions/checkout@v3
-      - name: NPM Version
-        run: npm -v
-      - name: Install Turbo
-        run: npm i -g turbo
-      - name: Install dependencies
-        run: npm ci --ignore-scripts --include=dev
-      - name: Build API lib
-        run: turbo run build --scope=locokit-api
-      - name: Tar build
-        run: tar -cvzf lck-api-build-artifact.tar.gz api/dist/server
-      - name: Archive production artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: lck-api-build-artifact.tar.gz
-          path: lck-api-build-artifact.tar.gz
-
-  # api-docker:
-
   ## Documentation part
   docs-build:
     runs-on: ubuntu-latest
@@ -145,6 +126,9 @@ jobs:
           path: |
             docs/.vitepress/dist/lck-docs-build-artifact.tar.gz
 
+  #
+  # Build section
+  #
   general-build:
     runs-on: ubuntu-latest
     container: node:18
@@ -173,7 +157,7 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: lck-build-artifact
+          name: lck-build-artifact-${{ github.sha }}
           path: |
             lck-api-build-artifact.tar.gz
             lck-app-build-artifact.tar.gz
@@ -181,3 +165,131 @@ jobs:
             locokit-designsystem-build-artifact.tar.gz
             locokit-engine-build-artifact.tar.gz
             nuxt-locokit-build-artifact.tar.gz
+
+  docker-api-build:
+    runs-on: ubuntu-latest
+    needs: general-build
+    strategy:
+      matrix:
+        platform: [linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: lck-build-artifact-${{ github.sha }}
+      - name: List files
+        run: ls -al
+      - name: Extract build api
+        run: tar -xzf lck-api-build-artifact.tar.gz
+      - name: Extract build @locokit/definitions
+        run: tar -xzf locokit-definitions-build-artifact.tar.gz
+      - name: Extract build @locokit/engine
+        run: tar -xzf locokit-engine-build-artifact.tar.gz
+      - name: List files
+        run: ls -al api
+      - name: List files
+        run: ls -al packages/definitions
+      - name: List files
+        run: ls -al packages/engine
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Print GITHUB REF
+        run: echo $GITHUB_REF
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Docker meta
+        id: metapi
+        uses: docker/metadata-action@v3
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            locokit/api
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+      - name: Build and push locokit/api
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./DockerfileGHA
+          push: true
+          tags: ${{ steps.metapi.outputs.tags }}
+          target: locokit-api
+          labels: ${{ steps.metapi.outputs.labels }}
+          platforms: ${{ matrix.platform }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  docker-app-build:
+    runs-on: ubuntu-latest
+    needs: general-build
+    strategy:
+      matrix:
+        platform: [linux/amd64,linux/arm64/v8,linux/arm/v6,linux/arm/v7]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: lck-build-artifact-${{ github.sha }}
+      - name: List files
+        run: ls -al
+      - name: Extract build app
+        run: tar -xzf lck-app-build-artifact.tar.gz
+      - name: List files
+        run: ls -al app
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Print GITHUB REF
+        run: echo $GITHUB_REF
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Docker meta
+        id: metapp
+        uses: docker/metadata-action@v3
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            locokit/app
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+      - name: Build and push locokit/app
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./DockerfileGHA
+          push: true
+          tags: ${{ steps.metapp.outputs.tags }}
+          target: locokit-app
+          labels: ${{ steps.metapp.outputs.labels }}
+          platforms: ${{ matrix.platform }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
