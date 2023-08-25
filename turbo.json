@@ -23,7 +23,7 @@
     // can be run whenever. It also has no filesystem outputs.
     "lint": {},
     "nuxt:prepare": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build", "^client:bundle"]
     },
     "dev": {
       "dependsOn": ["^build", "nuxt:prepare"],
