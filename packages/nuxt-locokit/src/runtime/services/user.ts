@@ -1,4 +1,5 @@
 import { SERVICES } from '@locokit/definitions'
+import { UserData } from '@locokit/sdk'
 import { ApiUserGroup, Filter } from '../interfaces/toMigrate'
 import { getCurrentFilters } from '../helpers/filter'
 import { sdkClient } from './api'
@@ -16,7 +17,7 @@ export async function getUser(id: string) {
   }
 }
 
-export async function createUser(data = {}) {
+export async function createUser(data: UserData) {
   try {
     return await sdkClient.service(SERVICES.CORE_USER).create(data)
   } catch (err) {
@@ -26,7 +27,7 @@ export async function createUser(data = {}) {
   }
 }
 
-export async function patchUser(id: string, data = {}) {
+export async function patchUser(id: string, data: Partial<UserData> = {}) {
   try {
     return await sdkClient.service(SERVICES.CORE_USER).patch(id, data)
   } catch (err) {
