@@ -14,6 +14,19 @@ declare module '@/declarations' {
   }
 }
 
+export const authenticationMethods = ['create', 'remove'] as const
+export type AuthenticationClientService = Pick<
+  AuthenticationService,
+  (typeof authenticationMethods)[number]
+>
+
+// Add this service to the client service type index
+declare module '../../../client' {
+  interface ServiceTypes {
+    [SERVICES.AUTH_AUTHENTICATION]: AuthenticationService
+  }
+}
+
 declare module '@feathersjs/authentication' {
   class AuthenticationService {
     docs: ServiceSwaggerOptions

@@ -1,4 +1,3 @@
-import { SERVICES } from '@locokit/definitions'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
 import type { Application } from '@/declarations'
 import { ObjectionAdapterOptions } from '@/feathers-objection'
@@ -6,6 +5,7 @@ import { ObjectionAdapterOptions } from '@/feathers-objection'
 import { PolicyService, policyHooks } from './policy.class'
 import { PolicyModel } from './policy.model'
 import { policyDataSchema, policyQuerySchema, policySchema } from './policy.schema'
+import { policyMethods, policyPath } from './policy.shared'
 
 // A configure function that registers the service and its hooks via `app.configure`
 export function policyService(app: Application): void {
@@ -18,9 +18,9 @@ export function policyService(app: Application): void {
   }
 
   // Register our service on the Feathers application
-  app.use(SERVICES.CORE_POLICY, new PolicyService(options), {
+  app.use(policyPath, new PolicyService(options), {
     // A list of all methods this service exposes externally
-    methods: ['find', 'get', 'create', 'update', 'patch', 'remove'],
+    methods: policyMethods,
     // You can add additional custom events to be sent to clients here
     events: [],
     docs: createSwaggerServiceOptions({
@@ -29,12 +29,12 @@ export function policyService(app: Application): void {
     }),
   })
   // Initialize hooks
-  app.service(SERVICES.CORE_POLICY).hooks(policyHooks)
+  app.service(policyPath).hooks(policyHooks)
 }
 
 // Add this service to the service type index
 declare module '@/declarations' {
   interface ServiceTypes {
-    [SERVICES.CORE_POLICY]: PolicyService
+    [policyPath]: PolicyService
   }
 }

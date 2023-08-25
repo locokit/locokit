@@ -57,6 +57,10 @@ export const userSchema = Type.Object(
   },
 )
 
+export type User = Static<typeof userSchema> & {
+  profile?: keyof typeof USER_PROFILE
+}
+
 export const workspaceOwnerSchema = Type.Object(
   {
     id: Type.String({ format: 'uuid' }),

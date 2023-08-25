@@ -9,7 +9,7 @@ import { ObjectionService } from '@/feathers-objection'
 
 export interface CoreDatasourceParams extends KnexAdapterParams<CoreDatasourceQuery> {}
 
-export class CoreDatasource extends ObjectionService<
+export class CoreDatasourceService extends ObjectionService<
   CoreDatasourceResult,
   CoreDatasourceData,
   CoreDatasourceParams

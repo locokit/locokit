@@ -24,7 +24,6 @@
     ]
   },
   "main": "src/",
-  "browser": "dist/client",
   "scripts": {
     "dev": "vite",
     "build": "rm -rf dist && vite build --ssr src/index.ts",
