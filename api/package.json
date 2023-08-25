@@ -46,7 +46,8 @@
     "migrate:make": "knex migrate:make",
     "seed:make": "knex seed:make",
     "seed:run-init": "knex seed:run --specific init.ts",
-    "seed:run-test": "NODE_ENV=test knex seed:run --specific test.ts"
+    "seed:run-test": "NODE_ENV=test knex seed:run --specific test.ts",
+    "client:bundle": "vite build -c vite.client.config.ts --emptyOutDir"
   },
   "dependencies": {
     "@casl/ability": "^5.0.0",
@@ -117,6 +118,7 @@
     "shx": "^0.3.4",
     "ts-node-dev": "^2.0.0",
     "vite-node": "^0.28.3",
+    "vite-plugin-dts": "^3.5.2",
     "vite-plugin-static-copy": "^0.17.0",
     "vite-tsconfig-paths": "^4.0.5",
     "vitest": "^0.32.0"

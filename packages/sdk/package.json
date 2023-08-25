@@ -3,10 +3,12 @@
   "version": "1.0.0-alpha.0",
   "license": "MIT",
   "type": "module",
-  "main": "./src/index.ts",
-  "scripts": {
-    "dev": "tsc src/index.ts"
-  },
+  "main": "dist/client.cjs.js",
+  "module": "dist/client.es.js",
+  "types": "dist/src/client.d.ts",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@feathersjs/authentication-client": "^5.0.0-pre.32",
     "@feathersjs/feathers": "^5.0.0-pre.32",
