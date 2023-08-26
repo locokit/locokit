@@ -38,8 +38,7 @@ import { ForeignKey } from 'knex-schema-inspector/dist/types/foreign-key'
 import { Application } from '@/declarations'
 import { TableResult } from '../table/table.schema'
 import { TableFieldResult } from '../table-field/table-field.schema'
-import { ConnexionSQL, Table } from '@locokit/engine/adapters/interface'
-import { createAdapter } from '@locokit/engine'
+import { type ConnexionSQL, type Table, createAdapter } from '@locokit/engine'
 import { TableRelationResult } from '../table-relation/table-relation.schema'
 
 const migrationLogger = logger.child({ service: 'datasource' })

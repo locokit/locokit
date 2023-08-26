@@ -1,8 +1,8 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/service.shared.html
 import type { ClientApplication } from '@/client'
 import { SERVICES } from '@locokit/definitions'
-import type { WorkspaceService } from './core-workspace.class'
-export type { WorkspaceData, WorkspacePatch, WorkspaceQuery } from './core-workspace.schema'
+import type { WorkspaceService } from './workspace.class'
+export type { WorkspaceData, WorkspacePatch, WorkspaceQuery } from './workspace.schema'
 
 export type WorkspaceClientService = Pick<WorkspaceService, (typeof workspaceMethods)[number]>
 

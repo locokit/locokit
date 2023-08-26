@@ -3,10 +3,10 @@ import { createSwaggerServiceOptions } from 'feathers-swagger'
 import type { Application } from '@/declarations'
 import { ObjectionAdapterOptions } from '@/feathers-objection'
 
-import { WorkspaceService } from './core-workspace.class'
-import { workspaceHooks } from './core-workspace.hooks'
-import { WorkspaceModel } from './core-workspace.model'
-import { workspaceDataSchema, workspaceQuerySchema, workspaceSchema } from './core-workspace.schema'
+import { WorkspaceService } from './workspace.class'
+import { workspaceHooks } from './workspace.hooks'
+import { WorkspaceModel } from './workspace.model'
+import { workspaceDataSchema, workspaceQuerySchema, workspaceSchema } from './workspace.schema'
 
 // A configure function that registers the service and its hooks via `app.configure`
 export function workspaceService(app: Application): void {

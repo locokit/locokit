@@ -1,5 +1,5 @@
 import { Model, RelationMappings } from 'objection'
-import { WorkspaceModel } from '@/services/core/workspace/core-workspace.model'
+import { WorkspaceModel } from '@/services/core/workspace/workspace.model'
 import { UserGroupModel } from '../user-group/user-group.model'
 import { PolicyModel } from '../policy/policy.model'
 import { UserModel } from '../../core/user/user.model'

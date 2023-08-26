@@ -1,7 +1,7 @@
 import { Model, RelationMappings } from 'objection'
-import { CoreDatasourceModel } from '../datasource/core-datasource.model'
+import { DatasourceModel } from '../datasource/datasource.model'
 
-export class CoreTableModel extends Model {
+export class TableModel extends Model {
   static readonly model = 'table'
   static readonly tableName = 'lck_table'
 
@@ -9,7 +9,7 @@ export class CoreTableModel extends Model {
     return {
       datasource: {
         relation: Model.HasOneRelation,
-        modelClass: CoreDatasourceModel,
+        modelClass: DatasourceModel,
         join: {
           from: 'lck_table.datasourceId',
           to: 'lck_datasource.id',

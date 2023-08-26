@@ -9,13 +9,13 @@ import {
   workspacePatchResolver,
   workspaceQueryValidator,
   workspaceResolvers,
-} from './core-workspace.resolver'
+} from './workspace.resolver'
 import { disallow, iffElse, isProvider } from 'feathers-hooks-common'
 import {
   workspaceDataValidator,
   workspaceDataInternalValidator,
   workspacePatchValidator,
-} from './core-workspace.schema'
+} from './workspace.schema'
 
 export const workspaceHooks = {
   around: {

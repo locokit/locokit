@@ -12,7 +12,7 @@ import { SERVICES, USER_PROFILE } from '@locokit/definitions'
 
 import { createApp } from './app'
 import { UserResult } from './services/core/user/user.schema'
-import { WorkspaceResult } from './services/core/workspace/core-workspace.schema'
+import { WorkspaceResult } from './services/core/workspace/workspace.schema'
 
 const app = createApp()
 

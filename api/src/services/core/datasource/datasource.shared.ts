@@ -1,15 +1,15 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/service.shared.html
 import type { ClientApplication } from '@/client'
 import { SERVICES } from '@locokit/definitions'
-import type { CoreDatasourceService } from './core-datasource.class'
+import type { DatasourceService } from './datasource.class'
 export type {
-  CoreDatasourceData,
-  CoreDatasourcePatch,
-  CoreDatasourceQuery,
-} from './core-datasource.schema'
+  DatasourceData,
+  DatasourcePatch,
+  DatasourceQuery,
+} from './datasource.schema'
 
 export type DatasourceClientService = Pick<
-  CoreDatasourceService,
+  DatasourceService,
   (typeof datasourceMethods)[number]
 >
 

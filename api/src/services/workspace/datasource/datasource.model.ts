@@ -1,7 +1,7 @@
 import { Model, RelationMappings } from 'objection'
 import { TableModel } from '../table/table.model'
 
-export class DatasourceModel extends Model {
+export class WorkspaceDatasourceModel extends Model {
   static readonly model = 'datasource'
 
   static readonly tableName = 'datasource'

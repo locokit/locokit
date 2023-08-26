@@ -5,7 +5,7 @@ import {
   WorkspaceQuery,
   WorkspaceDataInternal,
   WorkspacePatch,
-} from './core-workspace.schema'
+} from './workspace.schema'
 import { ObjectionService } from '@/feathers-objection'
 import { Id, NullableId } from '@feathersjs/feathers'
 import { UserResult } from '../user/user.schema'

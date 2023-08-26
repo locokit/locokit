@@ -10,8 +10,8 @@ import { ConfigurationSchema } from './commons/configuration.schema'
 import { ServiceSwaggerOptions } from 'feathers-swagger'
 
 import { UserResult } from './services/core/user/user.schema'
-import { WorkspaceResult } from './services/core/workspace/core-workspace.schema'
-import { CoreDatasourceResult } from './services/core/datasource/core-datasource.schema'
+import { WorkspaceResult } from './services/core/workspace/workspace.schema'
+import { DatasourceResult } from './services/core/datasource/datasource.schema'
 
 export { NextFunction }
 
@@ -27,7 +27,7 @@ export type HookContext<S = any> = FeathersHookContext<Application, S> & {
   $locokit?: {
     currentWorkspace?: WorkspaceResult
     currentWorkspaceSlug?: string
-    currentDatasource?: CoreDatasourceResult
+    currentDatasource?: DatasourceResult
     currentDatasourceSlug?: string
   }
 }

@@ -5,14 +5,14 @@ import { authmanagement } from './auth/authmanagement/authmanagement'
 import { user } from './core/user/user'
 import { signup } from './auth/signup/signup'
 
-import { workspaceService } from './core/workspace/core-workspace'
-import { coreDatasourceService } from './core/datasource/core-datasource'
-import { coreTableService } from './core/table/core-table'
+import { workspaceService } from './core/workspace/workspace'
+import { coreDatasourceService } from './core/datasource/datasource'
+import { coreTableService } from './core/table/table'
 import { policyService } from './core/policy/policy'
 import { groupService } from './core/group/group'
 import { userGroupService } from './core/user-group/user-group'
 
-import { datasourceService } from './workspace/datasource/datasource'
+import { workspaceDatasourceService } from './workspace/datasource/datasource'
 import { migrationService } from './workspace/migration/migration'
 import { tableService } from './workspace/table/table'
 import { tableFieldService } from './workspace/table-field/table-field'
@@ -48,7 +48,7 @@ export const services = (app: Application): void => {
    * Workspace dedicated endpoint
    * These endpoints are available with route params (only ?...)
    */
-  app.configure(datasourceService)
+  app.configure(workspaceDatasourceService)
   app.configure(datasourceMermaidService)
   app.configure(migrationService)
   app.configure(tableService)

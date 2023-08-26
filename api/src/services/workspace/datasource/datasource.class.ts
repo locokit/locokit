@@ -2,16 +2,20 @@ import type { KnexAdapterParams } from '@feathersjs/knex'
 
 import { ObjectionService } from '@/feathers-objection'
 
-import type { DatasourceData, DatasourceResult, DatasourceQuery } from './datasource.schema'
+import type {
+  WorkspaceDatasourceData,
+  WorkspaceDatasourceResult,
+  WorkspaceDatasourceQuery,
+} from './datasource.schema'
 import { Application } from '@/declarations'
 import { Transaction } from 'objection'
 
-export interface DatasourceParams extends KnexAdapterParams<DatasourceQuery> {}
+export interface WorkspaceDatasourceParams extends KnexAdapterParams<WorkspaceDatasourceQuery> {}
 
-export class Datasource extends ObjectionService<
-  DatasourceResult,
-  DatasourceData,
-  DatasourceParams
+export class WorkspaceDatasourceService extends ObjectionService<
+  WorkspaceDatasourceResult,
+  WorkspaceDatasourceData,
+  WorkspaceDatasourceParams
 > {
   app!: Application
 
@@ -19,12 +23,18 @@ export class Datasource extends ObjectionService<
     this.app = app
   }
 
-  async create(data: DatasourceData, params?: DatasourceParams): Promise<DatasourceResult>
-  async create(data: DatasourceData[], params?: DatasourceParams): Promise<DatasourceResult[]>
   async create(
-    data: DatasourceData | DatasourceData[],
-    params?: DatasourceParams,
-  ): Promise<DatasourceResult | DatasourceResult[]> {
+    data: WorkspaceDatasourceData,
+    params?: WorkspaceDatasourceParams,
+  ): Promise<WorkspaceDatasourceResult>
+  async create(
+    data: WorkspaceDatasourceData[],
+    params?: WorkspaceDatasourceParams,
+  ): Promise<WorkspaceDatasourceResult[]>
+  async create(
+    data: WorkspaceDatasourceData | WorkspaceDatasourceData[],
+    params?: WorkspaceDatasourceParams,
+  ): Promise<WorkspaceDatasourceResult | WorkspaceDatasourceResult[]> {
     const currentDatasource = await this._create(data, params)
 
     /**

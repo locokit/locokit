@@ -2,8 +2,8 @@ import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { DiffItemRelation, FIELD_TYPE, SERVICES } from '@locokit/definitions'
 import { createApp } from '@/app'
 import { builderTestEnvironment, SetupData } from '@/configure.test'
-import { WorkspaceResult } from '@/services/core/workspace/core-workspace.schema'
-import { CoreDatasourceResult } from '@/services/core/datasource/core-datasource.schema'
+import { WorkspaceResult } from '@/services/core/workspace/workspace.schema'
+import { DatasourceResult } from '@/services/core/datasource/datasource.schema'
 import { MigrationResult } from '../migration/migration.schema'
 import { NotAcceptable } from '@feathersjs/errors'
 
@@ -25,7 +25,7 @@ describe('[workspace] datasource service', () => {
   })
 
   describe('general purpose', async () => {
-    let generalDatasource: CoreDatasourceResult
+    let generalDatasource: DatasourceResult
     beforeAll(async () => {
       generalDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create({
         name: 'Testing datasource general',
@@ -125,7 +125,7 @@ describe('[workspace] datasource service', () => {
     it.todo('allow to retrieve migrations')
   })
   describe('local pg datasource', () => {
-    let localPgDatasource: CoreDatasourceResult
+    let localPgDatasource: DatasourceResult
     let schemaName: string
     let migrationId: string
     let migration: MigrationResult

@@ -1,7 +1,7 @@
 import { Type, Static, StringEnum, querySyntax, getValidator } from '@feathersjs/typebox'
 import { dataValidator } from '@/commons/validators'
 
-import { WorkspaceResult } from '../workspace/core-workspace.schema'
+import { WorkspaceResult } from '../workspace/workspace.schema'
 import { queryStringExtend } from '@/feathers-objection'
 
 export const coreDatasourceSchema = Type.Object(
@@ -61,34 +61,34 @@ export const coreDatasourceSchema = Type.Object(
     }),
   },
   {
-    $id: 'CoreDatasourceSchema',
+    $id: 'DatasourceSchema',
     additionalProperties: false,
   },
 )
 
-export type CoreDatasourceSchema = Static<typeof coreDatasourceSchema>
+export type DatasourceSchema = Static<typeof coreDatasourceSchema>
 
 // Schema for making partial updates
 export const coreDatasourcePatchSchema = Type.Omit(coreDatasourceSchema, ['id'], {
   additionalProperties: false,
-  $id: 'CoreDatasourcePatchSchema',
+  $id: 'DatasourcePatchSchema',
 })
 
-export type CoreDatasourcePatch = Static<typeof coreDatasourcePatchSchema>
+export type DatasourcePatch = Static<typeof coreDatasourcePatchSchema>
 export const coreDatasourcePatchValidator = getValidator(coreDatasourcePatchSchema, dataValidator)
 
 // Schema for the data that is being returned
 export const coreDatasourceResultSchema = coreDatasourceSchema
-export type CoreDatasourceResult = Static<typeof coreDatasourceResultSchema> & {
+export type DatasourceResult = Static<typeof coreDatasourceResultSchema> & {
   workspace?: WorkspaceResult
 }
 
 // Schema for creating datasource
 export const coreDatasourceDataSchema = Type.Omit(coreDatasourceSchema, ['id', 'slug'], {
   additionalProperties: false,
-  $id: 'CoreDatasourceDataSchema',
+  $id: 'DatasourceDataSchema',
 })
-export type CoreDatasourceData = Static<typeof coreDatasourceDataSchema>
+export type DatasourceData = Static<typeof coreDatasourceDataSchema>
 export const coreDatasourceDataValidator = getValidator(coreDatasourceDataSchema, dataValidator)
 
 // Schema for allowed query properties
@@ -98,7 +98,7 @@ export const coreDatasourceQuerySchema = Type.Intersect(
       Type.Omit(
         coreDatasourceSchema,
         ['credentialsRead', 'credentialsReadWrite', 'credentialsAlter', 'connection'],
-        { $id: 'CoreDatasourceQuery', additionalProperties: false },
+        { $id: 'DatasourceQuery', additionalProperties: false },
       ),
     ),
     querySyntax(
@@ -139,7 +139,7 @@ export const coreDatasourceQuerySchema = Type.Intersect(
       // ),
     }),
   ],
-  { additionalProperties: false, $id: 'CoreDatasourceQuery' },
+  { additionalProperties: false, $id: 'DatasourceQuery' },
 )
 
-export type CoreDatasourceQuery = Static<typeof coreDatasourceQuerySchema>
+export type DatasourceQuery = Static<typeof coreDatasourceQuerySchema>

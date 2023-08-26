@@ -14,8 +14,8 @@ import { authManagementClient } from './services/auth/authmanagement/authmanagem
 import { userClient } from './services/core/user/user.shared'
 import { groupClient } from './services/core/group/group.shared'
 import { userGroupClient } from './services/core/user-group/user-group.shared'
-import { workspaceClient } from './services/core/workspace/core-workspace.shared'
-import { datasourceClient } from './services/core/datasource/core-datasource.shared'
+import { workspaceClient } from './services/core/workspace/workspace.shared'
+import { datasourceClient } from './services/core/datasource/datasource.shared'
 import { policyClient } from './services/core/policy/policy.shared'
 
 import { SERVICES } from '@locokit/definitions'
@@ -30,7 +30,7 @@ export type {
   WorkspaceData,
   WorkspacePatch,
   WorkspaceQuery,
-} from './services/core/workspace/core-workspace.shared'
+} from './services/core/workspace/workspace.shared'
 export type {
   PolicyData,
   PolicyPatch,

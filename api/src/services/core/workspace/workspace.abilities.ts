@@ -7,7 +7,7 @@ import { AppAbility, resolveAction } from '../../../abilities/definitions'
 
 // import { AppAbility, resolveAction } from '../../abilities/definitions'
 // import { HookContext } from '@feathersjs/feathers'
-import type { UserResult } from '../../core/user/user.schema'
+import type { UserResult } from '../user/user.schema'
 import { ServiceTypes } from '@/declarations'
 // import { ServiceTypes } from '../declarations'
 // import { LckAclSet } from '../models/aclset.model'

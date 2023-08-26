@@ -2,9 +2,9 @@ import { Type, Static, StringEnum, querySyntax, getValidator } from '@feathersjs
 import { dataValidator, queryValidator } from '@/commons/validators'
 import { TableResult } from '../table/table.schema'
 import { DB_DIALECT } from '@locokit/definitions'
-import { WorkspaceResult } from '@/services/core/workspace/core-workspace.schema'
+import { WorkspaceResult } from '@/services/core/workspace/workspace.schema'
 
-export const datasourceSchema = Type.Object(
+export const workspaceDatasourceSchema = Type.Object(
   {
     id: Type.String({
       format: 'uuid',
@@ -67,62 +67,62 @@ export const datasourceSchema = Type.Object(
     ),
   },
   {
-    $id: 'DatasourceSchema',
+    $id: 'WorkspaceDatasourceSchema',
     additionalProperties: false,
   },
 )
 
-interface DatasourceRelations {
+interface WorkspaceDatasourceRelations {
   tables?: TableResult[]
 }
 
-export type DatasourceSchema = Static<typeof datasourceSchema> &
-  DatasourceRelations & {
+export type WorkspaceDatasourceSchema = Static<typeof workspaceDatasourceSchema> &
+  WorkspaceDatasourceRelations & {
     client: DB_DIALECT
   }
 
 // Schema for the data that is being returned
-export const datasourceResultSchema = datasourceSchema
-export type DatasourceResult = Static<typeof datasourceResultSchema> &
-  DatasourceRelations & {
+export const workspaceDatasourceResultSchema = workspaceDatasourceSchema
+export type WorkspaceDatasourceResult = Static<typeof workspaceDatasourceResultSchema> &
+  WorkspaceDatasourceRelations & {
     client: DB_DIALECT
     workspace?: WorkspaceResult
   }
 
 // Schema / validator for creation
-export const datasourceDataSchema = Type.Omit(datasourceSchema, ['id', 'tables', 'slug'], {
-  $id: 'DatasourceData',
+export const workspaceDatasourceDataSchema = Type.Omit(workspaceDatasourceSchema, ['id', 'tables', 'slug'], {
+  $id: 'WorkspaceDatasourceData',
   additionalProperties: false,
 })
-export type DatasourceData = Static<typeof datasourceDataSchema> & {
+export type WorkspaceDatasourceData = Static<typeof workspaceDatasourceDataSchema> & {
   client: DB_DIALECT
 }
-export const datasourceDataValidator = getValidator(datasourceDataSchema, dataValidator)
+export const workspaceDatasourceDataValidator = getValidator(workspaceDatasourceDataSchema, dataValidator)
 
-export const datasourceDataInternalSchema = Type.Omit(datasourceSchema, ['id', 'tables'], {
-  $id: 'DatasourceDataInternal',
+export const workspaceDatasourceDataInternalSchema = Type.Omit(workspaceDatasourceSchema, ['id', 'tables'], {
+  $id: 'WorkspaceDatasourceDataInternal',
   additionalProperties: false,
 })
-export type DatasourceDataInternal = Static<typeof datasourceDataInternalSchema> & {
+export type WorkspaceDatasourceDataInternal = Static<typeof workspaceDatasourceDataInternalSchema> & {
   client: DB_DIALECT
 }
-export const datasourceDataInternalValidator = getValidator(
-  datasourceDataInternalSchema,
+export const workspaceDatasourceDataInternalValidator = getValidator(
+  workspaceDatasourceDataInternalSchema,
   dataValidator,
 )
 
 // Schema for making partial updates
-export const datasourcePatchSchema = Type.Omit(datasourceSchema, ['id'])
-export type DatasourcePatch = Static<typeof datasourcePatchSchema> & {
+export const workspaceDatasourcePatchSchema = Type.Omit(workspaceDatasourceSchema, ['id'])
+export type WorkspaceDatasourcePatch = Static<typeof workspaceDatasourcePatchSchema> & {
   client: DB_DIALECT
 }
 
 // Schema for allowed query properties
-export const datasourceQuerySchema = Type.Intersect(
+export const workspaceDatasourceQuerySchema = Type.Intersect(
   [
     querySyntax(
       Type.Omit(
-        datasourceSchema,
+        workspaceDatasourceSchema,
         [
           'credentialsRead',
           'credentialsReadWrite',
@@ -169,5 +169,5 @@ export const datasourceQuerySchema = Type.Intersect(
   ],
   { additionalProperties: false },
 )
-export type DatasourceQuery = Static<typeof datasourceQuerySchema>
-export const datasourceQueryValidator = getValidator(datasourceQuerySchema, queryValidator)
+export type WorkspaceDatasourceQuery = Static<typeof workspaceDatasourceQuerySchema>
+export const workspaceDatasourceQueryValidator = getValidator(workspaceDatasourceQuerySchema, queryValidator)

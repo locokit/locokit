@@ -1,7 +1,7 @@
 import { Model, RelationMappings } from 'objection'
-import { WorkspaceModel } from '../workspace/core-workspace.model'
+import { WorkspaceModel } from '../workspace/workspace.model'
 
-export class CoreDatasourceModel extends Model {
+export class DatasourceModel extends Model {
   static readonly model = 'datasource'
 
   static readonly tableName = 'lck_datasource'

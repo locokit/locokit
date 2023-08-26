@@ -2,8 +2,8 @@ import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { createApp } from '@/app'
 import { SERVICES } from '@locokit/definitions'
 import { builderTestEnvironment, SetupData } from '@/configure.test'
-import { WorkspaceResult } from '@/services/core/workspace/core-workspace.schema'
-import { CoreDatasourceResult } from '@/services/core/datasource/core-datasource.schema'
+import { WorkspaceResult } from '@/services/core/workspace/workspace.schema'
+import { DatasourceResult } from '@/services/core/datasource/datasource.schema'
 import { Forbidden, MethodNotAllowed } from '@feathersjs/errors/lib'
 
 describe('[core] datasource service', () => {
@@ -28,7 +28,7 @@ describe('[core] datasource service', () => {
   })
 
   describe('general purpose', async () => {
-    let generalDatasource: CoreDatasourceResult
+    let generalDatasource: DatasourceResult
     beforeAll(async () => {
       generalDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create({
         name: 'Testing datasource general',
@@ -70,7 +70,7 @@ describe('[core] datasource service', () => {
   })
 
   describe('manage permissions / forbid methods', async () => {
-    let forbidDatasource: CoreDatasourceResult
+    let forbidDatasource: DatasourceResult
     beforeAll(async () => {
       forbidDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create({
         name: 'Testing datasource forbids',
