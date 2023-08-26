@@ -90,20 +90,33 @@ export type WorkspaceDatasourceResult = Static<typeof workspaceDatasourceResultS
   }
 
 // Schema / validator for creation
-export const workspaceDatasourceDataSchema = Type.Omit(workspaceDatasourceSchema, ['id', 'tables', 'slug'], {
-  $id: 'WorkspaceDatasourceData',
-  additionalProperties: false,
-})
+export const workspaceDatasourceDataSchema = Type.Omit(
+  workspaceDatasourceSchema,
+  ['id', 'tables', 'slug'],
+  {
+    $id: 'WorkspaceDatasourceData',
+    additionalProperties: false,
+  },
+)
 export type WorkspaceDatasourceData = Static<typeof workspaceDatasourceDataSchema> & {
   client: DB_DIALECT
 }
-export const workspaceDatasourceDataValidator = getValidator(workspaceDatasourceDataSchema, dataValidator)
+export const workspaceDatasourceDataValidator = getValidator(
+  workspaceDatasourceDataSchema,
+  dataValidator,
+)
 
-export const workspaceDatasourceDataInternalSchema = Type.Omit(workspaceDatasourceSchema, ['id', 'tables'], {
-  $id: 'WorkspaceDatasourceDataInternal',
-  additionalProperties: false,
-})
-export type WorkspaceDatasourceDataInternal = Static<typeof workspaceDatasourceDataInternalSchema> & {
+export const workspaceDatasourceDataInternalSchema = Type.Omit(
+  workspaceDatasourceSchema,
+  ['id', 'tables'],
+  {
+    $id: 'WorkspaceDatasourceDataInternal',
+    additionalProperties: false,
+  },
+)
+export type WorkspaceDatasourceDataInternal = Static<
+  typeof workspaceDatasourceDataInternalSchema
+> & {
   client: DB_DIALECT
 }
 export const workspaceDatasourceDataInternalValidator = getValidator(
@@ -170,4 +183,7 @@ export const workspaceDatasourceQuerySchema = Type.Intersect(
   { additionalProperties: false },
 )
 export type WorkspaceDatasourceQuery = Static<typeof workspaceDatasourceQuerySchema>
-export const workspaceDatasourceQueryValidator = getValidator(workspaceDatasourceQuerySchema, queryValidator)
+export const workspaceDatasourceQueryValidator = getValidator(
+  workspaceDatasourceQuerySchema,
+  queryValidator,
+)

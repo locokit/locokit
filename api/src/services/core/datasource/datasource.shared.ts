@@ -2,16 +2,9 @@
 import type { ClientApplication } from '@/client'
 import { SERVICES } from '@locokit/definitions'
 import type { DatasourceService } from './datasource.class'
-export type {
-  DatasourceData,
-  DatasourcePatch,
-  DatasourceQuery,
-} from './datasource.schema'
+export type { DatasourceData, DatasourcePatch, DatasourceQuery } from './datasource.schema'
 
-export type DatasourceClientService = Pick<
-  DatasourceService,
-  (typeof datasourceMethods)[number]
->
+export type DatasourceClientService = Pick<DatasourceService, (typeof datasourceMethods)[number]>
 
 export const datasourcePath = SERVICES.CORE_DATASOURCE
 

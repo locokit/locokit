@@ -17,7 +17,10 @@ import { SERVICES } from '@locokit/definitions'
 const datasourceLogger = logger.child({ service: 'datasource-hooks' })
 
 // Resolver for the basic data model (e.g. creating new entries)
-export const workspaceDatasourceDataResolver = resolve<WorkspaceDatasourceDataInternal, HookContext>({
+export const workspaceDatasourceDataResolver = resolve<
+  WorkspaceDatasourceDataInternal,
+  HookContext
+>({
   /**
    * Compute a slug before insertion too
    */

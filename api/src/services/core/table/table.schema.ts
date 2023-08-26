@@ -47,9 +47,7 @@ export type TableResult = Static<typeof coreTableResultSchema> & {
 // Schema for allowed query properties
 export const coreTableQuerySchema = Type.Intersect(
   [
-    querySyntax(
-      Type.Omit(coreTableSchema, [], { $id: 'TableQuery', additionalProperties: false }),
-    ),
+    querySyntax(Type.Omit(coreTableSchema, [], { $id: 'TableQuery', additionalProperties: false })),
     Type.Object({
       $joinRelated: Type.Optional(
         Type.RegEx(/datasource/, {

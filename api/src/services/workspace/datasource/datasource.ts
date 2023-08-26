@@ -3,7 +3,11 @@ import type { Application } from '@/declarations'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
 
 import { WorkspaceDatasourceService } from './datasource.class'
-import { workspaceDatasourceDataSchema, workspaceDatasourceQuerySchema, workspaceDatasourceSchema } from './datasource.schema'
+import {
+  workspaceDatasourceDataSchema,
+  workspaceDatasourceQuerySchema,
+  workspaceDatasourceSchema,
+} from './datasource.schema'
 import { WorkspaceDatasourceModel } from './datasource.model'
 import { workspaceDatasourceHooks } from './datasource.hooks'
 

@@ -54,6 +54,7 @@ export type ClientApplication = Application<ServiceTypes, Configuration>
  * @see https://dove.feathersjs.com/api/client.html
  * @returns The Feathers client application
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const createClient = <Configuration = any>(
   connection: TransportConnection<ServiceTypes>,
   authenticationOptions: Partial<Omit<AuthenticationClientOptions, 'path'>> = {},
