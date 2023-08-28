@@ -33,7 +33,7 @@
     "@locokit/definitions": "*",
     "@locokit/designsystem": "*",
     "@locokit/i18n": "*",
-    "@locokit/sdk": "^1.0.0-alpha.0",
+    "@locokit/sdk": "*",
     "@nuxt/kit": "^3.6.5",
     "@pinia/nuxt": "^0.4.11",
     "@vee-validate/rules": "^4.9.5",
