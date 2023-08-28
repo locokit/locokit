@@ -74,6 +74,7 @@ export async function seed(knex: Knex): Promise<any> {
       slug: 'ds_nutrieduc13',
       client: 'sqlite3',
       connection: './nutrieduc13.db',
+      type: 'remote',
     },
   ]
   await knex('datasource')
