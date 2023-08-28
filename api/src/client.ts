@@ -20,6 +20,9 @@ import { policyClient } from './services/core/policy/policy.shared'
 
 import { SERVICES } from '@locokit/definitions'
 import { workspaceDatasourceClient } from './services/workspace/datasource/datasource.shared'
+
+export type { SignUpData } from './services/auth/signup/signup.shared'
+
 export type { User, UserData, UserQuery, UserPatch } from './services/core/user/user.shared'
 export type { GroupData, GroupPatch, GroupQuery } from './services/core/group/group.shared'
 export type {

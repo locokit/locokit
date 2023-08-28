@@ -4,7 +4,7 @@ import { SERVICES } from '@locokit/definitions'
 import type { SignUpService } from './signup.class'
 export type { SignUpData } from './signup.schema'
 
-export type UserClientService = Pick<SignUpService, (typeof signupMethods)[number]>
+export type SignupClientService = Pick<SignUpService, (typeof signupMethods)[number]>
 
 export const signupPath = SERVICES.AUTH_SIGNUP
 
@@ -21,6 +21,6 @@ export const signupClient = (client: ClientApplication) => {
 // Add this service to the client service type index
 declare module '../../../client' {
   interface ServiceTypes {
-    [signupPath]: UserClientService
+    [signupPath]: SignupClientService
   }
 }
