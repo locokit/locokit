@@ -10,7 +10,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "cd ../../api && npm run client:bundle"
+    "build": "cd ../../api && npm run client:bundle",
+    "dev": "cd ../../api && npm run client:bundle:watch"
   },
   "dependencies": {
     "@feathersjs/authentication-client": "^5.0.0-pre.32",

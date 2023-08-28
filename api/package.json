@@ -46,7 +46,8 @@
     "seed:make": "knex seed:make",
     "seed:run-init": "knex seed:run --specific init.ts",
     "seed:run-test": "NODE_ENV=test knex seed:run --specific test.ts",
-    "client:bundle": "vite build -c vite.client.config.ts --emptyOutDir"
+    "client:bundle": "vite build -c vite.client.config.ts --emptyOutDir",
+    "client:bundle:watch": "vite build -c vite.client.config.ts --emptyOutDir --watch"
   },
   "dependencies": {
     "@casl/ability": "^5.0.0",
