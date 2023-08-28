@@ -143,7 +143,7 @@ jobs:
       - name: Build all project
         run: turbo run build
       - name: Tar build api
-        run: tar -cvzf lck-api-build-artifact.tar.gz api/dist/server
+        run: tar -cvzf lck-api-build-artifact.tar.gz api/dist
       - name: Tar build app
         run: tar -cvzf lck-app-build-artifact.tar.gz app/.output
       - name: Tar build @locokit/definitions

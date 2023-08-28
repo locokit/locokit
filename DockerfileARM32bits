@@ -58,7 +58,7 @@ COPY --from=builder /code/packages/engine/package.json /code/packages/engine/
 COPY --from=builder /code/package.json .
 COPY --from=builder /code/package-lock.json .
 RUN npm ci --ignore-scripts
-COPY --from=builder /code/api/dist/server .
+COPY --from=builder /code/api/dist .
 COPY --from=builder /code/packages/definitions/dist /code/packages/definitions/dist
 COPY --from=builder /code/packages/engine/dist /code/packages/engine/dist
 

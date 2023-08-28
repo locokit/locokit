@@ -49,8 +49,8 @@ FROM base AS locokit-api
 WORKDIR /code
 COPY --from=builder /code/locokit-api/json .
 RUN npm ci --ignore-scripts
-COPY --from=builder /code/locokit-api/full/api/dist/server .
-COPY --from=builder /code/locokit-api/full/api/dist/server /code/api/dist/server
+COPY --from=builder /code/locokit-api/full/api/dist .
+COPY --from=builder /code/locokit-api/full/api/dist /code/api/dist
 COPY --from=builder /code/locokit-api/full/packages/definitions/dist /code/packages/definitions/dist
 COPY --from=builder /code/locokit-api/full/packages/engine/dist /code/packages/engine/dist
 

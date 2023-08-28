@@ -91,6 +91,7 @@ export default defineConfig(() => {
   return {
     publicDir: false,
     build: {
+      outDir: 'dist',
       sourcemap: true,
       lib: {
         entry: {

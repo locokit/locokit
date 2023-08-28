@@ -35,7 +35,7 @@ COPY packages/engine/package.json /code/packages/engine/
 COPY package.json .
 COPY package-lock.json .
 RUN npm ci --ignore-scripts
-COPY api/dist/server .
+COPY api/dist .
 COPY packages/definitions/dist /code/packages/definitions/dist
 COPY packages/engine/dist /code/packages/engine/dist
 
