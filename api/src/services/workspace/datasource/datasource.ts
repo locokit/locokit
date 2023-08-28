@@ -1,4 +1,3 @@
-import { SERVICES } from '@locokit/definitions'
 import type { Application } from '@/declarations'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
 
@@ -10,6 +9,7 @@ import {
 } from './datasource.schema'
 import { WorkspaceDatasourceModel } from './datasource.model'
 import { workspaceDatasourceHooks } from './datasource.hooks'
+import { workspaceDatasourceMethods, workspaceDatasourcePath } from './datasource.shared'
 
 /**
  * The datasource is pointing a table `datasource`
@@ -28,9 +28,9 @@ export function workspaceDatasourceService(app: Application): void {
   }
 
   // Register our service on the Feathers application
-  app.use(SERVICES.WORKSPACE_DATASOURCE, new WorkspaceDatasourceService(options), {
+  app.use(workspaceDatasourcePath, new WorkspaceDatasourceService(options), {
     // A list of all methods this service exposes externally
-    methods: ['find', 'get', 'create', 'update', 'patch', 'remove'],
+    methods: workspaceDatasourceMethods,
     // You can add additional custom events to be sent to clients here
     events: [],
     docs: createSwaggerServiceOptions({
@@ -45,12 +45,12 @@ export function workspaceDatasourceService(app: Application): void {
     }),
   })
   // Initialize hooks
-  app.service(SERVICES.WORKSPACE_DATASOURCE).hooks(workspaceDatasourceHooks)
+  app.service(workspaceDatasourcePath).hooks(workspaceDatasourceHooks)
 }
 
 // Add this service to the service type index
 declare module '@/declarations' {
   interface ServiceTypes {
-    [SERVICES.WORKSPACE_DATASOURCE]: WorkspaceDatasourceService
+    [workspaceDatasourcePath]: WorkspaceDatasourceService
   }
 }
