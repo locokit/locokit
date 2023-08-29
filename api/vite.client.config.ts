@@ -7,6 +7,7 @@ export default defineConfig(() => {
   return {
     publicDir: false,
     build: {
+      minify: false,
       sourcemap: true,
       outDir: '../packages/sdk/dist',
       lib: {
@@ -14,8 +15,16 @@ export default defineConfig(() => {
           client: 'src/client.ts',
         },
         name: '@locokit/sdk',
-        formats: ['cjs', 'es', 'umd'],
-        fileName: (format: string, entry: string) => `${entry}.${format}.js`,
+        formats: ['cjs', 'es'],
+        fileName(format, entry) {
+          switch (format) {
+            case 'es':
+              return entry + '.mjs'
+            case 'cjs':
+            default:
+              return entry + '.cjs'
+          }
+        },
       },
       rollupOptions: {
         external: Object.keys(pkg.dependencies),

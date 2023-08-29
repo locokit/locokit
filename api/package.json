@@ -47,11 +47,12 @@
     "seed:run-init": "knex seed:run --specific init.ts",
     "seed:run-test": "NODE_ENV=test knex seed:run --specific test.ts",
     "client:bundle": "vite build -c vite.client.config.ts --emptyOutDir",
-    "client:bundle:watch": "vite build -c vite.client.config.ts --emptyOutDir --watch"
+    "client:bundle:watch": "vite build -c vite.client.config.ts --watch"
   },
   "dependencies": {
     "@casl/ability": "^5.0.0",
     "@feathersjs/authentication": "^5.0.6",
+    "@feathersjs/authentication-client": "^5.0.8",
     "@feathersjs/authentication-local": "^5.0.6",
     "@feathersjs/authentication-oauth": "^5.0.6",
     "@feathersjs/configuration": "^5.0.6",
