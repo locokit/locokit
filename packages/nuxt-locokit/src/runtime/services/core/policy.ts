@@ -1,5 +1,5 @@
 import { SERVICES } from '@locokit/definitions'
-import { sdkClient } from './api'
+import { sdkClient } from '../api'
 
 const ITEMS_PER_PAGE = 10
 

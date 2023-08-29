@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { findWorkspaces, getWorkspace } from '../services/workspace'
+import { findWorkspaces, getWorkspace } from '../services/core/workspace'
 import { ApiWorkspace, Workspace } from '../interfaces/toMigrate'
 import { ref } from '#imports'
 

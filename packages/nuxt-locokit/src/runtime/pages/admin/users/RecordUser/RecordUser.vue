@@ -349,14 +349,14 @@ import {
 import {
   removeUserGroup,
   updateUserGroup,
-} from '../../../../services/usergroup'
+} from '../../../../services/core/usergroup'
 import {
   findGroups,
   findGroupsFomUser,
   ITEMS_PER_PAGE_GROUPS,
   searchGroups,
-} from '../../../../services/group'
-import { getUser, patchUser } from '../../../../services/user'
+} from '../../../../services/core/group'
+import { getUser, patchUser } from '../../../../services/core/user'
 import { useRoute, ref, computed } from '#imports'
 
 const emit = defineEmits<{

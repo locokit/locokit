@@ -150,7 +150,7 @@ import { Field } from 'vee-validate'
 import { ref } from 'vue'
 import { PROFILE } from '../../../../interfaces/toMigrate'
 import { ROUTES_NAMES } from '../../../../locokit-paths'
-import { createUser } from '../../../../services/user'
+import { createUser } from '../../../../services/core/user'
 import { useRouter } from '#imports'
 
 const router = useRouter()

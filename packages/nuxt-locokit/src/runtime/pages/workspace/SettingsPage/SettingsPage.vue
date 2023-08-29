@@ -19,7 +19,7 @@
 import { WorkspaceForm } from '@locokit/designsystem'
 import { storeToRefs } from 'pinia'
 import { useStoreWorkspaces } from '../../../stores/workspaces'
-import { patchWorkspace } from '../../../services/workspace'
+import { patchWorkspace } from '../../../services/core/workspace'
 import { ref } from '#imports'
 
 const workspacesStore = useStoreWorkspaces()
