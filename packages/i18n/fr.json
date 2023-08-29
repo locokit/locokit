@@ -401,7 +401,33 @@
       "explainTable": "Dès lors, il est possible d'afficher une base de données sous forme de schéma ou d'afficher le détail d'une table."
     },
     "createDatasource": {
-      "title": "Créer une source de données"
+      "title": "Créer une source de données",
+      "submit": "Créer",
+      "name": "Nom",
+      "explainsSlugUse": "Cette source de données sera sauvegardé sous le nom de :",
+      "documentation": "Notes",
+      "client": "Client",
+      "pg": "@:commons.clientDatasource.pg",
+      "sqlite3": "@:commons.clientDatasource.sqlite3",
+      "type": "Type",
+      "local": "@:commons.typeDatasource.local",
+      "remote": "@:commons.typeDatasource.remote",
+      "connection": "Connexion",
+      "noWorkspace": "Impossible d'accèder à l'espace de travail. Veuillez selectionner (à nouveau) l'espace de travail désiré."
+    },
+    "updateDatasource": {
+      "title": "Modifier la source de données",
+      "submit": "Modifier",
+      "name": "Nom",
+      "documentation": "Notes",
+      "client": "Client",
+      "pg": "@:commons.clientDatasource.pg",
+      "sqlite3": "@:commons.clientDatasource.sqlite3",
+      "type": "Type",
+      "local": "@:commons.typeDatasource.local",
+      "remote": "@:commons.typeDatasource.remote",
+      "connection": "Connexion",
+      "noDatasource": "Impossible d'accéder à la source de données."
     },
     "settings": {
       "title": "@:pages.workspace.settings"
@@ -534,6 +560,15 @@
         "name": "@:pages.createGroup.name",
         "workspace": "@:pages.createGroup.workspace",
         "policy": "@:pages.createGroup.policy"
+      },
+      "createDatasource": {
+        "name": "@:pages.createDatasource.name",
+        "client": "@:pages.createDatasource.client",
+        "connection": "@:pages.createDatasource.connection"
+      },
+      "updateDatasource": {
+        "client": "@:pages.updateDatasource.client",
+        "connection": "@:pages.updateDatasource.connection"
       }
     },
     "messages": {
@@ -552,6 +587,14 @@
       "admin": "Admin",
       "creator": "Créateur⋅rice",
       "member": "Membre"
+    },
+    "typeDatasource": {
+      "local": "Local",
+      "remote": "Serveur distant"
+    },
+    "clientDatasource": {
+      "pg": "PostgreSQL",
+      "sqlite3": "SQLite3"
     }
   }
 }

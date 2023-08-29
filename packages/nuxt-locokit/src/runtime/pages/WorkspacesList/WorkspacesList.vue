@@ -37,7 +37,7 @@
               :to="{
                 name: ROUTES_NAMES.WORKSPACE.HOME,
                 params: {
-                  id: workspace.id,
+                  workspaceSlug: workspace.slug,
                 },
               }"
             >

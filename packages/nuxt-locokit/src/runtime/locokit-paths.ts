@@ -20,6 +20,7 @@ export const ROUTES_NAMES = {
       HOME: 'Datasource',
       ABOUT: 'AboutDatasource',
       CREATE: 'CreateDatasource',
+      UPDATE: 'UpdateDatasource',
       SCHEMA: 'SchemaDatasource',
     },
     SETTINGS: 'Settings',
@@ -89,17 +90,18 @@ export const ROUTES_PATH = {
    * Workspace paths
    */
   WORKSPACE: {
-    WORKSPACES: '/w',
+    WORKSPACES: '/workspaces',
     CREATE_WORKSPACE: '/w/create',
-    HOME: '/w/:id',
-    DASHBOARD: '/w/:id/dashboard',
+    HOME: '/w/:workspaceSlug',
+    DASHBOARD: '/w/:workspaceSlug/dashboard',
     DATASOURCE: {
-      HOME: '/w/:id/datasource',
-      ABOUT: '/w/:id/datasource/about',
-      CREATE: '/w/:id/datasource/create',
-      SCHEMA: '/w/:id/datasource/schema',
+      HOME: '/w/:workspaceSlug/datasource',
+      ABOUT: '/w/:workspaceSlug/datasource/about',
+      CREATE: '/w/:workspaceSlug/datasource/create',
+      UPDATE: '/w/:workspaceSlug/datasource/:datasourceSlug',
+      SCHEMA: '/w/:workspaceSlug/datasource/schema',
     },
-    SETTINGS: '/w/:id/settings',
+    SETTINGS: '/w/:workspaceSlug/settings',
   },
 }
 

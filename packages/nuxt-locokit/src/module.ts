@@ -229,6 +229,16 @@ export default defineNuxtModule<ModuleOptions>({
                 ),
               },
               {
+                name: ROUTES_NAMES.WORKSPACE.DATASOURCE.UPDATE,
+                path: ROUTES_PATH.WORKSPACE.DATASOURCE.UPDATE,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  './runtime/pages/workspace/datasource/UpdateDatasource/UpdateDatasource.vue',
+                ),
+              },
+              {
                 name: ROUTES_NAMES.WORKSPACE.DATASOURCE.SCHEMA,
                 path: ROUTES_PATH.WORKSPACE.DATASOURCE.SCHEMA,
                 meta: {
@@ -395,9 +405,9 @@ export default defineNuxtModule<ModuleOptions>({
         ],
       })
 
-      //   /**
-      //    * Register workspaces page
-      //    */
+      /**
+       * Register workspaces page
+       */
       pages.push({
         name: ROUTES_NAMES.WORKSPACE.WORKSPACES,
         path: ROUTES_PATH.WORKSPACE.WORKSPACES,

@@ -11,7 +11,7 @@
         >
           <span>{{ currentWorkspace.name }}</span>
           <i
-            v-if="workspaces && workspaces.total > 0"
+            v-if="workspaces && workspaces.total > 1"
             class="bi bi-chevron-compact-down ml-2"
           />
         </button>
@@ -37,7 +37,7 @@
                   :to="{
                     name: ROUTES_NAMES.WORKSPACE.HOME,
                     params: {
-                      id: workspace.id,
+                      workspaceSlug: workspace.slug,
                     },
                   }"
                 >
@@ -110,8 +110,11 @@ const MINI_NAV = [
 ]
 
 // Initialization
-await workspacesStore.updateCurrentWorkspace(route.params.id as string)
-if (workspaces.value) {
+await workspacesStore.updateCurrentWorkspace({
+  slug: route.params.workspaceSlug as string,
+})
+
+if (typeof workspaces.value === 'undefined') {
   await workspacesStore.updateWorkspaces()
 }
 
