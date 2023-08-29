@@ -30,15 +30,21 @@ export const workspaceSchema = Type.Object(
     settings: Type.Optional(
       Type.Object(
         {
-          color: Type.String({
-            description: 'Main color for this workspace',
-          }),
-          backgroundColor: Type.String({
-            description: 'Main background color for this workspace',
-          }),
-          icon: Type.String({
-            description: 'Icon displayed in the workspace list',
-          }),
+          color: Type.Optional(
+            Type.String({
+              description: 'Main color for this workspace',
+            }),
+          ),
+          backgroundColor: Type.Optional(
+            Type.String({
+              description: 'Main background color for this workspace',
+            }),
+          ),
+          icon: Type.Optional(
+            Type.String({
+              description: 'Icon displayed in the workspace list',
+            }),
+          ),
         },
         {
           description: "Workspace's settings",

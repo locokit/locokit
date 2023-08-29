@@ -10,12 +10,14 @@ const delayedError = async (e) => {
   await sleep(0.1)
   console.error(e)
 }
+
 function feathers(Opts = {} as any) {
   const env = loadEnv('', process.cwd())
   const sm = {
     active: true,
     entryFile: Opts.app || 'server/app.ts',
     root: '',
+    host: 'localhost',
     port: Opts.port || 23030,
     appListener: void 0,
     feathersApp: void 0,
