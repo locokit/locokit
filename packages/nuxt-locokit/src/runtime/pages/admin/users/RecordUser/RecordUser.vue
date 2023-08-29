@@ -206,8 +206,7 @@
               <PrimeDropdown
                 v-bind="{
                   ...field,
-                  onChange: ({ value: newValue }) =>
-                    field.onChange.forEach((fct) => fct(newValue)),
+                  onChange: ({ value: newValue }) => field.onChange(newValue),
                   'model-value': field.value,
                 }"
                 input-id="profile"

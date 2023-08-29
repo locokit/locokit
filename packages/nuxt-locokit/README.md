@@ -6,12 +6,14 @@
 [![Nuxt][nuxt-src]][nuxt-href]
 
 - [✨ &nbsp;Release Notes](/CHANGELOG.md)
+
 <!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/nuxt-locokit?file=playground%2Fapp.vue) -->
 <!-- - [📖 &nbsp;Documentation](https://example.com) -->
 
 ## Features
 
 <!-- Highlight some of the features your module provide here -->
+
 - ⛰ &nbsp;Foo
 - 🚠 &nbsp;Bar
 - 🌲 &nbsp;Baz
@@ -50,13 +52,16 @@ That's it! You can now use Nuxt Module in your Nuxt app ✨
 npm install
 
 # Generate type stubs
-npm run dev:prepare
+npm run nuxt:prepare
+
+# Build the playground
+npm run nuxt:build
 
 # Develop with the playground
 npm run dev
 
-# Build the playground
-npm run dev:build
+# Build module
+npm run build
 
 # Run ESLint
 npm run lint
@@ -70,14 +75,19 @@ npm run release
 ```
 
 <!-- Badges -->
+
 [npm-version-src]: https://img.shields.io/npm/v/nuxt-locokit/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
+
 [npm-version-href]: https://npmjs.com/package/nuxt-locokit
 
 [npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-locokit.svg?style=flat&colorA=18181B&colorB=28CF8D
+
 [npm-downloads-href]: https://npmjs.com/package/nuxt-locokit
 
 [license-src]: https://img.shields.io/npm/l/nuxt-locokit.svg?style=flat&colorA=18181B&colorB=28CF8D
+
 [license-href]: https://npmjs.com/package/nuxt-locokit
 
 [nuxt-src]: https://img.shields.io/badge/Nuxt-18181B?logo=nuxt.js
+
 [nuxt-href]: https://nuxt.com

@@ -95,11 +95,47 @@ export default defineNuxtModule<ModuleOptions>({
       runtimeDir.endsWith('src/runtime') || runtimeDir.endsWith('src\\runtime')
 
     const styleExtension = isDevelopment ? 'scss' : 'css'
-    const scriptExtension = isDevelopment ? 'ts' : 'mjs'
 
     await installModule('@nuxtjs/tailwindcss', {
-      configPath: resolve('./runtime/tailwind.config.' + scriptExtension),
-      cssPath: resolve('./runtime/assets/css/tailwind.css'),
+      exposeConfig: true,
+      config: {
+        content: {
+          files: [
+            resolve('../**/*.vue'),
+            resolve('../../designsystem/src/components/**/*.vue'),
+          ],
+        },
+        theme: {
+          extend: {
+            colors: {
+              primary: 'var(--primary-color)',
+              'primary-lighten': 'var(--primary-color-lighten)',
+              'primary-light': 'var(--primary-color-light)',
+              'primary-dark': 'var(--primary-color-dark)',
+              secondary: 'var(--secondary-color)',
+              'secondary-lighten': 'var(--secondary-color-lighten)',
+              'secondary-light': 'var(--secondary-color-light)',
+              'secondary-dark': 'var(--secondary-color-dark)',
+              error: 'var(--color-error)',
+              'error-lighten': 'var(--color-error-lighten)',
+              'error-light': 'var(--color-error-light)',
+              'error-dark': 'var(--color-error-dark)',
+              success: 'var(--color-success)',
+              'success-lighten': 'var(--color-success-lighten)',
+              'success-light': 'var(--color-success-light)',
+              'success-dark': 'var(--color-success-dark)',
+              warning: 'var(--color-warning)',
+              'warning-lighten': 'var(--color-warning-lighten)',
+              'warning-light': 'var(--color-warning-light)',
+              'warning-dark': 'var(--color-warning-dark)',
+              lck: 'var(--text-color)',
+            },
+            borderRadius: {
+              lck: 'var(--border-radius)',
+            },
+          },
+        },
+      },
     })
     await installModule('@pinia/nuxt')
 

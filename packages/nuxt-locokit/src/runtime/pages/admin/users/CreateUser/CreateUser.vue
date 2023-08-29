@@ -116,8 +116,7 @@
         <PrimeDropdown
           v-bind="{
             ...field,
-            onChange: ({ value: newValue }) =>
-              field.onChange.forEach((fct) => fct(newValue)),
+            onChange: ({ value: newValue }) => field.onChange(newValue),
             'model-value': field.value,
           }"
           input-id="profile"
@@ -128,12 +127,12 @@
         >
           <template #value="slotProps">
             <span v-if="slotProps.value">
-              {{ $t(`pages.createUser.${slotProps.value.label}`) }}
+              {{ $t(`pages.createUser.${slotProps.value.name}`) }}
             </span>
           </template>
           <template #option="slotProps">
             <span>
-              {{ $t(`pages.createUser.${slotProps.option.label}`) }}
+              {{ $t(`pages.createUser.${slotProps.option.name}`) }}
             </span>
           </template>
         </PrimeDropdown>
