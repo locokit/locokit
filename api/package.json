@@ -27,7 +27,7 @@
   "browser": "dist/client",
   "scripts": {
     "dev": "vite",
-    "build": "rm -rf dist/server && vite build --outDir dist/server --ssr src/index.ts",
+    "build": "rm -rf dist && vite build --ssr src/index.ts",
     "debug": "DEBUG=* ts-node-dev --no-notify --files src/",
     "tsc:dev": "ts-node-dev --no-notify --files src/index.ts",
     "tsc:build": "rm -rf lib/ && tsc -p tsconfig.build.json",
