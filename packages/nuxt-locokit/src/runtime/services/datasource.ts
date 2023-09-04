@@ -32,7 +32,6 @@ export async function findDatasources(
   },
   workspaceSlug: string,
 ) {
-  console.log(params, workspaceSlug)
   try {
     return await sdkClient
       .service(`/workspace/${workspaceSlug}/datasource`)

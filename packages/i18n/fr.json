@@ -48,13 +48,13 @@
     },
     "predefinedColorPicker": {
       "label": "Couleur",
-      "text": "Je suis un exemple de text.",
+      "text": "Je suis un exemple de texte.",
       "help": "Cette couleur est utilisée en arrière-plan dans la page d'accueil des espaces de travail."
     },
     "workspaceForm": {
       "title": "Créer un espace de travail",
       "name": "Nom",
-      "explainsSlugUse": "Cette espace de travail sera sauvegardé sous le nom de :",
+      "explainsSlugUse": "Cet espace de travail sera sauvegardé sous le nom de :",
       "documentation": "Descriptif",
       "color": "Couleur",
       "colorHelp": "Cette couleur est utilisée dans la page des espaces de travail.",
@@ -404,7 +404,7 @@
       "title": "Créer une source de données",
       "submit": "Créer",
       "name": "Nom",
-      "explainsSlugUse": "Cette source de données sera sauvegardé sous le nom de :",
+      "explainsSlugUse": "Cette source de données sera sauvegardée sous le nom de :",
       "documentation": "Notes",
       "client": "Client",
       "pg": "@:commons.clientDatasource.pg",
@@ -413,7 +413,7 @@
       "local": "@:commons.typeDatasource.local",
       "remote": "@:commons.typeDatasource.remote",
       "connection": "Connexion",
-      "noWorkspace": "Impossible d'accèder à l'espace de travail. Veuillez selectionner (à nouveau) l'espace de travail désiré."
+      "noWorkspace": "Impossible d'accéder à l'espace de travail. Veuillez sélectionner (à nouveau) l'espace de travail souhaité."
     },
     "updateDatasource": {
       "title": "Modifier la source de données",
