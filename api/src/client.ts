@@ -36,6 +36,11 @@ export type {
   WorkspaceQuery,
 } from './services/core/workspace/workspace.shared'
 export type {
+  DatasourceData,
+  DatasourcePatch,
+  DatasourceQuery,
+} from './services/core/datasource/datasource.shared'
+export type {
   PolicyData,
   PolicyPatch,
   PolicyResult,
