@@ -1,6 +1,7 @@
 <template>
   <WithAsideNav>
     <template #header-insert>
+      <Toast />
       <div class="w-14 h-full mx-0.5" />
       <div v-if="currentWorkspace" class="dropdown-wrapper relative my-auto">
         <button
@@ -79,16 +80,25 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
+import { useToast } from 'primevue/usetoast'
 import { ROUTES_NAMES } from '../../locokit-paths'
 import WithAsideNav from '../../layouts/WithAsideNav.vue'
 import { useStoreWorkspaces } from '../../stores/workspaces'
-import { ref, useHead, useRoute, onMounted, onUnmounted } from '#imports'
+import {
+  ref,
+  useHead,
+  useRoute,
+  onMounted,
+  onUnmounted,
+  definePageMeta,
+} from '#imports'
 
 const { t } = useI18n({ useScope: 'global' })
+
 const route = useRoute()
 const workspacesStore = useStoreWorkspaces()
-const { currentWorkspace, workspaces } = storeToRefs(workspacesStore)
-
+const { currentWorkspace, workspaces, error } = storeToRefs(workspacesStore)
+const toast = useToast()
 const showWorkspaces = ref(false)
 
 const MINI_NAV = [
@@ -117,6 +127,11 @@ await workspacesStore.updateCurrentWorkspace({
 if (typeof workspaces.value === 'undefined') {
   await workspacesStore.updateWorkspaces()
 }
+definePageMeta({
+  redirect: {
+    name: ROUTES_NAMES.WORKSPACE.DASHBOARD,
+  },
+})
 
 const closeWorkspaces = () => {
   showWorkspaces.value = false
@@ -124,6 +139,14 @@ const closeWorkspaces = () => {
 
 onMounted(() => {
   document.addEventListener('click', closeWorkspaces)
+  if (error.value) {
+    toast.add({
+      severity: 'error',
+      summary: t('error.title'),
+      detail: t(`${error.value.message}`),
+      life: 5000,
+    })
+  }
 })
 onUnmounted(() => {
   document.removeEventListener('click', closeWorkspaces)

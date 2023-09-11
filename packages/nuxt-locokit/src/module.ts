@@ -187,7 +187,6 @@ export default defineNuxtModule<ModuleOptions>({
           protected: true,
         },
         file: resolve('./runtime/pages/workspace/index.vue'),
-        // redirect: ROUTES_PATH.WORKSPACE.DASHBOARD,
         children: [
           {
             name: ROUTES_NAMES.WORKSPACE.DASHBOARD,
@@ -206,7 +205,6 @@ export default defineNuxtModule<ModuleOptions>({
               protected: true,
             },
             file: resolve('./runtime/pages/workspace/datasource/index.vue'),
-            // redirect: ROUTES_PATH.WORKSPACE.DATABASE.ABOUT,
             children: [
               {
                 name: ROUTES_NAMES.WORKSPACE.DATASOURCE.ABOUT,

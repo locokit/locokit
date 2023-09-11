@@ -64,7 +64,7 @@ import PrimeButton from 'primevue/button'
 import { IdentityCard } from '@locokit/designsystem'
 import { ROUTES_NAMES } from '../../../locokit-paths'
 import { findDatasources } from '../../../services/datasource'
-import { useRoute } from '#imports'
+import { definePageMeta, useRoute } from '#imports'
 
 const route = useRoute()
 
@@ -73,4 +73,10 @@ const datasources = await findDatasources(
   {},
   route.params.workspaceSlug as string,
 )
+
+definePageMeta({
+  redirect: {
+    name: ROUTES_NAMES.WORKSPACE.DATASOURCE.ABOUT,
+  },
+})
 </script>

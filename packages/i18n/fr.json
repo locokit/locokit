@@ -437,10 +437,17 @@
     "basic": "Le formulaire a bien été envoyé."
   },
   "error": {
+    "title": "Erreur",
     "basic": "Une erreur s'est produite. Merci d'essayer à nouveau plus tard.",
     "redundantError": "Si ce problème continue de se produire, merci de contacter l'administrateur de l'application.",
     "notAuthenticated": {
       "description": "Impossible de vous identifier avec ces informations."
+    },
+    "noResult": {
+      "workspace": "Impossible de retrouver l'espace de travail demandé."
+    },
+    "tooManyResult": {
+      "workspace": "Plusieurs espaces de travail ont été retrouvés."
     }
   },
   "localePrime": {

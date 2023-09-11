@@ -2,9 +2,6 @@
 import { configure, defineRule } from 'vee-validate'
 import { email, required, regex } from '@vee-validate/rules'
 
-// import { i18n } from './i18n'
-import { i18n } from './i18n'
-
 export function setup(i18n) {
   defineRule('email', email)
   // defineRule('required_if', required_if)

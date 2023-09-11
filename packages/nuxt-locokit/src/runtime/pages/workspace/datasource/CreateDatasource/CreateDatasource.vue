@@ -40,7 +40,7 @@
         </span>
         <div class="flex flex-row mb-4 mt-1">
           <p class="mr-1">
-            {{ $t('components.createDatasource.explainsSlugUse') }}
+            {{ $t('pages.createDatasource.explainsSlugUse') }}
           </p>
           <p
             v-if="name"

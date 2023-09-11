@@ -42,7 +42,9 @@ const submitWorkspace = async (data: {
   if (res instanceof Error) {
     error.value = res
   } else {
-    await workspacesStore.updateCurrentWorkspace(currentWorkspace.value.id)
+    await workspacesStore.updateCurrentWorkspace({
+      id: currentWorkspace.value.id as string,
+    })
   }
 }
 </script>
