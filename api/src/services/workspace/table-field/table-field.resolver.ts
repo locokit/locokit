@@ -12,7 +12,7 @@ import {
 } from './table-field.schema'
 import { NotAcceptable, NotFound } from '@feathersjs/errors/lib'
 import { Paginated } from '@feathersjs/feathers'
-import { WorkspaceResult } from '@/services/core/workspace/core-workspace.schema'
+import { WorkspaceResult } from '@/services/core/workspace/workspace.schema'
 import { DatasourceResult } from '../datasource/datasource.schema'
 import { DB_DIALECT, FIELD_TYPE, SERVICES } from '@locokit/definitions'
 import { convertLocoKitFieldTypeToDBType } from './table-field.helpers'

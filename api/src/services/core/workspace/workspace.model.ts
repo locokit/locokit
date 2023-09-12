@@ -2,7 +2,7 @@ import { Model, RelationMappings } from 'objection'
 import { GroupModel } from '@/services/core/group/group.model'
 import { PolicyModel } from '@/services/core/policy/policy.model'
 import { UserModel } from '@/services/core/user/user.model'
-import { CoreDatasourceModel } from '../datasource/core-datasource.model'
+import { DatasourceModel } from '../datasource/datasource.model'
 
 /**
  * Workspace objection Model
@@ -16,7 +16,7 @@ export class WorkspaceModel extends Model {
     return {
       datasources: {
         relation: Model.HasManyRelation,
-        modelClass: CoreDatasourceModel,
+        modelClass: DatasourceModel,
         join: {
           from: 'lck_workspace.id',
           to: 'lck_datasource.workspaceId',

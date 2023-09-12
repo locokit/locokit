@@ -1,4 +1,5 @@
 import { SERVICES } from '@locokit/definitions'
+import { GroupData } from '@locokit/sdk'
 import { ApiUserGroup, Filter } from '../interfaces/toMigrate'
 import { getCurrentFilters } from '../helpers/filter'
 import { sdkClient } from './api'
@@ -11,8 +12,7 @@ export async function getGroup(id: string, params: null | any = null) {
   return await sdkClient.service(SERVICES.CORE_GROUP).get(id, params)
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function createGroup(data: Record<string, any> = {}) {
+export async function createGroup(data: GroupData) {
   return await sdkClient.service(SERVICES.CORE_GROUP).create(data)
 }
 

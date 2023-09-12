@@ -1,4 +1,3 @@
-import { SERVICES } from '@locokit/definitions'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
 import type { Application } from '@/declarations'
 import { ObjectionAdapterOptions } from '@/feathers-objection'
@@ -6,6 +5,7 @@ import { ObjectionAdapterOptions } from '@/feathers-objection'
 import { GroupService, groupHooks } from './group.class'
 import { GroupModel } from './group.model'
 import { groupDataSchema, groupQuerySchema, groupSchema } from './group.schema'
+import { groupMethods, groupPath } from './group.shared'
 
 // A configure function that registers the service and its hooks via `app.configure`
 export function groupService(app: Application): void {
@@ -18,9 +18,9 @@ export function groupService(app: Application): void {
   }
 
   // Register our service on the Feathers application
-  app.use(SERVICES.CORE_GROUP, new GroupService(options), {
+  app.use(groupPath, new GroupService(options), {
     // A list of all methods this service exposes externally
-    methods: ['find', 'get', 'create', 'update', 'patch', 'remove'],
+    methods: groupMethods,
     // You can add additional custom events to be sent to clients here
     events: [],
     docs: createSwaggerServiceOptions({
@@ -29,12 +29,12 @@ export function groupService(app: Application): void {
     }),
   })
   // Initialize hooks
-  app.service(SERVICES.CORE_GROUP).hooks(groupHooks)
+  app.service(groupPath).hooks(groupHooks)
 }
 
 // Add this service to the service type index
 declare module '@/declarations' {
   interface ServiceTypes {
-    [SERVICES.CORE_GROUP]: GroupService
+    [groupPath]: GroupService
   }
 }

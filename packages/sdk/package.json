@@ -2,14 +2,19 @@
   "name": "@locokit/sdk",
   "version": "1.0.0-alpha.0",
   "license": "MIT",
-  "type": "module",
-  "main": "./src/index.ts",
+  "main": "dist/client.cjs",
+  "module": "dist/client.mjs",
+  "types": "dist/src/client.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "dev": "tsc src/index.ts"
+    "build": "cd ../../api && npm run client:bundle",
+    "dev": "cd ../../api && npm run client:bundle:watch"
   },
   "dependencies": {
-    "@feathersjs/authentication-client": "^5.0.0-pre.32",
-    "@feathersjs/feathers": "^5.0.0-pre.32",
-    "@feathersjs/rest-client": "^5.0.0-pre.32"
+    "@locokit/definitions": "*",
+    "@feathersjs/authentication-client": "^5.0.6",
+    "@feathersjs/feathers": "^5.0.6"
   }
 }

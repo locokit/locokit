@@ -1,4 +1,5 @@
 import { SERVICES } from '@locokit/definitions'
+import { UserGroupData } from '@locokit/sdk'
 import { sdkClient } from './api'
 
 const ITEMS_PER_PAGE = 20
@@ -12,7 +13,7 @@ export async function findUserGroups(params: Record<string, string> = {}) {
   })
 }
 
-export async function updateUserGroup(data: Record<string, string> = {}) {
+export async function updateUserGroup(data: UserGroupData) {
   return await sdkClient.service(SERVICES.CORE_USERGROUP).create(data)
 }
 

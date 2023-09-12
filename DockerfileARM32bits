@@ -44,6 +44,7 @@ RUN npm run build --workspace packages/engine
 RUN npm run nuxt:prepare --workspace packages/nuxt-locokit
 RUN npm run build --workspace packages/nuxt-locokit
 RUN npm run build --workspace api
+RUN npm run build --workspace packages/sdk
 RUN npm run build --workspace app
 
 #

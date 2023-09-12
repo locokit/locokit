@@ -4,7 +4,7 @@ import { passwordHash } from '@feathersjs/authentication-local'
 import type { HookContext, stringNumberUndefined } from '@/declarations'
 import { UserPatch, UserResult, UserQuery, UserPatchAdmin } from './user.schema'
 import { generatePassword } from '@/utils/password'
-import { workspaceDispatchResolver } from '@/services/core/workspace/core-workspace.resolver'
+import { workspaceDispatchResolver } from '@/services/core/workspace/workspace.resolver'
 import { USER_PROFILE } from '@locokit/definitions'
 
 // Resolver for the basic data model (e.g. creating new entries)

@@ -33,7 +33,7 @@
 // import { TableColumnRelation } from '../models/tablecolumnrelation.model'
 
 // import { UsersResult } from '../services/users/users.schema'
-import { WorkspaceService } from '@/services/core/workspace/core-workspace.class'
+import { WorkspaceService } from '@/services/core/workspace/workspace.class'
 
 import {
   AbilityClass,

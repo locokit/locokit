@@ -106,7 +106,7 @@ export const useStoreAuth = defineStore('auth', () => {
     loading.value = true
     error.value = null
     try {
-      await sdkClient.service('signup').create(data)
+      await sdkClient.service(SERVICES.AUTH_SIGNUP).create(data)
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err)
@@ -129,7 +129,7 @@ export const useStoreAuth = defineStore('auth', () => {
     loading.value = true
     error.value = null
     try {
-      await sdkClient.service(SERVICES.AUTH_AUTHENTICATION).create({
+      await sdkClient.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'resendVerifySignup',
         value: { email: userEmail },
       })
@@ -145,7 +145,7 @@ export const useStoreAuth = defineStore('auth', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await sdkClient.service('user').patch(id, data)
+      const res = await sdkClient.service(SERVICES.CORE_USER).patch(id, data)
       user.value = res
       loading.value = false
       return res
@@ -165,7 +165,7 @@ export const useStoreAuth = defineStore('auth', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await sdkClient.service(SERVICES.AUTH_AUTHENTICATION).create({
+      const res = await sdkClient.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'identityChange',
         value: {
           user: { email: user.email },
@@ -187,7 +187,7 @@ export const useStoreAuth = defineStore('auth', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await sdkClient.service(SERVICES.AUTH_AUTHENTICATION).create({
+      const res = await sdkClient.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'verifySignupLong',
         value: token,
       })
@@ -209,7 +209,7 @@ export const useStoreAuth = defineStore('auth', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await sdkClient.service(SERVICES.AUTH_AUTHENTICATION).create({
+      const res = await sdkClient.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'passwordChange',
         value: {
           user: { email: user.email },

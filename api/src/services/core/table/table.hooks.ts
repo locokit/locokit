@@ -4,7 +4,7 @@ import { HookContext } from '@/declarations'
 import { USER_PROFILE } from '@locokit/definitions'
 import { Forbidden } from '@feathersjs/errors/lib'
 import { hooks as schemaHooks } from '@feathersjs/schema'
-import { coreTablePatchResolver } from './core-table.resolver'
+import { coreTablePatchResolver } from './table.resolver'
 
 export const coreTableHooks = {
   around: {

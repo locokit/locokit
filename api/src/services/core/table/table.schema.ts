@@ -1,5 +1,5 @@
 import { Type, Static, querySyntax } from '@feathersjs/typebox'
-import { CoreDatasourceSchema } from '../datasource/core-datasource.schema'
+import { DatasourceSchema } from '../datasource/datasource.schema'
 
 export const coreTableSchema = Type.Object(
   {
@@ -26,30 +26,28 @@ export const coreTableSchema = Type.Object(
     ),
   },
   {
-    $id: 'CoreTableSchema',
+    $id: 'TableSchema',
     additionalProperties: false,
   },
 )
 
-export type CoreTableSchema = Static<typeof coreTableSchema>
+export type TableSchema = Static<typeof coreTableSchema>
 
 // Schema for making partial updates
 export const coreTablePatchSchema = Type.Omit(coreTableSchema, ['id', 'datasource'])
 
-export type CoreTablePatch = Static<typeof coreTablePatchSchema>
+export type TablePatch = Static<typeof coreTablePatchSchema>
 
 // Schema for the data that is being returned
 export const coreTableResultSchema = coreTableSchema
-export type CoreTableResult = Static<typeof coreTableResultSchema> & {
-  datasource?: CoreDatasourceSchema
+export type TableResult = Static<typeof coreTableResultSchema> & {
+  datasource?: DatasourceSchema
 }
 
 // Schema for allowed query properties
 export const coreTableQuerySchema = Type.Intersect(
   [
-    querySyntax(
-      Type.Omit(coreTableSchema, [], { $id: 'CoreTableQuery', additionalProperties: false }),
-    ),
+    querySyntax(Type.Omit(coreTableSchema, [], { $id: 'TableQuery', additionalProperties: false })),
     Type.Object({
       $joinRelated: Type.Optional(
         Type.RegEx(/datasource/, {
@@ -68,7 +66,7 @@ export const coreTableQuerySchema = Type.Intersect(
       ),
     }),
   ],
-  { additionalProperties: false, $id: 'CoreTableQuery' },
+  { additionalProperties: false, $id: 'TableQuery' },
 )
 
-export type CoreTableQuery = Static<typeof coreTableQuerySchema>
+export type TableQuery = Static<typeof coreTableQuerySchema>

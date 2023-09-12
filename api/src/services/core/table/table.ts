@@ -2,21 +2,21 @@ import { SERVICES } from '@locokit/definitions'
 import type { Application } from '@/declarations'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
 
-import { CoreTable } from './core-table.class'
-import { coreTableQuerySchema, coreTableSchema } from './core-table.schema'
-import { CoreTableModel } from './core-table.model'
-import { coreTableHooks } from './core-table.hooks'
+import { Table } from './table.class'
+import { coreTableQuerySchema, coreTableSchema } from './table.schema'
+import { TableModel } from './table.model'
+import { coreTableHooks } from './table.hooks'
 
 export function coreTableService(app: Application): void {
   const options = {
     paginate: app.get('paginate'),
-    Model: CoreTableModel,
+    Model: TableModel,
     name: 'lck_table',
     schema: 'core',
   }
 
   // Register our service on the Feathers application
-  app.use(SERVICES.CORE_TABLE, new CoreTable(options), {
+  app.use(SERVICES.CORE_TABLE, new Table(options), {
     // A list of all methods this service exposes externally
     // we must not create tables from this service
     // core/table is here to access all tables from all workspaces,
@@ -43,6 +43,6 @@ export function coreTableService(app: Application): void {
 // Add this service to the service type index
 declare module '@/declarations' {
   interface ServiceTypes {
-    [SERVICES.CORE_TABLE]: CoreTable
+    [SERVICES.CORE_TABLE]: Table
   }
 }

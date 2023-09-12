@@ -9,14 +9,14 @@ export default defineConfig(() => {
         name: '@locokit/definitions',
         formats: ['cjs', 'es'],
         fileName(format, entry) {
-          switch(format) {
-          case 'es':
-            return entry + '.mjs'
-          case 'cjs':
-          default:
-            return entry + '.js'
+          switch (format) {
+            case 'es':
+              return entry + '.mjs'
+            case 'cjs':
+            default:
+              return entry + '.js'
           }
-        }
+        },
       },
       target: 'node18',
     },

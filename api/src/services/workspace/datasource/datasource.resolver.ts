@@ -3,21 +3,24 @@ import type { HookContext } from '@/declarations'
 import { toSnakeCase } from '@/utils/toSnakeCase'
 
 import type {
-  DatasourceDataInternal,
-  DatasourcePatch,
-  DatasourceResult,
-  DatasourceQuery,
+  WorkspaceDatasourceDataInternal,
+  WorkspaceDatasourcePatch,
+  WorkspaceDatasourceResult,
+  WorkspaceDatasourceQuery,
 } from './datasource.schema'
 import { NotFound } from '@feathersjs/errors/lib'
 import { Paginated } from '@feathersjs/feathers'
-import { WorkspaceResult } from '@/services/core/workspace/core-workspace.schema'
+import { WorkspaceResult } from '@/services/core/workspace/workspace.schema'
 import { logger } from '@/logger'
 import { SERVICES } from '@locokit/definitions'
 
 const datasourceLogger = logger.child({ service: 'datasource-hooks' })
 
 // Resolver for the basic data model (e.g. creating new entries)
-export const datasourceDataResolver = resolve<DatasourceDataInternal, HookContext>({
+export const workspaceDatasourceDataResolver = resolve<
+  WorkspaceDatasourceDataInternal,
+  HookContext
+>({
   /**
    * Compute a slug before insertion too
    */
@@ -55,12 +58,12 @@ export const datasourceDataResolver = resolve<DatasourceDataInternal, HookContex
 })
 
 // Resolver for making partial updates
-export const datasourcePatchResolver = resolve<DatasourcePatch, HookContext>({})
+export const workspaceDatasourcePatchResolver = resolve<WorkspaceDatasourcePatch, HookContext>({})
 // Resolver for the data that is being returned
-export const datasourceResultResolver = resolve<DatasourceResult, HookContext>({})
+export const workspaceDatasourceResultResolver = resolve<WorkspaceDatasourceResult, HookContext>({})
 
 // Resolver for query properties
-export const datasourceQueryResolver = resolve<DatasourceQuery, HookContext>({
+export const workspaceDatasourceQueryResolver = resolve<WorkspaceDatasourceQuery, HookContext>({
   /**
    * Set the workspace id,
    * if call is from /workspace/:slug/datasource,
@@ -112,12 +115,12 @@ export const datasourceQueryResolver = resolve<DatasourceQuery, HookContext>({
 })
 
 // Export all resolvers in a format that can be used with the resolveAll hook
-export const datasourceResolvers = {
-  result: datasourceResultResolver,
+export const workspaceDatasourceResolvers = {
+  result: workspaceDatasourceResultResolver,
   data: {
-    create: datasourceDataResolver,
-    update: datasourceDataResolver,
-    patch: datasourcePatchResolver,
+    create: workspaceDatasourceDataResolver,
+    update: workspaceDatasourceDataResolver,
+    patch: workspaceDatasourcePatchResolver,
   },
-  query: datasourceQueryResolver,
+  query: workspaceDatasourceQueryResolver,
 }

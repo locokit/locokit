@@ -1,11 +1,15 @@
-import { SERVICES } from '@locokit/definitions'
 import type { Application } from '@/declarations'
 import { createSwaggerServiceOptions } from 'feathers-swagger'
 
-import { Datasource } from './datasource.class'
-import { datasourceDataSchema, datasourceQuerySchema, datasourceSchema } from './datasource.schema'
-import { DatasourceModel } from './datasource.model'
-import { datasourceHooks } from './datasource.hooks'
+import { WorkspaceDatasourceService } from './datasource.class'
+import {
+  workspaceDatasourceDataSchema,
+  workspaceDatasourceQuerySchema,
+  workspaceDatasourceSchema,
+} from './datasource.schema'
+import { WorkspaceDatasourceModel } from './datasource.model'
+import { workspaceDatasourceHooks } from './datasource.hooks'
+import { workspaceDatasourceMethods, workspaceDatasourcePath } from './datasource.shared'
 
 /**
  * The datasource is pointing a table `datasource`
@@ -16,24 +20,24 @@ import { datasourceHooks } from './datasource.hooks'
  * We can't know the schema in advance,
  * so it is set dynamically with a dedicated hook.
  */
-export function datasourceService(app: Application): void {
+export function workspaceDatasourceService(app: Application): void {
   const options = {
     paginate: app.get('paginate'),
-    Model: DatasourceModel,
+    Model: WorkspaceDatasourceModel,
     name: 'datasource',
   }
 
   // Register our service on the Feathers application
-  app.use(SERVICES.WORKSPACE_DATASOURCE, new Datasource(options), {
+  app.use(workspaceDatasourcePath, new WorkspaceDatasourceService(options), {
     // A list of all methods this service exposes externally
-    methods: ['find', 'get', 'create', 'update', 'patch', 'remove'],
+    methods: workspaceDatasourceMethods,
     // You can add additional custom events to be sent to clients here
     events: [],
     docs: createSwaggerServiceOptions({
       schemas: {
-        datasourceDataSchema,
-        datasourceQuerySchema,
-        datasourceSchema,
+        workspaceDatasourceDataSchema,
+        workspaceDatasourceQuerySchema,
+        workspaceDatasourceSchema,
       },
       docs: {
         tag: 'workspace > datasource',
@@ -41,12 +45,12 @@ export function datasourceService(app: Application): void {
     }),
   })
   // Initialize hooks
-  app.service(SERVICES.WORKSPACE_DATASOURCE).hooks(datasourceHooks)
+  app.service(workspaceDatasourcePath).hooks(workspaceDatasourceHooks)
 }
 
 // Add this service to the service type index
 declare module '@/declarations' {
   interface ServiceTypes {
-    [SERVICES.WORKSPACE_DATASOURCE]: Datasource
+    [workspaceDatasourcePath]: WorkspaceDatasourceService
   }
 }

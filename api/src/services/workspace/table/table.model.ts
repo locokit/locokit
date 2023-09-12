@@ -1,5 +1,5 @@
 import { JSONSchema, Model, RelationMappings } from 'objection'
-import { DatasourceModel } from '../datasource/datasource.model'
+import { WorkspaceDatasourceModel } from '../datasource/datasource.model'
 import { TableFieldModel } from '../table-field/table-field.model'
 import { TableRelationModel } from '../table-relation/table-relation.model'
 import { tableDataSchema } from './table.schema'
@@ -17,7 +17,7 @@ export class TableModel extends Model {
     return {
       datasource: {
         relation: Model.HasOneRelation,
-        modelClass: DatasourceModel,
+        modelClass: WorkspaceDatasourceModel,
         join: {
           from: 'table.datasourceId',
           to: 'datasource.id',

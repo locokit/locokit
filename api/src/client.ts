@@ -1,50 +1,104 @@
-import { Application, ClientService, feathers, Paginated } from '@feathersjs/feathers'
-// import type { Apikey, ApikeyData, ApikeyQuery } from './services/apikey/apikey'
-import type {
+// import { Application, ClientService, feathers, Paginated } from '@feathersjs/feathers'
+// // import type { Apikey, ApikeyData, ApikeyQuery } from './services/apikey/apikey'
+// // export type { Apikey, ApikeyData, ApikeyQuery }
+
+// For more information about this file see https://dove.feathersjs.com/guides/cli/client.html
+import { feathers } from '@feathersjs/feathers'
+import type { TransportConnection, Application } from '@feathersjs/feathers'
+import authenticationClient from '@feathersjs/authentication-client'
+import type { AuthenticationClientOptions } from '@feathersjs/authentication-client'
+
+import { signupClient } from './services/auth/signup/signup.shared'
+import { authManagementClient } from './services/auth/authmanagement/authmanagement.shared'
+
+import { userClient } from './services/core/user/user.shared'
+import { groupClient } from './services/core/group/group.shared'
+import { userGroupClient } from './services/core/user-group/user-group.shared'
+import { workspaceClient } from './services/core/workspace/workspace.shared'
+import { datasourceClient } from './services/core/datasource/datasource.shared'
+import { policyClient } from './services/core/policy/policy.shared'
+
+import { SERVICES } from '@locokit/definitions'
+import { workspaceDatasourceClient } from './services/workspace/datasource/datasource.shared'
+
+export type { SignUpData } from './services/auth/signup/signup.shared'
+
+export type { User, UserData, UserQuery, UserPatch } from './services/core/user/user.shared'
+export type { GroupData, GroupPatch, GroupQuery } from './services/core/group/group.shared'
+export type {
+  UserGroupData,
+  UserGroupPatch,
+  UserGroupQuery,
+} from './services/core/user-group/user-group.shared'
+export type {
   WorkspaceData,
   WorkspacePatch,
-  WorkspaceResult,
   WorkspaceQuery,
-} from '@/services/core/workspace/core-workspace.schema'
-import type { UserData, UserResult, UserQuery } from '@/services/core/user/user.schema'
-import type { Service, TransportConnection, Params } from '@feathersjs/feathers'
+} from './services/core/workspace/workspace.shared'
+export type {
+  DatasourceData,
+  DatasourcePatch,
+  DatasourceQuery,
+} from './services/core/datasource/datasource.shared'
+export type {
+  PolicyData,
+  PolicyPatch,
+  PolicyResult,
+  PolicyQuery,
+} from './services/core/policy/policy.shared'
 
-// export type { Apikey, ApikeyData, ApikeyQuery }
-
-export type { WorkspaceData, WorkspacePatch, WorkspaceResult, WorkspaceQuery }
-
-// A mapping of client side services
-export interface ServiceTypes {
-  // apikey: ClientService<
-  //   Apikey,
-  //   ApikeyData,
-  //   Partial<ApikeyData>,
-  //   Paginated<Apikey>,
-  //   Params<ApikeyQuery>
-  // > & {
-  //   // Add custom methods here
-  // }
-  workspace: ClientService<
-    WorkspaceResult,
-    WorkspaceData,
-    WorkspacePatch,
-    Paginated<WorkspaceResult>,
-    Params<WorkspaceQuery>
-  >
-  user: Service<UserData, UserResult, Params<UserQuery>>
+export interface Configuration {
+  connection: TransportConnection<ServiceTypes>
 }
 
+export interface ServiceTypes {}
+
+export type ClientApplication = Application<ServiceTypes, Configuration>
+
+/**
+ * Returns a typed client for the feathers-chat app.
+ *
+ * @param connection The REST or Socket.io Feathers client connection
+ * @param authenticationOptions Additional settings for the authentication client
+ * @see https://dove.feathersjs.com/api/client.html
+ * @returns The Feathers client application
+ */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const createClient = <Configuration = any>(
   connection: TransportConnection<ServiceTypes>,
-): Application<ServiceTypes, Configuration> => {
-  const client = feathers<ServiceTypes, Configuration>()
+  authenticationOptions: Partial<Omit<AuthenticationClientOptions, 'path'>> = {},
+) => {
+  const client: ClientApplication = feathers()
 
   client.configure(connection)
+  client.configure(
+    authenticationClient({
+      ...authenticationOptions,
+      path: SERVICES.AUTH_AUTHENTICATION,
+    }),
+  )
+  client.set('connection', connection)
 
-  // client.use('apikey', connection.service('apikey'), {
-  //   // List all standard and custom methods
-  //   methods: ['find', 'get', 'create', 'update', 'patch', 'remove'],
-  // })
+  /**
+   * Auth services configuration
+   */
+  client.configure(signupClient)
+  client.configure(authManagementClient)
+
+  /**
+   * Core services configuration
+   */
+  client.configure(userClient)
+  client.configure(groupClient)
+  client.configure(userGroupClient)
+  client.configure(workspaceClient)
+  client.configure(datasourceClient)
+  client.configure(policyClient)
+
+  /**
+   * Workspace services configuration
+   */
+  client.configure(workspaceDatasourceClient)
 
   return client
 }

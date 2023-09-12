@@ -8,7 +8,7 @@ import { policyDispatchResolver } from '@/services/core/policy/policy.resolver'
 import { PolicySchema } from '@/services/core/policy/policy.schema'
 import { userDispatchResolver } from '@/services/core/user/user.resolver'
 
-import { WorkspaceQuery, workspaceQuerySchema, WorkspaceSchema } from './core-workspace.schema'
+import { WorkspaceQuery, workspaceQuerySchema, WorkspaceSchema } from './workspace.schema'
 import { USER_PROFILE } from '@locokit/definitions'
 import { Forbidden } from '@feathersjs/errors/lib'
 

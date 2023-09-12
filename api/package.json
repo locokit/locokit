@@ -24,7 +24,6 @@
     ]
   },
   "main": "src/",
-  "browser": "dist/client",
   "scripts": {
     "dev": "vite",
     "build": "rm -rf dist && vite build --ssr src/index.ts",
@@ -46,11 +45,14 @@
     "migrate:make": "knex migrate:make",
     "seed:make": "knex seed:make",
     "seed:run-init": "knex seed:run --specific init.ts",
-    "seed:run-test": "NODE_ENV=test knex seed:run --specific test.ts"
+    "seed:run-test": "NODE_ENV=test knex seed:run --specific test.ts",
+    "client:bundle": "vite build -c vite.client.config.ts --emptyOutDir",
+    "client:bundle:watch": "vite build -c vite.client.config.ts --watch"
   },
   "dependencies": {
     "@casl/ability": "^5.0.0",
     "@feathersjs/authentication": "^5.0.6",
+    "@feathersjs/authentication-client": "^5.0.8",
     "@feathersjs/authentication-local": "^5.0.6",
     "@feathersjs/authentication-oauth": "^5.0.6",
     "@feathersjs/configuration": "^5.0.6",
@@ -117,6 +119,7 @@
     "shx": "^0.3.4",
     "ts-node-dev": "^2.0.0",
     "vite-node": "^0.28.3",
+    "vite-plugin-dts": "^3.5.2",
     "vite-plugin-static-copy": "^0.17.0",
     "vite-tsconfig-paths": "^4.0.5",
     "vitest": "^0.32.0"

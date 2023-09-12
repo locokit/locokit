@@ -3,14 +3,14 @@ import type { HookContext } from '@/declarations'
 import { toSnakeCase } from '@/utils/toSnakeCase'
 
 import type {
-  CoreDatasourcePatch,
-  CoreDatasourceResult,
-  CoreDatasourceQuery,
-  CoreDatasourceSchema,
-} from './core-datasource.schema'
+  DatasourcePatch,
+  DatasourceResult,
+  DatasourceQuery,
+  DatasourceSchema,
+} from './datasource.schema'
 
 // Resolver for making partial updates
-export const coreDatasourceCreateResolver = resolve<CoreDatasourceSchema, HookContext>({
+export const coreDatasourceCreateResolver = resolve<DatasourceSchema, HookContext>({
   /**
    * Compute a slug before insertion too
    */
@@ -19,7 +19,7 @@ export const coreDatasourceCreateResolver = resolve<CoreDatasourceSchema, HookCo
   },
 })
 // Resolver for making partial updates
-export const coreDatasourcePatchResolver = resolve<CoreDatasourcePatch, HookContext>({
+export const coreDatasourcePatchResolver = resolve<DatasourcePatch, HookContext>({
   /**
    * Compute a slug before insertion too
    */
@@ -28,10 +28,10 @@ export const coreDatasourcePatchResolver = resolve<CoreDatasourcePatch, HookCont
   },
 })
 // Resolver for the data that is being returned
-export const coreDatasourceResultResolver = resolve<CoreDatasourceResult, HookContext>({})
+export const coreDatasourceResultResolver = resolve<DatasourceResult, HookContext>({})
 
 // Resolver for query properties
-export const coreDatasourceQueryResolver = resolve<CoreDatasourceQuery, HookContext>({})
+export const coreDatasourceQueryResolver = resolve<DatasourceQuery, HookContext>({})
 
 // Export all resolvers in a format that can be used with the resolveAll hook
 export const coreDatasourceResolvers = {

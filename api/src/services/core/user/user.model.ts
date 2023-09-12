@@ -1,6 +1,6 @@
 import { Model, RelationMappings } from 'objection'
 import BaseModel from '../../../commons/BaseModel'
-import { WorkspaceModel } from '@/services/core/workspace/core-workspace.model'
+import { WorkspaceModel } from '@/services/core/workspace/workspace.model'
 
 export class UserModel extends BaseModel {
   static readonly model = 'user'
