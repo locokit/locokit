@@ -90,16 +90,16 @@ export const ROUTES_PATH = {
    * Workspace paths
    */
   WORKSPACE: {
-    WORKSPACES: '/workspaces',
+    WORKSPACES: '/w',
     CREATE_WORKSPACE: '/w/create',
     HOME: '/w/:workspaceSlug',
     DASHBOARD: '/w/:workspaceSlug/dashboard',
     DATASOURCE: {
-      HOME: '/w/:workspaceSlug/datasource',
-      ABOUT: '/w/:workspaceSlug/datasource/about',
-      CREATE: '/w/:workspaceSlug/datasource/create',
-      UPDATE: '/w/:workspaceSlug/datasource/:datasourceSlug',
-      SCHEMA: '/w/:workspaceSlug/datasource/schema',
+      HOME: '/w/:workspaceSlug/ds',
+      ABOUT: '/w/:workspaceSlug/ds/about',
+      CREATE: '/w/:workspaceSlug/ds/create',
+      UPDATE: '/w/:workspaceSlug/ds/:datasourceSlug',
+      SCHEMA: '/w/:workspaceSlug/ds/schema',
     },
     SETTINGS: '/w/:workspaceSlug/settings',
   },
