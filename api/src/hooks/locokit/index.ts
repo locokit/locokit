@@ -19,7 +19,7 @@ const locokitContextLogger = logger.child({ service: 'hook-locokit-context' })
  * Those data are populated according route params
  */
 export async function setLocoKitContext(context: HookContext) {
-  locokitContextLogger.info('starting...')
+  locokitContextLogger.info('starting on service "%s" ...', context.service.constructor.name)
   const { transaction } = context.params
 
   context.$locokit = {}

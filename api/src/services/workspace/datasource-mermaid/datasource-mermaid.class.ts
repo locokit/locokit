@@ -25,7 +25,6 @@ export class DatasourceMermaid {
       },
       route: {
         workspaceSlug: params?.route?.workspaceSlug,
-        datasourceSlug: params?.route?.datasourceSlug,
       },
     })
 
