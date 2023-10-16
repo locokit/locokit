@@ -16,12 +16,12 @@
   },
   "dependencies": {
     "@locokit/i18n": "*",
-    "@vee-validate/rules": "^4.8.6",
-    "bootstrap-icons": "^1.10.4",
+    "@vee-validate/rules": "^4.11.7",
+    "bootstrap-icons": "^1.11.1",
     "date-fns": "^2.29.3",
-    "primevue": "^3.32.1",
-    "tailwindcss": "^3.3.2",
-    "vee-validate": "^4.8.6",
+    "primevue": "^3.35.0",
+    "tailwindcss": "^3.3.3",
+    "vee-validate": "^4.11.7",
     "vue": "^3.3.4"
   },
   "devDependencies": {
