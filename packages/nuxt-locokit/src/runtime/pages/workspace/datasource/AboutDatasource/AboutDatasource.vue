@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-4 px-4">
+  <div class="mx-4">
     <div class="my-8">
       <h1>{{ $t('pages.aboutDatasource.title') }}</h1>
     </div>
