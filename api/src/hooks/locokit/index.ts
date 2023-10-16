@@ -40,13 +40,13 @@ export async function setLocoKitContext(context: HookContext) {
     context.$locokit.currentWorkspace = workspace.data[0]
     context.service.schema = `w_${workspace.data[0].slug as string}`
 
-    if (datasourceSlug) {
-      locokitContextLogger.debug('datasource slug found: %s', datasourceSlug)
-
+    if (datasourceSlug && workspace.data[0]) {
       const datasource = await context.app.service(SERVICES.WORKSPACE_DATASOURCE).find({
         transaction,
         query: {
           slug: datasourceSlug,
+          // FIXME: To keep as long as we have `context.app.service(SERVICES.WORKSPACE_DATASOURCE).find()` not working correctly
+          workspaceId: workspace.data[0].id,
         },
       })
       if (datasource.total !== 1) throw new NotFound('Datasource not found.')
@@ -60,7 +60,7 @@ export async function setLocoKitContext(context: HookContext) {
     /**
      * For service TABLE_FIELD,
      * we try to search the workspace,
-     * according some data depending the HTTP method used
+     * according some data depending on the HTTP method used
      */
     switch ('/' + context.path) {
       case SERVICES.WORKSPACE_DATASOURCE:

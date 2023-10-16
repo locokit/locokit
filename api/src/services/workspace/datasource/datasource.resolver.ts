@@ -72,14 +72,6 @@ export const workspaceDatasourceQueryResolver = resolve<WorkspaceDatasourceQuery
    * Check also if the user is authorized to access this workspace
    */
   async workspaceId(value, _data, context) {
-    datasourceLogger.debug(
-      '[%s] workspaceId resolver with id %s, slug %s, workspaceId %s',
-      context.method,
-      context.id,
-      context.params?.route?.workspaceSlug,
-      value,
-    )
-
     if (value) return value
     const { transaction } = context.params
 

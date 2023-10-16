@@ -741,8 +741,16 @@ export class ObjectionAdapter<
     return { filters, query, paginate: options.paginate }
   }
 
-  async _find(params?: ServiceParams & { paginate?: PaginationOptions }): Promise<Paginated<Result>>
-  async _find(params?: ServiceParams & { paginate: false }): Promise<Result[]>
+  async _find(
+    params?: ServiceParams & {
+      paginate?: PaginationOptions
+    },
+  ): Promise<Paginated<Result>>
+  async _find(
+    params?: ServiceParams & {
+      paginate: false
+    },
+  ): Promise<Result[]>
   async _find(params?: ServiceParams): Promise<Paginated<Result> | Result[]>
   async _find(params: ServiceParams = {} as ServiceParams): Promise<Paginated<Result> | Result[]> {
     objectionLogger.debug(

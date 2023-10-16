@@ -45,4 +45,4 @@ export const SERVICES = {
     '/workspace/:workspaceSlug/datasource/:datasourceSlug/table/:tableSlug/dataset/:datasetSlug/field',
 
   WORKSPACE_MIGRATION: '/workspace/:workspaceSlug/datasource/:datasourceSlug/migration',
-} as const
+}
