@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-row">
+  <div class="relative flex flex-row h-full">
     <!-- Main content -->
     <main class="flex-1 flex flex-col">
       <slot name="main" />
@@ -25,10 +25,8 @@
       tabindex="-1"
       class="relative flex-1 max-w-md bg-white shadow-xl"
     >
-      <div class="flex flex-col h-screen">
-        <div
-          class="flex flex-col items-center justify-center flex-shrink-0 px-4 py-8 space-y-4 border-b"
-        >
+      <div class="flex flex-col h-full mx-2">
+        <div class="flex flex-col flex-shrink-0 px-2 py-4">
           <div
             class="absolute -left-0.5 top-0 my-0.5 transform -translate-x-full"
           >

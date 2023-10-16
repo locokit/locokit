@@ -7,6 +7,7 @@ import {
 } from '../interfaces/toMigrate'
 import { formatDateISO, formatDateTimeISO, getDateFromISOString } from './date'
 
+// Todo: To update
 export const COLUMN_TYPE = {
   BOOLEAN: 1,
   STRING: 2,

@@ -1,7 +1,5 @@
 import { RouteLocationNormalized } from 'vue-router'
 import { Pinia, storeToRefs } from 'pinia'
-import { usePrimeVue } from 'primevue/config'
-import { useI18n } from 'vue-i18n'
 import { useStoreAuth } from '../stores/auth'
 import { checkPathAvailable } from '../middleware/global'
 import { ROUTES_PATH } from '../locokit-paths'
@@ -21,12 +19,6 @@ export default defineNuxtPlugin((nuxtApp) => {
       // Check if current user is still connected
       await authStore.reAuthenticate()
     }
-
-    const primevue = usePrimeVue()
-    const { t } = useI18n({ useScope: 'global' })
-
-    console.log(t('localePrime'))
-    primevue.config.locale.firstDayOfWeek = t('localePrime.firstDayOfWeek')
   })
 
   addRouteMiddleware(
