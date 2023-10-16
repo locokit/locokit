@@ -19,7 +19,7 @@ import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import WithHeader from '../../layouts/WithHeader.vue'
 import { ROUTES_NAMES } from '../../locokit-paths'
-import { createWorkspace } from '../../services/workspace'
+import { createWorkspace } from '../../services/core/workspace'
 import { useStoreWorkspaces } from '../../stores/workspaces'
 import { useHead, useRouter, ref } from '#imports'
 

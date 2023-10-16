@@ -6,6 +6,15 @@ export const PROFILE = [
   { name: 'admin', value: 'ADMIN' },
 ]
 
+export const TYPE_DATASOURCE = [
+  { name: 'local', value: 'local' },
+  { name: 'remote', value: 'remote' },
+]
+export const CLIENT_DATASOURCE = [
+  { name: 'pg', value: 'pg' },
+  { name: 'sqlite3', value: 'sqlite3' },
+]
+
 export interface LabelValueType {
   name: string
   value: string
@@ -68,6 +77,19 @@ export interface Policy {
   id: string
   name: string
   documentation: string | null
+}
+
+export interface Datasource {
+  id: string
+  name: string
+  slug: string
+  documentation: string | null
+  client: string
+  type: string
+  connection: string
+  createdAt: string
+  updatedAt: string
+  createdBy: string
 }
 
 export interface Workspace {

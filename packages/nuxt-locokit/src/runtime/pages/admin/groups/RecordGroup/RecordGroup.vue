@@ -282,18 +282,18 @@ import {
   getGroup,
   ITEMS_PER_PAGE_GROUPS,
   patchGroup,
-} from '../../../../services/group'
+} from '../../../../services/core/group'
 import {
   findMembersFomGroup,
   findUsers,
   searchUsers,
-} from '../../../../services/user'
-import { findPolicies } from '../../../../services/policy'
-import { findWorkspaces } from '../../../../services/workspace'
+} from '../../../../services/core/user'
+import { findPolicies } from '../../../../services/core/policy'
+import { findWorkspaces } from '../../../../services/core/workspace'
 import {
   removeUserGroup,
   updateUserGroup,
-} from '../../../../services/usergroup'
+} from '../../../../services/core/usergroup'
 import { useRoute, ref, computed } from '#imports'
 
 const emit = defineEmits<{

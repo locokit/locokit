@@ -1,8 +1,8 @@
 import { SERVICES } from '@locokit/definitions'
 import { UserData } from '@locokit/sdk'
-import { ApiUserGroup, Filter } from '../interfaces/toMigrate'
-import { getCurrentFilters } from '../helpers/filter'
-import { sdkClient } from './api'
+import { ApiUserGroup, Filter } from '../../interfaces/toMigrate'
+import { getCurrentFilters } from '../../helpers/filter'
+import { sdkClient } from '../api'
 import { findUserGroups } from './usergroup'
 
 const ITEMS_PER_PAGE = 10

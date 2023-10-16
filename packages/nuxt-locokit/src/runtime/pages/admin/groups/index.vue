@@ -155,7 +155,7 @@ import { useI18n } from 'vue-i18n'
 import { COLUMN_TYPE } from '../../../helpers/filter'
 import { ROUTES_NAMES } from '../../../locokit-paths'
 import { useStoreGroups } from '../../../stores/groups'
-import { searchGroups } from '../../../services/group'
+import { searchGroups } from '../../../services/core/group'
 import { ApiGroup, Filter } from '../../../interfaces/toMigrate'
 import { ref } from '#imports'
 

@@ -19,7 +19,7 @@
 import { WorkspaceForm } from '@locokit/designsystem'
 import { storeToRefs } from 'pinia'
 import { useStoreWorkspaces } from '../../../stores/workspaces'
-import { patchWorkspace } from '../../../services/workspace'
+import { patchWorkspace } from '../../../services/core/workspace'
 import { ref } from '#imports'
 
 const workspacesStore = useStoreWorkspaces()
@@ -42,7 +42,9 @@ const submitWorkspace = async (data: {
   if (res instanceof Error) {
     error.value = res
   } else {
-    await workspacesStore.updateCurrentWorkspace(currentWorkspace.value.id)
+    await workspacesStore.updateCurrentWorkspace({
+      id: currentWorkspace.value.id as string,
+    })
   }
 }
 </script>

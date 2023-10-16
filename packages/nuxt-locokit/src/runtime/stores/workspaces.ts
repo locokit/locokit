@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { findWorkspaces, getWorkspace } from '../services/workspace'
+import { findWorkspaces, getWorkspace } from '../services/core/workspace'
 import { ApiWorkspace, Workspace } from '../interfaces/toMigrate'
 import { ref } from '#imports'
 
@@ -10,17 +10,23 @@ export const useStoreWorkspaces = defineStore('workspace', () => {
   const currentWorkspace = ref<Workspace>()
 
   async function updateCurrentWorkspace(
-    id: string,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     params?: Record<string, any>,
   ) {
     loading.value = true
     error.value = null
-    const res = await getWorkspace(id, params)
-    if (res instanceof Error) {
-      error.value = res
+    const res = await findWorkspaces({ params })
+
+    if (res.data) {
+      if (res.total === 1) {
+        currentWorkspace.value = res.data[0]
+      } else if (res.total === 0) {
+        error.value = new Error('error.noResult.workspace')
+      } else {
+        error.value = new Error('error.tooManyResult.workspace')
+      }
     } else {
-      currentWorkspace.value = res
+      error.value = res
     }
     loading.value = false
   }

@@ -2,63 +2,31 @@
   <div class="max-w-lg lg:h-full mx-auto px-4 lg:px-0 flex flex-col">
     <div class="my-8">
       <h1>
-        {{ $t('pages.createDatasource.title') }}
+        {{ $t('pages.updateDatasource.title') }}
       </h1>
     </div>
     <FormGeneric
       v-if="currentWorkspace"
-      label-tk-button-submit="pages.createDatasource.submit"
-      :response="error"
+      label-tk-button-submit="pages.updateDatasource.submit"
+      :response="response"
       :loading="loading"
       @submit="onSubmit"
     >
-      <Field
-        v-slot="{ field, errorMessage, meta: { valid, touched } }"
-        v-model="name"
-        class="mb-4"
-        name="createDatasource.name"
-        rules="required"
-        as="div"
-      >
-        <label for="name" class="label-field-required">
-          {{ $t('pages.createDatasource.name') }}
+      <div class="mb-4">
+        <label for="name">
+          {{ $t('pages.updateDatasource.name') }}
         </label>
-        <PrimeInputText
-          id="name"
-          v-bind="field"
-          v-focus
-          :class="{ 'p-invalid': !valid && touched }"
-          required
-        />
-        <span
-          v-if="errorMessage"
-          class="p-text-error"
-          role="alert"
-          aria-live="assertive"
-        >
-          {{ errorMessage }}
-        </span>
-        <div class="flex flex-row mb-4 mt-1">
-          <p class="mr-1">
-            {{ $t('pages.createDatasource.explainsSlugUse') }}
-          </p>
-          <p
-            v-if="name"
-            class="px-2 max-w-fit rounded bg-gray-300 text-black text-sm"
-          >
-            {{ autogenerateSlug }}
-          </p>
-        </div>
-      </Field>
+        <p>{{ currentDatasource.name }}</p>
+      </div>
       <Field
         v-slot="{ field }"
         v-model="documentation"
         class="mb-4"
-        name="createDatasource.documentation"
+        name="updateDatasource.documentation"
         as="div"
       >
         <label for="documentation">
-          {{ $t('pages.createDatasource.documentation') }}
+          {{ $t('pages.updateDatasource.documentation') }}
         </label>
         <PrimeTextarea id="documentation" :auto-resize="true" v-bind="field" />
       </Field>
@@ -66,12 +34,12 @@
         v-slot="{ field }"
         v-model="client"
         class="mb-4"
-        name="createDatasource.client"
+        name="updateDatasource.client"
         rules="required"
         as="div"
       >
         <label for="client" class="label-field-required">
-          {{ $t('pages.createDatasource.client') }}
+          {{ $t('pages.updateDatasource.client') }}
         </label>
         <PrimeDropdown
           v-bind="{
@@ -86,12 +54,12 @@
         >
           <template #value="slotProps">
             <span v-if="slotProps.value">
-              {{ $t(`pages.createDatasource.${slotProps.value.name}`) }}
+              {{ $t(`pages.updateDatasource.${slotProps.value.name}`) }}
             </span>
           </template>
           <template #option="slotProps">
             <span>
-              {{ $t(`pages.createDatasource.${slotProps.option.name}`) }}
+              {{ $t(`pages.updateDatasource.${slotProps.option.name}`) }}
             </span>
           </template>
         </PrimeDropdown>
@@ -100,12 +68,12 @@
         v-slot="{ field }"
         v-model="type"
         class="mb-4"
-        name="createDatasource.type"
+        name="updateDatasource.type"
         rules="required"
         as="div"
       >
         <label for="type" class="label-field-required">
-          {{ $t('pages.createDatasource.type') }}
+          {{ $t('pages.updateDatasource.type') }}
         </label>
         <PrimeDropdown
           v-bind="{
@@ -120,12 +88,12 @@
         >
           <template #value="slotProps">
             <span v-if="slotProps.value">
-              {{ $t(`pages.createDatasource.${slotProps.value.name}`) }}
+              {{ $t(`pages.updateDatasource.${slotProps.value.name}`) }}
             </span>
           </template>
           <template #option="slotProps">
             <span>
-              {{ $t(`pages.createDatasource.${slotProps.option.name}`) }}
+              {{ $t(`pages.updateDatasource.${slotProps.option.name}`) }}
             </span>
           </template>
         </PrimeDropdown>
@@ -134,12 +102,12 @@
         v-slot="{ field, errorMessage, meta: { valid, touched } }"
         v-model="connection"
         class="mb-4"
-        name="createDatasource.connection"
+        name="updateDatasource.connection"
         rules="required"
         as="div"
       >
         <label for="connection" class="label-field-required">
-          {{ $t('pages.createDatasource.connection') }}
+          {{ $t('pages.updateDatasource.connection') }}
         </label>
         <PrimeInputText
           id="connection"
@@ -160,7 +128,7 @@
     <MessageForUser
       v-else
       status="failed"
-      custom-msg-tk-error-form="pages.createDatasource.noWorkspace"
+      custom-msg-tk-error-form="pages.updateDatasource.noDatasource"
     />
   </div>
 </template>
@@ -176,54 +144,58 @@ import { useStoreWorkspaces } from '../../../../stores/workspaces'
 import {
   TYPE_DATASOURCE,
   CLIENT_DATASOURCE,
+  Datasource,
 } from '../../../../interfaces/toMigrate'
-import { createDatasource } from '../../../../services/datasource'
-import { ROUTES_NAMES } from '../../../../locokit-paths'
-import { createSlug } from '../../../../helpers/transformText'
-import { useRouter, computed } from '#imports'
+import {
+  findDatasources,
+  patchDatasource,
+} from '../../../../services/datasource'
+import { useRoute } from '#imports'
 
-const router = useRouter()
+const route = useRoute()
 
 const workspaceStore = useStoreWorkspaces()
-
 const { currentWorkspace } = storeToRefs(workspaceStore)
 
-const loading = ref(false)
-const error = ref<Error | null>(null)
-const name = ref()
-const documentation = ref()
-const client = ref(CLIENT_DATASOURCE[0])
-const type = ref(TYPE_DATASOURCE[0])
-const connection = ref()
+// Initialization
+let currentDatasource: Datasource | null = null
+const res = await findDatasources(
+  {
+    params: { slug: route.params.datasourceSlug as string },
+  },
+  route.params.workspaceSlug as string,
+)
+if (res && res.data.length === 1) {
+  currentDatasource = res.data[0]
+}
 
-const autogenerateSlug = computed(() => {
-  if (name.value) return createSlug(name.value)
-  return null
-})
+const loading = ref(false)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const response = ref<Error | Record<string, any> | null>(null)
+const documentation = ref(currentDatasource?.documentation)
+const client = ref(
+  CLIENT_DATASOURCE.find((client) => client.name === currentDatasource?.client),
+)
+const type = ref(
+  TYPE_DATASOURCE.find((type) => type.name === currentDatasource?.type),
+)
+const connection = ref(currentDatasource?.connection)
 
 const onSubmit = async () => {
   loading.value = true
-  if (!currentWorkspace.value?.id) return
+  if (!currentDatasource) return
 
-  const res = await createDatasource(
+  const res = await patchDatasource(
+    currentDatasource.id,
     {
-      name: name.value,
       documentation: documentation.value,
-      client: client.value.value,
-      type: type.value.value,
-      connection: connection.value,
-      workspaceId: currentWorkspace.value.id,
+      client: client.value?.value as string,
+      type: type.value?.value as string,
+      connection: connection.value as string,
     },
-    currentWorkspace.value.slug,
+    route.params.workspaceSlug as string,
   )
-  if (res && res.id) {
-    await router.push({
-      name: ROUTES_NAMES.WORKSPACE.DATASOURCE.UPDATE,
-      params: { workspaceSlug: res.workspaceId, datasourceSlug: res.id },
-    })
-  } else {
-    error.value = res
-  }
+  response.value = res
   loading.value = false
 }
 </script>

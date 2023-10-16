@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { findUsers, patchUser } from '../services/user'
+import { findUsers, patchUser } from '../services/core/user'
 import { ApiUser } from '../interfaces/toMigrate'
 import { ref } from '#imports'
 

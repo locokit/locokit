@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { findGroups } from '../services/group'
+import { findGroups } from '../services/core/group'
 import { ApiGroup } from '../interfaces/toMigrate'
 import { ref } from '#imports'
 

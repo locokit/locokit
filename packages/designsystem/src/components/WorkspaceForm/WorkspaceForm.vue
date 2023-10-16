@@ -111,7 +111,7 @@ import PrimeInputText from 'primevue/inputtext'
 import FormGeneric from '../FormGeneric/FormGeneric.vue'
 import PredefinedColorPicker from '../PredefinedColorPicker/PredefinedColorPicker.vue'
 import { Field } from 'vee-validate'
-import { computed, reactive, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { createSlug } from '../../helpers/transformText'
 import { ColorScheme } from '../../helpers/color'
 

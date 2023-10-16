@@ -30,6 +30,7 @@ export default defineNuxtConfig({
         },
       },
     ],
+    '@nuxt/devtools',
   ],
   sourcemap: true,
   devtools: {

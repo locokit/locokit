@@ -4,7 +4,8 @@
 
 ## About
 
-This project uses [Feathers](http://dove.feathersjs.com). An open source framework for building APIs and real-time applications.
+This project uses [Feathers](http://dove.feathersjs.com). An open source framework for building APIs and real-time
+applications.
 
 The version used is the v5, aka Dove.
 
@@ -19,9 +20,9 @@ Don't forget to start the `docker-compose.yml`.
 For development, you have the choice to use `vite` or `ts-node-dev`.
 
 ```sh
-npm run vite:dev # will use vite under the hood
+npm run dev # will use vite under the hood
 
-npm run dev # will use ts-node-dev
+npm run tsc:dev # will use ts-node-dev
 ```
 
 `vite` version is quickier but don't check typings,
@@ -48,14 +49,15 @@ npm run migrate:latest
 
 **Knex seeds**
 
-You can populate the database with some default data, 
+You can populate the database with some default data,
 for development purpose.
 
 ```sh
 npm run seed:run-init
 ```
 
-You'll have access to 3 users : 
+You'll have access to 3 users :
+
 * admin@locokit.io with ADMIN profile
 * creator@locokit.io with CREATOR profile
 * member@locokit.io with MEMBER profile
