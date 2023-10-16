@@ -29,21 +29,9 @@
           class="items-center justify-center rounded bg-transparent p-2 text-lck hover:bg-primary hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-lighten hidden md:ml-auto md:inline-flex"
         >
           <i class="bi bi-person-workspace mr-1" />
-          <span> {{ $t('layouts.withAsideNav.workspaces') }}</span>
-        </button>
-      </NuxtLink>
-      <NuxtLink
-        class="nav-link self-center mr-4"
-        :to="{ name: ROUTES_NAMES.ADMIN.HOME }"
-        tabindex="0"
-      >
-        <button
-          tabindex="-1"
-          type="button"
-          class="items-center justify-center rounded bg-transparent p-2 text-lck hover:bg-primary hover:text-gray-100 focus:border focus:border-primary hidden md:ml-auto md:inline-flex"
-        >
-          <i class="bi bi-gear-fill mr-1" />
-          <span> {{ $t('layouts.withAsideNav.admin') }}</span>
+          <span>
+            {{ $t('layouts.withAsideNav.workspaces') }}
+          </span>
         </button>
       </NuxtLink>
     </template>
