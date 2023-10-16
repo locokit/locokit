@@ -10,7 +10,11 @@
       <PrimeButton
         v-if="displayResetButton"
         class="p-button-outlined p-button-rounded !mr-2"
-        :label="$t('components.formGeneric.reset')"
+        :label="
+          labelTkButtonReset
+            ? $t(labelTkButtonReset)
+            : $t('components.formGeneric.reset')
+        "
         icon="bi bi-arrow-counterclockwise"
         :class="[fullWidthButton ? 'w-full' : '!w-fit']"
         @click="onReset"
@@ -51,6 +55,7 @@ const props = withDefaults(
     fullWidthButton?: boolean
     reset?: boolean
     labelTkButtonSubmit?: string | null
+    labelTkButtonReset?: string | null
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     response?: Error | Record<string, any> | null
     displayMsgSuccess?: boolean
@@ -66,6 +71,7 @@ const props = withDefaults(
     reset: false,
     response: null,
     labelTkButtonSubmit: null,
+    labelTkButtonReset: null,
     displayMsgSuccess: true,
     customMsgTkSuccessForm: 'success.basic',
     customMsgTkErrorForm: 'error.basic',
