@@ -146,7 +146,7 @@
                     as="div"
                   >
                     <label for="type">
-                      {{ $t('components.createField.type') }}
+                      {{ $t('pages.schemaDatasource.formField.type') }}
                     </label>
                     <PrimeDropdown
                       :model-value="
@@ -187,9 +187,11 @@
                     name="schemaDatasource.formField.createdAt"
                     as="div"
                   >
+                    <label for="createdAt">
+                      {{ $t('pages.schemaDatasource.formField.createdAt') }}
+                    </label>
                     <PrimeCalendar
                       :model-value="new Date(currentField.createdAt)"
-                      date-format="dd/mm/yy"
                       :disabled="true"
                     />
                   </Field>
@@ -198,9 +200,11 @@
                     name="schemaDatasource.formField.updatedAt"
                     as="div"
                   >
+                    <label for="updatedAt">
+                      {{ $t('pages.schemaDatasource.formField.updatedAt') }}
+                    </label>
                     <PrimeCalendar
                       :model-value="new Date(currentField.updatedAt)"
-                      date-format="dd/mm/yy"
                       :disabled="true"
                     />
                   </Field>
