@@ -31,7 +31,7 @@ export class DatasourceMermaid {
     if (datasources.total !== 1) throw new NotFound('Datasource not found.')
 
     if (!datasources.data[0].tables || datasources.data[0].tables.length === 0)
-      throw new NotFound('Impossible to display schema without tables.')
+      return new NotFound('Impossible to display schema without tables.')
 
     /**
      * According to the type of mermaid diagram,
@@ -74,8 +74,9 @@ export class DatasourceMermaid {
           mermaidDiagram +=
             'click ' + table.slug + ' call window.openTableSidebar(' + table.id + ') \n'
 
-          table.relations.forEach((r: TableRelationResult) => {
-            mermaidDiagram += r.settings.fromTable + ' --|> ' + r.settings.toTable + ' \n'
+          table.relations.forEach((relation: TableRelationResult) => {
+            mermaidDiagram +=
+              relation.settings.fromTableSlug + ' --|> ' + relation.settings.toTableSlug + ' \n'
           })
         })
     }

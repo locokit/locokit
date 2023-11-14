@@ -14,7 +14,10 @@
             </h4>
             <p>{{ currentDatasource.documentation }}</p>
           </div>
-          <div>
+          <div v-if="errorDrawDiagram">
+            <p>{{ $t('pages.schemaDatasource.noTables') }}</p>
+          </div>
+          <div v-else>
             <p>{{ $t('pages.schemaDatasource.explainSchema') }}</p>
           </div>
           <pre id="diagram" ref="diagram" class="mermaid"></pre>
@@ -271,6 +274,7 @@ import { ref, reactive, useRoute } from '#imports'
 const route = useRoute()
 
 const loading = ref(false)
+const errorDrawDiagram = ref(false)
 const isPanelOpened = ref<boolean | undefined>()
 const isCreatingField = ref<boolean>(false)
 const diagram = ref(null)
@@ -299,18 +303,23 @@ const typeField = Object.values(FIELD_TYPE).map((type: string) => ({
 
 const drawDiagram = async function () {
   const element = document.querySelector('#diagram')
-  const graphDefinition = await getSchemaDatasource(
-    route.params.workspaceSlug as string,
-    route.params.datasourceSlug as string,
-  )
-  if (element) {
-    const { svg, bindFunctions } = await mermaid.render(
-      'graphDiv',
-      graphDefinition.data,
-      element,
+  try {
+    errorDrawDiagram.value = false
+    const graphDefinition = await getSchemaDatasource(
+      route.params.workspaceSlug as string,
+      route.params.datasourceSlug as string,
     )
-    element.innerHTML = svg
-    bindFunctions?.(element)
+    if (element) {
+      const { svg, bindFunctions } = await mermaid.render(
+        'graphDiv',
+        graphDefinition.data,
+        element,
+      )
+      element.innerHTML = svg
+      bindFunctions?.(element)
+    }
+  } catch (er) {
+    errorDrawDiagram.value = true
   }
 }
 
@@ -413,5 +422,11 @@ window.openTableSidebar = (tableId: string) => {
   > .p-tabview-panels {
     padding: 0.5rem 0 0 0;
   }
+}
+</style>
+
+<style>
+.styleMermaidClass > line.divider:last-of-type {
+  stroke-width: 0 !important;
 }
 </style>
