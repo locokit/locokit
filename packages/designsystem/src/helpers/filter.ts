@@ -1,3 +1,10 @@
+import { FIELD_TYPE } from '@locokit/definitions'
+import PrimeInputText from 'primevue/inputtext'
+import PrimeCalendar from 'primevue/calendar'
+import PrimeInputNumber from 'primevue/inputnumber'
+import PrimeMultiSelect from 'primevue/multiselect'
+import { type Component } from 'vue'
+
 type inputPatternType =
   | boolean
   | number
@@ -8,7 +15,7 @@ type inputPatternType =
 
 export interface FilterAction {
   label: string
-  value: string
+  featherKey: string
   predefinedPattern?: string | number | boolean | string[]
   patternPrefix?: string
   patternSuffix?: string
@@ -19,8 +26,7 @@ export interface Filter {
   column: null | {
     name: string
     field: string
-    original_type_id: number
-    column_type_id: number
+    type: string
   }
   action: FilterAction | null
   motif: inputPatternType
@@ -29,182 +35,159 @@ export interface Filter {
 export const OPERATORS = [
   {
     label: 'and',
-    value: '$and',
+    featherKey: '$and',
   },
   {
     label: 'or',
-    value: '$or',
+    featherKey: '$or',
   },
 ]
 
-export const COLUMN_TYPE = {
-  BOOLEAN: 1,
-  STRING: 2,
-  NUMBER: 3,
-  FLOAT: 4,
-  DATE: 5,
-  USER: 6,
-  GROUP: 7,
-  RELATION_BETWEEN_TABLES: 8,
-  LOOKED_UP_COLUMN: 9,
-  SINGLE_SELECT: 10,
-  MULTI_SELECT: 11,
-  FORMULA: 12,
-  FILE: 13,
-  MULTI_USER: 14,
-  MULTI_GROUP: 15,
-  TEXT: 16,
-  URL: 17,
-  GEOMETRY_POINT: 18,
-  GEOMETRY_POLYGON: 19,
-  GEOMETRY_LINESTRING: 20,
-  DATETIME: 21,
-  GEOMETRY_MULTIPOINT: 22,
-  GEOMETRY_MULTIPOLYGON: 23,
-  GEOMETRY_MULTILINESTRING: 24,
-  VIRTUAL_LOOKED_UP_COLUMN: 25,
-}
-
-// Available actions
-// Each one must have a "label" used for translation and a "value" corresponding to the FeatherJS Query Operators.
-// The "predefinedPattern" attribute is used to give a value to an implicit pattern.
+/**
+ * All available action
+ * "label" = used for translation
+ * "value" = corresponding to the FeatherJS Query Operators.
+ * "predefinedPattern" = used to give a value to an implicit pattern.
+ */
 export const ACTIONS: Record<string, FilterAction> = {
   MATCH: {
     label: 'match',
-    value: '$ilike',
+    featherKey: '$ilike',
     patternPrefix: '%',
     patternSuffix: '%',
   },
   NOT_MATCH: {
     label: 'doesNotMatch',
-    value: '$notILike',
+    featherKey: '$notILike',
     patternPrefix: '%',
     patternSuffix: '%',
   },
   EQUAL: {
     label: 'isEqualTo',
-    value: '$eq',
+    featherKey: '$eq',
   },
   NOT_EQUAL: {
     label: 'isDifferentFrom',
-    value: '$ne',
+    featherKey: '$ne',
   },
   IN: {
     label: 'in',
-    value: '$in',
+    featherKey: '$in',
   },
   NOT_IN: {
     label: 'notIn',
-    value: '$nin',
+    featherKey: '$nin',
   },
   ALL: {
     label: 'all',
-    value: '$all',
+    featherKey: '$all',
   },
   ANY: {
     label: 'any',
-    value: '$any',
+    featherKey: '$any',
   },
   EMPTY: {
     label: 'isEmpty',
-    value: '$null',
+    featherKey: '$null',
     predefinedPattern: true,
   },
   NOT_EMPTY: {
     label: 'isNotEmpty',
-    value: '$notNull',
+    featherKey: '$notNull',
     predefinedPattern: true,
   },
   TRUE: {
     label: 'isTrue',
-    value: '$eq',
+    featherKey: '$eq',
     predefinedPattern: true,
   },
   FALSE: {
     label: 'isFalse',
-    value: '$eq',
+    featherKey: '$eq',
     predefinedPattern: false,
   },
   GREATER_THAN: {
     label: 'isGreaterThan',
-    value: '$gt',
+    featherKey: '$gt',
   },
   LOWER_THAN: {
     label: 'isLowerThan',
-    value: '$lt',
+    featherKey: '$lt',
   },
   GREATER_EQUAL_THAN: {
     label: 'isGreaterThanOrEqualTo',
-    value: '$gte',
+    featherKey: '$gte',
   },
   LOWER_EQUAL_THAN: {
     label: 'isLowerThanOrEqualTo',
-    value: '$lte',
+    featherKey: '$lte',
   },
   START_WITH: {
     label: 'startWith',
-    value: '$ilike',
+    featherKey: '$ilike',
     patternSuffix: '%',
   },
   END_WITH: {
     label: 'endWith',
-    value: '$ilike',
+    featherKey: '$ilike',
     patternPrefix: '%',
   },
   EARLIER_THAN: {
     label: 'isEarlierThan',
-    value: '$lt',
+    featherKey: '$lt',
   },
   EARLIER_EQUAL_THAN: {
     label: 'isEarlierThanOrEqualTo',
-    value: '$lte',
+    featherKey: '$lte',
   },
   LATER_THAN: {
     label: 'isLaterThan',
-    value: '$gt',
+    featherKey: '$gt',
   },
   LATER_EQUAL_THAN: {
     label: 'isLaterThanOrEqualTo',
-    value: '$gte',
+    featherKey: '$gte',
   },
   IS_LOGGED_USER: {
     label: 'isLoggedInUser',
-    value: '$eq',
+    featherKey: '$eq',
     predefinedPattern: '{userId}',
   },
   IS_LOGGED_USER_GROUP: {
     label: 'isLoggedInUserGroup',
-    value: '$eq',
+    featherKey: '$eq',
     predefinedPattern: '{groupId}',
   },
   CONTAINS_LOGGED_USER: {
     label: 'containsLoggedInUser',
-    value: '$contains',
+    featherKey: '$contains',
     predefinedPattern: ['{userId}'],
   },
   CONTAINS_LOGGED_USER_GROUP: {
     label: 'containsLoggedInUserGroup',
-    value: '$contains',
+    featherKey: '$contains',
     predefinedPattern: ['{groupId}'],
   },
 }
 
-// Filterable types
-// Each one must have an "actions" array.
-// A "patternComponent" attribute (string) can be added to replace the default pattern component (coming from "getComponentEditorCellForColumnType")
-// A "patternComponentOptions" attribute (object) can be added to customize the pattern component
-export const COLUMN_FILTERS_CONFIG: Record<
-  number,
+/**
+ *  Action allowed according to field's type
+ *  Each one must have an "actions" array.
+ *  "usedComponent" = component to display
+ *  "patternComponentOptions" = can be added to customize component
+ */
+export const FILTER_CONFIG_TO_MATCH_FIELD: Record<
+  string,
   {
     actions: FilterAction[]
-    patternComponent?: string
+    usedComponent?: Component
     patternComponentOptions?: Record<string, unknown>
   }
 > = {
-  [COLUMN_TYPE.BOOLEAN]: {
+  [FIELD_TYPE.BOOLEAN]: {
     actions: [ACTIONS.TRUE, ACTIONS.FALSE, ACTIONS.EMPTY, ACTIONS.NOT_EMPTY],
   },
-  [COLUMN_TYPE.STRING]: {
+  [FIELD_TYPE.STRING]: {
     actions: [
       ACTIONS.EQUAL,
       ACTIONS.NOT_EQUAL,
@@ -215,8 +198,13 @@ export const COLUMN_FILTERS_CONFIG: Record<
       ACTIONS.START_WITH,
       ACTIONS.END_WITH,
     ],
+    usedComponent: PrimeInputText,
+    patternComponentOptions: {
+      size: 'small',
+      class: '!text-xs',
+    },
   },
-  [COLUMN_TYPE.NUMBER]: {
+  [FIELD_TYPE.NUMBER]: {
     actions: [
       ACTIONS.EQUAL,
       ACTIONS.NOT_EQUAL,
@@ -227,8 +215,13 @@ export const COLUMN_FILTERS_CONFIG: Record<
       ACTIONS.EMPTY,
       ACTIONS.NOT_EMPTY,
     ],
+    usedComponent: PrimeInputNumber,
+    patternComponentOptions: {
+      inputClass: '!text-xs !py-[0.4375rem] !px-[0.65625rem]',
+      useGrouping: false,
+    },
   },
-  [COLUMN_TYPE.FLOAT]: {
+  [FIELD_TYPE.FLOAT]: {
     actions: [
       ACTIONS.EQUAL,
       ACTIONS.NOT_EQUAL,
@@ -239,10 +232,13 @@ export const COLUMN_FILTERS_CONFIG: Record<
       ACTIONS.EMPTY,
       ACTIONS.NOT_EMPTY,
     ],
-    patternComponent: 'p-input-number',
-    patternComponentOptions: { minFractionDigits: 2 },
+    usedComponent: PrimeInputNumber,
+    patternComponentOptions: {
+      minFractionDigits: 2,
+      inputClass: '!text-xs !py-[0.4375rem] !px-[0.65625rem]',
+    },
   },
-  [COLUMN_TYPE.RELATION_BETWEEN_TABLES]: {
+  [FIELD_TYPE.RELATION]: {
     actions: [
       ACTIONS.EQUAL,
       ACTIONS.NOT_EQUAL,
@@ -253,26 +249,35 @@ export const COLUMN_FILTERS_CONFIG: Record<
       ACTIONS.START_WITH,
       ACTIONS.END_WITH,
     ],
-    patternComponent: 'p-input-text',
+    usedComponent: PrimeInputText,
+    patternComponentOptions: {
+      size: 'small',
+      class: '!text-xs',
+    },
   },
-  [COLUMN_TYPE.SINGLE_SELECT]: {
+  [FIELD_TYPE.SINGLE_SELECT]: {
     actions: [ACTIONS.IN, ACTIONS.NOT_IN, ACTIONS.EMPTY, ACTIONS.NOT_EMPTY],
+    usedComponent: PrimeMultiSelect,
     patternComponentOptions: {
       optionLabel: 'label',
-      optionValue: 'value',
-      appendTo: null,
+      class: '!text-xs !py-0 w-56',
+      panelClass: '!text-xs',
+      showToggleAll: false,
+      display: 'chip',
     },
-    patternComponent: 'lck-multiselect',
   },
-  [COLUMN_TYPE.MULTI_SELECT]: {
+  [FIELD_TYPE.MULTI_SELECT]: {
     actions: [ACTIONS.ALL, ACTIONS.ANY, ACTIONS.EMPTY, ACTIONS.NOT_EMPTY],
+    usedComponent: PrimeMultiSelect,
     patternComponentOptions: {
       optionLabel: 'label',
-      optionValue: 'value',
-      appendTo: null,
+      class: '!text-xs !py-0 w-56',
+      panelClass: '!text-xs',
+      showToggleAll: false,
+      display: 'chip',
     },
   },
-  [COLUMN_TYPE.LOOKED_UP_COLUMN]: {
+  [FIELD_TYPE.LOOKUP]: {
     actions: [
       ACTIONS.EQUAL,
       ACTIONS.NOT_EQUAL,
@@ -283,9 +288,13 @@ export const COLUMN_FILTERS_CONFIG: Record<
       ACTIONS.START_WITH,
       ACTIONS.END_WITH,
     ],
-    patternComponent: 'p-input-text',
+    usedComponent: PrimeInputText,
+    patternComponentOptions: {
+      size: 'small',
+      class: '!text-xs',
+    },
   },
-  [COLUMN_TYPE.DATE]: {
+  [FIELD_TYPE.DATE]: {
     actions: [
       ACTIONS.EQUAL,
       ACTIONS.NOT_EQUAL,
@@ -296,12 +305,13 @@ export const COLUMN_FILTERS_CONFIG: Record<
       ACTIONS.EMPTY,
       ACTIONS.NOT_EMPTY,
     ],
+    usedComponent: PrimeCalendar,
     patternComponentOptions: {
-      // dateFormat: t('date.dateFormatPrime'),
       showTime: false,
+      inputClass: '!text-xs !py-[0.4375rem] !px-[0.65625rem]',
     },
   },
-  [COLUMN_TYPE.DATETIME]: {
+  [FIELD_TYPE.DATETIME]: {
     actions: [
       ACTIONS.EQUAL,
       ACTIONS.NOT_EQUAL,
@@ -312,22 +322,22 @@ export const COLUMN_FILTERS_CONFIG: Record<
       ACTIONS.EMPTY,
       ACTIONS.NOT_EMPTY,
     ],
-    patternComponent: 'p-calendar',
+    usedComponent: PrimeCalendar,
     patternComponentOptions: {
-      // dateFormat: t('date.dateFormatPrime'),
       showTime: true,
+      inputClass: '!text-xs !py-[0.4375rem] !px-[0.65625rem]',
     },
   },
-  [COLUMN_TYPE.USER]: {
+  [FIELD_TYPE.USER]: {
     actions: [ACTIONS.IS_LOGGED_USER],
   },
-  [COLUMN_TYPE.GROUP]: {
+  [FIELD_TYPE.GROUP]: {
     actions: [ACTIONS.IS_LOGGED_USER_GROUP],
   },
-  [COLUMN_TYPE.MULTI_USER]: {
+  [FIELD_TYPE.MULTI_USER]: {
     actions: [ACTIONS.CONTAINS_LOGGED_USER],
   },
-  [COLUMN_TYPE.MULTI_GROUP]: {
+  [FIELD_TYPE.MULTI_GROUP]: {
     actions: [ACTIONS.CONTAINS_LOGGED_USER_GROUP],
   },
 }

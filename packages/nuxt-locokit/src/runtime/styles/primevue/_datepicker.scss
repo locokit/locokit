@@ -115,14 +115,14 @@
 }
 
 .p-datepicker table td.p-datepicker-today > span {
-  background: #d1d5db;
+  background: #e7e4f8;
   color: var(--primary-color);
   border-color: transparent;
 }
 
 .p-datepicker table td.p-datepicker-today > span.p-highlight {
-  color: #1D4ED8;
-  background: #EFF6FF;
+  color: var(--color-white);
+  background: var(--secondary-color);
 }
 
 .p-datepicker .p-datepicker-buttonbar {

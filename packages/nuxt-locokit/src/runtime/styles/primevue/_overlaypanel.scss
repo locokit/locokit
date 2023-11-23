@@ -3,7 +3,7 @@
   color: var(--text-color);
   border: 1px solid var(--primary-color);
   border-radius: var(--border-radius);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .p-overlaypanel .p-overlaypanel-content {
@@ -29,16 +29,16 @@
 
 .p-overlaypanel:after {
   border: solid rgba(255, 255, 255, 0);
-  border-bottom-color: #ffffff;
+  border-bottom-color: var(--primary-color);
 }
 
 .p-overlaypanel:before {
-  border: thin solid rgba(255, 255, 255, 0);
-  border-bottom: thin solid var(--primary-color);
+  border: solid rgba(255, 255, 255, 0);
+  border-bottom-color: var(--primary-color);
 }
 
 .p-overlaypanel.p-overlaypanel-flipped:after {
-  border-top-color: #ffffff;
+  border-top-color: var(--primary-color);
 }
 
 .p-overlaypanel.p-overlaypanel-flipped:before {

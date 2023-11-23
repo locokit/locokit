@@ -152,7 +152,7 @@ import {
   MessageForUser,
 } from '@locokit/designsystem'
 import { useI18n } from 'vue-i18n'
-import { COLUMN_TYPE } from '../../../helpers/filter'
+import { FIELD_TYPE } from '@locokit/definitions'
 import { ROUTES_NAMES } from '../../../locokit-paths'
 import { useStoreGroups } from '../../../stores/groups'
 import { searchGroups } from '../../../services/core/group'
@@ -173,14 +173,12 @@ const columnsDefinition = [
   {
     slug: 'name',
     name: `${t('pages.adminGroups.filters.name')}`,
-    column_type_id: COLUMN_TYPE.STRING,
-    original_type_id: COLUMN_TYPE.STRING,
+    type: FIELD_TYPE.STRING,
   },
   {
     slug: 'workspace.name',
     name: `${t('pages.adminGroups.filters.workspace')}`,
-    column_type_id: COLUMN_TYPE.STRING,
-    original_type_id: COLUMN_TYPE.STRING,
+    type: FIELD_TYPE.STRING,
   },
 ]
 

@@ -5,6 +5,7 @@
         <FilterButton
           append-to="#test"
           :columns-definition="columnsDefinition"
+          :data-from-field="dataFromField"
         />
       </div>
     </Variant>
@@ -13,22 +14,77 @@
 
 <script setup lang="ts">
 import FilterButton from '../components/FilterButton/FilterButton.vue'
-import { COLUMN_TYPE } from '../helpers/filter'
+import { FIELD_TYPE } from '@locokit/definitions'
 
 const columnsDefinition = [
   {
-    slug: 'name',
-    name: 'Name',
-    column_type_id: COLUMN_TYPE.STRING,
-    original_type_id: COLUMN_TYPE.STRING,
+    slug: 'string_field',
+    name: 'String field',
+    type: FIELD_TYPE.STRING,
   },
   {
     slug: 'long-name',
-    name: 'Field with super mego long name',
-    column_type_id: COLUMN_TYPE.STRING,
-    original_type_id: COLUMN_TYPE.STRING,
+    name: 'Field with super mega long name',
+    type: FIELD_TYPE.STRING,
+  },
+  {
+    slug: 'boolean_field',
+    name: 'Boolean field',
+    type: FIELD_TYPE.BOOLEAN,
+  },
+  {
+    slug: 'number_field',
+    name: 'Number field',
+    type: FIELD_TYPE.NUMBER,
+  },
+  {
+    slug: 'float_field',
+    name: 'Float field',
+    type: FIELD_TYPE.FLOAT,
+  },
+  {
+    slug: 'single_select_field',
+    name: 'Single select field',
+    type: FIELD_TYPE.SINGLE_SELECT,
+  },
+  {
+    slug: 'multi_select_field',
+    name: 'Multi select field',
+    type: FIELD_TYPE.MULTI_SELECT,
+  },
+  {
+    slug: 'date_field',
+    name: 'Date field',
+    type: FIELD_TYPE.DATE,
+  },
+  {
+    slug: 'date_time_field',
+    name: 'Date time field',
+    type: FIELD_TYPE.DATETIME,
+  },
+  {
+    slug: 'user_field',
+    name: 'User field',
+    type: FIELD_TYPE.USER,
   },
 ]
+
+const dataFromField = {
+  single_select_field: {
+    options: [
+      { label: 'Choice One', value: 'c1' },
+      { label: 'Choice Two', value: 'c2' },
+      { label: 'Choice Three', value: 'c3' },
+    ],
+  },
+  multi_select_field: {
+    options: [
+      { label: 'Choice One', value: 'c1' },
+      { label: 'Choice Two', value: 'c2' },
+      { label: 'Choice Three', value: 'c3' },
+    ],
+  },
+}
 </script>
 
 <docs lang="md">

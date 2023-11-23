@@ -8,27 +8,22 @@
     </div>
   </PrimeButton>
   <PrimeOverlayPanel
-    id="overlay_panel"
+    id="filter_overlay_panel"
     ref="modalRef"
-    class="ml-1 w-[40em]"
+    class="ml-1 min-w-[52em]"
     :append-to="appendTo"
   >
     <div class="flex">
-      <PrimeButton
-        v-if="displayFilters"
-        class="p-button-text p-button-rounded save-filter-button absolute top-0.5 right-0.5"
-        :icon="`bi ${currentFilters.length > 0 ? 'bi-star-full' : 'bi-star'}`"
-        @click="saveFilters"
-      />
       <div class="max-h-48 overflow-y-scroll m-1 w-full">
         <div
           v-for="(filter, index) in filters"
           :key="`filter-${index}`"
-          class="flex flex-crow gap-1 items-end mt-0.5"
+          class="flex flex-row gap-1 items-end mt-0.5"
         >
-          <div class="w-8 mx-1">
+          <div class="w-4 self-center">
             <PrimeButton
-              class="p-button-outlined p-button-text p-button-danger"
+              v-if="index > 0"
+              class="p-button-outlined p-button-text p-button-danger !w-4 h-4"
               icon="bi bi-x"
               :disabled="filters.length === 1"
               @click.stop="removeFilter(index)"
@@ -41,10 +36,11 @@
               v-model="currentOperator"
               :disabled="index > 1"
               class="w-full"
+              input-class="!text-xs !px-1 text-center"
+              panel-class="!text-xs"
               :options="OPERATORS"
               option-label="label"
-              option-value="value"
-              dropdown-icon="bi-chevron-down"
+              option-value="featherKey"
               @change="onChangeOperator"
             >
               <template #value="slotProps">
@@ -60,7 +56,7 @@
                 <span>
                   {{
                     $t(
-                      `components.filterButton.select.operator.${slotProps.option.value}`,
+                      `components.filterButton.select.operator.${slotProps.option.featherKey}`,
                     )
                   }}
                 </span>
@@ -78,11 +74,12 @@
               aria-label="column"
               aria-labelledby="column"
               class="w-full"
+              input-class="!text-xs"
+              panel-class="!text-xs"
               :options="columnsDefinition"
-              data-key="field"
+              data-key="name"
               option-label="name"
-              dropdown-icon="bi-chevron-down"
-              @input="onChangeColumn(index)"
+              @change="onChangeColumn(index)"
             />
           </div>
           <div class="w-1/4">
@@ -90,16 +87,18 @@
               {{ $t('components.filterButton.action') }}
             </label>
             <PrimeDropdown
-              v-if="filter.column"
               v-model="filter.action"
               input-id="action"
               class="w-full"
+              input-class="!text-xs"
+              panel-class="!text-xs"
               :disabled="!filter.column"
               :options="
-                COLUMN_FILTERS_CONFIG[filter.column.original_type_id].actions
+                filter.column
+                  ? FILTER_CONFIG_TO_MATCH_FIELD[filter?.column.type].actions
+                  : []
               "
               option-label="label"
-              dropdown-icon="bi-chevron-down"
               @change="onChangeAction(index, $event)"
             >
               <template #value="slotProps">
@@ -122,21 +121,30 @@
               </template>
             </PrimeDropdown>
           </div>
-          <div class="w-1/4">
-            <div
-              v-if="
-                filter.action && filter.action.predefinedPattern === undefined
+          <div
+            v-if="
+              filter.action &&
+              filter.action.predefinedPattern === undefined &&
+              FILTER_CONFIG_TO_MATCH_FIELD[filter.column.type]?.usedComponent
+            "
+            class="w-1/4 flex flex-col"
+          >
+            <label v-if="index === 0" class="text-xs" for="motif">
+              {{ $t('components.filterButton.motif') }}
+            </label>
+            <component
+              :is="
+                FILTER_CONFIG_TO_MATCH_FIELD[filter.column.type].usedComponent
               "
-            >
-              <label v-if="index === 0" class="text-xs" for="motif">
-                {{ $t('components.filterButton.motif') }}
-              </label>
-              <PrimeInputText
-                id="motif"
-                v-model="filter.motif"
-                class="w-full"
-              />
-            </div>
+              v-bind="
+                {
+                  ...(FILTER_CONFIG_TO_MATCH_FIELD[filter.column.type]
+                    ?.patternComponentOptions || {}),
+                  ...dataFromField[filter.column.slug],
+                } || {}
+              "
+              v-model="filter.motif"
+            />
           </div>
         </div>
       </div>
@@ -163,7 +171,7 @@
         </PrimeButton>
       </div>
       <PrimeButton
-        class="p-button-secondary p-button-rounded !font-semibold"
+        class="p-button-secondary p-button-rounded font-semibold"
         icon="bi-check-lg"
         :label="$t('components.filterButton.submit')"
         @click="onClickFilters"
@@ -176,10 +184,9 @@
 import { ref, onMounted } from 'vue'
 import PrimeButton from 'primevue/button'
 import PrimeDropdown from 'primevue/dropdown'
-import PrimeInputText from 'primevue/inputtext'
 import PrimeOverlayPanel from 'primevue/overlaypanel'
 import {
-  COLUMN_FILTERS_CONFIG,
+  FILTER_CONFIG_TO_MATCH_FIELD,
   Filter,
   FilterAction,
   OPERATORS,
@@ -194,25 +201,29 @@ const emit = defineEmits<{
 
 const props = withDefaults(
   defineProps<{
-    appendTo: string
+    appendTo?: string
     currentFilters?: Filter[]
+    // For input that need data (e.g. option in dropdown),
+    // can possibly override default config,
+    // Key = Field slug
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    dataFromField?: Record<string, any>
     columnsDefinition: {
       slug: string
       name: string
-      column_type_id: number
-      original_type_id: number
+      type: string
     }[]
   }>(),
   {
     currentFilters: () => [],
     appendTo: 'body',
+    dataFromField: () => ({}),
   },
 )
 
 const modalRef = ref<OverlayPanel | null>(null)
 const filters = ref<Filter[]>([])
-const currentOperator = ref(OPERATORS[0].value)
-const displayFilters = ref(false)
+const currentOperator = ref(OPERATORS[0].featherKey)
 const nbActiveFilters = ref<number | null>(null)
 
 const togglePopover = (event: Event) => {
@@ -245,10 +256,8 @@ const onChangeAction = (index: number, { value }: { value: FilterAction }) => {
     // Set the pattern if the selected action has a predefined one
     filters.value[index].motif = value.predefinedPattern
   } else {
-    if (filters.value[index].action?.predefinedPattern) {
-      // Reset the pattern if the previous action had a predefined one
-      filters.value[index].motif = null
-    }
+    // Reset the pattern if the previous action had a predefined one
+    filters.value[index].motif = null
   }
   // Set the action
   filters.value[index].action = value
@@ -262,11 +271,6 @@ const onClickFilters = () => {
   }
   emit('submit-filters', filters.value)
   modalRef.value?.hide()
-}
-
-const saveFilters = () => {
-  nbActiveFilters.value = filters.value.length
-  emit('save-filters', filters.value)
 }
 
 const resetFilters = () => {
