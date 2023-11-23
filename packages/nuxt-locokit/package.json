@@ -35,16 +35,16 @@
     "@locokit/i18n": "*",
     "@locokit/sdk": "*",
     "@nuxt/kit": "^3.7.1",
-    "@pinia/nuxt": "^0.4.11",
+    "@pinia/nuxt": "^0.5.1",
     "@vee-validate/rules": "^4.11.7",
     "bootstrap-icons": "^1.11.1",
     "date-fns": "^2.30.0",
-    "mermaid": "^10.5.0",
-    "pinia": "^2.1.6",
-    "primevue": "^3.35.0",
-    "tailwindcss": "^3.3.3",
+    "mermaid": "^10.6.1",
+    "pinia": "^2.1.7",
+    "primevue": "^3.41.0",
+    "tailwindcss": "^3.3.5",
     "vee-validate": "^4.11.7",
-    "vue-i18n": "^9.5.0"
+    "vue-i18n": "^9.7.0"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
