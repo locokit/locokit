@@ -765,7 +765,7 @@
       },
       "geometry": {
         "name": "Geometry without control",
-        "description": "To store WKT geometry without control on its form"
+        "description": "To store WKT geometry without control on its shape"
       },
       "geometry_point": {
         "name": "Point geometry",

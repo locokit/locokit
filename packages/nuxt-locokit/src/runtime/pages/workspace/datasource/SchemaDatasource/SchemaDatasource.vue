@@ -364,6 +364,7 @@ const onSubmitFormFields = async (fieldId: string) => {
         )
         .patch(fieldId, {
           documentation: currentField.documentation,
+          settings: { ...currentField.settings },
           tableId: currentTable.value.id,
         })
     }
@@ -378,12 +379,14 @@ const openPanel = async (tableId: string) => {
     .service(
       `/workspace/${route.params.workspaceSlug}/datasource/${currentDatasource.value.slug}/table`,
     )
-    .get(tableId, { query: { $eager: 'fields' } })
+    .get(tableId, { query: { $eager: '[fields,relations]' } })
   documentationTable.value = currentTable.value?.documentation
   // Todo sort with position
   currentFields.data = currentTable.value.fields
 }
 
+// Don't update it without changes in api
+// Link to the build of class diagram (mermaid)
 window.openTableSidebar = (tableId: string) => {
   openPanel(tableId)
 }
