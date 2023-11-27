@@ -252,19 +252,9 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import mermaid from 'mermaid'
-import PrimeTabView from 'primevue/tabview'
-import PrimeButton from 'primevue/button'
-import PrimeTabPanel from 'primevue/tabpanel'
-import PrimeAccordion from 'primevue/accordion'
-import PrimeAccordionTab from 'primevue/accordiontab'
-import PrimeTextarea from 'primevue/textarea'
-import PrimeInputText from 'primevue/inputtext'
-import PrimeDropdown from 'primevue/dropdown'
-import PrimeCalendar from 'primevue/calendar'
 import { Field } from 'vee-validate'
 import { FormGeneric } from '@locokit/designsystem'
 import { FIELD_TYPE } from '@locokit/definitions'
-import PrimeCheckbox from 'primevue/checkbox'
 import {
   findDatasources,
   getSchemaDatasource,
@@ -273,7 +263,7 @@ import WithSidebar from '../../../../layouts/WithSidebar.vue'
 import { sdkClient } from '../../../../services/api'
 import CreateField from '../CreateField/CreateField.vue'
 import { getFieldIconClass } from '../../../../helpers/field'
-import { ref, reactive, useRoute } from '#imports'
+import { reactive, ref, useRoute } from '#imports'
 
 const route = useRoute()
 

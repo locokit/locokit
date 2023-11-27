@@ -8,6 +8,7 @@ import {
   installModule,
 } from '@nuxt/kit'
 import { Nuxt, NuxtOptions, NuxtPage } from '@nuxt/schema'
+import en from '@locokit/i18n/en.json'
 import { ROUTES_NAMES, ROUTES_PATH } from './runtime/locokit-paths'
 
 const { resolve } = createResolver(import.meta.url)
@@ -98,6 +99,22 @@ export default defineNuxtModule<ModuleOptions>({
 
     const styleExtension = isDevelopment ? 'scss' : 'css'
 
+    await installModule('nuxt-primevue', {
+      usePrimeVue: true,
+      options: {
+        ripple: true,
+        locale: Object.assign({}, en.localePrime),
+      },
+      cssLayerOrder: 'tailwind-base, primevue, tailwind-utilities',
+      components: {
+        prefix: 'Prime',
+        include: '*',
+      },
+      directives: {
+        include: ['Tooltip'],
+      },
+    })
+
     await installModule('@nuxtjs/tailwindcss', {
       exposeConfig: true,
       config: {
@@ -144,7 +161,7 @@ export default defineNuxtModule<ModuleOptions>({
     addPlugin(resolve('./runtime/plugins/1_error'))
     addPlugin(resolve('./runtime/plugins/2_directive'))
     addPlugin(resolve('./runtime/plugins/3_i18n'))
-    addPlugin(resolve('./runtime/plugins/4_primevue'))
+    // addPlugin(resolve('./runtime/plugins/4_primevue'))
     addPlugin(resolve('./runtime/plugins/5_vee-validate'))
     addPlugin(resolve('./runtime/plugins/6_middlewares'))
 
@@ -157,14 +174,14 @@ export default defineNuxtModule<ModuleOptions>({
      * Add local styles
      */
     nuxt.options.css = nuxt.options.css ?? []
-    nuxt.options.css.push('primevue/resources/primevue.css')
+    // nuxt.options.css.push('primevue/resources/primevue.css')
     nuxt.options.css.push('bootstrap-icons/font/bootstrap-icons.css')
 
     nuxt.options.css.push(resolve('./runtime/styles/index.' + styleExtension))
     nuxt.options.css.push(resolve('./runtime/styles/global.' + styleExtension))
     nuxt.options.css.push(resolve('./runtime/styles/theme.css'))
 
-    nuxt.options.build.transpile.push('primevue')
+    // nuxt.options.build.transpile.push('primevue')
 
     // console.log('[nuxt-locokit][plugin-locokit] Registering components...')
 

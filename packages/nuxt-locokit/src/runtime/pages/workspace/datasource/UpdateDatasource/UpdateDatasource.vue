@@ -134,12 +134,9 @@
 </template>
 <script setup lang="ts">
 import { Field } from 'vee-validate'
-import PrimeInputText from 'primevue/inputtext'
 import { FormGeneric, MessageForUser } from '@locokit/designsystem'
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import PrimeTextarea from 'primevue/textarea'
-import PrimeDropdown from 'primevue/dropdown'
 import { useStoreWorkspaces } from '../../../../stores/workspaces'
 import {
   TYPE_DATASOURCE,

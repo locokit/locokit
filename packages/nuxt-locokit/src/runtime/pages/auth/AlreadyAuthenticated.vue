@@ -33,7 +33,6 @@
 </template>
 
 <script setup lang="ts">
-import PrimeButton from 'primevue/button'
 import { useI18n } from 'vue-i18n'
 import WithHeader from '../../layouts/WithHeader.vue'
 import { useStoreAuth } from '../../stores/auth'

@@ -142,9 +142,7 @@
 </template>
 
 <script setup lang="ts">
-import PrimeButton from 'primevue/button'
-import PrimeInputText from 'primevue/inputtext'
-import PrimePaginator, { PageState } from 'primevue/paginator'
+import { PageState } from 'primevue/paginator'
 import { storeToRefs } from 'pinia'
 import {
   IdentityCard,
