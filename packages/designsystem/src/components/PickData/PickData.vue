@@ -24,9 +24,11 @@
           <li
             :id="item.id"
             class="bg-transparent cursor-pointer overflow-hidden relative [&:not(.selected)]:hover:bg-slate-200"
-            :class="{
-              selected: fromSelect.find((select) => select.id === item.id),
-            }"
+            :class="[
+              fromSelect.find((select) => select.id === item.id)
+                ? 'selected !bg-secondary-light hover:!bg-secondary-lighten'
+                : '',
+            ]"
             role="option"
             @click="onItemClickFrom(item)"
           >
@@ -82,9 +84,11 @@
           <li
             :id="item.id"
             class="bg-transparent cursor-pointer overflow-hidden relative [&:not(.selected)]:hover:bg-slate-200"
-            :class="{
-              selected: toSelect.find((select) => select.id === item.id),
-            }"
+            :class="[
+              toSelect.find((select) => select.id === item.id)
+                ? 'selected !bg-secondary-light hover:!bg-secondary-lighten'
+                : '',
+            ]"
             role="option"
             @click="onItemClickTo(item)"
           >
@@ -172,9 +176,3 @@ watch(
   },
 )
 </script>
-
-<style scoped lang="scss">
-.selected {
-  @apply bg-secondary-lighten text-secondary-dark;
-}
-</style>
