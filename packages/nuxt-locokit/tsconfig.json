@@ -1,9 +1,12 @@
 {
   "extends": "./playground/.nuxt/tsconfig.json",
   "compilerOptions": {
-    "target": "es2020",
-    "module": "es2020",
+    "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "node"
   },
-  "include": ["src", "playground"]
+  "include": [
+    "src",
+    "playground"
+  ]
 }

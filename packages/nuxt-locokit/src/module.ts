@@ -8,7 +8,7 @@ import {
   installModule,
 } from '@nuxt/kit'
 import { Nuxt, NuxtOptions, NuxtPage } from '@nuxt/schema'
-import en from '@locokit/i18n/en.json'
+import en from '@locokit/i18n/en.json' assert { type: 'json' }
 import { ROUTES_NAMES, ROUTES_PATH } from './runtime/locokit-paths'
 
 const { resolve } = createResolver(import.meta.url)
@@ -98,11 +98,11 @@ export default defineNuxtModule<ModuleOptions>({
       runtimeDir.endsWith('src/runtime') || runtimeDir.endsWith('src\\runtime')
 
     const styleExtension = isDevelopment ? 'scss' : 'css'
-
     await installModule('nuxt-primevue', {
       usePrimeVue: true,
       options: {
         ripple: true,
+        // Todo: see locokit/packages/nuxt-locokit/src/runtime/plugins/3_i18n.ts:9
         locale: Object.assign({}, en.localePrime),
       },
       cssLayerOrder: 'tailwind-base, primevue, tailwind-utilities',
@@ -161,7 +161,6 @@ export default defineNuxtModule<ModuleOptions>({
     addPlugin(resolve('./runtime/plugins/1_error'))
     addPlugin(resolve('./runtime/plugins/2_directive'))
     addPlugin(resolve('./runtime/plugins/3_i18n'))
-    // addPlugin(resolve('./runtime/plugins/4_primevue'))
     addPlugin(resolve('./runtime/plugins/5_vee-validate'))
     addPlugin(resolve('./runtime/plugins/6_middlewares'))
 
