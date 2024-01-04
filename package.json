@@ -4,7 +4,6 @@
   "description": "LocoKit, the low-code platform",
   "workspaces": [
     "api",
-    "app",
     "docs",
     "packages/definitions",
     "packages/designsystem",

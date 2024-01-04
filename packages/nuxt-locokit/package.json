@@ -17,10 +17,10 @@
     "dist"
   ],
   "scripts": {
-    "build": "nuxt-module-build",
+    "build": "nuxt-module-build build",
     "dev": "nuxi dev playground",
     "nuxt:build": "nuxi build playground",
-    "nuxt:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "nuxt:prepare": "nuxt-module-build --stub && nuxt-module-build prepare && nuxi prepare playground",
     "release": "npm run lint && npm run test && npm run build && changelogen --release && npm publish && git push --follow-tags",
     "lint": "eslint .",
     "test": "vitest run",

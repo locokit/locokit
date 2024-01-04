@@ -34,7 +34,6 @@ export default defineNuxtConfig({
   sourcemap: true,
   devtools: {
     enabled: true,
-
     timeline: {
       enabled: true,
     },
