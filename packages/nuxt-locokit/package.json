@@ -34,7 +34,7 @@
     "@locokit/designsystem": "*",
     "@locokit/i18n": "*",
     "@locokit/sdk": "*",
-    "@nuxt/kit": "^3.8.2",
+    "@nuxt/kit": "^3.9.0",
     "@pinia/nuxt": "^0.5.1",
     "@vee-validate/rules": "^4.12.1",
     "bootstrap-icons": "^1.11.2",
@@ -49,9 +49,9 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxt/eslint-config": "^0.2.0",
-    "@nuxt/module-builder": "^0.5.1",
-    "@nuxt/schema": "^3.7.1",
-    "@nuxt/test-utils": "^3.7.1",
+    "@nuxt/module-builder": "^0.5.5",
+    "@nuxt/schema": "^3.9.0",
+    "@nuxt/test-utils": "^3.9.0",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@nuxtjs/tailwindcss": "^6.8.0",
     "@types/node": "^18.17.0",
@@ -64,12 +64,12 @@
     "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.14.0",
-    "nuxt": "^3.8.2",
+    "nuxt": "^3.9.0",
     "nuxt-primevue": "^0.2.1",
     "postcss": "^8.4.23",
     "prettier": "^3.1.0",
     "sass": "^1.69.5",
-    "vitest": "^0.33.0"
+    "vitest": "^0.34.6"
   },
   "peerDependencies": {
     "consola": "3.0.1"

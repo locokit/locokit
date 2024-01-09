@@ -122,6 +122,6 @@
     "vite-plugin-dts": "^3.5.2",
     "vite-plugin-static-copy": "^0.17.0",
     "vite-tsconfig-paths": "^4.0.5",
-    "vitest": "^0.32.0"
+    "vitest": "^0.34.6"
   }
 }

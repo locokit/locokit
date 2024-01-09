@@ -7,7 +7,7 @@ import {
   extendPages,
   installModule,
 } from '@nuxt/kit'
-import { Nuxt, NuxtOptions, NuxtPage } from '@nuxt/schema'
+import type { Nuxt, NuxtOptions, NuxtPage } from '@nuxt/schema'
 import en from '@locokit/i18n/en.json' assert { type: 'json' }
 import { ROUTES_NAMES, ROUTES_PATH } from './runtime/locokit-paths'
 
