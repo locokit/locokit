@@ -90,19 +90,20 @@ import FormGeneric from '../../FormGeneric/FormGeneric.vue'
 import { Field } from 'vee-validate'
 import { ref } from 'vue'
 
-const emit = defineEmits<{
+const emit = defineEmits<
   (
     e: 'submit',
     form: {
       newEmail: string
       password: string
     },
-  ): void
-}>()
+  ) => void
+>()
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
   defineProps<{
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     user: any
     loading?: boolean
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

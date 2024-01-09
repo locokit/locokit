@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import PredefinedColorPicker from '../components/PredefinedColorPicker/PredefinedColorPicker.vue'
 import { ref } from 'vue'
-import { ColorScheme } from '../helpers/color'
+import { type ColorScheme } from '../helpers/color'
 
 const currentColor = ref<ColorScheme>({
   backgroundColor: null,

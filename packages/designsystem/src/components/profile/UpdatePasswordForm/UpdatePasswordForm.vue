@@ -133,15 +133,15 @@ import { Field } from 'vee-validate'
 import { ref } from 'vue'
 import { regexPasswordRules } from '../../../helpers/regex'
 
-const emit = defineEmits<{
+const emit = defineEmits<
   (
     e: 'submit',
     form: {
       currentPassword: string
       newPassword: string
     },
-  ): void
-}>()
+  ) => void
+>()
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(

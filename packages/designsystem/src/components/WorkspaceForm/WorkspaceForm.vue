@@ -112,10 +112,11 @@ import FormGeneric from '../FormGeneric/FormGeneric.vue'
 import PredefinedColorPicker from '../PredefinedColorPicker/PredefinedColorPicker.vue'
 import { Field } from 'vee-validate'
 import { computed, ref } from 'vue'
+import type { Ref } from 'vue'
 import { createSlug } from '../../helpers/transformText'
-import { ColorScheme } from '../../helpers/color'
+import type { ColorScheme } from '../../helpers/color'
 
-const emit = defineEmits<{
+const emit = defineEmits<
   (
     e: 'submit',
     form: {
@@ -128,8 +129,8 @@ const emit = defineEmits<{
         icon: string | null
       }
     },
-  ): void
-}>()
+  ) => void
+>()
 
 const props = withDefaults(
   defineProps<{
@@ -145,7 +146,7 @@ const props = withDefaults(
   },
 )
 
-const name = ref(props.workspaceData?.name)
+const name: Ref<string> = ref(props.workspaceData?.name)
 const documentation = ref(props.workspaceData?.documentation)
 const icon = ref(props.workspaceData?.settings.icon)
 const isPublic = ref(props.workspaceData?.public)

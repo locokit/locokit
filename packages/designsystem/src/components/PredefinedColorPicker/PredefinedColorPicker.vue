@@ -36,13 +36,12 @@
 
 <script setup lang="ts">
 import PrimeDropdown from 'primevue/dropdown'
-import { COLOR_SCHEME, ColorScheme } from '../../helpers/color'
+import { COLOR_SCHEME } from '../../helpers/color'
+import type { ColorScheme } from '../../helpers/color'
 import SingleTag from '../SingleTag/SingleTag.vue'
 import { ref } from 'vue'
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: ColorScheme): void
-}>()
+const emit = defineEmits<(e: 'update:modelValue', value: ColorScheme) => void>()
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(

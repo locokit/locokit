@@ -110,9 +110,10 @@ import { Field, Form } from 'vee-validate'
 import { computed, reactive } from 'vue'
 import ButtonWithStatus from '../../ButtonWithStatus/ButtonWithStatus.vue'
 
-const emit = defineEmits<{
-  (e: 'submit', form: { email: string; password: string }): void
-}>()
+const emit =
+  defineEmits<
+    (e: 'submit', form: { email: string; password: string }) => void
+  >()
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
@@ -138,7 +139,7 @@ const form = reactive({
 })
 
 const status = computed(() => {
-  if (props.response && props.response.name) {
+  if (props.response?.name) {
     return 'failed'
   } else if (props.response) {
     return 'success'

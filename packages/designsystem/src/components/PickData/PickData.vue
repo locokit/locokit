@@ -114,19 +114,19 @@ const emit = defineEmits(['update:modelValue'])
 const props = withDefaults(
   defineProps<{
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    fromData: Record<string, any>[]
+    fromData: Array<Record<string, any>>
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    modelValue: Record<string, any>[]
+    modelValue: Array<Record<string, any>>
   }>(),
   {},
 )
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const fromSelect = ref<Record<string, any>[]>([])
+const fromSelect = ref<Array<Record<string, any>>>([])
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const toSelect = ref<Record<string, any>[]>([])
+const toSelect = ref<Array<Record<string, any>>>([])
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const toData = ref<Record<string, any>[]>(props.modelValue)
+const toData = ref<Array<Record<string, any>>>(props.modelValue)
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const onItemClickFrom = (item: Record<string, any>) => {

@@ -83,7 +83,7 @@ const props = withDefaults(
 const refForm = ref()
 
 const status = computed(() => {
-  if (props.response && props.response.name && props.response.message) {
+  if (props.response?.name && props.response.message) {
     return 'failed'
   } else if (props.response) {
     return 'success'

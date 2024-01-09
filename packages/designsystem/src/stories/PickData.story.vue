@@ -25,7 +25,8 @@
 import PickData from '../components/PickData/PickData.vue'
 import { ref } from 'vue'
 
-const fromData = ref<Record<string, any>[]>([
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const fromData = ref<Array<Record<string, any>>>([
   {
     id: '1',
     name: 'Force',
@@ -40,7 +41,8 @@ const fromData = ref<Record<string, any>[]>([
   },
 ])
 
-const toData = ref<Record<string, any>[]>([
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const toData = ref<Array<Record<string, any>>>([
   {
     id: '3',
     name: 'Courage',

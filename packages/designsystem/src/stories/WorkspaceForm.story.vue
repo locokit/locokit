@@ -11,7 +11,7 @@ import { logEvent } from 'histoire/client'
 import WorkspaceForm from '../components/WorkspaceForm/WorkspaceForm.vue'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const emit = defineEmits<{
+const emit = defineEmits<
   (
     e: 'submit',
     form: {
@@ -24,8 +24,8 @@ const emit = defineEmits<{
         icon: string | null
       }
     },
-  ): void
-}>()
+  ) => void
+>()
 </script>
 
 <docs lang="md">

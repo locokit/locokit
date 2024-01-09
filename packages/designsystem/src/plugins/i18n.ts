@@ -1,4 +1,4 @@
-import { App } from 'vue'
+import { type App } from 'vue'
 import { createI18n } from 'vue-i18n'
 
 import en from '@locokit/i18n/en.json'

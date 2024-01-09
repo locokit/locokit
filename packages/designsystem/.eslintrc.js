@@ -9,10 +9,19 @@ module.exports = {
     'prettier',
   ],
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 2022,
+    parser: '@typescript-eslint/parser',
     sourceType: 'module',
     project: './tsconfig.json',
   },
+  ignorePatterns: [
+    'vite.config.ts',
+    '.eslintrc.js',
+    'tailwind.config.js',
+    'postcss.config.js',
+    'histoire.config.ts',
+    'dist',
+  ],
   plugins: ['prettier', '@typescript-eslint'],
   rules: {
     '@typescript-eslint/strict-boolean-expressions': 'off',

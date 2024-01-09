@@ -185,13 +185,9 @@ import { ref, onMounted } from 'vue'
 import PrimeButton from 'primevue/button'
 import PrimeDropdown from 'primevue/dropdown'
 import PrimeOverlayPanel from 'primevue/overlaypanel'
-import {
-  FILTER_CONFIG_TO_MATCH_FIELD,
-  Filter,
-  FilterAction,
-  OPERATORS,
-} from '../../helpers/filter'
-import { OverlayPanel } from '../../types/prime.d.'
+import { FILTER_CONFIG_TO_MATCH_FIELD, OPERATORS } from '../../helpers/filter'
+import type { Filter, FilterAction } from '../../helpers/filter'
+import type { OverlayPanel } from '../../types/prime.d.'
 
 const emit = defineEmits<{
   (e: 'submit-filters', filters: Filter[]): void
@@ -208,11 +204,11 @@ const props = withDefaults(
     // Key = Field slug
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     dataFromField?: Record<string, any>
-    columnsDefinition: {
+    columnsDefinition: Array<{
       slug: string
       name: string
       type: string
-    }[]
+    }>
   }>(),
   {
     currentFilters: () => [],

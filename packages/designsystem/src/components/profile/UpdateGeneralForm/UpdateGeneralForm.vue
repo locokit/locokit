@@ -114,7 +114,7 @@ import { ref } from 'vue'
 import SingleTag from '../../SingleTag/SingleTag.vue'
 import FormGeneric from '../../FormGeneric/FormGeneric.vue'
 
-const emit = defineEmits<{
+const emit = defineEmits<
   (
     e: 'submit',
     form: {
@@ -123,11 +123,12 @@ const emit = defineEmits<{
       firstName: string | null
       username: string | null
     },
-  ): void
-}>()
+  ) => void
+>()
 
 const props = withDefaults(
   defineProps<{
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     user: any
     loading?: boolean
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
