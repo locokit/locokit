@@ -1,5 +1,7 @@
 import type { Application } from '@/declarations'
-import { createSwaggerServiceOptions } from 'feathers-swagger'
+import pkg from 'feathers-swagger'
+
+const { createSwaggerServiceOptions } = pkg
 
 import { WorkspaceDatasourceService } from './datasource.class'
 import {

@@ -1,6 +1,8 @@
 import { SERVICES } from '@locokit/definitions'
 import type { Application } from '@/declarations'
-import { createSwaggerServiceOptions } from 'feathers-swagger'
+import pkg from 'feathers-swagger'
+
+const { createSwaggerServiceOptions } = pkg
 import { TableFieldModel } from './table-field.model'
 import { TableField } from './table-field.class'
 import { tableFieldDataSchema, tableFieldQuerySchema, tableFieldSchema } from './table-field.schema'

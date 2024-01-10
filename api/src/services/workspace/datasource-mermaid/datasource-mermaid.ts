@@ -1,6 +1,8 @@
 import { SERVICES } from '@locokit/definitions'
 import type { Application } from '@/declarations'
-import { createSwaggerServiceOptions } from 'feathers-swagger'
+import pkg from 'feathers-swagger'
+
+const { createSwaggerServiceOptions } = pkg
 
 import { DatasourceMermaid } from './datasource-mermaid.class'
 import { datasourceMermaidHooks } from './datasource-mermaid.hooks'

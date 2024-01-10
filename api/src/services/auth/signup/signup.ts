@@ -4,7 +4,9 @@ import { Application } from '@/declarations'
 import { SignUpService } from './signup.class'
 import { validateData } from '@feathersjs/schema/lib'
 import { signUpDataSchema, signUpDataValidator } from './signup.schema'
-import { createSwaggerServiceOptions } from 'feathers-swagger'
+import pkg from 'feathers-swagger'
+
+const { createSwaggerServiceOptions } = pkg
 
 // Add this service to the service type index
 declare module '@/declarations' {

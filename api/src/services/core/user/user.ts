@@ -4,8 +4,10 @@ import { hooks } from './user.hooks'
 import { SERVICES } from '@locokit/definitions'
 import { UserService } from './user.class'
 import { userDataSchema, userQuerySchema, userSchema } from './user.schema'
-import { createSwaggerServiceOptions } from 'feathers-swagger'
 import { UserModel } from './user.model'
+import pkg from 'feathers-swagger'
+
+const { createSwaggerServiceOptions } = pkg
 
 // A configure function that registers the service and its hooks via `app.configure`
 export function user(app: Application): void {

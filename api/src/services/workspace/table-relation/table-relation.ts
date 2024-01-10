@@ -1,6 +1,8 @@
 import { SERVICES } from '@locokit/definitions'
 import type { Application } from '@/declarations'
-import { createSwaggerServiceOptions } from 'feathers-swagger'
+import pkg from 'feathers-swagger'
+
+const { createSwaggerServiceOptions } = pkg
 import { TableRelationModel } from './table-relation.model'
 import { TableRelation } from './table-relation.class'
 import {
