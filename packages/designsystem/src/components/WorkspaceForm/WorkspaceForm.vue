@@ -149,7 +149,7 @@ const props = withDefaults(
 const name: Ref<string> = ref(props.workspaceData?.name)
 const documentation = ref(props.workspaceData?.documentation)
 const icon = ref(props.workspaceData?.settings.icon)
-const isPublic = ref(props.workspaceData?.public)
+const isPublic = ref(props.workspaceData?.public ?? false)
 const colorAndBg = ref<ColorScheme>({
   backgroundColor: props.workspaceData?.settings?.backgroundColor,
   color: props.workspaceData?.settings?.color,
