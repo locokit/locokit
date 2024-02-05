@@ -38,4 +38,7 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
+  experimental: {
+    scanPageMeta: true, // cf https://github.com/nuxt/nuxt/pull/25515
+  },
 })
