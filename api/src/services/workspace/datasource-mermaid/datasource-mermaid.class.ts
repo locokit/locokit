@@ -31,7 +31,7 @@ export class DatasourceMermaid {
     if (datasources.total !== 1) throw new NotFound('Datasource not found.')
 
     if (!datasources.data[0].tables || datasources.data[0].tables.length === 0)
-      return new NotFound('Impossible to display schema without tables.')
+      return new NotFound('No table available for this schema.')
 
     /**
      * According to the type of mermaid diagram,
@@ -71,6 +71,8 @@ export class DatasourceMermaid {
             mermaidDiagram += '\n'
           })
           mermaidDiagram += '    }\n'
+          // Don't update name function without changes in nuxt.
+          // Bind function openTableSidebar on node to allow open a sidebar to update table settings
           mermaidDiagram +=
             'click ' + table.slug + ' call window.openTableSidebar(' + table.id + ') \n'
 

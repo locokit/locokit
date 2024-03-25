@@ -37,5 +37,5 @@ import PrimeTabPanel from 'primevue/tabpanel'
 <docs lang="md">
 ### PrimeTab
 
-Overide prime style
+Override prime style
 </docs>

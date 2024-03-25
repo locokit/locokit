@@ -154,7 +154,7 @@
       "documentation": "Notes",
       "unique": "La valeur doit-elle être unique ?",
       "default": "La valeur par défaut affichée",
-      "nullable": "Ce champs es-il requis ?",
+      "nullable": "Ce champ est-il requis ?",
       "noTable": "Impossible d'accèder à la table."
     }
   },
@@ -183,7 +183,7 @@
       "defaultTitle": "Une erreur vient de se produire",
       "404": {
         "title": "Page non trouvée",
-        "alternativeTitle": "Oups ! … On dirait que vous êtes perdus"
+        "alternativeTitle": "Oups ! … On dirait que vous vous êtes perdus"
       }
     },
     "signIn": {
@@ -408,7 +408,7 @@
       "title": "@:pages.workspace.datasource",
       "subtitle": "Tables",
       "schema": "Schéma",
-      "settings": "Paramètre",
+      "settings": "Paramètres",
       "addDatasource": "Ajouter une source de données",
       "addTable": "Ajouter une table"
     },
@@ -463,12 +463,12 @@
         "documentation": "Notes",
         "type": "Type",
         "slug": "Slug",
-        "createdAt": "Crée le",
+        "createdAt": "Créé le",
         "updatedAt": "Modifié le",
         "position": "Position",
         "unique": "Unique",
         "default": "Valeur par défaut",
-        "nullable": "Est-ce que le champs peut être vide ?",
+        "nullable": "Est-ce que le champ peut être vide ?",
         "maxlength": "Taille maximum de la valeur"
       },
       "explainSchema": "Clique sur une table dans le schéma pour afficher ou modifier des données.",
@@ -677,11 +677,11 @@
       },
       "number": {
         "name": "Entier",
-        "description": "Conçu pour contenir des valeurs numériques entières"
+        "description": "Valeurs numériques entières"
       },
       "float": {
         "name": "Flottant",
-        "description": "Conçu pour contenir des valeurs numériques flottantes"
+        "description": "Valeurs numériques flottantes"
       },
       "string": {
         "name": "Texte sur une ligne",
@@ -701,7 +701,7 @@
       },
       "uuid": {
         "name": "UUID",
-        "description": "Unique identifier respecting standard"
+        "description": "Identifiant unique respectant le standard UUID"
       },
       "user": {
         "name": "Utilisateur⋅rice",
@@ -749,15 +749,15 @@
       },
       "json": {
         "name": "JSON",
-        "description": "Data format"
+        "description": "Format de données JSON"
       },
       "network": {
         "name": "Réseau",
-        "description": "IP address"
+        "description": "Adresse IP"
       },
       "media": {
         "name": "Média",
-        "description": "Pour stocker un média"
+        "description": "Pour stocker un média (image, fichier, vidéo…)"
       },
       "url": {
         "name": "URL",
