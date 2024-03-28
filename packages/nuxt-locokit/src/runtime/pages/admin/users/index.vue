@@ -187,7 +187,7 @@ import {
   MessageForUser,
 } from '@locokit/designsystem'
 import { useI18n } from 'vue-i18n'
-import { COLUMN_TYPE } from '../../../helpers/filter'
+import { FIELD_TYPE } from '@locokit/definitions'
 import { ROUTES_NAMES } from '../../../locokit-paths'
 import { useStoreUsers } from '../../../stores/users'
 import { searchUsers } from '../../../services/core/user'
@@ -208,26 +208,22 @@ const columnsDefinition = [
   {
     slug: 'username',
     name: `${t('pages.adminUsers.filters.username')}`,
-    column_type_id: COLUMN_TYPE.STRING,
-    original_type_id: COLUMN_TYPE.STRING,
+    type: FIELD_TYPE.STRING,
   },
   {
     slug: 'firstName',
     name: `${t('pages.adminUsers.filters.firstName')}`,
-    column_type_id: COLUMN_TYPE.STRING,
-    original_type_id: COLUMN_TYPE.STRING,
+    type: FIELD_TYPE.STRING,
   },
   {
     slug: 'lastName',
     name: `${t('pages.adminUsers.filters.lastName')}`,
-    column_type_id: COLUMN_TYPE.STRING,
-    original_type_id: COLUMN_TYPE.STRING,
+    type: FIELD_TYPE.STRING,
   },
   {
     slug: 'email',
     name: `${t('pages.adminUsers.filters.email')}`,
-    column_type_id: COLUMN_TYPE.STRING,
-    original_type_id: COLUMN_TYPE.STRING,
+    type: FIELD_TYPE.STRING,
   },
 ]
 

@@ -18,7 +18,7 @@ export class DatasourceMermaid {
   }
 
   async find(params: DatasourceParams) {
-    const datasource = await this.app.service(SERVICES.WORKSPACE_DATASOURCE).find({
+    const datasources = await this.app.service(SERVICES.WORKSPACE_DATASOURCE).find({
       query: {
         slug: params?.route?.datasourceSlug,
         $eager: '[tables.[fields,relations]]',
@@ -28,17 +28,21 @@ export class DatasourceMermaid {
       },
     })
 
-    if (datasource.total !== 1) throw new NotFound('Datasource not found.')
+    if (datasources.total !== 1) throw new NotFound('Datasource not found.')
+
+    if (!datasources.data[0].tables || datasources.data[0].tables.length === 0)
+      return new NotFound('No table available for this schema.')
 
     /**
-     * According the type of mermaid diagram,
+     * According to the type of mermaid diagram,
      * we generate a specific syntax
      */
     let mermaidDiagram = ''
+    const currentDatasource = datasources.data?.[0]
     switch (params?.query?.type) {
       case 'er':
         mermaidDiagram += 'erDiagram\n'
-        datasource.data?.[0]?.tables?.forEach((t) => {
+        currentDatasource?.tables?.forEach((t) => {
           mermaidDiagram += '"' + (t.schema ? t.schema + '.' : '') + t.slug + '" {\n'
           t.fields.forEach((f: TableFieldResult) => {
             mermaidDiagram += '\t' + f.type + ' ' + f.slug + '\n'
@@ -52,21 +56,32 @@ export class DatasourceMermaid {
         break
       case 'class':
       default:
+        // Mermaid transform class name and properties according to standard of Class Diagram
         mermaidDiagram += 'classDiagram\n'
-        datasource.data?.[0]?.tables?.forEach((t) => {
-          mermaidDiagram += 'class ' + (t.schema ? t.schema + '.' : '') + t.slug + ' {\n'
-          t.fields.forEach((f: TableFieldResult) => {
-            mermaidDiagram += '\t' + f.type + ' ' + f.slug
-            if (f.settings.primary) mermaidDiagram += ' 🔑'
+        currentDatasource.tables?.forEach((table) => {
+          mermaidDiagram +=
+            '    class ' +
+            (table.schema ? table.schema + '.' : '') +
+            table.slug +
+            ':::styleMermaidClass ' +
+            ' {\n'
+          table.fields.forEach((field: TableFieldResult) => {
+            mermaidDiagram += '    ' + field.type.toLowerCase() + ' ' + field.slug
+            if (field.settings.primary) mermaidDiagram += ' 🔑'
             mermaidDiagram += '\n'
           })
-          mermaidDiagram += '}\n'
-          t.relations.forEach((r: TableRelationResult) => {
-            mermaidDiagram += r.settings.fromTable + ' --|> ' + r.settings.toTable + ' \n'
+          mermaidDiagram += '    }\n'
+          // Don't update name function without changes in nuxt.
+          // Bind function openTableSidebar on node to allow open a sidebar to update table settings
+          mermaidDiagram +=
+            'click ' + table.slug + ' call window.openTableSidebar(' + table.id + ') \n'
+
+          table.relations.forEach((relation: TableRelationResult) => {
+            mermaidDiagram +=
+              relation.settings.fromTableSlug + ' --|> ' + relation.settings.toTableSlug + ' \n'
           })
         })
     }
-
-    return mermaidDiagram
+    return { data: mermaidDiagram }
   }
 }

@@ -24,9 +24,7 @@
           <li
             :id="item.id"
             class="bg-transparent cursor-pointer overflow-hidden relative [&:not(.selected)]:hover:bg-slate-200"
-            :class="{
-              selected: fromSelect.find((select) => select.id === item.id),
-            }"
+            :class="getClassItemId(item.id, fromSelect)"
             role="option"
             @click="onItemClickFrom(item)"
           >
@@ -82,9 +80,7 @@
           <li
             :id="item.id"
             class="bg-transparent cursor-pointer overflow-hidden relative [&:not(.selected)]:hover:bg-slate-200"
-            :class="{
-              selected: toSelect.find((select) => select.id === item.id),
-            }"
+            :class="getClassItemId(item.id, toSelect)"
             role="option"
             @click="onItemClickTo(item)"
           >
@@ -110,20 +106,25 @@ const emit = defineEmits(['update:modelValue'])
 const props = withDefaults(
   defineProps<{
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    fromData: Record<string, any>[]
+    fromData: Array<Record<string, any>>
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    modelValue: Record<string, any>[]
+    modelValue: Array<Record<string, any>>
   }>(),
   {},
 )
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const fromSelect = ref<Record<string, any>[]>([])
+const fromSelect = ref<Array<Record<string, any>>>([])
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const toSelect = ref<Record<string, any>[]>([])
+const toSelect = ref<Array<Record<string, any>>>([])
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const toData = ref<Record<string, any>[]>(props.modelValue)
+const toData = ref<Array<Record<string, any>>>(props.modelValue)
 
+const getClassItemId = (id: string, array: Array<Record<string, any>>) => {
+  return array.find((array) => array.id === id)
+    ? 'selected !bg-secondary-light hover:!bg-secondary-lighten'
+    : ''
+}
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const onItemClickFrom = (item: Record<string, any>) => {
   const alreadySelected = fromSelect.value.findIndex(({ id }) => id === item.id)
@@ -172,9 +173,3 @@ watch(
   },
 )
 </script>
-
-<style scoped lang="scss">
-.selected {
-  @apply bg-secondary-lighten text-secondary-dark;
-}
-</style>

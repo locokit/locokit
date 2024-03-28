@@ -60,7 +60,7 @@
 
   --primary-color: #29264F;
   --primary-color-lighten: #f0f0fa;
-  --primary-color-light: #9997b4;
+  --primary-color-light: rgba(196, 176, 217, 0.34);
   --primary-color-dark: #121031;
 
   --secondary-color: #4b9c6d;

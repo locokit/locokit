@@ -14,14 +14,14 @@
       "password": "Mot de passe",
       "signIn": "Se connecter",
       "signInAgain": "Se reconnecter",
-      "forgottenPassword": "Vous avez oublié votre mot de passe ?",
+      "forgottenPassword": "Vous avez oublié votre mot de passe ?",
       "signUp": "S'inscrire",
       "error": "Impossible de vous connecter. Merci de contacter l'administrateur ou essayez à nouveau un peu plus tard."
     },
     "lostPasswordForm": {
       "email": "E-mail",
       "submit": "Validez et obtenez un lien temporaire pour choisir votre nouveau mot de passe.",
-      "signInHelp": "Vous avez déjà un compte et un mot de passe ?",
+      "signInHelp": "Vous avez déjà un compte et un mot de passe ?",
       "signIn": "Se connecter",
       "feedback": "Votre demande a bien été prise en compte. Si votre e-mail a été trouvé, vous allez recevoir un courriel contenant un lien de réinitialisation de votre mot de passe. Dans le cas contraire, merci de vérifier votre dossier Spam."
     },
@@ -54,12 +54,12 @@
     "workspaceForm": {
       "title": "Créer un espace de travail",
       "name": "Nom",
-      "explainsSlugUse": "Cet espace de travail sera sauvegardé sous le nom de :",
+      "explainsSlugUse": "Cet espace de travail sera sauvegardé sous le nom de :",
       "documentation": "Descriptif",
       "color": "Couleur",
       "colorHelp": "Cette couleur est utilisée dans la page des espaces de travail.",
       "icon": "Icône",
-      "iconPlaceholder": "ex : pi-cart",
+      "iconPlaceholder": "ex : pi-cart",
       "iconHelp": "Liste d'icône disponible sur BootstrapIcons",
       "public": "Rendre visible pour tous⋅tes (public)",
       "publicHelp": "Avant de l'activer, merci de vérifier que le rôle public est conforme à vos attentes et qu'une page dédiée a été réalisé",
@@ -143,6 +143,19 @@
           "containsLoggedInUser": "contient l'utilisateur connecté"
         }
       }
+    },
+    "createField": {
+      "title": "Créer une colonne",
+      "submit": "Enregistrer",
+      "resetAndCancel": "Annuler les modifications",
+      "name": "Nom",
+      "explainsSlugUse": "Cette colonne sera sauvegardée sous le nom de :",
+      "type": "Type",
+      "documentation": "Notes",
+      "unique": "La valeur doit-elle être unique ?",
+      "default": "La valeur par défaut affichée",
+      "nullable": "Ce champ est-il requis ?",
+      "noTable": "Impossible d'accèder à la table."
     }
   },
   "layouts": {
@@ -170,7 +183,7 @@
       "defaultTitle": "Une erreur vient de se produire",
       "404": {
         "title": "Page non trouvée",
-        "alternativeTitle": "Oups ! … On dirait que vous êtes perdus"
+        "alternativeTitle": "Oups ! … On dirait que vous vous êtes perdus"
       }
     },
     "signIn": {
@@ -180,19 +193,19 @@
       "presentation": "LocoKit est une LCAP open source (Low Code Application Platform) qui fournit une gestion de base de données sous forme de feuille de calcul avec un Constructeur d'application.",
       "buildData": "Construisez vos données",
       "shareSecurely": "et partagez-les en toute sécurité",
-      "createDatabase": "Créez votre base de données, selon votre métier. Partagez vos données, selon les permissions que vous définissez !",
+      "createDatabase": "Créez votre base de données, selon votre métier. Partagez vos données, selon les permissions que vous définissez !",
       "shareData": "Partagez vos données",
       "craftingApp": "en créant votre application",
       "afterBuilding": "Après avoir créé votre base de données, créez l'application que vos utilisateurs utiliseront. Ils verront vos données à travers les écrans de l'interface utilisateur que vous créerez, en fonction des autorisations que vous avez précédemment configurées.",
       "createWorkflows": "Créer des workflows",
       "automateProcess": "pour automatiser vos processus",
-      "getStarted": "C'est parti !",
+      "getStarted": "C'est parti !",
       "liveDemo": "Live Demo"
     },
     "lostPassword": {
       "title": "Mot de passe perdu",
-      "alternativeTitle": "Mot de passe, où es-tu ?",
-      "description": "Vous avez perdu votre mot de passe ? Renseignez votre email pour recevoir un mail avec un lien temporaire. Cliquez dessus, et vous pourrez changer votre mot de passe !",
+      "alternativeTitle": "Mot de passe, où es-tu ?",
+      "description": "Vous avez perdu votre mot de passe ? Renseignez votre email pour recevoir un mail avec un lien temporaire. Cliquez dessus, et vous pourrez changer votre mot de passe !",
       "sendMailToResetPassword": "Merci de vérifier vos e-mails, d'ouvrir le mail que nous venons de vous envoyer, et de cliquer sur le lien pour redéfinir votre mot de passe.",
       "homeLink": "Retour à la page d'accueil"
     },
@@ -276,7 +289,7 @@
     "aboutUsers": {
       "title": "Administration des utilisateurs⋅rices",
       "manual": {
-        "intro": "À partir de cette page, il est possible de :",
+        "intro": "À partir de cette page, il est possible de :",
         "create": "Créer un⋅e utilisateur⋅rice en cliquant sur le bouton.",
         "search": "Trouver un⋅e utilisateur⋅rice existant à partir de la barre de recherche et des filtres.",
         "displayAndEdit": "Afficher et modifier les informations liées à un⋅e utilisateur⋅rice en cliquant sur leur nom."
@@ -309,12 +322,12 @@
       "admin": "@:commons.userProfile.admin",
       "creator": "@:commons.userProfile.creator",
       "member": "@:commons.userProfile.member",
-      "isVerified": "Inscription complète ?",
-      "isBlocked": "Personne bloquée ?",
+      "isVerified": "Inscription complète ?",
+      "isBlocked": "Personne bloquée ?",
       "confirmation": "Confirmation",
-      "messageResendVerifySignup": "Êtes-vous sûr de vouloir renvoyer un e-mail pour l'inscription de cette personne : {username}?",
-      "messageBlockingUser": "Êtes-vous sûr de vouloir bloquer le compte de cette personne : {username}?",
-      "messageUnblockingUser": "Êtes-vous sûr de vouloir débloquer le compte de cette personne : {username}?",
+      "messageResendVerifySignup": "Êtes-vous sûr de vouloir renvoyer un e-mail pour l'inscription de cette personne : {username}?",
+      "messageBlockingUser": "Êtes-vous sûr de vouloir bloquer le compte de cette personne : {username}?",
+      "messageUnblockingUser": "Êtes-vous sûr de vouloir débloquer le compte de cette personne : {username}?",
       "groups": "Groupes",
       "groupsAvailable": "Groupes disponible",
       "groupsJoined": "Groupes de la personne",
@@ -345,7 +358,7 @@
     "aboutGroups": {
       "title": "@:pages.admin.groups",
       "manual": {
-        "intro": "À partir de cette page, il est possible de :",
+        "intro": "À partir de cette page, il est possible de :",
         "create": "Créer un groupe en cliquant sur le bouton.",
         "search": "Trouver un groupe existant à partir de la barre de recherche et des filtres.",
         "displayAndEdit": "Afficher et modifier les informations liées à un group en cliquant sur leur nom."
@@ -393,7 +406,14 @@
     },
     "datasource": {
       "title": "@:pages.workspace.datasource",
-      "addDatasource": "Ajouter une source de données"
+      "subtitle": "Tables",
+      "schema": "Schéma",
+      "settings": "Paramètres",
+      "addDatasource": "Ajouter une source de données",
+      "addTable": "Ajouter une table"
+    },
+    "settingsWorkspace": {
+      "title": "@:pages.workspace.settings"
     },
     "aboutDatasource": {
       "title": "@:pages.workspace.datasource",
@@ -404,7 +424,7 @@
       "title": "Créer une source de données",
       "submit": "Créer",
       "name": "Nom",
-      "explainsSlugUse": "Cette source de données sera sauvegardée sous le nom de :",
+      "explainsSlugUse": "Cette source de données sera sauvegardée sous le nom de :",
       "documentation": "Notes",
       "client": "Client",
       "pg": "@:commons.clientDatasource.pg",
@@ -429,8 +449,47 @@
       "connection": "Connexion",
       "noDatasource": "Impossible d'accéder à la source de données."
     },
-    "settings": {
-      "title": "@:pages.workspace.settings"
+    "schemaDatasource": {
+      "title": "Schéma de la source de données",
+      "subTitle": "Modifier : {tableName}",
+      "documentation": "Notes",
+      "createField": "Créer une nouvelle colonne",
+      "formTable": {
+        "name": "Nom",
+        "documentation": "Notes"
+      },
+      "formField": {
+        "name": "Nom",
+        "documentation": "Notes",
+        "type": "Type",
+        "slug": "Slug",
+        "createdAt": "Créé le",
+        "updatedAt": "Modifié le",
+        "position": "Position",
+        "unique": "Unique",
+        "default": "Valeur par défaut",
+        "nullable": "Est-ce que le champ peut être vide ?",
+        "maxlength": "Taille maximum de la valeur"
+      },
+      "explainSchema": "Clique sur une table dans le schéma pour afficher ou modifier des données.",
+      "table": "Table",
+      "fields": "Colonnes",
+      "properties": "Propriétés",
+      "addField": "Ajouter une colonne",
+      "noDatasource": "Impossible d'accéder à la source de données.",
+      "noTables": "Cette source de données ne contient actuellement aucune table. Pour visualiser le schéma, vous devez créer au moins une table.",
+      "submit": "Enregistrer"
+    },
+    "createTable": {
+      "title": "Creér une table",
+      "submit": "Enregistrer",
+      "name": "Nom",
+      "explainsSlugUse": "Cette table sera sauvegardée sous le nom de :",
+      "documentation": "Notes",
+      "table": "Table",
+      "fields": "Colonnes",
+      "properties": "Propriétés",
+      "noDatasource": "Impossible d'accéder à la source de données."
     }
   },
   "success": {
@@ -499,15 +558,15 @@
       "Décembre"
     ],
     "monthNamesShort": [
-      "Jan",
-      "Fév",
-      "Mar",
-      "Avr",
+      "Janv",
+      "Févr",
+      "Mars",
+      "Avril",
       "Mai",
-      "Jun",
-      "Jul",
-      "Aoû",
-      "Sep",
+      "Juin",
+      "Juil",
+      "Août",
+      "Sept",
       "Oct",
       "Nov",
       "Déc"
@@ -586,7 +645,7 @@
       "isFalseOrOtherTrue": "Le champ '{field}' ne peut être coché que si le champ '{target}' l'est également.",
       "minDate": "La date du champ '{field}' doit être après {fromDate}.",
       "dateValid": "La date du champ '{field}' ne correspond pas au format attendu.",
-      "reference": "La valeur du champ '{field}' est invalide : veuillez sélectionnez une valeur dans la liste."
+      "reference": "La valeur du champ '{field}' est invalide : veuillez sélectionnez une valeur dans la liste."
     }
   },
   "commons": {
@@ -602,6 +661,136 @@
     "clientDatasource": {
       "pg": "PostgreSQL",
       "sqlite3": "SQLite3"
+    },
+    "fieldType": {
+      "id_number": {
+        "name": "Id avec un nonbre",
+        "description": "Numéro de référence de ce champ (clé primaire)"
+      },
+      "id_uuid": {
+        "name": "Id avec UUID",
+        "description": "UUID de référence de ce champ (clé primaire)"
+      },
+      "boolean": {
+        "name": "Booléen",
+        "description": "Champ de case à cocher pour les valeurs vrai/faux"
+      },
+      "number": {
+        "name": "Entier",
+        "description": "Valeurs numériques entières"
+      },
+      "float": {
+        "name": "Flottant",
+        "description": "Valeurs numériques flottantes"
+      },
+      "string": {
+        "name": "Texte sur une ligne",
+        "description": "Pour un texte court"
+      },
+      "text": {
+        "name": "Texte long",
+        "description": "Pour les textes comportant plusieurs phrases ou paragraphes"
+      },
+      "date": {
+        "name": "Date",
+        "description": "Afficher un calendrier pour sélectionner ou mettre à jour une date spécifique"
+      },
+      "datetime": {
+        "name": "Date et heure",
+        "description": "Afficher un calendrier pour sélectionner ou mettre à jour une date et une heure spécifique"
+      },
+      "uuid": {
+        "name": "UUID",
+        "description": "Identifiant unique respectant le standard UUID"
+      },
+      "user": {
+        "name": "Utilisateur⋅rice",
+        "description": "Pour sélectionner un⋅e utilisateur⋅rice dans une liste prédéterminée"
+      },
+      "group": {
+        "name": "Groupe",
+        "description": "Pour sélectionner un groupe dans une liste prédéterminée"
+      },
+      "multi_user": {
+        "name": "Multi utilisateur⋅rice",
+        "description": "Pour sélectionner un⋅e ou des utilisateurs⋅rices dans une liste prédéterminée"
+      },
+      "multi_group": {
+        "name": "Multi groupe",
+        "description": "Pour sélectionner un ou des groupes dans une liste prédéterminée"
+      },
+      "relation": {
+        "name": "Lien avec une autre table",
+        "description": "Pour créer un lien entre deux tables en reliant deux champs spécifiques"
+      },
+      "lookup": {
+        "name": "Lookup",
+        "description": "Pour faire référence à un autre champ d'une table de relation"
+      },
+      "virtual_lookup": {
+        "name": "Virtual lookup",
+        "description": "Renvoie à un autre champ d'une table de relation, ne duplique pas les données."
+      },
+      "rollup": {
+        "name": "Rollup",
+        "description": "Pour agréger certains champs d'une table de relation"
+      },
+      "single_select": {
+        "name": "Sélection unique",
+        "description": "Pour sélectionner une valeur dans une liste prédéterminée"
+      },
+      "multi_select": {
+        "name": "Sélection multiple",
+        "description": "Pour sélectionner une ou plusieurs valeurs dans une liste prédéterminée"
+      },
+      "formula": {
+        "name": "Formule",
+        "description": "Pour calculer une valeur à l'aide de fonctions définies"
+      },
+      "json": {
+        "name": "JSON",
+        "description": "Format de données JSON"
+      },
+      "network": {
+        "name": "Réseau",
+        "description": "Adresse IP"
+      },
+      "media": {
+        "name": "Média",
+        "description": "Pour stocker un média (image, fichier, vidéo…)"
+      },
+      "url": {
+        "name": "URL",
+        "description": "Pour stocker une URL (commence par https://…)"
+      },
+      "geometry": {
+        "name": "Géométrie sans aucun contrôle",
+        "description": "Pour stocker une géométrie WKT sans contrôle de sa forme"
+      },
+      "geometry_point": {
+        "name": "Géometrie de type point",
+        "description": "Correspond à un WKT de géométrie de type point"
+      },
+      "geometry_polygon": {
+        "name": "Géometrie de type polygone",
+        "description": "Correspond à un WKT de géométrie de type polygone"
+      },
+      "geometry_linestring": {
+        "name": "Géometrie de type ligne",
+        "description": "Correspond à un WKT de géométrie de type ligne"
+      },
+      "geometry_multipoint": {
+        "name": "Géometrie de type multi-point",
+        "description": "Correspond à un WKT de géométrie de type multi-point"
+      },
+      "geometry_multipolygon": {
+        "name": "Géometrie de type multi-polygone",
+        "description": "Correspond à un WKT de géométrie de type multi-polygone"
+      },
+      "geometry_multilinestring": {
+        "name": "Géometrie de type multi-ligne",
+        "description": "Correspond à un WKT de géométrie de type multi-ligne"
+      }
     }
   }
 }

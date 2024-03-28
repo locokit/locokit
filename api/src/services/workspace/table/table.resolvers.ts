@@ -14,15 +14,16 @@ export const tableDataResolver = resolve<TableDataInternal, HookContext>({
     return toSnakeCase(data.name)
   },
   /**
-   * Set the workspace id,
-   * if call is from /workspace/:slug/table,
-   * search the matching workspace.
+   * Set the datasource id,
+   * if call is from /workspace/:slug/datasource/:slug/table,
+   * search the matching datasource.
    *
-   * Check also if the user is authorized to access this workspace
+   * Check also if the user is authorized to access this workspace (acl)
    */
   async datasourceId(value, _data, context) {
     if (value) return value
     return context.$locokit?.currentDatasource?.id
+    // Todo WIP ACL
   },
 })
 
@@ -34,15 +35,16 @@ export const tableResultResolver = resolve<TableResult, HookContext>({})
 // Resolver for query properties
 export const tableQueryResolver = resolve<TableQuery, HookContext>({
   /**
-   * Set the workspace id,
-   * if call is from /workspace/:slug/table,
-   * search the matching workspace.
+   * Set the datasource id,
+   * if call is from /workspace/:slug/datasource/:slug/table,
+   * search the matching datasource.
    *
    * Check also if the user is authorized to access this workspace
    */
   async datasourceId(value, _data, context) {
     if (value) return value
     return context.$locokit?.currentDatasource?.id
+    // Todo WIP ACL
   },
 })
 

@@ -71,7 +71,9 @@ const defaultOptions: ModuleOptions = {
 }
 
 export type NuxtLocokit = Nuxt & {
-  options: NuxtOptions & { locokit: ModuleOptions }
+  options: NuxtOptions & {
+    locokit: ModuleOptions
+  }
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -139,12 +141,12 @@ export default defineNuxtModule<ModuleOptions>({
     })
     await installModule('@pinia/nuxt')
 
-    addPlugin(resolve('./runtime/plugins/middlewares'))
-    addPlugin(resolve('./runtime/plugins/primevue'))
-    addPlugin(resolve('./runtime/plugins/i18n'))
-    addPlugin(resolve('./runtime/plugins/vee-validate'))
-    addPlugin(resolve('./runtime/plugins/directive'))
-    addPlugin(resolve('./runtime/plugins/error'))
+    addPlugin(resolve('./runtime/plugins/1_error'))
+    addPlugin(resolve('./runtime/plugins/2_directive'))
+    addPlugin(resolve('./runtime/plugins/3_i18n'))
+    addPlugin(resolve('./runtime/plugins/4_primevue'))
+    addPlugin(resolve('./runtime/plugins/5_vee-validate'))
+    addPlugin(resolve('./runtime/plugins/6_middlewares'))
 
     // await addComponentsDir({
     //   path: resolve(componentsDir),
@@ -246,6 +248,36 @@ export default defineNuxtModule<ModuleOptions>({
                   './runtime/pages/workspace/datasource/SchemaDatasource/SchemaDatasource.vue',
                 ),
               },
+              {
+                name: ROUTES_NAMES.WORKSPACE.DATASOURCE.TABLE.RECORD,
+                path: ROUTES_PATH.WORKSPACE.DATASOURCE.TABLE.RECORD,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  './runtime/pages/workspace/datasource/RecordTable/RecordTable.vue',
+                ),
+              },
+              {
+                name: ROUTES_NAMES.WORKSPACE.DATASOURCE.TABLE.CREATE,
+                path: ROUTES_PATH.WORKSPACE.DATASOURCE.TABLE.CREATE,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  './runtime/pages/workspace/datasource/CreateTable/CreateTable.vue',
+                ),
+              },
+              {
+                name: ROUTES_NAMES.WORKSPACE.DATASOURCE.TABLE.UPDATE,
+                path: ROUTES_PATH.WORKSPACE.DATASOURCE.TABLE.UPDATE,
+                meta: {
+                  protected: true,
+                },
+                file: resolve(
+                  './runtime/pages/workspace/datasource/UpdateTable/UpdateTable.vue',
+                ),
+              },
             ],
           },
           {
@@ -255,7 +287,7 @@ export default defineNuxtModule<ModuleOptions>({
               protected: true,
             },
             file: resolve(
-              './runtime/pages/workspace/SettingsPage/SettingsPage.vue',
+              './runtime/pages/workspace/SettingsWorkspace/SettingsWorkspace.vue',
             ),
           },
         ],

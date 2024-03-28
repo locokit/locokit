@@ -10,6 +10,22 @@
         >
           <slot name="header-items" />
           <NuxtLink
+            v-if="user.profile === USER_PROFILE.ADMIN"
+            class="nav-link self-center"
+            tabindex="-1"
+            :to="{ name: ROUTES_NAMES.ADMIN.HOME }"
+          >
+            <button
+              type="button"
+              class="items-center justify-center rounded bg-transparent p-2 text-lck hover:bg-primary hover:text-gray-100 focus:border focus:border-primary hidden md:ml-auto md:inline-flex"
+            >
+              <i class="bi bi-gear-fill mr-1" />
+              <span>
+                {{ $t('layouts.withAsideNav.admin') }}
+              </span>
+            </button>
+          </NuxtLink>
+          <NuxtLink
             class="nav-link self-center p-2"
             tabindex="-1"
             :to="{ name: ROUTES_NAMES.PROFILE.HOME }"
@@ -19,7 +35,9 @@
               class="items-center justify-center rounded bg-transparent p-2 text-lck hover:bg-primary hover:text-gray-100 focus:border-1 focus:border-primary hidden md:ml-auto md:inline-flex"
             >
               <i class="bi bi-person-circle mr-1" />
-              <span> {{ $t('layouts.withAsideNav.profile') }}</span>
+              <span>
+                {{ $t('layouts.withAsideNav.profile') }}
+              </span>
             </button>
           </NuxtLink>
           <button
@@ -28,7 +46,9 @@
             @click="logout"
           >
             <i class="bi bi-door-open-fill mr-1" />
-            <span> {{ $t('layouts.withHeader.logout') }}</span>
+            <span>
+              {{ $t('layouts.withHeader.logout') }}
+            </span>
           </button>
         </div>
       </div>
@@ -56,12 +76,16 @@
 </template>
 
 <script setup lang="ts">
+import { USER_PROFILE } from '@locokit/definitions'
+import { storeToRefs } from 'pinia'
 import { useStoreAuth } from '../stores/auth'
 import { ROUTES_NAMES } from '../locokit-paths'
 import { useRouter } from '#imports'
 
 const router = useRouter()
 const authStore = useStoreAuth()
+
+const { user } = storeToRefs(authStore)
 
 const logout = async () => {
   await authStore.logout()

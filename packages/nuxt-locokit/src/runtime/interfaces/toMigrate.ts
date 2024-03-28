@@ -20,6 +20,7 @@ export interface LabelValueType {
   value: string
 }
 
+// Double with design-system (filter)
 export type inputPatternType =
   | boolean
   | number
@@ -28,39 +29,22 @@ export type inputPatternType =
   | Date
   | null
 
-export type LckTableViewFilterPattern =
-  | boolean
-  | number
-  | string
-  | Array<string | number>
-
-export interface LckTableViewFilterValue {
-  action: string
-  column: string
-  dbAction: string
-  pattern: LckTableViewFilterPattern
-}
-
-export interface LckTableViewFilter {
-  operator: string
-  values: LckTableViewFilterValue[]
-}
-
+// Double with design-system (filter)
 export interface FilterAction {
   label: string
-  value: string
+  featherKey: string
   predefinedPattern?: string | number | boolean | string[]
   patternPrefix?: string
   patternSuffix?: string
 }
 
+// Double with design-system (filter)
 export interface Filter {
   operator: string
   column: null | {
     name: string
     field: string
-    original_type_id: number
-    column_type_id: number
+    type: string
   }
   action: FilterAction | null
   motif: inputPatternType
@@ -135,12 +119,12 @@ export interface Group {
   users?: User[] | null
 }
 
-export interface ApiPolicy extends Pagination<Policy> {}
+export type ApiPolicy = Pagination<Policy>
 
-export interface ApiWorkspace extends Pagination<Workspace> {}
+export type ApiWorkspace = Pagination<Workspace>
 
-export interface ApiUserGroup extends Pagination<UserGroup> {}
+export type ApiUserGroup = Pagination<UserGroup>
 
-export interface ApiGroup extends Pagination<Group> {}
+export type ApiGroup = Pagination<Group>
 
-export interface ApiUser extends Pagination<User> {}
+export type ApiUser = Pagination<User>

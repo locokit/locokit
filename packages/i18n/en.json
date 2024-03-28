@@ -143,6 +143,19 @@
           "containsLoggedInUser": "contains the logged-in user"
         }
       }
+    },
+    "createField": {
+      "title": "Create field",
+      "submit": "Submit",
+      "resetAndCancel": "Reset/Cancel",
+      "name": "Name",
+      "explainsSlugUse": "This field will be saved as:",
+      "type": "Type",
+      "documentation": "Notes",
+      "unique": "Value must be unique?",
+      "default": "Default value",
+      "nullable": "Field is required?",
+      "noTable": "Unable to retrieve the table."
     }
   },
   "layouts": {
@@ -393,7 +406,14 @@
     },
     "datasource": {
       "title": "@:pages.workspace.datasource",
-      "addDatasource": "Add datasource"
+      "subtitle": "Tables",
+      "schema": "Schema",
+      "settings": "Settings",
+      "addDatasource": "Add datasource",
+      "addTable": "Add table"
+    },
+    "settingsWorkspace": {
+      "title": "@:pages.workspace.settings"
     },
     "aboutDatasource": {
       "title": "@:pages.workspace.datasource",
@@ -429,8 +449,47 @@
       "connection": "Connection",
       "noDatasource": "Unable to access datasource."
     },
-    "settings": {
-      "title": "@:pages.workspace.settings"
+    "schemaDatasource": {
+      "title": "Datasource schema",
+      "subTitle": "Update: {tableName}",
+      "documentation": "Notes",
+      "createField": "Create new field",
+      "formTable": {
+        "name": "Name",
+        "documentation": "Notes"
+      },
+      "formField": {
+        "name": "Name",
+        "documentation": "Notes",
+        "type": "Type",
+        "slug": "Slug",
+        "createdAt": "Created at",
+        "updatedAt": "Updated at",
+        "position": "Position",
+        "unique": "Unique",
+        "default": "Default value",
+        "nullable": "Empty value accepted",
+        "maxlength": "Maximum length"
+      },
+      "explainSchema": "Click on a table in the schema to interact with it.",
+      "table": "Table",
+      "fields": "Fields",
+      "properties": "Properties",
+      "addField": "Add field",
+      "noDatasource": "Unable to access datasource.",
+      "noTables": "This datasource does not currently contain any tables. To view the schema, you need to create at least one table.",
+      "submit": "Submit"
+    },
+    "createTable": {
+      "title": "Create table",
+      "submit": "Submit",
+      "name": "Name",
+      "explainsSlugUse": "This datasource will be saved as:",
+      "documentation": "Notes",
+      "table": "Table",
+      "fields": "Fields",
+      "properties": "Properties",
+      "noDatasource": "Unable to access datasource."
     }
   },
   "success": {
@@ -602,6 +661,136 @@
     "clientDatasource": {
       "pg": "PostgreSQL",
       "sqlite3": "SQLite3"
+    },
+    "fieldType": {
+      "id_number": {
+        "name": "Id with number",
+        "description": "Number of reference of this field (Primary key)"
+      },
+      "id_uuid": {
+        "name": "Id with UUID",
+        "description": "UUID of reference of this field (Primary key)"
+      },
+      "boolean": {
+        "name": "Boolean",
+        "description": "Checkbox field useful for true/false values"
+      },
+      "number": {
+        "name": "Integer",
+        "description": "Designed to hold integer numerical values"
+      },
+      "float": {
+        "name": "Float",
+        "description": "Designed to hold float numerical values"
+      },
+      "string": {
+        "name": "Single line text",
+        "description": "For short text purpose"
+      },
+      "text": {
+        "name": "Long text",
+        "description": "For text with several sentences or paragraph"
+      },
+      "date": {
+        "name": "Date",
+        "description": "Display a calendar to select or update a specific date"
+      },
+      "datetime": {
+        "name": "Date and time",
+        "description": "Display a calendar to select or update a specific date and time"
+      },
+      "uuid": {
+        "name": "UUID",
+        "description": "Unique identifier respecting standard"
+      },
+      "user": {
+        "name": "User",
+        "description": "To select user from a predetermined list"
+      },
+      "group": {
+        "name": "Group",
+        "description": "To select group from a predetermined list"
+      },
+      "multi_user": {
+        "name": "Multi-user",
+        "description": "To select one or several users from a predetermined list"
+      },
+      "multi_group": {
+        "name": "Multi group",
+        "description": "To select one or several groups from a predetermined list"
+      },
+      "relation": {
+        "name": "Link to another table",
+        "description": "To create a link between two tables by connecting two specific fields"
+      },
+      "lookup": {
+        "name": "Lookup",
+        "description": "To refers to another field on a relation table"
+      },
+      "virtual_lookup": {
+        "name": "Virtual lookup",
+        "description": "To refers to another field on a relation table, does not duplicate the data"
+      },
+      "rollup": {
+        "name": "Rollup",
+        "description": "To aggregate some fields on a relation table"
+      },
+      "single_select": {
+        "name": "Single select",
+        "description": "To select an value from a predetermined list"
+      },
+      "multi_select": {
+        "name": "Multi-select",
+        "description": "To select one or several values from a predetermined list"
+      },
+      "formula": {
+        "name": "Formula",
+        "description": "To compute a value with some functions"
+      },
+      "json": {
+        "name": "JSON",
+        "description": "Data format (dev purpose)"
+      },
+      "network": {
+        "name": "Network",
+        "description": "IP address"
+      },
+      "media": {
+        "name": "Media",
+        "description": "To store a media"
+      },
+      "url": {
+        "name": "URL",
+        "description": "To match an URL (begin by https://…)"
+      },
+      "geometry": {
+        "name": "Geometry without control",
+        "description": "To store WKT geometry without control on its shape"
+      },
+      "geometry_point": {
+        "name": "Point geometry",
+        "description": "To match a WKT point geometry"
+      },
+      "geometry_polygon": {
+        "name": "Polygon geometry",
+        "description": "To match a WKT polygon geometry"
+      },
+      "geometry_linestring": {
+        "name": "Linestring geometry",
+        "description": "To match a WKT linestring geometry"
+      },
+      "geometry_multipoint": {
+        "name": "Multi-point geometry",
+        "description": "To match a WKT multi-point geometry"
+      },
+      "geometry_multipolygon": {
+        "name": "Multi-polygon geometry",
+        "description": "To match a WKT multi-polygon geometry"
+      },
+      "geometry_multilinestring": {
+        "name": "Multi-linestring geometry",
+        "description": "To match a WKT multi-linestring geometry"
+      }
     }
   }
 }

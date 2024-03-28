@@ -81,3 +81,21 @@ export async function patchDatasource(
     .service(`/workspace/${workspaceSlug}/datasource`)
     .patch(id, data)
 }
+
+export async function getSchemaDatasource(
+  workspaceSlug: string,
+  datasourceSlug: string,
+) {
+  return await sdkClient
+    // .service(`/workspace/workspaceSlug/datasource/datasourceSlug`)
+    .service(`/workspace/${workspaceSlug}/datasource/${datasourceSlug}/mermaid`)
+    .find(
+      {},
+      {
+        headers: {
+          'Content-Type': 'text/plain, */*',
+          Accept: 'text/plain, */*',
+        },
+      },
+    )
+}
