@@ -139,9 +139,6 @@
 </template>
 
 <script setup lang="ts">
-import PrimeButton from 'primevue/button'
-import PrimeAccordion from 'primevue/accordion'
-import PrimeAccordionTab from 'primevue/accordiontab'
 import { IdentityCard } from '@locokit/designsystem'
 import { ROUTES_NAMES } from '../../../locokit-paths'
 import { findDatasources } from '../../../services/datasource'

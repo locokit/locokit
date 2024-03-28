@@ -72,9 +72,10 @@ import FormGeneric from '../../FormGeneric/FormGeneric.vue'
 import { Field } from 'vee-validate'
 import { reactive } from 'vue'
 
-const emit = defineEmits<{
-  (e: 'submit', form: { email: string; username: string }): void
-}>()
+const emit =
+  defineEmits<
+    (e: 'submit', form: { email: string; username: string }) => void
+  >()
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(

@@ -1,4 +1,6 @@
-import { createSwaggerServiceOptions } from 'feathers-swagger'
+import pkg from 'feathers-swagger'
+
+const { createSwaggerServiceOptions } = pkg
 import type { Application } from '@/declarations'
 import { ObjectionAdapterOptions } from '@/feathers-objection'
 

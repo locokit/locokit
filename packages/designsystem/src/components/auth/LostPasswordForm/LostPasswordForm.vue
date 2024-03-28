@@ -60,9 +60,7 @@ import MessageForUser from '../../MessageForUser/MessageForUser.vue'
 import { ref } from 'vue'
 import { Field, Form } from 'vee-validate'
 
-const emit = defineEmits<{
-  (e: 'submit', email: string): void
-}>()
+const emit = defineEmits<(e: 'submit', email: string) => void>()
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(

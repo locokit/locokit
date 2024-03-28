@@ -1,6 +1,8 @@
 import { SERVICES } from '@locokit/definitions'
 import type { Application } from '@/declarations'
-import { createSwaggerServiceOptions } from 'feathers-swagger'
+import pkg from 'feathers-swagger'
+
+const { createSwaggerServiceOptions } = pkg
 
 import { Table } from './table.class'
 import { coreTableQuerySchema, coreTableSchema } from './table.schema'

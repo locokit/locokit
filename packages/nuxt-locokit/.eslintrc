@@ -1,9 +1,8 @@
 {
   "extends": [
-    "@nuxtjs/eslint-config-typescript",
+    "@nuxt/eslint-config",
     "plugin:nuxt/recommended",
     "plugin:vue/vue3-recommended",
-    "@vue/typescript/recommended",
     "prettier"
   ],
   "parserOptions": {

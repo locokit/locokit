@@ -11,17 +11,16 @@
 </template>
 
 <script setup lang="ts">
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import SingleTag from '../SingleTag/SingleTag.vue'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
   defineProps<{
-    options: {
+    options: Array<{
       label: string
       color: string
       backgroundColor: string
       position?: number
-    }[]
+    }>
   }>(),
   {
     options: () => [],

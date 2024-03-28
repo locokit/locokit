@@ -62,10 +62,9 @@ export function setup(i18n) {
         context.field,
       )
       // console.log(field)
-      return i18n.global.t(
-        `validations.messages.${context.rule?.name as string}`,
-        { field },
-      ) as string
+      return i18n.global.t(`validations.messages.${context.rule?.name!}`, {
+        field,
+      }) as string
     },
   })
 }

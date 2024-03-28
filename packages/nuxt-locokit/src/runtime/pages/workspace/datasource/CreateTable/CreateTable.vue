@@ -72,10 +72,8 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
-import PrimeInputText from 'primevue/inputtext'
 import { Field } from 'vee-validate'
 import { FormGeneric, MessageForUser } from '@locokit/designsystem'
-import PrimeTextarea from 'primevue/textarea'
 import { sdkClient } from '../../../../services/api'
 import { findDatasources } from '../../../../services/datasource'
 import { createSlug } from '../../../../helpers/transformText'

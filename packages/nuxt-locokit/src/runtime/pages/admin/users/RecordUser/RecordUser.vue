@@ -321,11 +321,6 @@
 </template>
 
 <script setup lang="ts">
-import PrimeButton from 'primevue/button'
-import PrimeCheckbox from 'primevue/checkbox'
-import PrimeInputText from 'primevue/inputtext'
-import PrimeDropdown from 'primevue/dropdown'
-import PrimeConfirmDialog from 'primevue/confirmdialog'
 import {
   FormGeneric,
   MessageForUser,

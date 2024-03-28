@@ -82,9 +82,8 @@ import { ref } from 'vue'
 import { logEvent } from 'histoire/client'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const emit = defineEmits<{
-  (e: 'submit', name: string, pseudo: string | null): void
-}>()
+const emit =
+  defineEmits<(e: 'submit', name: string, pseudo: string | null) => void>()
 
 const name = ref()
 const pseudo = ref()

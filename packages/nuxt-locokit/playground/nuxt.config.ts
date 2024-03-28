@@ -30,14 +30,15 @@ export default defineNuxtConfig({
         },
       },
     ],
-    '@nuxt/devtools',
   ],
   sourcemap: true,
   devtools: {
     enabled: true,
-
     timeline: {
       enabled: true,
     },
+  },
+  experimental: {
+    scanPageMeta: true, // cf https://github.com/nuxt/nuxt/pull/25515
   },
 })

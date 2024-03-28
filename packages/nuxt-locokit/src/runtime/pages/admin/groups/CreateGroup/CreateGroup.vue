@@ -132,9 +132,6 @@
 </template>
 
 <script setup lang="ts">
-import PrimeInputText from 'primevue/inputtext'
-import PrimeTextarea from 'primevue/textarea'
-import PrimeAutoComplete from 'primevue/autocomplete'
 import { FormGeneric } from '@locokit/designsystem'
 import { Field } from 'vee-validate'
 import { ref } from 'vue'

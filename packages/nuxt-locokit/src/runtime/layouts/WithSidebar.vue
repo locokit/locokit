@@ -46,7 +46,6 @@
 </template>
 
 <script setup lang="ts">
-import PrimeButton from 'primevue/button'
 import { ref, watch } from '#imports'
 
 const emit = defineEmits(['update:openPanel'])

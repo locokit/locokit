@@ -257,9 +257,6 @@
 </template>
 
 <script setup lang="ts">
-import PrimeInputText from 'primevue/inputtext'
-import PrimeTextarea from 'primevue/textarea'
-import PrimeAutoComplete from 'primevue/autocomplete'
 import {
   FormGeneric,
   IdentityCard,
