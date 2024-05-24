@@ -1,3 +1,6 @@
+import dotenv from 'dotenv-flow'
+dotenv.config()
+
 import { defineConfig, loadEnv } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { resolve } from 'node:path'
