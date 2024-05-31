@@ -2,7 +2,7 @@
   <div>
     <Form
       v-slot="{ meta: { valid, touched }, submitCount }"
-      class="text-left p-fluid"
+      class="text-left"
       @submit="onSubmit"
     >
       <Field
@@ -52,9 +52,7 @@
           class="w-full"
           :invalid="!!errorMessage"
           required
-          :toggle-mask="true"
-          hide-icon="bi bi-eye-slash-fill"
-          show-icon="bi bi-eye-fill"
+          toggle-mask
           :feedback="false"
           spellcheck="false"
           autocorrect="off"

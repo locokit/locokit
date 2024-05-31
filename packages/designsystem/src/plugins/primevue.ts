@@ -1,5 +1,4 @@
 import { type App } from 'vue'
-
 import Aura from '@/presets/aura'
 
 import ConfirmationService from 'primevue/confirmationservice'

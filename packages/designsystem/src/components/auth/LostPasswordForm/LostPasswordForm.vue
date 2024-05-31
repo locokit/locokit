@@ -1,7 +1,7 @@
 <template>
   <Form
     v-slot="{ meta: { valid, touched } }"
-    class="text-left p-fluid"
+    class="text-left"
     @submit="onSubmit"
   >
     <Field
@@ -18,6 +18,7 @@
       <PrimeInputText
         id="email"
         v-bind="field"
+        class="w-full"
         :class="{ 'p-invalid': errorMessage }"
         type="text"
         required

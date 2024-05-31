@@ -13,7 +13,8 @@
     "dev": "histoire dev",
     "story:build": "histoire build",
     "story:preview": "histoire preview",
-    "build": "rm -rf dist && vite build"
+    "build": "rm -rf dist && vite build",
+    "build-watch": "vite build --watch"
   },
   "dependencies": {
     "@locokit/i18n": "workspace:*",
@@ -21,31 +22,27 @@
     "@vee-validate/rules": "^4.12.7",
     "bootstrap-icons": "^1.11.3",
     "date-fns": "^2.30.0",
-    "primevue": "^3.42.0",
-    "tailwindcss": "^3.3.5",
-    "vee-validate": "^4.12.1",
-    "vue": "^3.3.9"
+    "primevue": "^4.0.0-beta.3",
+    "tailwindcss": "^3.4.3",
+    "vee-validate": "^4.12.7",
+    "vue": "^3.4.21",
+    "vue-i18n": "^9.13.1"
   },
   "devDependencies": {
-    "@histoire/plugin-screenshot": "^0.17.8",
     "@histoire/plugin-vue": "^0.17.9",
     "@rushstack/eslint-patch": "^1.3.0",
     "@typescript-eslint/parser": "^6.18.1",
-    "@vitejs/plugin-vue": "^5.0.2",
+    "@vitejs/plugin-vue": "^5.0.4",
     "@vue/eslint-config-typescript": "^12.0.0",
     "autoprefixer": "^10.4.14",
     "capture-website": "^4.1.0",
     "eslint": "^8.56.0",
     "eslint-plugin-prettier": "^5.1.2",
     "eslint-plugin-vue": "^9.19.2",
-    "histoire": "^0.17.9",
+    "histoire": "^0.17.17",
     "postcss": "^8.4.23",
     "prettier": "^3.1.1",
+    "vite": "^5.2.8",
     "vite-plugin-dts": "^3.3.1"
-  },
-  "overrides": {
-    "@histoire/plugin-screenshot": {
-      "capture-website": "^4.1.0"
-    }
   }
 }

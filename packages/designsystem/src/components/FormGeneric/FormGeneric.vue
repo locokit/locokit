@@ -2,7 +2,6 @@
   <Form
     v-slot="{ meta: { valid, touched }, submitCount }"
     ref="refForm"
-    class="p-fluid"
     @submit="onSubmit"
   >
     <slot />

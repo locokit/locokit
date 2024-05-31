@@ -2,7 +2,8 @@
 
 ![LocoKit logo](docs/public/logo.png)
 
-LocoKit is an LCAP: a Low-Code Application Platform. Its aim is to facilitate the management of your data and the collaboration between your users.
+LocoKit is an LCAP: a Low-Code Application Platform.
+Its aim is to facilitate the management of your data and the collaboration between your users.
 
 It's an AirTable alternative, full open source,
 helping you

@@ -1,7 +1,7 @@
 <template>
   <Form
     v-slot="{ meta: { valid, touched } }"
-    class="text-left p-fluid"
+    class="text-left"
     @submit="onSubmit"
   >
     <Field
@@ -20,9 +20,7 @@
         :class="{ 'p-invalid': errorMessage }"
         v-bind="field"
         :feedback="true"
-        :toggle-mask="true"
-        hide-icon="bi bi-eye-slash-fill"
-        show-icon="bi bi-eye-fill"
+        toggle-mask
         :medium-regex="`${regexPasswordRules}(?=.{8,})`"
         :strong-regex="`${regexPasswordRules}(?=.{12,})`"
         :weak-label="$t('components.passwordForm.passwordStrength.weak')"
@@ -65,9 +63,7 @@
         :class="{ 'p-invalid': errorMessage }"
         v-bind="field"
         :feedback="false"
-        :toggle-mask="true"
-        hide-icon="bi bi-eye-slash-fill"
-        show-icon="bi bi-eye-fill"
+        toggle-mask
         required
         spellcheck="false"
         autocorrect="off"
