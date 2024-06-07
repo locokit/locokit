@@ -1,0 +1,75 @@
+/**
+ * This file specify all CSS vars used by LocoKit
+ *
+ * If you want to overwrite these settings,
+ * please load a similar file in your App
+ * and overwrite settings you want to.
+ */
+:root {
+  /* Spacings */
+  --spacing-xs: .25rem;
+  --spacing-sm: .5rem;
+  --spacing: .75rem;
+  --spacing-lg: 1rem;
+  --spacing-xl: 2rem;
+
+  /* Borders */
+  --border: 1px solid var(--border-color);
+  --border-color: #4E5154;;
+  --table-border-color: #e9ecef;
+  --border-radius: 4px;
+
+  /* Fonts */
+  --font-family: 'Raleway', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+
+  /* 12px */
+  --font-size-sm: 0.75rem;
+  /* 14px */
+  --font-size-md: 0.875rem;
+  /* 16px */
+  --font-size-lg: 1rem;
+  /* 20px */
+  --font-size-xl: 1.25rem;
+
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* Colors */
+  --color-white: #fff;
+  --color-grey-light: #f1f1f1;
+
+  /* Text Color */
+  --text-color: #2F3438;
+
+  --color-warning: #f7a603;
+  --color-warning-lighten: #f7f2e9;
+  --color-warning-light: #fcca6e;
+  --color-warning-dark: #a86500;
+
+  --color-error: #f44336;
+  --color-error-lighten: #f7e5e4;
+  --color-error-light: #f37971;
+  --color-error-dark: #94251d;
+
+  --color-success: #289228;
+  --color-success-lighten: #dcf3dc;
+  --color-success-light: #5abe58;
+  --color-success-dark: #1a6d1a;
+
+  --primary-color: #29264F;
+  --primary-color-lighten: #f0f0fa;
+  --primary-color-light: rgba(196, 176, 217, 0.34);
+  --primary-color-dark: #121031;
+
+  --secondary-color: #4b9c6d;
+  --secondary-color-lighten: #eaf7ef;
+  --secondary-color-light: #ccddd3;
+  --secondary-color-dark: #243029;
+
+  /* Background color (e.g. main content) */
+  --background-color: #fafafa;
+
+}
+

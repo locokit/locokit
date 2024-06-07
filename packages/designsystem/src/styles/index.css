@@ -1,5 +1,5 @@
-@import url('primevue/resources/primevue.css');
 @import url('bootstrap-icons/font/bootstrap-icons.css');
+@import url('./theme.css');
 
 @tailwind base;
 @tailwind components;

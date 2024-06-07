@@ -1,2 +1,1 @@
-# LocoKit Design system
-
+# LocoKit Design system - Components library
