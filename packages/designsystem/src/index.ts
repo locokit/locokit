@@ -1,3 +1,6 @@
+import { type App } from 'vue'
+import './styles/index.css'
+
 import SignInForm from './components/auth/SignInForm/SignInForm.vue'
 import LostPasswordForm from './components/auth/LostPasswordForm/LostPasswordForm.vue'
 import PasswordForm from './components/auth/PasswordForm/PasswordForm.vue'
@@ -17,6 +20,25 @@ import MessageForUser from './components/MessageForUser/MessageForUser.vue'
 import PickData from './components/PickData/PickData.vue'
 
 import { setup as setupVeeValidate } from './plugins/vee-validate'
+import { definePluginI18n, i18n } from './plugins/i18n'
+
+import Aura from '@/presets/aura'
+
+import ConfirmationService from 'primevue/confirmationservice'
+import ToastService from 'primevue/toastservice' // theme
+import PrimeVue from 'primevue/config'
+
+export function setupLckDesignSystem(app: App): void {
+  app.use(PrimeVue, {
+    ripple: true,
+    unstyled: true,
+    pt: Aura,
+  })
+  app.use(ToastService)
+  app.use(ConfirmationService)
+  definePluginI18n(app)
+  setupVeeValidate(i18n)
+}
 
 export {
   SignInForm,
