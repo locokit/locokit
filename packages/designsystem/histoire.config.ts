@@ -12,6 +12,10 @@ export default defineConfig({
         title: 'Components',
         include: (file) => file.path.includes('stories'),
       },
+      {
+        title: 'Layouts',
+        include: (file) => file.path.includes('layouts'),
+      },
     ],
   },
   plugins: [
