@@ -83,6 +83,7 @@
           icon="bi bi-save2"
           :is-submitting="loading"
           :submit-count="submitCount"
+          primary
         />
         <MessageForUser
           v-if="status === 'failed'"
@@ -120,14 +121,14 @@ const props = withDefaults(
   defineProps<{
     loading?: boolean
     displaySignUpLink?: boolean
-    response?: Error | null
+    error?: Error | null
     signupRoute?: string
     lostPasswordRoute?: string
   }>(),
   {
     loading: false,
     displaySignUpLink: false,
-    response: null,
+    error: null,
     signupRoute: '',
     lostPasswordRoute: '',
   },
@@ -139,9 +140,9 @@ const form = reactive({
 })
 
 const status = computed(() => {
-  if (props.response?.name) {
+  if (props.error?.name) {
     return 'failed'
-  } else if (props.response) {
+  } else if (props.error) {
     return 'success'
   }
   return null

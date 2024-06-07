@@ -1,8 +1,16 @@
 <template>
   <button
-    class="select-none m-0 rounded-[2rem] text-white border p-2 focus:outline-none focus:ring-2 focus:ring-inset inline-flex enabled:hover:text-white bg-secondary border-secondary focus:ring-secondary-dark enabled:hover:bg-secondary-dark enabled:hover:border-secondary-dark"
+    class="select-none m-0 rounded-[2rem] text-white border p-2 focus:outline-none focus:ring-2 focus:ring-inset inline-flex enabled:hover:text-white "
     :class="[
       { 'cursor-not-allowed opacity-70': isDisabled },
+      {
+        'bg-primary border-primary focus:ring-primary-dark enabled:hover:bg-primary-dark enabled:hover:border-primary-dark':
+          props.primary,
+      },
+      {
+        'bg-secondary border-secondary focus:ring-secondary-dark enabled:hover:bg-secondary-dark enabled:hover:border-secondary-dark':
+          props.secondary,
+      },
       fullWidthButton ? 'w-full' : 'w-fit',
       classButton,
     ]"
@@ -55,6 +63,8 @@ const props = withDefaults(
     fullWidthButton?: boolean
     submitCount?: number
     classButton?: string | null
+    primary?: boolean
+    secondary?: boolean
   }>(),
   {
     labelTk: '',
@@ -66,6 +76,8 @@ const props = withDefaults(
     fullWidthButton: false,
     submitCount: 0,
     classButton: null,
+    primary: true,
+    secondary: false,
   },
 )
 
