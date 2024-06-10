@@ -155,7 +155,7 @@ importers:
         version: 6.9.13
       objection:
         specifier: ^3.0.1
-        version: 3.1.4(knex@2.5.1)
+        version: 3.1.4(knex@2.5.1(pg@8.12.0)(sqlite3@5.1.7))
       password-generator:
         specifier: ^2.3.2
         version: 2.3.2
@@ -286,6 +286,9 @@ importers:
 
   packages/designsystem:
     dependencies:
+      '@locokit/definitions':
+        specifier: workspace:*
+        version: link:../definitions
       '@locokit/i18n':
         specifier: workspace:*
         version: link:../i18n
@@ -376,7 +379,7 @@ importers:
         version: 3.1.0
       objection:
         specifier: ^3.1.0
-        version: 3.1.4(knex@2.5.1)
+        version: 3.1.4(knex@2.5.1(pg@8.12.0)(sqlite3@5.1.7))
       winston:
         specifier: ^3.8.1
         version: 3.13.0
@@ -5345,8 +5348,8 @@ packages:
     resolution: {integrity: sha512-uy2bNX5zQ+tESe+TiC7ilGRz8AtRGmnJH55NC5S0nSUjvvvM2hJHmefHErugGXN4pNv4Qx7vLsnNw9qJ9mtIsw==}
     hasBin: true
 
-  jiti@1.21.4:
-    resolution: {integrity: sha512-DUP4hpE2Of384xS46IiRm1JK3r4Ix4ADQI5k65y4joiZF7Oeo2ySdYG7PbqioljFalu1ndzto0Sb5IfExYliYA==}
+  jiti@1.21.6:
+    resolution: {integrity: sha512-2yTgeWTWzMWkHu6Jp9NKgePDaYHbntiwvYuuJLbbN9vl7DC9DvXKOB2BC3ZZ92D3cvV/aflH0osDfwpHepQ53w==}
     hasBin: true
 
   jju@1.4.0:
@@ -14924,7 +14927,7 @@ snapshots:
 
   jiti@1.21.3: {}
 
-  jiti@1.21.4: {}
+  jiti@1.21.6: {}
 
   jju@1.4.0: {}
 
@@ -16372,7 +16375,7 @@ snapshots:
       define-properties: 1.2.1
       es-object-atoms: 1.0.0
 
-  objection@3.1.4(knex@2.5.1):
+  objection@3.1.4(knex@2.5.1(pg@8.12.0)(sqlite3@5.1.7)):
     dependencies:
       ajv: 8.16.0
       ajv-formats: 2.1.1(ajv@8.16.0)
@@ -18205,7 +18208,7 @@ snapshots:
     dependencies:
       '@antfu/utils': 0.7.8
       defu: 6.1.4
-      jiti: 1.21.4
+      jiti: 1.21.6
 
   uncrypto@0.1.3: {}
 

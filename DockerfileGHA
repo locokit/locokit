@@ -16,8 +16,7 @@
 FROM node:18-alpine AS base
 RUN apk add --no-cache libc6-compat nano
 RUN apk update
-RUN npm i -g pnpm
-RUN pnpm i --ignore-scripts -g pm2
+RUN npm i -g pnpm pm2
 RUN addgroup -S locokit \
     && adduser -S locokit -G locokit
 
@@ -34,8 +33,8 @@ COPY api/package.json /code/api/
 COPY packages/definitions/package.json /code/packages/definitions/
 COPY packages/engine/package.json /code/packages/engine/
 COPY package.json .
-COPY package-lock.json .
-RUN npm ci --ignore-scripts
+COPY pnpm-lock.yaml .
+RUN pnpm i
 COPY api/dist .
 COPY packages/definitions/dist /code/packages/definitions/dist
 COPY packages/engine/dist /code/packages/engine/dist

@@ -1,11 +1,11 @@
 /**
  * First load the .env file
+ *
+ * This is done either
+ * * by the index.ts file,
+ * * by the db.ts file,
+ * * or vite/vitest starters
  */
-// import * as dotenv from 'dotenv'
-
-// dotenv.config({ path: process.env.NODE_ENV ? `.env.${process.env.NODE_ENV as string}` : '.env' })
-import dotenv from 'dotenv-flow'
-dotenv.config()
 
 import serveStatic from 'koa-static'
 import { feathers } from '@feathersjs/feathers'

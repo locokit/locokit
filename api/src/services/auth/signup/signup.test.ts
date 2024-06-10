@@ -6,7 +6,7 @@ import { SERVICES, USER_PROFILE } from '@locokit/definitions'
 import { UserResult } from '@/services/core/user/user.schema'
 import { createApp } from '@/app'
 import axios from 'axios'
-import { BadRequest } from '@feathersjs/errors/lib'
+import { BadRequest, Forbidden } from '@feathersjs/errors'
 
 describe("'signup' service", () => {
   const app = createApp()
@@ -165,16 +165,21 @@ describe("'signup' service", () => {
   })
 
   it('fails if the signup is not authorized', async () => {
-    expect.assertions(2)
+    expect.assertions(3)
 
     // update the settings to forbid signup
     app.get('settings').signup.allowed = false
 
-    const fn = async () => await app.service(SERVICES.AUTH_SIGNUP).create(credentials)
+    try {
+      // try to create a user
+      await app.service(SERVICES.AUTH_SIGNUP).create(credentials)
+    } catch (error) {
+      expect(error).toBeInstanceOf(Forbidden)
+      expect((error as Forbidden).code).toBe(403)
+      expect((error as Forbidden).toString()).toContain('Signup is not authorized')
+    }
 
-    // try to create a user
-    await expect(fn).rejects.toContain({ code: 403 })
-    await expect(fn).rejects.toThrowError(/Signup is not authorized/)
+    // await expect(fn).rejects.toThrowError(/Signup is not authorized/)
 
     app.get('settings').signup.allowed = true
   })

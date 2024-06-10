@@ -1,3 +1,6 @@
+import dotenv from 'dotenv-flow'
+dotenv.config()
+
 import { configDefaults, defineConfig } from 'vitest/config'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
@@ -16,6 +19,10 @@ export default defineConfig({
       enabled: true,
       include: ['./src/**'],
     },
-    singleThread: true,
+    poolOptions: {
+      threads: {
+        singleThread: true,
+      },
+    },
   },
 })

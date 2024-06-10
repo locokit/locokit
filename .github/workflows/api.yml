@@ -144,7 +144,7 @@ jobs:
       - name: Tar build api
         run: tar -cvzf lck-api-build-artifact.tar.gz api/dist
       - name: Tar build app
-        run: tar -cvzf lck-app-build-artifact.tar.gz app/.output
+        run: tar -cvzf lck-app-build-artifact.tar.gz packages/nuxt-locokit/playground/.output
       - name: Tar build @locokit/definitions
         run: tar -cvzf locokit-definitions-build-artifact.tar.gz packages/definitions/dist
       - name: Tar build @locokit/designsystem
