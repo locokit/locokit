@@ -2,7 +2,7 @@
  * Extension of Typebox typings
  * cf https://github.com/sinclairzx81/typebox#unsafe-types
  */
-import { Type, Static, TSchema } from '@sinclair/typebox'
+import { Type, Static, TSchema } from '@feathersjs/typebox'
 
 // Nullable<T>
 

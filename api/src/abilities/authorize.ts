@@ -1,3 +1,1 @@
-import { HookContext } from '../declarations'
-
-export const authorize = async (context: HookContext) => {}
+export const authorize = async () => {}

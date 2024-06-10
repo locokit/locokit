@@ -16,7 +16,8 @@
 FROM node:18-alpine AS base
 RUN apk add --no-cache libc6-compat nano
 RUN apk update
-RUN npm i --ignore-scripts -g pm2
+RUN npm i -g pnpm
+RUN pnpm i --ignore-scripts -g pm2
 RUN addgroup -S locokit \
     && adduser -S locokit -G locokit
 
@@ -48,7 +49,8 @@ CMD pm2 start index.js
 #
 FROM base AS locokit-app
 WORKDIR /code
-COPY app/.output .
+# COPY app/.output .
+COPY packages/nuxt-locokit/playground/.output .
 
 USER locokit
 CMD pm2 start server/index.mjs

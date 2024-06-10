@@ -5,7 +5,6 @@
 
 # Please also change the user / password of lck-db
 # and update accordingly the api/.env.prod.example
-version: '3'
 services:
   lck-db:
     image: postgis/postgis:15-master
@@ -36,7 +35,7 @@ services:
       - lck
 
   lck-api:
-    image: locokit/api:pr-241
+    image: locokit/api:next
     ports:
       - "8002:8002"
     depends_on:
@@ -53,7 +52,7 @@ services:
     command: pm2-runtime index.js -n locokit-api -i max
 
   lck-app:
-    image: locokit/app:pr-241
+    image: locokit/app:next
     ports:
       - "3000:3000"
     depends_on:

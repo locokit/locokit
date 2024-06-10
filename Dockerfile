@@ -15,7 +15,8 @@
 FROM node:18-alpine AS base
 RUN apk add --no-cache libc6-compat nano
 RUN apk update
-RUN npm i --ignore-scripts -g pm2
+RUN npm i -g pnpm pm2 turbo
+# RUN npm i --ignore-scripts -g pm2
 RUN addgroup -S locokit \
     && adduser -S locokit -G locokit
 
@@ -31,13 +32,16 @@ FROM base AS builder
 # we need to install all dependencies for building purpose
 ENV NODE_ENV=dev
 WORKDIR /code
-RUN npm i --ignore-scripts -g turbo
+# RUN npm i --ignore-scripts -g turbo
 COPY *.json ./
+COPY pnpm-lock.yaml ./
+COPY pnpm-workspace.yaml ./
 COPY api api
-COPY app app
 COPY docs docs
 COPY packages packages
-RUN npm ci --ignore-scripts
+RUN pnpm i --frozen-lockfile
+WORKDIR /code/api
+RUN pnpm build
 RUN turbo run build
 RUN turbo prune --scope=locokit-api --out-dir=locokit-api --docker
 
@@ -48,7 +52,7 @@ RUN turbo prune --scope=locokit-api --out-dir=locokit-api --docker
 FROM base AS locokit-api
 WORKDIR /code
 COPY --from=builder /code/locokit-api/json .
-RUN npm ci --ignore-scripts
+RUN pnpm i --frozen-lockfile --ignore-scripts
 COPY --from=builder /code/locokit-api/full/api/dist .
 COPY --from=builder /code/locokit-api/full/api/dist /code/api/dist
 COPY --from=builder /code/locokit-api/full/packages/definitions/dist /code/packages/definitions/dist
@@ -63,7 +67,8 @@ CMD pm2 start index.js
 #
 FROM base AS locokit-app
 WORKDIR /code
-COPY --from=builder /code/app/.output .
+# COPY --from=builder /code/app/.output .
+COPY --from=builder /code/packages/nuxt-locokit/playground/.output .
 
 USER locokit
 CMD pm2 start server/index.mjs

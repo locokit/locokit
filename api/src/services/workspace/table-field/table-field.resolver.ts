@@ -13,7 +13,7 @@ import {
 import { NotAcceptable, NotFound } from '@feathersjs/errors/lib'
 import { Paginated } from '@feathersjs/feathers'
 import { WorkspaceResult } from '@/services/core/workspace/workspace.schema'
-import { DatasourceResult } from '../datasource/datasource.schema'
+import { WorkspaceDatasourceResult } from '../datasource/datasource.schema'
 import { DB_DIALECT, FIELD_TYPE, SERVICES } from '@locokit/definitions'
 import { convertLocoKitFieldTypeToDBType } from './table-field.helpers'
 
@@ -101,7 +101,7 @@ export const tableFieldQueryResolver = resolve<TableFieldQuery, HookContext>({
     context.params.route.workspaceId = workspace.data[0].id
     context.params.route.workspaceSchema = `w_${workspace.data[0].slug as string}`
 
-    const datasource: Paginated<DatasourceResult> = await context.app
+    const datasource: Paginated<WorkspaceDatasourceResult> = await context.app
       .service(SERVICES.WORKSPACE_DATASOURCE)
       .find({
         query: {

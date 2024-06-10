@@ -1,6 +1,6 @@
-import { createAdapter } from '@locokit/engine'
-import { Connexion } from '@locokit/engine/adapters/interface'
-import { getJSONTypeFromSQLType } from '@locokit/engine/utils/sqlTypeConverter'
+import { createAdapter } from '../../'
+import { Connexion } from '../interface'
+import { getJSONTypeFromSQLType } from '../../utils/sqlTypeConverter'
 
 export class SwaggerService {
   private readonly connexion: Connexion
@@ -57,9 +57,9 @@ export class SwaggerService {
       }
       definitions[currentTable.name] = {
         type: 'object',
-        required: [currentTable.fields.filter((c) => !c.is_nullable).map((c) => c.name)],
+        required: [currentTable.fields?.filter((c) => !c.is_nullable).map((c) => c.name)],
         tags: [currentTable.name],
-        properties: currentTable.fields.reduce<Record<string, any>>((result, c) => {
+        properties: currentTable.fields?.reduce<Record<string, any>>((result, c) => {
           result[c.name] = {
             type: getJSONTypeFromSQLType(c.data_type),
           }
@@ -102,13 +102,13 @@ export class SwaggerService {
       const resolverName =
         currentTable.name === 'baserow' ? 'qb_' + currentTable.name : currentTable.name
       resolvers.Query[resolverName] = async () => {
-        return await adapter.queryTable(currentTable.name)
+        return await adapter.query(currentTable.name)
       }
       schema += `
         type LCK_${currentTable.name} {
-        ${currentTable.fields
-          .map((f) => `    ${f.name}: String${'' /* f.is_nullable === true ? '' : '!' */}`)
-          .join('\n')}
+          ${currentTable.fields?.map(
+            (f) => `    ${f.name}: String${'' /* f.is_nullable === true ? '' : '!' */}`
+          ).join('\n')}
         }
       `
       QueryString += '\n    ' + resolverName + ': [LCK_' + currentTable.name + ']'

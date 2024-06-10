@@ -9,7 +9,7 @@
   "author": "Mathieu Dartigues",
   "license": "MIT",
   "dependencies": {
-    "@sinclair/typebox": "~0.25.0"
+    "@feathersjs/typebox": "5.0.10"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
