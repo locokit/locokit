@@ -34,6 +34,7 @@ ENV NODE_ENV=dev
 WORKDIR /code
 COPY *.json ./
 COPY pnpm-lock.yaml ./
+COPY pnpm-workspace.yaml ./
 COPY api api
 # COPY app app
 COPY docs docs
@@ -59,6 +60,7 @@ COPY --from=builder /code/packages/definitions/package.json /code/packages/defin
 COPY --from=builder /code/packages/engine/package.json /code/packages/engine/
 COPY --from=builder /code/package.json .
 COPY --from=builder /code/pnpm-lock.yaml .
+COPY --from=builder /code/pnpm-workspace.yaml .
 RUN pnpm i --ignore-scripts
 COPY --from=builder /code/api/dist /code/api
 COPY --from=builder /code/packages/definitions/dist /code/packages/definitions/dist

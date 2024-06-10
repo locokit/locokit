@@ -34,6 +34,7 @@ COPY packages/definitions/package.json /code/packages/definitions/
 COPY packages/engine/package.json /code/packages/engine/
 COPY package.json .
 COPY pnpm-lock.yaml .
+COPY pnpm-workspace.yaml ./
 RUN pnpm i --ignore-scripts
 COPY api/dist /code/api
 COPY packages/definitions/dist /code/packages/definitions/dist
