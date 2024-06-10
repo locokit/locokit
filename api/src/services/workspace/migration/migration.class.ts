@@ -440,7 +440,7 @@ export class Migration extends ObjectionService<
     // we could do the computation of diffToApply in a resolver,
     // but errors thrown are encapsulated in a generic BadRequest error
     // cf https://github.com/locokit/locokit/issues/244
-    // @ts-expect-error
+    // @ts-expect-error TO BE FIXED
     data.diffToApply = diffToApply
 
     await migrationDataInternalValidator(data)

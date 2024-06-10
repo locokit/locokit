@@ -41,7 +41,7 @@ describe("'auth-management' hooks for passwordChange action", () => {
     try {
       await app.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'passwordChange',
-        // @ts-expect-error
+        // @ts-expect-error TO BE FIXED
         value: {
           password: 'pouet',
         },
@@ -228,7 +228,7 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
     try {
       await app.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'verifySignupSetPasswordLong',
-        // @ts-expect-error
+        // @ts-expect-error TO BE FIXED
         value: {
           password: 'pouet',
         },
@@ -248,7 +248,7 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
     try {
       await app.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'verifySignupSetPasswordShort',
-        // @ts-expect-error
+        // @ts-expect-error TO BE FIXED
         value: {
           password: 'pouet',
         },
@@ -268,7 +268,7 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
     try {
       await app.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'resetPwdLong',
-        // @ts-expect-error
+        // @ts-expect-error TO BE FIXED
         value: {
           password: 'pouet',
         },
@@ -288,7 +288,7 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
     try {
       await app.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'resetPwdShort',
-        // @ts-expect-error
+        // @ts-expect-error TO BE FIXED
         value: {
           password: 'pouet',
         },

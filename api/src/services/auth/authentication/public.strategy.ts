@@ -1,10 +1,10 @@
 import {
   AuthenticationBaseStrategy,
-  AuthenticationParams,
+  // AuthenticationParams,
   AuthenticationRequest,
   AuthenticationResult,
 } from '@feathersjs/authentication'
-import { IncomingMessage } from 'node:http'
+// import { IncomingMessage } from 'node:http'
 import { logger } from '@/logger'
 
 const publicLogger = logger.child({ service: 'authentication-public' })
@@ -17,7 +17,7 @@ const publicLogger = logger.child({ service: 'authentication-public' })
  * or public records (in public workspces).
  */
 export class PublicStrategy extends AuthenticationBaseStrategy {
-  async parse(_req: IncomingMessage): Promise<AuthenticationRequest | null> {
+  async parse(/*_req: IncomingMessage*/): Promise<AuthenticationRequest | null> {
     publicLogger.info('parse()')
 
     return {
@@ -25,10 +25,9 @@ export class PublicStrategy extends AuthenticationBaseStrategy {
     }
   }
 
-  async authenticate(
-    _authentication: AuthenticationRequest,
-    _params: AuthenticationParams,
-  ): Promise<AuthenticationResult> {
+  async authenticate() // _authentication: AuthenticationRequest,
+  // _params: AuthenticationParams,
+  : Promise<AuthenticationResult> {
     publicLogger.info('authenticate()')
     return {
       authentication: { strategy: this.name },

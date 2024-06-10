@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 /**
  * First load the .env file
  */

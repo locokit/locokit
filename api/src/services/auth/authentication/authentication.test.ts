@@ -36,7 +36,7 @@ describe('authentication', () => {
   beforeEach(async () => {
     try {
       const user = await app.service(SERVICES.CORE_USER).create(userInfo)
-      // @ts-expect-error
+      // @ts-expect-error TO BE FIXED
       await app.service(SERVICES.CORE_USER).patch(
         user.id,
         { isVerified: true },

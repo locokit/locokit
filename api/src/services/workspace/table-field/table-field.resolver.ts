@@ -43,7 +43,7 @@ export const tableFieldDataResolver = resolve<TableFieldDataInternal, HookContex
   /**
    * Configure the settings
    */
-  async settings(settings, data, context) {
+  async settings(settings, data) {
     // create a default value
     const localSettings = {
       ...Value.Create(tableFieldSettings),
