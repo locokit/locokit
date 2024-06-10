@@ -6,6 +6,7 @@ import { SERVICES } from '@locokit/definitions'
 import workspaceMigrationHelper from './workspaceMigration.helper'
 import workspaceDatasourceHelper from './workspaceDatasource.helper'
 import { logger } from '@/logger'
+import { Migration as ServiceMigration } from '@/services/workspace/migration/migration.class'
 
 const locokitContextLogger = logger.child({ service: 'hook-locokit-context' })
 
@@ -50,6 +51,8 @@ export async function setLocoKitContext(context: HookContext) {
         },
       })
       if (datasource.total !== 1) throw new NotFound('Datasource not found.')
+      if (context.service instanceof ServiceMigration && context.method === 'create')
+        context.data.datasourceId = datasource.data[0].id
 
       context.$locokit.currentDatasourceSlug = datasourceSlug
       context.$locokit.currentDatasource = datasource.data[0]

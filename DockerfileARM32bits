@@ -16,7 +16,7 @@
 FROM node:18-alpine AS base
 RUN apk add --no-cache libc6-compat nano
 RUN apk update
-RUN npm i -g pnpm pm2
+RUN npm i -g pnpm pm2 --ignore-scripts
 RUN addgroup -S locokit \
     && adduser -S locokit -G locokit
 
@@ -38,14 +38,14 @@ COPY api api
 # COPY app app
 COPY docs docs
 COPY packages packages
-RUN pnpm ci --ignore-scripts
-RUN pnpm run build --workspace packages/definitions
-RUN pnpm run build --workspace packages/designsystem
-RUN pnpm run build --workspace packages/engine
-RUN pnpm run nuxt:prepare --workspace packages/nuxt-locokit
-RUN pnpm run build --workspace packages/nuxt-locokit
-RUN pnpm run build --workspace api
-RUN pnpm run build --workspace packages/sdk
+RUN pnpm i --ignore-scripts
+RUN pnpm --filter @locokit/definitions build
+RUN pnpm --filter @locokit/designsystem build
+RUN pnpm --filter @locokit/engine build
+RUN pnpm --filter @locokit/nuxt-locokit nuxt:prepare
+RUN pnpm --filter @locokit/nuxt-locokit build
+RUN pnpm --filter locokit-api build
+RUN pnpm --filter @locokit/sdk build
 # RUN pnpm run build --workspace app
 
 #
@@ -59,13 +59,13 @@ COPY --from=builder /code/packages/definitions/package.json /code/packages/defin
 COPY --from=builder /code/packages/engine/package.json /code/packages/engine/
 COPY --from=builder /code/package.json .
 COPY --from=builder /code/pnpm-lock.yaml .
-RUN pnpm ci --ignore-scripts
-COPY --from=builder /code/api/dist .
+RUN pnpm i --ignore-scripts
+COPY --from=builder /code/api/dist /code/api
 COPY --from=builder /code/packages/definitions/dist /code/packages/definitions/dist
 COPY --from=builder /code/packages/engine/dist /code/packages/engine/dist
 
 USER locokit
-CMD pm2 start index.js
+CMD pm2 start api/index.js
 
 #
 # LocoKit APP image

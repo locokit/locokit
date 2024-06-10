@@ -59,12 +59,12 @@ export const migrationDataExternalSchema = Type.Omit(
   migrationSchema,
   ['id', 'diffToApply', 'applied', 'reverted', 'createdAt', 'updatedAt'],
   {
-    $id: 'MigrationData',
+    $id: 'MigrationDataExternal',
     additionalProperties: false,
   },
 )
 
-export type MigrationData = Static<typeof migrationDataExternalSchema>
+export type MigrationDataExternal = Static<typeof migrationDataExternalSchema>
 export const migrationDataExternalValidator = getValidator(
   migrationDataExternalSchema,
   dataValidator,

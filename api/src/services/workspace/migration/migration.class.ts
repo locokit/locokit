@@ -1,6 +1,6 @@
 import type { KnexAdapterParams } from '@feathersjs/knex'
 import {
-  MigrationData,
+  MigrationDataInternal,
   MigrationResult,
   MigrationQuery,
   MigrationPatch,
@@ -48,7 +48,7 @@ export interface MigrationParams extends KnexAdapterParams<MigrationQuery> {}
 // By default calls the standard Knex adapter service methods but can be customized with your own functionality.
 export class Migration extends ObjectionService<
   MigrationResult,
-  MigrationData,
+  MigrationDataInternal,
   MigrationParams,
   MigrationPatch
 > {
@@ -58,10 +58,10 @@ export class Migration extends ObjectionService<
     this.app = app
   }
 
-  async create(data: MigrationData, params?: MigrationParams): Promise<MigrationResult>
-  async create(data: MigrationData[], params?: MigrationParams): Promise<MigrationResult[]>
+  async create(data: MigrationDataInternal, params?: MigrationParams): Promise<MigrationResult>
+  async create(data: MigrationDataInternal[], params?: MigrationParams): Promise<MigrationResult[]>
   async create(
-    data: MigrationData | MigrationData[],
+    data: MigrationDataInternal | MigrationDataInternal[],
     params?: MigrationParams,
   ): Promise<MigrationResult | MigrationResult[]> {
     if (Array.isArray(data)) throw new NotImplemented('Creation of migration is not yet available.')

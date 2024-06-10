@@ -15,7 +15,7 @@
 FROM node:18-alpine AS base
 RUN apk add --no-cache libc6-compat nano
 RUN apk update
-RUN npm i -g pnpm pm2 turbo
+RUN npm i -g pnpm pm2 turbo --ignore-scripts
 # RUN npm i --ignore-scripts -g pm2
 RUN addgroup -S locokit \
     && adduser -S locokit -G locokit
@@ -39,7 +39,7 @@ COPY pnpm-workspace.yaml ./
 COPY api api
 COPY docs docs
 COPY packages packages
-RUN pnpm i --frozen-lockfile
+RUN pnpm i --frozen-lockfile --ignore-scripts
 WORKDIR /code/api
 RUN pnpm build
 RUN turbo run build
