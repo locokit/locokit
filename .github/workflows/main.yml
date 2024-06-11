@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
-name: API quality workflow
+name: Continuous integration workflow
 
 on:
   push:
@@ -14,6 +14,22 @@ jobs:
   #
   # Quality section
   #
+
+  ## Package i18n
+  front-translation:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: packages/i18n
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run script to check keys in translation files
+        run: |
+          chmod +x ./compareKeyTranslation.sh
+          ./compareKeyTranslation.sh
+        shell: bash
 
   ## Design system
   # design-system-quality:
