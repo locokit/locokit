@@ -1,6 +1,6 @@
 {
   "name": "@locokit/definitions",
-  "version": "1.0.0-alpha.0",
+  "version": "0.0.1",
   "description": "LocoKit definitions",
   "scripts": {
     "build": "vite build && tsc --emitDeclarationOnly",
