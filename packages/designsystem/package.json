@@ -1,7 +1,8 @@
 {
   "name": "@locokit/designsystem",
-  "version": "1.0.0-alpha.0",
-  "description": "LocoKit Design System, components",
+  "version": "0.0.7",
+  "private": false,
+  "description": "LocoKit Design System, components library",
   "author": "Mathieu Dartigues",
   "license": "MIT",
   "main": "dist/index.cjs.js",

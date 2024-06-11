@@ -1,8 +1,9 @@
 // import { isAfter, isValid } from 'date-fns'
 import { configure, defineRule } from 'vee-validate'
 import { email, required, regex } from '@vee-validate/rules'
+import { I18n } from 'vue-i18n'
 
-export function setup(i18n) {
+export function setup(i18n: I18n) {
   defineRule('email', email)
   // defineRule('required_if', required_if)
   defineRule('required', required)

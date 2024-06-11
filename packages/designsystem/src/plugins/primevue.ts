@@ -1,15 +1,13 @@
 import { type App } from 'vue'
 
-// import 'primevue/resources/themes/saga-blue/theme.css'
-// import 'primevue/resources/primevue.min.css' // core css
-// import 'primeicons/primeicons.css' // icons
+import Aura from '@/presets/aura'
+
 import ConfirmationService from 'primevue/confirmationservice'
-
-import PrimeVue from 'primevue/config'
 import ToastService from 'primevue/toastservice' // theme
+import PrimeVue from 'primevue/config'
 
-export function definePluginPrimeHistoire(app: App): void {
-  app.use(PrimeVue, { ripple: true })
+export function definePluginPrime(app: App): void {
+  app.use(PrimeVue, { ripple: true, unstyled: true, pt: Aura })
   app.use(ToastService)
   app.use(ConfirmationService)
 }

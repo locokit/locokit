@@ -19,15 +19,16 @@
         <PrimeInputText
           id="email"
           v-bind="field"
-          v-focus
-          :class="{ 'p-invalid': errorMessage }"
+          focus
+          class="w-full"
+          :invalid="!!errorMessage"
           type="email"
           required
           autocomplete="email"
         />
         <span
           v-if="errorMessage"
-          class="p-text-error"
+          class="text-red-500"
           role="alert"
           aria-live="assertive"
         >
@@ -48,7 +49,8 @@
           v-model="form.password"
           input-id="password"
           v-bind="field"
-          :class="{ 'p-invalid': errorMessage }"
+          class="w-full"
+          :invalid="!!errorMessage"
           required
           :toggle-mask="true"
           hide-icon="bi bi-eye-slash-fill"
@@ -60,7 +62,7 @@
         />
         <span
           v-if="errorMessage"
-          class="p-text-error"
+          class="text-red-500"
           role="alert"
           aria-live="assertive"
         >

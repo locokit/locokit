@@ -1,4 +1,3 @@
-import { type App } from 'vue'
 import { createI18n } from 'vue-i18n'
 
 import en from '@locokit/i18n/en.json'
@@ -13,7 +12,3 @@ export const i18n = createI18n({
     fr,
   },
 })
-
-export function definePluginI18n(app: App): void {
-  app.use(i18n)
-}
