@@ -41,7 +41,6 @@ COPY docs docs
 COPY packages packages
 RUN pnpm i --frozen-lockfile --ignore-scripts
 WORKDIR /code/api
-RUN pnpm build
 RUN turbo run build
 RUN turbo prune --scope=locokit-api --out-dir=locokit-api --docker
 
@@ -52,13 +51,14 @@ RUN turbo prune --scope=locokit-api --out-dir=locokit-api --docker
 FROM base AS locokit-api
 WORKDIR /code
 COPY --from=builder /code/locokit-api/json .
-RUN pnpm i --frozen-lockfile --ignore-scripts
+RUN pnpm i --frozen-lockfile --ignore-scripts --prod --filter locokit-api
 COPY --from=builder /code/locokit-api/full/api/dist .
 COPY --from=builder /code/locokit-api/full/api/dist /code/api/dist
 COPY --from=builder /code/locokit-api/full/packages/definitions/dist /code/packages/definitions/dist
 COPY --from=builder /code/locokit-api/full/packages/engine/dist /code/packages/engine/dist
 
 USER locokit
+WORKDIR /code/api
 CMD pm2 start index.js
 
 #

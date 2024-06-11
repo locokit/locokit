@@ -61,13 +61,14 @@ COPY --from=builder /code/packages/engine/package.json /code/packages/engine/
 COPY --from=builder /code/package.json .
 COPY --from=builder /code/pnpm-lock.yaml .
 COPY --from=builder /code/pnpm-workspace.yaml .
-RUN pnpm i --ignore-scripts
+RUN pnpm i --frozen-lockfile --ignore-scripts --prod --filter locokit-api
 COPY --from=builder /code/api/dist /code/api
 COPY --from=builder /code/packages/definitions/dist /code/packages/definitions/dist
 COPY --from=builder /code/packages/engine/dist /code/packages/engine/dist
 
 USER locokit
-CMD pm2 start api/index.js
+WORKDIR /code/api
+CMD pm2 start index.js
 
 #
 # LocoKit APP image
