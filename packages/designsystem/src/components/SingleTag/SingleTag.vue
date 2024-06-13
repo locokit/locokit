@@ -1,7 +1,7 @@
 <template>
   <span
     v-if="label"
-    class="lck-tag py-0.5 px-1 ml-2 inline-flex min-w-0 max-w-full first-of-type:ml-0"
+    class="rounded-lck bg-primary text-white border-primary py-0.5 px-1 ml-2 inline-flex min-w-0 max-w-full first-of-type:ml-0"
     :class="[borderColor ? `border border[${borderColor}]` : '']"
     :style="{ color, backgroundColor }"
   >
@@ -28,9 +28,3 @@ const props = withDefaults(
   },
 )
 </script>
-
-<style scoped>
-.lck-tag {
-  @apply rounded-lck bg-primary text-white border-primary;
-}
-</style>

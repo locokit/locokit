@@ -6,7 +6,7 @@
     @submit="onSubmit"
   >
     <slot />
-    <div class="text-right mb-4 flex justify-end">
+    <div class="text-right my-4 flex justify-end">
       <PrimeButton
         v-if="displayResetButton"
         class="p-button-outlined p-button-rounded !mr-2"
