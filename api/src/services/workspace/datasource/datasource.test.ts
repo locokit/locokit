@@ -374,7 +374,7 @@ describe('[workspace] datasource service', () => {
       expect(actualFields.rowCount).toBe(0)
 
       // apply the migration
-      await app.service(SERVICES.WORKSPACE_MIGRATION).apply(migrationId)
+      await app.service(SERVICES.WORKSPACE_MIGRATION).apply({ id: migrationId })
 
       // check the dedicated datasource schema
       // we have to find 3 tables
@@ -451,7 +451,7 @@ describe('[workspace] datasource service', () => {
       expect(relationsMetaModel.length).toBe(1)
 
       // apply migration
-      await app.service(SERVICES.WORKSPACE_MIGRATION).apply(migrationId)
+      await app.service(SERVICES.WORKSPACE_MIGRATION).apply({ id: migrationId })
 
       // check the metamodel synchronization
       // we normally will have 4 tables
