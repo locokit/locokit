@@ -8,7 +8,7 @@ import {
   MigrationDiffInternal,
 } from './migration.schema'
 import { ObjectionService } from '@/feathers-objection'
-import { GeneralError, NotAcceptable, NotImplemented } from '@feathersjs/errors'
+import { NotAcceptable, NotImplemented } from '@feathersjs/errors'
 import { Id } from '@feathersjs/feathers'
 
 import { logger } from '@/logger'
@@ -22,24 +22,11 @@ import {
   DiffItemField,
   DiffItemRelation,
 } from '@locokit/definitions'
-import {
-  computeDiffFieldSettings,
-  computeDiffTableSettings,
-  getFieldSettingsFromDatasource,
-  getFieldSettingsFromMetaModel,
-  getTableSettingsFromMetaModel,
-  getTableSettingsFromDatasource,
-  getRelationSettingsFromDatasource,
-  getRelationSettingsFromMetaModel,
-  computeDiffRelationsSettings,
-} from './migration.helpers'
-import { Column } from 'knex-schema-inspector/dist/types/column'
-import { ForeignKey } from 'knex-schema-inspector/dist/types/foreign-key'
 
 import { Application } from '@/declarations'
 import { TableResult } from '../table/table.schema'
 import { TableFieldResult } from '../table-field/table-field.schema'
-import { type ConnexionSQL, type Table, createAdapter } from '@locokit/engine'
+import { type ConnexionSQL, createAdapter } from '@locokit/engine'
 import { TableRelationResult } from '../table-relation/table-relation.schema'
 import { computeDiff } from './helpers/computeDiff'
 

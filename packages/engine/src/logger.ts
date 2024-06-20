@@ -27,7 +27,7 @@ export const logger = createLogger({
       }, {})
 
       if (Object.keys(metaWithoutSymbol).length > 0) {
-        messageToDisplay += `\n${util.format(metaWithoutSymbol)}`
+        messageToDisplay += `\n${util.format?.(metaWithoutSymbol)}`
       }
       return messageToDisplay
     }),

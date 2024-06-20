@@ -174,7 +174,7 @@ BEGIN
       REFERENCES "datasource" (id) MATCH SIMPLE
       ON UPDATE NO ACTION
       ON DELETE CASCADE,
-    CONSTRAINT "CHECK_migration_direction" CHECK (type = ANY (ARRAY[
+    CONSTRAINT "CHECK_migration_direction" CHECK (direction = ANY (ARRAY[
       'both'::text,
       'from-datasource-to-metamodel'::text,
       'from-metamodel-to-datasource'::text
