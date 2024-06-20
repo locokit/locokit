@@ -163,6 +163,8 @@ BEGIN
     applied timestamp with time zone DEFAULT null,
     reverted timestamp with time zone DEFAULT null,
 
+    direction character varying(28) NOT NULL DEFAULT 'both',
+
     "diffToApply" jsonb DEFAULT null,
     "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
@@ -171,7 +173,12 @@ BEGIN
     CONSTRAINT "FK_migration_datasource" FOREIGN KEY ("datasourceId")
       REFERENCES "datasource" (id) MATCH SIMPLE
       ON UPDATE NO ACTION
-      ON DELETE CASCADE
+      ON DELETE CASCADE,
+    CONSTRAINT "CHECK_migration_direction" CHECK (type = ANY (ARRAY[
+      'both'::text,
+      'from-datasource-to-metamodel'::text,
+      'from-metamodel-to-datasource'::text
+    ]))
   );
 
   CREATE INDEX IF NOT EXISTS "IDX_migration_datasource"
