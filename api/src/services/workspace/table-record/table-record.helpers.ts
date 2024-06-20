@@ -2,8 +2,8 @@ import { Type } from '@feathersjs/typebox'
 import { FIELD_TYPE } from '@locokit/definitions'
 import { TableFieldSchema } from '../table-field/table-field.schema'
 
-export function convertLocoKitFieldTypeToTypeboxSchema(locokifField: TableFieldSchema) {
-  switch (locokifField.type) {
+export function convertLocoKitFieldTypeToTypeboxSchema(locokitField: TableFieldSchema) {
+  switch (locokitField.type) {
     case FIELD_TYPE.STRING:
     case FIELD_TYPE.TEXT:
       return Type.String()
@@ -23,14 +23,18 @@ export function convertLocoKitFieldTypeToTypeboxSchema(locokifField: TableFieldS
     case FIELD_TYPE.GEOMETRY:
       return Type.String()
 
+    case FIELD_TYPE.UUID:
+    case FIELD_TYPE.ID_UUID:
+      return Type.String()
+
     default:
       throw new Error(
         '[' +
-          locokifField.slug +
+          locokitField.slug +
           '] Field type not recognized for validation : ' +
-          locokifField.type +
+          locokitField.type +
           '/' +
-          locokifField.dbType,
+          locokitField.dbType,
       )
   }
 }

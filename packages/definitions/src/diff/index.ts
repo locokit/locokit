@@ -16,11 +16,25 @@ export const diffItemTableSettingsSchema = Type.Object(
 )
 export type DiffItemTableSettings = Static<typeof diffItemTableSettingsSchema>
 
+export const diffItemTypebox = Type.Object(
+  {
+    type: StringEnum(['insert', 'update', 'delete']),
+    path: Type.String(),
+    value: Type.Optional(Type.Any()),
+  },
+  {
+    $id: 'DiffItemTypebox',
+    additionalProperties: false,
+  },
+)
+export type DiffItemTypebox = Static<typeof diffItemTypebox>
+
 export const diffItemTableSchema = Type.Object(
   {
     action: StringEnum(['CREATE', 'UPDATE', 'REMOVE']),
     target: Type.Literal('TABLE'),
     settings: Type.Ref(diffItemTableSettingsSchema),
+    diff: Type.Optional(Type.Array(Type.Ref(diffItemTypebox))),
   },
   {
     $id: 'DiffItemTable',
@@ -70,6 +84,7 @@ export const diffItemFieldSchema = Type.Object(
     action: StringEnum(['CREATE', 'UPDATE', 'REMOVE']),
     target: Type.Literal('FIELD'),
     settings: Type.Ref(diffItemFieldSettingsSchema),
+    diff: Type.Optional(Type.Array(Type.Ref(diffItemTypebox))),
   },
   {
     $id: 'DiffItemField',
@@ -109,6 +124,7 @@ export const diffItemRelationSchema = Type.Object(
     action: StringEnum(['CREATE', 'UPDATE', 'REMOVE']),
     target: Type.Literal('RELATION'),
     settings: Type.Ref(diffItemRelationSettingsSchema),
+    diff: Type.Optional(Type.Array(Type.Ref(diffItemTypebox))),
   },
   {
     $id: 'DiffItemRelation',
@@ -140,6 +156,7 @@ export const diffSchema = Type.Object(
 export type Diff = Static<typeof diffSchema>
 
 export function addDiffSchemaToValidator(validator: Ajv) {
+  validator.addSchema(diffItemTypebox)
   validator.addSchema(diffItemTableSettingsSchema)
   validator.addSchema(diffItemTableSchema)
   validator.addSchema(diffItemFieldSettingsSchema)

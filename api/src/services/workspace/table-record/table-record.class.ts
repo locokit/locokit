@@ -96,7 +96,6 @@ export class TableRecord<T = any, Data = Partial<T>, PatchData = Partial<Data>>
     if (Array.isArray(data)) throw new NotImplemented('Multi creation is not yet implemented.')
     const adapter = params.$$adapter as GenericAdapter
 
-    // @ts-expect-error data has wrong type, TO BE FIXED
     return await adapter.create<T>(params.$$lckTable, data)
   }
 
@@ -106,7 +105,6 @@ export class TableRecord<T = any, Data = Partial<T>, PatchData = Partial<Data>>
     if (!id) throw new NotImplemented('Multi update is not yet implemented')
     const adapter = params.$$adapter as GenericAdapter
 
-    // @ts-expect-error data has wrong type, TO BE FIXED
     return await adapter.update<T>(params.$$lckTable, id, data)
   }
 
@@ -116,7 +114,6 @@ export class TableRecord<T = any, Data = Partial<T>, PatchData = Partial<Data>>
     if (!id) throw new NotImplemented('Multi patch is not yet implemented')
     const adapter = params.$$adapter as GenericAdapter
 
-    // @ts-expect-error data has wrong type, TO BE FIXED
     return await adapter.patch<T>(params.$$lckTable, id, data)
   }
 

@@ -27,6 +27,12 @@ export async function setLocoKitContext(context: HookContext) {
 
   const { workspaceSlug, datasourceSlug /* tableSlug, datasetSlug */ } = context.params?.route || {}
 
+  locokitContextLogger.info(
+    'slugs : workspace "%s", datasource "%s"',
+    workspaceSlug,
+    datasourceSlug,
+  )
+
   if (workspaceSlug) {
     locokitContextLogger.debug('workspace slug found: %s', workspaceSlug)
     const workspace = await context.app.service(SERVICES.CORE_WORKSPACE).find({
@@ -51,8 +57,10 @@ export async function setLocoKitContext(context: HookContext) {
         },
       })
       if (datasource.total !== 1) throw new NotFound('Datasource not found.')
-      if (context.service instanceof ServiceMigration && context.method === 'create')
-        context.data.datasourceId = datasource.data[0].id
+      if (context.service instanceof ServiceMigration) {
+        if (['create', 'diff'].includes(context.method))
+          context.data.datasourceId = datasource.data[0].id
+      }
 
       context.$locokit.currentDatasourceSlug = datasourceSlug
       context.$locokit.currentDatasource = datasource.data[0]

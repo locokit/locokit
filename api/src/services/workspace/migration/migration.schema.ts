@@ -1,4 +1,4 @@
-import { Type, Static, querySyntax, getValidator } from '@feathersjs/typebox'
+import { Type, Static, querySyntax, getValidator, StringEnum } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '@/commons/validators'
 import { diffSchema } from '@locokit/definitions'
 
@@ -14,6 +14,12 @@ export const migrationSchema = Type.Object(
       format: 'uuid',
       description: 'Related datasource of the migration',
     }),
+    direction: StringEnum(
+      ['from-datasource-to-metamodel', 'from-metamodel-to-datasource', 'both'],
+      {
+        default: 'both',
+      },
+    ),
     applied: Type.Optional(
       Type.String({
         format: 'date-time',
@@ -55,9 +61,21 @@ export type MigrationSchema = Static<typeof migrationSchema>
 export const migrationResultSchema = migrationSchema
 export type MigrationResult = Static<typeof migrationResultSchema>
 
-export const migrationDataExternalSchema = Type.Omit(
-  migrationSchema,
-  ['id', 'diffToApply', 'applied', 'reverted', 'createdAt', 'updatedAt'],
+export const migrationDataExternalSchema = Type.Object(
+  {
+    name: Type.String({
+      description: 'Name of the datasource',
+    }),
+    datasourceId: Type.String({
+      format: 'uuid',
+      description: 'Related datasource of the migration',
+    }),
+    direction: Type.Optional(
+      StringEnum(['from-datasource-to-metamodel', 'from-metamodel-to-datasource', 'both'], {
+        default: 'both',
+      }),
+    ),
+  },
   {
     $id: 'MigrationDataExternal',
     additionalProperties: false,
@@ -67,6 +85,25 @@ export const migrationDataExternalSchema = Type.Omit(
 export type MigrationDataExternal = Static<typeof migrationDataExternalSchema>
 export const migrationDataExternalValidator = getValidator(
   migrationDataExternalSchema,
+  dataValidator,
+)
+
+export const migrationDiffInternalSchema = Type.Object(
+  {
+    datasourceId: Type.String({
+      format: 'uuid',
+      description: 'Related datasource of the migration',
+    }),
+  },
+  {
+    $id: 'MigrationDiffInternal',
+    additionalProperties: false,
+  },
+)
+
+export type MigrationDiffInternal = Static<typeof migrationDiffInternalSchema>
+export const migrationDiffInternalValidator = getValidator(
+  migrationDiffInternalSchema,
   dataValidator,
 )
 

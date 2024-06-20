@@ -5,6 +5,7 @@ import {
   MigrationQuery,
   MigrationPatch,
   migrationDataInternalValidator,
+  MigrationDiffInternal,
 } from './migration.schema'
 import { ObjectionService } from '@/feathers-objection'
 import { GeneralError, NotAcceptable, NotImplemented } from '@feathersjs/errors'
@@ -40,6 +41,7 @@ import { TableResult } from '../table/table.schema'
 import { TableFieldResult } from '../table-field/table-field.schema'
 import { type ConnexionSQL, type Table, createAdapter } from '@locokit/engine'
 import { TableRelationResult } from '../table-relation/table-relation.schema'
+import { computeDiff } from './helpers/computeDiff'
 
 const migrationLogger = logger.child({ service: 'datasource' })
 
@@ -58,6 +60,13 @@ export class Migration extends ObjectionService<
     this.app = app
   }
 
+  /**
+   * Create a new migration between a datasource and a metamodel.
+   *
+   * Can be created from datasource to metamodel,
+   * or from metamodel to datasource.
+   *
+   */
   async create(data: MigrationDataInternal, params?: MigrationParams): Promise<MigrationResult>
   async create(data: MigrationDataInternal[], params?: MigrationParams): Promise<MigrationResult[]>
   async create(
@@ -65,22 +74,12 @@ export class Migration extends ObjectionService<
     params?: MigrationParams,
   ): Promise<MigrationResult | MigrationResult[]> {
     if (Array.isArray(data)) throw new NotImplemented('Creation of migration is not yet available.')
-    /**
-     * This custom method will analyze diffs
-     * between real schema and meta model stored in LocoKit
-     *
-     * Real schema > Meta model
-     */
 
     /**
      * Compute the diff to apply
      */
-    migrationLogger.info('Computing diffToApply')
-
-    /**
-     * Retrieve related datasource
-     */
-    migrationLogger.debug('computing diff between remote schema and meta model')
+    migrationLogger.info('creating a migration...')
+    migrationLogger.debug('retrieving datasources metamodel and inspect remote schema')
 
     const { authentication, provider, transaction, authenticated, user, route } =
       params as MigrationParams
@@ -100,352 +99,71 @@ export class Migration extends ObjectionService<
         },
       })
 
-    const dsParams: ConnexionSQL = {
-      type: datasourceFromMetaModel.client,
-      options: datasourceFromMetaModel.connection,
-    }
-
-    switch (datasourceFromMetaModel.type) {
-      case 'local':
-        const schema = `ds_${datasourceFromMetaModel.id as string}`
-        // const role = `${schema as string}_ro`
-        dsParams.options = process.env.LCK_DATABASE_URL as string
-        // TODO: enable the read only role : https://github.com/locokit/locokit/issues/243
-        // actually there is an error when the ro role access to the schema inspector
-        // a function pg_get_serial_sequence try to access some schemas (tiger) the role can't
-        // see knex-schema-inspector/lib/dialect/postgres.ts L302
-        // dsParams.role = role
-        dsParams.schema = schema
-        break
-      default:
-        throw new Error(
-          'Diff is not yet implemented for your datasource. Please ask us to create it, or create a pull request with the implementation.',
-        )
-    }
-
-    const adapter = await createAdapter(dsParams)
-    const schemaTables = await adapter.retrieveSchema(dsParams.schema)
-
-    /**
-     * Compute the diff between datasource and meta model
-     */
-    const diffToApply: Diff = {
-      datasource: [],
-      metamodel: [],
-    }
-    const datasourceTables: string[] = []
-    const datasourceTableFields: string[] = []
-    const datasourceTableRelations: string[] = []
-    // const metamodelTables: string[] = []
-
-    schemaTables.forEach((table) => {
-      datasourceTables.push(table.name)
-      /**
-       * Check if table already exist
-       */
-      const tableFromMetaModel = datasourceFromMetaModel.tables?.find(
-        (t: TableResult) => t.slug === table.name,
-      )
-
-      /**
-       * Create table and fields if not exist
-       */
-      if (!tableFromMetaModel) {
-        diffToApply.metamodel.push({
-          action: 'CREATE',
-          target: 'TABLE',
-          settings: getTableSettingsFromDatasource(table),
-        })
-
-        /**
-         * Add all fields to the diff to apply
-         */
-        table.fields?.forEach((field) => {
-          datasourceTableFields.push(`${table.name}.${field.name}`)
-          diffToApply.metamodel.push({
-            action: 'CREATE',
-            target: 'FIELD',
-            settings: getFieldSettingsFromDatasource(field, table),
-          })
-
-          const fieldForeignKeys = table.foreigns?.filter(
-            (f) => f.column === field.name && f.table === table.name,
-          )
-
-          fieldForeignKeys?.forEach((foreignKey: ForeignKey) => {
-            datasourceTableRelations.push(
-              foreignKey.constraint_name ?? 'FK_' + table.name + '_' + field.name,
-            )
-
-            diffToApply.metamodel.push({
-              action: 'CREATE',
-              target: 'RELATION',
-              settings: getRelationSettingsFromDatasource(foreignKey, table),
-            })
-          })
-        })
-      } else {
-        /**
-         * Else, find diffs at the table & fields level
-         */
-        /**
-         * Find diff for the current table
-         */
-        const diffsTableSettings = computeDiffTableSettings(table, tableFromMetaModel)
-
-        if (diffsTableSettings.diff.length > 0) {
-          diffToApply.metamodel.push({
-            action: 'UPDATE',
-            target: 'TABLE',
-            settings: diffsTableSettings.tableSettingsFromDatasource,
-          })
-        }
-        /**
-         * For each field, create table-field if it does not already exist
-         */
-        table.fields?.forEach((field) => {
-          datasourceTableFields.push(`${table.name}.${field.name}`)
-
-          const fieldFromMetaModel: TableFieldResult = tableFromMetaModel.fields?.find(
-            (f) => f.slug === field.name,
-          )
-          const fieldForeignKeys = table.foreigns?.filter(
-            (f) => f.column === field.name && f.table === table.name,
-          )
-
-          if (!fieldFromMetaModel) {
-            diffToApply.metamodel.push({
-              action: 'CREATE',
-              target: 'FIELD',
-              settings: getFieldSettingsFromDatasource(field, table),
-            })
-
-            fieldForeignKeys?.forEach((foreignKey: ForeignKey) => {
-              datasourceTableRelations.push(
-                foreignKey.constraint_name ?? 'FK_' + table.name + '_' + field.name,
-              )
-
-              diffToApply.metamodel.push({
-                action: 'CREATE',
-                target: 'RELATION',
-                settings: getRelationSettingsFromDatasource(foreignKey, table),
-              })
-            })
-          } else {
-            /**
-             * Find difference for the field !
-             */
-            const diffsFieldSettings = computeDiffFieldSettings(
-              field,
-              table,
-              fieldFromMetaModel,
-              tableFromMetaModel,
-            )
-
-            if (diffsFieldSettings.diff.length > 0) {
-              diffToApply.metamodel.push({
-                action: 'UPDATE',
-                target: 'FIELD',
-                settings: diffsFieldSettings.fieldSettingsFromDatasource,
-              })
-            }
-
-            fieldForeignKeys?.forEach((foreignKey: ForeignKey) => {
-              datasourceTableRelations.push(
-                foreignKey.constraint_name ?? 'FK_' + table.name + '_' + field.name,
-              )
-              /**
-               * Find the matching relation(s) in table from metamodel
-               */
-              const relationsFromMetaModel = tableFromMetaModel.relations?.filter(
-                (r) => r.slug === foreignKey.constraint_name,
-              )
-
-              if (relationsFromMetaModel) {
-                if (relationsFromMetaModel.length > 1)
-                  throw new GeneralError(
-                    `More than one matching for the relation ${table.name}.${field.name} > ${
-                      foreignKey.foreign_key_table ?? '[UNKNOWN]'
-                    }.${foreignKey.foreign_key_column}`,
-                  )
-                if (relationsFromMetaModel.length === 0)
-                  diffToApply.metamodel.push({
-                    action: 'CREATE',
-                    target: 'RELATION',
-                    settings: getRelationSettingsFromDatasource(foreignKey, table),
-                  })
-                else {
-                  /**
-                   * There is already a relation, we check differences
-                   */
-                  const diffsRelationsSettings = computeDiffRelationsSettings(
-                    foreignKey,
-                    table,
-                    relationsFromMetaModel[0],
-                    tableFromMetaModel,
-                  )
-
-                  if (diffsRelationsSettings.diff.length > 0) {
-                    diffToApply.metamodel.push({
-                      action: 'UPDATE',
-                      target: 'RELATION',
-                      settings: diffsRelationsSettings.relationSettingsFromDatasource,
-                    })
-                  }
-                }
-              } else {
-                diffToApply.metamodel.push({
-                  action: 'CREATE',
-                  target: 'RELATION',
-                  settings: getRelationSettingsFromDatasource(foreignKey, table),
-                })
-              }
-            })
-          }
-        })
-      }
-    })
-
-    /**
-     * Compute the diff between meta model and datasource
-     */
-    datasourceFromMetaModel.tables?.forEach((table: TableResult) => {
-      /**
-       * Does the table already exist in datasource ?
-       */
-      if (datasourceTables.includes(table.slug)) {
-        const tableFromDatasource = schemaTables.find((t: Table) => t.name === table.slug) as Table
-
-        /**
-         * If yes, check each field
-         */
-        table.fields?.forEach((field: TableFieldResult) => {
-          /**
-           * Does the field already exist ?
-           */
-          if (datasourceTableFields.includes(`${table.slug}.${field.slug}`)) {
-            const fieldFromDatasource = tableFromDatasource?.fields?.find(
-              (t: Table) => t.name === field.slug,
-            ) as Column
-            /**
-             * Find difference for the field
-             */
-            const diffsFieldSettings = computeDiffFieldSettings(
-              fieldFromDatasource,
-              tableFromDatasource,
-              field,
-              table,
-            )
-
-            if (diffsFieldSettings.diff.length > 0) {
-              diffToApply.datasource.push({
-                action: 'UPDATE',
-                target: 'FIELD',
-                settings: diffsFieldSettings.fieldSettingsFromMetamodel,
-              })
-            }
-          } else {
-            /**
-             * If no, create the field
-             */
-            diffToApply.datasource.push({
-              action: 'CREATE',
-              target: 'FIELD',
-              settings: getFieldSettingsFromMetaModel(field, table),
-            })
-          }
-        })
-
-        table.relations?.forEach((relation: TableRelationResult) => {
-          /**
-           * Does the relation already exist ?
-           */
-          if (datasourceTableRelations.includes(relation.slug)) {
-            /**
-             * If yes, check settings
-             */
-            const foreignKeyFromDatasource = tableFromDatasource?.foreigns?.find(
-              (t: ForeignKey) => t.constraint_name === relation.slug,
-            ) as ForeignKey
-            const diffsRelationsSettings = computeDiffRelationsSettings(
-              foreignKeyFromDatasource,
-              tableFromDatasource,
-              relation,
-              table,
-            )
-
-            if (diffsRelationsSettings.diff.length > 0) {
-              diffToApply.metamodel.push({
-                action: 'UPDATE',
-                target: 'RELATION',
-                settings: diffsRelationsSettings.relationSettingsFromDatasource,
-              })
-            }
-          } else {
-            /**
-             * If no, create the relation
-             */
-            diffToApply.datasource.push({
-              action: 'CREATE',
-              target: 'RELATION',
-              settings: getRelationSettingsFromMetaModel(relation, table),
-            })
-          }
-        })
-      } else {
-        /**
-         * If no, create the table + fields + relations
-         */
-        diffToApply.datasource.push({
-          action: 'CREATE',
-          target: 'TABLE',
-          settings: getTableSettingsFromMetaModel(table),
-        })
-        table.fields?.forEach((field: TableFieldResult) => {
-          diffToApply.datasource.push({
-            action: 'CREATE',
-            target: 'FIELD',
-            settings: getFieldSettingsFromMetaModel(field, table),
-          })
-        })
-        table.relations?.forEach((relation: TableRelationResult) => {
-          diffToApply.datasource.push({
-            action: 'CREATE',
-            target: 'RELATION',
-            settings: getRelationSettingsFromMetaModel(relation, table),
-          })
-        })
-      }
-    })
-
-    /**
-     * Destroy the adapter
-     */
-    await adapter.destroy()
-
+    data.diffToApply = await computeDiff(data.direction, datasourceFromMetaModel)
     /**
      * Check the migration is not a two-way one (ds > mm, mm > ds)
      */
-    if (diffToApply.datasource.length > 0 && diffToApply.metamodel.length > 0)
-      throw new NotAcceptable('The migration is a two-way one. This is not yet implemented.')
+    if (data.diffToApply.datasource.length > 0 && data.diffToApply.metamodel.length > 0)
+      throw new NotAcceptable(
+        'The migration is a two-way one. This is not yet implemented.',
+        data.diffToApply,
+      )
 
     /**
      * Check that there is at least a migration to apply, else raise an Error
      */
-    if (diffToApply.datasource.length === 0 && diffToApply.metamodel.length === 0) {
-      throw new NotAcceptable('No diff found between datasource and metamodel.')
+    if (data.diffToApply.datasource.length === 0 && data.diffToApply.metamodel.length === 0) {
+      throw new NotAcceptable('No diff found between datasource and metamodel.', diffToApply)
     }
-
-    // actually, we set diffToApply and the schema is not "accepting it"
-    // we could do the computation of diffToApply in a resolver,
-    // but errors thrown are encapsulated in a generic BadRequest error
-    // cf https://github.com/locokit/locokit/issues/244
-    data.diffToApply = diffToApply
 
     await migrationDataInternalValidator(data)
 
     return await this._create(data, params)
   }
+
+  /**
+   * This custom method will analyze diffs
+   * between real schema and meta model stored in LocoKit
+   *
+   * This does NOT create a new migration.
+   *
+   * Only for information purpose.
+   *
+   * Real schema > Meta model
+   */
+
+  async diff(data: MigrationDiffInternal, params?: MigrationParams): Promise<Diff> {
+    console.log(data, params)
+    migrationLogger.info('Creating the diff...')
+
+    migrationLogger.debug('retrieving datasources metamodel and inspect remote schema')
+
+    const { authentication, provider, transaction, authenticated, user, route } =
+      params as MigrationParams
+    const datasourceFromMetaModel = await this.app
+      .service(SERVICES.WORKSPACE_DATASOURCE)
+      .get(data.datasourceId, {
+        authentication,
+        provider,
+        transaction,
+        authenticated,
+        user,
+        route,
+        query: {
+          $eager:
+            '[tables.[fields, relations.[toTable,throughTable,fromField,toField,throughField]]]', // relations
+        },
+      })
+
+    return computeDiff('both', datasourceFromMetaModel)
+  }
+
+  /**
+   * This custom method will analyze diffs
+   * between real schema and meta model stored in LocoKit
+   *
+   * Real schema > Meta model
+   */
 
   /**
    * This custom method will sync all updates
@@ -454,10 +172,15 @@ export class Migration extends ObjectionService<
    * Real schema > Meta model
    */
   async apply({ id }: { id: Id }, params?: MigrationParams): Promise<MigrationResult> {
+    console.log('apply', id, params)
     /**
      * Retrieve the migration to apply and which schema
      */
     const migration = await this._get(id, params)
+
+    if (migration.applied) throw new NotAcceptable('Migration already applied.')
+
+    console.log(migration)
     const datasourceId = migration.datasourceId
 
     migrationLogger.debug('applying migration for datasource %s', datasourceId)
@@ -616,7 +339,6 @@ export class Migration extends ObjectionService<
             } and ${settings.toTable as string}`,
           )
 
-        // const relation =
         const relation = await this.app.service(SERVICES.WORKSPACE_TABLE_RELATION).create(
           {
             fromTableId,
@@ -625,9 +347,10 @@ export class Migration extends ObjectionService<
             toFieldId,
             type: '1-n',
             settings,
-            name: `${settings.fromTable as string}.${settings.fromField as string} > ${
-              settings.toTable as string
-            }.${settings.toField as string}`,
+            // name: `${settings.fromTable as string}.${settings.fromField as string} > ${
+            //   settings.toTable as string
+            // }.${settings.toField as string}`,
+            name: settings.name,
           },
           {
             transaction: params?.transaction,

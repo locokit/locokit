@@ -6,6 +6,7 @@ import { transaction } from '@/feathers-objection'
 import { migrationResolvers } from './migration.resolver'
 import {
   migrationDataExternalValidator,
+  migrationDiffInternalValidator,
   migrationPatchValidator,
   migrationQueryValidator,
 } from './migration.schema'
@@ -38,6 +39,8 @@ export const migrationHooks = {
       schemaHooks.resolveData(migrationResolvers.data.patch),
     ],
     remove: [setLocoKitContext],
+    diff: [setLocoKitContext, schemaHooks.validateData(migrationDiffInternalValidator)],
+    apply: [setLocoKitContext],
   },
   after: {
     all: [transaction.end()],
