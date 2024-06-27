@@ -352,10 +352,7 @@ export class SQLAdapter implements GenericAdapter {
               r.settings.name,
             )
             table
-              .foreign(
-                r.settings.fromField,
-                r.settings.name ?? `FK_${tableName as string}_${r.settings.fromField as string}`,
-              )
+              .foreign(r.settings.fromField, r.settings.name)
               .references(r.settings.toField)
               .inTable(`${r.settings.toSchema as string}.${r.settings.toTable as string}`)
           })
