@@ -16,7 +16,7 @@ jobs:
   #
 
   ## Package i18n
-  front-translation:
+  i18n-check-keys:
     runs-on: ubuntu-latest
 
     defaults:
