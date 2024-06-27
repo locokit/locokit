@@ -2,8 +2,8 @@
   <div>
     <FormGeneric
       v-if="route.params.datasourceSlug && tableSlug"
-      label-tk-button-submit="components.createField.submit"
-      label-tk-button-reset="components.createField.resetAndCancel"
+      label-tk-button-submit="locokit.components.createField.submit"
+      label-tk-button-reset="locokit.components.createField.resetAndCancel"
       :response="error"
       :loading="loading"
       @submit="onSubmit"
@@ -18,7 +18,7 @@
         as="div"
       >
         <label for="name" class="label-field-required">
-          {{ $t('components.createField.name') }}
+          {{ $t('locokit.components.createField.name') }}
         </label>
         <PrimeInputText
           id="name"
@@ -37,7 +37,7 @@
         </span>
         <div class="flex flex-row mb-4 mt-1">
           <p class="mr-1">
-            {{ $t('components.createField.explainsSlugUse') }}
+            {{ $t('locokit.components.createField.explainsSlugUse') }}
           </p>
           <p
             v-if="name"
@@ -55,7 +55,7 @@
         as="div"
       >
         <label for="documentation">
-          {{ $t('components.createField.documentation') }}
+          {{ $t('locokit.components.createField.documentation') }}
         </label>
         <PrimeTextarea id="documentation" :auto-resize="true" v-bind="field" />
       </Field>
@@ -67,7 +67,7 @@
         as="div"
       >
         <label for="type">
-          {{ $t('components.createField.type') }}
+          {{ $t('locokit.components.createField.type') }}
         </label>
         <PrimeDropdown
           v-bind="{
@@ -105,7 +105,7 @@
       </Field>
       <Field class="mb-4" name="createField.unique" as="div">
         <label for="unique">
-          {{ $t('components.createField.unique') }}
+          {{ $t('locokit.components.createField.unique') }}
         </label>
         <PrimeCheckbox
           id="unique"
@@ -117,7 +117,7 @@
       </Field>
       <Field class="mb-4" name="createField.nullable" as="div">
         <label for="nullable">
-          {{ $t('components.createField.nullable') }}
+          {{ $t('locokit.components.createField.nullable') }}
         </label>
         <PrimeCheckbox
           id="nullable"
@@ -131,7 +131,7 @@
     <MessageForUser
       v-else
       status="failed"
-      custom-msg-tk-error-form="components.createField.noTable"
+      custom-msg-tk-error-form="locokit.components.createField.noTable"
     />
   </div>
 </template>

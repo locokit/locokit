@@ -14,7 +14,7 @@
         rules="required|email"
       >
         <label for="email">
-          {{ $t('components.signInForm.email') }}
+          {{ $t('locokit.components.signInForm.email') }}
         </label>
         <PrimeInputText
           id="email"
@@ -43,7 +43,7 @@
         rules="required"
       >
         <label for="password">
-          {{ $t('components.signInForm.password') }}
+          {{ $t('locokit.components.signInForm.password') }}
         </label>
         <PrimePassword
           v-model="form.password"
@@ -72,13 +72,13 @@
           :href="lostPasswordRoute"
           class="w-fit my-4 block ml-auto text-xs primary"
         >
-          {{ $t('components.signInForm.forgottenPassword') }}
+          {{ $t('locokit.components.signInForm.forgottenPassword') }}
         </a>
       </Field>
       <div class="flex flex-col">
         <ButtonWithStatus
           type="submit"
-          label-tk="components.signInForm.signIn"
+          label-tk="locokit.components.signInForm.signIn"
           class="!w-full"
           :disabled="loading || !valid || !touched"
           :status-form="status"
@@ -97,7 +97,7 @@
 
     <div class="mt-4 pl-6 flex justify-center">
       <a v-if="displaySignUpLink" :href="signupRoute" class="w-fit text-md">
-        {{ $t('components.signInForm.signUp') }}
+        {{ $t('locokit.components.signInForm.signUp') }}
       </a>
     </div>
   </div>

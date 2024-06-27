@@ -1,13 +1,13 @@
 <template>
   <FormGeneric
-    label-tk-button-submit="components.workspaceForm.submit"
+    label-tk-button-submit="locokit.components.workspaceForm.submit"
     :response="response"
     :loading="loading"
     @submit="onSubmit"
   >
     <div v-if="workspaceData?.name" class="mb-4">
       <label for="name" class="label-field-required">
-        {{ $t('components.workspaceForm.name') }}
+        {{ $t('locokit.components.workspaceForm.name') }}
       </label>
       <PrimeInputText id="name" v-model="name" :disabled="true" />
     </div>
@@ -21,7 +21,7 @@
       as="div"
     >
       <label for="name" class="label-field-required">
-        {{ $t('components.workspaceForm.name') }}
+        {{ $t('locokit.components.workspaceForm.name') }}
       </label>
       <PrimeInputText
         id="name"
@@ -39,7 +39,9 @@
         {{ errorMessage }}
       </span>
       <div class="flex flex-row mb-4 mt-1">
-        <p class="mr-1">{{ $t('components.workspaceForm.explainsSlugUse') }}</p>
+        <p class="mr-1">
+          {{ $t('locokit.components.workspaceForm.explainsSlugUse') }}
+        </p>
         <p
           v-if="name"
           class="px-2 max-w-fit rounded bg-gray-300 text-black text-sm"
@@ -56,7 +58,7 @@
       as="div"
     >
       <label for="documentation">
-        {{ $t('components.workspaceForm.documentation') }}
+        {{ $t('locokit.components.workspaceForm.documentation') }}
       </label>
       <PrimeTextarea id="documentation" :auto-resize="true" v-bind="field" />
     </Field>
@@ -71,15 +73,15 @@
       as="div"
     >
       <label for="icon">
-        {{ $t('components.workspaceForm.icon') }}
+        {{ $t('locokit.components.workspaceForm.icon') }}
       </label>
       <PrimeInputText
         id="icon"
-        :placeholder="$t('components.workspaceForm.iconPlaceholder')"
+        :placeholder="$t('locokit.components.workspaceForm.iconPlaceholder')"
         v-bind="field"
       />
       <small id="icon-help">
-        {{ $t('components.workspaceForm.iconHelp') }}
+        {{ $t('locokit.components.workspaceForm.iconHelp') }}
       </small>
     </Field>
     <Field
@@ -89,7 +91,9 @@
       name="workspaceForm.public"
       as="div"
     >
-      <label for="public">{{ $t('components.workspaceForm.public') }}</label>
+      <label for="public">{{
+        $t('locokit.components.workspaceForm.public')
+      }}</label>
       <PrimeSwitch
         id="public"
         v-bind="field"
@@ -98,7 +102,7 @@
         :false-value="false"
       />
       <small id="public-help" class="flex">
-        {{ $t('components.workspaceForm.publicHelp') }}
+        {{ $t('locokit.components.workspaceForm.publicHelp') }}
       </small>
     </Field>
   </FormGeneric>

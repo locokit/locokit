@@ -1,7 +1,7 @@
 <template>
   <FormGeneric
     :display-reset-button="false"
-    label-tk-button-submit="components.updateGeneralForm.submit"
+    label-tk-button-submit="locokit.components.updateGeneralForm.submit"
     :response="response"
     :loading="loading"
     class="w-3/4"
@@ -16,7 +16,7 @@
       as="div"
     >
       <label for="username" class="label-field-required">
-        {{ $t('components.updateGeneralForm.username') }}
+        {{ $t('locokit.components.updateGeneralForm.username') }}
       </label>
       <PrimeInputText
         id="username"
@@ -41,7 +41,7 @@
       as="div"
     >
       <label for="lastName" class="label-field-required">
-        {{ $t('components.updateGeneralForm.lastName') }}
+        {{ $t('locokit.components.updateGeneralForm.lastName') }}
       </label>
       <PrimeInputText
         id="lastName"
@@ -66,7 +66,7 @@
       as="div"
     >
       <label for="firstName" class="label-field-required">
-        {{ $t('components.updateGeneralForm.firstName') }}
+        {{ $t('locokit.components.updateGeneralForm.firstName') }}
       </label>
       <PrimeInputText
         id="firstName"
@@ -87,7 +87,7 @@
     </Field>
     <div class="mb-4">
       <p>
-        {{ $t('components.updateGeneralForm.email') }}
+        {{ $t('locokit.components.updateGeneralForm.email') }}
       </p>
       <p class="my-1 font-bold">
         {{ user.email }}
@@ -95,12 +95,14 @@
     </div>
     <div class="mb-4">
       <p>
-        {{ $t('components.updateGeneralForm.role') }}
+        {{ $t('locokit.components.updateGeneralForm.role') }}
       </p>
       <SingleTag
         class="my-1 w-fit"
         :label="
-          $t(`components.updateGeneralForm.${user.profile.toLowerCase()}`)
+          $t(
+            `locokit.components.updateGeneralForm.${user.profile.toLowerCase()}`,
+          )
         "
       />
     </div>

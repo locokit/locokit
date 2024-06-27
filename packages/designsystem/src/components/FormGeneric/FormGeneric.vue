@@ -12,7 +12,7 @@
         :label="
           labelTkButtonReset
             ? $t(labelTkButtonReset)
-            : $t('components.formGeneric.reset')
+            : $t('locokit.components.formGeneric.reset')
         "
         icon="bi bi-arrow-counterclockwise"
         :class="[fullWidthButton ? 'w-full' : '!w-fit']"
@@ -21,7 +21,7 @@
       <ButtonWithStatus
         type="submit"
         :full-width-button="fullWidthButton"
-        :label-tk="labelTkButtonSubmit || 'components.formGeneric.save'"
+        :label-tk="labelTkButtonSubmit || 'locokit.components.formGeneric.save'"
         :disabled="loading || !valid || !touched"
         :status-form="status"
         icon="bi bi-check2"
@@ -72,8 +72,8 @@ const props = withDefaults(
     labelTkButtonSubmit: null,
     labelTkButtonReset: null,
     displayMsgSuccess: true,
-    customMsgTkSuccessForm: 'success.basic',
-    customMsgTkErrorForm: 'error.basic',
+    customMsgTkSuccessForm: 'locokit.success.basic',
+    customMsgTkErrorForm: 'locokit.error.basic',
     classSubmitButton: null,
     resetFormWithEmptyValue: true,
   },

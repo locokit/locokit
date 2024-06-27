@@ -1,795 +1,804 @@
 {
-  "components": {
-    "password": {
-      "prompt": "Enter a password",
-      "rules": "Must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 digit and 1 special character.",
-      "passwordStrength": {
-        "weak": "Weak",
-        "medium": "Medium",
-        "strong": "Strong"
-      }
-    },
-    "signInForm": {
-      "email": "Email",
-      "password": "Password",
-      "signIn": "Sign in",
-      "signInAgain": "Sign in again",
-      "forgottenPassword": "Forgot your password?",
-      "signUp": "Sign up",
-      "error": "Unable to sign in. Please contact the administrator or try again later."
-    },
-    "lostPasswordForm": {
-      "email": "Email",
-      "submit": "Submit and get a temporary link to choose your new password.",
-      "signInHelp": "Already have login and password?",
-      "signIn": "Sign in",
-      "feedback": "Your request has been processed. If your email was found, you will receive an email with a link to reset your password. If not, please check your spam folder."
-    },
-    "passwordForm": {
-      "password": "Password",
-      "passwordCheck": "Password (check)",
-      "passwordMismatch": "Passwords mismatch",
-      "prompt": "@:components.password.prompt",
-      "rules": "@:components.password.rules",
-      "passwordStrength": {
-        "weak": "@:components.password.passwordStrength.weak",
-        "medium": "@:components.password.passwordStrength.medium",
-        "strong": "@:components.password.passwordStrength.strong"
-      }
-    },
-    "signUpForm": {
-      "email": "Email",
-      "username": "Username",
-      "signup": "Sign up"
-    },
-    "formGeneric": {
-      "save": "Save",
-      "reset": "Reset"
-    },
-    "predefinedColorPicker": {
-      "label": "Color",
-      "text": "This is text example.",
-      "help": "This color is used as background in the workspace listing page."
-    },
-    "workspaceForm": {
-      "title": "Create a new workspace",
-      "name": "Name",
-      "explainsSlugUse": "This workspace will be saved as:",
-      "documentation": "Summary",
-      "color": "Color",
-      "colorHelp": "This color is used in workspace listing page.",
-      "icon": "Icon",
-      "iconPlaceholder": "e.g. pi-cart",
-      "iconHelp": "Fill with icon id, list is available on BootstrapIcons.",
-      "public": "Available for everyone (public)",
-      "publicHelp": "Before activating it, please check that the public policy is as expected and that a dedicated page has been made.",
-      "reset": "Reset",
-      "submit": "Submit"
-    },
-    "updateGeneralForm": {
-      "lastName": "Last name",
-      "firstName": "First name",
-      "username": "Username",
-      "email": "Email",
-      "role": "Role",
-      "submit": "Submit",
-      "admin": "@:commons.userProfile.admin",
-      "creator": "@:commons.userProfile.creator",
-      "member": "@:commons.userProfile.member"
-    },
-    "updateEmailForm": {
-      "currentEmail": "Current email",
-      "newEmail": "New email",
-      "password": "Password",
-      "submit": "Submit",
-      "successMsg": "An email has been sent to your current email address to confirm the change."
-    },
-    "updatePasswordForm": {
-      "currentPassword": "Current password",
-      "newPassword": "New password",
-      "prompt": "@:components.password.prompt",
-      "rules": "@:components.password.rules",
-      "passwordStrength": {
-        "weak": "@:components.password.passwordStrength.weak",
-        "medium": "@:components.password.passwordStrength.medium",
-        "strong": "@:components.password.passwordStrength.strong"
+  "locokit": {
+    "components": {
+      "primeAutocomplete": {
+        "placeholder": "Start typing for suggestions"
       },
-      "confirmPassword": "Confirm new password",
-      "submit": "Submit"
-    },
-    "buttonWithStatus": {
-      "statusFailed": "Failed to send",
-      "statusSuccess": "Successful sent",
-      "loading": "Loading"
-    },
-    "filterButton": {
-      "label": "{count} filter | {count} filter | {count} filters",
-      "column": "Column",
-      "action": "Action",
-      "motif": "Motif",
-      "addFilter": "Add a filter",
-      "reset": "Reset",
-      "submit": "Validate",
-      "select": {
-        "operator": {
-          "$or": "OR",
-          "$and": "AND"
-        },
-        "action": {
-          "match": "match",
-          "doesNotMatch": "does not match",
-          "isEqualTo": "is equal to",
-          "isDifferentFrom": "is different from",
-          "in": "is included in",
-          "notIn": "is not included in",
-          "all": "contains all elements",
-          "any": "contains at least one element",
-          "isEmpty": "is empty",
-          "isNotEmpty": "is not empty",
-          "isTrue": "is true",
-          "isFalse": "is false",
-          "isGreaterThan": "is greater than",
-          "isLowerThan": "is lower than",
-          "isGreaterThanOrEqualTo": "is greater than or equal to",
-          "isLowerThanOrEqualTo": "is lower than or equal to",
-          "isLaterThan": "is later than",
-          "isEarlierThan": "is earlier than",
-          "isEarlierThanOrEqualTo": "is earlier than or equal to",
-          "isLaterThanOrEqualTo": "is later than or equal to",
-          "startWith": "start with",
-          "endWith": "end with",
-          "isLoggedInUser": "is the logged-in user",
-          "isLoggedInUserGroup": "is the group of the logged-in user",
-          "containsLoggedInUser": "contains the logged-in user"
+      "primeDropdown": {
+        "placeholder": "Select an option"
+      },
+      "password": {
+        "prompt": "Enter a password",
+        "rules": "Must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 digit and 1 special character.",
+        "passwordStrength": {
+          "weak": "Weak",
+          "medium": "Medium",
+          "strong": "Strong"
         }
-      }
-    },
-    "createField": {
-      "title": "Create field",
-      "submit": "Submit",
-      "resetAndCancel": "Reset/Cancel",
-      "name": "Name",
-      "explainsSlugUse": "This field will be saved as:",
-      "type": "Type",
-      "documentation": "Notes",
-      "unique": "Value must be unique?",
-      "default": "Default value",
-      "nullable": "Field is required?",
-      "noTable": "Unable to retrieve the table."
-    }
-  },
-  "layouts": {
-    "withHeader": {
-      "openMenu": "Open menu",
-      "closeMenu": "Close main menu",
-      "home": "Home",
-      "workspaces": "Workspaces",
-      "profile": "Profile",
-      "signIn": "Sign in",
-      "signUp": "Sign up",
-      "admin": "Admin",
-      "logout": "Logout"
-    },
-    "withAsideNav": {
-      "workspaces": "Workspaces",
-      "profile": "Profile",
-      "admin": "Admin",
-      "logout": "Logout"
-    }
-  },
-  "pages": {
-    "error": {
-      "link": "Come back home",
-      "defaultTitle": "An error has occured",
-      "404": {
-        "title": "Page not found",
-        "alternativeTitle": "Whooops?!… sounds you're lost…"
-      }
-    },
-    "signIn": {
-      "title": "Welcome"
-    },
-    "indexPage": {
-      "presentation": "LocoKit is an open source LCAP (Low Code Application Platform) that provides Database Management as a Spreadsheet with an App Builder.",
-      "buildData": "Build your data",
-      "shareSecurely": "and share it securely",
-      "createDatabase": "Create your database, according to your business. Share your data, according to the permissions you set!",
-      "shareData": "Share your data",
-      "craftingApp": "by crafting your app",
-      "afterBuilding": "After building your database, build the app your users will use. They will see your data through UI screens you will make, accordingly the permissions you previously configured.",
-      "createWorkflows": "Create workflows",
-      "automateProcess": "to automate your processes",
-      "getStarted": "Get started",
-      "liveDemo": "Live Demo"
-    },
-    "lostPassword": {
-      "title": "Lost password",
-      "alternativeTitle": "Password… where are you?!",
-      "description": "Do you lose your password? Enter your email to receive a mail with a temporary link. Open it, and update your password!",
-      "sendMailToResetPassword": "Check in your email and click on the link to create a new password.",
-      "homeLink": "Go back to home page"
-    },
-    "resetPassword": {
-      "title": "Password reset",
-      "description": "You can reset your password.",
-      "updatedPassword": "Your password has been reset. You can now login to the app with this new password.",
-      "signIn": "Sign In",
-      "labelSubmit": "Reset the password",
-      "missingToken": "Unable to find your account. It seems that you did not use the link in the email sent by the app."
-    },
-    "signUp": {
-      "title": "Sign up",
-      "description": "Complete this form to initiate your registration.",
-      "sendMailToCompleteAccount": "Your signup has been processed. You will receive an email with instructions to complete it.",
-      "homeLink": "Go back to home page"
-    },
-    "verifySignup": {
-      "title": "Email verification and set password",
-      "description": "Please set your password before we authorize you to connect.",
-      "accountComplete": "Your account is complete. You can now login to the app.",
-      "signIn": "Sign In",
-      "labelSubmit": "Set the password",
-      "missingToken": "Unable to find your account. It seems that you did not use the link in the email sent by the app."
-    },
-    "workspacesList": {
-      "title": "Workspaces",
-      "intro": "You must create or select your workspace before adding data or templates.",
-      "addWorkspace": "Add a workspace",
-      "public": "Public"
-    },
-    "createWorkspace": {
-      "title": "New workspace",
-      "alternativeTitle": "Create a new workspace"
-    },
-    "alreadyAuthenticated": {
-      "title": "Already logged in",
-      "message": "You are already authenticated in this application. You can come back to your workspace or log out.",
-      "workspaceButton": "Back to workspace",
-      "logoutButton": "Log out"
-    },
-    "profile": {
-      "title": "My profile",
-      "general": "Information general",
-      "updateEmail": "Update email",
-      "updatePassword": "Update password"
-    },
-    "updateGeneral": {
-      "title": "@:pages.profile.general",
-      "userNotFound": "Unable to retrieve user record."
-    },
-    "updateEmail": {
-      "title": "@:pages.profile.updateEmail",
-      "userNotFound": "Unable to retrieve user record."
-    },
-    "updatePassword": {
-      "title": "@:pages.profile.updatePassword",
-      "userNotFound": "Unable to retrieve user record."
-    },
-    "admin": {
-      "title": "Administration",
-      "users": "Users administration",
-      "groups": "Groups administration"
-    },
-    "adminUsers": {
-      "title": "@:pages.admin.users",
-      "addUser": "Add a user",
-      "emptyResult": "No result found",
-      "search": "Type to search…",
-      "result": "Showing {elements} out of {total} users.",
-      "filters": {
-        "username": "Username",
-        "firstName": "First Name",
-        "lastName": "Last Name",
-        "email": "Email"
       },
-      "admin": "@:commons.userProfile.admin",
-      "creator": "@:commons.userProfile.creator",
-      "member": "@:commons.userProfile.member"
-    },
-    "aboutUsers": {
-      "title": "@:pages.admin.users",
-      "manual": {
-        "intro": "From this page it is possible to:",
-        "create": "Create a new user by clicking on the button.",
-        "search": "Find an existing user using the search bar and filters.",
-        "displayAndEdit": "View and edit a user's record by clicking on their name."
-      }
-    },
-    "createUser": {
-      "title": "Add a user",
-      "submit": "Create",
-      "username": "Username",
-      "lastName": "Last name",
-      "firstName": "First name",
-      "email": "Email",
-      "profile": "Profile",
-      "admin": "@:commons.userProfile.admin",
-      "creator": "@:commons.userProfile.creator",
-      "member": "@:commons.userProfile.member"
-    },
-    "recordUser": {
-      "title": "User record",
-      "submit": "Update",
-      "blocking": "Blocking user",
-      "unblocking": "Unblocking user",
-      "inviting": "Re-inviting user",
-      "id": "ID",
-      "username": "Username",
-      "lastName": "Last name",
-      "firstName": "First name",
-      "email": "Email",
-      "profile": "Profile",
-      "admin": "@:commons.userProfile.admin",
-      "creator": "@:commons.userProfile.creator",
-      "member": "@:commons.userProfile.member",
-      "isVerified": "Full registration?",
-      "isBlocked": "Is blocked?",
-      "confirmation": "Confirmation",
-      "messageResendVerifySignup": "Are you sure you want to resend a mail to sign up for this user: {username}?",
-      "messageBlockingUser": "Are you sure you want to block this user's account: {username}?",
-      "messageUnblockingUser": "Are you sure you want to unblock this user's account: {username}?",
-      "groups": "Groups",
-      "groupsAvailable": "Available groups",
-      "groupsJoined": "User's groups",
-      "searchPlaceholder": "Search a group",
-      "explanationAddingGroups": "To assign one or more groups to this user, select the groups in the left column and click on the button with the right arrow.",
-      "explanationRemovingGroups": "It also possible to remove one or more groups for this user by selecting groups in the right column.",
-      "noUserFound": "No user found",
-      "noGroupFound": "No group found",
-      "result": "Showing of maximum {elements} groups."
-    },
-    "confirmUpdateEmail": {
-      "title": "Updating your email",
-      "message": "This operation has been successfully completed. You can now log in with your new email.",
-      "errorMessage": "Unfortunately, the operation could not be completed. If the problem persists, please contact the site administrator.",
-      "signIn": "Sign in"
-    },
-    "adminGroups": {
-      "title": "@:pages.admin.groups",
-      "addGroup": "Add a group",
-      "emptyResult": "No result found",
-      "search": "Type to search…",
-      "result": "Showing {elements} out of {total} groups.",
-      "filters": {
-        "name": "Name",
-        "workspace": "Workspace"
-      }
-    },
-    "aboutGroups": {
-      "title": "@:pages.admin.groups",
-      "manual": {
-        "intro": "From this page it is possible to:",
-        "create": "Create a new group by clicking on the button.",
-        "search": "Find an existing group using the search bar and filters.",
-        "displayAndEdit": "View and edit a group's record by clicking on their name."
-      }
-    },
-    "createGroup": {
-      "title": "Add a group",
-      "submit": "Create",
-      "name": "Name",
-      "workspace": "Workspace",
-      "policy": "Access control policy",
-      "documentation": "Notes",
-      "search": "Type to search…",
-      "emptyResult": "No results found"
-    },
-    "recordGroup": {
-      "title": "Group record",
-      "submit": "Update",
-      "id": "ID",
-      "name": "Name",
-      "workspace": "Workspace",
-      "policy": "Access control policy",
-      "documentation": "Notes",
-      "search": "Type to search…",
-      "emptyResult": "No results found",
-      "users": "Users",
-      "usersAvailable": "Available users",
-      "userMembers": "Members",
-      "searchPlaceholder": "Search a user",
-      "explanationAddingUsers": "To assign one or more users to this group, select the users in the left column and click on the button with the right arrow.",
-      "explanationRemovingUsers": "It also possible to remove one or more users for this group by selecting users in the right column.",
-      "noUserFound": "No user found",
-      "noGroupFound": "No group found",
-      "result": "Showing of maximum {elements} users."
-    },
-    "workspace": {
-      "title": "Workspace",
-      "noResult": "No workspace found",
-      "dashboard": "Dashboard",
-      "datasource": "Datasource",
-      "settings": "Workspace settings"
-    },
-    "dashboard": {
-      "title": "@:pages.workspace.dashboard"
-    },
-    "datasource": {
-      "title": "@:pages.workspace.datasource",
-      "subtitle": "Tables",
-      "schema": "Schema",
-      "settings": "Settings",
-      "addDatasource": "Add datasource",
-      "addTable": "Add table"
-    },
-    "settingsWorkspace": {
-      "title": "@:pages.workspace.settings"
-    },
-    "aboutDatasource": {
-      "title": "@:pages.workspace.datasource",
-      "explainDatasource": "First thing to do, it is create or import a database to stock your data through the ” @:pages.datasource.addDatasource ” button.",
-      "explainTable": "Then, it is possible to display database diagram or to display details of a table."
-    },
-    "createDatasource": {
-      "title": "Create datasource",
-      "submit": "Submit",
-      "name": "Name",
-      "explainsSlugUse": "This datasource will be saved as:",
-      "documentation": "Notes",
-      "client": "Client",
-      "pg": "@:commons.clientDatasource.pg",
-      "sqlite3": "@:commons.clientDatasource.sqlite3",
-      "type": "Type",
-      "local": "@:commons.typeDatasource.local",
-      "remote": "@:commons.typeDatasource.remote",
-      "connection": "Connection",
-      "noWorkspace": "Unable to access workspace. Please select (again) the desired workspace."
-    },
-    "updateDatasource": {
-      "title": "Update datasource",
-      "submit": "Submit",
-      "name": "Name",
-      "documentation": "Notes",
-      "client": "Client",
-      "pg": "@:commons.clientDatasource.pg",
-      "sqlite3": "@:commons.clientDatasource.sqlite3",
-      "type": "Type",
-      "local": "@:commons.typeDatasource.local",
-      "remote": "@:commons.typeDatasource.remote",
-      "connection": "Connection",
-      "noDatasource": "Unable to access datasource."
-    },
-    "schemaDatasource": {
-      "title": "Datasource schema",
-      "subTitle": "Update: {tableName}",
-      "documentation": "Notes",
-      "createField": "Create new field",
-      "formTable": {
-        "name": "Name",
-        "documentation": "Notes"
-      },
-      "formField": {
-        "name": "Name",
-        "documentation": "Notes",
-        "type": "Type",
-        "slug": "Slug",
-        "createdAt": "Created at",
-        "updatedAt": "Updated at",
-        "position": "Position",
-        "unique": "Unique",
-        "default": "Default value",
-        "nullable": "Empty value accepted",
-        "maxlength": "Maximum length"
-      },
-      "explainSchema": "Click on a table in the schema to interact with it.",
-      "table": "Table",
-      "fields": "Fields",
-      "properties": "Properties",
-      "addField": "Add field",
-      "noDatasource": "Unable to access datasource.",
-      "noTables": "This datasource does not currently contain any tables. To view the schema, you need to create at least one table.",
-      "submit": "Submit"
-    },
-    "createTable": {
-      "title": "Create table",
-      "submit": "Submit",
-      "name": "Name",
-      "explainsSlugUse": "This datasource will be saved as:",
-      "documentation": "Notes",
-      "table": "Table",
-      "fields": "Fields",
-      "properties": "Properties",
-      "noDatasource": "Unable to access datasource."
-    }
-  },
-  "success": {
-    "basic": "The form have been sent correctly."
-  },
-  "error": {
-    "title": "Error",
-    "basic": "Something goes wrong. Please try again later.",
-    "redundantError": "If this issue keeps happening, contact the app administrator.",
-    "notAuthenticated": {
-      "description": "Unable to log in with this information.\nCan you please check your input?"
-    },
-    "noResult": {
-      "workspace": "Unable to find the requested workspace."
-    },
-    "tooManyResult": {
-      "workspace": "Several workspaces were found."
-    }
-  },
-  "localePrime": {
-    "accept": "Yes",
-    "reject": "No",
-    "choose": "Choose",
-    "upload": "Upload",
-    "cancel": "Cancel",
-    "firstDayOfWeek": 0,
-    "dayNames": [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday"
-    ],
-    "dayNamesShort": [
-      "Sun",
-      "Mon",
-      "Tue",
-      "Wed",
-      "Thu",
-      "Fri",
-      "Sat"
-    ],
-    "dayNamesMin": [
-      "Su",
-      "Mo",
-      "Tu",
-      "We",
-      "Th",
-      "Fr",
-      "Sa"
-    ],
-    "monthNames": [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
-    ],
-    "monthNamesShort": [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
-    ],
-    "today": "Today",
-    "clear": "Clear",
-    "dateFormat": "mm/dd/yy",
-    "weekHeader": "Wk",
-    "weak": "Weak",
-    "medium": "Medium",
-    "strong": "Strong",
-    "passwordPrompt": "Enter a password"
-  },
-  "validations": {
-    "fieldNames": {
       "signInForm": {
-        "email": "@:components.signInForm.email",
-        "password": "@:components.signInForm.password"
+        "email": "Email",
+        "password": "Password",
+        "signIn": "Sign in",
+        "signInAgain": "Sign in again",
+        "forgottenPassword": "Forgot your password?",
+        "signUp": "Sign up",
+        "error": "Unable to sign in. Please contact the administrator or try again later."
       },
       "lostPasswordForm": {
-        "email": "@:components.lostPasswordForm.email"
+        "email": "Email",
+        "submit": "Submit and get a temporary link to choose your new password.",
+        "signInHelp": "Already have login and password?",
+        "signIn": "Sign in",
+        "feedback": "Your request has been processed. If your email was found, you will receive an email with a link to reset your password. If not, please check your spam folder."
       },
       "passwordForm": {
-        "password": "@:components.passwordForm.password",
-        "passwordCheck": "@:components.passwordForm.passwordCheck"
+        "password": "Password",
+        "passwordCheck": "Password (check)",
+        "passwordMismatch": "Passwords mismatch",
+        "prompt": "@:locokit.components.password.prompt",
+        "rules": "@:locokit.components.password.rules",
+        "passwordStrength": {
+          "weak": "@:locokit.components.password.passwordStrength.weak",
+          "medium": "@:locokit.components.password.passwordStrength.medium",
+          "strong": "@:locokit.components.password.passwordStrength.strong"
+        }
       },
       "signUpForm": {
-        "email": "@:components.signUpForm.email",
-        "username": "@:components.signUpForm.username"
+        "email": "Email",
+        "username": "Username",
+        "signup": "Sign up"
+      },
+      "formGeneric": {
+        "save": "Save",
+        "reset": "Reset"
+      },
+      "predefinedColorPicker": {
+        "label": "Color",
+        "text": "This is text example.",
+        "help": "This color is used as background in the workspace listing page."
       },
       "workspaceForm": {
-        "name": "@:components.workspaceForm.name"
+        "title": "Create a new workspace",
+        "name": "Name",
+        "explainsSlugUse": "This workspace will be saved as:",
+        "documentation": "Summary",
+        "color": "Color",
+        "colorHelp": "This color is used in workspace listing page.",
+        "icon": "Icon",
+        "iconPlaceholder": "e.g. pi-cart",
+        "iconHelp": "Fill with icon id, list is available on BootstrapIcons.",
+        "public": "Available for everyone (public)",
+        "publicHelp": "Before activating it, please check that the public policy is as expected and that a dedicated page has been made.",
+        "reset": "Reset",
+        "submit": "Submit"
       },
       "updateGeneralForm": {
-        "lastName": "@:components.updateGeneralForm.lastName",
-        "firstName": "@:components.updateGeneralForm.firstName",
-        "username": "@:components.updateGeneralForm.username"
+        "lastName": "Last name",
+        "firstName": "First name",
+        "username": "Username",
+        "email": "Email",
+        "role": "Role",
+        "submit": "Submit",
+        "admin": "@:locokit.commons.userProfile.admin",
+        "creator": "@:locokit.commons.userProfile.creator",
+        "member": "@:locokit.commons.userProfile.member"
       },
       "updateEmailForm": {
-        "newEmail": "@:components.updateEmailForm.newEmail",
-        "password": "@:components.updateEmailForm.password"
+        "currentEmail": "Current email",
+        "newEmail": "New email",
+        "password": "Password",
+        "submit": "Submit",
+        "successMsg": "An email has been sent to your current email address to confirm the change."
       },
       "updatePasswordForm": {
-        "currentPassword": "@:components.updatePasswordForm.currentPassword",
-        "newPassword": "@:components.updatePasswordForm.newPassword",
-        "confirmPassword": "@:components.updatePasswordForm.confirmPassword"
+        "currentPassword": "Current password",
+        "newPassword": "New password",
+        "prompt": "@:locokit.components.password.prompt",
+        "rules": "@:locokit.components.password.rules",
+        "passwordStrength": {
+          "weak": "@:locokit.components.password.passwordStrength.weak",
+          "medium": "@:locokit.components.password.passwordStrength.medium",
+          "strong": "@:locokit.components.password.passwordStrength.strong"
+        },
+        "confirmPassword": "Confirm new password",
+        "submit": "Submit"
       },
-      "createUser": {
-        "username": "@:pages.createUser.username",
-        "email": "@:pages.createUser.username"
+      "buttonWithStatus": {
+        "statusFailed": "Failed to send",
+        "statusSuccess": "Successful sent",
+        "loading": "Loading"
       },
-      "recordUser": {
-        "username": "@:pages.recordUser.username",
-        "email": "@:pages.recordUser.username"
+      "filterButton": {
+        "label": "{count} filter | {count} filter | {count} filters",
+        "column": "Column",
+        "action": "Action",
+        "motif": "Motif",
+        "addFilter": "Add a filter",
+        "reset": "Reset",
+        "submit": "Validate",
+        "select": {
+          "operator": {
+            "$or": "OR",
+            "$and": "AND"
+          },
+          "action": {
+            "match": "match",
+            "doesNotMatch": "does not match",
+            "isEqualTo": "is equal to",
+            "isDifferentFrom": "is different from",
+            "in": "is included in",
+            "notIn": "is not included in",
+            "all": "contains all elements",
+            "any": "contains at least one element",
+            "isEmpty": "is empty",
+            "isNotEmpty": "is not empty",
+            "isTrue": "is true",
+            "isFalse": "is false",
+            "isGreaterThan": "is greater than",
+            "isLowerThan": "is lower than",
+            "isGreaterThanOrEqualTo": "is greater than or equal to",
+            "isLowerThanOrEqualTo": "is lower than or equal to",
+            "isLaterThan": "is later than",
+            "isEarlierThan": "is earlier than",
+            "isEarlierThanOrEqualTo": "is earlier than or equal to",
+            "isLaterThanOrEqualTo": "is later than or equal to",
+            "startWith": "start with",
+            "endWith": "end with",
+            "isLoggedInUser": "is the logged-in user",
+            "isLoggedInUserGroup": "is the group of the logged-in user",
+            "containsLoggedInUser": "contains the logged-in user"
+          }
+        }
       },
-      "createGroup": {
-        "name": "@:pages.createGroup.name",
-        "workspace": "@:pages.createGroup.workspace",
-        "policy": "@:pages.createGroup.policy"
-      },
-      "createDatasource": {
-        "name": "@:pages.createDatasource.name",
-        "client": "@:pages.createDatasource.client",
-        "connection": "@:pages.createDatasource.connection"
-      },
-      "updateDatasource": {
-        "client": "@:pages.updateDatasource.client",
-        "connection": "@:pages.updateDatasource.connection"
+      "createField": {
+        "title": "Create field",
+        "submit": "Submit",
+        "resetAndCancel": "Reset/Cancel",
+        "name": "Name",
+        "explainsSlugUse": "This field will be saved as:",
+        "type": "Type",
+        "documentation": "Notes",
+        "unique": "Value must be unique?",
+        "default": "Default value",
+        "nullable": "Field is required?",
+        "noTable": "Unable to retrieve the table."
       }
     },
-    "messages": {
-      "required": "The field '{field}' is required.",
-      "email": "The field '{field}' does not match the expected format (email).",
-      "regex": "The field '{field}' does not match the expected format.",
-      "confirmed": "The value in '{field}' doesn't correspond to the upper field.",
-      "isFalseOrOtherTrue": "The field '{field}' field can only be checked if the '{target}' field is also checked.",
-      "minDate": "The field '{field}' must be after {fromDate}.",
-      "dateValid": "The field '{field}' does not match the expected format.",
-      "reference": "The field '{field}' value is invalid: please select an item from the list."
-    }
-  },
-  "commons": {
-    "userProfile": {
-      "admin": "Admin",
-      "creator": "Creator",
-      "member": "Member"
+    "layouts": {
+      "withHeader": {
+        "openMenu": "Open menu",
+        "closeMenu": "Close main menu",
+        "home": "Home",
+        "workspaces": "Workspaces",
+        "profile": "Profile",
+        "signIn": "Sign in",
+        "signUp": "Sign up",
+        "admin": "Admin",
+        "logout": "Logout"
+      },
+      "withAsideNav": {
+        "workspaces": "Workspaces",
+        "profile": "Profile",
+        "admin": "Admin",
+        "logout": "Logout"
+      }
     },
-    "typeDatasource": {
-      "local": "Local",
-      "remote": "Remote"
+    "pages": {
+      "error": {
+        "link": "Come back home",
+        "defaultTitle": "An error has occured",
+        "404": {
+          "title": "Page not found",
+          "alternativeTitle": "Whooops?!… sounds you're lost…"
+        }
+      },
+      "signIn": {
+        "title": "Welcome"
+      },
+      "indexPage": {
+        "presentation": "LocoKit is an open source LCAP (Low Code Application Platform) that provides Database Management as a Spreadsheet with an App Builder.",
+        "buildData": "Build your data",
+        "shareSecurely": "and share it securely",
+        "createDatabase": "Create your database, according to your business. Share your data, according to the permissions you set!",
+        "shareData": "Share your data",
+        "craftingApp": "by crafting your app",
+        "afterBuilding": "After building your database, build the app your users will use. They will see your data through UI screens you will make, accordingly the permissions you previously configured.",
+        "createWorkflows": "Create workflows",
+        "automateProcess": "to automate your processes",
+        "getStarted": "Get started",
+        "liveDemo": "Live Demo"
+      },
+      "lostPassword": {
+        "title": "Lost password",
+        "alternativeTitle": "Password… where are you?!",
+        "description": "Do you lose your password? Enter your email to receive a mail with a temporary link. Open it, and update your password!",
+        "sendMailToResetPassword": "Check in your email and click on the link to create a new password.",
+        "homeLink": "Go back to home page"
+      },
+      "resetPassword": {
+        "title": "Password reset",
+        "description": "You can reset your password.",
+        "updatedPassword": "Your password has been reset. You can now login to the app with this new password.",
+        "signIn": "Sign In",
+        "labelSubmit": "Reset the password",
+        "missingToken": "Unable to find your account. It seems that you did not use the link in the email sent by the app."
+      },
+      "signUp": {
+        "title": "Sign up",
+        "description": "Complete this form to initiate your registration.",
+        "sendMailToCompleteAccount": "Your signup has been processed. You will receive an email with instructions to complete it.",
+        "homeLink": "Go back to home page"
+      },
+      "verifySignup": {
+        "title": "Email verification and set password",
+        "description": "Please set your password before we authorize you to connect.",
+        "accountComplete": "Your account is complete. You can now login to the app.",
+        "signIn": "Sign In",
+        "labelSubmit": "Set the password",
+        "missingToken": "Unable to find your account. It seems that you did not use the link in the email sent by the app."
+      },
+      "workspacesList": {
+        "title": "Workspaces",
+        "intro": "You must create or select your workspace before adding data or templates.",
+        "addWorkspace": "Add a workspace",
+        "public": "Public"
+      },
+      "createWorkspace": {
+        "title": "New workspace",
+        "alternativeTitle": "Create a new workspace"
+      },
+      "alreadyAuthenticated": {
+        "title": "Already logged in",
+        "message": "You are already authenticated in this application. You can come back to your workspace or log out.",
+        "workspaceButton": "Back to workspace",
+        "logoutButton": "Log out"
+      },
+      "profile": {
+        "title": "My profile",
+        "general": "Information general",
+        "updateEmail": "Update email",
+        "updatePassword": "Update password"
+      },
+      "updateGeneral": {
+        "title": "@:locokit.pages.profile.general",
+        "userNotFound": "Unable to retrieve user record."
+      },
+      "updateEmail": {
+        "title": "@:locokit.pages.profile.updateEmail",
+        "userNotFound": "Unable to retrieve user record."
+      },
+      "updatePassword": {
+        "title": "@:locokit.pages.profile.updatePassword",
+        "userNotFound": "Unable to retrieve user record."
+      },
+      "admin": {
+        "title": "Administration",
+        "users": "Users administration",
+        "groups": "Groups administration"
+      },
+      "adminUsers": {
+        "title": "@:locokit.pages.admin.users",
+        "addUser": "Add a user",
+        "emptyResult": "No result found",
+        "search": "Type to search…",
+        "result": "Showing {elements} out of {total} users.",
+        "filters": {
+          "username": "Username",
+          "firstName": "First Name",
+          "lastName": "Last Name",
+          "email": "Email"
+        },
+        "admin": "@:locokit.commons.userProfile.admin",
+        "creator": "@:locokit.commons.userProfile.creator",
+        "member": "@:locokit.commons.userProfile.member"
+      },
+      "aboutUsers": {
+        "title": "@:locokit.pages.admin.users",
+        "manual": {
+          "intro": "From this page it is possible to:",
+          "create": "Create a new user by clicking on the button.",
+          "search": "Find an existing user using the search bar and filters.",
+          "displayAndEdit": "View and edit a user's record by clicking on their name."
+        }
+      },
+      "createUser": {
+        "title": "Add a user",
+        "submit": "Create",
+        "username": "Username",
+        "lastName": "Last name",
+        "firstName": "First name",
+        "email": "Email",
+        "profile": "Profile",
+        "admin": "@:locokit.commons.userProfile.admin",
+        "creator": "@:locokit.commons.userProfile.creator",
+        "member": "@:locokit.commons.userProfile.member"
+      },
+      "recordUser": {
+        "title": "User record",
+        "submit": "Update",
+        "blocking": "Blocking user",
+        "unblocking": "Unblocking user",
+        "inviting": "Re-inviting user",
+        "id": "ID",
+        "username": "Username",
+        "lastName": "Last name",
+        "firstName": "First name",
+        "email": "Email",
+        "profile": "Profile",
+        "admin": "@:locokit.commons.userProfile.admin",
+        "creator": "@:locokit.commons.userProfile.creator",
+        "member": "@:locokit.commons.userProfile.member",
+        "isVerified": "Full registration?",
+        "isBlocked": "Is blocked?",
+        "confirmation": "Confirmation",
+        "messageResendVerifySignup": "Are you sure you want to resend a mail to sign up for this user: {username}?",
+        "messageBlockingUser": "Are you sure you want to block this user's account: {username}?",
+        "messageUnblockingUser": "Are you sure you want to unblock this user's account: {username}?",
+        "groups": "Groups",
+        "groupsAvailable": "Available groups",
+        "groupsJoined": "User's groups",
+        "searchPlaceholder": "Search a group",
+        "explanationAddingGroups": "To assign one or more groups to this user, select the groups in the left column and click on the button with the right arrow.",
+        "explanationRemovingGroups": "It also possible to remove one or more groups for this user by selecting groups in the right column.",
+        "noUserFound": "No user found",
+        "noGroupFound": "No group found",
+        "result": "Showing of maximum {elements} groups."
+      },
+      "confirmUpdateEmail": {
+        "title": "Updating your email",
+        "message": "This operation has been successfully completed. You can now log in with your new email.",
+        "errorMessage": "Unfortunately, the operation could not be completed. If the problem persists, please contact the site administrator.",
+        "signIn": "Sign in"
+      },
+      "adminGroups": {
+        "title": "@:locokit.pages.admin.groups",
+        "addGroup": "Add a group",
+        "emptyResult": "No result found",
+        "search": "Type to search…",
+        "result": "Showing {elements} out of {total} groups.",
+        "filters": {
+          "name": "Name",
+          "workspace": "Workspace"
+        }
+      },
+      "aboutGroups": {
+        "title": "@:locokit.pages.admin.groups",
+        "manual": {
+          "intro": "From this page it is possible to:",
+          "create": "Create a new group by clicking on the button.",
+          "search": "Find an existing group using the search bar and filters.",
+          "displayAndEdit": "View and edit a group's record by clicking on their name."
+        }
+      },
+      "createGroup": {
+        "title": "Add a group",
+        "submit": "Create",
+        "name": "Name",
+        "workspace": "Workspace",
+        "policy": "Access control policy",
+        "documentation": "Notes",
+        "search": "Type to search…",
+        "emptyResult": "No results found"
+      },
+      "recordGroup": {
+        "title": "Group record",
+        "submit": "Update",
+        "id": "ID",
+        "name": "Name",
+        "workspace": "Workspace",
+        "policy": "Access control policy",
+        "documentation": "Notes",
+        "search": "Type to search…",
+        "emptyResult": "No results found",
+        "users": "Users",
+        "usersAvailable": "Available users",
+        "userMembers": "Members",
+        "searchPlaceholder": "Search a user",
+        "explanationAddingUsers": "To assign one or more users to this group, select the users in the left column and click on the button with the right arrow.",
+        "explanationRemovingUsers": "It also possible to remove one or more users for this group by selecting users in the right column.",
+        "noUserFound": "No user found",
+        "noGroupFound": "No group found",
+        "result": "Showing of maximum {elements} users."
+      },
+      "workspace": {
+        "title": "Workspace",
+        "noResult": "No workspace found",
+        "dashboard": "Dashboard",
+        "datasource": "Datasource",
+        "settings": "Workspace settings"
+      },
+      "dashboard": {
+        "title": "@:locokit.pages.workspace.dashboard"
+      },
+      "datasource": {
+        "title": "@:locokit.pages.workspace.datasource",
+        "subtitle": "Tables",
+        "schema": "Schema",
+        "settings": "Settings",
+        "addDatasource": "Add datasource",
+        "addTable": "Add table"
+      },
+      "settingsWorkspace": {
+        "title": "@:locokit.pages.workspace.settings"
+      },
+      "aboutDatasource": {
+        "title": "@:locokit.pages.workspace.datasource",
+        "explainDatasource": "First thing to do, it is create or import a database to stock your data through the ” @:locokit.pages.datasource.addDatasource ” button.",
+        "explainTable": "Then, it is possible to display database diagram or to display details of a table."
+      },
+      "createDatasource": {
+        "title": "Create datasource",
+        "submit": "Submit",
+        "name": "Name",
+        "explainsSlugUse": "This datasource will be saved as:",
+        "documentation": "Notes",
+        "client": "Client",
+        "pg": "@:locokit.commons.clientDatasource.pg",
+        "sqlite3": "@:locokit.commons.clientDatasource.sqlite3",
+        "type": "Type",
+        "local": "@:locokit.commons.typeDatasource.local",
+        "remote": "@:locokit.commons.typeDatasource.remote",
+        "connection": "Connection",
+        "noWorkspace": "Unable to access workspace. Please select (again) the desired workspace."
+      },
+      "updateDatasource": {
+        "title": "Update datasource",
+        "submit": "Submit",
+        "name": "Name",
+        "documentation": "Notes",
+        "client": "Client",
+        "pg": "@:locokit.commons.clientDatasource.pg",
+        "sqlite3": "@:locokit.commons.clientDatasource.sqlite3",
+        "type": "Type",
+        "local": "@:locokit.commons.typeDatasource.local",
+        "remote": "@:locokit.commons.typeDatasource.remote",
+        "connection": "Connection",
+        "noDatasource": "Unable to access datasource."
+      },
+      "schemaDatasource": {
+        "title": "Datasource schema",
+        "subTitle": "Update: {tableName}",
+        "documentation": "Notes",
+        "createField": "Create new field",
+        "formTable": {
+          "name": "Name",
+          "documentation": "Notes"
+        },
+        "formField": {
+          "name": "Name",
+          "documentation": "Notes",
+          "type": "Type",
+          "slug": "Slug",
+          "createdAt": "Created at",
+          "updatedAt": "Updated at",
+          "position": "Position",
+          "unique": "Unique",
+          "default": "Default value",
+          "nullable": "Empty value accepted",
+          "maxlength": "Maximum length"
+        },
+        "explainSchema": "Click on a table in the schema to interact with it.",
+        "table": "Table",
+        "fields": "Fields",
+        "properties": "Properties",
+        "addField": "Add field",
+        "noDatasource": "Unable to access datasource.",
+        "noTables": "This datasource does not currently contain any tables. To view the schema, you need to create at least one table.",
+        "submit": "Submit"
+      },
+      "createTable": {
+        "title": "Create table",
+        "submit": "Submit",
+        "name": "Name",
+        "explainsSlugUse": "This datasource will be saved as:",
+        "documentation": "Notes",
+        "table": "Table",
+        "fields": "Fields",
+        "properties": "Properties",
+        "noDatasource": "Unable to access datasource."
+      }
     },
-    "clientDatasource": {
-      "pg": "PostgreSQL",
-      "sqlite3": "SQLite3"
+    "success": {
+      "basic": "The form have been sent correctly."
     },
-    "fieldType": {
-      "id_number": {
-        "name": "Id with number",
-        "description": "Number of reference of this field (Primary key)"
+    "error": {
+      "title": "Error",
+      "basic": "Something goes wrong. Please try again later.",
+      "redundantError": "If this issue keeps happening, contact the app administrator.",
+      "notAuthenticated": {
+        "description": "Unable to log in with this information.\nCan you please check your input?"
       },
-      "id_uuid": {
-        "name": "Id with UUID",
-        "description": "UUID of reference of this field (Primary key)"
+      "noResult": {
+        "workspace": "Unable to find the requested workspace."
       },
-      "boolean": {
-        "name": "Boolean",
-        "description": "Checkbox field useful for true/false values"
+      "tooManyResult": {
+        "workspace": "Several workspaces were found."
+      }
+    },
+    "localePrime": {
+      "accept": "Yes",
+      "reject": "No",
+      "choose": "Choose",
+      "upload": "Upload",
+      "cancel": "Cancel",
+      "firstDayOfWeek": 0,
+      "dayNames": [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "dayNamesShort": [
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+      ],
+      "dayNamesMin": [
+        "Su",
+        "Mo",
+        "Tu",
+        "We",
+        "Th",
+        "Fr",
+        "Sa"
+      ],
+      "monthNames": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "monthNamesShort": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ],
+      "today": "Today",
+      "clear": "Clear",
+      "dateFormat": "MM/dd/yy",
+      "dateTimeFormat": "MM/dd/yy HH:mm",
+      "weekHeader": "Wk",
+      "weak": "Weak",
+      "medium": "Medium",
+      "strong": "Strong",
+      "passwordPrompt": "Enter a password"
+    },
+    "validations": {
+      "fieldNames": {
+        "signInForm": {
+          "email": "@:locokit.components.signInForm.email",
+          "password": "@:locokit.components.signInForm.password"
+        },
+        "lostPasswordForm": {
+          "email": "@:locokit.components.lostPasswordForm.email"
+        },
+        "passwordForm": {
+          "password": "@:locokit.components.passwordForm.password",
+          "passwordCheck": "@:locokit.components.passwordForm.passwordCheck"
+        },
+        "signUpForm": {
+          "email": "@:locokit.components.signUpForm.email",
+          "username": "@:locokit.components.signUpForm.username"
+        },
+        "workspaceForm": {
+          "name": "@:locokit.components.workspaceForm.name"
+        },
+        "updateGeneralForm": {
+          "lastName": "@:locokit.components.updateGeneralForm.lastName",
+          "firstName": "@:locokit.components.updateGeneralForm.firstName",
+          "username": "@:locokit.components.updateGeneralForm.username"
+        },
+        "updateEmailForm": {
+          "newEmail": "@:locokit.components.updateEmailForm.newEmail",
+          "password": "@:locokit.components.updateEmailForm.password"
+        },
+        "updatePasswordForm": {
+          "currentPassword": "@:locokit.components.updatePasswordForm.currentPassword",
+          "newPassword": "@:locokit.components.updatePasswordForm.newPassword",
+          "confirmPassword": "@:locokit.components.updatePasswordForm.confirmPassword"
+        },
+        "createUser": {
+          "username": "@:locokit.pages.createUser.username",
+          "email": "@:locokit.pages.createUser.username"
+        },
+        "recordUser": {
+          "username": "@:locokit.pages.recordUser.username",
+          "email": "@:locokit.pages.recordUser.username"
+        },
+        "createGroup": {
+          "name": "@:locokit.pages.createGroup.name",
+          "workspace": "@:locokit.pages.createGroup.workspace",
+          "policy": "@:locokit.pages.createGroup.policy"
+        },
+        "createDatasource": {
+          "name": "@:locokit.pages.createDatasource.name",
+          "client": "@:locokit.pages.createDatasource.client",
+          "connection": "@:locokit.pages.createDatasource.connection"
+        },
+        "updateDatasource": {
+          "client": "@:locokit.pages.updateDatasource.client",
+          "connection": "@:locokit.pages.updateDatasource.connection"
+        }
       },
-      "number": {
-        "name": "Integer",
-        "description": "Designed to hold integer numerical values"
+      "messages": {
+        "required": "The field '{field}' is required.",
+        "email": "The field '{field}' does not match the expected format (email).",
+        "regex": "The field '{field}' does not match the expected format.",
+        "confirmed": "The value in '{field}' doesn't correspond to the upper field.",
+        "isFalseOrOtherTrue": "The field '{field}' field can only be checked if the '{target}' field is also checked.",
+        "minDate": "The field '{field}' must be after {fromDate}.",
+        "dateValid": "The field '{field}' does not match the expected format.",
+        "reference": "The field '{field}' value is invalid: please select an item from the list."
+      }
+    },
+    "commons": {
+      "userProfile": {
+        "admin": "Admin",
+        "creator": "Creator",
+        "member": "Member"
       },
-      "float": {
-        "name": "Float",
-        "description": "Designed to hold float numerical values"
+      "typeDatasource": {
+        "local": "Local",
+        "remote": "Remote"
       },
-      "string": {
-        "name": "Single line text",
-        "description": "For short text purpose"
+      "clientDatasource": {
+        "pg": "PostgreSQL",
+        "sqlite3": "SQLite3"
       },
-      "text": {
-        "name": "Long text",
-        "description": "For text with several sentences or paragraph"
-      },
-      "date": {
-        "name": "Date",
-        "description": "Display a calendar to select or update a specific date"
-      },
-      "datetime": {
-        "name": "Date and time",
-        "description": "Display a calendar to select or update a specific date and time"
-      },
-      "uuid": {
-        "name": "UUID",
-        "description": "Unique identifier respecting standard"
-      },
-      "user": {
-        "name": "User",
-        "description": "To select user from a predetermined list"
-      },
-      "group": {
-        "name": "Group",
-        "description": "To select group from a predetermined list"
-      },
-      "multi_user": {
-        "name": "Multi-user",
-        "description": "To select one or several users from a predetermined list"
-      },
-      "multi_group": {
-        "name": "Multi group",
-        "description": "To select one or several groups from a predetermined list"
-      },
-      "relation": {
-        "name": "Link to another table",
-        "description": "To create a link between two tables by connecting two specific fields"
-      },
-      "lookup": {
-        "name": "Lookup",
-        "description": "To refers to another field on a relation table"
-      },
-      "virtual_lookup": {
-        "name": "Virtual lookup",
-        "description": "To refers to another field on a relation table, does not duplicate the data"
-      },
-      "rollup": {
-        "name": "Rollup",
-        "description": "To aggregate some fields on a relation table"
-      },
-      "single_select": {
-        "name": "Single select",
-        "description": "To select an value from a predetermined list"
-      },
-      "multi_select": {
-        "name": "Multi-select",
-        "description": "To select one or several values from a predetermined list"
-      },
-      "formula": {
-        "name": "Formula",
-        "description": "To compute a value with some functions"
-      },
-      "json": {
-        "name": "JSON",
-        "description": "Data format (dev purpose)"
-      },
-      "network": {
-        "name": "Network",
-        "description": "IP address"
-      },
-      "media": {
-        "name": "Media",
-        "description": "To store a media"
-      },
-      "url": {
-        "name": "URL",
-        "description": "To match an URL (begin by https://…)"
-      },
-      "geometry": {
-        "name": "Geometry without control",
-        "description": "To store WKT geometry without control on its shape"
-      },
-      "geometry_point": {
-        "name": "Point geometry",
-        "description": "To match a WKT point geometry"
-      },
-      "geometry_polygon": {
-        "name": "Polygon geometry",
-        "description": "To match a WKT polygon geometry"
-      },
-      "geometry_linestring": {
-        "name": "Linestring geometry",
-        "description": "To match a WKT linestring geometry"
-      },
-      "geometry_multipoint": {
-        "name": "Multi-point geometry",
-        "description": "To match a WKT multi-point geometry"
-      },
-      "geometry_multipolygon": {
-        "name": "Multi-polygon geometry",
-        "description": "To match a WKT multi-polygon geometry"
-      },
-      "geometry_multilinestring": {
-        "name": "Multi-linestring geometry",
-        "description": "To match a WKT multi-linestring geometry"
+      "fieldType": {
+        "id_number": {
+          "name": "Id with number",
+          "description": "Number of reference of this field (Primary key)"
+        },
+        "id_uuid": {
+          "name": "Id with UUID",
+          "description": "UUID of reference of this field (Primary key)"
+        },
+        "boolean": {
+          "name": "Boolean",
+          "description": "Checkbox field useful for true/false values"
+        },
+        "number": {
+          "name": "Integer",
+          "description": "Designed to hold integer numerical values"
+        },
+        "float": {
+          "name": "Float",
+          "description": "Designed to hold float numerical values"
+        },
+        "string": {
+          "name": "Single line text",
+          "description": "For short text purpose"
+        },
+        "text": {
+          "name": "Long text",
+          "description": "For text with several sentences or paragraph"
+        },
+        "date": {
+          "name": "Date",
+          "description": "Display a calendar to select or update a specific date"
+        },
+        "datetime": {
+          "name": "Date and time",
+          "description": "Display a calendar to select or update a specific date and time"
+        },
+        "uuid": {
+          "name": "UUID",
+          "description": "Unique identifier respecting standard"
+        },
+        "user": {
+          "name": "User",
+          "description": "To select user from a predetermined list"
+        },
+        "group": {
+          "name": "Group",
+          "description": "To select group from a predetermined list"
+        },
+        "multi_user": {
+          "name": "Multi-user",
+          "description": "To select one or several users from a predetermined list"
+        },
+        "multi_group": {
+          "name": "Multi group",
+          "description": "To select one or several groups from a predetermined list"
+        },
+        "relation": {
+          "name": "Link to another table",
+          "description": "To create a link between two tables by connecting two specific fields"
+        },
+        "lookup": {
+          "name": "Lookup",
+          "description": "To refers to another field on a relation table"
+        },
+        "virtual_lookup": {
+          "name": "Virtual lookup",
+          "description": "To refers to another field on a relation table, does not duplicate the data"
+        },
+        "rollup": {
+          "name": "Rollup",
+          "description": "To aggregate some fields on a relation table"
+        },
+        "single_select": {
+          "name": "Single select",
+          "description": "To select an value from a predetermined list"
+        },
+        "multi_select": {
+          "name": "Multi-select",
+          "description": "To select one or several values from a predetermined list"
+        },
+        "formula": {
+          "name": "Formula",
+          "description": "To compute a value with some functions"
+        },
+        "json": {
+          "name": "JSON",
+          "description": "Data format (dev purpose)"
+        },
+        "network": {
+          "name": "Network",
+          "description": "IP address"
+        },
+        "media": {
+          "name": "Media",
+          "description": "To store a media"
+        },
+        "url": {
+          "name": "URL",
+          "description": "To match an URL (begin by https://…)"
+        },
+        "geometry": {
+          "name": "Geometry without control",
+          "description": "To store WKT geometry without control on its shape"
+        },
+        "geometry_point": {
+          "name": "Point geometry",
+          "description": "To match a WKT point geometry"
+        },
+        "geometry_polygon": {
+          "name": "Polygon geometry",
+          "description": "To match a WKT polygon geometry"
+        },
+        "geometry_linestring": {
+          "name": "Linestring geometry",
+          "description": "To match a WKT linestring geometry"
+        },
+        "geometry_multipoint": {
+          "name": "Multi-point geometry",
+          "description": "To match a WKT multi-point geometry"
+        },
+        "geometry_multipolygon": {
+          "name": "Multi-polygon geometry",
+          "description": "To match a WKT multi-polygon geometry"
+        },
+        "geometry_multilinestring": {
+          "name": "Multi-linestring geometry",
+          "description": "To match a WKT multi-linestring geometry"
+        }
       }
     }
   }

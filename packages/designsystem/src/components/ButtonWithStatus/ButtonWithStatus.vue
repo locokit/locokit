@@ -1,6 +1,6 @@
 <template>
   <button
-    class="select-none m-0 rounded-[2rem] text-white border p-2 focus:outline-none focus:ring-2 focus:ring-inset inline-flex enabled:hover:text-white "
+    class="select-none m-0 rounded-[2rem] text-white border p-2 focus:outline-none focus:ring-2 focus:ring-inset inline-flex enabled:hover:text-white"
     :class="[
       { 'cursor-not-allowed opacity-70': isDisabled },
       {
@@ -54,7 +54,7 @@ import { computed, ref, watch } from 'vue'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
   defineProps<{
-    labelTk?: string | null
+    labelTk?: string
     icon?: string | null
     disabled?: boolean
     type: 'submit' | 'button' | 'reset'
@@ -68,8 +68,8 @@ const props = withDefaults(
   }>(),
   {
     labelTk: '',
-    disabled: false,
     icon: null,
+    disabled: false,
     type: 'button',
     statusForm: null,
     isSubmitting: false,
@@ -96,11 +96,11 @@ const isDisabled = computed(() => {
 
 const labelToDisplay = computed(() => {
   if (status.value === 'failed') {
-    return 'components.buttonWithStatus.statusFailed'
+    return 'locokit.components.buttonWithStatus.statusFailed'
   } else if (status.value === 'success') {
-    return 'components.buttonWithStatus.statusSuccess'
+    return 'locokit.components.buttonWithStatus.statusSuccess'
   } else if (props.isSubmitting) {
-    return 'components.buttonWithStatus.loading'
+    return 'locokit.components.buttonWithStatus.loading'
   }
   return props.labelTk
 })

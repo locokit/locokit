@@ -2,7 +2,7 @@
   <FormGeneric
     :display-reset-button="false"
     :full-width-button="true"
-    label-tk-button-submit="components.signUpForm.signup"
+    label-tk-button-submit="locokit.components.signUpForm.signup"
     :response="error"
     :loading="loading"
     @submit="onSubmit"
@@ -16,7 +16,7 @@
       as="div"
     >
       <label for="name" class="label-field-required">
-        {{ $t('components.signUpForm.username') }}
+        {{ $t('locokit.components.signUpForm.username') }}
       </label>
       <PrimeInputText
         id="username"
@@ -45,7 +45,7 @@
       as="div"
     >
       <label for="email" class="label-field-required">
-        {{ $t('components.signUpForm.email') }}
+        {{ $t('locokit.components.signUpForm.email') }}
       </label>
       <PrimeInputText
         id="email"

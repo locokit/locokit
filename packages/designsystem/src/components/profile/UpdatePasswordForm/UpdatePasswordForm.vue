@@ -1,7 +1,7 @@
 <template>
   <FormGeneric
     :display-reset-button="false"
-    label-tk-button-submit="components.updatePasswordForm.submit"
+    label-tk-button-submit="locokit.components.updatePasswordForm.submit"
     :response="response"
     :loading="loading"
     class="w-3/4"
@@ -16,7 +16,7 @@
       as="div"
     >
       <label for="name" class="label-field-required">
-        {{ $t('components.updatePasswordForm.currentPassword') }}
+        {{ $t('locokit.components.updatePasswordForm.currentPassword') }}
       </label>
       <PrimePassword
         v-bind="field"
@@ -47,7 +47,7 @@
       as="div"
     >
       <label for="name" class="label-field-required">
-        {{ $t('components.updatePasswordForm.newPassword') }}
+        {{ $t('locokit.components.updatePasswordForm.newPassword') }}
       </label>
       <PrimePassword
         v-model="newPassword"
@@ -58,14 +58,16 @@
         toggle-mask
         :medium-regex="`${regexPasswordRules}(?=.{8,})`"
         :strong-regex="`${regexPasswordRules}(?=.{12,})`"
-        :weak-label="$t('components.updatePasswordForm.passwordStrength.weak')"
+        :weak-label="
+          $t('locokit.components.updatePasswordForm.passwordStrength.weak')
+        "
         :medium-label="
-          $t('components.updatePasswordForm.passwordStrength.medium')
+          $t('locokit.components.updatePasswordForm.passwordStrength.medium')
         "
         :strong-label="
-          $t('components.updatePasswordForm.passwordStrength.strong')
+          $t('locokit.components.updatePasswordForm.passwordStrength.strong')
         "
-        :prompt-label="$t('components.updatePasswordForm.prompt')"
+        :prompt-label="$t('locokit.components.updatePasswordForm.prompt')"
         required
         aria-describedby="password-rules"
         autocomplete="new-password"
@@ -75,7 +77,7 @@
         :pattern="regexPasswordRules"
       />
       <small id="password-rules" class="italic">
-        {{ $t('components.updatePasswordForm.rules') }}
+        {{ $t('locokit.components.updatePasswordForm.rules') }}
       </small>
       <span
         v-if="errorMessage"
@@ -94,7 +96,7 @@
       as="div"
     >
       <label for="name" class="label-field-required">
-        {{ $t('components.updatePasswordForm.confirmPassword') }}
+        {{ $t('locokit.components.updatePasswordForm.confirmPassword') }}
       </label>
       <PrimePassword
         v-model="confirmPassword"
