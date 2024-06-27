@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.0.12
+
+Shift to PrimeVue 4 Release Candidate 3 !
+
+Removal of unstyled primevue as it's not yet implemented.
+
+**Components**
+
+- SignInForm
+  - add `:deep` styles for password component (width and icon styling)
+
+## 0.0.11 (unpublished)
+
+Error when publishing
+
 ## 0.0.10
 
 **Components**
