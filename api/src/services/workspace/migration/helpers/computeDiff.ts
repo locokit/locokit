@@ -21,7 +21,7 @@ import { TableResult } from '@/services/workspace/table/table.schema'
 import { TableFieldResult } from '@/services/workspace/table-field/table-field.schema'
 import { TableRelationResult } from '@/services/workspace/table-relation/table-relation.schema'
 
-const migrationLogger = logger.child({ service: 'migration-helper' })
+const migrationLogger = logger.child({ service: 'migration-helper computeDiff' })
 
 export async function computeDiff(
   direction: 'both' | 'from-datasource-to-metamodel' | 'from-metamodel-to-datasource',
@@ -37,13 +37,18 @@ export async function computeDiff(
   /**
    * Compute the diff to apply
    */
-  migrationLogger.info('creating a migration...')
+  migrationLogger.info('computing migration...')
 
   /**
    * Retrieve related datasource
    */
-  migrationLogger.debug('retrieving datasources metamodel and inspect remote schema')
+  migrationLogger.info('retrieving datasources metamodel and inspect remote schema')
 
+  /**
+   * TODO: extract retrieval of schema / tables / fields
+   * for local / remote datasources
+   * to respect the SRP
+   */
   const dsParams: ConnexionSQL = {
     type: datasourceFromMetaModel.client,
     options: datasourceFromMetaModel.connection,
@@ -82,7 +87,9 @@ export async function computeDiff(
   const datasourceTableRelations: string[] = []
   // const metamodelTables: string[] = []
 
-  if (direction === 'both' || direction === 'from-datasource-to-metamodel')
+  if (direction === 'both' || direction === 'from-datasource-to-metamodel') {
+    migrationLogger.info('from datasource to metamodel')
+
     schemaTables.forEach((table) => {
       datasourceTables.push(table.name)
       /**
@@ -204,7 +211,6 @@ export async function computeDiff(
               /**
                * Find the matching relation(s) in table from metamodel
                */
-              console.log(foreignKey, table.name, field.name, tableFromMetaModel.relations)
               const relationsFromMetaModel = tableFromMetaModel.relations?.filter(
                 (r) => r.settings.name === foreignKey.constraint_name,
               )
@@ -254,11 +260,13 @@ export async function computeDiff(
         })
       }
     })
-
+  }
   /**
    * Compute the diff between meta model and datasource
    */
-  if (direction === 'both' || direction === 'from-metamodel-to-datasource')
+  if (direction === 'both' || direction === 'from-metamodel-to-datasource') {
+    migrationLogger.info('from metamodel to datasource')
+
     datasourceFromMetaModel.tables?.forEach((table: TableResult) => {
       /**
        * Does the table already exist in datasource ?
@@ -369,7 +377,7 @@ export async function computeDiff(
         })
       }
     })
-
+  }
   /**
    * Destroy the adapter
    */

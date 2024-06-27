@@ -7,6 +7,7 @@ import { migrationResolvers } from './migration.resolver'
 import {
   migrationDataExternalValidator,
   migrationDiffInternalValidator,
+  migrationApplyValidator,
   migrationPatchValidator,
   migrationQueryValidator,
 } from './migration.schema'
@@ -40,7 +41,7 @@ export const migrationHooks = {
     ],
     remove: [setLocoKitContext],
     diff: [setLocoKitContext, schemaHooks.validateData(migrationDiffInternalValidator)],
-    apply: [setLocoKitContext],
+    apply: [setLocoKitContext, schemaHooks.validateData(migrationApplyValidator)],
   },
   after: {
     all: [transaction.end()],

@@ -88,25 +88,6 @@ export const migrationDataExternalValidator = getValidator(
   dataValidator,
 )
 
-export const migrationDiffInternalSchema = Type.Object(
-  {
-    datasourceId: Type.String({
-      format: 'uuid',
-      description: 'Related datasource of the migration',
-    }),
-  },
-  {
-    $id: 'MigrationDiffInternal',
-    additionalProperties: false,
-  },
-)
-
-export type MigrationDiffInternal = Static<typeof migrationDiffInternalSchema>
-export const migrationDiffInternalValidator = getValidator(
-  migrationDiffInternalSchema,
-  dataValidator,
-)
-
 export const migrationDataInternalSchema = Type.Omit(
   migrationSchema,
   ['id', 'applied', 'reverted'],
@@ -137,3 +118,42 @@ export const migrationPatchValidator = getValidator(migrationPatchSchema, dataVa
 export const migrationQuerySchema = querySyntax(Type.Omit(migrationSchema, ['diffToApply']))
 export type MigrationQuery = Static<typeof migrationQuerySchema>
 export const migrationQueryValidator = getValidator(migrationQuerySchema, queryValidator)
+
+export const migrationDiffInternalSchema = Type.Object(
+  {
+    datasourceId: Type.String({
+      format: 'uuid',
+      description: 'Related datasource of the migration',
+    }),
+  },
+  {
+    $id: 'MigrationDiffInternal',
+    additionalProperties: false,
+  },
+)
+
+export type MigrationDiffInternal = Static<typeof migrationDiffInternalSchema>
+export const migrationDiffInternalValidator = getValidator(
+  migrationDiffInternalSchema,
+  dataValidator,
+)
+
+export const migrationDataApplySchema = Type.Object(
+  {
+    id: Type.String({
+      format: 'uuid',
+      description: 'Id of the migration',
+    }),
+    datasourceId: Type.String({
+      format: 'uuid',
+      description: 'Related datasource of the migration',
+    }),
+  },
+  {
+    $id: 'MigrationApply',
+    additionalProperties: false,
+  },
+)
+
+export type MigrationApply = Static<typeof migrationDataApplySchema>
+export const migrationApplyValidator = getValidator(migrationDataApplySchema, dataValidator)

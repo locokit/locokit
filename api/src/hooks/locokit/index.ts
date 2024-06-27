@@ -66,7 +66,7 @@ export async function setLocoKitContext(context: HookContext) {
       context.$locokit.currentDatasource = datasource.data[0]
     }
   } else {
-    locokitContextLogger.debug('what is the service of "%s" ?', context.path)
+    locokitContextLogger.info('what is the service of "%s" ?', context.path)
 
     /**
      * For service TABLE_FIELD,
@@ -75,15 +75,15 @@ export async function setLocoKitContext(context: HookContext) {
      */
     switch ('/' + context.path) {
       case SERVICES.WORKSPACE_DATASOURCE:
-        locokitContextLogger.debug('workspace datasource service found (method %s)', context.method)
+        locokitContextLogger.info('workspace datasource service found (method %s)', context.method)
         await workspaceDatasourceHelper(context)
         break
       case SERVICES.WORKSPACE_MIGRATION:
-        locokitContextLogger.debug('workspace migration service found (method %s)', context.method)
+        locokitContextLogger.info('workspace migration service found (method %s)', context.method)
         await workspaceMigrationHelper(context)
         break
       case SERVICES.WORKSPACE_TABLE:
-        locokitContextLogger.debug('workspace table service found (method %s)', context.method)
+        locokitContextLogger.info('workspace table service found (method %s)', context.method)
         const datasourceId =
           context.method === 'create'
             ? context.data.datasourceId

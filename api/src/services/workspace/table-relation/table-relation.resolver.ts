@@ -10,15 +10,28 @@ import type {
 import { toSnakeCase } from '@/utils/toSnakeCase'
 
 // Resolver for the basic data model (e.g. creating new entries)
-export const tableRelationDataResolver = resolve<TableRelationDataInternal, HookContext>({
-  /**
-   * Compute a slug before insertion too
-   */
-  async slug(slug, data) {
-    if (slug) return slug
-    return toSnakeCase(data.name)
+export const tableRelationDataResolver = resolve<TableRelationDataInternal, HookContext>(
+  {
+    /**
+     * Compute a slug before insertion too
+     */
+    async settings(settings, data) {
+      console.log('table-relation resolver, update settings', data)
+      if (!settings) return { name: data.slug }
+      if (!settings.name) settings.name = data.slug
+      return settings
+    },
   },
-})
+  {
+    // Convert the raw data into a new structure before running property resolvers
+    async converter(rawData) {
+      return {
+        ...rawData,
+        slug: rawData.slug || toSnakeCase(rawData.name),
+      }
+    },
+  },
+)
 
 // Resolver for making partial updates
 export const tableRelationPatchResolver = resolve<TableRelationPatch, HookContext>({})

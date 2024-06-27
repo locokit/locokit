@@ -6,10 +6,11 @@ import {
   MigrationPatch,
   migrationDataInternalValidator,
   MigrationDiffInternal,
+  MigrationApply,
+  MigrationDataExternal,
 } from './migration.schema'
 import { ObjectionService } from '@/feathers-objection'
 import { NotAcceptable, NotImplemented } from '@feathersjs/errors'
-import { Id } from '@feathersjs/feathers'
 
 import { logger } from '@/logger'
 import {
@@ -37,7 +38,7 @@ export interface MigrationParams extends KnexAdapterParams<MigrationQuery> {}
 // By default calls the standard Knex adapter service methods but can be customized with your own functionality.
 export class Migration extends ObjectionService<
   MigrationResult,
-  MigrationDataInternal,
+  MigrationDataExternal,
   MigrationParams,
   MigrationPatch
 > {
@@ -54,9 +55,9 @@ export class Migration extends ObjectionService<
    * or from metamodel to datasource.
    *
    */
-  async create(data: MigrationDataInternal, params?: MigrationParams): Promise<MigrationResult>
-  async create(data: MigrationDataInternal[], params?: MigrationParams): Promise<MigrationResult[]>
-  async create(
+  async _create(data: MigrationDataInternal, params?: MigrationParams): Promise<MigrationResult>
+  async _create(data: MigrationDataInternal[], params?: MigrationParams): Promise<MigrationResult[]>
+  async _create(
     data: MigrationDataInternal | MigrationDataInternal[],
     params?: MigrationParams,
   ): Promise<MigrationResult | MigrationResult[]> {
@@ -87,25 +88,17 @@ export class Migration extends ObjectionService<
       })
 
     data.diffToApply = await computeDiff(data.direction, datasourceFromMetaModel)
-    /**
-     * Check the migration is not a two-way one (ds > mm, mm > ds)
-     */
-    if (data.diffToApply.datasource.length > 0 && data.diffToApply.metamodel.length > 0)
-      throw new NotAcceptable(
-        'The migration is a two-way one. This is not yet implemented.',
-        data.diffToApply,
-      )
 
     /**
      * Check that there is at least a migration to apply, else raise an Error
      */
     if (data.diffToApply.datasource.length === 0 && data.diffToApply.metamodel.length === 0) {
-      throw new NotAcceptable('No diff found between datasource and metamodel.', diffToApply)
+      throw new NotAcceptable('No diff found between datasource and metamodel.', data.diffToApply)
     }
 
     await migrationDataInternalValidator(data)
 
-    return await this._create(data, params)
+    return await super._create(data, params)
   }
 
   /**
@@ -158,17 +151,16 @@ export class Migration extends ObjectionService<
    *
    * Real schema > Meta model
    */
-  async apply({ id }: { id: Id }, params?: MigrationParams): Promise<MigrationResult> {
-    console.log('apply', id, params)
+  async apply(
+    { id, datasourceId }: MigrationApply,
+    params?: MigrationParams,
+  ): Promise<MigrationResult> {
     /**
      * Retrieve the migration to apply and which schema
      */
     const migration = await this._get(id, params)
 
     if (migration.applied) throw new NotAcceptable('Migration already applied.')
-
-    console.log(migration)
-    const datasourceId = migration.datasourceId
 
     migrationLogger.debug('applying migration for datasource %s', datasourceId)
 
