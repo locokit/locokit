@@ -54,6 +54,8 @@
           required
           toggle-mask
           :feedback="false"
+          mask-icon="bi-eye"
+          unmask-icon="bi-eye-slash"
           spellcheck="false"
           autocorrect="off"
           autocapitalize="none"
@@ -152,3 +154,12 @@ const onSubmit = () => {
   emit('submit', form)
 }
 </script>
+
+<style scoped>
+:deep(.p-inputtext.p-component.p-password-input) {
+  width: 100% !important;
+}
+:deep(.p-password-toggle-mask-icon) {
+  margin-top: -0.7rem;
+}
+</style>
