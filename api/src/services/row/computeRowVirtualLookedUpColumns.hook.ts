@@ -143,3 +143,10 @@ export function needToComputeVirtualLookedUpColumns (context: HookContext): bool
     context.params._meta?.computeVirtualLookedUpColumn === true // Internal calls if it's explicitly asked
   )
 }
+
+export function needToShrinkAndComputeVirtualLookUpColumns (context: HookContext): boolean {
+  const $select = context.params.query?.$select
+  if (!$select) return true
+  else if ($select.includes('data')) return true
+  return false
+}

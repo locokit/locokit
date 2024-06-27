@@ -42,6 +42,7 @@ export default function (app: Application): void {
       '$joinEager',
       '$modifyEager',
       '$noSelect',
+      '$select',
     ],
     allowedEager: '[table,parents.^,children.^]',
     multi: ['patch'],

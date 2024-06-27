@@ -26,7 +26,11 @@ import { isBulkPatch, isValidBulkPatch, onlyUpdateFormulaColumns } from './isBul
 import { shrinkRecordsData } from './shrinkRecordsData.hook'
 import { defineAbilitiesIffHook } from '../../abilities/record.abilities'
 import { authorize } from 'feathers-casl/dist/hooks'
-import { computeRowVirtualLookedUpColumns, needToComputeVirtualLookedUpColumns } from './computeRowVirtualLookedUpColumns.hook'
+import {
+  computeRowVirtualLookedUpColumns,
+  needToComputeVirtualLookedUpColumns,
+  needToShrinkAndComputeVirtualLookUpColumns,
+} from './computeRowVirtualLookedUpColumns.hook'
 import { historizeDataEvents } from '../../hooks/lck-hooks/historizeDataEvents'
 
 const { authenticate } = authentication.hooks
@@ -153,8 +157,11 @@ export default {
       // }),
     ],
     find: [
-      shrinkRecordsData(),
-      computeRowVirtualLookedUpColumns(),
+      commonHooks.iff(
+        needToShrinkAndComputeVirtualLookUpColumns,
+        shrinkRecordsData(),
+        computeRowVirtualLookedUpColumns(),
+      ),
     ],
     get: [
       commonHooks.iffElse(needToComputeVirtualLookedUpColumns,
