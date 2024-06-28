@@ -16,7 +16,6 @@ export const tableRelationDataResolver = resolve<TableRelationDataInternal, Hook
      * Compute a slug before insertion too
      */
     async settings(settings, data) {
-      console.log('table-relation resolver, update settings', data)
       if (!settings) return { name: data.slug }
       if (!settings.name) settings.name = data.slug
       return settings

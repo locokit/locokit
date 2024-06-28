@@ -19,7 +19,7 @@ describe("'signup' service", () => {
   }
 
   beforeAll(async () => {
-    // @ts-expect-error TO BE FIXED
+    // @ts-expect-error We mock the mailer create endpoint
     app.service(SERVICES.MISC_MAILER).create = vi.fn()
     await app.listen(port)
   })
@@ -155,7 +155,7 @@ describe("'signup' service", () => {
     // Create the user from the signup endpoint without email
     // we add the ts-expect-error as it is not ok with typing
     const fn = async () =>
-      // @ts-expect-error TO BE FIXED
+      // @ts-expect-error We change the signature to trigger an error
       await app.service(SERVICES.AUTH_SIGNUP).create({
         email: 'signupwithoutusername@locokit.io',
       })
@@ -190,7 +190,7 @@ describe("'signup' service", () => {
     const fn = async () =>
       await app.service(SERVICES.AUTH_SIGNUP).create({
         ...credentials,
-        // @ts-expect-error TO BE FIXED
+        // @ts-expect-error We change the signature to trigger an error
         toto: 'pouet',
       })
 

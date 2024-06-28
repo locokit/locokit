@@ -32,7 +32,7 @@ export const userGroupDispatchResolver: Resolver<UserGroupSchema, HookContext> =
 // Resolver for query properties
 export const userGroupQueryResolver = resolve<UserGroupQuery, HookContext>({})
 
-// @ts-expect-error TO BE FIXED
+// @ts-expect-error type instanciation too deep ts(2589)
 export const userGroupQueryValidator = getValidator(userGroupQuerySchema, queryValidator)
 
 // Export all resolvers in a format that can be used with the resolveAll hook

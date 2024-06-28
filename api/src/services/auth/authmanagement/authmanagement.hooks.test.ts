@@ -231,7 +231,7 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
     try {
       await app.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'verifySignupSetPasswordLong',
-        // @ts-expect-error TO BE FIXED
+        // @ts-expect-error We don't give all the expected fields to shorten calls
         value: {
           password: 'pouet',
         },
@@ -251,7 +251,7 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
     try {
       await app.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'verifySignupSetPasswordShort',
-        // @ts-expect-error TO BE FIXED
+        // @ts-expect-error We don't give all the expected fields to shorten calls
         value: {
           password: 'pouet',
         },
@@ -271,7 +271,7 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
     try {
       await app.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'resetPwdLong',
-        // @ts-expect-error TO BE FIXED
+        // @ts-expect-error We don't give all the expected fields to shorten calls
         value: {
           password: 'pouet',
         },
@@ -291,7 +291,7 @@ describe("'auth-management' hooks for verifySignup / resetPwd actions", () => {
     try {
       await app.service(SERVICES.AUTH_MANAGEMENT).create({
         action: 'resetPwdShort',
-        // @ts-expect-error TO BE FIXED
+        // @ts-expect-error We don't give all the expected fields to shorten calls
         value: {
           password: 'pouet',
         },

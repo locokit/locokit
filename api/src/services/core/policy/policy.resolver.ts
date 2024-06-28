@@ -38,7 +38,7 @@ export const policyDispatchResolver = resolve<PolicySchema, HookContext>({
 // Resolver for query properties
 export const policyQueryResolver = resolve<PolicyQuery, HookContext>({})
 
-// @ts-expect-error TO BE FIXED
+// @ts-expect-error type instanciation too deep ts(2589)
 export const policyQueryValidator = getValidator(policyQuerySchema, queryValidator)
 
 // Export all resolvers in a format that can be used with the resolveAll hook
