@@ -7,12 +7,12 @@
     </Variant>
     <Variant title="with prime card slot">
       <layout-background>
-        <p-card class="bg-white p-4">
+        <prime-card class="bg-white p-4">
           <template #header> This is a header </template>
           <template #title> This is a title </template>
           This is the main part
           <template #footer> This is a footer </template>
-        </p-card>
+        </prime-card>
       </layout-background>
     </Variant>
     <Variant title="with image and logo">
@@ -34,12 +34,12 @@
           text-bottom-right="This is a version emplacement"
           style="height: 600px"
         >
-          <p-card class="bg-white p-4">
+          <prime-card class="bg-white p-4">
             <template #header> This is a header </template>
             <template #title> This is a title </template>
             This is the main part
             <template #footer> This is a footer </template>
-          </p-card>
+          </prime-card>
         </layout-background>
       </div>
     </Variant>
@@ -48,7 +48,7 @@
 
 <script setup lang="ts">
 import LayoutBackground from './background.vue'
-import PCard from 'primevue/card'
+import PrimeCard from 'primevue/card'
 </script>
 
 <docs lang="md">
