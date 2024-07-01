@@ -23,9 +23,7 @@
         v-model="currentPassword"
         input-id="password"
         :class="{ 'p-invalid': errorMessage }"
-        :toggle-mask="true"
-        hide-icon="bi bi-eye-slash-fill"
-        show-icon="bi bi-eye-fill"
+        toggle-mask
         :feedback="false"
         spellcheck="false"
         autocorrect="off"
@@ -57,9 +55,7 @@
         :class="{ 'p-invalid': errorMessage }"
         v-bind="field"
         :feedback="true"
-        :toggle-mask="true"
-        hide-icon="bi bi-eye-slash-fill"
-        show-icon="bi bi-eye-fill"
+        toggle-mask
         :medium-regex="`${regexPasswordRules}(?=.{8,})`"
         :strong-regex="`${regexPasswordRules}(?=.{12,})`"
         :weak-label="$t('components.updatePasswordForm.passwordStrength.weak')"
@@ -106,9 +102,7 @@
         :class="{ 'p-invalid': errorMessage }"
         v-bind="field"
         :feedback="false"
-        :toggle-mask="true"
-        hide-icon="bi bi-eye-slash-fill"
-        show-icon="bi bi-eye-fill"
+        toggle-mask
         required
         spellcheck="false"
         autocorrect="off"

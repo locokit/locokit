@@ -1,3 +1,5 @@
+import { fileURLToPath, URL } from 'node:url'
+
 import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
@@ -18,14 +20,19 @@ export default defineConfig(() => ({
   },
   plugins: [
     vue(),
-    dts({
-      insertTypesEntry: true,
-    }),
+  //   dts({
+  //     insertTypesEntry: true,
+  //   }),
   ],
   server: {
     fs: {
       // Allow serving files from node_module (needed to bootstrap-icon)
       allow: ['../../../'],
     },
+  },
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
   },
 }))

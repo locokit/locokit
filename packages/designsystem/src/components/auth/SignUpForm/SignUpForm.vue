@@ -22,6 +22,7 @@
         id="username"
         v-bind="field"
         v-focus
+        class="w-full"
         :class="{ 'p-invalid': errorMessage }"
         required
       />
@@ -49,6 +50,7 @@
       <PrimeInputText
         id="email"
         v-bind="field"
+        class="w-full"
         :class="{ 'p-invalid': errorMessage }"
         required
         autocomplete="email"

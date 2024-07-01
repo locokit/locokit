@@ -2,7 +2,7 @@
   <div>
     <Form
       v-slot="{ meta: { valid, touched }, submitCount }"
-      class="text-left p-fluid"
+      class="text-left"
       @submit="onSubmit"
     >
       <Field
@@ -52,10 +52,10 @@
           class="w-full"
           :invalid="!!errorMessage"
           required
-          :toggle-mask="true"
-          hide-icon="bi bi-eye-slash-fill"
-          show-icon="bi bi-eye-fill"
+          toggle-mask
           :feedback="false"
+          mask-icon="bi-eye"
+          unmask-icon="bi-eye-slash"
           spellcheck="false"
           autocorrect="off"
           autocapitalize="none"
@@ -85,6 +85,7 @@
           icon="bi bi-save2"
           :is-submitting="loading"
           :submit-count="submitCount"
+          primary
         />
         <MessageForUser
           v-if="status === 'failed'"
@@ -122,14 +123,14 @@ const props = withDefaults(
   defineProps<{
     loading?: boolean
     displaySignUpLink?: boolean
-    response?: Error | null
+    error?: Error | null
     signupRoute?: string
     lostPasswordRoute?: string
   }>(),
   {
     loading: false,
     displaySignUpLink: false,
-    response: null,
+    error: null,
     signupRoute: '',
     lostPasswordRoute: '',
   },
@@ -141,9 +142,9 @@ const form = reactive({
 })
 
 const status = computed(() => {
-  if (props.response?.name) {
+  if (props.error?.name) {
     return 'failed'
-  } else if (props.response) {
+  } else if (props.error) {
     return 'success'
   }
   return null
@@ -153,3 +154,12 @@ const onSubmit = () => {
   emit('submit', form)
 }
 </script>
+
+<style scoped>
+:deep(.p-inputtext.p-component.p-password-input) {
+  width: 100% !important;
+}
+:deep(.p-password-toggle-mask-icon) {
+  margin-top: -0.7rem;
+}
+</style>

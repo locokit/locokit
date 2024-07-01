@@ -3,6 +3,12 @@
     <Variant title="default">
       <SignInForm @submit="logEvent('submit', $event)" />
     </Variant>
+    <Variant title="loading">
+      <SignInForm loading @submit="logEvent('submit', $event)" />
+    </Variant>
+    <Variant title="error from server">
+      <SignInForm :error="error" @submit="logEvent('submit', $event)" />
+    </Variant>
   </Story>
 </template>
 
@@ -10,6 +16,10 @@
 import { logEvent } from 'histoire/client'
 
 import SignInForm from '../../components/auth/SignInForm/SignInForm.vue'
+
+const error = {
+  name: 'NotAuthenticated',
+}
 </script>
 
 <docs lang="md">

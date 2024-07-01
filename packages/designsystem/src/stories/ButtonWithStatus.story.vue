@@ -1,5 +1,5 @@
 <template>
-  <Story title="ButtonWithStatus" icon="bi:file-code-fill">
+  <Story title="ui/ButtonWithStatus" icon="bi:file-code-fill">
     <Variant title="default" auto-props-disabled>
       <div class="flex flex-col gap-8">
         <ButtonWithStatus label-tk="Submit" type="submit" />
@@ -9,14 +9,18 @@
           icon="bi-cloud-snow"
         />
         <ButtonWithStatus
-          label-tk="Snowing"
+          label-tk="Snowing full width"
           type="button"
           icon="bi-cloud-snow"
           class="!w-full"
         />
         <ButtonWithStatus type="button" icon="bi-cloud-snow" />
-        <ButtonWithStatus label-tk="Submit" type="submit" disabled />
-        <ButtonWithStatus label-tk="Submit" type="submit" icon="bi-check-lg" />
+        <ButtonWithStatus label-tk="Disabled" type="submit" disabled />
+        <ButtonWithStatus
+          label-tk="Submit with icon"
+          type="submit"
+          icon="bi-check-lg"
+        />
         <ButtonWithStatus
           label-tk="Loading"
           type="submit"
@@ -37,13 +41,25 @@
         />
       </div>
     </Variant>
-    <Variant title="submitButton">
+    <Variant title="styling">
       <div class="flex flex-col gap-8">
         <ButtonWithStatus
-          label-tk="Submit"
+          label-tk="Danger !"
+          type="submit"
+          icon="bi-exclamation-circle"
+          class-button="!bg-red-500 !border-red-500 !focus:ring-red-500-dark !enabled:hover:bg-red-500-dark !enabled:hover:border-red-500-dark"
+        />
+        <ButtonWithStatus
+          label-tk="Submit primary"
           type="submit"
           icon="bi-save2"
-          class-button="!bg-primary !border-primary !focus:ring-primary-dark !enabled:hover:bg-primary-dark !enabled:hover:border-primary-dark"
+          primary
+        />
+        <ButtonWithStatus
+          label-tk="Submit secondary"
+          type="submit"
+          icon="bi-save2"
+          secondary
         />
       </div>
     </Variant>
@@ -67,4 +83,9 @@ There are 4 states:
 - success
 - default
 - loading
+
+Two default theme are provided : `primary` and `secondary`.
+
+You can override the class by providing the `class-button` property,
+as the "danger" button is styled in the `styling` variant.
 </docs>

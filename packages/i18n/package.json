@@ -1,6 +1,6 @@
 {
   "name": "@locokit/i18n",
-  "version": "1.0.0-alpha.0",
+  "version": "0.0.1",
   "description": "LocoKit internationalisation files",
   "author": "Mathieu Dartigues",
   "license": "MIT"

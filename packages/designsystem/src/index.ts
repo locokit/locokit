@@ -30,18 +30,20 @@ import LayoutBackground from './layouts/background.vue'
 import { setup as setupVeeValidate } from './plugins/vee-validate'
 import { i18n } from './plugins/i18n'
 
-import Aura from '@/presets/aura'
-
 import ConfirmationService from 'primevue/confirmationservice'
 import ToastService from 'primevue/toastservice' // theme
 import PrimeVue from 'primevue/config'
+import Aura from '@primevue/themes/aura'
 import { I18n } from 'vue-i18n'
 
 export function setupLckDesignSystem(app: App, localI18n?: I18n): void {
   app.use(PrimeVue, {
     ripple: true,
-    unstyled: true,
-    pt: Aura,
+    theme: {
+      preset: Aura,
+    },
+    // unstyled: true,
+    // pt: Aura,
   })
   app.use(ToastService)
   app.use(ConfirmationService)
