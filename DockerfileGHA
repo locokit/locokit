@@ -16,7 +16,7 @@
 FROM node:18-alpine AS base
 RUN apk add --no-cache libc6-compat nano
 RUN apk update
-RUN npm i --ignore-scripts -g pm2
+RUN npm i -g pnpm pm2 --ignore-scripts
 RUN addgroup -S locokit \
     && adduser -S locokit -G locokit
 
@@ -33,13 +33,15 @@ COPY api/package.json /code/api/
 COPY packages/definitions/package.json /code/packages/definitions/
 COPY packages/engine/package.json /code/packages/engine/
 COPY package.json .
-COPY package-lock.json .
-RUN npm ci --ignore-scripts
-COPY api/dist .
+COPY pnpm-lock.yaml .
+COPY pnpm-workspace.yaml ./
+RUN pnpm i --frozen-lockfile --ignore-scripts --prod --filter locokit-api
+COPY api/dist /code/api
 COPY packages/definitions/dist /code/packages/definitions/dist
 COPY packages/engine/dist /code/packages/engine/dist
 
 USER locokit
+WORKDIR /code/api
 CMD pm2 start index.js
 
 #
@@ -48,7 +50,8 @@ CMD pm2 start index.js
 #
 FROM base AS locokit-app
 WORKDIR /code
-COPY app/.output .
+# COPY app/.output .
+COPY packages/nuxt-locokit/playground/.output .
 
 USER locokit
 CMD pm2 start server/index.mjs

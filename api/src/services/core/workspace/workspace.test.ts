@@ -577,7 +577,7 @@ describe('[core] workspace service', () => {
       await expect(
         app.service(SERVICES.CORE_WORKSPACE).find({
           query: {
-            // @ts-expect-error
+            // @ts-expect-error filtering un authorized, TS yel, and it's fine
             'owner.firstName': 'trying',
           },
         }),
@@ -589,7 +589,7 @@ describe('[core] workspace service', () => {
       await expect(
         app.service(SERVICES.CORE_WORKSPACE).find({
           query: {
-            // @ts-expect-error
+            // @ts-expect-error filtering un authorized, TS yel, and it's fine
             'owner.firstName': 'trying',
           },
           authenticated: false,
@@ -824,7 +824,7 @@ $BODY$;
       // setup / mock the core-workspace for overwrite the `_remove` function and fail
       const originalRemove = app.service(SERVICES.CORE_WORKSPACE)._remove
 
-      app.service(SERVICES.CORE_WORKSPACE)._remove = async function (id: Id, params?: any) {
+      app.service(SERVICES.CORE_WORKSPACE)._remove = async function (id: Id | null) {
         throw new Error(`Fail to remove workspace id ${id as string}`)
       }
       // patch
@@ -960,14 +960,14 @@ $BODY$;
       })
       // try to patch the name => fail
       await expect(
-        // @ts-expect-error
+        // @ts-expect-error we update some forbidden props, TS yel (and it's fine)
         app.service(SERVICES.CORE_WORKSPACE).patch(workspace.id, {
           name: 'test',
         }),
       ).rejects.toThrow(BadRequest)
       // try to patch the slug => fail
       await expect(
-        // @ts-expect-error
+        // @ts-expect-error we update some forbidden props, TS yel (and it's fine)
         app.service(SERVICES.CORE_WORKSPACE).patch(workspace.id, {
           slug: 'test',
         }),

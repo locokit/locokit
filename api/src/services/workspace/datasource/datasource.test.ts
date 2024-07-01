@@ -330,7 +330,7 @@ describe('[workspace] datasource service', () => {
       expect(migration.diffToApply.datasource.filter((a) => a.target === 'RELATION').length).toBe(2)
     })
 
-    it('explain precisely how relations need to be build', () => {
+    it('explain precisely how relations need to be built', () => {
       expect.assertions(14)
 
       const relationsMigration = migration.diffToApply.datasource.filter(
@@ -357,7 +357,7 @@ describe('[workspace] datasource service', () => {
     })
 
     it('can apply the migration to sync datasource model in LocoKit meta model (tables + fields + relations)', async () => {
-      expect.assertions(4)
+      expect.assertions(5)
 
       // check the actual datasource schema is empty
       const actualTables = await app
@@ -374,7 +374,9 @@ describe('[workspace] datasource service', () => {
       expect(actualFields.rowCount).toBe(0)
 
       // apply the migration
-      await app.service(SERVICES.WORKSPACE_MIGRATION).apply(migrationId)
+      await app
+        .service(SERVICES.WORKSPACE_MIGRATION)
+        .apply({ id: migrationId, datasourceId: localPgDatasource.id })
 
       // check the dedicated datasource schema
       // we have to find 3 tables
@@ -392,6 +394,15 @@ describe('[workspace] datasource service', () => {
       expect(injectedFields.rowCount).toBe(11)
 
       // 2 foreign keys between tables
+      const injectedForeignKeys = await app.get('db').raw(
+        `
+          SELECT * FROM information_schema.table_constraints
+          WHERE table_schema = ?
+          AND constraint_type = 'FOREIGN KEY';
+        `,
+        [schemaName],
+      )
+      expect(injectedForeignKeys.rowCount).toBe(2)
     })
     it('raise an error if no diffToApply exist', async () => {
       expect.assertions(1)
@@ -451,7 +462,10 @@ describe('[workspace] datasource service', () => {
       expect(relationsMetaModel.length).toBe(1)
 
       // apply migration
-      await app.service(SERVICES.WORKSPACE_MIGRATION).apply(migrationId)
+      await app.service(SERVICES.WORKSPACE_MIGRATION).apply({
+        id: migrationId,
+        datasourceId: localPgDatasource.id,
+      })
 
       // check the metamodel synchronization
       // we normally will have 4 tables

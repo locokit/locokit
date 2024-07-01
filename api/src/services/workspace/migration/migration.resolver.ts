@@ -10,6 +10,9 @@ import type {
 
 // Resolver for the basic data model (e.g. creating new entries)
 export const migrationDataResolver = resolve<MigrationDataInternal, HookContext>({
+  async direction(value) {
+    return value || 'both'
+  },
   async createdAt() {
     return new Date().toISOString()
   },

@@ -97,11 +97,12 @@ watch(
   () => props.statusForm,
   (statusForm: 'success' | 'failed' | null) => {
     status.value = statusForm
-    if (props.submitCount > 0) {
-      setTimeout(() => {
-        status.value = null
-      }, 5000)
-    }
+    setTimeout(() => {
+      status.value = null
+    }, 5000)
+  },
+  {
+    immediate: true,
   },
 )
 </script>

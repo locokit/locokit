@@ -194,7 +194,7 @@ export function builderTestEnvironment(prefix: string) {
       .service(SERVICES.AUTH_AUTHENTICATION)
       .getStrategies('local') as LocalStrategy[]
     const passwordHashed = await localStrategy.hashPassword(userPassword, {})
-    // @ts-expect-error this should work as expected but don't respect the schemas
+    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
     user1 = await app.service(SERVICES.CORE_USER)._create(
       {
         username: 'User 1',
@@ -205,7 +205,7 @@ export function builderTestEnvironment(prefix: string) {
       },
       {},
     )
-    // @ts-expect-error this should work as expected but don't respect the schemas
+    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
     user2 = await app.service(SERVICES.CORE_USER)._create(
       {
         username: 'User 2',
@@ -217,7 +217,7 @@ export function builderTestEnvironment(prefix: string) {
       },
       {},
     )
-    // @ts-expect-error this should work as expected but don't respect the schemas
+    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
     user3 = await app.service(SERVICES.CORE_USER)._create(
       {
         username: 'User 3',
@@ -227,7 +227,7 @@ export function builderTestEnvironment(prefix: string) {
       },
       {},
     )
-    // @ts-expect-error this should work as expected but don't respect the schemas
+    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
     user4 = await app.service(SERVICES.CORE_USER)._create(
       {
         username: 'User 4',
@@ -237,7 +237,7 @@ export function builderTestEnvironment(prefix: string) {
       },
       {},
     )
-    // @ts-expect-error this should work as expected but don't respect the schemas
+    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
     user5 = await app.service(SERVICES.CORE_USER)._create(
       {
         username: 'User 5',
@@ -247,7 +247,7 @@ export function builderTestEnvironment(prefix: string) {
       },
       {},
     )
-    // @ts-expect-error this should work as expected but don't respect the schemas
+    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
     userAdmin = await app.service(SERVICES.CORE_USER)._create(
       {
         username: 'Admin',
@@ -258,7 +258,7 @@ export function builderTestEnvironment(prefix: string) {
       },
       {},
     )
-    // @ts-expect-error this should work as expected but don't respect the schemas
+    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
     userBlocked = await app.service(SERVICES.CORE_USER)._create(
       {
         username: 'Blocked User',

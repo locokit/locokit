@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import knex, { Knex } from 'knex'
-import schemaInspector from 'knex-schema-inspector'
+import { SchemaInspector } from 'knex-schema-inspector'
 import { Column } from 'knex-schema-inspector/dist/types/column'
 import { ConnexionSQL, GenericAdapter, Field, Table, PaginatedResult } from '../interface'
 import {
@@ -42,6 +42,7 @@ export class SQLAdapter implements GenericAdapter {
         'This engine is unknown. Please use one of ' + implementedEngines.concat(', ') + '.',
       )
     this.connexion = connexion
+
     this.database = knex({
       client: connexion.type,
       connection: connexion.options,
@@ -56,7 +57,7 @@ export class SQLAdapter implements GenericAdapter {
   async boot(): Promise<void> {
     adapterLogger.info('[boot] booting...')
 
-    const inspector = schemaInspector(this.database)
+    const inspector = SchemaInspector(this.database)
 
     if (this.connexion.type === 'pg') {
       if (this.connexion.role) {
@@ -134,6 +135,7 @@ export class SQLAdapter implements GenericAdapter {
     Object.keys(tables).forEach((tableName) => {
       const t = tables[tableName]
       const idColumns = t.columns.filter((c) => c.is_primary_key)
+
       allModels[tableName] = class extends Model {
         static get tableName(): string {
           return tableName
@@ -150,6 +152,7 @@ export class SQLAdapter implements GenericAdapter {
         static get jsonSchema(): JSONSchema {
           const schema = {
             type: 'object',
+            required: [] as string[],
             // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
             properties: {} as Record<string, JSONSchemaDefinition>,
           }
@@ -164,6 +167,7 @@ export class SQLAdapter implements GenericAdapter {
              * we add to field's types the `null` one.
              */
             if (c.is_nullable) propertyType.push('null')
+            else if (c.default_value === null) schema.required.push(c.name)
             schema.properties[c.name] = {
               type: propertyType,
             }
@@ -211,7 +215,7 @@ export class SQLAdapter implements GenericAdapter {
   async retrieveSchema(schema?: string): Promise<Table[]> {
     adapterLogger.info('[retrieveSchema] inspecting schema %s', schema)
     const result: Table[] = []
-    const inspector = schemaInspector(this.database)
+    const inspector = SchemaInspector(this.database)
     if (schema) inspector.withSchema?.(schema)
     const tables = await inspector.tables()
     adapterLogger.info('[retrieveSchema] %s tables found', tables.length)
@@ -242,13 +246,13 @@ export class SQLAdapter implements GenericAdapter {
   }
 
   async retrieveTables() {
-    const inspector = schemaInspector(this.database)
+    const inspector = SchemaInspector(this.database)
     const tables = await inspector.tables()
     return tables
   }
 
   async retrieveTable(tableName: string): Promise<Table> {
-    const inspector = schemaInspector(this.database)
+    const inspector = SchemaInspector(this.database)
     return await inspector.tableInfo(tableName)
   }
 
@@ -257,7 +261,7 @@ export class SQLAdapter implements GenericAdapter {
       name: tableName,
       fields: [] as Field[],
     }
-    const inspector = schemaInspector(this.database)
+    const inspector = SchemaInspector(this.database)
     result.fields = await inspector.columnInfo(tableName)
     return result
   }
@@ -348,10 +352,7 @@ export class SQLAdapter implements GenericAdapter {
               r.settings.name,
             )
             table
-              .foreign(
-                r.settings.fromField,
-                r.settings.name ?? `FK_${tableName as string}_${r.settings.fromField as string}`,
-              )
+              .foreign(r.settings.fromField, r.settings.name)
               .references(r.settings.toField)
               .inTable(`${r.settings.toSchema as string}.${r.settings.toTable as string}`)
           })
@@ -395,7 +396,7 @@ export class SQLAdapter implements GenericAdapter {
   }
 
   async query<T>(tableName: string, params?: any): Promise<PaginatedResult<T>> {
-    adapterLogger.debug('queryTable', tableName, params?.query)
+    adapterLogger.debug('queryTable %s', tableName)
     const { $limit = 20, $skip = 0, $joinRelated, $select, ...realQuery } = params?.query ?? {}
 
     adapterLogger.debug($limit, $skip, $joinRelated, realQuery)
@@ -412,6 +413,14 @@ export class SQLAdapter implements GenericAdapter {
 
     const query = model.query(this.database).limit($limit).offset($skip)
     const totalQuery = model.query(this.database).countDistinct(tableName + '.id', { as: 'count' })
+
+    if (this.connexion.type === 'pg') {
+      if (this.connexion.schema) {
+        adapterLogger.info('set search path for queries to %s', this.connexion.schema)
+        query.withSchema?.(this.connexion.schema)
+        totalQuery.withSchema?.(this.connexion.schema)
+      }
+    }
 
     if ($joinRelated) {
       /**
@@ -579,56 +588,87 @@ export class SQLAdapter implements GenericAdapter {
   }
 
   async create<T>(tableName: string, data: Partial<T>): Promise<T> {
-    adapterLogger.debug('createRecord lck engine', tableName, data)
-    adapterLogger.debug('createRecord lck engine', this.databaseObjectionModel[tableName])
+    adapterLogger.debug('create', tableName, data)
+    adapterLogger.debug('create', this.databaseObjectionModel[tableName])
     adapterLogger.debug(this.databaseObjectionModel[tableName])
 
-    return (await this.databaseObjectionModel[tableName]
-      .query(this.database)
-      .insertAndFetch(data)) as unknown as T
+    const query = this.databaseObjectionModel[tableName].query(this.database).insert(data)
+
+    if (this.connexion.type === 'pg') {
+      if (this.connexion.schema) {
+        adapterLogger.info('set search path for queries to %s', this.connexion.schema)
+        query.withSchema?.(this.connexion.schema)
+      }
+    }
+    const result = await query
+
+    return result as T
   }
 
   async update<T>(tableName: string, id: string | number, record: Partial<T>): Promise<T> {
-    adapterLogger.debug('updateRecord lck engine', tableName, id, record)
-    adapterLogger.debug('updateRecord lck engine', this.databaseObjectionModel[tableName])
-    const object = await this.databaseObjectionModel[tableName].query(this.database).findById(id)
+    adapterLogger.debug('update', tableName, id, record)
+    adapterLogger.debug('update', this.databaseObjectionModel[tableName])
+    const queryFind = this.databaseObjectionModel[tableName].query(this.database).findById(id)
+    const query = this.databaseObjectionModel[tableName]
+      .query(this.database)
+      .updateAndFetchById(id, record)
+
+    if (this.connexion.type === 'pg') {
+      if (this.connexion.schema) {
+        adapterLogger.info('set search path for queries to %s', this.connexion.schema)
+        queryFind.withSchema?.(this.connexion.schema)
+        query.withSchema?.(this.connexion.schema)
+      }
+    }
+
+    const object = await queryFind // this will raise an error if not found
 
     adapterLogger.debug(object)
 
-    adapterLogger.debug(this.databaseObjectionModel[tableName])
-
-    return (await this.databaseObjectionModel[tableName]
-      .query(this.database)
-      .updateAndFetchById(id, record)) as unknown as T
+    return (await query) as unknown as T
   }
 
   async patch<T>(tableName: string, id: string | number, record: Partial<T>): Promise<T> {
-    adapterLogger.debug('patchRecord lck engine', tableName, id, record)
-    adapterLogger.debug('patchRecord lck engine', this.databaseObjectionModel[tableName])
-    const object = await this.databaseObjectionModel[tableName].query(this.database).findById(id)
+    adapterLogger.debug('patch', tableName, id, record)
+    adapterLogger.debug('patch', this.databaseObjectionModel[tableName])
+    const queryFind = this.databaseObjectionModel[tableName].query(this.database).findById(id)
+    const query = this.databaseObjectionModel[tableName]
+      .query(this.database)
+      .patchAndFetchById(id, record)
+
+    if (this.connexion.type === 'pg') {
+      if (this.connexion.schema) {
+        adapterLogger.info('set search path for queries to %s', this.connexion.schema)
+        queryFind.withSchema?.(this.connexion.schema)
+        query.withSchema?.(this.connexion.schema)
+      }
+    }
+
+    const object = await queryFind // this will raise an error if not found
 
     adapterLogger.debug(object)
 
-    adapterLogger.debug(this.databaseObjectionModel[tableName])
-
-    return (await this.databaseObjectionModel[tableName]
-      .query(this.database)
-      .patchAndFetchById(id, record)) as unknown as T
+    return (await query) as unknown as T
   }
 
   async delete<T>(tableName: string, id: string | number): Promise<T | null> {
-    adapterLogger.debug('deleteRecord lck engine', tableName, id)
-    adapterLogger.debug('deleteRecord lck engine', this.databaseObjectionModel[tableName])
-    const object = await this.databaseObjectionModel[tableName].query(this.database).findById(id)
+    adapterLogger.debug('delete', tableName, id)
+    adapterLogger.debug('delete', this.databaseObjectionModel[tableName])
+    const queryFind = this.databaseObjectionModel[tableName].query(this.database).findById(id)
+    const query = this.databaseObjectionModel[tableName].query(this.database).deleteById(id)
+
+    if (this.connexion.type === 'pg') {
+      if (this.connexion.schema) {
+        adapterLogger.info('set search path for queries to %s', this.connexion.schema)
+        queryFind.withSchema?.(this.connexion.schema)
+        query.withSchema?.(this.connexion.schema)
+      }
+    }
+
+    const object = await queryFind // this will raise an error if not found
 
     adapterLogger.debug(object)
 
-    if (!object) throw new Error('Record not found')
-
-    adapterLogger.debug(this.databaseObjectionModel[tableName])
-
-    await this.databaseObjectionModel[tableName].query(this.database).deleteById(id)
-
-    return null
+    return (await query) as unknown as T
   }
 }

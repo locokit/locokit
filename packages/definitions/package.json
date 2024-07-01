@@ -1,6 +1,6 @@
 {
   "name": "@locokit/definitions",
-  "version": "1.0.0-alpha.0",
+  "version": "0.0.2",
   "description": "LocoKit definitions",
   "scripts": {
     "build": "vite build && tsc --emitDeclarationOnly",
@@ -9,7 +9,7 @@
   "author": "Mathieu Dartigues",
   "license": "MIT",
   "dependencies": {
-    "@sinclair/typebox": "~0.25.0"
+    "@feathersjs/typebox": "5.0.10"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",

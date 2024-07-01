@@ -31,7 +31,7 @@ export function migrationService(app: Application): void {
   // Register our service on the Feathers application
   app.use(SERVICES.WORKSPACE_MIGRATION, new Migration(options), {
     // A list of all methods this service exposes externally
-    methods: ['create', 'patch', 'remove', 'apply', 'revert'],
+    methods: ['get', 'find', 'create', 'patch', 'remove', 'apply', 'revert', 'diff'],
     // You can add additional custom events to be sent to clients here
     events: [],
     docs: createSwaggerServiceOptions({

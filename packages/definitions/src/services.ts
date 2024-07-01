@@ -5,7 +5,7 @@
  * * Workspace (datasource, dataset, table, field, group, ...)
  * * Misc (mailer, settings)
  */
-export const SERVICES = {
+export const SERVICES = Object.freeze({
   AUTH_AUTHENTICATION: '/auth/authentication',
   AUTH_MANAGEMENT: '/auth/management',
   AUTH_SIGNUP: '/auth/signup',
@@ -45,4 +45,4 @@ export const SERVICES = {
     '/workspace/:workspaceSlug/datasource/:datasourceSlug/table/:tableSlug/dataset/:datasetSlug/field',
 
   WORKSPACE_MIGRATION: '/workspace/:workspaceSlug/datasource/:datasourceSlug/migration',
-}
+})

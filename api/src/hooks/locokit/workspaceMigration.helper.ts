@@ -16,6 +16,7 @@ export default async function (context: HookContext) {
      * we can find the correlated workspace in core schema
      */
     case 'create':
+    case 'apply':
       const datasourceCreate = await context.app
         .service(SERVICES.CORE_DATASOURCE)
         .get(context.data.datasourceId, {

@@ -3,22 +3,26 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
-    "source.fixAll": true
+    "source.fixAll": "explicit"
   },
   "editor.rulers": [
     {
       "column": 100
     }
   ],
+  "workbench.colorTheme": "Default Dark Modern",
   "workbench.colorCustomizations": {
-    "activityBar.background": "#29264F",
-    "titleBar.activeBackground": "#4b9c6d",
+    "activityBar.background": "#1f5665",
+    "activityBar.foreground": "#f9b232",
+    "activityBar.border": "#f9b232",
+    "activityBar.activeBorder": "#f9b232",
+    "activityBar.inactiveForeground": "#e3e1ff",
+    "activityBarTop.background": "#1f5665",
+    "activityBarTop.activeBorder": "#f9b232",
+    "titleBar.activeBackground": "#1f5665",
     "titleBar.activeForeground": "#e3e1ff",
-    "titleBar.border": "#29264F",
-    "activityBar.foreground": "#fff",
-    "activityBar.inactiveForeground": "#e3e1ff"
+    "titleBar.border": "#f9b232"
   },
-  "workbench.colorTheme": "Default Light+ Experimental",
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },

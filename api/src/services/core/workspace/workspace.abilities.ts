@@ -8,7 +8,7 @@ import { AppAbility, resolveAction } from '../../../abilities/definitions'
 // import { AppAbility, resolveAction } from '../../abilities/definitions'
 // import { HookContext } from '@feathersjs/feathers'
 import type { UserResult } from '../user/user.schema'
-import { ServiceTypes } from '@/declarations'
+// import { ServiceTypes } from '@/declarations'
 // import { ServiceTypes } from '../declarations'
 // import { LckAclSet } from '../models/aclset.model'
 // import { iff, IffHook, isProvider } from 'feathers-hooks-common'
@@ -23,8 +23,8 @@ import { ServiceTypes } from '@/declarations'
  */
 export async function createAbility(
   user: UserResult,
-  services: ServiceTypes,
-  withJoin: boolean = false,
+  // services: ServiceTypes,
+  // withJoin: boolean = false,
 ): Promise<AppAbility> {
   // also see https://casl.js.org/v5/en/guide/define-rules
   const { can, cannot, rules } = new AbilityBuilder(AppAbility)

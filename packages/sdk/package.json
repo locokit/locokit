@@ -9,11 +9,11 @@
     "dist"
   ],
   "scripts": {
-    "build": "cd ../../api && npm run client:bundle",
-    "dev": "cd ../../api && npm run client:bundle:watch"
+    "build": "cd ../../api && pnpm run client:bundle",
+    "dev": "cd ../../api && pnpm run client:bundle:watch"
   },
   "dependencies": {
-    "@locokit/definitions": "*",
+    "@locokit/definitions": "workspace:*",
     "@feathersjs/authentication-client": "^5.0.6",
     "@feathersjs/feathers": "^5.0.6"
   }

@@ -65,14 +65,8 @@ export const policyQuerySchema = Type.Intersect([
     }),
     {
       'workspace:owner.name': {
-        // @ts-expect-error
-        $like: {
-          type: 'string',
-        },
-        // @ts-expect-error
-        $ilike: {
-          type: 'string',
-        },
+        $like: Type.String(),
+        $ilike: Type.String(),
       },
     },
   ),

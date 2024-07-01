@@ -30,7 +30,7 @@ Instructions to use with docker will be soon available.
 
 ```sh
 nvm use # to use the right node version
-npm ci # to use exactly what the package-lock.json already resolve
+pnpm i --frozen-lockfile # to use exactly what the pnpm-lock.yaml already resolved
 ```
 
 ### Starting the API

@@ -11,10 +11,10 @@ import type {
 import { NotFound } from '@feathersjs/errors/lib'
 import { Paginated } from '@feathersjs/feathers'
 import { WorkspaceResult } from '@/services/core/workspace/workspace.schema'
-import { logger } from '@/logger'
+// import { logger } from '@/logger'
 import { SERVICES } from '@locokit/definitions'
 
-const datasourceLogger = logger.child({ service: 'datasource-hooks' })
+// const datasourceLogger = logger.child({ service: 'datasource-hooks' })
 
 // Resolver for the basic data model (e.g. creating new entries)
 export const workspaceDatasourceDataResolver = resolve<

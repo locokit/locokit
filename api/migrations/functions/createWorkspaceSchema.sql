@@ -147,7 +147,7 @@ BEGIN
     "workspaceId" uuid NOT NULL DEFAULT ''%s'',
 
     CONSTRAINT "PK_datasource" PRIMARY KEY (id),
-    CONSTRAINT "UNQ_ds_slug" UNIQUE (slug, "workspaceId")
+    CONSTRAINT "UNQ_ds_slug" UNIQUE NULLS NOT DISTINCT (slug, "workspaceId")
 
   ) INHERITS ("core"."lck_datasource")', workspace_id);
 
@@ -163,6 +163,8 @@ BEGIN
     applied timestamp with time zone DEFAULT null,
     reverted timestamp with time zone DEFAULT null,
 
+    direction character varying(28) NOT NULL DEFAULT 'both',
+
     "diffToApply" jsonb DEFAULT null,
     "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
@@ -171,7 +173,12 @@ BEGIN
     CONSTRAINT "FK_migration_datasource" FOREIGN KEY ("datasourceId")
       REFERENCES "datasource" (id) MATCH SIMPLE
       ON UPDATE NO ACTION
-      ON DELETE CASCADE
+      ON DELETE CASCADE,
+    CONSTRAINT "CHECK_migration_direction" CHECK (direction = ANY (ARRAY[
+      'both'::text,
+      'from-datasource-to-metamodel'::text,
+      'from-metamodel-to-datasource'::text
+    ]))
   );
 
   CREATE INDEX IF NOT EXISTS "IDX_migration_datasource"
@@ -181,7 +188,7 @@ BEGIN
 
   CREATE TABLE "table" (
     CONSTRAINT "PK_table" PRIMARY KEY (id),
-    CONSTRAINT "UNQ_table_slug" UNIQUE ("schema", slug, "datasourceId"),
+    CONSTRAINT "UNQ_table_slug" UNIQUE NULLS NOT DISTINCT ("schema", slug, "datasourceId"),
     CONSTRAINT "FK_table_datasource" FOREIGN KEY ("datasourceId")
       REFERENCES "datasource" (id) MATCH SIMPLE
       ON UPDATE NO ACTION
@@ -217,7 +224,7 @@ BEGIN
         REFERENCES "table" (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE,
-    CONSTRAINT "UNQ_tableField_slug" UNIQUE (slug, "tableId"),
+    CONSTRAINT "UNQ_tableField_slug" UNIQUE NULLS NOT DISTINCT (slug, "tableId"),
     CONSTRAINT "PK_tableField" PRIMARY KEY (id),
     CONSTRAINT "CHECK_tableField_type" CHECK (type = ANY (ARRAY[
       --
@@ -307,7 +314,7 @@ BEGIN
     "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "PK_tableRelation" PRIMARY KEY (id),
-    CONSTRAINT "UNQ_tableRelation_slug" UNIQUE (slug, "fromTableId"),
+    CONSTRAINT "UNQ_tableRelation_slug" UNIQUE NULLS NOT DISTINCT (slug, "fromTableId"),
     CONSTRAINT "FK_tableRelation_from" FOREIGN KEY ("fromTableId")
         REFERENCES "table" (id) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -372,7 +379,7 @@ BEGIN
     "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "PK_dataset" PRIMARY KEY (id),
-    CONSTRAINT "UNQ_dataset_slug" UNIQUE (slug, "tableId"),
+    CONSTRAINT "UNQ_dataset_slug" UNIQUE NULLS NOT DISTINCT (slug, "tableId"),
 
     CONSTRAINT "FK_dataset_tableId" FOREIGN KEY ("tableId")
       REFERENCES "table" (id) MATCH SIMPLE
@@ -397,7 +404,7 @@ BEGIN
     "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "PK_datasetField" PRIMARY KEY ("datasetId", "tableFieldId"),
-    CONSTRAINT "UNQ_datasetField" UNIQUE ("datasetId", "tableFieldId"),
+    CONSTRAINT "UNQ_datasetField" UNIQUE NULLS NOT DISTINCT ("datasetId", "tableFieldId"),
 
     CONSTRAINT "FK_datasetField_dataset" FOREIGN KEY ("datasetId")
         REFERENCES "dataset" (id) MATCH SIMPLE

@@ -2,16 +2,7 @@
   "name": "locokit",
   "version": "1.0.0-alpha.0",
   "description": "LocoKit, the low-code platform",
-  "workspaces": [
-    "api",
-    "docs",
-    "packages/definitions",
-    "packages/designsystem",
-    "packages/engine",
-    "packages/nuxt-locokit",
-    "packages/sdk",
-    "packages/i18n"
-  ],
+  "packageManager": "pnpm@9.2.0",
   "keywords": [
     "lowcode",
     "nocode",
@@ -38,9 +29,14 @@
     {
       "name": "Henri GAUFFRIAU",
       "email": "henri.gauffriau@makina-corpus.com"
+    },
+    {
+      "name": "Alexandra JANIN",
+      "email": "contact.ajanin@gmail.com"
     }
   ],
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:serve": "vitepress serve docs"
@@ -56,8 +52,9 @@
     "prettier": "^3.1.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.3.3",
-    "vite": "^3.1.8",
-    "vitepress": "1.0.0-alpha.64",
-    "vitest": "^0.29.8"
+    "vitepress": "1.2.3"
+  },
+  "dependencies": {
+    "vite": "^5.2.8"
   }
 }

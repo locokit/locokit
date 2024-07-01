@@ -23,6 +23,7 @@ module.exports = {
     'no-case-declarations': 'off',
     'prettier/prettier': 'error',
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
   },
   overrides: [
     {

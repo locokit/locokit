@@ -6,6 +6,7 @@ import { SERVICES } from '@locokit/definitions'
 import workspaceMigrationHelper from './workspaceMigration.helper'
 import workspaceDatasourceHelper from './workspaceDatasource.helper'
 import { logger } from '@/logger'
+import { Migration as ServiceMigration } from '@/services/workspace/migration/migration.class'
 
 const locokitContextLogger = logger.child({ service: 'hook-locokit-context' })
 
@@ -25,6 +26,12 @@ export async function setLocoKitContext(context: HookContext) {
   context.$locokit = {}
 
   const { workspaceSlug, datasourceSlug /* tableSlug, datasetSlug */ } = context.params?.route || {}
+
+  locokitContextLogger.info(
+    'slugs : workspace "%s", datasource "%s"',
+    workspaceSlug,
+    datasourceSlug,
+  )
 
   if (workspaceSlug) {
     locokitContextLogger.debug('workspace slug found: %s', workspaceSlug)
@@ -50,12 +57,16 @@ export async function setLocoKitContext(context: HookContext) {
         },
       })
       if (datasource.total !== 1) throw new NotFound('Datasource not found.')
+      if (context.service instanceof ServiceMigration) {
+        if (['create', 'diff'].includes(context.method))
+          context.data.datasourceId = datasource.data[0].id
+      }
 
       context.$locokit.currentDatasourceSlug = datasourceSlug
       context.$locokit.currentDatasource = datasource.data[0]
     }
   } else {
-    locokitContextLogger.debug('what is the service of "%s" ?', context.path)
+    locokitContextLogger.info('what is the service of "%s" ?', context.path)
 
     /**
      * For service TABLE_FIELD,
@@ -64,15 +75,15 @@ export async function setLocoKitContext(context: HookContext) {
      */
     switch ('/' + context.path) {
       case SERVICES.WORKSPACE_DATASOURCE:
-        locokitContextLogger.debug('workspace datasource service found (method %s)', context.method)
+        locokitContextLogger.info('workspace datasource service found (method %s)', context.method)
         await workspaceDatasourceHelper(context)
         break
       case SERVICES.WORKSPACE_MIGRATION:
-        locokitContextLogger.debug('workspace migration service found (method %s)', context.method)
+        locokitContextLogger.info('workspace migration service found (method %s)', context.method)
         await workspaceMigrationHelper(context)
         break
       case SERVICES.WORKSPACE_TABLE:
-        locokitContextLogger.debug('workspace table service found (method %s)', context.method)
+        locokitContextLogger.info('workspace table service found (method %s)', context.method)
         const datasourceId =
           context.method === 'create'
             ? context.data.datasourceId

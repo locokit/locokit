@@ -28,6 +28,9 @@ export default defineNuxtConfig({
             enabled: true,
           },
         },
+        api: {
+          url: '/api',
+        },
       },
     ],
   ],

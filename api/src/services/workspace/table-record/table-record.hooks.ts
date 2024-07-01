@@ -6,7 +6,7 @@ import type { FormatsPluginOptions } from '@feathersjs/schema'
 import ajvErrors from 'ajv-errors'
 import { NotFound } from '@feathersjs/errors/lib'
 import { Type, querySyntax, getValidator, TSchema } from '@feathersjs/typebox'
-import { createAdapter, GenericAdapter } from '@locokit/engine'
+import { ConnexionSQL, createAdapter, GenericAdapter } from '@locokit/engine'
 import { convertLocoKitFieldTypeToTypeboxSchema } from './table-record.helpers'
 import { toEagerRegExp } from '@/utils/toEagerRegExp'
 
@@ -199,10 +199,31 @@ export const tableRecordHooks = {
             /**
              * Create the adapter
              */
-            adapters[adapterKey] = await createAdapter({
+            const dsParams: ConnexionSQL = {
+              // TODO: change ConnexionSQL's engine typing from 'type' to 'client' property ?
+              // be careful for ConnexionBaserow as it's 'type' is 'baserow'
               type: datasource.data[0].client,
               options: datasource.data[0].connection,
-            })
+            }
+
+            switch (datasource.data[0].type) {
+              case 'local':
+                const schema = `ds_${datasource.data[0].id as string}`
+                // const role = `${schema as string}_ro`
+                dsParams.options = process.env.LCK_DATABASE_URL as string
+                // TODO: enable the read only role : https://github.com/locokit/locokit/issues/243
+                // actually there is an error when the ro role access to the schema inspector
+                // a function pg_get_serial_sequence try to access some schemas (tiger) the role can't
+                // see knex-schema-inspector/lib/dialect/postgres.ts L302
+                // dsParams.role = role
+                dsParams.schema = schema
+                break
+              default:
+                throw new Error(
+                  'Other than "local" type is not yet implemented for your datasource. Please ask us to create it, or create a pull request with the implementation.',
+                )
+            }
+            adapters[adapterKey] = await createAdapter(dsParams)
           }
         }
 

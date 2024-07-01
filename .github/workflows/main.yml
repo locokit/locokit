@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
-name: API quality workflow
+name: Continuous integration workflow
 
 on:
   push:
@@ -15,6 +15,22 @@ jobs:
   # Quality section
   #
 
+  ## Package i18n
+  i18n-check-keys:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: packages/i18n
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run script to check keys in translation files
+        run: |
+          chmod +x ./compareKeyTranslation.sh
+          ./compareKeyTranslation.sh
+        shell: bash
+
   ## Design system
   # design-system-quality:
   #   runs-on: ubuntu-latest
@@ -25,11 +41,11 @@ jobs:
   #   steps:
   #     - uses: actions/checkout@v3
   #     - name: NPM Version
-  #       run: npm -v
+  #       run: pnpm -v
   #     - name: Install dependencies
-  #       run: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci --ignore-scripts
+  #       run: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true pnpm i
   #     - name: lint
-  #       run: npm run lint
+  #       run: pnpm run lint
   #       env:
   #         NODE_OPTIONS: --max_old_space_size=4096
 
@@ -69,22 +85,21 @@ jobs:
           PGTZ: 'UTC'
     steps:
       - uses: actions/checkout@v3
-      - name: NPM Version
-        run: npm -v
+      - uses: pnpm/action-setup@v4
       - name: Install turbo
         run: npm i -g turbo --ignore-scripts
       - name: Install dependencies
-        run: npm ci --ignore-scripts
+        run: pnpm i --ignore-scripts
       # This is needed for better linting
       # if packages are not built, we can't lint correctly
       - name: Build all dependencies for api
-        run: turbo run build --scope=locokit-api
+        run: turbo run build --filter=locokit-api
       - name: Lint code
-        run: npm run lint --workspace api
+        run: pnpm --filter locokit-api lint
       - name: Prettier
-        run: npm run prettier --workspace api
+        run: pnpm --filter locokit-api prettier
       - name: Unit tests
-        run: npm run vitest:coverage --workspace api
+        run: pnpm --filter locokit-api vitest:coverage
         env:
           NODE_OPTIONS: --max_old_space_size=4096
       - name: Upload coverage reports to Codecov
@@ -113,10 +128,11 @@ jobs:
       BASE_URL: '/'
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
       - name: Install dependencies
-        run: npm ci --ignore-scripts
+        run: pnpm i --ignore-scripts
       - name: Build documentation
-        run: npm run docs:build
+        run: pnpm docs:build
       - name: Tar docs
         run: cd docs/.vitepress/dist/ && tar -czvf lck-docs-build-artifact.tar.gz *
       - name: Archive production artifacts
@@ -134,18 +150,17 @@ jobs:
     container: node:18
     steps:
       - uses: actions/checkout@v3
-      - name: NPM Version
-        run: npm -v
+      - uses: pnpm/action-setup@v4
       - name: Install Turbo
-        run: npm i -g turbo
+        run: npm i -g turbo --ignore-scripts
       - name: Install dependencies
-        run: npm ci --ignore-scripts --include=dev
+        run: pnpm i --ignore-scripts
       - name: Build all project
         run: turbo run build
       - name: Tar build api
         run: tar -cvzf lck-api-build-artifact.tar.gz api/dist
       - name: Tar build app
-        run: tar -cvzf lck-app-build-artifact.tar.gz app/.output
+        run: tar -cvzf lck-app-build-artifact.tar.gz packages/nuxt-locokit/playground/.output
       - name: Tar build @locokit/definitions
         run: tar -cvzf locokit-definitions-build-artifact.tar.gz packages/definitions/dist
       - name: Tar build @locokit/designsystem
@@ -253,7 +268,7 @@ jobs:
       - name: Extract build app
         run: tar -xzf lck-app-build-artifact.tar.gz
       - name: List files
-        run: ls -al app
+        run: ls -al packages/nuxt-locokit/playground/.output
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
