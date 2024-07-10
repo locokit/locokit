@@ -11,7 +11,7 @@ import { SERVICES } from '@locokit/definitions'
  */
 export default async function (context: HookContext) {
   const { transaction } = context.params
-  context.$locokit = {}
+  context.params.$locokit = {}
 
   switch (context.method) {
     /**
@@ -26,8 +26,8 @@ export default async function (context: HookContext) {
       if (!workspaceCreate)
         throw new NotAcceptable('Referenced datasource for this migration have not been found.')
 
-      context.$locokit.currentWorkspaceSlug = workspaceCreate?.slug
-      context.$locokit.currentWorkspace = workspaceCreate
+      context.params.$locokit.currentWorkspaceSlug = workspaceCreate?.slug
+      context.params.$locokit.currentWorkspace = workspaceCreate
       context.service.schema = `w_${workspaceCreate?.slug as string}`
       break
     case 'get':

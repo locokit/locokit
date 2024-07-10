@@ -12,6 +12,7 @@ import { ServiceSwaggerOptions } from 'feathers-swagger'
 import { UserResult } from './services/core/user/user.schema'
 import { WorkspaceResult } from './services/core/workspace/workspace.schema'
 import { DatasourceResult } from './services/core/datasource/datasource.schema'
+import { WorkflowResult } from './services/workspace/workflow/workflow.schema'
 
 export { NextFunction }
 
@@ -23,14 +24,7 @@ export interface ServiceTypes {}
 // The application instance type that will be used everywhere else
 export type Application = FeathersApplication<ServiceTypes, Configuration>
 
-export type HookContext<S = any> = FeathersHookContext<Application, S> & {
-  $locokit?: {
-    currentWorkspace?: WorkspaceResult
-    currentWorkspaceSlug?: string
-    currentDatasource?: DatasourceResult
-    currentDatasourceSlug?: string
-  }
-}
+export type HookContext<S = any> = FeathersHookContext<Application, S>
 export type Hook<S = any> = FeathersHook<Application, S>
 export type HookFunction<S = any> = FeathersHookFunction<Application, S>
 
@@ -38,6 +32,14 @@ export type HookFunction<S = any> = FeathersHookFunction<Application, S>
 declare module '@feathersjs/feathers' {
   interface Params {
     user?: UserResult
+    $locokit?: {
+      currentWorkspace?: WorkspaceResult
+      currentWorkspaceSlug?: string
+      currentDatasource?: DatasourceResult
+      currentDatasourceSlug?: string
+      currentWorkflow?: WorkflowResult
+      currentWorkflowSlug?: string
+    }
   }
   interface ServiceOptions {
     docs?: ServiceSwaggerOptions

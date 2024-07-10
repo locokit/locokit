@@ -8,7 +8,7 @@ export const migrationSchema = Type.Object(
       format: 'uuid',
     }),
     name: Type.String({
-      description: 'Name of the datasource',
+      description: 'Name of the migration',
     }),
     datasourceId: Type.String({
       format: 'uuid',
