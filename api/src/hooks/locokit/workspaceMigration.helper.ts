@@ -8,7 +8,7 @@ import { SERVICES } from '@locokit/definitions'
  */
 export default async function (context: HookContext) {
   const { transaction } = context.params
-  context.$locokit = {}
+  context.params.$locokit = {}
 
   switch (context.method) {
     /**
@@ -29,11 +29,11 @@ export default async function (context: HookContext) {
         throw new NotAcceptable('Referenced datasource for this migration have not been found.')
 
       const workspaceCreate = datasourceCreate.workspace
-      context.$locokit.currentWorkspaceSlug = workspaceCreate?.slug
-      context.$locokit.currentWorkspace = workspaceCreate
+      context.params.$locokit.currentWorkspaceSlug = workspaceCreate?.slug
+      context.params.$locokit.currentWorkspace = workspaceCreate
       context.service.schema = `w_${workspaceCreate?.slug as string}`
-      context.$locokit.currentDatasourceSlug = datasourceCreate.slug
-      context.$locokit.currentDatasource = datasourceCreate
+      context.params.$locokit.currentDatasourceSlug = datasourceCreate.slug
+      context.params.$locokit.currentDatasource = datasourceCreate
       break
     case 'find':
       const queryDatasourceId = context.params.query.datasourceId
@@ -50,11 +50,11 @@ export default async function (context: HookContext) {
         throw new NotAcceptable('Referenced datasource for this migration have not been found.')
 
       const workspaceFind = datasourceFind.workspace
-      context.$locokit.currentWorkspaceSlug = workspaceFind?.slug
-      context.$locokit.currentWorkspace = workspaceFind
+      context.params.$locokit.currentWorkspaceSlug = workspaceFind?.slug
+      context.params.$locokit.currentWorkspace = workspaceFind
       context.service.schema = `w_${workspaceFind?.slug as string}`
-      context.$locokit.currentDatasourceSlug = datasourceFind.slug
-      context.$locokit.currentDatasource = datasourceFind
+      context.params.$locokit.currentDatasourceSlug = datasourceFind.slug
+      context.params.$locokit.currentDatasource = datasourceFind
       break
     default:
       throw new NotImplemented(

@@ -32,12 +32,12 @@ export const tableFieldDataResolver = resolve<TableFieldDataInternal, HookContex
   async dbType(dbType, data, context) {
     if (dbType) return dbType
     // we need to know for which engine this field is
-    if (!context.$locokit?.currentDatasource) throw new NotAcceptable('No datasource found.')
+    if (!context.params.$locokit?.currentDatasource) throw new NotAcceptable('No datasource found.')
 
     // then we convert the locokit field type in the db type
     return convertLocoKitFieldTypeToDBType(
       data.type,
-      context.$locokit?.currentDatasource?.client as DB_DIALECT,
+      context.params.$locokit?.currentDatasource?.client as DB_DIALECT,
     )
   },
   /**

@@ -35,7 +35,7 @@ COPY packages/engine/package.json /code/packages/engine/
 COPY package.json .
 COPY pnpm-lock.yaml .
 COPY pnpm-workspace.yaml ./
-RUN pnpm i --frozen-lockfile --ignore-scripts --prod --filter locokit-api
+RUN pnpm i --frozen-lockfile --ignore-scripts --prod
 COPY api/dist /code/api
 COPY packages/definitions/dist /code/packages/definitions/dist
 COPY packages/engine/dist /code/packages/engine/dist
