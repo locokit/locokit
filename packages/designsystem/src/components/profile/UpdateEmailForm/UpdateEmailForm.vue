@@ -1,16 +1,16 @@
 <template>
   <FormGeneric
     :display-reset-button="false"
-    label-tk-button-submit="components.updateEmailForm.submit"
+    label-tk-button-submit="locokit.components.updateEmailForm.submit"
     :response="response"
     :loading="loading"
-    custom-msg-success-form="components.updateEmailForm.successMsg"
+    custom-msg-success-form="locokit.components.updateEmailForm.successMsg"
     class="w-3/4"
     @submit="onSubmit"
   >
     <div class="mb-4">
       <p>
-        {{ $t('components.updateEmailForm.currentEmail') }}
+        {{ $t('locokit.components.updateEmailForm.currentEmail') }}
       </p>
       <p class="font-bold">
         {{ user?.email }}
@@ -26,7 +26,7 @@
       type="email"
     >
       <label for="name" class="label-field-required">
-        {{ $t('components.updateEmailForm.newEmail') }}
+        {{ $t('locokit.components.updateEmailForm.newEmail') }}
       </label>
       <PrimeInputText
         id="email"
@@ -54,7 +54,7 @@
       as="div"
     >
       <label for="name" class="label-field-required">
-        {{ $t('components.updateEmailForm.password') }}
+        {{ $t('locokit.components.updateEmailForm.password') }}
       </label>
       <PrimePassword
         v-bind="field"

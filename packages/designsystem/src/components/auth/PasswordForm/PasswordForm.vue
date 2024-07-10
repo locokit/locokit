@@ -12,7 +12,7 @@
       class="mb-4 flex flex-col"
     >
       <label for="password" class="label-field-required">{{
-        $t('components.passwordForm.password')
+        $t('locokit.components.passwordForm.password')
       }}</label>
       <PrimePassword
         v-model="password"
@@ -23,10 +23,16 @@
         toggle-mask
         :medium-regex="`${regexPasswordRules}(?=.{8,})`"
         :strong-regex="`${regexPasswordRules}(?=.{12,})`"
-        :weak-label="$t('components.passwordForm.passwordStrength.weak')"
-        :medium-label="$t('components.passwordForm.passwordStrength.medium')"
-        :strong-label="$t('components.passwordForm.passwordStrength.strong')"
-        :prompt-label="$t('components.passwordForm.prompt')"
+        :weak-label="
+          $t('locokit.components.passwordForm.passwordStrength.weak')
+        "
+        :medium-label="
+          $t('locokit.components.passwordForm.passwordStrength.medium')
+        "
+        :strong-label="
+          $t('locokit.components.passwordForm.passwordStrength.strong')
+        "
+        :prompt-label="$t('locokit.components.passwordForm.prompt')"
         required
         aria-describedby="password-rules"
         autocomplete="new-password"
@@ -36,7 +42,7 @@
         :pattern="regexPasswordRules"
       />
       <small id="password-rules" class="italic">
-        {{ $t('components.passwordForm.rules') }}
+        {{ $t('locokit.components.passwordForm.rules') }}
       </small>
       <span
         v-if="errorMessage"
@@ -55,7 +61,7 @@
       class="mb-4 flex flex-col"
     >
       <label for="passwordCheck" class="label-field-required">
-        {{ $t('components.passwordForm.passwordCheck') }}
+        {{ $t('locokit.components.passwordForm.passwordCheck') }}
       </label>
       <PrimePassword
         v-model="passwordCheck"

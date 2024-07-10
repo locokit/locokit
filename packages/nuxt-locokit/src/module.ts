@@ -103,7 +103,7 @@ export default defineNuxtModule<ModuleOptions>({
       options: {
         ripple: true,
         // Todo: see locokit/packages/nuxt-locokit/src/runtime/plugins/3_i18n.ts:9
-        locale: Object.assign({}, en.localePrime),
+        locale: Object.assign({}, en.locokit.localePrime),
       },
       cssLayerOrder: 'tailwind-base, primevue, tailwind-utilities',
       components: {

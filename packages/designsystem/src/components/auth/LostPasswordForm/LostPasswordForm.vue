@@ -13,7 +13,7 @@
       class="mb-4 p-field"
     >
       <label for="email" class="label-field-required">
-        {{ $t('components.lostPasswordForm.email') }}
+        {{ $t('locokit.components.lostPasswordForm.email') }}
       </label>
       <PrimeInputText
         id="email"
@@ -36,7 +36,7 @@
     <div class="flex flex-col">
       <ButtonWithStatus
         type="submit"
-        label-tk="components.lostPasswordForm.submit"
+        label-tk="locokit.components.lostPasswordForm.submit"
         class="!w-full"
         :disabled="loading || !valid || !touched"
         :status-form="error ? 'failed' : null"
@@ -44,9 +44,9 @@
         :is-submitting="loading"
       />
       <span class="mt-4">
-        {{ $t('components.lostPasswordForm.signInHelp') }}
+        {{ $t('locokit.components.lostPasswordForm.signInHelp') }}
         <a class :href="signInRoute">
-          {{ $t('components.lostPasswordForm.signIn') }}
+          {{ $t('locokit.components.lostPasswordForm.signIn') }}
         </a>
       </span>
       <MessageForUser v-if="error" status="failed" />

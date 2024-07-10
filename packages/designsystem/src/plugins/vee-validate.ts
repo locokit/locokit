@@ -59,11 +59,11 @@ export function setup(i18n: I18n) {
     generateMessage: (context) => {
       // console.log(context)
       const field = i18n.global.t(
-        `validations.fieldNames.${context.field}`,
+        `locokit.validations.fieldNames.${context.field}`,
         context.field,
       )
       // console.log(field)
-      return i18n.global.t(`validations.messages.${context.rule?.name!}`, {
+      return i18n.global.t(`locokit.validations.messages.${context.rule?.name!}`, {
         field,
       }) as string
     },

@@ -11,7 +11,7 @@
         {{ $t(customMsgTkErrorForm) }}
       </p>
       <p>
-        {{ $t('error.redundantError') }}
+        {{ $t('locokit.error.redundantError') }}
       </p>
     </div>
   </div>
@@ -36,8 +36,8 @@ const props = withDefaults(
   }>(),
   {
     status: null,
-    customMsgTkSuccessForm: 'success.basic',
-    customMsgTkErrorForm: 'error.basic',
+    customMsgTkSuccessForm: 'locokit.success.basic',
+    customMsgTkErrorForm: 'locokit.error.basic',
   },
 )
 </script>

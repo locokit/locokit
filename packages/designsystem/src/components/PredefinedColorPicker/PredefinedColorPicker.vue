@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
     <label for="color">
-      {{ $t('components.predefinedColorPicker.label') }}
+      {{ $t('locokit.components.predefinedColorPicker.label') }}
     </label>
     <PrimeDropdown
       input-id="color"
@@ -15,21 +15,21 @@
       <template #value="slotProps">
         <SingleTag
           v-if="slotProps.value.color"
-          :label="$t('components.predefinedColorPicker.text')"
+          :label="$t('locokit.components.predefinedColorPicker.text')"
           :color="slotProps.value.color"
           :background-color="slotProps.value.backgroundColor"
         />
       </template>
       <template #option="slotProps">
         <SingleTag
-          :label="$t('components.predefinedColorPicker.text')"
+          :label="$t('locokit.components.predefinedColorPicker.text')"
           :color="slotProps.option.color"
           :background-color="slotProps.option.backgroundColor"
         />
       </template>
     </PrimeDropdown>
     <small id="color">
-      {{ $t('components.predefinedColorPicker.help') }}
+      {{ $t('locokit.components.predefinedColorPicker.help') }}
     </small>
   </div>
 </template>

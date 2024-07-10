@@ -3,7 +3,7 @@
     <div class="relative flex w-full">
       <i class="bi bi-funnel-fill" />
       <p class="pl-1 flex w-full">
-        {{ $t('components.filterButton.label', nbActiveFilters) }}
+        {{ $t('locokit.components.filterButton.label', nbActiveFilters) }}
       </p>
     </div>
   </PrimeButton>
@@ -47,7 +47,7 @@
                 <span>
                   {{
                     $t(
-                      `components.filterButton.select.operator.${slotProps.value}`,
+                      `locokit.components.filterButton.select.operator.${slotProps.value}`,
                     )
                   }}
                 </span>
@@ -56,7 +56,7 @@
                 <span>
                   {{
                     $t(
-                      `components.filterButton.select.operator.${slotProps.option.featherKey}`,
+                      `locokit.components.filterButton.select.operator.${slotProps.option.featherKey}`,
                     )
                   }}
                 </span>
@@ -65,7 +65,7 @@
           </div>
           <div class="w-1/4">
             <label v-if="index === 0" class="text-xs" for="column">
-              {{ $t('components.filterButton.column') }}
+              {{ $t('locokit.components.filterButton.column') }}
             </label>
             <PrimeDropdown
               id="column"
@@ -84,7 +84,7 @@
           </div>
           <div class="w-1/4">
             <label v-if="index === 0" class="text-xs" for="action">
-              {{ $t('components.filterButton.action') }}
+              {{ $t('locokit.components.filterButton.action') }}
             </label>
             <PrimeDropdown
               v-model="filter.action"
@@ -105,7 +105,7 @@
                 <span v-if="slotProps.value">
                   {{
                     $t(
-                      `components.filterButton.select.action.${slotProps.value.label}`,
+                      `locokit.components.filterButton.select.action.${slotProps.value.label}`,
                     )
                   }}
                 </span>
@@ -114,7 +114,7 @@
                 <span>
                   {{
                     $t(
-                      `components.filterButton.select.action.${slotProps.option.label}`,
+                      `locokit.components.filterButton.select.action.${slotProps.option.label}`,
                     )
                   }}
                 </span>
@@ -130,7 +130,7 @@
             class="w-1/4 flex flex-col"
           >
             <label v-if="index === 0" class="text-xs" for="motif">
-              {{ $t('components.filterButton.motif') }}
+              {{ $t('locokit.components.filterButton.motif') }}
             </label>
             <component
               :is="
@@ -157,7 +157,7 @@
         >
           <i class="bi bi-plus text-primary mr-1" />
           <p class="text-primary font-semibold">
-            {{ $t('components.filterButton.addFilter') }}
+            {{ $t('locokit.components.filterButton.addFilter') }}
           </p>
         </PrimeButton>
         <PrimeButton
@@ -166,14 +166,14 @@
         >
           <i class="bi bi-arrow-counterclockwise text-primary mr-1" />
           <p class="text-primary font-semibold">
-            {{ $t('components.filterButton.reset') }}
+            {{ $t('locokit.components.filterButton.reset') }}
           </p>
         </PrimeButton>
       </div>
       <PrimeButton
         class="p-button-secondary p-button-rounded font-semibold"
         icon="bi-check-lg"
-        :label="$t('components.filterButton.submit')"
+        :label="$t('locokit.components.filterButton.submit')"
         @click="onClickFilters"
       />
     </div>

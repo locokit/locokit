@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.14
+
+Fix translation keys of components
+
+## 0.0.13
+
+Translation i18n general improvement: use of a specific `locokit` root key.
+
+- update of `vee-validate` key translation path to to be
+  compatible with new `locokit` root.
+- update all translation keys with the new `locokit` root.
+
 ## 0.0.12
 
 Shift to PrimeVue 4 Release Candidate 3 !
