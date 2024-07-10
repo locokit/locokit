@@ -50,7 +50,7 @@ RUN turbo prune --scope=locokit-api --out-dir=locokit-api --docker
 FROM base AS locokit-api
 WORKDIR /code
 COPY --from=builder /code/locokit-api/json .
-RUN pnpm i --frozen-lockfile --ignore-scripts --prod --filter locokit-api
+RUN pnpm i --frozen-lockfile --ignore-scripts --prod
 COPY --from=builder /code/locokit-api/full/api/dist .
 COPY --from=builder /code/locokit-api/full/api/dist /code/api/dist
 COPY --from=builder /code/locokit-api/full/packages/definitions/dist /code/packages/definitions/dist

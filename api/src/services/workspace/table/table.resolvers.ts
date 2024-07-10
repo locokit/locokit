@@ -22,7 +22,7 @@ export const tableDataResolver = resolve<TableDataInternal, HookContext>({
    */
   async datasourceId(value, _data, context) {
     if (value) return value
-    return context.$locokit?.currentDatasource?.id
+    return context.params.$locokit?.currentDatasource?.id
     // Todo WIP ACL
   },
 })
@@ -43,7 +43,7 @@ export const tableQueryResolver = resolve<TableQuery, HookContext>({
    */
   async datasourceId(value, _data, context) {
     if (value) return value
-    return context.$locokit?.currentDatasource?.id
+    return context.params.$locokit?.currentDatasource?.id
     // Todo WIP ACL
   },
 })

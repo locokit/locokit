@@ -5,7 +5,7 @@ import { defineConfig, loadEnv } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { resolve } from 'node:path'
 import pkg from './package.json'
-import glob from 'glob'
+import { glob } from 'glob'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 
 const sleep = async (s) => await new Promise((r) => setTimeout(r, (s * 1e3) | 0))

@@ -31,7 +31,7 @@ import { type ConnexionSQL, createAdapter } from '@locokit/engine'
 import { TableRelationResult } from '../table-relation/table-relation.schema'
 import { computeDiff } from './helpers/computeDiff'
 
-const migrationLogger = logger.child({ service: 'datasource' })
+const migrationLogger = logger.child({ service: 'migration' })
 
 export interface MigrationParams extends KnexAdapterParams<MigrationQuery> {}
 

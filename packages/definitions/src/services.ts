@@ -45,4 +45,6 @@ export const SERVICES = Object.freeze({
     '/workspace/:workspaceSlug/datasource/:datasourceSlug/table/:tableSlug/dataset/:datasetSlug/field',
 
   WORKSPACE_MIGRATION: '/workspace/:workspaceSlug/datasource/:datasourceSlug/migration',
+  WORKSPACE_WORKFLOW: '/workspace/:workspaceSlug/workflow',
+  WORKSPACE_WORKFLOW_RUN: '/workspace/:workspaceSlug/workflow/:workflowSlug/run',
 })
