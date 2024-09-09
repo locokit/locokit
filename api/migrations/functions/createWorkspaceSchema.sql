@@ -37,16 +37,31 @@ BEGIN
   v_role_readwrite := v_schema || '_rw';
 
   -- CREATE workspace schema
-  EXECUTE format('CREATE SCHEMA %I', v_schema);
+  EXECUTE format('CREATE SCHEMA IF NOT EXISTS %I', v_schema);
 
   RAISE NOTICE 'Schema ''%'' created.', v_schema;
 
   -- CREATE roles
-  EXECUTE format('CREATE ROLE %I', v_role_readonly);
+
+  IF EXISTS (
+      SELECT FROM pg_catalog.pg_roles
+      WHERE  rolname = v_role_readonly
+  ) THEN
+    RAISE NOTICE 'Role "%s" already exists. Skipping.', v_role_readonly;
+  ELSE
+    EXECUTE format('CREATE ROLE %I', v_role_readonly);
+  END IF;
 
   RAISE NOTICE 'Role ''%'' created.', v_role_readonly;
 
-  EXECUTE format('CREATE ROLE %I', v_role_readwrite);
+  IF EXISTS (
+      SELECT FROM pg_catalog.pg_roles
+      WHERE  rolname = v_role_readwrite
+  ) THEN
+    RAISE NOTICE 'Role "%s" already exists. Skipping.', v_role_readwrite;
+  ELSE
+    EXECUTE format('CREATE ROLE %I', v_role_readwrite);
+  END IF;
 
   RAISE NOTICE 'Role ''%'' created.', v_role_readwrite;
 
@@ -84,7 +99,7 @@ BEGIN
   --
   -- CREATE tables from core schema
   --
-  EXECUTE format('CREATE TABLE "policy" (
+  EXECUTE format('CREATE TABLE IF NOT EXISTS "policy" (
     "workspaceId" uuid DEFAULT ''%s'',
 
     CONSTRAINT "PK_policy" PRIMARY KEY (id),
@@ -96,7 +111,7 @@ BEGIN
 
   ) INHERITS ("core"."lck_policy")', workspace_id);
 
-  EXECUTE format('CREATE TABLE "group" (
+  EXECUTE format('CREATE TABLE IF NOT EXISTS "group" (
     "workspaceId" uuid DEFAULT ''%s'',
 
     CONSTRAINT "PK_group" PRIMARY KEY (id),
@@ -118,7 +133,7 @@ BEGIN
     ("policyId" ASC NULLS LAST)
     TABLESPACE pg_default;
 
-  CREATE TABLE "userGroup" (
+  CREATE TABLE IF NOT EXISTS "userGroup" (
 
     CONSTRAINT "PK_userGroup" PRIMARY KEY ("userId", "groupId"),
 
@@ -143,7 +158,7 @@ BEGIN
     ("userId" ASC NULLS LAST)
     TABLESPACE pg_default;
 
-  EXECUTE format('CREATE TABLE "datasource" (
+  EXECUTE format('CREATE TABLE IF NOT EXISTS "datasource" (
     "workspaceId" uuid NOT NULL DEFAULT ''%s'',
 
     CONSTRAINT "PK_datasource" PRIMARY KEY (id),
@@ -153,7 +168,7 @@ BEGIN
 
   -- CREATE all tables for metamodel
 
-  CREATE TABLE "migration" (
+  CREATE TABLE IF NOT EXISTS "migration" (
     id uuid NOT NULL DEFAULT gen_random_uuid(),
 
     name character varying(50),
@@ -186,7 +201,7 @@ BEGIN
     ("datasourceId" ASC NULLS LAST)
     TABLESPACE pg_default;
 
-  CREATE TABLE "table" (
+  CREATE TABLE IF NOT EXISTS "table" (
     CONSTRAINT "PK_table" PRIMARY KEY (id),
     CONSTRAINT "UNQ_table_slug" UNIQUE NULLS NOT DISTINCT ("schema", slug, "datasourceId"),
     CONSTRAINT "FK_table_datasource" FOREIGN KEY ("datasourceId")
@@ -204,7 +219,7 @@ BEGIN
     ("datasourceId" ASC NULLS LAST)
     TABLESPACE pg_default;
 
-  CREATE TABLE "tableField" (
+  CREATE TABLE IF NOT EXISTS "tableField" (
     id uuid NOT NULL DEFAULT gen_random_uuid(),
     name character varying(50),
     type character varying(24),
@@ -293,7 +308,7 @@ BEGIN
     ("tableId" ASC NULLS LAST)
     TABLESPACE pg_default;
 
-  CREATE TABLE "tableRelation" (
+  CREATE TABLE IF NOT EXISTS "tableRelation" (
     id uuid NOT NULL DEFAULT gen_random_uuid(),
 
     name character varying(50),
@@ -368,7 +383,7 @@ BEGIN
     ("throughFieldId" ASC NULLS LAST)
     TABLESPACE pg_default;
 
-  CREATE TABLE dataset (
+  CREATE TABLE IF NOT EXISTS dataset (
     id uuid NOT NULL DEFAULT gen_random_uuid(),
     name character varying(255),
     slug character varying(255),
@@ -391,7 +406,7 @@ BEGIN
     ("tableId" ASC NULLS LAST)
     TABLESPACE pg_default;
 
-  CREATE TABLE "datasetField" (
+  CREATE TABLE IF NOT EXISTS "datasetField" (
     "datasetId" uuid NOT NULL,
     "tableFieldId" uuid NOT NULL,
     position integer,
@@ -426,6 +441,48 @@ BEGIN
     ON "datasetField" USING btree
     ("tableFieldId" ASC NULLS LAST)
     TABLESPACE pg_default;
+
+  CREATE TABLE IF NOT EXISTS "workflow" (
+    id uuid NOT NULL DEFAULT gen_random_uuid(),
+    name character varying(255),
+    slug character varying(255) NOT NULL,
+    documentation text,
+    public boolean DEFAULT FALSE,
+    filepath character varying(255) NOT NULL,
+
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "PK_workflow" PRIMARY KEY (id),
+    CONSTRAINT "UNQ_workflow_slug" UNIQUE NULLS NOT DISTINCT (slug)
+  );
+  CREATE INDEX IF NOT EXISTS "IDX_workflow_slug"
+    ON "workflow" USING btree
+    (slug ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+  CREATE TABLE IF NOT EXISTS "workflowRun" (
+    id uuid NOT NULL DEFAULT gen_random_uuid(),
+    "workflowId" uuid NOT NULL,
+
+    input jsonb DEFAULT null,
+    result jsonb DEFAULT null,
+    output jsonb DEFAULT null,
+    status character varying(3) DEFAULT 'NOK',
+
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "PK_workflowRun" PRIMARY KEY (id),
+    CONSTRAINT "FK_workflowRun_workflow" FOREIGN KEY ("workflowId")
+        REFERENCES "workflow" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE,
+    CONSTRAINT "CHECK_workflowRun_status" CHECK (status = ANY (ARRAY[
+      'OK'::text,
+      'NOK'::text
+    ]))
+  );
 
   RAISE NOTICE 'Schema ''%'' set up.', v_schema;
 

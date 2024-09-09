@@ -13,6 +13,7 @@
   "engines": {
     "node": ">= 18"
   },
+  "type": "module",
   "feathers": {
     "language": "ts",
     "packager": "npm",
@@ -120,6 +121,7 @@
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.2.0",
+    "glob": "^11.0.0",
     "mocha": "^10.0.0",
     "nodemon": "^2.0.18",
     "shx": "^0.3.4",

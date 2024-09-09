@@ -23,14 +23,18 @@ export async function setLocoKitContext(context: HookContext) {
   locokitContextLogger.info('starting on service "%s" ...', context.service.constructor.name)
   const { transaction } = context.params
 
-  context.$locokit = {}
+  context.params.$locokit = {}
 
-  const { workspaceSlug, datasourceSlug /* tableSlug, datasetSlug */ } = context.params?.route || {}
+  const { workspaceSlug, datasourceSlug, tableSlug, datasetSlug, workflowSlug } =
+    context.params?.route ?? {}
 
   locokitContextLogger.info(
-    'slugs : workspace "%s", datasource "%s"',
+    'slugs : workspace "%s", datasource "%s", workflow "%s", table "%s", dataset "%s"',
     workspaceSlug,
     datasourceSlug,
+    workflowSlug,
+    tableSlug,
+    datasetSlug,
   )
 
   if (workspaceSlug) {
@@ -43,8 +47,8 @@ export async function setLocoKitContext(context: HookContext) {
     })
     if (workspace.total !== 1) throw new NotFound('Workspace not found.')
 
-    context.$locokit.currentWorkspaceSlug = workspaceSlug
-    context.$locokit.currentWorkspace = workspace.data[0]
+    context.params.$locokit.currentWorkspaceSlug = workspaceSlug
+    context.params.$locokit.currentWorkspace = workspace.data[0]
     context.service.schema = `w_${workspace.data[0].slug as string}`
 
     if (datasourceSlug && workspace.data[0]) {
@@ -62,8 +66,29 @@ export async function setLocoKitContext(context: HookContext) {
           context.data.datasourceId = datasource.data[0].id
       }
 
-      context.$locokit.currentDatasourceSlug = datasourceSlug
-      context.$locokit.currentDatasource = datasource.data[0]
+      context.params.$locokit.currentDatasourceSlug = datasourceSlug
+      context.params.$locokit.currentDatasource = datasource.data[0]
+    }
+
+    if (workflowSlug && workspace.data[0]) {
+      const workflow = await context.app.service(SERVICES.WORKSPACE_WORKFLOW).find({
+        transaction,
+        query: {
+          slug: workflowSlug,
+        },
+        route: {
+          workspaceSlug,
+        },
+      })
+      if (workflow.total !== 1) throw new NotFound('Workflow not found.')
+      const currentWorkflow = workflow.data[0]
+      if (context.method == 'find') {
+        context.params.query.workflowId = context.params.query.workflowId || currentWorkflow.id
+      } else {
+        context.data.workflowId = context.data.workflowId || currentWorkflow.id
+
+        context.params.$locokit.currentWorkflow = currentWorkflow
+      }
     }
   } else {
     locokitContextLogger.info('what is the service of "%s" ?', context.path)
@@ -98,11 +123,11 @@ export async function setLocoKitContext(context: HookContext) {
           throw new NotAcceptable('Referenced datasource for this migration have not been found.')
 
         const workspace = datasource.workspace
-        context.$locokit.currentWorkspaceSlug = workspace?.slug
-        context.$locokit.currentWorkspace = workspace
+        context.params.$locokit.currentWorkspaceSlug = workspace?.slug
+        context.params.$locokit.currentWorkspace = workspace
         context.service.schema = `w_${workspace?.slug as string}`
-        context.$locokit.currentDatasourceSlug = datasource.slug
-        context.$locokit.currentDatasource = datasource
+        context.params.$locokit.currentDatasourceSlug = datasource.slug
+        context.params.$locokit.currentDatasource = datasource
 
         break
       case SERVICES.WORKSPACE_TABLE_FIELD:
@@ -127,11 +152,11 @@ export async function setLocoKitContext(context: HookContext) {
 
             const datasource = table.datasource
             const workspace = table.datasource.workspace
-            context.$locokit.currentWorkspaceSlug = workspace.slug
-            context.$locokit.currentWorkspace = workspace
+            context.params.$locokit.currentWorkspaceSlug = workspace.slug
+            context.params.$locokit.currentWorkspace = workspace
             context.service.schema = `w_${workspace.slug as string}`
-            context.$locokit.currentDatasourceSlug = datasource.slug
-            context.$locokit.currentDatasource = datasource
+            context.params.$locokit.currentDatasourceSlug = datasource.slug
+            context.params.$locokit.currentDatasource = datasource
             break
           default:
             throw new NotImplemented(
@@ -160,11 +185,11 @@ export async function setLocoKitContext(context: HookContext) {
           throw new NotAcceptable('Referenced datasource for this migration have not been found.')
 
         const relationWorkspace = tableDatasource.workspace
-        context.$locokit.currentWorkspaceSlug = relationWorkspace?.slug
-        context.$locokit.currentWorkspace = relationWorkspace
+        context.params.$locokit.currentWorkspaceSlug = relationWorkspace?.slug
+        context.params.$locokit.currentWorkspace = relationWorkspace
         context.service.schema = `w_${relationWorkspace?.slug as string}`
-        context.$locokit.currentDatasourceSlug = tableDatasource.slug
-        context.$locokit.currentDatasource = tableDatasource
+        context.params.$locokit.currentDatasourceSlug = tableDatasource.slug
+        context.params.$locokit.currentDatasource = tableDatasource
 
         break
       default:

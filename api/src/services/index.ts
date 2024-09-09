@@ -18,12 +18,11 @@ import { tableService } from './workspace/table/table'
 import { tableFieldService } from './workspace/table-field/table-field'
 import { tableRecordService } from './workspace/table-record/table-record'
 import { tableRelationService } from './workspace/table-relation/table-relation'
-// import { datasetService } from './workspace/dataset/dataset'
-// import { datasetFieldService } from './workspace/datasetField/datasetField'
-// import { datasetRecordService } from './workspace/datasetRecord/datasetRecord'
 
 import { mailer } from './mailer/mailer'
 import { datasourceMermaidService } from './workspace/datasource-mermaid/datasource-mermaid'
+import { workflowService } from './workspace/workflow/workflow'
+import { workflowRunService } from './workspace/workflow-run/workflow-run'
 
 export const services = (app: Application): void => {
   /**
@@ -55,17 +54,12 @@ export const services = (app: Application): void => {
   app.configure(tableFieldService)
   app.configure(tableRelationService)
   app.configure(tableRecordService)
-  // app.configure(datasetService)
-  // app.configure(datasetFieldService)
-  // app.configure(datasetRecordService)
 
   /**
-   * Automations (when it will be done)
+   * Workflows
    */
-
-  /**
-   * Applications (when it will be done)
-   */
+  app.configure(workflowService)
+  app.configure(workflowRunService)
 
   /**
    * Utils, unavailable for external
