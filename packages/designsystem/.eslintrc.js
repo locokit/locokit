@@ -1,13 +1,7 @@
 require('@rushstack/eslint-patch/modern-module-resolution')
 
 module.exports = {
-  extends: [
-    'standard-with-typescript',
-    'plugin:vue/vue3-essential',
-    'plugin:vue/vue3-recommended',
-    '@vue/typescript/recommended',
-    'prettier',
-  ],
+  extends: ['standard-with-typescript', 'plugin:vue/vue3-essential', 'plugin:vue/vue3-recommended', '@vue/typescript/recommended', 'prettier', 'plugin:storybook/recommended'],
   parserOptions: {
     ecmaVersion: 2022,
     parser: '@typescript-eslint/parser',
@@ -19,7 +13,6 @@ module.exports = {
     '.eslintrc.js',
     'tailwind.config.js',
     'postcss.config.js',
-    'histoire.config.ts',
     'dist',
   ],
   plugins: ['prettier', '@typescript-eslint'],
