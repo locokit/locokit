@@ -1,6 +1,6 @@
 {
   "name": "locokit",
-  "version": "0.7.1",
+  "version": "0.7.8",
   "description": "Low-Code Kit platform",
   "workspaces": [
     "packages/**"
