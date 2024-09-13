@@ -35,6 +35,7 @@ const METHODS = {
   $null: 'whereNull',
   $not: 'whereNot',
   $notNull: 'whereNotNull',
+  $unaccentILike: 'unaccent',
 }
 const OPERATORS = {
   eq: '$eq',
@@ -245,9 +246,12 @@ class Service extends _adapterCommons.AdapterService {
       // console.log('method / hierarchy', method, hierarchy.length)
 
       /**
-       *
+       * if unaccent
        */
-      // console.log('we are here', hierarchy.length, key, ['$or', '$and'].includes(key), method, column, value)
+      if (method === 'unaccent') {
+        return query.whereRaw('unaccent(??) ilike ?', [column, value])
+      }
+
       if (method && (localHierarchy.length <= 1 || ['$or', '$and'].includes(key))) {
         // console.log('passing test')
         if (key === '$or') {

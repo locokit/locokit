@@ -41,7 +41,7 @@ jobs:
       - name: Tar build
         run: cd dist && tar -czvf lck-front-build-artifact.tar.gz *
       - name: Archive production artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: lck-front-build-artifact.tar.gz
           path: |
@@ -68,7 +68,7 @@ jobs:
       - name: Tar build
         run: tar -czvf lck-api-build-artifact.tar.gz lib
       - name: Archive production artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: lck-api-build-artifact.tar.gz
           path: |
@@ -94,7 +94,7 @@ jobs:
       - name: Tar docs
         run: cd docs/.vitepress/dist/ && tar -czvf lck-docs-build-artifact.tar.gz *
       - name: Archive production artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: lck-docs-build-artifact.tar.gz
           path: |
@@ -121,7 +121,7 @@ jobs:
       - name: Create CNAME
         run: echo "docs.locokit.io" > CNAME
       - name: Download docs artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with: 
           name: lck-docs-build-artifact.tar.gz
       - name: Extract docs artifact
@@ -161,21 +161,21 @@ jobs:
       - name: Print GITHUB REF
         run: echo $GITHUB_REF
       - name: Download api artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with: 
           name: lck-api-build-artifact.tar.gz
           # path: api/lib/
       - name: Extract api artifact
         run: tar -xzf lck-api-build-artifact.tar.gz -C api/
       - name: Download front artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with: 
           name: lck-front-build-artifact.tar.gz
           # path: front/dist/
       - name: Extract front artifact
         run: mkdir -p front/dist && tar -xzf lck-front-build-artifact.tar.gz -C front/dist/
       - name: Download docs artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with: 
           name: lck-docs-build-artifact.tar.gz
           # path: docs/.vitepress/dist
@@ -202,15 +202,15 @@ jobs:
     steps:
 
       - name: Download api artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with: 
           name: lck-api-build-artifact.tar.gz
       - name: Download front artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with: 
           name: lck-front-build-artifact.tar.gz
       - name: Download docs artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with: 
           name: lck-docs-build-artifact.tar.gz
       - name: Release

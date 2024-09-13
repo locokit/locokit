@@ -43,6 +43,7 @@ export default function (app: Application): void {
       '$modifyEager',
       '$noSelect',
       '$select',
+      '$unaccentILike'
     ],
     allowedEager: '[table,parents.^,children.^]',
     multi: ['patch'],
