@@ -1,6 +1,7 @@
 import { createLogger, format, transports } from 'winston'
 import type { HookContext, NextFunction } from './declarations'
 import util from 'node:util'
+import * as Sentry from '@sentry/node'
 
 // Configure the Winston logger. For the complete documentation see https://github.com/winstonjs/winston
 export const logger = createLogger({
@@ -47,6 +48,7 @@ export const logErrorHook = async (_context: HookContext, next: NextFunction): P
     await next()
   } catch (error) {
     logger.error(error)
+    Sentry.captureException(error)
     throw error
   }
 }
