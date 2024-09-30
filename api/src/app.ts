@@ -39,7 +39,6 @@ export function createApp(): Application {
     tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.2 : 1.0, // Be sure to lower this in production
   })
 
-
   const app: Application = koa(feathers())
   app.use(cors({}))
 
