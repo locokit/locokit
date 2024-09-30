@@ -69,6 +69,7 @@
     "@koa/cors": "^4.0.0",
     "@locokit/definitions": "workspace:*",
     "@locokit/engine": "workspace:*",
+    "@sentry/node": "^8.32.0",
     "@sinclair/typebox": "0.25.24",
     "ajv-errors": "^3.0.0",
     "ajv-formats": "^2.1.1",
