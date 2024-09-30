@@ -51,7 +51,8 @@
       },
       "formGeneric": {
         "save": "Enregistrer",
-        "reset": "Réinitialiser"
+        "reset": "Réinitialiser",
+        "delete": "Supprimer"
       },
       "predefinedColorPicker": {
         "label": "Couleur",
@@ -653,7 +654,7 @@
         "isFalseOrOtherTrue": "Le champ '{field}' ne peut être coché que si le champ '{target}' l'est également.",
         "minDate": "La date du champ '{field}' doit être après {fromDate}.",
         "dateValid": "La date du champ '{field}' ne correspond pas au format attendu.",
-        "reference": "La valeur du champ '{field}' est invalide : veuillez sélectionnez une valeur dans la liste."
+        "reference": "La valeur du champ '{field}' est invalide : veuillez sélectionner une valeur dans la liste."
       }
     },
     "commons": {

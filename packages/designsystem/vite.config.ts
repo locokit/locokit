@@ -15,7 +15,7 @@ export default defineConfig(() => ({
       fileName: (format: string, entry: string) => `${entry}.${format}.js`,
     },
     rollupOptions: {
-      external: [...Object.keys(pkg.dependencies), /primevue/],
+      external: [...Object.keys(pkg.dependencies), /primevue\//],
     },
   },
   plugins: [

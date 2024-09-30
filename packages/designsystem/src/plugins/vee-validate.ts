@@ -1,4 +1,4 @@
-// import { isAfter, isValid } from 'date-fns'
+import { /*isAfter, */ isValid } from 'date-fns'
 import { configure, defineRule } from 'vee-validate'
 import { email, required, regex } from '@vee-validate/rules'
 import { I18n } from 'vue-i18n'
@@ -9,13 +9,10 @@ export function setup(i18n: I18n) {
   defineRule('required', required)
   defineRule('regex', regex)
 
-  // extend('minDate', {
-  //   params: ['fromDate'],
-  //   validate (value: Date, { fromDate }: Record<string, any>) {
-  //     return isAfter(value, fromDate)
-  //   },
-  // })
-
+/*  defineRule('minDate', (value: Date, [target], ctx) => {
+    return isAfter(value, ctx.form[target])
+  });
+*/
   // Todo: Find a fix or fix it
   defineRule('confirmed', (value, [target], ctx) => {
     // To interpret string keypath: "toto.ro" -> toto.ro
@@ -25,30 +22,24 @@ export function setup(i18n: I18n) {
     return value === result
   })
 
-  // defineRule('dateValid', {
-  //   validate(value: Date) {
-  //     return isValid(value)
-  //   },
-  // })
+  defineRule('dateValid', (value: Date) => {
+    return isValid(value)
+  })
 
-  // defineRule('reference', {
-  //   validate(value: any) {
-  //     return typeof value === 'object'
-  //   },
-  // })
-  //
-  // defineRule('isFalseOrOtherTrue', {
-  //   params: ['target'],
-  //   validate(value: boolean, { target }: Record<string, any>) {
-  //     return !value || target === true
-  //   },
-  // })
-  //
-  // defineRule('snakeCase', {
-  //   validate(value: string) {
-  //     return /^[a-z_]+$/.test(value)
-  //   },
-  // })
+  defineRule('reference', (value: any) => {
+    return typeof value === 'object'
+  })
+
+/*  defineRule('isFalseOrOtherTrue', {
+    params: ['target'],
+    validate(value: boolean, { target }: Record<string, any>) {
+      return !value || target === true
+    },
+  })*/
+
+  defineRule('snakeCase', (value: string) => {
+    return /^[a-z_]+$/.test(value)
+  })
 
   configure({
     bails: false,

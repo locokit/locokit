@@ -4,23 +4,23 @@ import './styles/index.css'
 /**
  * Components
  */
-import SignInForm from './components/auth/SignInForm/SignInForm.vue'
-import LostPasswordForm from './components/auth/LostPasswordForm/LostPasswordForm.vue'
-import PasswordForm from './components/auth/PasswordForm/PasswordForm.vue'
-import SignUpForm from './components/auth/SignUpForm/SignUpForm.vue'
-import FormGeneric from './components/FormGeneric/FormGeneric.vue'
-import SingleTag from './components/SingleTag/SingleTag.vue'
-import MultiTags from './components/MultiTags/MultiTags.vue'
-import WorkspaceForm from './components/WorkspaceForm/WorkspaceForm.vue'
-import PredefinedColorPicker from './components/PredefinedColorPicker/PredefinedColorPicker.vue'
-import UpdateGeneralForm from './components/profile/UpdateGeneralForm/UpdateGeneralForm.vue'
-import UpdateEmailForm from './components/profile/UpdateEmailForm/UpdateEmailForm.vue'
-import UpdatePasswordForm from './components/profile/UpdatePasswordForm/UpdatePasswordForm.vue'
-import ButtonWithStatus from './components/ButtonWithStatus/ButtonWithStatus.vue'
-import IdentityCard from './components/IdentityCard/IdentityCard.vue'
-import FilterButton from './components/FilterButton/FilterButton.vue'
-import MessageForUser from './components/MessageForUser/MessageForUser.vue'
-import PickData from './components/PickData/PickData.vue'
+import FormGeneric from './components/forms/FormGeneric.vue'
+import SignInForm from './components/forms/auth/SignInForm/SignInForm.vue'
+import LostPasswordForm from './components/forms/auth/LostPasswordForm/LostPasswordForm.vue'
+import PasswordForm from './components/forms/auth/PasswordForm/PasswordForm.vue'
+import SignUpForm from './components/forms/auth/SignUpForm/SignUpForm.vue'
+import SingleTag from './components/ui/SingleTag/SingleTag.vue'
+import MultiTags from './components/ui/MultiTags/MultiTags.vue'
+import WorkspaceForm from './components/data/WorkspaceForm/WorkspaceForm.vue'
+import PredefinedColorPicker from './components/ui/PredefinedColorPicker/PredefinedColorPicker.vue'
+import UpdateGeneralForm from './components/forms/profile/UpdateGeneralForm/UpdateGeneralForm.vue'
+import UpdateEmailForm from './components/forms/profile/UpdateEmailForm/UpdateEmailForm.vue'
+import UpdatePasswordForm from './components/forms/profile/UpdatePasswordForm/UpdatePasswordForm.vue'
+import ButtonWithStatus from './components/ui/ButtonWithStatus/ButtonWithStatus.vue'
+import IdentityCard from './components/data/IdentityCard/IdentityCard.vue'
+import FilterButton from './components/ui/FilterButton/FilterButton.vue'
+import MessageForUser from './components/data/MessageForUser/MessageForUser.vue'
+import PickData from './components/ui/PickData/PickData.vue'
 
 /**
  * Layouts
@@ -29,24 +29,11 @@ import LayoutBackground from './layouts/background.vue'
 
 import { setup as setupVeeValidate } from './plugins/vee-validate'
 import { i18n } from './plugins/i18n'
-
-import ConfirmationService from 'primevue/confirmationservice'
-import ToastService from 'primevue/toastservice' // theme
-import PrimeVue from 'primevue/config'
-import Aura from '@primevue/themes/aura'
+import { definePluginPrime } from './plugins/primevue'
 import { I18n } from 'vue-i18n'
 
 export function setupLckDesignSystem(app: App, localI18n?: I18n): void {
-  app.use(PrimeVue, {
-    ripple: true,
-    theme: {
-      preset: Aura,
-    },
-    // unstyled: true,
-    // pt: Aura,
-  })
-  app.use(ToastService)
-  app.use(ConfirmationService)
+  definePluginPrime(app)
   if (localI18n) {
     app.use(localI18n)
     setupVeeValidate(localI18n)

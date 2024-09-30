@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.0.17
+
+* migrate from Histoire to Storybook
+* update PrimeVue
+* update palette color
+* update for buttons
+
+## 0.0.16
+
+* fix translation issues for login component
+* fix background layout issue on the height
+
+## 0.0.15
+
+Add vee-validate rules :
+* dateValid
+* reference
+* snakeCase
+
 ## 0.0.14
 
 Fix translation keys of components
