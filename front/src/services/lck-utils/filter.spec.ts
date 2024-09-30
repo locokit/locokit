@@ -825,7 +825,7 @@ describe('Filter utils', () => {
       '{groupId}': 'group-1',
     })
     expect(currentFilters).toEqual({
-      '$and[0][data][C11][$ilike]': '%John%',
+      '$and[0][data][C11][$unaccent]': '%John%',
       '$and[10][data][C11][$eq]': true,
       '$and[11][data][C11][$eq]': true,
       '$and[12][data][C11][$gt]': true,

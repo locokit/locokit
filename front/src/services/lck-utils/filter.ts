@@ -44,7 +44,7 @@ export const OPERATORS = [{
 export const ACTIONS: Record<string, FilterAction> = {
   MATCH: {
     label: 'match',
-    value: '$ilike',
+    value: '$unaccent',
     patternPrefix: '%',
     patternSuffix: '%',
   },

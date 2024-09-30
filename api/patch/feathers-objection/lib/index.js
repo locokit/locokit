@@ -52,6 +52,7 @@ const OPERATORS = {
   or: '$or',
   and: '$and',
   whereNot: '$not',
+  unaccent: '$unaccent',
 }
 const OPERATORS_MAP = {
   $lt: '<',
@@ -73,6 +74,7 @@ const OPERATORS_MAP = {
   $contained: '<@',
   $any: '?|',
   $all: '?&',
+  $unaccent: 'unaccent',
 }
 const DESERIALIZED_ARRAY_OPERATORS = ['between', 'not between', '?|', '?&']
 const NON_COMPARISON_OPERATORS = ['@>', '?', '<@', '?|', '?&']
@@ -180,6 +182,7 @@ class Service extends _adapterCommons.AdapterService {
    */
 
   objectify (query, params, parentKey, methodKey, allowRefs, hierarchy = []) {
+    // console.log('objectify', params, parentKey, methodKey, allowRefs, hierarchy )
     if (params.$eager) {
       delete params.$eager
     }
@@ -242,14 +245,9 @@ class Service extends _adapterCommons.AdapterService {
       const column = parentKey && parentKey[0] !== '$' ? parentKey : key
       const method = METHODS[methodKey] || METHODS[parentKey] || METHODS[key]
       const operator = OPERATORS_MAP[key] || '='
-      // console.log('method / hierarchy', method, hierarchy.length)
+      // console.log('method / operator / hierarchy', method, operator, hierarchy.length, parentKey, key, column)
 
-      /**
-       *
-       */
-      // console.log('we are here', hierarchy.length, key, ['$or', '$and'].includes(key), method, column, value)
       if (method && (localHierarchy.length <= 1 || ['$or', '$and'].includes(key))) {
-        // console.log('passing test')
         if (key === '$or') {
           const self = this
           return query.where(function () {
@@ -278,7 +276,6 @@ class Service extends _adapterCommons.AdapterService {
 
         return query[method].call(query, column, value) // eslint-disable-line no-useless-call
       }
-      // console.log('not passing')
 
       const property = this.jsonSchema && this.jsonSchema.properties && (
         this.jsonSchema.properties[column] ||
@@ -286,6 +283,7 @@ class Service extends _adapterCommons.AdapterService {
         methodKey && this.jsonSchema.properties[methodKey]
       )
       // console.log('property', property)
+      
       let columnType = property && property.type
       // console.log('columnType', columnType)
       if (columnType) {
@@ -327,7 +325,8 @@ class Service extends _adapterCommons.AdapterService {
               refColumnParse = 'decimal'
             }
           }
-          // console.log('method / Key', method, key)
+          // console.log('method / Key / operator', method, key, refColumnParse, operator)
+
           if (method) {
             // if (key === '$or') {
             //   const self = this;
@@ -353,10 +352,30 @@ class Service extends _adapterCommons.AdapterService {
 
             return query[method].call(
               query,
-              NON_COMPARISON_OPERATORS.includes(operator) ? refColumn : refColumn.castTo(refColumnParse), value)
+              NON_COMPARISON_OPERATORS.includes(operator) 
+                ? refColumn 
+                : refColumn.castTo(refColumnParse), 
+              value,
+            )
           }
 
-          return query.where(NON_COMPARISON_OPERATORS.includes(operator) ? refColumn : refColumn.castTo(refColumnParse), operator, value)
+          /**
+           * PATCH for unaccent
+           */
+          if (operator === OPERATORS_MAP.$unaccent) {
+            return query.whereRaw('unaccent(??) ilike ?', [
+              refColumn.castTo(refColumnParse),
+              value,
+            ])
+          }
+
+          return query.where(
+            NON_COMPARISON_OPERATORS.includes(operator) 
+              ? refColumn 
+              : refColumn.castTo(refColumnParse), 
+            operator, 
+            value,
+          )
         }
       }
 
@@ -372,7 +391,22 @@ class Service extends _adapterCommons.AdapterService {
         }
       }
 
-      return operator === '=' ? query.where(column, value) : query.where(column, operator, value)
+      // console.log('switch operator', operator, column, value)
+      switch(operator) {
+        case '=':
+          query.where(column, value)
+          break
+        case OPERATORS_MAP.$unaccent:
+          query.whereRaw('unaccent(??) ilike ?', [
+            column,
+            value,
+          ])
+          break
+        default:
+          query.where(column, operator, value)
+      }
+
+      return query
     })
   }
 
@@ -559,6 +593,7 @@ class Service extends _adapterCommons.AdapterService {
       filters,
       query,
     } = this.filterQuery(params)
+    // console.log('createQuery')
 
     const q = this._createQuery(params).skipUndefined()
 
