@@ -14,6 +14,7 @@ import { koa, rest, bodyParser, errorHandler, parseAuthentication } from '@feath
 import cors from '@koa/cors'
 import socketio from '@feathersjs/socketio'
 import swagger from 'feathers-swagger'
+import * as Sentry from '@sentry/node'
 
 import helmet from 'koa-helmet'
 
@@ -25,6 +26,20 @@ import { services } from './services'
 import { channels } from './channels'
 
 export function createApp(): Application {
+  Sentry.init({
+    // dsn: '', // use of SENTRY_DSN
+    // environment: process.env.NODE_ENV, // use of SENTRY_ENVIRONMENT
+    // release: '0.0.4', // use of SENTRY_RELEASE
+    // integrations: [
+    //   // enable HTTP calls tracing
+    //   new Sentry.httpIntegration(),
+    //   // enable Express.js middleware tracing
+    //   new Sentry.koaIntegration(),
+    // ],
+    tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.2 : 1.0, // Be sure to lower this in production
+  })
+
+
   const app: Application = koa(feathers())
   app.use(cors({}))
 
@@ -110,6 +125,8 @@ We hope you will enjoy this tool!
     setup: [],
     teardown: [],
   })
+
+  Sentry.setupKoaErrorHandler(app)
 
   return app
 }
