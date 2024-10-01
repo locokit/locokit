@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import knex, { Knex } from 'knex'
-import { SchemaInspector } from 'knex-schema-inspector'
-import { Column } from 'knex-schema-inspector/dist/types/column'
+import { createInspector, type Column, type ForeignKey } from '@directus/schema'
 import { ConnexionSQL, GenericAdapter, Field, Table, PaginatedResult } from '../interface'
 import {
   Model,
@@ -57,8 +56,33 @@ export class SQLAdapter implements GenericAdapter {
   async boot(): Promise<void> {
     adapterLogger.info('[boot] booting...')
 
-    const inspector = SchemaInspector(this.database)
+    const inspector = createInspector(this.database)
+    /**
+     * Quick fix for retrieving primary keys
+     * when composite keys
+     */
+    inspector.primary = async (table: string): Promise<string | null> => {
+      // @ts-expect-error
+      const schemaIn = inspector.explodedSchema.map((schemaName) => `${inspector.knex.raw('?', [schemaName])}::regnamespace`);
 
+      const result = await inspector.knex.raw(
+        `
+       SELECT
+          att.attname AS column
+        FROM
+          (select *, unnest(conkey) as conkey_id from pg_constraint where contype = 'p') as con
+        LEFT JOIN pg_class rel ON con.conrelid = rel.oid
+        LEFT JOIN pg_attribute att ON att.attrelid = con.conrelid AND att.attnum = conkey_id
+        WHERE con.connamespace IN (${schemaIn})
+          AND con.contype = 'p'
+          AND rel.relname = ?
+      `,
+        [table],
+      );
+
+      return result.rows?.map((r: {column: string}) => table + '.' + r.column) ?? null;
+    }
+  
     if (this.connexion.type === 'pg') {
       if (this.connexion.role) {
         adapterLogger.info('switching role to %s', this.connexion.role)
@@ -80,9 +104,9 @@ export class SQLAdapter implements GenericAdapter {
      */
     const tables: Record<
       string,
-      { name: string; columns: Column[]; relations: Record<string, any> }
+      { id: string|string[]|null; name: string; columns: Column[]; relations: Record<string, any> }
     > = tableNames.reduce(
-      (accumulator, current) => ({
+      (accumulator: Record<string, any>, current: string) => ({
         ...accumulator,
         [current]: { name: current, columns: [], relations: [] },
       }),
@@ -93,11 +117,17 @@ export class SQLAdapter implements GenericAdapter {
     /**
      * Fetch also all column info for all of the table
      */
-    await Promise.all(
-      tableNames.map(async (tableName) => {
+    await tableNames.reduce(
+      async (accumulator: Promise<void>, tableName: string) => {
+        await accumulator
+        adapterLogger.info('[boot] inspecting table %s', tableName)
+        const primary = await inspector.primary(tableName)
+        tables[tableName].id = primary
         const columnInfos = await inspector.columnInfo(tableName)
         tables[tableName].columns = columnInfos
-        columnInfos.forEach((c) => {
+        columnInfos.forEach((c: Column) => {
+          adapterLogger.info('[boot] inspecting table %s, column %s', tableName, c.name)
+
           /**
            * is this column linked to a foreign ?
            */
@@ -128,13 +158,15 @@ export class SQLAdapter implements GenericAdapter {
              */
           }
         })
-      }),
+      },
+      Promise.resolve()
     )
     const allModels = this.databaseObjectionModel
-
+    
+    adapterLogger.info('[boot] building Models...')
     Object.keys(tables).forEach((tableName) => {
+      adapterLogger.info('[boot] building Model %s', tableName)
       const t = tables[tableName]
-      const idColumns = t.columns.filter((c) => c.is_primary_key)
 
       allModels[tableName] = class extends Model {
         static get tableName(): string {
@@ -142,11 +174,7 @@ export class SQLAdapter implements GenericAdapter {
         }
 
         static get idColumn(): string | string[] {
-          if (idColumns) {
-            if (idColumns.length === 1) return idColumns[0].name
-            return idColumns.map((c) => c.name)
-          }
-          return 'id'
+          return t.id || [tableName + '.id']
         }
 
         static get jsonSchema(): JSONSchema {
@@ -215,7 +243,7 @@ export class SQLAdapter implements GenericAdapter {
   async retrieveSchema(schema?: string): Promise<Table[]> {
     adapterLogger.info('[retrieveSchema] inspecting schema %s', schema)
     const result: Table[] = []
-    const inspector = SchemaInspector(this.database)
+    const inspector = createInspector(this.database)
     if (schema) inspector.withSchema?.(schema)
     const tables = await inspector.tables()
     adapterLogger.info('[retrieveSchema] %s tables found', tables.length)
@@ -227,11 +255,11 @@ export class SQLAdapter implements GenericAdapter {
         // remove the double quotes for better comparaison
         const regexpRemovingDoubleQuotes = /^"(.*)"$/
         const columnInfos = await inspector.columnInfo(tableName)
-        columnInfos.forEach((c) => {
+        columnInfos.forEach((c: Column) => {
           c.schema = regexpRemovingDoubleQuotes.exec(c.schema ?? '')?.[1]
         })
         const foreignInfos = await inspector.foreignKeys(tableName)
-        foreignInfos.forEach((f) => {
+        foreignInfos.forEach((f: ForeignKey) => {
           f.foreign_key_schema = regexpRemovingDoubleQuotes.exec(f.foreign_key_schema ?? '')?.[1]
         })
         result.push({
@@ -246,13 +274,13 @@ export class SQLAdapter implements GenericAdapter {
   }
 
   async retrieveTables() {
-    const inspector = SchemaInspector(this.database)
+    const inspector = createInspector(this.database)
     const tables = await inspector.tables()
     return tables
   }
 
   async retrieveTable(tableName: string): Promise<Table> {
-    const inspector = SchemaInspector(this.database)
+    const inspector = createInspector(this.database)
     return await inspector.tableInfo(tableName)
   }
 
@@ -261,7 +289,7 @@ export class SQLAdapter implements GenericAdapter {
       name: tableName,
       fields: [] as Field[],
     }
-    const inspector = SchemaInspector(this.database)
+    const inspector = createInspector(this.database)
     result.fields = await inspector.columnInfo(tableName)
     return result
   }
@@ -412,11 +440,11 @@ export class SQLAdapter implements GenericAdapter {
     if (!model) throw new Error(`Table ${tableName} is unknown.`)
 
     const query = model.query(this.database).limit($limit).offset($skip)
-    const totalQuery = model.query(this.database).countDistinct(tableName + '.id', { as: 'count' })
+    const totalQuery = model.query(this.database).countDistinct(...model.idColumn) // tableName + '.id', { as: 'count' })
 
     if (this.connexion.type === 'pg') {
       if (this.connexion.schema) {
-        adapterLogger.info('set search path for queries to %s', this.connexion.schema)
+        adapterLogger.debug('set search path for queries to %s', this.connexion.schema)
         query.withSchema?.(this.connexion.schema)
         totalQuery.withSchema?.(this.connexion.schema)
       }
@@ -498,13 +526,14 @@ export class SQLAdapter implements GenericAdapter {
         realQuery[tableName + '.id'] = realQuery.id
         delete realQuery.id
       })
+
     objectify(totalQuery, realQuery)
     const total = (await totalQuery) as unknown as Array<{
       count: string
     }>
     result.total = parseInt(total[0].count, 10)
 
-    adapterLogger.debug(realQuery, $select)
+    adapterLogger.info(realQuery, $select)
     objectify(query, realQuery)
 
     result.data = (await query) as unknown as T[]

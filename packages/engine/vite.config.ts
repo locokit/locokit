@@ -11,7 +11,6 @@ export default defineConfig(() => {
         name: '@locokit/engine',
         entry: ['src/index.ts'],
         formats: ['cjs', 'es', 'umd'],
-        fileName: (format: string, entry: string) => `${entry}.${format}.js`,
       },
       rollupOptions: {
         external: Object.keys(pkg.dependencies),

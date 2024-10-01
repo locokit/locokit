@@ -2,6 +2,7 @@ import { createLogger, format, transports } from 'winston'
 import type { HookContext, NextFunction } from './declarations'
 import util from 'node:util'
 import * as Sentry from '@sentry/node'
+import { FeathersError, NotAuthenticated } from '@feathersjs/errors'
 
 // Configure the Winston logger. For the complete documentation see https://github.com/winstonjs/winston
 export const logger = createLogger({
@@ -47,8 +48,23 @@ export const logErrorHook = async (_context: HookContext, next: NextFunction): P
   try {
     await next()
   } catch (error) {
+    /**
+     * Capture exception only on production env
+     */
+    let captureException = process.env.NODE_ENV === 'production'
+    /**
+     * Manage cases where we don't want to capture the exception in Sentry (false positive)
+     */
+    if ((error as FeathersError).type === 'FeathersError') {
+      switch ((error as FeathersError).name) {
+        case 'NotAuthenticated':
+          if ((error as NotAuthenticated).data.name === 'TokenExpiredError')
+            captureException = false
+          break
+      }
+    }
     logger.error(error)
-    Sentry.captureException(error)
+    captureException === true && Sentry.captureException(error)
     throw error
   }
 }

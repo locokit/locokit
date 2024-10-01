@@ -1,6 +1,6 @@
 import { Type, Static, querySyntax, getValidator } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '@/commons/validators'
-import { DatasourceSchema } from '../datasource/datasource.schema'
+import { WorkspaceDatasourceSchema } from '../datasource/datasource.schema'
 import { TableFieldSchema } from '../table-field/table-field.schema'
 import { TableRelationSchema } from '../table-relation/table-relation.schema'
 import { OptionalNullable } from '@locokit/definitions'
@@ -30,7 +30,7 @@ export const tableSchema = Type.Object(
     }),
 
     datasource: Type.Optional(
-      Type.Any({ description: 'Related datasource', $schema: 'DatasourceSchema' }),
+      Type.Any({ description: 'Related datasource', $schema: 'WorkspaceDatasourceSchema' }),
     ),
     fields: Type.Optional(
       Type.Array(
@@ -48,9 +48,10 @@ export const tableSchema = Type.Object(
 )
 
 interface TableRelations {
-  datasource?: DatasourceSchema
+  datasource?: WorkspaceDatasourceSchema
   fields?: TableFieldSchema[]
   relations?: TableRelationSchema[]
+  lookups?: TableRelationSchema[]
 }
 
 export type TableSchema = Static<typeof tableSchema> & TableRelations
@@ -97,28 +98,25 @@ export const tableQuerySchema = Type.Intersect(
         }),
       ),
       $joinRelated: Type.Optional(
-        Type.RegEx(
-          /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
-          {
-            description: 'Join table to its datasource / relations / fields.',
-          },
-        ),
+        // Type.RegEx(
+        //   /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
+        Type.String({
+          description: 'Join table to its datasource / relations / fields.',
+        }),
       ),
       $joinEager: Type.Optional(
-        Type.RegEx(
-          /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
-          {
-            description: 'Join table to its datasource / relations / fields.',
-          },
-        ),
+        // Type.RegEx(
+        //   /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
+        Type.String({
+          description: 'Join table to its datasource / relations / fields.',
+        }),
       ),
       $eager: Type.Optional(
-        Type.RegEx(
-          /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
-          {
-            description: 'Join table to its datasource / relations / fields.',
-          },
-        ),
+        // Type.RegEx(
+        //   /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
+        Type.String({
+          description: 'Join table to its datasource / relations / fields.',
+        }),
       ),
     }),
   ],

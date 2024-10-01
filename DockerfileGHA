@@ -42,7 +42,7 @@ COPY packages/engine/dist /code/packages/engine/dist
 
 USER locokit
 WORKDIR /code/api
-CMD pm2 start index.js
+CMD pm2 start index.mjs
 
 #
 # LocoKit APP image

@@ -1,8 +1,6 @@
-import { Column } from 'knex-schema-inspector/dist/types/column'
-import { Table as KnexInspectorTable } from 'knex-schema-inspector/dist/types/table'
+import { type Column, type Table as KnexInspectorTable, type ForeignKey } from '@directus/schema'
 import { Params } from '@feathersjs/feathers'
 import { DiffItem } from '@locokit/definitions'
-import { ForeignKey } from 'knex-schema-inspector/dist/types/foreign-key'
 
 /**
  * Field propertys,

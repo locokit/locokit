@@ -2,8 +2,7 @@
   "name": "@locokit/engine",
   "version": "1.0.0-alpha.0",
   "description": "LocoKit engine, allow access to several datasources : SQL, APIs, ... ?",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.es.js",
+  "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rm -rf dist && vite build",
@@ -16,12 +15,13 @@
   ],
   "author": "Mathieu Dartigues",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
+    "@directus/schema": "^12.1.0",
     "@feathersjs/feathers": "^5.0.8",
     "@locokit/definitions": "workspace:*",
-    "knex": "^2.5.1",
-    "knex-schema-inspector": "^3.0.1",
-    "objection": "^3.1.0",
+    "knex": "^3.1.0",
+    "objection": "^3.1.5",
     "winston": "^3.8.1"
   },
   "devDependencies": {
