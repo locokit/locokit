@@ -13,7 +13,7 @@ export function convertLocoKitFieldTypeToTypeboxSchema(locokitField: TableFieldS
       })
     case FIELD_TYPE.DATETIME:
       return Type.String({
-        format: 'datetime',
+        format: 'date-time',
       })
     case FIELD_TYPE.BOOLEAN:
       return Type.Boolean()
