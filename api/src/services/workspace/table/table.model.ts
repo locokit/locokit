@@ -46,7 +46,7 @@ export class TableModel extends Model {
           from: 'table.id',
           to: 'tableRelation.toTableId',
         },
-      }
+      },
     }
   }
 }

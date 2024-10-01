@@ -103,7 +103,6 @@ export const tableRecordHooks = {
           const tableSchema: Record<string, TSchema> = {}
           const tableQueryProperties: Record<string, any> = {}
 
-
           /**
            * Identify relations of the table, from or to the current table
            */
@@ -131,7 +130,7 @@ export const tableRecordHooks = {
                 return acc
               }, [] as string[])
               .join('|') ?? ''
-  
+
           const tableRelationRegexp = toEagerRegExp(tableRelationsNames + '|' + tableLookupsNames)
           // console.log('relations', tableRelationsNames, tableRelationRegexp)
 
@@ -141,7 +140,7 @@ export const tableRecordHooks = {
                 Type.Object(tableSchema, {
                   additionalProperties: false,
                 }),
-                tableQueryProperties
+                tableQueryProperties,
               ),
               Type.Object(
                 {

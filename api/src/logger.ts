@@ -56,12 +56,13 @@ export const logErrorHook = async (_context: HookContext, next: NextFunction): P
      * Manage cases where we don't want to capture the exception in Sentry (false positive)
      */
     if ((error as FeathersError).type === 'FeathersError') {
-      switch((error as FeathersError).name) {
+      switch ((error as FeathersError).name) {
         case 'NotAuthenticated':
-          if ((error as NotAuthenticated).data.name === 'TokenExpiredError') captureException = false
+          if ((error as NotAuthenticated).data.name === 'TokenExpiredError')
+            captureException = false
           break
       }
-    } 
+    }
     logger.error(error)
     captureException === true && Sentry.captureException(error)
     throw error
