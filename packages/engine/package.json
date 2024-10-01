@@ -16,6 +16,7 @@
   ],
   "author": "Mathieu Dartigues",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "@directus/schema": "^12.1.0",
     "@feathersjs/feathers": "^5.0.8",
