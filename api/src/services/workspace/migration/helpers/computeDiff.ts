@@ -1,7 +1,6 @@
 import { Diff } from '@locokit/definitions'
 import { type ConnexionSQL, type Table, createAdapter } from '@locokit/engine'
-import { ForeignKey } from 'knex-schema-inspector/dist/types/foreign-key'
-import { Column } from 'knex-schema-inspector/dist/types/column'
+import { type ForeignKey, type Column } from '@directus/schema'
 import { GeneralError } from '@feathersjs/errors'
 
 import { logger } from '@/logger'

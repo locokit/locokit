@@ -39,6 +39,14 @@ export class TableModel extends Model {
           to: 'tableRelation.fromTableId',
         },
       },
+      lookups: {
+        relation: Model.HasManyRelation,
+        modelClass: TableRelationModel,
+        join: {
+          from: 'table.id',
+          to: 'tableRelation.toTableId',
+        },
+      }
     }
   }
 }

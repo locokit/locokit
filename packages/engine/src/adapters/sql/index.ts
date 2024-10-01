@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import knex, { Knex } from 'knex'
-import { SchemaInspector } from 'knex-schema-inspector'
-import { Column } from 'knex-schema-inspector/dist/types/column'
+import { createInspector, type Column, type ForeignKey } from '@directus/schema'
 import { ConnexionSQL, GenericAdapter, Field, Table, PaginatedResult } from '../interface'
 import {
   Model,
@@ -57,7 +56,7 @@ export class SQLAdapter implements GenericAdapter {
   async boot(): Promise<void> {
     adapterLogger.info('[boot] booting...')
 
-    const inspector = SchemaInspector(this.database)
+    const inspector = createInspector(this.database)
 
     if (this.connexion.type === 'pg') {
       if (this.connexion.role) {
@@ -215,7 +214,7 @@ export class SQLAdapter implements GenericAdapter {
   async retrieveSchema(schema?: string): Promise<Table[]> {
     adapterLogger.info('[retrieveSchema] inspecting schema %s', schema)
     const result: Table[] = []
-    const inspector = SchemaInspector(this.database)
+    const inspector = createInspector(this.database)
     if (schema) inspector.withSchema?.(schema)
     const tables = await inspector.tables()
     adapterLogger.info('[retrieveSchema] %s tables found', tables.length)
@@ -227,11 +226,11 @@ export class SQLAdapter implements GenericAdapter {
         // remove the double quotes for better comparaison
         const regexpRemovingDoubleQuotes = /^"(.*)"$/
         const columnInfos = await inspector.columnInfo(tableName)
-        columnInfos.forEach((c) => {
+        columnInfos.forEach((c: Column) => {
           c.schema = regexpRemovingDoubleQuotes.exec(c.schema ?? '')?.[1]
         })
         const foreignInfos = await inspector.foreignKeys(tableName)
-        foreignInfos.forEach((f) => {
+        foreignInfos.forEach((f: ForeignKey) => {
           f.foreign_key_schema = regexpRemovingDoubleQuotes.exec(f.foreign_key_schema ?? '')?.[1]
         })
         result.push({
@@ -246,13 +245,13 @@ export class SQLAdapter implements GenericAdapter {
   }
 
   async retrieveTables() {
-    const inspector = SchemaInspector(this.database)
+    const inspector = createInspector(this.database)
     const tables = await inspector.tables()
     return tables
   }
 
   async retrieveTable(tableName: string): Promise<Table> {
-    const inspector = SchemaInspector(this.database)
+    const inspector = createInspector(this.database)
     return await inspector.tableInfo(tableName)
   }
 
@@ -261,7 +260,7 @@ export class SQLAdapter implements GenericAdapter {
       name: tableName,
       fields: [] as Field[],
     }
-    const inspector = SchemaInspector(this.database)
+    const inspector = createInspector(this.database)
     result.fields = await inspector.columnInfo(tableName)
     return result
   }
