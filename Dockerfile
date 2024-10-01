@@ -58,7 +58,7 @@ COPY --from=builder /code/locokit-api/full/packages/engine/dist /code/packages/e
 
 USER locokit
 WORKDIR /code/api
-CMD pm2 start index.js
+CMD pm2 start index.mjs
 
 #
 # LocoKit APP image

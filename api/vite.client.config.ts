@@ -16,15 +16,6 @@ export default defineConfig(() => {
         },
         name: '@locokit/sdk',
         formats: ['cjs', 'es'],
-        fileName(format, entry) {
-          switch (format) {
-            case 'es':
-              return entry + '.mjs'
-            case 'cjs':
-            default:
-              return entry + '.cjs'
-          }
-        },
       },
       rollupOptions: {
         external: Object.keys(pkg.dependencies),
