@@ -78,3 +78,20 @@ $ npm install -g @feathersjs/cli@pre      # Install Feathers CLI
 $ feathers generate service               # Generate a new Service
 $ feathers help                           # Show all commands
 ```
+
+## Database dumps
+
+If you retrieve a dump from a server managed by us,
+follow these instructions to restore it on your local database:
+
+You can restore any staging / production dump you have access to by putting them
+in the `dumps` directory.
+
+This directory is shared with the postgres dockers. (`lck-db` and `lck-db-test`)
+
+For restoring a dump :
+
+```bash
+docker exec -it lck-db-next bash
+pg_restore --no-owner --clean --create -d public -U postgres -W /dumps/your_dump # you'll have to enter the password yourPostgresPassword
+```

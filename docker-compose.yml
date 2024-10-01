@@ -30,6 +30,7 @@ services:
     # restart: always
     volumes:
       - lck-db-data:/var/lib/postgresql/data
+      - ./dumps:/dumps
     container_name: lck-db-next
 
   lck-db-test-next:

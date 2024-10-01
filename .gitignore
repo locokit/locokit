@@ -43,3 +43,5 @@ pnpm-debug.log*
 .turbo
 locokit-api
 locokit-app
+
+dumps/
