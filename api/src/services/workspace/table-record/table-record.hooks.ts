@@ -101,9 +101,16 @@ export const tableRecordHooks = {
 
           const table = tableResponse.data[0]
           const tableSchema: Record<string, TSchema> = {}
+          const tableQueryProperties: Record<string, any> = {}
 
           table.fields?.forEach((f) => {
             tableSchema[f.slug] = convertLocoKitFieldTypeToTypeboxSchema(f)
+            tableQueryProperties[f.slug] = {
+              $like: Type.String(),
+              $notlike: Type.String(),
+              $ilike: Type.String(),
+              $unaccent: Type.String(),
+            }
           })
           const tableRelationsNames: string =
             table.relations
@@ -122,6 +129,7 @@ export const tableRecordHooks = {
                 Type.Object(tableSchema, {
                   additionalProperties: false,
                 }),
+                tableQueryProperties
               ),
               Type.Object(
                 {

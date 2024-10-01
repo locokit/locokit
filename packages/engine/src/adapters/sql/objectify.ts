@@ -16,6 +16,7 @@ const OPERATORS = {
   $like: 'like',
   $notlike: 'not like',
   $ilike: 'ilike',
+  $unaccent: 'unaccent',
 }
 
 /**
@@ -55,8 +56,14 @@ export function objectify<T extends Model>(
 
     const operator = OPERATORS[key as keyof typeof OPERATORS] || '='
 
-    return operator === '='
-      ? currentQuery.where(column, value)
-      : currentQuery.where(column, operator, value)
+    switch (operator) {
+      case OPERATORS.$unaccent:
+        currentQuery.whereRaw('unaccent(??) ilike ?', [column, value])
+        break
+      default:
+        currentQuery.where(column, operator, value)
+    }
+
+    return currentQuery
   }, knexQuery)
 }
