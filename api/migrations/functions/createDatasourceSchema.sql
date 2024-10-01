@@ -44,8 +44,8 @@ BEGIN
   RAISE NOTICE 'Schema ''%'' created.', v_schema;
 
   -- give access to views for geography / geometry columns for inspector (@directus/schema) purpose
-  EXECUTE format('CREATE VIEW %I.geography_columns AS SELECT * FROM public.geography_columns ;', v_schema)
-  EXECUTE format('CREATE VIEW %I.geometry_columns AS SELECT * FROM public.geometry_columns ;', v_schema)
+  EXECUTE format('CREATE VIEW %I.geography_columns AS SELECT * FROM public.geography_columns ;', v_schema);
+  EXECUTE format('CREATE VIEW %I.geometry_columns AS SELECT * FROM public.geometry_columns ;', v_schema);
 
   -- CREATE roles
   EXECUTE format('CREATE ROLE %I', v_role_readonly);
