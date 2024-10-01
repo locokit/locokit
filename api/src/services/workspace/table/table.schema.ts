@@ -51,6 +51,7 @@ interface TableRelations {
   datasource?: DatasourceSchema
   fields?: TableFieldSchema[]
   relations?: TableRelationSchema[]
+  lookups?: TableRelationSchema[]
 }
 
 export type TableSchema = Static<typeof tableSchema> & TableRelations
@@ -97,24 +98,27 @@ export const tableQuerySchema = Type.Intersect(
         }),
       ),
       $joinRelated: Type.Optional(
-        Type.RegEx(
-          /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
+        // Type.RegEx(
+        //   /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
+        Type.String(
           {
             description: 'Join table to its datasource / relations / fields.',
           },
         ),
       ),
       $joinEager: Type.Optional(
-        Type.RegEx(
-          /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
+        // Type.RegEx(
+        //   /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
+        Type.String(
           {
             description: 'Join table to its datasource / relations / fields.',
           },
         ),
       ),
       $eager: Type.Optional(
-        Type.RegEx(
-          /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
+        // Type.RegEx(
+        //   /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
+        Type.String(
           {
             description: 'Join table to its datasource / relations / fields.',
           },
