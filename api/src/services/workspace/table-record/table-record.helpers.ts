@@ -23,6 +23,12 @@ export function convertLocoKitFieldTypeToTypeboxSchema(locokitField: TableFieldS
     case FIELD_TYPE.FLOAT:
       return Type.Number()
     case FIELD_TYPE.GEOMETRY:
+    case FIELD_TYPE.GEOMETRY_POINT:
+    case FIELD_TYPE.GEOMETRY_LINESTRING:
+    case FIELD_TYPE.GEOMETRY_POLYGON:
+    case FIELD_TYPE.GEOMETRY_MULTIPOINT:
+    case FIELD_TYPE.GEOMETRY_MULTILINESTRING:
+    case FIELD_TYPE.GEOMETRY_MULTIPOLYGON:
       return Type.String()
 
     case FIELD_TYPE.UUID:

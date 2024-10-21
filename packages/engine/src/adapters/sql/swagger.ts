@@ -1,6 +1,7 @@
 import { createAdapter } from '../../'
 import { Connexion } from '../interface'
 import { getJSONTypeFromSQLType } from '../../utils/sqlTypeConverter'
+import { DB_TYPE } from 'packages/definitions/dist'
 
 export class SwaggerService {
   private readonly connexion: Connexion
@@ -61,7 +62,7 @@ export class SwaggerService {
         tags: [currentTable.name],
         properties: currentTable.fields?.reduce<Record<string, any>>((result, c) => {
           result[c.name] = {
-            type: getJSONTypeFromSQLType(c.data_type),
+            type: getJSONTypeFromSQLType(c.data_type as DB_TYPE),
           }
           return result
         }, {}),
@@ -106,9 +107,9 @@ export class SwaggerService {
       }
       schema += `
         type LCK_${currentTable.name} {
-          ${currentTable.fields?.map(
-            (f) => `    ${f.name}: String${'' /* f.is_nullable === true ? '' : '!' */}`
-          ).join('\n')}
+          ${currentTable.fields
+            ?.map((f) => `    ${f.name}: String${'' /* f.is_nullable === true ? '' : '!' */}`)
+            .join('\n')}
         }
       `
       QueryString += '\n    ' + resolverName + ': [LCK_' + currentTable.name + ']'
