@@ -1,7 +1,19 @@
-export function getJSONTypeFromSQLType(sqlType: string) {
+import { type DB_TYPE } from '@locokit/definitions'
+
+/**
+ * Try to convert a SQL Type to a JSON one
+ *
+ * @param sqlType String of a db type
+ * @returns a default JSON type
+ */
+export function getJSONTypeFromSQLType(sqlType: DB_TYPE) {
+  const arrayDeep = (sqlType.match(/\[\]/g) || []).length
+  if (arrayDeep > 0) return 'string'
+
   switch (sqlType) {
     case 'jsonb':
       return 'object'
+    case 'bigint':
     case 'integer':
     case 'decimal':
     case 'numeric':
@@ -14,7 +26,6 @@ export function getJSONTypeFromSQLType(sqlType: string) {
     case 'timestamp without time zone':
     case 'character varying':
     case 'text':
-    case 'lck_snake_case':
     case 'varchar':
       return 'string'
     case 'date':

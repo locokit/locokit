@@ -4,6 +4,7 @@
   "description": "LocoKit definitions",
   "scripts": {
     "build": "vite build && tsc --emitDeclarationOnly",
+    "build:watch": "vite build --watch && tsc --emitDeclarationOnly",
     "lint-dist": "eslint dist --fix"
   },
   "author": "Mathieu Dartigues",

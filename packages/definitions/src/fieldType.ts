@@ -9,6 +9,12 @@ import { sqliteDbTypes } from './sqlite/dbType'
  */
 export const FIELD_TYPE = Object.freeze({
   /**
+   * Keep the original type,
+   * for providing a basic input to the end user
+   */
+  NATIVE: 'NATIVE',
+
+  /**
    * Ids
    */
   ID_NUMBER: 'ID_NUMBER',
@@ -83,12 +89,17 @@ export function convertDBTypeToFieldType(
 ): keyof typeof FIELD_TYPE {
   if (!dbDialect) throw new Error('Dialect undefined.')
   if (!dbType) throw new Error('Data type undefined.')
+
+  const arrayDeep = (dbType.match(/\[\]/g) || []).length
+  if (arrayDeep > 0) return FIELD_TYPE.NATIVE
+
   switch (dbDialect) {
     /**
      * Check https://www.postgresql.org/docs/current/datatype.html
      */
     case 'pg':
-      switch (dbType as pgDbTypes) {
+      // we lower the db type as it can be sometimes UPPERCASE
+      switch (dbType.toLowerCase() as pgDbTypes) {
         /**
          * Boolean fields
          */
@@ -132,6 +143,8 @@ export function convertDBTypeToFieldType(
           return FIELD_TYPE.GEOMETRY
         case 'point':
           return FIELD_TYPE.GEOMETRY_POINT
+        case 'polygon':
+          return FIELD_TYPE.GEOMETRY_POLYGON
 
         /**
          * Other types
@@ -181,5 +194,5 @@ export function convertDBTypeToFieldType(
       throw new Error(`New dialect found without matching : ${dbDialect as string}`)
   }
 
-  throw new Error(`No matching found`)
+  throw new Error(`No matching found for dialect ${dbDialect} and type ${dbType}`)
 }
