@@ -23,5 +23,23 @@
   "datasources": {
     "__name": "LCK_DATASOURCES",
     "__format": "json"
+  },
+  "mail": {
+    "host": "MAIL_SERVER",
+    "port": {
+      "__name": "MAIL_PORT",
+      "__format": "number"
+    },
+    "secure": {
+      "__name": "MAIL_SECURE",
+      "__format": "boolean"
+    },
+    "needAuth": {
+      "__name": "MAIL_NEED_AUTH",
+      "__format": "boolean"
+    },
+    "from": "MAIL_DEFAULT_FROM",
+    "user": "MAIL_USER",
+    "pass": "MAIL_PASS"
   }
 }
