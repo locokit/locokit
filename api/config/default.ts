@@ -74,11 +74,4 @@ export default {
       symbols: true,
     },
   },
-  mail: {
-    host: '127.0.0.1',
-    port: 1025,
-    secure: false,
-    needAuth: false,
-    from: 'contact@locokit.io',
-  },
 }
