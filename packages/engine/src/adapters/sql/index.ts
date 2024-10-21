@@ -63,7 +63,9 @@ export class SQLAdapter implements GenericAdapter {
      */
     inspector.primary = async (table: string): Promise<string | null> => {
       // @ts-expect-error
-      const schemaIn = inspector.explodedSchema.map((schemaName) => `${inspector.knex.raw('?', [schemaName])}::regnamespace`);
+      const schemaIn = inspector.explodedSchema.map(
+        (schemaName: string) => `${inspector.knex.raw('?', [schemaName])}::regnamespace`,
+      )
 
       const result = await inspector.knex.raw(
         `
@@ -78,11 +80,11 @@ export class SQLAdapter implements GenericAdapter {
           AND rel.relname = ?
       `,
         [table],
-      );
+      )
 
-      return result.rows?.map((r: {column: string}) => table + '.' + r.column) ?? null;
+      return result.rows?.map((r: { column: string }) => table + '.' + r.column) ?? null
     }
-  
+
     if (this.connexion.type === 'pg') {
       if (this.connexion.role) {
         adapterLogger.info('switching role to %s', this.connexion.role)
@@ -104,7 +106,12 @@ export class SQLAdapter implements GenericAdapter {
      */
     const tables: Record<
       string,
-      { id: string|string[]|null; name: string; columns: Column[]; relations: Record<string, any> }
+      {
+        id: string | string[] | null
+        name: string
+        columns: Column[]
+        relations: Record<string, any>
+      }
     > = tableNames.reduce(
       (accumulator: Record<string, any>, current: string) => ({
         ...accumulator,
@@ -117,52 +124,49 @@ export class SQLAdapter implements GenericAdapter {
     /**
      * Fetch also all column info for all of the table
      */
-    await tableNames.reduce(
-      async (accumulator: Promise<void>, tableName: string) => {
-        await accumulator
-        adapterLogger.info('[boot] inspecting table %s', tableName)
-        const primary = await inspector.primary(tableName)
-        tables[tableName].id = primary
-        const columnInfos = await inspector.columnInfo(tableName)
-        tables[tableName].columns = columnInfos
-        columnInfos.forEach((c: Column) => {
-          adapterLogger.info('[boot] inspecting table %s, column %s', tableName, c.name)
+    await tableNames.reduce(async (accumulator: Promise<void>, tableName: string) => {
+      await accumulator
+      adapterLogger.info('[boot] inspecting table %s', tableName)
+      const primary = await inspector.primary(tableName)
+      tables[tableName].id = primary
+      const columnInfos = await inspector.columnInfo(tableName)
+      tables[tableName].columns = columnInfos
+      columnInfos.forEach((c: Column) => {
+        adapterLogger.info('[boot] inspecting table %s, column %s', tableName, c.name)
 
+        /**
+         * is this column linked to a foreign ?
+         */
+        if (c.foreign_key_table) {
+          const relationName = c.foreign_key_table
           /**
-           * is this column linked to a foreign ?
+           * Add the belongs to one relation
            */
-          if (c.foreign_key_table) {
-            const relationName = c.foreign_key_table
-            /**
-             * Add the belongs to one relation
-             */
-            tables[tableName].relations[relationName] = {
-              from: tableName + '.' + c.name,
-              // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-              to: relationName + '.' + c.foreign_key_column,
-              type: Model.BelongsToOneRelation,
-              model: relationName,
-            }
-            /**
-             * And also the has many relation
-             */
-            tables[relationName].relations[tableName] = {
-              // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-              from: relationName + '.' + c.foreign_key_column,
-              to: tableName + '.' + c.name,
-              type: Model.HasManyRelation,
-              model: tableName,
-            }
-            /**
-             * TODO: detect the many to many ?
-             */
+          tables[tableName].relations[relationName] = {
+            from: tableName + '.' + c.name,
+            // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+            to: relationName + '.' + c.foreign_key_column,
+            type: Model.BelongsToOneRelation,
+            model: relationName,
           }
-        })
-      },
-      Promise.resolve()
-    )
+          /**
+           * And also the has many relation
+           */
+          tables[relationName].relations[tableName] = {
+            // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+            from: relationName + '.' + c.foreign_key_column,
+            to: tableName + '.' + c.name,
+            type: Model.HasManyRelation,
+            model: tableName,
+          }
+          /**
+           * TODO: detect the many to many ?
+           */
+        }
+      })
+    }, Promise.resolve())
     const allModels = this.databaseObjectionModel
-    
+
     adapterLogger.info('[boot] building Models...')
     Object.keys(tables).forEach((tableName) => {
       adapterLogger.info('[boot] building Model %s', tableName)
@@ -189,7 +193,7 @@ export class SQLAdapter implements GenericAdapter {
             /**
              * We convert the SQL type into a JSON one
              */
-            const propertyType = [getJSONTypeFromSQLType(c.data_type)]
+            const propertyType = [getJSONTypeFromSQLType(c.data_type as DB_TYPE)]
             /**
              * If the field is nullable,
              * we add to field's types the `null` one.
@@ -457,12 +461,13 @@ export class SQLAdapter implements GenericAdapter {
        */
       if (Array.isArray($joinRelated)) {
         $joinRelated.forEach((r) => {
-          adapterLogger.debug('join ', r)
-          query.withGraphFetched(r)
-          totalQuery.withGraphFetched(r)
+          adapterLogger.debug('left join with fetch ', r)
 
-          query.joinRelated(r)
-          totalQuery.joinRelated(r)
+          query.withGraphFetched(r)
+          query.leftJoinRelated(r)
+
+          // we do the join only, without fetching the graph
+          totalQuery.leftJoinRelated(r)
 
           /**
            * Find if some $select rules

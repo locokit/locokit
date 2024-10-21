@@ -10,7 +10,7 @@ export function getJSONTypeFromSQLType(sqlType: DB_TYPE) {
   const arrayDeep = (sqlType.match(/\[\]/g) || []).length
   if (arrayDeep > 0) return 'string'
 
-  switch (sqlType) {
+  switch (sqlType.toLowerCase()) {
     case 'jsonb':
       return 'object'
     case 'bigint':
@@ -30,6 +30,13 @@ export function getJSONTypeFromSQLType(sqlType: DB_TYPE) {
       return 'string'
     case 'date':
       return 'date'
+    // geometry
+    case 'geometry':
+    case 'geography':
+    case 'point':
+    case 'polygon':
+    case 'line':
+      return 'string'
     default:
       if (process.env.NODE_ENV === 'production') return 'string'
       throw new Error(`Type ${sqlType} unknown, please find a conversion type first.`)

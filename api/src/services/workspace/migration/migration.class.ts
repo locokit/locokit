@@ -113,7 +113,6 @@ export class Migration extends ObjectionService<
    */
 
   async diff(data: MigrationDiffInternal, params?: MigrationParams): Promise<Diff> {
-    console.log(data, params)
     migrationLogger.info('Creating the diff...')
 
     migrationLogger.debug('retrieving datasources metamodel and inspect remote schema')
