@@ -83,7 +83,7 @@ export const tableRecordHooks = {
           const tableResponse = await context.app.service(SERVICES.WORKSPACE_TABLE).find({
             query: {
               slug: tableSlug,
-              $eager: '[fields,relations.[toTable]]',
+              $eager: '[fields,relations.[toTable],lookups.[fromTable]]',
             },
             route: {
               workspaceSlug,
@@ -101,20 +101,38 @@ export const tableRecordHooks = {
 
           const table = tableResponse.data[0]
           const tableSchema: Record<string, TSchema> = {}
+          const tableQueryProperties: Record<string, any> = {}
 
+          /**
+           * Identify relations of the table, from or to the current table
+           */
           table.fields?.forEach((f) => {
             tableSchema[f.slug] = convertLocoKitFieldTypeToTypeboxSchema(f)
+            tableQueryProperties[f.slug] = {
+              $like: Type.String(),
+              $notlike: Type.String(),
+              $ilike: Type.String(),
+              $unaccent: Type.String(),
+            }
           })
           const tableRelationsNames: string =
             table.relations
               ?.reduce((acc, r) => {
-                // console.log(r.settings)
                 acc.push(r.settings.toTable)
                 return acc
               }, [] as string[])
               .join('|') ?? ''
-          const tableRelationRegexp = toEagerRegExp(tableRelationsNames)
-          // console.log(tableRelationsNames, tableRelationRegexp)
+
+          const tableLookupsNames: string =
+            table.lookups
+              ?.reduce((acc, r) => {
+                acc.push(r.settings.fromTable)
+                return acc
+              }, [] as string[])
+              .join('|') ?? ''
+
+          const tableRelationRegexp = toEagerRegExp(tableRelationsNames + '|' + tableLookupsNames)
+          // console.log('relations', tableRelationsNames, tableRelationRegexp)
 
           const tableQuerySchema = Type.Intersect(
             [
@@ -122,6 +140,7 @@ export const tableRecordHooks = {
                 Type.Object(tableSchema, {
                   additionalProperties: false,
                 }),
+                tableQueryProperties,
               ),
               Type.Object(
                 {

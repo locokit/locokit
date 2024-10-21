@@ -6,7 +6,7 @@ import {
 } from '@locokit/definitions'
 import { Field, Table } from '@locokit/engine'
 import { Value } from '@sinclair/typebox/value'
-import { ForeignKey } from 'knex-schema-inspector/dist/types/foreign-key'
+import { type ForeignKey } from '@directus/schema'
 import { TableFieldResult } from '../table-field/table-field.schema'
 import { TableRelationResult } from '../table-relation/table-relation.schema'
 import { TableResult } from '../table/table.schema'

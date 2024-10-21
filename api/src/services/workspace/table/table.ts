@@ -11,7 +11,7 @@ export function tableService(app: Application): void {
     paginate: app.get('paginate'),
     Model: TableModel,
     name: 'table',
-    allowedGraph: '[fields, relations.[toTable], datasource]',
+    allowedGraph: '[fields, relations.[toTable], lookups.[fromTable], datasource]',
     // Service options will go here
   }
 

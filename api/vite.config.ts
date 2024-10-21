@@ -117,7 +117,7 @@ export default defineConfig(() => {
           ),
         },
         name: 'locokitapi',
-        formats: ['cjs'],
+        formats: ['cjs', 'es'],
       },
       rollupOptions: {
         external: Object.keys(pkg.dependencies),
