@@ -4,6 +4,7 @@ import { TableFieldSchema } from '../table-field/table-field.schema'
 
 export function convertLocoKitFieldTypeToTypeboxSchema(locokitField: TableFieldSchema) {
   switch (locokitField.type) {
+    case FIELD_TYPE.NATIVE:
     case FIELD_TYPE.STRING:
     case FIELD_TYPE.TEXT:
       return Type.String()
@@ -17,6 +18,7 @@ export function convertLocoKitFieldTypeToTypeboxSchema(locokitField: TableFieldS
       })
     case FIELD_TYPE.BOOLEAN:
       return Type.Boolean()
+    case FIELD_TYPE.ID_NUMBER:
     case FIELD_TYPE.NUMBER:
     case FIELD_TYPE.FLOAT:
       return Type.Number()

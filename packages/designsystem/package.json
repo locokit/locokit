@@ -12,7 +12,7 @@
   "scripts": {
     "lint": "eslint .",
     "build": "rm -rf dist && vite build",
-    "build-watch": "vite build --watch",
+    "build:watch": "vite build --watch",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },

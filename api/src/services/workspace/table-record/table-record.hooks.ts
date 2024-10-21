@@ -237,9 +237,12 @@ export const tableRecordHooks = {
                 // dsParams.role = role
                 dsParams.schema = schema
                 break
+              case 'remote':
+                // we do nothing particular
+                break
               default:
                 throw new Error(
-                  'Other than "local" type is not yet implemented for your datasource. Please ask us to create it, or create a pull request with the implementation.',
+                  'Other than "local/remote" type is not yet implemented for your datasource. Please ask us to create it, or create a pull request with the implementation.',
                 )
             }
             adapters[adapterKey] = await createAdapter(dsParams)

@@ -55,7 +55,7 @@ export async function computeDiff(
 
   switch (datasourceFromMetaModel.type) {
     case 'local':
-      const schema = `ds_${datasourceFromMetaModel.id as string}`
+      const localSchema = `ds_${datasourceFromMetaModel.id as string}`
       // const role = `${schema as string}_ro`
       dsParams.options = process.env.LCK_DATABASE_URL as string
       // TODO: enable the read only role : https://github.com/locokit/locokit/issues/243
@@ -63,11 +63,13 @@ export async function computeDiff(
       // a function pg_get_serial_sequence try to access some schemas (tiger) the role can't
       // see knex-schema-inspector/lib/dialect/postgres.ts L302
       // dsParams.role = role
-      dsParams.schema = schema
+      dsParams.schema = localSchema
+      break
+    case 'remote':
       break
     default:
       throw new Error(
-        'Other than "local" type is not yet implemented for your datasource. Please ask us to create it, or create a pull request with the implementation.',
+        'Other than "local" / "remote" type is not yet implemented for your datasource. Please ask us to create it, or create a pull request with the implementation.',
       )
   }
 

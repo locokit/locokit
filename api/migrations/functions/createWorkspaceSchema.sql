@@ -242,6 +242,7 @@ BEGIN
     CONSTRAINT "UNQ_tableField_slug" UNIQUE NULLS NOT DISTINCT (slug, "tableId"),
     CONSTRAINT "PK_tableField" PRIMARY KEY (id),
     CONSTRAINT "CHECK_tableField_type" CHECK (type = ANY (ARRAY[
+      'NATIVE'::text,
       --
       -- Ids
       --

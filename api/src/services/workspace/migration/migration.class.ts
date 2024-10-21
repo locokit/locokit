@@ -217,6 +217,7 @@ export class Migration extends ObjectionService<
       /**
        * Creating tables
        */
+      migrationLogger.info('creating tables...')
       const tables = migration.diffToApply.metamodel.filter(
         (m) => m.target === 'TABLE' && m.action === 'CREATE',
       ) as DiffItemTable[]
@@ -242,6 +243,7 @@ export class Migration extends ObjectionService<
       /**
        * Creating fields
        */
+      migrationLogger.info('creating fields...')
       const fields = migration.diffToApply.metamodel.filter(
         (m) => m.target === 'FIELD' && m.action === 'CREATE',
       ) as DiffItemField[]
@@ -289,6 +291,7 @@ export class Migration extends ObjectionService<
       /**
        * Creating relations
        */
+      migrationLogger.info('creating relations...')
       const relations = migration.diffToApply.metamodel.filter(
         (m) => m.target === 'RELATION' && m.action === 'CREATE',
       ) as DiffItemRelation[]
@@ -341,6 +344,8 @@ export class Migration extends ObjectionService<
         )
       }, Promise.resolve())
     }
+
+    migrationLogger.info('patching migration...')
 
     return await this._patch(
       id,
