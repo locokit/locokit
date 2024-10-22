@@ -4,7 +4,7 @@
       class="w-72 px-2 py-4 space-y-2 overflow-y-hidden hover:overflow-y-auto bg-primary-lighten"
     >
       <div class="ml-2">
-        <h2 class="mb-4">{{ $t('pages.datasource.title') }}</h2>
+        <h2 class="mb-4">{{ $t('locokit.pages.datasource.title') }}</h2>
         <div class="mb-4">
           <NuxtLink
             class="block h-full mb-4"
@@ -16,7 +16,7 @@
               >
                 <i class="bi bi-plus block font-medium" />
                 <p class="pl-1">
-                  {{ $t('pages.datasource.addDatasource') }}
+                  {{ $t('locokit.pages.datasource.addDatasource') }}
                 </p>
               </div>
             </PrimeButton>
@@ -43,7 +43,7 @@
                 >
                   <IdentityCard
                     class="nav-link hover:outline hover:outline-1 hover:outline-primary bg-primary-lighten"
-                    :title="$t('pages.datasource.settings')"
+                    :title="$t('locokit.pages.datasource.settings')"
                     icon="bi-database-fill-gear"
                     color-icon="text-primary"
                     border-color-tag="var(--primary-color)"
@@ -63,7 +63,7 @@
                 >
                   <IdentityCard
                     class="nav-link mt-2 hover:outline hover:outline-1 hover:outline-primary bg-primary-lighten"
-                    :title="$t('pages.datasource.schema')"
+                    :title="$t('locokit.pages.datasource.schema')"
                     icon="b bi-diagram-3-fill"
                     color-icon="text-primary"
                     border-color-tag="var(--primary-color)"
@@ -73,7 +73,7 @@
                 </NuxtLink>
                 <div>
                   <h6 class="my-4">
-                    {{ $t('pages.datasource.subtitle') }}
+                    {{ $t('locokit.pages.datasource.subtitle') }}
                   </h6>
                   <NuxtLink
                     class="block h-full mb-4"
@@ -93,7 +93,7 @@
                       >
                         <i class="bi bi-plus block font-medium" />
                         <p class="pl-1">
-                          {{ $t('pages.datasource.addTable') }}
+                          {{ $t('locokit.pages.datasource.addTable') }}
                         </p>
                       </div>
                     </PrimeButton>

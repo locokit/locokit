@@ -2,12 +2,12 @@
   <div class="max-w-2xl lg:h-full mx-auto px-4 lg:px-0 flex flex-col">
     <div class="my-8">
       <h1>
-        {{ $t('pages.recordUser.title') }}
+        {{ $t('locokit.pages.recordUser.title') }}
       </h1>
     </div>
     <div v-if="!currentUser">
-      <p>{{ $t('pages.recordUser.noUserFound') }}</p>
-      <p>{{ $t('error.redundantError') }}</p>
+      <p>{{ $t('locokit.pages.recordUser.noUserFound') }}</p>
+      <p>{{ $t('locokit.error.redundantError') }}</p>
     </div>
     <div v-else>
       <div class="flex flex-col mb-8">
@@ -23,7 +23,7 @@
                 :disabled="true"
               />
               <label for="isBlocked">
-                {{ $t('pages.recordUser.isBlocked') }}
+                {{ $t('locokit.pages.recordUser.isBlocked') }}
               </label>
             </div>
             <PrimeButton
@@ -31,8 +31,8 @@
               icon="bi-envelope"
               :label="
                 currentUser.blocked
-                  ? $t('pages.recordUser.unblocking')
-                  : $t('pages.recordUser.blocking')
+                  ? $t('locokit.pages.recordUser.unblocking')
+                  : $t('locokit.pages.recordUser.blocking')
               "
               @click="confirmToggleBlockAccount"
             />
@@ -47,14 +47,14 @@
                 :disabled="true"
               />
               <label for="isVerified">
-                {{ $t('pages.recordUser.isVerified') }}
+                {{ $t('locokit.pages.recordUser.isVerified') }}
               </label>
             </div>
             <PrimeButton
               :disabled="currentUser.isVerified"
               class="p-button-rounded p-button-outlined"
               icon="bi-envelope"
-              :label="$t('pages.recordUser.inviting')"
+              :label="$t('locokit.pages.recordUser.inviting')"
               @click="confirmSendVerifySignup"
             />
           </div>
@@ -70,7 +70,7 @@
       </div>
       <div class="mb-12">
         <FormGeneric
-          label-tk-button-submit="pages.recordUser.submit"
+          label-tk-button-submit="locokit.pages.recordUser.submit"
           :response="response || errorUsersStore"
           :loading="loading"
           color-submit-button="secondary"
@@ -83,7 +83,7 @@
           <div class="grid grid-cols-2 gap-x-14 gap-y-2">
             <div class="mb-4">
               <label for="id">
-                {{ $t('pages.recordUser.id') }}
+                {{ $t('locokit.pages.recordUser.id') }}
               </label>
               <PrimeInputText
                 id="id"
@@ -100,7 +100,7 @@
               as="div"
             >
               <label for="username" class="label-field-required">
-                {{ $t('pages.recordUser.username') }}
+                {{ $t('locokit.pages.recordUser.username') }}
               </label>
               <PrimeInputText
                 id="username"
@@ -125,7 +125,7 @@
               as="div"
             >
               <label for="firstName">
-                {{ $t('pages.recordUser.firstName') }}
+                {{ $t('locokit.pages.recordUser.firstName') }}
               </label>
               <PrimeInputText
                 id="firstName"
@@ -149,7 +149,7 @@
               as="div"
             >
               <label for="lastName">
-                {{ $t('pages.recordUser.lastName') }}
+                {{ $t('locokit.pages.recordUser.lastName') }}
               </label>
               <PrimeInputText
                 id="lastName"
@@ -174,7 +174,7 @@
               as="div"
             >
               <label for="email" class="label-field-required">
-                {{ $t('pages.recordUser.email') }}
+                {{ $t('locokit.pages.recordUser.email') }}
               </label>
               <PrimeInputText
                 id="email"
@@ -201,7 +201,7 @@
               as="div"
             >
               <label for="profile" class="label-field-required">
-                {{ $t('pages.recordUser.profile') }}
+                {{ $t('locokit.pages.recordUser.profile') }}
               </label>
               <PrimeDropdown
                 v-bind="{
@@ -217,12 +217,14 @@
               >
                 <template #value="slotProps">
                   <span v-if="slotProps.value">
-                    {{ $t(`pages.recordUser.${slotProps.value.name}`) }}
+                    {{ $t(`locokit.pages.recordUser.${slotProps.value.name}`) }}
                   </span>
                 </template>
                 <template #option="slotProps">
                   <span>
-                    {{ $t(`pages.recordUser.${slotProps.option.name}`) }}
+                    {{
+                      $t(`locokit.pages.recordUser.${slotProps.option.name}`)
+                    }}
                   </span>
                 </template>
               </PrimeDropdown>
@@ -232,13 +234,13 @@
       </div>
       <div>
         <h2 class="mb-4">
-          {{ $t('pages.recordUser.groups') }}
+          {{ $t('locokit.pages.recordUser.groups') }}
         </h2>
         <p>
-          {{ $t('pages.recordUser.explanationAddingGroups') }}
+          {{ $t('locokit.pages.recordUser.explanationAddingGroups') }}
         </p>
         <p class="mb-4">
-          {{ $t('pages.recordUser.explanationRemovingGroups') }}
+          {{ $t('locokit.pages.recordUser.explanationRemovingGroups') }}
         </p>
         <PickData
           v-if="groups && suggestGroups"
@@ -249,11 +251,11 @@
           <template #fromDataHeader>
             <div>
               <p>
-                {{ $t('pages.recordUser.groupsAvailable') }}
+                {{ $t('locokit.pages.recordUser.groupsAvailable') }}
               </p>
               <PrimeInputText
                 v-model="queryForAvailableGroup"
-                :placeholder="$t('pages.recordUser.searchPlaceholder')"
+                :placeholder="$t('locokit.pages.recordUser.searchPlaceholder')"
                 type="text"
                 class="search-input"
                 @input="searchGroupsExceptJoined"
@@ -263,11 +265,11 @@
           <template #toDataHeader>
             <div>
               <p>
-                {{ $t('pages.recordUser.groupsJoined') }}
+                {{ $t('locokit.pages.recordUser.groupsJoined') }}
               </p>
               <PrimeInputText
                 v-model="queryForJoinedGroup"
-                :placeholder="$t('pages.recordUser.searchPlaceholder')"
+                :placeholder="$t('locokit.pages.recordUser.searchPlaceholder')"
                 type="text"
                 class="search-input"
                 @input="searchGroupsJoined"
@@ -278,7 +280,7 @@
             <div>
               <p>
                 {{
-                  $t('pages.recordUser.result', {
+                  $t('locokit.pages.recordUser.result', {
                     elements: suggestGroups.limit,
                   })
                 }}
@@ -286,16 +288,16 @@
             </div>
           </template>
           <template #fromNoResult>
-            <p>{{ $t('pages.recordUser.noGroupFound') }}</p>
+            <p>{{ $t('locokit.pages.recordUser.noGroupFound') }}</p>
           </template>
           <template #toNoResult>
-            <p>{{ $t('pages.recordUser.noGroupFound') }}</p>
+            <p>{{ $t('locokit.pages.recordUser.noGroupFound') }}</p>
           </template>
           <template #toDataFooter>
             <div>
               <p>
                 {{
-                  $t('pages.recordUser.result', {
+                  $t('locokit.pages.recordUser.result', {
                     elements: suggestGroups.limit,
                   })
                 }}
@@ -479,13 +481,13 @@ const confirmToggleBlockAccount = () => {
   if (!currentUser.value) return
   confirm.require({
     message: currentUser.value.isBlocked
-      ? t('pages.recordUser.messageBlockingUser', {
+      ? t('locokit.pages.recordUser.messageBlockingUser', {
           username: currentUser.value.username,
         })
-      : t('pages.recordUser.messageUnblockingUser', {
+      : t('locokit.pages.recordUser.messageUnblockingUser', {
           username: currentUser.value.username,
         }),
-    header: t('pages.recordUser.confirmation'),
+    header: t('locokit.pages.recordUser.confirmation'),
     icon: 'bi bi-exclamation-triangle-fill',
     accept: async () => {
       await toggleBlockAccount()
@@ -502,10 +504,10 @@ const sendVerifySignup = async () => {
 const confirmSendVerifySignup = () => {
   if (!currentUser.value) return
   confirm.require({
-    message: t('pages.recordUser.messageResendVerifySignup', {
+    message: t('locokit.pages.recordUser.messageResendVerifySignup', {
       username: currentUser.value.username,
     }),
-    header: t('pages.recordUser.confirmation'),
+    header: t('locokit.pages.recordUser.confirmation'),
     icon: 'bi bi-exclamation-triangle-fill',
     accept: async () => {
       await sendVerifySignup()
