@@ -24,7 +24,7 @@
     "bootstrap-icons": "^1.11.3",
     "date-fns": "^2.30.0",
     "primeicons": "^7.0.0",
-    "primevue": "^4.0.5",
+    "primevue": "^4.1.1",
     "tailwindcss": "^3.4.9",
     "tailwindcss-primeui": "^0.3.4",
     "vee-validate": "^4.13.2",
