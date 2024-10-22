@@ -2,12 +2,12 @@
   <div class="max-w-lg lg:h-full mx-auto px-4 lg:px-0 flex flex-col">
     <div class="my-8">
       <h1>
-        {{ $t('pages.createTable.title') }}
+        {{ $t('locokit.pages.createTable.title') }}
       </h1>
     </div>
     <FormGeneric
       v-if="route.params.datasourceSlug && route.params.workspaceSlug"
-      label-tk-button-submit="pages.createTable.submit"
+      label-tk-button-submit="locokit.pages.createTable.submit"
       :response="error"
       :loading="loading"
       @submit="onSubmit"
@@ -21,7 +21,7 @@
         as="div"
       >
         <label for="name" class="label-field-required">
-          {{ $t('pages.createTable.name') }}
+          {{ $t('locokit.pages.createTable.name') }}
         </label>
         <PrimeInputText
           id="name"
@@ -40,7 +40,7 @@
         </span>
         <div class="flex flex-row mb-4 mt-1">
           <p class="mr-1">
-            {{ $t('pages.createTable.explainsSlugUse') }}
+            {{ $t('locokit.pages.createTable.explainsSlugUse') }}
           </p>
           <p
             v-if="name"
@@ -58,7 +58,7 @@
         as="div"
       >
         <label for="documentation">
-          {{ $t('pages.createTable.documentation') }}
+          {{ $t('locokit.pages.createTable.documentation') }}
         </label>
         <PrimeTextarea id="documentation" :auto-resize="true" v-bind="field" />
       </Field>
@@ -66,7 +66,7 @@
     <MessageForUser
       v-else
       status="failed"
-      custom-msg-tk-error-form="pages.createTable.noWorkspace"
+      custom-msg-tk-error-form="locokit.pages.createTable.noWorkspace"
     />
   </div>
 </template>

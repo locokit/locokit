@@ -5,24 +5,24 @@
     >
       <div class="mb-8">
         <h1 class="text-center">
-          {{ $t('pages.alreadyAuthenticated.title') }}
+          {{ $t('locokit.pages.alreadyAuthenticated.title') }}
         </h1>
       </div>
       <div>
         <p class="mb-8">
-          {{ $t('pages.alreadyAuthenticated.message') }}
+          {{ $t('locokit.pages.alreadyAuthenticated.message') }}
         </p>
         <div class="flex justify-around">
           <NuxtLink :to="{ name: ROUTES_NAMES.WORKSPACE.WORKSPACES }">
             <PrimeButton
               class="p-button-rounded p-button-secondary"
-              :label="$t('pages.alreadyAuthenticated.workspaceButton')"
+              :label="$t('locokit.pages.alreadyAuthenticated.workspaceButton')"
               icon="bi bi-person-workspace"
             />
           </NuxtLink>
           <PrimeButton
             class="p-button-rounded p-button-secondary p-button-outlined"
-            :label="$t('pages.alreadyAuthenticated.logoutButton')"
+            :label="$t('locokit.pages.alreadyAuthenticated.logoutButton')"
             icon="bi bi-door-open-fill"
             @click="logout"
           />
@@ -51,6 +51,6 @@ const logout = async () => {
 }
 
 useHead({
-  titleTemplate: `${t('pages.alreadyAuthenticated.title')} | %s`,
+  titleTemplate: `${t('locokit.pages.alreadyAuthenticated.title')} | %s`,
 })
 </script>
