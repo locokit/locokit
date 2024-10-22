@@ -4,7 +4,7 @@
       class="max-w-lg h-full flex flex-col flex-wrap md:justify-center pb-4 px-4 md:m-auto mt-8"
     >
       <div class="mb-8">
-        <h1 class="text-center">{{ $t('pages.signIn.title') }}</h1>
+        <h1 class="text-center">{{ $t('locokit.pages.signIn.title') }}</h1>
       </div>
       <SignInForm
         :loading="loading"
@@ -46,6 +46,6 @@ const authenticate = async (data: { email: string; password: string }) => {
 definePageMeta({ middleware: ['anonymous-routes'] })
 
 useHead({
-  titleTemplate: `${t('pages.signIn.title')} | %s`,
+  titleTemplate: `${t('locokit.pages.signIn.title')} | %s`,
 })
 </script>

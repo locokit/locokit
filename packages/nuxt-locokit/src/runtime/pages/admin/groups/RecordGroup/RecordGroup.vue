@@ -2,17 +2,17 @@
   <div class="max-w-2xl lg:h-full mx-auto px-4 lg:px-0 flex flex-col">
     <div class="my-8">
       <h1>
-        {{ $t('pages.recordGroup.title') }}
+        {{ $t('locokit.pages.recordGroup.title') }}
       </h1>
     </div>
     <div v-if="!currentGroup">
-      <p>{{ $t('pages.recordGroup.noGroupFound') }}</p>
-      <p>{{ $t('error.redundantError') }}</p>
+      <p>{{ $t('locokit.pages.recordGroup.noGroupFound') }}</p>
+      <p>{{ $t('locokit.error.redundantError') }}</p>
     </div>
     <div v-else>
       <div class="mb-12">
         <FormGeneric
-          label-tk-button-submit="pages.recordGroup.submit"
+          label-tk-button-submit="locokit.pages.recordGroup.submit"
           :response="response || errorGroupsStore"
           :loading="loading"
           color-submit-button="secondary"
@@ -25,7 +25,7 @@
           <div class="grid grid-cols-2 gap-4">
             <div class="mb-4">
               <label for="id">
-                {{ $t('pages.recordGroup.id') }}
+                {{ $t('locokit.pages.recordGroup.id') }}
               </label>
               <PrimeInputText
                 id="id"
@@ -42,7 +42,7 @@
               as="div"
             >
               <label for="name" class="label-field-required">
-                {{ $t('pages.recordGroup.name') }}
+                {{ $t('locokit.pages.recordGroup.name') }}
               </label>
               <PrimeInputText
                 id="name"
@@ -68,7 +68,7 @@
               as="div"
             >
               <label for="policy" class="label-field-required">
-                {{ $t('pages.recordGroup.policy') }}
+                {{ $t('locokit.pages.recordGroup.policy') }}
               </label>
               <PrimeAutoComplete
                 v-bind="{
@@ -78,8 +78,10 @@
                   'model-value': field.value,
                 }"
                 input-id="policy"
-                :placeholder="$t('pages.recordGroup.search')"
-                :empty-search-message="$t('pages.recordGroup.emptyResult')"
+                :placeholder="$t('locokit.pages.recordGroup.search')"
+                :empty-search-message="
+                  $t('locokit.pages.recordGroup.emptyResult')
+                "
                 :suggestions="suggestedPolicies"
                 option-label="name"
                 :class="{ 'p-invalid': !valid && touched }"
@@ -104,7 +106,7 @@
               as="div"
             >
               <label for="workspace" class="label-field-required">
-                {{ $t('pages.recordGroup.workspace') }}
+                {{ $t('locokit.pages.recordGroup.workspace') }}
               </label>
               <PrimeAutoComplete
                 v-bind="{
@@ -114,8 +116,10 @@
                   'model-value': field.value,
                 }"
                 input-id="workspace"
-                :placeholder="$t('pages.recordGroup.search')"
-                :empty-search-message="$t('pages.recordGroup.emptyResult')"
+                :placeholder="$t('locokit.pages.recordGroup.search')"
+                :empty-search-message="
+                  $t('locokit.pages.recordGroup.emptyResult')
+                "
                 :suggestions="suggestedWorkspaces"
                 option-label="name"
                 :class="{ 'p-invalid': !valid && touched }"
@@ -139,7 +143,7 @@
               as="div"
             >
               <label for="name">
-                {{ $t('pages.recordGroup.documentation') }}
+                {{ $t('locokit.pages.recordGroup.documentation') }}
               </label>
               <PrimeTextarea
                 id="documentation"
@@ -153,13 +157,13 @@
       </div>
       <div>
         <h2 class="mb-4">
-          {{ $t('pages.recordGroup.users') }}
+          {{ $t('locokit.pages.recordGroup.users') }}
         </h2>
         <p>
-          {{ $t('pages.recordGroup.explanationAddingUsers') }}
+          {{ $t('locokit.pages.recordGroup.explanationAddingUsers') }}
         </p>
         <p class="mb-4">
-          {{ $t('pages.recordGroup.explanationRemovingUsers') }}
+          {{ $t('locokit.pages.recordGroup.explanationRemovingUsers') }}
         </p>
         <PickData
           v-if="users && suggestUsers"
@@ -170,11 +174,11 @@
           <template #fromDataHeader>
             <div>
               <p>
-                {{ $t('pages.recordGroup.usersAvailable') }}
+                {{ $t('locokit.pages.recordGroup.usersAvailable') }}
               </p>
               <PrimeInputText
                 v-model="queryForAvailableUser"
-                :placeholder="$t('pages.recordGroup.searchPlaceholder')"
+                :placeholder="$t('locokit.pages.recordGroup.searchPlaceholder')"
                 type="text"
                 class="search-input"
                 @input="searchUsersExceptMembers"
@@ -184,11 +188,11 @@
           <template #toDataHeader>
             <div>
               <p>
-                {{ $t('pages.recordGroup.userMembers') }}
+                {{ $t('locokit.pages.recordGroup.userMembers') }}
               </p>
               <PrimeInputText
                 v-model="queryForUserMembers"
-                :placeholder="$t('pages.recordGroup.searchPlaceholder')"
+                :placeholder="$t('locokit.pages.recordGroup.searchPlaceholder')"
                 type="text"
                 class="search-input"
                 @input="searchUserMembers"
@@ -199,7 +203,7 @@
             <div>
               <p>
                 {{
-                  $t('pages.recordGroup.result', {
+                  $t('locokit.pages.recordGroup.result', {
                     elements: suggestUsers.limit,
                   })
                 }}
@@ -207,16 +211,16 @@
             </div>
           </template>
           <template #fromNoResult>
-            <p>{{ $t('pages.recordGroup.noUserFound') }}</p>
+            <p>{{ $t('locokit.pages.recordGroup.noUserFound') }}</p>
           </template>
           <template #toNoResult>
-            <p>{{ $t('pages.recordGroup.noUserFound') }}</p>
+            <p>{{ $t('locokit.pages.recordGroup.noUserFound') }}</p>
           </template>
           <template #toDataFooter>
             <div>
               <p>
                 {{
-                  $t('pages.recordGroup.result', {
+                  $t('locokit.pages.recordGroup.result', {
                     elements: suggestUsers.limit,
                   })
                 }}

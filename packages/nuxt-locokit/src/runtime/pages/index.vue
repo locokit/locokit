@@ -13,7 +13,7 @@
         <p
           class="mt-3 text-base text-gray-500 sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg md:mt-5 md:text-xl"
         >
-          {{ $t('pages.indexPage.presentation') }}
+          {{ $t('locokit.pages.indexPage.presentation') }}
         </p>
       </div>
       <div
@@ -23,16 +23,16 @@
           class="text-4xl font-bold tracking-tight text-primary sm:text-5xl md:text-6xl"
         >
           <span class="block">
-            {{ $t('pages.indexPage.buildData') }}
+            {{ $t('locokit.pages.indexPage.buildData') }}
           </span>
           <span class="block text-secondary">
-            {{ $t('pages.indexPage.shareSecurely') }}
+            {{ $t('locokit.pages.indexPage.shareSecurely') }}
           </span>
         </h1>
         <p
           class="mt-3 text-base text-gray-500 sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg md:mt-5 md:text-xl lg:ml-0"
         >
-          {{ $t('pages.indexPage.createDatabase') }}
+          {{ $t('locokit.pages.indexPage.createDatabase') }}
         </p>
       </div>
       <div
@@ -42,16 +42,16 @@
           class="text-4xl font-bold tracking-tight text-primary sm:text-5xl md:text-6xl"
         >
           <span class="block">
-            {{ $t('pages.indexPage.shareData') }}
+            {{ $t('locokit.pages.indexPage.shareData') }}
           </span>
           <span class="block text-secondary">
-            {{ $t('pages.indexPage.craftingApp') }}
+            {{ $t('locokit.pages.indexPage.craftingApp') }}
           </span>
         </h1>
         <p
           class="mt-3 text-base text-gray-500 sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg md:mt-5 md:text-xl lg:mr-0"
         >
-          {{ $t('pages.indexPage.afterBuilding') }}
+          {{ $t('locokit.pages.indexPage.afterBuilding') }}
         </p>
       </div>
       <div
@@ -60,15 +60,17 @@
         <h1
           class="text-4xl font-bold tracking-tight text-primary sm:text-5xl md:text-6xl"
         >
-          <span class="block">{{ $t('pages.indexPage.createWorkflows') }}</span>
+          <span class="block">{{
+            $t('locokit.pages.indexPage.createWorkflows')
+          }}</span>
           <span class="block text-secondary">
-            {{ $t('pages.indexPage.automateProcess') }}
+            {{ $t('locokit.pages.indexPage.automateProcess') }}
           </span>
         </h1>
         <p
           class="mt-3 text-base text-gray-500 sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg md:mt-5 md:text-xl lg:ml-0"
         >
-          {{ $t('pages.indexPage.createDatabase') }}
+          {{ $t('locokit.pages.indexPage.createDatabase') }}
         </p>
       </div>
       <div class="sm:text-center lg:text-center mx-auto mt-16 mb-10">
@@ -78,7 +80,7 @@
               href="#"
               class="flex w-full items-center justify-center rounded-md border border-transparent bg-secondary px-8 py-3 text-base font-medium text-white hover:bg-primary md:py-4 md:px-10 md:text-lg"
             >
-              {{ $t('pages.indexPage.getStarted') }}
+              {{ $t('locokit.pages.indexPage.getStarted') }}
             </a>
           </div>
           <div class="mt-3 sm:mt-0 sm:ml-3">
@@ -86,7 +88,7 @@
               href="#"
               class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-100 px-8 py-3 text-primary font-medium text-primary hover:bg-indigo-200 md:py-4 md:px-10 md:text-lg"
             >
-              {{ $t('pages.indexPage.liveDemo') }}
+              {{ $t('locokit.pages.indexPage.liveDemo') }}
             </a>
           </div>
         </div>

@@ -1,7 +1,9 @@
 import { SERVICES } from '@locokit/definitions'
-import { sdkClient } from '../api'
+import { useLocoKitClient } from '../api'
 
 const ITEMS_PER_PAGE = 10
+
+const sdkClient = useLocoKitClient()
 
 export async function getPolicy(id: string) {
   return await sdkClient.service(SERVICES.CORE_POLICY).get(id)

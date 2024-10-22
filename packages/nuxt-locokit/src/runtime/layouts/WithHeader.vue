@@ -23,7 +23,7 @@
                   @click="toggleMenu"
                 >
                   <span class="sr-only">
-                    {{ $t('layouts.withHeader.openMenu') }}
+                    {{ $t('locokit.layouts.withHeader.openMenu') }}
                   </span>
                   <i class="bi bi-list" aria-hidden="true" />
                 </button>
@@ -46,7 +46,7 @@
                 :class="'bi ' + navLink.icon"
                 class="mr-1"
               />
-              <p>{{ $t('layouts.withHeader.' + navLink.title) }}</p>
+              <p>{{ $t('locokit.layouts.withHeader.' + navLink.title) }}</p>
             </NuxtLink>
           </div>
           <button
@@ -56,7 +56,7 @@
             @click="logout"
           >
             <i class="bi bi-door-open-fill mr-1" />
-            <span> {{ $t('layouts.withHeader.logout') }}</span>
+            <span> {{ $t('locokit.layouts.withHeader.logout') }}</span>
           </button>
         </nav>
       </div>
@@ -84,7 +84,7 @@
                 @click="toggleMenu"
               >
                 <span class="sr-only">
-                  {{ $t('layouts.withHeader.closeMenu') }}
+                  {{ $t('locokit.layouts.withHeader.closeMenu') }}
                 </span>
                 <i class="bi bi-x-lg" aria-hidden="true" />
               </button>
@@ -107,7 +107,7 @@
                 class="mr-1"
               />
               <p>
-                {{ $t('layouts.withHeader.' + navLink.title) }}
+                {{ $t('locokit.layouts.withHeader.' + navLink.title) }}
               </p>
             </NuxtLink>
             <button
@@ -116,7 +116,7 @@
               @click="logout"
             >
               <i class="bi bi-door-open-fill mr-1" />
-              {{ $t('layouts.withHeader.logout') }}
+              {{ $t('locokit.layouts.withHeader.logout') }}
             </button>
           </div>
         </div>

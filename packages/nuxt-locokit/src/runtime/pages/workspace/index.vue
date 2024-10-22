@@ -50,7 +50,7 @@
         </transition>
       </div>
       <div v-else class="flex-none my-auto">
-        <span> {{ $t('pages.workspace.noResult') }}</span>
+        <span> {{ $t('locokit.pages.workspace.noResult') }}</span>
       </div>
     </template>
     <template #mini-navigation-items>
@@ -105,17 +105,17 @@ const MINI_NAV = [
   {
     icon: 'bi bi-graph-up',
     routeName: ROUTES_NAMES.WORKSPACE.DASHBOARD,
-    nameTK: 'pages.workspace.dashboard',
+    nameTK: 'locokit.pages.workspace.dashboard',
   },
   {
     icon: 'bi bi-database-fill',
     routeName: ROUTES_NAMES.WORKSPACE.DATASOURCE.HOME,
-    nameTK: 'pages.workspace.datasource',
+    nameTK: 'locokit.pages.workspace.datasource',
   },
   {
     icon: 'bi bi-gear-fill',
     routeName: ROUTES_NAMES.WORKSPACE.SETTINGS,
-    nameTK: 'pages.workspace.settings',
+    nameTK: 'locokit.pages.workspace.settings',
   },
 ]
 
@@ -142,7 +142,7 @@ onMounted(() => {
   if (error.value) {
     toast.add({
       severity: 'error',
-      summary: t('error.title'),
+      summary: t('locokit.error.title'),
       detail: t(`${error.value.message}`),
       life: 5000,
     })
@@ -156,7 +156,7 @@ useHead({
   titleTemplate: `${
     currentWorkspace.value
       ? currentWorkspace.value.name
-      : t('pages.admin.title')
+      : t('locokit.pages.admin.title')
   } | %s`,
 })
 </script>

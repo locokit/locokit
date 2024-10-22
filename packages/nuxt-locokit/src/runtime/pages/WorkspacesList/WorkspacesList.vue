@@ -2,10 +2,10 @@
   <WithHeader>
     <div class="max-w-6xl xl:max-w-6xl mx-auto mt-8 pb-4 px-4 lg:px-0">
       <h1 class="text-primary font-medium">
-        {{ $t('pages.workspacesList.title') }}
+        {{ $t('locokit.pages.workspacesList.title') }}
       </h1>
       <p class="mt-4">
-        {{ $t('pages.workspacesList.intro') }}
+        {{ $t('locokit.pages.workspacesList.intro') }}
       </p>
       <NuxtLink :to="{ name: ROUTES_NAMES.WORKSPACE.CREATE_WORKSPACE }">
         <PrimeButton class="p-button-rounded p-button-secondary !pr-5 !mt-4">
@@ -14,7 +14,7 @@
           >
             <i class="bi bi-plus block font-medium" />
             <p class="mx-autotext-primary pl-1">
-              {{ $t('pages.workspacesList.addWorkspace') }}
+              {{ $t('locokit.pages.workspacesList.addWorkspace') }}
             </p>
           </div>
         </PrimeButton>
@@ -55,7 +55,7 @@
                   v-if="workspace.public"
                   class="px-2 max-w-fit rounded absolute bottom-1 right-1 bg-gray-300 text-black text-sm"
                 >
-                  {{ $t('pages.workspacesList.public') }}
+                  {{ $t('locokit.pages.workspacesList.public') }}
                 </span>
               </div>
             </NuxtLink>
@@ -84,6 +84,6 @@ const { workspaces } = storeToRefs(workspacesStore)
 await workspacesStore.updateWorkspaces()
 
 useHead({
-  titleTemplate: `${t('pages.workspacesList.title')} | %s`,
+  titleTemplate: `${t('locokit.pages.workspacesList.title')} | %s`,
 })
 </script>

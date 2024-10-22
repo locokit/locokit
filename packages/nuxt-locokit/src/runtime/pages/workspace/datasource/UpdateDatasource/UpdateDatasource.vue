@@ -2,19 +2,19 @@
   <div class="max-w-lg lg:h-full mx-auto px-4 lg:px-0 flex flex-col">
     <div class="my-8">
       <h1>
-        {{ $t('pages.updateDatasource.title') }}
+        {{ $t('locokit.pages.updateDatasource.title') }}
       </h1>
     </div>
     <FormGeneric
       v-if="currentWorkspace"
-      label-tk-button-submit="pages.updateDatasource.submit"
+      label-tk-button-submit="locokit.pages.updateDatasource.submit"
       :response="response"
       :loading="loading"
       @submit="onSubmit"
     >
       <div class="mb-4">
         <label for="name">
-          {{ $t('pages.updateDatasource.name') }}
+          {{ $t('locokit.pages.updateDatasource.name') }}
         </label>
         <p>{{ currentDatasource.name }}</p>
       </div>
@@ -26,7 +26,7 @@
         as="div"
       >
         <label for="documentation">
-          {{ $t('pages.updateDatasource.documentation') }}
+          {{ $t('locokit.pages.updateDatasource.documentation') }}
         </label>
         <PrimeTextarea id="documentation" :auto-resize="true" v-bind="field" />
       </Field>
@@ -39,7 +39,7 @@
         as="div"
       >
         <label for="client" class="label-field-required">
-          {{ $t('pages.updateDatasource.client') }}
+          {{ $t('locokit.pages.updateDatasource.client') }}
         </label>
         <PrimeDropdown
           v-bind="{
@@ -54,12 +54,14 @@
         >
           <template #value="slotProps">
             <span v-if="slotProps.value">
-              {{ $t(`pages.updateDatasource.${slotProps.value.name}`) }}
+              {{ $t(`locokit.pages.updateDatasource.${slotProps.value.name}`) }}
             </span>
           </template>
           <template #option="slotProps">
             <span>
-              {{ $t(`pages.updateDatasource.${slotProps.option.name}`) }}
+              {{
+                $t(`locokit.pages.updateDatasource.${slotProps.option.name}`)
+              }}
             </span>
           </template>
         </PrimeDropdown>
@@ -73,7 +75,7 @@
         as="div"
       >
         <label for="type" class="label-field-required">
-          {{ $t('pages.updateDatasource.type') }}
+          {{ $t('locokit.pages.updateDatasource.type') }}
         </label>
         <PrimeDropdown
           v-bind="{
@@ -88,12 +90,14 @@
         >
           <template #value="slotProps">
             <span v-if="slotProps.value">
-              {{ $t(`pages.updateDatasource.${slotProps.value.name}`) }}
+              {{ $t(`locokit.pages.updateDatasource.${slotProps.value.name}`) }}
             </span>
           </template>
           <template #option="slotProps">
             <span>
-              {{ $t(`pages.updateDatasource.${slotProps.option.name}`) }}
+              {{
+                $t(`locokit.pages.updateDatasource.${slotProps.option.name}`)
+              }}
             </span>
           </template>
         </PrimeDropdown>
@@ -107,7 +111,7 @@
         as="div"
       >
         <label for="connection" class="label-field-required">
-          {{ $t('pages.updateDatasource.connection') }}
+          {{ $t('locokit.pages.updateDatasource.connection') }}
         </label>
         <PrimeInputText
           id="connection"
@@ -128,7 +132,7 @@
     <MessageForUser
       v-else
       status="failed"
-      custom-msg-tk-error-form="pages.updateDatasource.noDatasource"
+      custom-msg-tk-error-form="locokit.pages.updateDatasource.noDatasource"
     />
   </div>
 </template>

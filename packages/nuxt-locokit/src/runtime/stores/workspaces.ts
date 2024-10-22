@@ -21,9 +21,9 @@ export const useStoreWorkspaces = defineStore('workspace', () => {
       if (res.total === 1) {
         currentWorkspace.value = res.data[0]
       } else if (res.total === 0) {
-        error.value = new Error('error.noResult.workspace')
+        error.value = new Error('locokit.error.noResult.workspace')
       } else {
-        error.value = new Error('error.tooManyResult.workspace')
+        error.value = new Error('locokit.error.tooManyResult.workspace')
       }
     } else {
       error.value = res

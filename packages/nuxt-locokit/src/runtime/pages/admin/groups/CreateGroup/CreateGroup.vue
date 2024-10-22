@@ -2,11 +2,11 @@
   <div class="max-w-lg lg:h-full mx-auto px-4 lg:px-0 flex flex-col">
     <div class="my-8">
       <h1>
-        {{ $t('pages.createGroup.title') }}
+        {{ $t('locokit.pages.createGroup.title') }}
       </h1>
     </div>
     <FormGeneric
-      label-tk-button-submit="pages.createGroup.submit"
+      label-tk-button-submit="locokit.pages.createGroup.submit"
       :response="error"
       :loading="loading"
       color-submit-button="secondary"
@@ -25,7 +25,7 @@
         as="div"
       >
         <label for="name" class="label-field-required">
-          {{ $t('pages.createGroup.name') }}
+          {{ $t('locokit.pages.createGroup.name') }}
         </label>
         <PrimeInputText
           id="name"
@@ -52,7 +52,7 @@
         as="div"
       >
         <label for="workspace" class="label-field-required">
-          {{ $t('pages.createGroup.workspace') }}
+          {{ $t('locokit.pages.createGroup.workspace') }}
         </label>
         <PrimeAutoComplete
           v-bind="{
@@ -62,8 +62,8 @@
             'model-value': field.value,
           }"
           input-id="workspace"
-          :placeholder="$t('pages.createGroup.search')"
-          :empty-search-message="$t('pages.createGroup.emptyResult')"
+          :placeholder="$t('locokit.pages.createGroup.search')"
+          :empty-search-message="$t('locokit.pages.createGroup.emptyResult')"
           :suggestions="suggestedWorkspaces"
           option-label="name"
           :class="{ 'p-invalid': !valid && touched }"
@@ -88,7 +88,7 @@
         as="div"
       >
         <label for="policy" class="label-field-required">
-          {{ $t('pages.createGroup.policy') }}
+          {{ $t('locokit.pages.createGroup.policy') }}
         </label>
         <PrimeAutoComplete
           v-bind="{
@@ -98,8 +98,8 @@
             'model-value': field.value,
           }"
           input-id="policy"
-          :placeholder="$t('pages.createGroup.search')"
-          :empty-search-message="$t('pages.createGroup.emptyResult')"
+          :placeholder="$t('locokit.pages.createGroup.search')"
+          :empty-search-message="$t('locokit.pages.createGroup.emptyResult')"
           :suggestions="suggestedPolicies"
           option-label="name"
           :class="{ 'p-invalid': !valid && touched }"
@@ -123,7 +123,7 @@
         as="div"
       >
         <label for="name">
-          {{ $t('pages.createGroup.documentation') }}
+          {{ $t('locokit.pages.createGroup.documentation') }}
         </label>
         <PrimeTextarea id="documentation" v-bind="field" auto-resize rows="5" />
       </Field>

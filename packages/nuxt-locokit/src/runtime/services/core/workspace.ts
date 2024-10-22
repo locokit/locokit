@@ -1,6 +1,8 @@
 import { SERVICES } from '@locokit/definitions'
-import { WorkspaceData, WorkspacePatch } from '@locokit/sdk'
-import { sdkClient } from '../api'
+import type { WorkspaceData, WorkspacePatch } from '@locokit/sdk'
+import { useLocoKitClient } from '../api'
+
+const sdkClient = useLocoKitClient()
 
 const ITEMS_PER_PAGE = 10
 

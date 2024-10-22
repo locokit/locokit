@@ -21,7 +21,7 @@
             >
               <i class="bi bi-gear-fill mr-1" />
               <span>
-                {{ $t('layouts.withAsideNav.admin') }}
+                {{ $t('locokit.layouts.withAsideNav.admin') }}
               </span>
             </button>
           </NuxtLink>
@@ -36,7 +36,7 @@
             >
               <i class="bi bi-person-circle mr-1" />
               <span>
-                {{ $t('layouts.withAsideNav.profile') }}
+                {{ $t('locokit.layouts.withAsideNav.profile') }}
               </span>
             </button>
           </NuxtLink>
@@ -47,7 +47,7 @@
           >
             <i class="bi bi-door-open-fill mr-1" />
             <span>
-              {{ $t('layouts.withHeader.logout') }}
+              {{ $t('locokit.layouts.withHeader.logout') }}
             </span>
           </button>
         </div>

@@ -18,10 +18,10 @@
         >404</span
       >
       <h1 class="text-white pt-8 mb-2 text-3xl font-bold tracking-tight">
-        {{ t('pages.error.404.title') }}
+        {{ t('locokit.pages.error.404.title') }}
       </h1>
       <h2 class="text-white pt-4 text-xl font-bold tracking-tight">
-        {{ t('pages.error.404.alternativeTitle') }}
+        {{ t('locokit.pages.error.404.alternativeTitle') }}
       </h2>
     </div>
 
@@ -30,7 +30,7 @@
         error.statusCode
       }}</span>
       <h1 class="text-white pt-8 mb-2 text-3xl font-bold tracking-tight">
-        {{ t('pages.error.defaultTitle') }}
+        {{ t('locokit.pages.error.defaultTitle') }}
       </h1>
       <p class="text-white pt-8 mb-2 text-xl font-bold tracking-tight">
         {{ error.message }}
@@ -46,7 +46,7 @@
           class="bi bi-house-fill p-button-icon p-button-icon-left px-2"
           aria-hidden="true"
         ></span>
-        <span class="p-button-label">{{ t('pages.error.link') }}</span>
+        <span class="p-button-label">{{ t('locokit.pages.error.link') }}</span>
       </NuxtLink>
     </div>
   </div>
@@ -70,10 +70,10 @@ const { t } = useI18n({ useScope: 'global' })
 // To retrieve config and environment variables
 const runtimeConfig = useRuntimeConfig()
 
-let titleTemplate = t('pages.error.defaultTitle')
+let titleTemplate = t('locokit.pages.error.defaultTitle')
 switch (error.value.statusCode) {
   case 404:
-    titleTemplate = t('pages.error.404.title')
+    titleTemplate = t('locokit.pages.error.404.title')
     break
 }
 

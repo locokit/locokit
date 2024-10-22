@@ -1,7 +1,7 @@
 <template>
   <div class="py-3 my-2">
     <h3 class="mb-4">
-      {{ $t('pages.updateGeneral.title') }}
+      {{ $t('locokit.pages.updateGeneral.title') }}
     </h3>
     <UpdateGeneralForm
       v-if="user"
@@ -10,7 +10,7 @@
       :loading="loading"
       @submit="updateUsername"
     />
-    <p v-else>{{ $t('pages.updateGeneral.userNotFound') }}</p>
+    <p v-else>{{ $t('locokit.pages.updateGeneral.userNotFound') }}</p>
   </div>
 </template>
 
@@ -53,6 +53,6 @@ const updateUsername = async ({
   }
 }
 useHead({
-  titleTemplate: `${t('pages.updateGeneral.title')} | %s`,
+  titleTemplate: `${t('locokit.pages.updateGeneral.title')} | %s`,
 })
 </script>

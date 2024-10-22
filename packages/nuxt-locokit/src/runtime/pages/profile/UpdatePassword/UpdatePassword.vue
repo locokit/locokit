@@ -1,7 +1,7 @@
 <template>
   <div class="py-3 my-2">
     <h3 class="mb-4">
-      {{ $t('pages.updatePassword.title') }}
+      {{ $t('locokit.pages.updatePassword.title') }}
     </h3>
     <UpdatePasswordForm
       v-if="user"
@@ -9,7 +9,7 @@
       :loading="loading"
       @submit="updatePassword"
     />
-    <p v-else>{{ $t('pages.updatePassword.userNotFound') }}</p>
+    <p v-else>{{ $t('locokit.pages.updatePassword.userNotFound') }}</p>
   </div>
 </template>
 
@@ -45,6 +45,6 @@ const updatePassword = async (data: {
 }
 
 useHead({
-  titleTemplate: `${t('pages.updatePassword.title')} | %s`,
+  titleTemplate: `${t('locokit.pages.updatePassword.title')} | %s`,
 })
 </script>

@@ -5,17 +5,17 @@
     >
       <div class="mb-8">
         <h1 class="text-center">
-          {{ $t('pages.confirmUpdateEmail.title') }}
+          {{ $t('locokit.pages.confirmUpdateEmail.title') }}
         </h1>
       </div>
       <div class="mb-8">
         <div v-if="route.query.token && !error">
           <p>
-            {{ $t('pages.confirmUpdateEmail.message') }}
+            {{ $t('locokit.pages.confirmUpdateEmail.message') }}
           </p>
         </div>
         <div v-else>
-          <p>{{ $t('pages.confirmUpdateEmail.errorMessage') }}</p>
+          <p>{{ $t('locokit.pages.confirmUpdateEmail.errorMessage') }}</p>
         </div>
       </div>
       <div>
@@ -23,7 +23,7 @@
           <NuxtLink :to="{ name: ROUTES_NAMES.AUTH.SIGN_IN }">
             <PrimeButton
               class="p-button-rounded p-button-secondary"
-              :label="$t('pages.confirmUpdateEmail.signIn')"
+              :label="$t('locokit.pages.confirmUpdateEmail.signIn')"
               icon="bi bi-person-badge"
             />
           </NuxtLink>
@@ -51,6 +51,6 @@ if (route.query.token) {
 }
 
 useHead({
-  titleTemplate: `${t('pages.confirmUpdateEmail.title')} | %s`,
+  titleTemplate: `${t('locokit.pages.confirmUpdateEmail.title')} | %s`,
 })
 </script>

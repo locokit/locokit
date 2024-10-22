@@ -30,7 +30,7 @@
         >
           <i class="bi bi-person-workspace mr-1" />
           <span>
-            {{ $t('layouts.withAsideNav.workspaces') }}
+            {{ $t('locokit.layouts.withAsideNav.workspaces') }}
           </span>
         </button>
       </NuxtLink>
@@ -42,7 +42,7 @@
         :to="{ name: ROUTES_NAMES.ADMIN.USERS.HOME }"
       >
         <button
-          v-tooltip="$t('pages.admin.users')"
+          v-tooltip="$t('locokit.pages.admin.users')"
           tabindex="-1"
           type="button"
           class="mx-auto h-12 w-full hover:bg-primary-dark p-2"
@@ -56,7 +56,7 @@
         :to="{ name: ROUTES_NAMES.ADMIN.GROUPS.HOME }"
       >
         <button
-          v-tooltip="$t('pages.admin.groups')"
+          v-tooltip="$t('locokit.pages.admin.groups')"
           tabindex="-1"
           type="button"
           class="mx-auto h-12 w-full hover:bg-primary-dark p-2"
@@ -91,7 +91,7 @@ if (!users.value) {
 }
 
 useHead({
-  titleTemplate: `${t('pages.admin.title')} | %s`,
+  titleTemplate: `${t('locokit.pages.admin.title')} | %s`,
 })
 </script>
 

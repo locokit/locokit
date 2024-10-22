@@ -5,7 +5,7 @@
     >
       <div class="ml-2">
         <h2 class="mb-4">
-          {{ $t('pages.adminUsers.title') }}
+          {{ $t('locokit.pages.adminUsers.title') }}
         </h2>
         <div class="mb-4">
           <NuxtLink :to="{ name: ROUTES_NAMES.ADMIN.USERS.CREATE }">
@@ -15,7 +15,7 @@
               >
                 <i class="bi bi-plus block font-medium" />
                 <p class="pl-1">
-                  {{ $t('pages.adminUsers.addUser') }}
+                  {{ $t('locokit.pages.adminUsers.addUser') }}
                 </p>
               </div>
             </PrimeButton>
@@ -27,7 +27,7 @@
             v-model="wantedUser"
             class="search-input w-full !mb-4"
             type="text"
-            :placeholder="$t('pages.adminUsers.search')"
+            :placeholder="$t('locokit.pages.adminUsers.search')"
             @input="applySearch"
           />
 
@@ -90,7 +90,7 @@
                 <p class="text-sm">
                   {{
                     t(
-                      'pages.adminUsers.result',
+                      'locokit.pages.adminUsers.result',
                       {
                         elements:
                           users.limit > users.data.length
@@ -164,7 +164,7 @@
             </div>
             <MessageForUser v-else-if="error" status="failed" />
             <div v-else>
-              <p>{{ $t('pages.adminUsers.emptyResult') }}</p>
+              <p>{{ $t('locokit.pages.adminUsers.emptyResult') }}</p>
             </div>
           </div>
         </div>
@@ -205,22 +205,22 @@ const error = ref(false)
 const columnsDefinition = [
   {
     slug: 'username',
-    name: `${t('pages.adminUsers.filters.username')}`,
+    name: `${t('locokit.pages.adminUsers.filters.username')}`,
     type: FIELD_TYPE.STRING,
   },
   {
     slug: 'firstName',
-    name: `${t('pages.adminUsers.filters.firstName')}`,
+    name: `${t('locokit.pages.adminUsers.filters.firstName')}`,
     type: FIELD_TYPE.STRING,
   },
   {
     slug: 'lastName',
-    name: `${t('pages.adminUsers.filters.lastName')}`,
+    name: `${t('locokit.pages.adminUsers.filters.lastName')}`,
     type: FIELD_TYPE.STRING,
   },
   {
     slug: 'email',
-    name: `${t('pages.adminUsers.filters.email')}`,
+    name: `${t('locokit.pages.adminUsers.filters.email')}`,
     type: FIELD_TYPE.STRING,
   },
 ]

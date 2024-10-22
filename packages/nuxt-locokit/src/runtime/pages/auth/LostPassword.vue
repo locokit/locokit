@@ -5,12 +5,12 @@
     >
       <div class="mb-8">
         <h1 class="text-center">
-          {{ $t('pages.lostPassword.alternativeTitle') }}
+          {{ $t('locokit.pages.lostPassword.alternativeTitle') }}
         </h1>
       </div>
       <div>
         <div v-if="!formSentAndValid">
-          <p class="mb-4">{{ $t('pages.lostPassword.description') }}</p>
+          <p class="mb-4">{{ $t('locokit.pages.lostPassword.description') }}</p>
           <LostPasswordForm
             :loading="loading"
             :error="error"
@@ -25,7 +25,7 @@
               class="bi bi-check-circle-fill p-text-success mr-4 icon-with-text-aside"
             />
             <p class="text-justify">
-              {{ $t('pages.lostPassword.sendMailToResetPassword') }}
+              {{ $t('locokit.pages.lostPassword.sendMailToResetPassword') }}
             </p>
           </div>
           <NuxtLink
@@ -33,7 +33,7 @@
             :to="{ name: ROUTES_NAMES.HOME }"
           >
             <i class="bi bi-house-fill mr-2" />
-            <p>{{ $t('pages.lostPassword.homeLink') }}</p>
+            <p>{{ $t('locokit.pages.lostPassword.homeLink') }}</p>
           </NuxtLink>
         </div>
       </div>
@@ -66,6 +66,6 @@ const sendResetPasswordLink = async (data: string) => {
 definePageMeta({ middleware: ['anonymous-routes'] })
 
 useHead({
-  titleTemplate: `${t('pages.lostPassword.title')} | %s`,
+  titleTemplate: `${t('locokit.pages.lostPassword.title')} | %s`,
 })
 </script>

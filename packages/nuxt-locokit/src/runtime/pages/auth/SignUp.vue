@@ -5,12 +5,12 @@
     >
       <div class="mb-8">
         <h1 class="text-center">
-          {{ $t('pages.signUp.title') }}
+          {{ $t('locokit.pages.signUp.title') }}
         </h1>
       </div>
       <div>
         <div v-if="!formSentAndValid">
-          <p class="mb-4">{{ $t('pages.signUp.description') }}</p>
+          <p class="mb-4">{{ $t('locokit.pages.signUp.description') }}</p>
           <SignUpForm :loading="loading" :error="error" @submit="signUp" />
         </div>
         <div v-else class="text-center">
@@ -20,14 +20,14 @@
               class="bi bi-check-circle-fill p-text-success mr-4 icon-with-text-aside"
             />
             <p class="text-justify">
-              {{ $t('pages.signUp.sendMailToCompleteAccount') }}
+              {{ $t('locokit.pages.signUp.sendMailToCompleteAccount') }}
             </p>
           </div>
           <NuxtLink
             class="no-decoration-link"
             :to="{ name: ROUTES_NAMES.HOME }"
           >
-            {{ $t('pages.signUp.homeLink') }}
+            {{ $t('locokit.pages.signUp.homeLink') }}
           </NuxtLink>
         </div>
       </div>
@@ -58,6 +58,6 @@ const signUp = async (data: { email: string; username: string }) => {
 definePageMeta({ middleware: ['anonymous-routes'] })
 
 useHead({
-  titleTemplate: `${t('pages.signUp.title')} | %s`,
+  titleTemplate: `${t('locokit.pages.signUp.title')} | %s`,
 })
 </script>

@@ -5,18 +5,18 @@
     >
       <div class="mb-8">
         <h1 class="text-center">
-          {{ $t('pages.resetPassword.title') }}
+          {{ $t('locokit.pages.resetPassword.title') }}
         </h1>
       </div>
       <div v-if="route.query.token" class="max-w-lg mx-auto">
         <div v-if="!formSentAndValid">
           <p class="mb-4">
-            {{ $t('pages.resetPassword.description') }}
+            {{ $t('locokit.pages.resetPassword.description') }}
           </p>
           <PasswordForm
             :loading="loading"
             :error="error"
-            label-tk-submit="pages.resetPassword.labelSubmit"
+            label-tk-submit="locokit.pages.resetPassword.labelSubmit"
             @submit="resetPassword"
           />
         </div>
@@ -27,7 +27,7 @@
               class="bi bi-check-circle-fill p-text-success mr-4 icon-with-text-aside"
             />
             <p class="text-justify">
-              {{ $t('pages.resetPassword.updatedPassword') }}
+              {{ $t('locokit.pages.resetPassword.updatedPassword') }}
             </p>
           </div>
 
@@ -35,14 +35,14 @@
             class="no-decoration-link"
             :to="{ name: ROUTES_NAMES.AUTH.SIGN_IN }"
           >
-            {{ $t('pages.resetPassword.signIn') }}
+            {{ $t('locokit.pages.resetPassword.signIn') }}
           </NuxtLink>
         </div>
       </div>
       <div v-else class="max-w-2xl mx-auto">
         <MessageForUser
           status="failed"
-          custom-msg-tk-error-form="pages.resetPassword.missingToken"
+          custom-msg-tk-error-form="locokit.pages.resetPassword.missingToken"
         />
       </div>
     </div>
@@ -80,6 +80,6 @@ const resetPassword = async (data: string) => {
 definePageMeta({ middleware: ['anonymous-routes'] })
 
 useHead({
-  titleTemplate: `${t('pages.resetPassword.title')} | %s`,
+  titleTemplate: `${t('locokit.pages.resetPassword.title')} | %s`,
 })
 </script>

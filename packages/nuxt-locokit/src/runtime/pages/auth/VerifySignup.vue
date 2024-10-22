@@ -4,15 +4,17 @@
       class="h-full flex flex-col flex-wrap md:justify-center md:m-auto mt-8"
     >
       <div class="mb-8">
-        <h1 class="text-center">{{ $t('pages.verifySignup.title') }}</h1>
+        <h1 class="text-center">
+          {{ $t('locokit.pages.verifySignup.title') }}
+        </h1>
       </div>
       <div v-if="route.query.token" class="max-w-lg mx-auto">
         <div v-if="!formSentAndValid">
-          <p class="mb-4">{{ $t('pages.verifySignup.description') }}</p>
+          <p class="mb-4">{{ $t('locokit.pages.verifySignup.description') }}</p>
           <PasswordForm
             :loading="loading"
             :error="error"
-            label-tk-submit="pages.verifySignup.labelSubmit"
+            label-tk-submit="locokit.pages.verifySignup.labelSubmit"
             @submit="verifySignupAndSetPassword"
           />
         </div>
@@ -23,7 +25,7 @@
               class="bi bi-check-circle-fill p-text-success mr-4 icon-with-text-aside"
             />
             <p class="text-justify">
-              {{ $t('pages.verifySignup.accountComplete') }}
+              {{ $t('locokit.pages.verifySignup.accountComplete') }}
             </p>
           </div>
 
@@ -31,14 +33,14 @@
             class="no-decoration-link"
             :to="{ name: ROUTES_NAMES.AUTH.SIGN_IN }"
           >
-            {{ $t('pages.resetPassword.signIn') }}
+            {{ $t('locokit.pages.resetPassword.signIn') }}
           </NuxtLink>
         </div>
       </div>
       <div v-else class="max-w-2xl mx-auto">
         <MessageForUser
           status="failed"
-          custom-msg-tk-error-form="pages.verifySignup.missingToken"
+          custom-msg-tk-error-form="locokit.pages.verifySignup.missingToken"
         />
       </div>
     </div>
@@ -76,6 +78,6 @@ const verifySignupAndSetPassword = async (data: string) => {
 definePageMeta({ middleware: ['anonymous-routes'] })
 
 useHead({
-  titleTemplate: `${t('pages.verifySignup.title')} | %s`,
+  titleTemplate: `${t('locokit.pages.verifySignup.title')} | %s`,
 })
 </script>
