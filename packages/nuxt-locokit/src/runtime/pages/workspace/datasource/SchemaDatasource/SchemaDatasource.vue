@@ -276,12 +276,13 @@ import {
   getSchemaDatasource,
 } from '../../../../services/datasource'
 import WithSidebar from '../../../../layouts/WithSidebar.vue'
-import { sdkClient } from '../../../../services/api'
+import { useLocoKitClient } from '../../../../services/api'
 import CreateField from '../CreateField/CreateField.vue'
 import { getFieldIconClass } from '../../../../helpers/field'
 import { reactive, ref, useRoute } from '#imports'
 
 const route = useRoute()
+const sdkClient = useLocoKitClient()
 
 const loading = ref(false)
 const errorDrawDiagram = ref(false)

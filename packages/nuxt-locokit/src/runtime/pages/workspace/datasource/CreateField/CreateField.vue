@@ -144,14 +144,15 @@ import { ref } from 'vue'
 import { Field } from 'vee-validate'
 import { FormGeneric, MessageForUser } from '@locokit/designsystem'
 import { FIELD_TYPE } from '@locokit/definitions'
-import { sdkClient } from '../../../../services/api'
-import { toSnakeCase } from '@locokit/definitions'
+import { useLocoKitClient } from '../../../../services/api'
+import { createSlug } from '../../../../helpers/transformText'
 import { getFieldIconClass } from '../../../../helpers/field'
 import { computed, useRoute } from '#imports'
 
 defineEmits(['reset'])
 
 const route = useRoute()
+const sdkClient = useLocoKitClient()
 
 const loading = ref(false)
 const error = ref<Error | null>(null)

@@ -74,12 +74,13 @@
 import { ref } from 'vue'
 import { Field } from 'vee-validate'
 import { FormGeneric, MessageForUser } from '@locokit/designsystem'
-import { sdkClient } from '../../../../services/api'
+import { useLocoKitClient } from '../../../../services/api'
 import { findDatasources } from '../../../../services/datasource'
 import { toSnakeCase } from '@locokit/definitions'
 import { computed, useRoute } from '#imports'
 
 const route = useRoute()
+const sdkClient = useLocoKitClient()
 
 const loading = ref(false)
 const error = ref<Error | null>(null)
