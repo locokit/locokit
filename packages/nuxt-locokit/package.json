@@ -36,6 +36,7 @@
     "@locokit/sdk": "workspace:*",
     "@nuxt/kit": "^3.13.2",
     "@pinia/nuxt": "^0.5.1",
+    "@primevue/themes": "^4.0.5",
     "@vee-validate/rules": "^4.12.5",
     "bootstrap-icons": "^1.11.3",
     "date-fns": "^3.3.1",
