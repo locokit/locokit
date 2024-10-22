@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { SERVICES } from '@locokit/definitions'
-import { sdkClient } from '../services/api'
+import { useLocoKitClient } from '../services/api'
 import { ref, useCookie } from '#imports'
 
 export const useStoreAuth = defineStore('auth', () => {
@@ -8,6 +8,7 @@ export const useStoreAuth = defineStore('auth', () => {
   const isAuthenticated = ref(false)
   const error = ref<Error | null>(null)
   const user = ref()
+  const sdkClient = useLocoKitClient()
 
   async function authenticate(data: { email: string; password: string }) {
     loading.value = true

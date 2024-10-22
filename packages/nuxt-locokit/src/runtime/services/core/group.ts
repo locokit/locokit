@@ -1,9 +1,11 @@
 import { SERVICES } from '@locokit/definitions'
-import { GroupData } from '@locokit/sdk'
-import { ApiUserGroup, Filter } from '../../interfaces/toMigrate'
+import type { GroupData } from '@locokit/sdk'
+import type { ApiUserGroup, Filter } from '../../interfaces/toMigrate'
 import { getCurrentFilters } from '../../helpers/filter'
-import { sdkClient } from '../api'
+import { useLocoKitClient } from '../api'
 import { findUserGroups } from './usergroup'
+
+const sdkClient = useLocoKitClient()
 
 export const ITEMS_PER_PAGE_GROUPS = 20
 

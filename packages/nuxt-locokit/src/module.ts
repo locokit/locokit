@@ -10,6 +10,8 @@ import {
 import type { Nuxt, NuxtOptions, NuxtPage } from '@nuxt/schema'
 import en from '@locokit/i18n/en.json' assert { type: 'json' }
 import { ROUTES_NAMES, ROUTES_PATH } from './runtime/locokit-paths'
+import { definePreset } from '@primevue/themes'
+import Aura from '@primevue/themes/aura'
 
 const { resolve } = createResolver(import.meta.url)
 
@@ -67,7 +69,7 @@ const defaultOptions: ModuleOptions = {
     },
   },
   api: {
-    url: 'http://localhost:3030',
+    url: '/api',
   },
 }
 
@@ -75,6 +77,40 @@ export type NuxtLocokit = Nuxt & {
   options: NuxtOptions & {
     locokit: ModuleOptions
   }
+}
+
+/**
+ * from https://uicolors.app/create with #005767 and fic input color to 500 shade
+ */
+const primary = {
+  '50': '#d9feff',
+  '100': '#9efbff',
+  '200': '#47f8ff',
+  '300': '#00c1c8',
+  '400': '#006367',
+  '500': '#005767',
+  '600': '#00445c',
+  '700': '#003549',
+  '800': '#002a3a',
+  '900': '#001d2a',
+  '950': '#001622',
+}
+
+/**
+ * from https://uicolors.app/create with #ff8d00 and fic input color to 500 shade
+ */
+const secondary = {
+  '50': '#fff9eb',
+  '100': '#fff2d1',
+  '200': '#ffe2a2',
+  '300': '#ffcb67',
+  '400': '#ffa82a',
+  '500': '#ff8d00',
+  '600': '#f57400',
+  '700': '#c45402',
+  '800': '#9b420b',
+  '900': '#7d380c',
+  '950': '#431a04',
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -91,19 +127,36 @@ export default defineNuxtModule<ModuleOptions>({
     // Transpile runtime
     nuxt.options.build.transpile.push(resolve('./runtime'))
 
-    console.log('[nuxt-module] setup...')
+    console.log('[nuxt-module] setup...', options)
 
     const runtimeDir = resolve('./runtime')
     const isDevelopment =
       runtimeDir.endsWith('src/runtime') || runtimeDir.endsWith('src\\runtime')
 
     const styleExtension = isDevelopment ? 'scss' : 'css'
-    await installModule('nuxt-primevue', {
+    await installModule('@primevue/nuxt-module', {
       usePrimeVue: true,
       options: {
         ripple: true,
         // Todo: see locokit/packages/nuxt-locokit/src/runtime/plugins/3_i18n.ts:9
         locale: Object.assign({}, en.locokit.localePrime),
+
+        theme: {
+          preset: definePreset(Aura, {
+            semantic: {
+              primary,
+              secondary,
+            },
+          }),
+        },
+
+        pt: {
+          password: {
+            pcInput: {
+              root: 'w-full',
+            },
+          },
+        },
       },
       cssLayerOrder: 'tailwind-base, primevue, tailwind-utilities',
       components: {
