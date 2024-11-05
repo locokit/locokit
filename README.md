@@ -29,10 +29,78 @@ Instructions to use with docker will be soon available.
 
 ### Installation
 
+**Warning: Future 1.0 release (next) is not ready yet. You might encounter build errors,**
+**please consider opening issues for any problem you would encounter.**
+
+**Considering the previous statement, please be kind, the actual procedure requires**
+**many steps in order to do the initial project setup until the tooling is improved.**
+
+First prepare tooling:
+
 ```sh
+cd /path/to/locokit
+nvm install # on first run
 nvm use # to use the right node version
+npm i -g pnpm # install pnpm
 pnpm i --frozen-lockfile # to use exactly what the pnpm-lock.yaml already resolved
 ```
+
+The last step should install Turbo which is used for building all the packages.
+
+Prepare the API server:
+
+```sh
+cd /path/to/locokit
+cp ./api/.env.example ./api/.env
+```
+
+Example env file requires you to have the docker compose project running, if you wish to
+run a development environment, simply start it now:
+
+```sh
+cd /path/to/locokit
+docker compose up -d
+```
+
+Alternatively, you may edit the `api/.env` file instead in order to use another database
+you have set up differently, case in which the docker compose step is unnecessary.
+
+Now you may build the dependencies a first time:
+
+```sh
+pnpm run run:dev:api
+# Then hit CTRL+C once finished.
+```
+
+And do the initial database prepare step:
+
+```sh
+cd /path/to/locokit
+cd ./api
+pnpm run migrate:latest # run migrations that creates the database
+pnpm run seed:run-init # optional: creates some mock user accounts
+```
+
+Now you are ready to run the API server and start coding:
+
+```sh
+cd /path/to/locokit
+pnpm run run:dev:api
+```
+
+You can now access the Swagger API documentation on http://localhost:3030/swagger.html
+
+If you run the optional seed which creates the mock user, you can run this in order to fetch
+a valid access token for later API calls:
+
+```sh
+curl -X POST "http://localhost:3030/auth/authentication" \
+  -H 'accept: application/json'\
+  -H 'content-type: application/json' \
+  -d '{"strategy":"local","email":"admin@locokit.io","password":"locokit"}'
+```
+
+And you're ready to go!
 
 ### Starting the API
 
