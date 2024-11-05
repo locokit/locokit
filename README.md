@@ -16,7 +16,8 @@ and several packages. (only `glossary` actually).
 Before all, you need to use the version of node indicates in `.nvmrc`:
 
 ```bash
-npm use
+nvm install # only if node version is not installed
+nvm use
 ```
 
 Initialize node modules:
