@@ -8,7 +8,9 @@ import {
   JSONSchemaDefinition,
   RelationMappings,
   RelationMappingsThunk,
+  AjvValidator,
 } from 'objection'
+import addFormats from 'ajv-formats'
 import { getJSONTypeFromSQLType } from '../../utils/sqlTypeConverter'
 import { objectify } from './objectify'
 import { logger } from '../../logger'
@@ -82,7 +84,7 @@ export class SQLAdapter implements GenericAdapter {
         [table],
       )
 
-      return result.rows?.map((r: { column: string }) => table + '.' + r.column) ?? null
+      return result.rows?.map((r: { column: string }) => /* table + '.' + */ r.column) ?? null
     }
 
     if (this.connexion.type === 'pg') {
@@ -173,12 +175,43 @@ export class SQLAdapter implements GenericAdapter {
       const t = tables[tableName]
 
       allModels[tableName] = class extends Model {
+        static createValidator() {
+          return new AjvValidator({
+            onCreateAjv: (ajv) => {
+              addFormats(ajv, [
+                'date-time',
+                'time',
+                'date',
+                'email',
+                'hostname',
+                'ipv4',
+                'ipv6',
+                'uri',
+                'uri-reference',
+                'uuid',
+                'uri-template',
+                'json-pointer',
+                'relative-json-pointer',
+                'regex',
+              ])
+              // Here you can modify the `Ajv` instance.
+            },
+            options: {
+              allErrors: true,
+              validateSchema: false,
+              ownProperties: true,
+              allowUnionTypes: true,
+              coerceTypes: true,
+            },
+          })
+        }
+
         static get tableName(): string {
           return tableName
         }
 
         static get idColumn(): string | string[] {
-          return t.id || [tableName + '.id']
+          return /* t.id  || */ [tableName + '.id']
         }
 
         static get jsonSchema(): JSONSchema {
@@ -203,8 +236,11 @@ export class SQLAdapter implements GenericAdapter {
             schema.properties[c.name] = {
               type: propertyType,
             }
+            if (c.data_type === 'date') schema.properties[c.name].format = 'date'
+            console.log('jsonSchema', tableName, c, schema.properties[c.name])
           })
 
+          console.log('jsonSchema', tableName, schema)
           return schema
         }
 
