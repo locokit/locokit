@@ -176,7 +176,7 @@ import {
 } from '../../../../interfaces/toMigrate'
 import { createDatasource } from '../../../../services/datasource'
 import { ROUTES_NAMES } from '../../../../locokit-paths'
-import { createSlug } from '../../../../helpers/transformText'
+import { toSnakeCase } from '@locokit/definitions'
 import { useRouter, computed } from '#imports'
 
 const router = useRouter()
@@ -194,7 +194,7 @@ const type = ref(TYPE_DATASOURCE[0])
 const connection = ref()
 
 const autogenerateSlug = computed(() => {
-  if (name.value) return createSlug(name.value)
+  if (name.value) return toSnakeCase(name.value)
   return null
 })
 

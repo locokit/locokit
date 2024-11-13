@@ -141,7 +141,7 @@ import { Field } from 'vee-validate'
 import { FormGeneric, MessageForUser } from '@locokit/designsystem'
 import { FIELD_TYPE } from '@locokit/definitions'
 import { sdkClient } from '../../../../services/api'
-import { createSlug } from '../../../../helpers/transformText'
+import { toSnakeCase } from '@locokit/definitions'
 import { getFieldIconClass } from '../../../../helpers/field'
 import { computed, useRoute } from '#imports'
 
@@ -193,7 +193,7 @@ const typeField = Object.values(FIELD_TYPE).map((type: string) => ({
 }))
 
 const autogenerateSlug = computed(() => {
-  if (name.value) return createSlug(name.value)
+  if (name.value) return toSnakeCase(name.value)
   return null
 })
 
