@@ -76,7 +76,7 @@ import { Field } from 'vee-validate'
 import { FormGeneric, MessageForUser } from '@locokit/designsystem'
 import { sdkClient } from '../../../../services/api'
 import { findDatasources } from '../../../../services/datasource'
-import { createSlug } from '../../../../helpers/transformText'
+import { toSnakeCase } from '@locokit/definitions'
 import { computed, useRoute } from '#imports'
 
 const route = useRoute()
@@ -101,7 +101,7 @@ if (route.params.datasourceSlug && route.params.workspaceSlug) {
 }
 
 const autogenerateSlug = computed(() => {
-  if (name.value) return createSlug(name.value)
+  if (name.value) return toSnakeCase(name.value)
   return null
 })
 

@@ -1,6 +1,6 @@
 import { resolve } from '@feathersjs/schema'
 import type { HookContext } from '@/declarations'
-import { toSnakeCase } from '@/utils/toSnakeCase'
+import { toSnakeCase } from '@locokit/definitions'
 import { Value } from '@sinclair/typebox/value'
 
 import {

@@ -114,7 +114,7 @@ import PrimeTextarea from 'primevue/textarea'
 import PrimeSwitch from 'primevue/inputswitch'
 import PrimeInputText from 'primevue/inputtext'
 import { Field } from 'vee-validate'
-import { createSlug } from '@/helpers/transformText'
+import { toSnakeCase } from '@locokit/definitions'
 import type { ColorScheme } from '@/helpers/color'
 import FormGeneric from '@/components/forms/FormGeneric.vue'
 import PredefinedColorPicker from '@/components/ui/PredefinedColorPicker/PredefinedColorPicker.vue'
@@ -159,7 +159,7 @@ const colorAndBg = ref<ColorScheme>({
 })
 
 const autogenerateSlug = computed(() => {
-  if (name.value) return createSlug(name.value)
+  if (name.value) return toSnakeCase(name.value)
   return null
 })
 
