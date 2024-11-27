@@ -2,7 +2,7 @@
   <WithHeader>
     <div class="max-w-3xl mx-auto mt-8 pb-4 px-4 lg:px-0">
       <h1 class="mb-4">
-        {{ $t('pages.createWorkspace.alternativeTitle') }}
+        {{ $t('locokit.pages.createWorkspace.alternativeTitle') }}
       </h1>
       <WorkspaceForm
         :response="error"
@@ -53,6 +53,6 @@ const newWorkspace = async (data: {
 }
 
 useHead({
-  titleTemplate: `${t('pages.createWorkspace.title')} | %s`,
+  titleTemplate: `${t('locokit.pages.createWorkspace.title')} | %s`,
 })
 </script>

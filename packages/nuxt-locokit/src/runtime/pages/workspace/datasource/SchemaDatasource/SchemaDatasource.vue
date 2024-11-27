@@ -4,21 +4,21 @@
       <div class="mx-4">
         <div class="my-8">
           <h1>
-            {{ $t('pages.schemaDatasource.title') }}
+            {{ $t('locokit.pages.schemaDatasource.title') }}
           </h1>
         </div>
         <div>
           <div v-if="currentDatasource.documentation" class="mb-4">
             <h4 class="mb-2">
-              {{ $t('pages.schemaDatasource.documentation') }}
+              {{ $t('locokit.pages.schemaDatasource.documentation') }}
             </h4>
             <p>{{ currentDatasource.documentation }}</p>
           </div>
           <div v-if="errorDrawDiagram">
-            <p>{{ $t('pages.schemaDatasource.noTables') }}</p>
+            <p>{{ $t('locokit.pages.schemaDatasource.noTables') }}</p>
           </div>
           <div v-else>
-            <p>{{ $t('pages.schemaDatasource.explainSchema') }}</p>
+            <p>{{ $t('locokit.pages.schemaDatasource.explainSchema') }}</p>
           </div>
           <pre id="diagram" ref="diagram" class="mermaid"></pre>
         </div>
@@ -27,7 +27,7 @@
     <template #panel-header>
       <h2 v-if="currentTable">
         {{
-          $t('pages.schemaDatasource.subTitle', {
+          $t('locokit.pages.schemaDatasource.subTitle', {
             tableName: currentTable.name,
           })
         }}
@@ -35,18 +35,18 @@
     </template>
     <template #panel-content>
       <PrimeTabView class="sidebar-tabs">
-        <PrimeTabPanel :header="$t('pages.schemaDatasource.table')">
+        <PrimeTabPanel :header="$t('locokit.pages.schemaDatasource.table')">
           <div>
             <PrimeAccordion class="accordion-sidebar" :active-index="0">
               <PrimeAccordionTab>
                 <template #header>
                   <h4 class="font-semibold ml-1">
-                    {{ $t('pages.schemaDatasource.properties') }}
+                    {{ $t('locokit.pages.schemaDatasource.properties') }}
                   </h4>
                 </template>
                 <FormGeneric
                   v-if="currentTable"
-                  label-tk-button-submit="pages.schemaDatasource.submit"
+                  label-tk-button-submit="locokit.pages.schemaDatasource.submit"
                   :response="error"
                   :loading="loading"
                   @submit="onSubmitFormTable"
@@ -59,7 +59,11 @@
                     as="div"
                   >
                     <label for="documentation">
-                      {{ $t('pages.schemaDatasource.formTable.documentation') }}
+                      {{
+                        $t(
+                          'locokit.pages.schemaDatasource.formTable.documentation',
+                        )
+                      }}
                     </label>
                     <PrimeTextarea
                       id="documentation"
@@ -72,7 +76,7 @@
               <PrimeAccordionTab v-if="currentTable?.relations">
                 <template #header>
                   <h4 class="font-semibold ml-1">
-                    {{ $t('pages.schemaDatasource.properties') }}
+                    {{ $t('locokit.pages.schemaDatasource.properties') }}
                   </h4>
                 </template>
                 <div>WIP</div>
@@ -80,7 +84,7 @@
             </PrimeAccordion>
           </div>
         </PrimeTabPanel>
-        <PrimeTabPanel :header="$t('pages.schemaDatasource.fields')">
+        <PrimeTabPanel :header="$t('locokit.pages.schemaDatasource.fields')">
           <PrimeButton
             v-if="!isCreatingField"
             class="rounded-lck p-button-secondary w-full"
@@ -91,14 +95,14 @@
             >
               <i class="bi bi-plus block font-medium" />
               <p class="pl-1">
-                {{ $t('pages.schemaDatasource.addField') }}
+                {{ $t('locokit.pages.schemaDatasource.addField') }}
               </p>
             </div>
           </PrimeButton>
           <div v-else class="shadow bg-primary-lighten rounded-lck">
             <div class="p-2">
               <h4 class="mb-2">
-                {{ $t('pages.schemaDatasource.createField') }}
+                {{ $t('locokit.pages.schemaDatasource.createField') }}
               </h4>
               <CreateField
                 :fields="currentFields.data"
@@ -119,7 +123,7 @@
                 </template>
                 <FormGeneric
                   class="shadow bg-primary-lighten rounded-lck p-2"
-                  label-tk-button-submit="pages.schemaDatasource.submit"
+                  label-tk-button-submit="locokit.pages.schemaDatasource.submit"
                   :response="error"
                   :loading="loading"
                   @submit="onSubmitFormFields(currentField.id)"
@@ -132,7 +136,11 @@
                     as="div"
                   >
                     <label for="documentation">
-                      {{ $t('pages.schemaDatasource.formField.documentation') }}
+                      {{
+                        $t(
+                          'locokit.pages.schemaDatasource.formField.documentation',
+                        )
+                      }}
                     </label>
                     <PrimeTextarea
                       id="documentation"
@@ -146,7 +154,7 @@
                     as="div"
                   >
                     <label for="type">
-                      {{ $t('pages.schemaDatasource.formField.type') }}
+                      {{ $t('locokit.pages.schemaDatasource.formField.type') }}
                     </label>
                     <PrimeDropdown
                       :model-value="
@@ -188,7 +196,9 @@
                     as="div"
                   >
                     <label for="createdAt">
-                      {{ $t('pages.schemaDatasource.formField.createdAt') }}
+                      {{
+                        $t('locokit.pages.schemaDatasource.formField.createdAt')
+                      }}
                     </label>
                     <PrimeCalendar
                       :model-value="new Date(currentField.createdAt)"
@@ -201,7 +211,9 @@
                     as="div"
                   >
                     <label for="updatedAt">
-                      {{ $t('pages.schemaDatasource.formField.updatedAt') }}
+                      {{
+                        $t('locokit.pages.schemaDatasource.formField.updatedAt')
+                      }}
                     </label>
                     <PrimeCalendar
                       :model-value="new Date(currentField.updatedAt)"
@@ -214,7 +226,9 @@
                     as="div"
                   >
                     <label for="unique">
-                      {{ $t('pages.schemaDatasource.formField.unique') }}
+                      {{
+                        $t('locokit.pages.schemaDatasource.formField.unique')
+                      }}
                     </label>
                     <PrimeCheckbox
                       id="unique"
@@ -230,7 +244,9 @@
                     as="div"
                   >
                     <label for="unique">
-                      {{ $t('pages.schemaDatasource.formField.nullable') }}
+                      {{
+                        $t('locokit.pages.schemaDatasource.formField.nullable')
+                      }}
                     </label>
                     <PrimeCheckbox
                       id="unique"
@@ -260,12 +276,13 @@ import {
   getSchemaDatasource,
 } from '../../../../services/datasource'
 import WithSidebar from '../../../../layouts/WithSidebar.vue'
-import { sdkClient } from '../../../../services/api'
+import { useLocoKitClient } from '../../../../services/api'
 import CreateField from '../CreateField/CreateField.vue'
 import { getFieldIconClass } from '../../../../helpers/field'
 import { reactive, ref, useRoute } from '#imports'
 
 const route = useRoute()
+const sdkClient = useLocoKitClient()
 
 const loading = ref(false)
 const errorDrawDiagram = ref(false)

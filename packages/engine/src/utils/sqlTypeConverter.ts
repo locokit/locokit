@@ -1,7 +1,7 @@
 import { type DB_TYPE } from '@locokit/definitions'
 
 /**
- * Try to convert a SQL Type to a JSON one
+ * Try to convert a SQL Type to a JSON one for AJV
  *
  * @param sqlType String of a db type
  * @returns a default JSON type
@@ -27,9 +27,8 @@ export function getJSONTypeFromSQLType(sqlType: DB_TYPE) {
     case 'character varying':
     case 'text':
     case 'varchar':
-      return 'string'
     case 'date':
-      return 'date'
+      return 'string'
     // geometry
     case 'geometry':
     case 'geography':

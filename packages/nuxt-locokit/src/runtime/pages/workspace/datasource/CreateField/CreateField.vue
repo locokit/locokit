@@ -84,7 +84,9 @@
             <div v-if="slotProps.value" class="flex items-baseline">
               <i :class="slotProps.value.icon" class="mr-2" />
               <span v-if="slotProps.value">
-                {{ $t(`commons.fieldType.${slotProps.value.name}.name`) }}
+                {{
+                  $t(`locokit.commons.fieldType.${slotProps.value.name}.name`)
+                }}
               </span>
             </div>
           </template>
@@ -92,14 +94,16 @@
             <div class="flex items-baseline">
               <i :class="slotProps.option.icon" class="mr-2" />
               <span>
-                {{ $t(`commons.fieldType.${slotProps.option.name}.name`) }}
+                {{
+                  $t(`locokit.commons.fieldType.${slotProps.option.name}.name`)
+                }}
               </span>
             </div>
           </template>
         </PrimeDropdown>
         <div class="flex flex-col">
           <span v-if="type" class="text-sm/7">
-            {{ $t(`commons.fieldType.${type.name}.description`) }}
+            {{ $t(`locokit.commons.fieldType.${type.name}.description`) }}
           </span>
         </div>
       </Field>
@@ -140,14 +144,15 @@ import { ref } from 'vue'
 import { Field } from 'vee-validate'
 import { FormGeneric, MessageForUser } from '@locokit/designsystem'
 import { FIELD_TYPE } from '@locokit/definitions'
-import { sdkClient } from '../../../../services/api'
-import { toSnakeCase } from '@locokit/definitions'
+import { useLocoKitClient } from '../../../../services/api'
+import { createSlug } from '../../../../helpers/transformText'
 import { getFieldIconClass } from '../../../../helpers/field'
 import { computed, useRoute } from '#imports'
 
 defineEmits(['reset'])
 
 const route = useRoute()
+const sdkClient = useLocoKitClient()
 
 const loading = ref(false)
 const error = ref<Error | null>(null)

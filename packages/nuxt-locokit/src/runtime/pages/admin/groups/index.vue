@@ -4,7 +4,7 @@
       class="w-72 px-2 py-4 space-y-2 overflow-y-hidden hover:overflow-y-auto bg-primary-lighten"
     >
       <div class="ml-2">
-        <h2 class="mb-4">{{ $t('pages.adminGroups.title') }}</h2>
+        <h2 class="mb-4">{{ $t('locokit.pages.adminGroups.title') }}</h2>
         <div class="mb-4">
           <NuxtLink :to="{ name: ROUTES_NAMES.ADMIN.GROUPS.CREATE }">
             <PrimeButton class="p-button-rounded p-button-secondary w-full">
@@ -13,7 +13,7 @@
               >
                 <i class="bi bi-plus block font-medium" />
                 <p class="pl-1">
-                  {{ $t('pages.adminGroups.addGroup') }}
+                  {{ $t('locokit.pages.adminGroups.addGroup') }}
                 </p>
               </div>
             </PrimeButton>
@@ -25,7 +25,7 @@
             v-model="wantedGroup"
             class="search-input w-full !mb-4"
             type="text"
-            :placeholder="$t('pages.adminGroups.search')"
+            :placeholder="$t('locokit.pages.adminGroups.search')"
             @input="applySearch"
           />
 
@@ -74,7 +74,7 @@
                 <p class="text-sm">
                   {{
                     t(
-                      'pages.adminGroups.result',
+                      'locokit.pages.adminGroups.result',
                       {
                         elements:
                           groups.limit > groups.data.length
@@ -129,7 +129,7 @@
             </div>
             <MessageForUser v-else-if="error" status="failed" />
             <div v-else>
-              <p>{{ $t('pages.adminGroups.emptyResult') }}</p>
+              <p>{{ $t('locokit.pages.adminGroups.emptyResult') }}</p>
             </div>
           </div>
         </div>
@@ -170,12 +170,12 @@ const error = ref(false)
 const columnsDefinition = [
   {
     slug: 'name',
-    name: `${t('pages.adminGroups.filters.name')}`,
+    name: `${t('locokit.pages.adminGroups.filters.name')}`,
     type: FIELD_TYPE.STRING,
   },
   {
     slug: 'workspace.name',
-    name: `${t('pages.adminGroups.filters.workspace')}`,
+    name: `${t('locokit.pages.adminGroups.filters.workspace')}`,
     type: FIELD_TYPE.STRING,
   },
 ]

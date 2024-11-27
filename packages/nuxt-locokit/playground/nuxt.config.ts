@@ -7,15 +7,18 @@ export default defineNuxtConfig({
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico?v2' }],
     },
   },
+
   runtimeConfig: {
     public: {
       HOME_BACKGROUND_IMAGE_URL: '/theme/default/img/dog.jpg',
       LOGO_MOBILE: '/theme/default/img/logo-mobile-alt.svg',
       ERROR_BACKGROUND_IMAGE_URL: '/theme/default/img/404_bg.svg',
       PROJECT_NAME: 'LocoKit',
-      LOGO_BG_PRIMARY_URL: '/theme/default/img/logo.svg', // can be overridden by NUXT_LOGO_BG_PRIMARY_URL environment variable
+      LOGO_BG_PRIMARY_URL: '/theme/default/img/logo.svg', // can be overridden by NUXT_PUBLIC_LOGO_BG_PRIMARY_URL environment variable
+      LOCOKIT_API: '/api',
     },
   },
+
   modules: [
     [
       '../src/module',
@@ -34,14 +37,19 @@ export default defineNuxtConfig({
       },
     ],
   ],
+
   sourcemap: true,
+
   devtools: {
     enabled: true,
     timeline: {
       enabled: true,
     },
   },
+
   experimental: {
     scanPageMeta: true, // cf https://github.com/nuxt/nuxt/pull/25515
   },
+
+  compatibilityDate: '2024-10-21',
 })

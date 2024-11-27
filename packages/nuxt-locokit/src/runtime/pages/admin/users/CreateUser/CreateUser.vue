@@ -2,11 +2,11 @@
   <div class="max-w-lg lg:h-full mx-auto px-4 lg:px-0 flex flex-col">
     <div class="my-8">
       <h1>
-        {{ $t('pages.createUser.title') }}
+        {{ $t('locokit.pages.createUser.title') }}
       </h1>
     </div>
     <FormGeneric
-      label-tk-button-submit="pages.createUser.submit"
+      label-tk-button-submit="locokit.pages.createUser.submit"
       :response="error"
       :loading="loading"
       color-submit-button="secondary"
@@ -25,7 +25,7 @@
         as="div"
       >
         <label for="username" class="label-field-required">
-          {{ $t('pages.createUser.username') }}
+          {{ $t('locokit.pages.createUser.username') }}
         </label>
         <PrimeInputText
           id="username"
@@ -51,7 +51,7 @@
         as="div"
       >
         <label for="lastName">
-          {{ $t('pages.createUser.lastName') }}
+          {{ $t('locokit.pages.createUser.lastName') }}
         </label>
         <PrimeInputText
           id="lastName"
@@ -67,7 +67,7 @@
         as="div"
       >
         <label for="firstName">
-          {{ $t('pages.createUser.firstName') }}
+          {{ $t('locokit.pages.createUser.firstName') }}
         </label>
         <PrimeInputText
           id="firstName"
@@ -84,7 +84,7 @@
         as="div"
       >
         <label for="email" class="label-field-required">
-          {{ $t('pages.createUser.email') }}
+          {{ $t('locokit.pages.createUser.email') }}
         </label>
         <PrimeInputText
           id="email"
@@ -111,7 +111,7 @@
         as="div"
       >
         <label for="profile" class="label-field-required">
-          {{ $t('pages.createUser.profile') }}
+          {{ $t('locokit.pages.createUser.profile') }}
         </label>
         <PrimeDropdown
           v-bind="{
@@ -127,12 +127,12 @@
         >
           <template #value="slotProps">
             <span v-if="slotProps.value">
-              {{ $t(`pages.createUser.${slotProps.value.name}`) }}
+              {{ $t(`locokit.pages.createUser.${slotProps.value.name}`) }}
             </span>
           </template>
           <template #option="slotProps">
             <span>
-              {{ $t(`pages.createUser.${slotProps.option.name}`) }}
+              {{ $t(`locokit.pages.createUser.${slotProps.option.name}`) }}
             </span>
           </template>
         </PrimeDropdown>
