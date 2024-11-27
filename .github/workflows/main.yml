@@ -9,6 +9,14 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+concurrency:
+  group: >-
+    ${{ github.event_name == 'pull_request'
+      && format('{0}-{1}', github.workflow, github.ref)
+      || format('{0}-{1}', github.workflow, github.run_id)
+    }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
 
   #
