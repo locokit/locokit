@@ -1,0 +1,12 @@
+@import url('bootstrap-icons/font/bootstrap-icons.css');
+
+@layer tailwind-base, primevue, tailwind-utilities;
+
+@layer tailwind-base {
+  @tailwind base;
+}
+
+@layer tailwind-utilities {
+  @tailwind components;
+  @tailwind utilities;
+}

@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.18
+
+* change package name from `@locokit/designsystem` to `@locokit/vue-components`
+* adopt storybook
+* add PrimeVue / TailwindCSS / vue-i18n / bootstrap icons as peer dependencies
+* migration of
+  * **components**
+    * `single-tag` 
+    * `multi-tag` 
+  * **layouts**
+    * `background` 
+
 ## 0.0.17
 
 * migrate from Histoire to Storybook

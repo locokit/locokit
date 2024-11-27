@@ -1,0 +1,49 @@
+{
+  "name": "@locokit/vue-components",
+  "private": true,
+  "version": "0.0.18",
+  "type": "module",
+  "main": "dist/lib.cjs",
+  "module": "dist/lib.js",
+  "types": "dist/lib.d.ts",
+  "scripts": {
+    "dev": "storybook dev -p 6006",
+    "build": "vue-tsc -b && vite build",
+    "build:types": "vue-tsc lib.ts --declaration --emitDeclarationOnly --outDir dist",
+    "build:watch": "vue-tsc -b && vite build --watch",
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "lint": "eslint ./"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^3.2.2",
+    "@locokit/locales": "workspace:^",
+    "@storybook/addon-a11y": "^8.4.5",
+    "@storybook/addon-essentials": "^8.4.5",
+    "@storybook/addon-interactions": "^8.4.5",
+    "@storybook/addon-onboarding": "^8.4.5",
+    "@storybook/blocks": "^8.4.5",
+    "@storybook/test": "^8.4.5",
+    "@storybook/vue3": "^8.4.5",
+    "@storybook/vue3-vite": "^8.4.5",
+    "@vitejs/plugin-vue": "^5.2.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "storybook": "^8.4.5",
+    "typescript": "~5.6.3",
+    "vite": "^5.4.11",
+    "vite-plugin-dts": "^4.3.0",
+    "vue-tsc": "^2.1.10"
+  },
+  "peerDependencies": {
+    "@locokit/definitions": "workspace:^",
+    "@primevue/themes": "^4.2.3",
+    "bootstrap-icons": "^1.11.3",
+    "primevue": "^4.2.3",
+    "tailwindcss": "^3.4.15",
+    "tailwindcss-primeui": "^0.3.4",
+    "vue": "^3.0.0",
+    "vue-i18n": "^10.0.4"
+  }
+}
