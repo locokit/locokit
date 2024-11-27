@@ -116,6 +116,7 @@
         "action": "Action",
         "motif": "Motif",
         "addFilter": "Add a filter",
+        "noFilter": "No filters are applied. Please add at least one and validate.",
         "reset": "Reset",
         "submit": "Validate",
         "select": {
@@ -582,7 +583,7 @@
       "today": "Today",
       "clear": "Clear",
       "dateFormat": "MM/dd/yy",
-      "dateTimeFormat": "MM/dd/yy HH:mm",
+      "dateTimeFormat": "MM/dd/yy",
       "weekHeader": "Wk",
       "weak": "Weak",
       "medium": "Medium",
