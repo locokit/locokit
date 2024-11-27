@@ -1,6 +1,5 @@
 # Changelog
 
-<<<<<<<< HEAD:packages/vue-components/CHANGELOG
 ## 0.0.20
 
 * `commons/generic-form`
@@ -19,8 +18,6 @@
 * fix PrimeVue component transpilation (add to `external` in rollup options)
 * feather weight for this package ! 🪶
 
-========
->>>>>>>> 6d6e2a2a (feat: Add new package vue-components):packages/vue-components/CHANGELOG.md
 ## 0.0.18
 
 * change package name from `@locokit/designsystem` to `@locokit/vue-components`
@@ -28,7 +25,6 @@
 * add PrimeVue / TailwindCSS / vue-i18n / bootstrap icons as peer dependencies
 * migration of
   * **components**
-<<<<<<<< HEAD:packages/vue-components/CHANGELOG
     * `commons/generic-form`
     * `ui/single-tag`
     * `ui/multi-tag`
@@ -36,12 +32,6 @@
     * `auth/lost-password` form
   * **layouts**
     * `background`
-========
-    * `single-tag` 
-    * `multi-tag` 
-  * **layouts**
-    * `background` 
->>>>>>>> 6d6e2a2a (feat: Add new package vue-components):packages/vue-components/CHANGELOG.md
 
 ## 0.0.17
 
