@@ -22,7 +22,19 @@ export default defineConfig({
       name: '@locokit/vue-components', // nom de la bibliothèque
     },
     rollupOptions: {
-      external: ['vue', 'primevue'], // empêcher Vue d'être inclus dans le bundle
+      external: [
+        '@locokit/definitions',
+        '@locokit/locales',
+        '@primevue/forms',
+        '@primevue/themes',
+        'bootstrap-icons',
+        'primeicons',
+        'primevue',
+        'tailwindcss',
+        'tailwindcss-primeui',
+        'vue',
+        'vue-i18n',
+      ], // empêcher Vue d'être inclus dans le bundle
       output: {
         globals: {
           vue: 'Vue',
@@ -32,7 +44,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@': fileURLToPath(new URL('./', import.meta.url)),
     },
   },
 })
