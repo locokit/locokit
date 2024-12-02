@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 
-import LayoutBackground from './background.vue';
+import LayoutBackground from './layout-background.vue';
 import PrimeCard from 'primevue/card'
 
 const meta: Meta<typeof LayoutBackground> = {

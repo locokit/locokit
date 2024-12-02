@@ -16,12 +16,12 @@ const config: StorybookConfig = {
     getAbsolutePath('@storybook/addon-essentials'),
     getAbsolutePath('@chromatic-com/storybook'),
     getAbsolutePath('@storybook/addon-interactions'),
-    getAbsolutePath("@storybook/addon-a11y")
+    getAbsolutePath('@storybook/addon-a11y'),
   ],
   framework: {
     name: getAbsolutePath('@storybook/vue3-vite'),
     options: {},
   },
-  staticDirs: ['public']
+  staticDirs: ['public'],
 }
 export default config

@@ -7,10 +7,13 @@
 * add PrimeVue / TailwindCSS / vue-i18n / bootstrap icons as peer dependencies
 * migration of
   * **components**
-    * `single-tag` 
-    * `multi-tag` 
+    * `commons/generic-form`
+    * `ui/single-tag`
+    * `ui/multi-tag`
+    * `auth/sign-in` form
+    * `auth/lost-password` form
   * **layouts**
-    * `background` 
+    * `background`
 
 ## 0.0.17
 

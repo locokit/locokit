@@ -50,7 +50,8 @@
         "signup": "Sign up"
       },
       "formGeneric": {
-        "save": "Save",
+        "submit": "Save",
+        "cancel": "Cancel",
         "reset": "Reset",
         "delete": "Delete"
       },

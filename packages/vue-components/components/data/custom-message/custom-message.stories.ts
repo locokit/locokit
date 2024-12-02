@@ -22,9 +22,3 @@ export const Default: Story = {
     `,
   }),
 }
-
-// <docs lang="md">
-// ### CustomMessage
-
-// Allows you to display a message to the user to warn them of a failed or successful action.
-// </docs>

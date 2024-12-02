@@ -1,9 +1,10 @@
+import { TAILWIND_COLORS } from '@locokit/definitions'
+import Aura from '@primevue/themes/aura'
 import type { Preview } from '@storybook/vue3'
-import './index.css'
 import { setup } from '@storybook/vue3'
 import PrimeVue from 'primevue/config'
-import Aura from '@primevue/themes/aura'
-import { TAILWIND_COLORS } from '@locokit/definitions'
+import ToastService from 'primevue/toastservice'
+import './index.css'
 
 import { definePreset } from '@primevue/themes'
 import { createI18n } from 'vue-i18n'
@@ -50,6 +51,7 @@ setup((app) => {
       },
     },
   })
+  app.use(ToastService)
   app.use(i18n)
 })
 

@@ -28,6 +28,8 @@
 </template>
 
 <script setup lang="ts">
+import { Slot } from 'vue';
+
 const props = defineProps<{
   /**
    * The background image displayed
@@ -47,6 +49,6 @@ defineSlots<{
    *
    * Will be displayed under the logo if any.
    */
-  default: any
+  default: Slot
 }>()
 </script>

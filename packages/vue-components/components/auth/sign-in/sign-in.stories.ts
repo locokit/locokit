@@ -1,5 +1,5 @@
-import SignIn from './sign-in.vue'
 import type { Meta } from '@storybook/vue3'
+import SignIn from './sign-in.vue'
 
 const meta: Meta<typeof SignIn> = {
   title: 'components/auth/sign-in',
@@ -17,24 +17,23 @@ export const Loading = {
     loading: true,
   },
 }
+
 export const SignUpEnabled = {
   args: {
     displaySignUpLink: true,
     signupRoute: '/sign-up',
   },
 }
-export const ErrorFromServer = {
+
+export const ForgottenPasswordEnabled = {
   args: {
-    error: {
-      name: 'NotAuthenticated',
-    },
+    displayLostPasswordLink: true,
+    lostPasswordRoute: '/lost-password',
   },
 }
 
-// <docs lang="md">
-// ### sign-in
-
-// Form which allow an user to sign in if his account is already created.
-
-// Allow also to access the lost password form or to access the registration form.
-// </docs>
+export const ErrorFromServer = {
+  args: {
+    error: 'User is not authenticated.',
+  },
+}

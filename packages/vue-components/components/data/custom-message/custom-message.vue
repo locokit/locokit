@@ -16,7 +16,7 @@
     </div>
   </div>
   <div
-    v-if="status === 'success'"
+    v-else-if="status === 'success'"
     class="my-4 bg-success-100 border-l-success-500 border-l-4 p-1.5 flex"
   >
     <i class="mx-2 bi bi-check2 self-center text-success-500" />
@@ -24,6 +24,7 @@
       {{ t(props.customMsgTkSuccessForm) }}
     </p>
   </div>
+  <div v-else>This component need at least a status prop.</div>
 </template>
 
 <script setup lang="ts">

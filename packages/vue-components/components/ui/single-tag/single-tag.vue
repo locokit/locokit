@@ -6,7 +6,7 @@
     }"
     :style="{
       color,
-      backgroundColor
+      backgroundColor,
     }"
   >
     <span class="line-clamp-1">

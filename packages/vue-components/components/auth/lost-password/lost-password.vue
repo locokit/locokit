@@ -20,14 +20,10 @@
       </template>
     </generic-form>
 
-    <div class="mt-4 pl-6 flex justify-center">
-      <a v-if="displaySignUpLink" :href="signupRoute" class="w-fit text-md">
-        {{ t('locokit.components.signInForm.signUp') }}
-      </a>
-    </div>
-    <div class="mt-4 pl-6 flex justify-center">
-      <a v-if="displayLostPasswordLink" :href="lostPasswordRoute" class="w-fit text-md">
-        {{ t('locokit.components.signInForm.forgottenPassword') }}
+    <div class="mt-4 text-center">
+      {{ $t('locokit.components.lostPasswordForm.signInHelp') }}
+      <a class :href="signInRoute">
+        {{ $t('locokit.components.lostPasswordForm.signIn') }}
       </a>
     </div>
   </div>
@@ -42,24 +38,18 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const emit = defineEmits<(e: 'submit', form: { email: string; password: string }) => void>()
+const emit = defineEmits<(e: 'submit', email: string) => void>()
 
 withDefaults(
   defineProps<{
     loading?: boolean
     error?: Error | null
-    displaySignUpLink?: boolean
-    signupRoute?: string
-    displayLostPasswordLink: boolean
-    lostPasswordRoute?: string
+    signInRoute: string
   }>(),
   {
     loading: false,
     error: null,
-    displaySignUpLink: false,
-    signupRoute: '',
-    displayLostPasswordLink: false,
-    lostPasswordRoute: '',
+    signInRoute: '/',
   },
 )
 
@@ -67,27 +57,17 @@ const fields = computed<LocoKitField[]>(() => {
   return [
     {
       id: 'email',
-      label: t('locokit.components.signInForm.email'),
+      label: t('locokit.components.lostPasswordForm.email'),
       type: FIELD_TYPE.EMAIL,
       component: FIELD_COMPONENT.INPUT_EMAIL,
       validationRules: {
         required: true,
       },
     },
-    {
-      id: 'password',
-      label: t('locokit.components.signInForm.password'),
-      type: FIELD_TYPE.STRING,
-      component: FIELD_COMPONENT.INPUT_PASSWORD,
-      validationRules: {
-        required: true,
-        minLength: 8,
-      },
-    },
   ]
 })
 
 const onSubmit = (values: Record<string, unknown>) => {
-  emit('submit', values as { email: string; password: string })
+  emit('submit', values.email as string)
 }
 </script>
