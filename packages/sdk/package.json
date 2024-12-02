@@ -13,8 +13,8 @@
     "dev": "cd ../../api && pnpm run client:bundle:watch"
   },
   "dependencies": {
-    "@locokit/definitions": "workspace:*",
-    "@feathersjs/authentication-client": "^5.0.6",
-    "@feathersjs/feathers": "^5.0.6"
+    "@feathersjs/authentication-client": "^5.0.10",
+    "@feathersjs/feathers": "^5.0.10",
+    "@locokit/definitions": "workspace:*"
   }
 }

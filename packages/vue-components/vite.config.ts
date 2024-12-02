@@ -22,6 +22,7 @@ export default defineConfig({
       name: '@locokit/vue-components', // nom de la bibliothèque
     },
     rollupOptions: {
+      // disable the fact that these libraries are transpiled inside the package
       external: [
         '@locokit/definitions',
         '@locokit/locales',
@@ -30,21 +31,27 @@ export default defineConfig({
         'bootstrap-icons',
         'primeicons',
         'primevue',
+        'primevue/button',
+        'primevue/card',
+        'primevue/inputtext',
+        'primevue/message',
+        'primevue/password',
         'tailwindcss',
         'tailwindcss-primeui',
         'vue',
         'vue-i18n',
-      ], // empêcher Vue d'être inclus dans le bundle
+      ],
+
       output: {
         globals: {
           vue: 'Vue',
+          // primevue: 'PrimeVue',
+          'primevue/button': 'PrimeButton',
+          'primevue/inputtext': 'PrimeInputText',
+          'primevue/password': 'PrimePassword',
+          'primevue/message': 'PrimeMessage',
         },
       },
-    },
-  },
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./', import.meta.url)),
     },
   },
 })

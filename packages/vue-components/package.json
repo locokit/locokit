@@ -1,11 +1,16 @@
 {
   "name": "@locokit/vue-components",
-  "private": true,
   "version": "0.0.18",
+  "description": "LocoKit VueJS components library",
+  "author": "Mathieu Dartigues",
+  "license": "MIT",
   "type": "module",
   "main": "dist/lib.cjs",
   "module": "dist/lib.js",
   "types": "dist/lib.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "storybook dev -p 6006",
     "build": "vue-tsc -b && vite build",
