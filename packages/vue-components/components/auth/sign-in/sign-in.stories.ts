@@ -21,7 +21,7 @@ export const Loading = {
 export const SignUpEnabled = {
   args: {
     displaySignUpLink: true,
-    signupRoute: '/sign-up',
+    signUpRoute: '/sign-up',
   },
 }
 
