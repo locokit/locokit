@@ -6,7 +6,7 @@
     }"
   >
     <div class="flex-grow max-w-2xl">
-      <a v-if="props.logoImageUrl" class="text-center" :href="props.logoImageHref">
+      <a v-if="props.logoImageUrl" class="text-center" :href="props.logoLinkUrl">
         <img
           alt="logo"
           class="mb-4 mx-auto max-w-full"
@@ -35,7 +35,7 @@ const props = defineProps<{
    * A logo displayed, center aligned
    */
   logoImageUrl?: string
-  logoImageHref?: string
+  logoLinkUrl?: string
   textBottomRight?: string
 }>()
 

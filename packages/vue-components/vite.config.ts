@@ -17,8 +17,8 @@ export default defineConfig({
     lib: {
       entry: {
         lib: path.resolve(__dirname, './lib.ts'),
-      }, // fichier d'entrée
-      name: '@locokit/vue-components', // nom de la bibliothèque
+      },
+      name: '@locokit/vue-components',
     },
     rollupOptions: {
       // disable the fact that these libraries are transpiled inside the package
@@ -29,6 +29,10 @@ export default defineConfig({
         '@primevue/themes',
         'bootstrap-icons',
         'primeicons',
+        /**
+         * All components used in the vue-components package
+         * have to be here, to avoid to be transpiled in the build
+         */
         'primevue',
         'primevue/button',
         'primevue/card',

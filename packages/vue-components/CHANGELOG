@@ -10,6 +10,8 @@
   * set `signInRoute` prop as optional
 * `auth/sign-in`
   * set `displayLostPasswordLink` prop as optional
+* `layouts-background`
+  * prop `logoImageHref` become `logoLinkUrl`
 
 ## 0.0.19
 

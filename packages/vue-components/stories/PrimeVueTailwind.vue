@@ -1,4 +1,4 @@
-;<template>
+<template>
   <div class="m-2">
     <h1 class="text-4xl underline font-medium my-4">Semantic colors</h1>
 
