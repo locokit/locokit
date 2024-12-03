@@ -41,7 +41,7 @@ This library use `vue-i18n` and the `t` function for translation purpose.
 
 This library use `primevue` components.
 
-And so your project need it too.
+And so your project needs it too.
 
 See https://primevue.org/vite/ for further information.
 
