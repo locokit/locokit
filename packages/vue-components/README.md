@@ -2,8 +2,8 @@
 
 This repository holds VueJS components.
 
-Those components are used in the LocoKit back office application,
-and can also be used for front office applications.
+Those components are used in the LocoKit back-office application,
+and can also be used for front-office applications.
 
 The storybook of this library is available here :
 
