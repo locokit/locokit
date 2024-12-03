@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.0.20
+
+* `commons/generic-form`
+  * remove feedback for PrimePassword component
+  * add toggleMask
+  * fix issue with `FormSubmitEvent`, that doesn't send the `values` property
+* `auth/lost-password`
+  * set `signInRoute` prop as optional
+* `auth/sign-in`
+  * set `displayLostPasswordLink` prop as optional
+
+## 0.0.19
+
+* fix PrimeVue component transpilation (add to `external` in rollup options)
+* feather weight for this package ! 🪶
+
 ## 0.0.18
 
 * change package name from `@locokit/designsystem` to `@locokit/vue-components`

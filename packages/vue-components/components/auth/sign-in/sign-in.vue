@@ -50,7 +50,7 @@ withDefaults(
     error?: Error | null
     displaySignUpLink?: boolean
     signupRoute?: string
-    displayLostPasswordLink: boolean
+    displayLostPasswordLink?: boolean
     lostPasswordRoute?: string
   }>(),
   {

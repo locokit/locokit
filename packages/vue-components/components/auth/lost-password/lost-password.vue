@@ -44,7 +44,7 @@ withDefaults(
   defineProps<{
     loading?: boolean
     error?: Error | null
-    signInRoute: string
+    signInRoute?: string
   }>(),
   {
     loading: false,

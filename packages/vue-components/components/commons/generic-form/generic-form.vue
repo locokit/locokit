@@ -38,6 +38,8 @@
               :name="f.id"
               :class="f.class"
               fluid
+              toggleMask
+              :feedback="false"
             />
             <PrimeMessage severity="error" v-else>
               Component {{ f.component }} is not yet implemented.
@@ -180,7 +182,12 @@ const resolver = ({ values }: FormResolverOptions) => {
   }
 }
 
-const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
+const onFormSubmit = ({ valid, states }: FormSubmitEvent) => {
+  const values = {}
+  Object.keys(states).forEach((stateKey) => {
+    values[stateKey] = states[stateKey].value
+  })
+
   if (valid) emit('submit', values)
 }
 </script>

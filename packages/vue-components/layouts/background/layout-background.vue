@@ -6,14 +6,10 @@
     }"
   >
     <div class="flex-grow max-w-2xl">
-      <a
-        v-if="props.logoImageUrl"
-        class="text-center"
-        :href="props.logoImageHref"
-      >
+      <a v-if="props.logoImageUrl" class="text-center" :href="props.logoImageHref">
         <img
           alt="logo"
-          class="mb-4 mx-auto max-w-full "
+          class="mb-4 mx-auto max-w-full"
           :src="props.logoImageUrl"
           aria-hidden="true"
         />
@@ -28,19 +24,19 @@
 </template>
 
 <script setup lang="ts">
-import { Slot } from 'vue';
+import { Slot } from 'vue'
 
 const props = defineProps<{
   /**
    * The background image displayed
    */
-  backgroundImageUrl?: string,
+  backgroundImageUrl?: string
   /**
    * A logo displayed, center aligned
    */
-  logoImageUrl?: string,
-  logoImageHref?: string,
-  textBottomRight?: string,
+  logoImageUrl?: string
+  logoImageHref?: string
+  textBottomRight?: string
 }>()
 
 defineSlots<{
