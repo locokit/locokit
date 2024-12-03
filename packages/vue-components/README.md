@@ -52,7 +52,7 @@ as it is not bundled in the `vue-components` package.
 
 Please see https://tailwindcss.com/docs/guides/vite#vue for an installation process.
 
-You can add somes configuration in your `tailwind.config.{ts,js}` file :
+You can add some configurations in your `tailwind.config.{ts,js}` file:
 
 ```js
 /** @type {import('tailwindcss').Config} */
