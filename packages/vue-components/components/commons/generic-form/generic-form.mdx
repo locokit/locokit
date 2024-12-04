@@ -1,0 +1,53 @@
+import { Canvas, Controls, Meta } from '@storybook/blocks'
+
+import * as GenericFormStories from './generic-form.stories'
+
+<Meta of={GenericFormStories} />
+
+# Generic form
+
+The generic form is a form wrapper.
+
+It allows you to display an homogeneous form through the application,
+with a detailed fields configuration.
+
+It propose also basic actions like submit or cancel buttons.
+
+Each field is a set of properties :
+
+```ts
+export type LocoKitFormFieldRule =
+  | {
+      fieldId: string
+      operator: '$eq'
+      value: string | number
+    }
+  | {
+      fieldId: string
+      operator: '$in'
+      value: string[] | number[]
+    }
+
+export type LocoKitFormField = {
+  id: string
+  label: string
+  type: keyof typeof FIELD_TYPE
+  component: keyof typeof FIELD_COMPONENT
+  validationRules?: {
+    required?: boolean
+    requiredIf?: {
+      rules: LocoKitFormFieldRule[]
+    }
+    minLength?: number
+    maxLength?: number
+  }
+  conditionalDisplay?: {
+    enabled: boolean
+    rules: LocoKitFormFieldRule[]
+  }
+}
+```
+
+<Canvas of={GenericFormStories.Default} />
+
+<Controls />

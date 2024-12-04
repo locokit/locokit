@@ -1,7 +1,16 @@
-export { FIELD_TYPE, type DB_TYPE, type DB_DIALECT, convertDBTypeToFieldType } from './fieldType'
-export { SERVICES } from './services'
 export * from './diff'
 export * from './diff/typebox'
+export {
+  FIELD_COMPONENT,
+  FIELD_TYPE,
+  convertDBTypeToFieldType,
+  type DB_DIALECT,
+  type DB_TYPE,
+  type LocoKitFormField,
+  type LocoKitFormFieldRule,
+} from './fieldType'
+export { COLOR_SCHEME, TAILWIND_COLORS } from './helpers/color'
+export { SERVICES } from './services'
 
 export const USER_PROFILE = Object.freeze({
   MEMBER: 'MEMBER',

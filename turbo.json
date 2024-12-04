@@ -6,7 +6,7 @@
       // dependencies and devDependencies
       // `build` tasks  being completed first
       // (the `^` symbol signifies `upstream`).
-      "dependsOn": ["^build", "nuxt:prepare", "nuxt:build"],
+      "dependsOn": ["^build"],
       // note: output globs are relative to each package's `package.json`
       // (and not the monorepo root)
       "outputs": ["dist/**", ".output/**"]
@@ -22,14 +22,8 @@
     // A package's `lint` script has no dependencies and
     // can be run whenever. It also has no filesystem outputs.
     "lint": {},
-    "nuxt:prepare": {
-      "dependsOn": ["^build"]
-    },
-    "nuxt:build": {
-      "dependsOn": ["^build", "nuxt:prepare"]
-    },
     "dev": {
-      "dependsOn": ["^build", "nuxt:prepare"],
+      "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
     }

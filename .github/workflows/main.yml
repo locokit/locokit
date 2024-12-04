@@ -21,7 +21,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: packages/i18n
+        working-directory: packages/locales
 
     steps:
       - uses: actions/checkout@v3

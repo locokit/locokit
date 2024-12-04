@@ -1,7 +1,7 @@
 import { createI18n } from 'vue-i18n'
 
-import en from '@locokit/i18n/en.json'
-import fr from '@locokit/i18n/fr.json'
+import en from '@locokit/locales/en.json'
+import fr from '@locokit/locales/fr.json'
 
 export const i18n = createI18n({
   legacy: false,

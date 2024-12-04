@@ -1,0 +1,17 @@
+import { Canvas, Meta, Controls } from '@storybook/blocks';
+ 
+import * as LayoutBackgroundStories from './layout-background.stories';
+ 
+<Meta of={LayoutBackgroundStories} />
+ 
+# Background layout
+
+The background layout allows us to define a background image,
+a logo image, and links.
+
+A text can also be displayed in the bottom right with the `text-bottom-right` prop,
+useful for versioning control.
+ 
+<Canvas of={LayoutBackgroundStories.WithImageLogoAndSlot} />
+
+<Controls />

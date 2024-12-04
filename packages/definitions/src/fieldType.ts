@@ -35,6 +35,7 @@ export const FIELD_TYPE = Object.freeze({
   DATETIME: 'DATETIME',
 
   UUID: 'UUID',
+  EMAIL: 'EMAIL',
 
   /**
    * Users / groups
@@ -77,6 +78,21 @@ export const FIELD_TYPE = Object.freeze({
   GEOMETRY_MULTIPOINT: 'GEOMETRY_MULTIPOINT',
   GEOMETRY_MULTIPOLYGON: 'GEOMETRY_MULTIPOLYGON',
   GEOMETRY_MULTILINESTRING: 'GEOMETRY_MULTILINESTRING',
+})
+
+/**
+ * Component to use for a field
+ */
+export const FIELD_COMPONENT = Object.freeze({
+  INPUT_CURRENCY: 'INPUT_CURRENCY',
+  INPUT_DATE: 'INPUT_DATE',
+  INPUT_DATETIME: 'INPUT_DATETIME',
+  INPUT_EMAIL: 'INPUT_EMAIL',
+  INPUT_FLOAT: 'INPUT_FLOAT',
+  INPUT_NUMBER: 'INPUT_NUMBER',
+  INPUT_PASSWORD: 'INPUT_PASSWORD',
+  INPUT_TEXT: 'INPUT_TEXT',
+  INPUT_UUID: 'INPUT_UUID',
 })
 
 export type DB_TYPE = pgDbTypes | sqliteDbTypes
@@ -195,4 +211,62 @@ export function convertDBTypeToFieldType(
   }
 
   throw new Error(`No matching found for dialect ${dbDialect} and type ${dbType}`)
+}
+
+export type LocoKitFormFieldRule =
+  | {
+      fieldId: string
+      operator: '$eq'
+      value: string | number
+    }
+  | {
+      fieldId: string
+      operator: '$in'
+      value: string[] | number[]
+    }
+
+export type LocoKitFormField = {
+  /**
+   * Id allowing the form to have unique input ids,
+   * ideal for accessibility / label purposes.
+   */
+  id: string
+  /**
+   * Label displayed near the input field
+   */
+  label: string
+  /**
+   * Class to apply on the input field
+   */
+  class?: string
+  /**
+   * What type of data this field is
+   */
+  type: keyof typeof FIELD_TYPE
+  /**
+   * Which component to use for display and input purpose
+   */
+  component: keyof typeof FIELD_COMPONENT
+  /**
+   * Validation rules to specify if a field's value is OK
+   */
+  validationRules?: {
+    required?: boolean
+    requiredIf?: {
+      rules: LocoKitFormFieldRule[]
+    }
+    minLength?: number
+    maxLength?: number
+  }
+  /**
+   * Conditional display of the field,
+   * with dedicated rules for displaying it.
+   *
+   * If it's not displayed,
+   * it's not taken in consideration during the form validation process.
+   */
+  conditionalDisplay?: {
+    enabled: boolean
+    rules: LocoKitFormFieldRule[]
+  }
 }
