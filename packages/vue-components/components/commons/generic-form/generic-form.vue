@@ -1,13 +1,10 @@
 <template>
-  <PrimeMessage v-if="fields.length === 0" severity="error">
-    No fields to display. Please configure correctly your form.
-  </PrimeMessage>
   <!--
     The actual slot of the PrimeForm is the states property...
     TODO: fix it when PrimeVue will fix this bug
     => typing is false for the template
    -->
-  <PrimeForm v-slot="states" :resolver @submit="onFormSubmit" v-else>
+  <PrimeForm v-slot="states" :resolver @submit="onFormSubmit">
     <slot>
       <div class="flex flex-col gap-1">
         <template v-for="f in fieldsDisplayed(states).value" :key="f.id">
