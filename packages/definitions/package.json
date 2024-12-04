@@ -1,7 +1,7 @@
 {
   "name": "@locokit/definitions",
   "version": "0.0.3",
-  "description": "LocoKit utils, definitions, helpers...",
+  "description": "LocoKit definitions, utilities, helpers...",
   "author": "Mathieu Dartigues",
   "license": "MIT",
   "main": "dist/index.js",
