@@ -18,13 +18,20 @@
   },
   "dependencies": {
     "@locokit/definitions": "workspace:^",
+    "@locokit/locales": "workspace:^",
     "@locokit/vue-components": "workspace:^",
-    "@primevue/themes": "^4.2.3",
-    "pinia": "^2.2.6",
-    "primevue": "^4.2.3",
+    "@primevue/themes": "^4.2.4",
+    "@primevue/forms": "^4.2.4",
+    "bootstrap-icons": "^1.11.3",
+    "primeicons": "^7.0.0",
+    "tailwindcss": "^3.4.15",
+    "tailwindcss-primeui": "^0.3.4",
+    "pinia": "^2.2.8",
+    "primevue": "^4.2.4",
     "unplugin-vue-router": "^0.10.8",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.0"
+    "vue-router": "^4.5.0",
+    "vue-i18n": "^10.0.5"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.0",
