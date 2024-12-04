@@ -6,8 +6,8 @@ export {
   convertDBTypeToFieldType,
   type DB_DIALECT,
   type DB_TYPE,
-  type LocoKitField,
-  type LocoKitFieldRule,
+  type LocoKitFormField,
+  type LocoKitFormFieldRule,
 } from './fieldType'
 export { COLOR_SCHEME, TAILWIND_COLORS } from './helpers/color'
 export { SERVICES } from './services'

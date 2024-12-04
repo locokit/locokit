@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import GenericForm from '../../commons/generic-form/generic-form.vue'
-import { FIELD_COMPONENT, FIELD_TYPE, type LocoKitField } from '@locokit/definitions'
+import { FIELD_COMPONENT, FIELD_TYPE, type LocoKitFormField } from '@locokit/definitions'
 import PrimeMessage from 'primevue/message'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -53,7 +53,7 @@ withDefaults(
   },
 )
 
-const fields = computed<LocoKitField[]>(() => {
+const fields = computed<LocoKitFormField[]>(() => {
   return [
     {
       id: 'email',

@@ -89,7 +89,7 @@ import {
   Form as PrimeForm,
 } from '@primevue/forms'
 
-import { FIELD_COMPONENT, type LocoKitField } from '@locokit/definitions'
+import { FIELD_COMPONENT, type LocoKitFormField } from '@locokit/definitions'
 
 import PrimeButton from 'primevue/button'
 import PrimeInputText from 'primevue/inputtext'
@@ -104,7 +104,7 @@ const emit = defineEmits<(e: 'submit', values: Record<string, unknown>) => void>
 
 const props = withDefaults(
   defineProps<{
-    fields: LocoKitField[]
+    fields: LocoKitFormField[]
     loading?: boolean
     buttons?: {
       submit: boolean
@@ -139,7 +139,7 @@ const buttonLabels = computed(() => {
 
 const fieldsDisplayed = (state: Record<string, FormFieldState>) =>
   computed(() => {
-    const result: LocoKitField[] = []
+    const result: LocoKitFormField[] = []
     props.fields.forEach((f) => {
       let isDisplayed = true
       if (f.conditionalDisplay?.enabled) {

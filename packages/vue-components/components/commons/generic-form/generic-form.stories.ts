@@ -1,4 +1,4 @@
-import { FIELD_COMPONENT, FIELD_TYPE, LocoKitField } from '@locokit/definitions'
+import { FIELD_COMPONENT, FIELD_TYPE, LocoKitFormField } from '@locokit/definitions'
 import { expect, userEvent, within } from '@storybook/test'
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
@@ -21,7 +21,7 @@ export const WithFields: Story = {
   name: 'with fields',
   render: () => ({
     setup() {
-      const fields: LocoKitField[] = [
+      const fields: LocoKitFormField[] = [
         {
           id: 'name',
           label: 'Name (text center aligned)',
@@ -57,7 +57,7 @@ export const WithFieldsLoading: Story = {
   name: 'loading, with fields',
   render: () => ({
     setup() {
-      const fields: LocoKitField[] = [
+      const fields: LocoKitFormField[] = [
         {
           id: 'name',
           label: 'Name (text center aligned)',
@@ -95,7 +95,7 @@ export const WithValidationErrors: Story = {
   name: 'with validation errors',
   render: () => ({
     setup() {
-      const fields: LocoKitField[] = [
+      const fields: LocoKitFormField[] = [
         {
           id: 'name',
           label: 'Name (text center aligned)',

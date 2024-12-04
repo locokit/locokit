@@ -213,7 +213,7 @@ export function convertDBTypeToFieldType(
   throw new Error(`No matching found for dialect ${dbDialect} and type ${dbType}`)
 }
 
-export type LocoKitFieldRule =
+export type LocoKitFormFieldRule =
   | {
       fieldId: string
       operator: '$eq'
@@ -225,7 +225,7 @@ export type LocoKitFieldRule =
       value: string[] | number[]
     }
 
-export type LocoKitField = {
+export type LocoKitFormField = {
   /**
    * Id allowing the form to have unique input ids,
    * ideal for accessibility / label purposes.
@@ -253,7 +253,7 @@ export type LocoKitField = {
   validationRules?: {
     required?: boolean
     requiredIf?: {
-      rules: LocoKitFieldRule[]
+      rules: LocoKitFormFieldRule[]
     }
     minLength?: number
     maxLength?: number
@@ -267,6 +267,6 @@ export type LocoKitField = {
    */
   conditionalDisplay?: {
     enabled: boolean
-    rules: LocoKitFieldRule[]
+    rules: LocoKitFormFieldRule[]
   }
 }

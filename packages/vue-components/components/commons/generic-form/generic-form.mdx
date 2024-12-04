@@ -16,7 +16,7 @@ It propose also basic actions like submit or cancel buttons.
 Each field is a set of properties :
 
 ```ts
-export type LocoKitFieldRule =
+export type LocoKitFormFieldRule =
   | {
       fieldId: string
       operator: '$eq'
@@ -28,7 +28,7 @@ export type LocoKitFieldRule =
       value: string[] | number[]
     }
 
-export type LocoKitField = {
+export type LocoKitFormField = {
   id: string
   label: string
   type: keyof typeof FIELD_TYPE
@@ -36,14 +36,14 @@ export type LocoKitField = {
   validationRules?: {
     required?: boolean
     requiredIf?: {
-      rules: LocoKitFieldRule[]
+      rules: LocoKitFormFieldRule[]
     }
     minLength?: number
     maxLength?: number
   }
   conditionalDisplay?: {
     enabled: boolean
-    rules: LocoKitFieldRule[]
+    rules: LocoKitFormFieldRule[]
   }
 }
 ```
