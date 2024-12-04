@@ -34,7 +34,7 @@ export const WithFields: Story = {
         },
         {
           id: 'pseudo',
-          label: 'Pseudo (text righ aligned)',
+          label: 'Pseudo (text right aligned)',
           type: FIELD_TYPE.STRING,
           class: 'text-right',
           component: FIELD_COMPONENT.INPUT_TEXT,
@@ -70,7 +70,7 @@ export const WithFieldsLoading: Story = {
         },
         {
           id: 'pseudo',
-          label: 'Pseudo (text righ aligned)',
+          label: 'Pseudo (text right aligned)',
           type: FIELD_TYPE.STRING,
           class: 'text-right',
           component: FIELD_COMPONENT.INPUT_TEXT,
@@ -108,7 +108,7 @@ export const WithValidationErrors: Story = {
         },
         {
           id: 'pseudo',
-          label: 'Pseudo (text righ aligned)',
+          label: 'Pseudo (text right aligned)',
           type: FIELD_TYPE.STRING,
           class: 'text-right',
           component: FIELD_COMPONENT.INPUT_TEXT,
