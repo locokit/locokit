@@ -12,7 +12,22 @@
     <div id="app" class="h-full"></div>
     <script type="module" src="/src/main.ts"></script>
     <script>
-      const LOCOKIT_ENV = 'dev'
+      const LCK_SETTINGS = {
+        // the URL of LocoKit API
+        API_URL: '%VITE_API_URL%',
+        // the auth token of the current logged user
+        LOCALSTORAGE_KEY_AUTH_TOKEN: '%VITE_LOCALSTORAGE_KEY_AUTH_TOKEN%',
+        // the auth user data
+        LOCALSTORAGE_KEY_AUTH_USER: '%VITE_LOCALSTORAGE_KEY_AUTH_USER%',
+
+        SENTRY_DSN: '%VITE_SENTRY_DSN%',
+        SENTRY_ENV: '%VITE_SENTRY_ENV%',
+        /**
+         * URL for attachments.
+         * Generally a prefix like '/storage' or a full URL like 'https://locokit.io/storage'
+         */
+        STORAGE_URL: '%VITE_STORAGE_URL%',
+      }
     </script>
   </body>
 </html>
