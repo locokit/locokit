@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 import { describe, beforeAll, afterAll, afterEach, it, expect, vi } from 'vitest'
 
 import { Paginated } from '@feathersjs/feathers'

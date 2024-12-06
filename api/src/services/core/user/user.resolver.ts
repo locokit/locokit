@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { resolve, Resolver } from '@feathersjs/schema'
 import { passwordHash } from '@feathersjs/authentication-local'
 import type { HookContext, stringNumberUndefined } from '@/declarations'

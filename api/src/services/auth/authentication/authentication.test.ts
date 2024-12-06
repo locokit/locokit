@@ -46,7 +46,7 @@ describe('authentication', () => {
           authenticated: true,
         },
       )
-    } catch (error) {
+    } catch {
       // Do nothing, it just means the user already exists and can be tested
     }
   })
