@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import { Application } from '@/declarations'
 import ejs from 'ejs'
 import path from 'path'

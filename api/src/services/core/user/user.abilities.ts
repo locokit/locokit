@@ -1,4 +1,3 @@
-/* eslint-disable no-duplicate-case */
 import { USER_PROFILE } from '@locokit/definitions'
 
 import { AppAbility, resolveAction } from '../../../abilities/definitions'

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/consistent-type-assertions */
-/* eslint-disable @typescript-eslint/no-floating-promises */
 import { Id, NullableId, Paginated, Query } from '@feathersjs/feathers'
 import {
   RelationExpression,
@@ -789,7 +787,6 @@ export class ObjectionAdapter<
     const data =
       filters.$limit === 0 ? [] : ((await builder.catch(errorHandler)) as unknown as Result[])
 
-    // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
     if (paginate && paginate?.default) {
       /**
        * If the table has a composite key, prefer count all lines with '*'

@@ -20,6 +20,7 @@ module.exports = {
     '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/no-unnecessary-type-assertion': 'off',
     '@typescript-eslint/no-empty-interface': 'off',
+    '@typescript-eslint/no-empty-object-type': 'off',
     'no-case-declarations': 'off',
     'prettier/prettier': 'error',
     '@typescript-eslint/explicit-function-return-type': 'off',

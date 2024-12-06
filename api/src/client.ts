@@ -9,6 +9,7 @@ import authenticationClient from '@feathersjs/authentication-client'
 import type { AuthenticationClientOptions } from '@feathersjs/authentication-client'
 
 import { signupClient } from './services/auth/signup/signup.shared'
+import './services/auth/authentication/authentication.shared'
 import { authManagementClient } from './services/auth/authmanagement/authmanagement.shared'
 
 import { userClient } from './services/core/user/user.shared'
@@ -50,8 +51,6 @@ export type {
 export interface Configuration {
   connection: TransportConnection<ServiceTypes>
 }
-
-export interface ServiceTypes {}
 
 export type ClientApplication = Application<ServiceTypes, Configuration>
 
