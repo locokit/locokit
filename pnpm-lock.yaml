@@ -161,7 +161,7 @@ importers:
         version: 6.9.13
       objection:
         specifier: ^3.1.5
-        version: 3.1.5(knex@3.1.0(pg@8.12.0)(sqlite3@5.1.7))
+        version: 3.1.5(knex@3.1.0)
       password-generator:
         specifier: ^2.3.2
         version: 2.3.2
@@ -467,7 +467,7 @@ importers:
         version: 3.1.0(pg@8.12.0)(sqlite3@5.1.7)
       objection:
         specifier: ^3.1.5
-        version: 3.1.5(knex@3.1.0(pg@8.12.0)(sqlite3@5.1.7))
+        version: 3.1.5(knex@3.1.0)
       winston:
         specifier: ^3.13.0
         version: 3.13.0
@@ -10420,7 +10420,7 @@ snapshots:
       std-env: 3.8.0
       strip-literal: 2.1.0
       test-exclude: 6.0.0
-      vitest: 1.6.0(@types/node@22.9.3)(@vitest/ui@1.6.0)(jsdom@25.0.1)(sass@1.77.4)(terser@5.31.1)
+      vitest: 1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(jsdom@25.0.1)(sass@1.77.4)(terser@5.31.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -10512,7 +10512,7 @@ snapshots:
       pathe: 1.1.2
       picocolors: 1.0.1
       sirv: 2.0.4
-      vitest: 1.6.0(@types/node@22.9.3)(@vitest/ui@1.6.0)(jsdom@25.0.1)(sass@1.77.4)(terser@5.31.1)
+      vitest: 1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(jsdom@25.0.1)(sass@1.77.4)(terser@5.31.1)
 
   '@vitest/utils@1.6.0':
     dependencies:
@@ -13924,7 +13924,7 @@ snapshots:
       define-properties: 1.2.1
       es-object-atoms: 1.0.0
 
-  objection@3.1.5(knex@3.1.0(pg@8.12.0)(sqlite3@5.1.7)):
+  objection@3.1.5(knex@3.1.0):
     dependencies:
       ajv: 8.17.1
       ajv-formats: 2.1.1(ajv@8.17.1)
