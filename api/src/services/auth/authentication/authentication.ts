@@ -1,7 +1,7 @@
 import { AuthenticationService } from '@feathersjs/authentication'
 import { LocalStrategy } from '@feathersjs/authentication-local'
 import { SERVICES } from '@locokit/definitions'
-import { ServiceSwaggerOptions } from 'feathers-swagger'
+// import { ServiceSwaggerOptions } from 'feathers-swagger'
 
 import type { Application } from '@/declarations'
 import { hooks } from './authentication.hooks'
@@ -27,11 +27,11 @@ declare module '../../../client' {
   }
 }
 
-declare module '@feathersjs/authentication' {
-  class AuthenticationService {
-    docs: ServiceSwaggerOptions
-  }
-}
+// declare module '@feathersjs/authentication' {
+//   class AuthenticationService {
+//     docs: ServiceSwaggerOptions
+//   }
+// }
 
 export const authentication = (app: Application): void => {
   const authenticationService = new AuthenticationService(app)

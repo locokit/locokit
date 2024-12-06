@@ -20,7 +20,7 @@ export function errorHandler(error: any) {
 
   if (error.sqlState?.length) {
     // remove SQLSTATE marker (#) and pad/truncate SQLSTATE to 5 chars
-    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+
     const sqlState = ('00000' + error.sqlState.replace('#', '')).slice(-5)
 
     switch (sqlState.slice(0, 2)) {

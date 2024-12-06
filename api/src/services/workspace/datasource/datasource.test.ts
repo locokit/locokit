@@ -182,7 +182,7 @@ describe('[workspace] datasource service', () => {
         documentation: 'Person table',
         datasourceId: localPgDatasource.id,
       })
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
       const fieldPersonId = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
         name: 'Id',
         type: FIELD_TYPE.ID_NUMBER,
@@ -253,7 +253,7 @@ describe('[workspace] datasource service', () => {
           ],
         },
       })
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
       const fieldRegistrationCreatedBy = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
         name: 'CreatedBy',
         type: FIELD_TYPE.ID_NUMBER,
@@ -267,7 +267,7 @@ describe('[workspace] datasource service', () => {
           maxLength: null,
         },
       })
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
       const fieldRegistrationEvent = await app.service(SERVICES.WORKSPACE_TABLE_FIELD).create({
         name: 'Event',
         type: FIELD_TYPE.ID_NUMBER,

@@ -104,7 +104,6 @@ export const hooks: HookOptions<Application, UserService> = {
        * Notify the user its account has been created
        */
       (context: HookContext) => {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         return authManagementSettings(context.app as Application).notifier(
           'sendVerifySignup',
           context.result,

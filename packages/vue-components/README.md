@@ -47,7 +47,7 @@ See https://primevue.org/vite/ for further information.
 
 **tailwindcss**
 
-You need to have installed Tailwind CSS, 
+You need to have installed Tailwind CSS,
 as it is not bundled in the `vue-components` package.
 
 Please see https://tailwindcss.com/docs/guides/vite#vue for an installation process.
