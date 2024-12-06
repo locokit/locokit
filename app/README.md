@@ -1,10 +1,6 @@
-# app
+# LocoKit application
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+This folder contains the app powering the LocoKit frontend.
 
 ## Type Support for `.vue` Imports in TS
 
@@ -18,6 +14,19 @@ See [Vite Configuration Reference](https://vite.dev/config/).
 
 ```sh
 pnpm install
+```
+
+Then copy/paste the `.env.example` in a `.env` file.
+
+This file provide some settings to the frontend application, like the API URL.
+
+```
+VITE_API_URL=http://localhost:3030
+VITE_LOCALSTORAGE_KEY_AUTH_TOKEN=locokit-local-auth-token
+VITE_LOCALSTORAGE_KEY_AUTH_USER=locokit-local-auth-user
+VITE_SENTRY_DSN=
+VITE_SENTRY_ENV=
+VITE_STORAGE_URL=
 ```
 
 ### Compile and Hot-Reload for Development

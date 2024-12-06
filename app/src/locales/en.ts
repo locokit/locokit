@@ -4,7 +4,7 @@ export default {
   app: {
     routes: {
       auth: {
-        login: 'Connection to the back office',
+        login: 'Connection to the back-office',
       },
     },
   },
