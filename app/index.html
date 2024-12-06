@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LocoKit - The low-code kit platform</title>
+  </head>
+  <body class="h-full">
+    <div id="app" class="h-full"></div>
+    <script type="module" src="/src/main.ts"></script>
+    <script>
+      const LCK_SETTINGS = {
+        // the URL of LocoKit API
+        API_URL: '%VITE_API_URL%',
+        // the auth token of the current logged user
+        LOCALSTORAGE_KEY_AUTH_TOKEN: '%VITE_LOCALSTORAGE_KEY_AUTH_TOKEN%',
+        // the auth user data
+        LOCALSTORAGE_KEY_AUTH_USER: '%VITE_LOCALSTORAGE_KEY_AUTH_USER%',
+
+        SENTRY_DSN: '%VITE_SENTRY_DSN%',
+        SENTRY_ENV: '%VITE_SENTRY_ENV%',
+        /**
+         * URL for attachments.
+         * Generally a prefix like '/storage' or a full URL like 'https://locokit.io/storage'
+         */
+        STORAGE_URL: '%VITE_STORAGE_URL%',
+      }
+    </script>
+  </body>
+</html>

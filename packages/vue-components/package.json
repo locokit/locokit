@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "dev": "storybook dev -p 6006",
-    "build": "vue-tsc -b && vite build",
+    "build": "vite build",
     "build:types": "vue-tsc lib.ts --declaration --emitDeclarationOnly --outDir dist",
     "build:watch": "vue-tsc -b && vite build --watch",
     "preview": "vite preview",
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.2",
+    "@locokit/definitions": "workspace:^",
     "@storybook/addon-a11y": "^8.4.5",
     "@storybook/addon-essentials": "^8.4.5",
     "@storybook/addon-interactions": "^8.4.5",

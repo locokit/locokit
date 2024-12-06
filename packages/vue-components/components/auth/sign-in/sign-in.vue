@@ -20,12 +20,12 @@
       </template>
     </generic-form>
 
-    <div class="mt-4 pl-6 flex justify-center">
+    <div class="mt-4 flex justify-center">
       <a v-if="displaySignUpLink" :href="signupRoute" class="w-fit text-md">
         {{ t('locokit.components.signInForm.signUp') }}
       </a>
     </div>
-    <div class="mt-4 pl-6 flex justify-center">
+    <div class="mt-4 flex justify-center">
       <a v-if="displayLostPasswordLink" :href="lostPasswordRoute" class="w-fit text-md">
         {{ t('locokit.components.signInForm.forgottenPassword') }}
       </a>
