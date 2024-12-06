@@ -14,6 +14,14 @@ on:
     branches:
       - next
 
+concurrency:
+  group: >-
+    ${{ github.event_name == 'push'
+      && format('{0}-{1}', github.workflow, github.ref)
+      || format('{0}-{1}', github.workflow, github.run_id)
+    }}
+  cancel-in-progress: ${{ github.event_name == 'push' }}
+
 jobs:
   locokit-api-all:
     runs-on: ubuntu-latest
