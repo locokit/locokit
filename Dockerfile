@@ -12,7 +12,7 @@
 #
 # To be used by all others images
 #
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 RUN apk add --no-cache libc6-compat nano
 RUN apk update
 RUN npm i -g --ignore-scripts pnpm pm2 turbo
@@ -64,11 +64,10 @@ CMD pm2 start index.mjs
 # LocoKit APP image
 # Nitro web server for the Nuxt application
 #
-FROM base AS locokit-app
-WORKDIR /code
-# COPY --from=builder /code/app/.output .
-COPY --from=builder /code/packages/nuxt-locokit/playground/.output .
+# FROM base AS locokit-app
+# WORKDIR /code
+# COPY --from=builder /code/packages/nuxt-locokit/playground/.output .
 
-USER locokit
-CMD pm2 start server/index.mjs
+# USER locokit
+# CMD pm2 start server/index.mjs
 

@@ -2,13 +2,14 @@ import { defineStore } from 'pinia'
 import { SERVICES } from '@locokit/definitions'
 import { ref } from 'vue'
 import { useSDK } from '@/composables/useSDK'
+import { type UserData } from '@locokit/sdk'
 
 export const useStoreAuth = defineStore('auth', () => {
   const authState = ref({
     loading: false,
     isAuthenticated: false,
     error: null as Error | null,
-    user: {},
+    user: {} as UserData,
   })
 
   const { sdkClient } = useSDK()
@@ -38,18 +39,24 @@ export const useStoreAuth = defineStore('auth', () => {
   async function reAuthenticate() {
     authState.value.loading = true
     authState.value.error = null
-    // Todo: Not working, impossible to send a request
-    const res = await sdkClient.reAuthenticate()
-    // // const token = useCookie('token') // useCookie new hook in nuxt 3
+    try {
+      // Todo: Not working, impossible to send a request
+      const res = await sdkClient.reAuthenticate()
+      // // const token = useCookie('token') // useCookie new hook in nuxt 3
 
-    if (res.user) {
-      authState.value.user = res.user
-      // token.value = res.accessToken
-      // if (result.user.rules) lckAbilities.update(result.user.rules)
-      authState.value.isAuthenticated = true
-    } else {
-      // token.value = null
+      if (res.user) {
+        authState.value.user = res.user
+        // token.value = res.accessToken
+        // if (result.user.rules) lckAbilities.update(result.user.rules)
+        authState.value.isAuthenticated = true
+      } else {
+        // token.value = null
+        authState.value.isAuthenticated = false
+      }
+    } catch (err) {
+      console.error(err)
       authState.value.isAuthenticated = false
+      authState.value.error = err as Error
     }
     authState.value.loading = false
   }

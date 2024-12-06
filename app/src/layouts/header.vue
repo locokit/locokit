@@ -114,7 +114,7 @@
         </div>
       </div>
     </header>
-    <div class="content-main bg-slate-100 dark:bg-slate-900 pt-4 overflow-auto">
+    <div class="content-main bg-slate-100 dark:bg-slate-900 overflow-auto">
       <slot />
     </div>
   </div>
