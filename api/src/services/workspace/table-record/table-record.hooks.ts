@@ -155,7 +155,7 @@ export const tableRecordHooks = {
             ],
             {
               $id: context.params.$$id,
-              additionalProperties: false,
+              additionalProperties: true,
             },
           )
           context.params.$$schema = tableQuerySchema
