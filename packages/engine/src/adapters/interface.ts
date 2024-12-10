@@ -1,6 +1,7 @@
 import { type Column, type Table as KnexInspectorTable, type ForeignKey } from '@directus/schema'
 import { Params } from '@feathersjs/feathers'
 import { DiffItem } from '@locokit/definitions'
+import { FeatureCollection, Geometry } from 'geojson'
 
 /**
  * Field propertys,
@@ -71,7 +72,7 @@ export interface PaginatedResult<T> {
   data: Array<TableRecord<T>>
 }
 
-export interface GenericAdapter {
+export type GenericAdapter = {
   boot: () => Promise<void>
 
   /**
@@ -98,30 +99,30 @@ export interface GenericAdapter {
    */
   applyMigration: (migration: DiffItem[]) => Promise<void>
 
-  query: <T>(
+  query: <T extends TableRecord<T>>(
     tableName: string,
     params?: Params & { query: Record<string, any> },
-  ) => Promise<PaginatedResult<T>>
+  ) => Promise<PaginatedResult<T | FeatureCollection<Geometry, T>>>
 
-  get: <Result>(
+  get: <T extends TableRecord<T>>(
     tableName: string,
     id: string | number,
     params?: Params & { query: Record<string, any> },
-  ) => Promise<Result>
+  ) => Promise<T>
 
-  create: <Result>(tableName: string, record: Partial<Result>) => Promise<Result>
+  create: <T extends TableRecord<T>>(tableName: string, record: Partial<T>) => Promise<T>
 
-  patch: <Result, PatchData extends Partial<Result> = Partial<Result>>(
+  patch: <T extends TableRecord<T>, PatchData extends Partial<T> = Partial<T>>(
     tableName: string,
     id: string | number,
     record: PatchData,
-  ) => Promise<Result>
+  ) => Promise<T>
 
-  update: <Result, UpdateData extends Partial<Result> = Partial<Result>>(
+  update: <T extends TableRecord<T>, UpdateData extends Partial<T> = Partial<T>>(
     tableName: string,
     id: string | number,
     record: UpdateData,
-  ) => Promise<Result>
+  ) => Promise<T>
 
-  delete: <Result>(tableName: string, id: string | number) => Promise<Result | null>
+  delete: <T extends TableRecord<T>>(tableName: string, id: string | number) => Promise<T | null>
 }

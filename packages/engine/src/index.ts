@@ -1,8 +1,7 @@
 import { BaserowAdapter } from './adapters/baserow'
-import { Connexion, GenericAdapter } from './adapters/interface'
 import { SQLAdapter } from './adapters/sql'
 
-export * from './adapters/interface'
+import { type GenericAdapter, type Connexion } from './adapters/interface'
 
 export async function createAdapter(adapterOptions: Connexion): Promise<GenericAdapter> {
   let adapter
@@ -18,3 +17,5 @@ export async function createAdapter(adapterOptions: Connexion): Promise<GenericA
   await adapter.boot()
   return adapter
 }
+
+export { GenericAdapter }
