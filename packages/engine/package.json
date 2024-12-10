@@ -26,6 +26,9 @@
     "winston": "^3.13.0"
   },
   "devDependencies": {
-    "vite-plugin-dts": "^3.9.1"
+    "@types/geojson": "^7946.0.15",
+    "ajv": "^8.17.1",
+    "vite": "^6.0.3",
+    "vite-plugin-dts": "^4.3.0"
   }
 }

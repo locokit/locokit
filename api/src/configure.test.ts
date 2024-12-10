@@ -64,7 +64,6 @@ export interface SetupData {
   // row3Table2: TableRow
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function builderTestEnvironment(prefix: string) {
   /**
    * Create all necessary resources for testing use case

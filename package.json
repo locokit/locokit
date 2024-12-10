@@ -46,7 +46,6 @@
   "license": "MIT",
   "devDependencies": {
     "@typescript-eslint/parser": "^8.16.0",
-    "ajv": "^8.16.0",
     "eslint": "^9.16.0",
     "eslint-config-love": "^109.0.0",
     "eslint-config-prettier": "^9.1.0",

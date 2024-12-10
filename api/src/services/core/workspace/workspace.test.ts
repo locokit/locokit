@@ -15,7 +15,6 @@ describe('[core] workspace service', () => {
   let setupData: SetupData
   const port = app.get('port') || 8998
   const getUrl = (pathname: string) =>
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     new URL(`http://${app.get('host') || 'localhost'}:${port}${pathname}`).toString()
 
   beforeAll(async () => {

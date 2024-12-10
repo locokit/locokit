@@ -64,7 +64,7 @@ export const logErrorHook = async (_context: HookContext, next: NextFunction): P
       }
     }
     logger.error(error)
-    captureException === true && Sentry.captureException(error)
+    if (captureException === true) Sentry.captureException(error)
     throw error
   }
 }
