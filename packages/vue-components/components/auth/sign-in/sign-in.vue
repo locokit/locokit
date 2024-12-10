@@ -16,7 +16,7 @@
     />
 
     <div class="mt-4 flex justify-center">
-      <a v-if="displaySignUpLink" :href="signupRoute" class="w-fit text-md">
+      <a v-if="displaySignUpLink" :href="signUpRoute" class="w-fit text-md">
         {{ t('locokit.components.signInForm.signUp') }}
       </a>
     </div>
@@ -43,14 +43,14 @@ withDefaults(
     loading?: boolean
     message?: LocoKitMessage
     displaySignUpLink?: boolean
-    signupRoute?: string
+    signUpRoute?: string
     displayLostPasswordLink?: boolean
     lostPasswordRoute?: string
   }>(),
   {
     loading: false,
     displaySignUpLink: false,
-    signupRoute: '',
+    signUpRoute: '',
     displayLostPasswordLink: false,
     lostPasswordRoute: '',
   },

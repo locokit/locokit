@@ -1,102 +1,74 @@
 <template>
-  <FormGeneric
-    :display-reset-button="false"
-    :full-width-button="true"
-    label-tk-button-submit="locokit.components.signUpForm.signup"
-    :response="error"
+  <generic-form
+    :fields
+    :buttons="{
+      submit: true,
+      reset: false,
+      cancel: false,
+    }"
+    :labels="{
+      submit: t('locokit.components.signUpForm.signUp'),
+    }"
     :loading="loading"
+    :message="message"
     @submit="onSubmit"
-  >
-    <Field
-      v-slot="{ field, errorMessage }"
-      v-model="form.username"
-      class="mb-4"
-      name="signUpForm.username"
-      rules="required"
-      as="div"
-    >
-      <label for="name" class="label-field-required">
-        {{ $t('locokit.components.signUpForm.username') }}
-      </label>
-      <PrimeInputText
-        id="username"
-        v-bind="field"
-        v-focus
-        class="w-full"
-        :class="{ 'p-invalid': errorMessage }"
-        required
-      />
-      <span
-        v-if="errorMessage"
-        class="p-text-error"
-        role="alert"
-        aria-live="assertive"
-      >
-        {{ errorMessage }}
-      </span>
-    </Field>
-
-    <Field
-      v-slot="{ field, errorMessage }"
-      v-model="form.email"
-      class="mb-4"
-      name="signUpForm.email"
-      rules="required|email"
-      as="div"
-    >
-      <label for="email" class="label-field-required">
-        {{ $t('locokit.components.signUpForm.email') }}
-      </label>
-      <PrimeInputText
-        id="email"
-        v-bind="field"
-        class="w-full"
-        :class="{ 'p-invalid': errorMessage }"
-        required
-        autocomplete="email"
-        type="email"
-      />
-      <span
-        v-if="errorMessage"
-        class="p-text-error"
-        role="alert"
-        aria-live="assertive"
-      >
-        {{ errorMessage }}
-      </span>
-    </Field>
-  </FormGeneric>
+  />
 </template>
 
 <script setup lang="ts">
-import PrimeInputText from 'primevue/inputtext'
-import FormGeneric from '@/components/forms/FormGeneric.vue'
-import { Field } from 'vee-validate'
-import { reactive } from 'vue'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { FIELD_COMPONENT, FIELD_TYPE, LocoKitFormField, LocoKitMessage } from '@locokit/definitions'
+import GenericForm from '@/components/commons/generic-form/generic-form.vue'
 
-const emit =
-  defineEmits<
-    (e: 'submit', form: { email: string; username: string }) => void
-  >()
+const { t } = useI18n()
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const props = withDefaults(
+const emit = defineEmits<{
+  /**
+   * Emitted when the submit button has been clicked
+   * and the form has been successfully validated.
+   */
+  (e: 'submit', form: { email: string; username: string }): void
+}>()
+
+withDefaults(
   defineProps<{
+    /** Is the form loading? `true` to put it in loading state. */
     loading?: boolean
-    error?: Error | null
+    /** A message to display into the form, just above the buttons. */
+    message?: LocoKitMessage
   }>(),
   {
     loading: false,
-    error: null,
   },
 )
 
-const form = reactive({
-  email: '',
-  username: '',
+const fields = computed<LocoKitFormField[]>(() => {
+  return [
+    {
+      id: 'username',
+      label: t('locokit.components.signUpForm.username'),
+      type: FIELD_TYPE.TEXT,
+      component: FIELD_COMPONENT.INPUT_TEXT,
+      validationRules: {
+        required: true,
+        maxLength: 255,
+      },
+    },
+    {
+      id: 'email',
+      label: t('locokit.components.signUpForm.email'),
+      type: FIELD_TYPE.EMAIL,
+      component: FIELD_COMPONENT.INPUT_EMAIL,
+      validationRules: {
+        required: true,
+        maxLength: 255,
+      },
+    },
+  ]
 })
 
-const onSubmit = () => {
-  emit('submit', form)
+const onSubmit = (values: Record<string, unknown>) => {
+  emit('submit', values as { email: string; username: string })
 }
 </script>
