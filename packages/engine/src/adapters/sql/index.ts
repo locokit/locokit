@@ -1,34 +1,61 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import knex, { Knex } from 'knex'
 import { createInspector, type Column, type ForeignKey } from '@directus/schema'
-import { ConnexionSQL, GenericAdapter, Field, Table, PaginatedResult } from '../interface'
+import {
+  ConnexionSQL,
+  type GenericAdapter,
+  Field,
+  Table,
+  PaginatedResult,
+  TableRecord,
+} from '../interface'
 import {
   Model,
   JSONSchema,
-  JSONSchemaDefinition,
   RelationMappings,
   RelationMappingsThunk,
   AjvValidator,
+  raw,
 } from 'objection'
 import addFormats from 'ajv-formats'
 import { getJSONTypeFromSQLType } from '../../utils/sqlTypeConverter'
 import { objectify } from './objectify'
 import { logger } from '../../logger'
 import {
+  convertDBTypeToFieldType,
   DB_TYPE,
   DiffItem,
   DiffItemField,
   DiffItemRelation,
   DiffItemTable,
+  FIELD_TYPE,
 } from '@locokit/definitions'
+import { EngineModel } from './model'
+import { FeatureCollection, Geometry } from 'geojson'
 
 const adapterLogger = logger.child({ service: 'engine', name: 'sql-adapter' })
 
 const implementedEngines = ['sqlite3', 'pg']
 
+function isGeometryColumn(column: Column): boolean {
+  const fieldType = convertDBTypeToFieldType('pg', column.data_type as DB_TYPE)
+  switch (fieldType) {
+    case FIELD_TYPE.GEOMETRY:
+    case FIELD_TYPE.GEOMETRY_POINT:
+    case FIELD_TYPE.GEOMETRY_POLYGON:
+    case FIELD_TYPE.GEOMETRY_LINESTRING:
+    case FIELD_TYPE.GEOMETRY_MULTIPOINT:
+    case FIELD_TYPE.GEOMETRY_MULTIPOLYGON:
+    case FIELD_TYPE.GEOMETRY_MULTILINESTRING:
+      return true
+    default:
+      return false
+  }
+}
+
 export class SQLAdapter implements GenericAdapter {
   database: Knex
-  databaseObjectionModel: Record<string, typeof Model> = {}
+  databaseObjectionModel: Record<string, typeof EngineModel> = {}
 
   connexion: ConnexionSQL
 
@@ -174,7 +201,7 @@ export class SQLAdapter implements GenericAdapter {
       adapterLogger.info('[boot] building Model %s', tableName)
       const t = tables[tableName]
 
-      allModels[tableName] = class extends Model {
+      allModels[tableName] = class extends EngineModel {
         static createValidator() {
           return new AjvValidator({
             onCreateAjv: (ajv) => {
@@ -206,12 +233,22 @@ export class SQLAdapter implements GenericAdapter {
           })
         }
 
+        /**
+         * Does the current model have at least one geom column
+         */
+        static get hasGeomTable(): boolean {
+          return t.columns.findIndex((c) => isGeometryColumn(c)) > -1
+        }
+        static get geomTables(): string[] {
+          return t.columns.filter((c) => isGeometryColumn(c)).map((c) => c.name)
+        }
+
         static get tableName(): string {
           return tableName
         }
 
         static get idColumn(): string | string[] {
-          return /* t.id  || */ [tableName + '.id']
+          return t.id || [tableName + '.' + t.id]
         }
 
         static get jsonSchema(): JSONSchema {
@@ -219,7 +256,7 @@ export class SQLAdapter implements GenericAdapter {
             type: 'object',
             required: [] as string[],
             // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-            properties: {} as Record<string, JSONSchemaDefinition>,
+            properties: {} as Record<string, JSONSchema>, // and not a boolean like in JSONSchemaDefinition
           }
 
           t.columns.forEach((c) => {
@@ -236,11 +273,12 @@ export class SQLAdapter implements GenericAdapter {
             schema.properties[c.name] = {
               type: propertyType,
             }
+            // TODO: be better for format subtilities
             if (c.data_type === 'date') schema.properties[c.name].format = 'date'
-            console.log('jsonSchema', tableName, c, schema.properties[c.name])
+            // console.log('jsonSchema', tableName, c, schema.properties[c.name])
           })
 
-          console.log('jsonSchema', tableName, schema)
+          // console.log('jsonSchema', tableName, schema)
           return schema
         }
 
@@ -463,18 +501,30 @@ export class SQLAdapter implements GenericAdapter {
     adapterLogger.info('end of migration')
   }
 
-  async query<T>(tableName: string, params?: any): Promise<PaginatedResult<T>> {
+  async query<T>(
+    tableName: string,
+    params?: any,
+  ): Promise<PaginatedResult<T | FeatureCollection<Geometry, T>>> {
     adapterLogger.debug('queryTable %s', tableName)
-    const { $limit = 20, $skip = 0, $joinRelated, $select, ...realQuery } = params?.query ?? {}
+    const {
+      $limit = 20,
+      $skip = 0,
+      $joinRelated,
+      $output,
+      $select,
+      ...realQuery
+    } = params?.query ?? {}
 
-    adapterLogger.debug($limit, $skip, $joinRelated, realQuery)
-    const result = {
+    const result: PaginatedResult<T | FeatureCollection<Geometry, T>> = {
       total: 0,
       limit: $limit,
       skip: $skip,
-      data: [] as T[],
+      // @ts-ignore
+      data:
+        $output === 'geojson'
+          ? ({ type: 'FeatureCollection', features: [] } as FeatureCollection<Geometry, T>)
+          : ([] as T[]),
     }
-
     const model = this.databaseObjectionModel[tableName]
 
     if (!model) throw new Error(`Table ${tableName} is unknown.`)
@@ -548,7 +598,14 @@ export class SQLAdapter implements GenericAdapter {
       }
     }
 
-    if ($select) {
+    if ($output === 'geojson') {
+      /**
+       * TODO: check if the model has a geom column
+       */
+      if (this.connexion.type !== 'pg' && !model.hasGeomTable)
+        throw new Error('output "geojson" can only be used on pg connexions.')
+      query.alias('agj').select(raw('ST_asGeoJSON(agj.*)::jsonb').as('data'))
+    } else if ($select) {
       const selectFields = Array.isArray($select) ? $select : [$select]
       /**
        * for each field, add the table as a prefix if not set
@@ -556,6 +613,7 @@ export class SQLAdapter implements GenericAdapter {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       query.select(selectFields)
     }
+
     adapterLogger.debug('real query', realQuery)
     /**
      * Remove id filter to add tableName in front of to avoid incoherence
@@ -577,7 +635,17 @@ export class SQLAdapter implements GenericAdapter {
     adapterLogger.info(realQuery, $select)
     objectify(query, realQuery)
 
-    result.data = (await query) as unknown as T[]
+    const resultQuery = (await query) as unknown as any[]
+    if ($output === 'geojson') {
+      const features = resultQuery.map((r) => r.data)
+      // TODO: specify a data can be a FeatureCollection
+      // @ts-ignore
+      result.data = {
+        type: 'FeatureCollection',
+        features,
+      } as FeatureCollection<Geometry, T>
+    } else result.data = resultQuery as T[]
+
     return result
   }
 
@@ -657,12 +725,26 @@ export class SQLAdapter implements GenericAdapter {
     return result as unknown as T
   }
 
-  async create<T>(tableName: string, data: Partial<T>): Promise<T> {
+  async create<T extends TableRecord<T>>(tableName: string, data: Partial<T>): Promise<T> {
+    const currentModel = this.databaseObjectionModel[tableName]
     adapterLogger.debug('create', tableName, data)
-    adapterLogger.debug('create', this.databaseObjectionModel[tableName])
-    adapterLogger.debug(this.databaseObjectionModel[tableName])
+    adapterLogger.debug('create', currentModel)
+    adapterLogger.debug(currentModel)
 
-    const query = this.databaseObjectionModel[tableName].query(this.database).insert(data)
+    /**
+     * Check if any data inserted is a geom one
+     */
+    const geomTables = currentModel.geomTables
+    Object.keys(data).forEach((dataKey) => {
+      if (geomTables.includes(dataKey)) {
+        // @ts-ignore
+        console.log('dataKey geom found ', dataKey, data?.[dataKey])
+        // @ts-ignore
+        data[dataKey] = raw(`ST_GeomFromText(?)::geometry`, [data[dataKey]])
+        console.log('dataKey updated')
+      }
+    })
+    const query = currentModel.query(this.database).insert(data)
 
     if (this.connexion.type === 'pg') {
       if (this.connexion.schema) {
@@ -672,7 +754,7 @@ export class SQLAdapter implements GenericAdapter {
     }
     const result = await query
 
-    return result as T
+    return result as unknown as T
   }
 
   async update<T>(tableName: string, id: string | number, record: Partial<T>): Promise<T> {
