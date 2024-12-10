@@ -22,7 +22,7 @@ describe('[core] workspace service', () => {
     await app.listen(port)
   })
 
-  describe.only('general purpose', async () => {
+  describe('general purpose', async () => {
     it('registered the service', () => {
       const service = app.service(SERVICES.CORE_WORKSPACE)
       expect(service).toBeDefined()

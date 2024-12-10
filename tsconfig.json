@@ -18,13 +18,10 @@
       "path": "./packages/definitions"
     },
     {
-      "path": "./packages/designsystem"
+      "path": "./packages/vue-components"
     },
     {
-      "path": "./packages/nuxt-locokit"
-    },
-    {
-      "path": "./packages/i18n"
+      "path": "./packages/locales"
     },
     {
       "path": "./packages/engine"

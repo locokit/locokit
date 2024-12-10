@@ -46,6 +46,15 @@ export default {
     // },
   },
   datasources: [], // provided with custom environment variables
+  mail: {
+    host: 'localhost',
+    port: 25,
+    secure: false,
+    needAuth: false,
+    from: 'contact@locokit.io',
+    user: '',
+    pass: '',
+  },
   helmet: {
     isEnabled: true,
     hstsEnabled: true,

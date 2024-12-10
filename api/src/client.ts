@@ -52,6 +52,9 @@ export interface Configuration {
   connection: TransportConnection<ServiceTypes>
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface ServiceTypes {}
+
 export type ClientApplication = Application<ServiceTypes, Configuration>
 
 /**

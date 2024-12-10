@@ -43,16 +43,3 @@ COPY packages/engine/dist /code/packages/engine/dist
 USER locokit
 WORKDIR /code/api
 CMD pm2 start index.mjs
-
-#
-# LocoKit APP image
-# Nitro web server for the Nuxt application
-#
-FROM base AS locokit-app
-WORKDIR /code
-# COPY app/.output .
-COPY packages/nuxt-locokit/playground/.output .
-
-USER locokit
-CMD pm2 start server/index.mjs
-
