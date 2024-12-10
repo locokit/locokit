@@ -21,7 +21,7 @@
     </generic-form>
 
     <div class="mt-4 flex justify-center">
-      <a v-if="displaySignUpLink" :href="signupRoute" class="w-fit text-md">
+      <a v-if="displaySignUpLink" :href="signUpRoute" class="w-fit text-md">
         {{ t('locokit.components.signInForm.signUp') }}
       </a>
     </div>
@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import GenericForm from '../../commons/generic-form/generic-form.vue'
+import GenericForm from '@/components/commons/generic-form/generic-form.vue'
 import { FIELD_COMPONENT, FIELD_TYPE, type LocoKitFormField } from '@locokit/definitions'
 import PrimeMessage from 'primevue/message'
 import { computed } from 'vue'
@@ -49,7 +49,7 @@ withDefaults(
     loading?: boolean
     error?: Error | null
     displaySignUpLink?: boolean
-    signupRoute?: string
+    signUpRoute?: string
     displayLostPasswordLink?: boolean
     lostPasswordRoute?: string
   }>(),
@@ -57,7 +57,7 @@ withDefaults(
     loading: false,
     error: null,
     displaySignUpLink: false,
-    signupRoute: '',
+    signUpRoute: '',
     displayLostPasswordLink: false,
     lostPasswordRoute: '',
   },

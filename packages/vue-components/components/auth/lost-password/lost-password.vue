@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import GenericForm from '../../commons/generic-form/generic-form.vue'
+import GenericForm from '@/components/commons/generic-form/generic-form.vue'
 import { FIELD_COMPONENT, FIELD_TYPE, type LocoKitFormField } from '@locokit/definitions'
 import PrimeMessage from 'primevue/message'
 import { computed } from 'vue'
