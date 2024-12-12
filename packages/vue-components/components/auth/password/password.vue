@@ -1,130 +1,77 @@
 <template>
-  <Form
-    v-slot="{ meta: { valid, touched } }"
-    class="text-left"
+  <generic-form
+    :fields
+    :loading
+    :buttons="{
+      submit: true,
+      reset: false,
+      cancel: false,
+    }"
+    :message="message"
     @submit="onSubmit"
-  >
-    <Field
-      v-slot="{ field, errorMessage }"
-      name="passwordForm.password"
-      as="div"
-      :rules="{ required: true, regex: `${regexPasswordRules}(?=.{8,})` }"
-      class="mb-4 flex flex-col"
-    >
-      <label for="password" class="label-field-required">{{
-        $t('locokit.components.passwordForm.password')
-      }}</label>
-      <PrimePassword
-        v-model="password"
-        input-id="password"
-        :class="{ 'p-invalid': errorMessage }"
-        v-bind="field"
-        :feedback="true"
-        toggle-mask
-        :medium-regex="`${regexPasswordRules}(?=.{8,})`"
-        :strong-regex="`${regexPasswordRules}(?=.{12,})`"
-        :weak-label="
-          $t('locokit.components.passwordForm.passwordStrength.weak')
-        "
-        :medium-label="
-          $t('locokit.components.passwordForm.passwordStrength.medium')
-        "
-        :strong-label="
-          $t('locokit.components.passwordForm.passwordStrength.strong')
-        "
-        :prompt-label="$t('locokit.components.passwordForm.prompt')"
-        required
-        aria-describedby="password-rules"
-        autocomplete="new-password"
-        spellcheck="false"
-        autocorrect="off"
-        autocapitalize="none"
-        :pattern="regexPasswordRules"
-      />
-      <small id="password-rules" class="italic">
-        {{ $t('locokit.components.passwordForm.rules') }}
-      </small>
-      <span
-        v-if="errorMessage"
-        class="p-text-error"
-        role="alert"
-        aria-live="assertive"
-      >
-        {{ errorMessage }}
-      </span>
-    </Field>
-    <Field
-      v-slot="{ field, errorMessage }"
-      name="passwordForm.passwordCheck"
-      as="div"
-      rules="required|confirmed:passwordForm.password"
-      class="mb-4 flex flex-col"
-    >
-      <label for="passwordCheck" class="label-field-required">
-        {{ $t('locokit.components.passwordForm.passwordCheck') }}
-      </label>
-      <PrimePassword
-        v-model="passwordCheck"
-        input-id="passwordCheck"
-        :class="{ 'p-invalid': errorMessage }"
-        v-bind="field"
-        :feedback="false"
-        toggle-mask
-        required
-        spellcheck="false"
-        autocorrect="off"
-        autocapitalize="none"
-      />
-      <span
-        v-if="errorMessage"
-        class="p-text-error"
-        role="alert"
-        aria-live="assertive"
-      >
-        {{ errorMessage }}
-      </span>
-    </Field>
-    <ButtonWithStatus
-      type="submit"
-      :label-tk="labelTkSubmit"
-      class="!w-full border"
-      :disabled="loading || !valid || !touched"
-      :status-form="error ? 'failed' : null"
-      icon="bi bi-save2"
-      :is-submitting="loading"
-    />
-    <MessageForUser v-if="error" status="failed" />
-  </Form>
+  />
 </template>
 
 <script setup lang="ts">
-// N.B: We shouldn't use v-model and v-bind in the input according to [vee-validate good practices](https://vee-validate.logaretm.com/v4/api/field/#using-v-model) but without it, Password component of Prime does not work.
-// And to date, no side effects have been encountered
-import PrimePassword from 'primevue/password'
-import ButtonWithStatus from '@/components/ui/ButtonWithStatus/ButtonWithStatus.vue'
-import MessageForUser from '@/components/data/MessageForUser/MessageForUser.vue'
-import { ref } from 'vue'
-import { Form, Field } from 'vee-validate'
-import { regexPasswordRules } from '@/helpers/regex'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+//import { regexPasswordRules } from "../../../../designsystem/src/helpers/regex.ts";
+import { FIELD_COMPONENT, FIELD_TYPE, LocoKitFormField, LocoKitMessage } from "@locokit/definitions";
+import GenericForm from "@/components/commons/generic-form/generic-form.vue";
 
-const emit = defineEmits<(e: 'submit', password: string) => void>()
+const { t } = useI18n()
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const props = withDefaults(
+const emit = defineEmits<{
+  /**
+   * Emitted when the submit button has been clicked
+   * and the form has been successfully validated.
+   */
+  (e: 'submit', password: string): void
+}>()
+
+withDefaults(
   defineProps<{
+    /** Is the form loading? `true` to put it in loading state. */
     loading?: boolean
-    error?: Error | null
-    labelTkSubmit: string
+    /** A message to display into the form, just above the buttons. */
+    message?: LocoKitMessage
   }>(),
   {
     loading: false,
-    error: null,
   },
 )
-const password = ref('')
-const passwordCheck = ref('')
 
-const onSubmit = () => {
-  emit('submit', password.value)
+const fields = computed<LocoKitFormField[]>(() => {
+  return [
+    {
+      id: 'password',
+      label: t('locokit.components.passwordForm.password'),
+      //description: t('locokit.components.passwordForm.rules'),
+      //class: 'mb-4 flex flex-col',
+      type: FIELD_TYPE.TEXT,
+      component: FIELD_COMPONENT.INPUT_PASSWORD,
+      validationRules: {
+        required: true,
+        maxLength: 255,
+        // TODO: check that input matches a regex
+      },
+    },
+    {
+      id: 'passwordCheck',
+      label: t('locokit.components.passwordForm.passwordCheck'),
+      type: FIELD_TYPE.TEXT,
+      //class: 'mb-4 flex flex-col',
+      component: FIELD_COMPONENT.INPUT_PASSWORD,
+      validationRules: {
+        required: true,
+        maxLength: 255,
+        // TODO: check that input is identical to the other field's value
+      },
+    },
+  ]
+})
+
+const onSubmit = (values: Record<string, unknown>) => {
+  emit('submit', values.password as string)
 }
 </script>
