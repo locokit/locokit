@@ -19,6 +19,7 @@
             <PrimeInputText
               v-if="f.component === FIELD_COMPONENT.INPUT_TEXT"
               :name="f.id"
+              :id="f.id"
               :class="f.class"
               type="text"
               fluid
@@ -26,6 +27,7 @@
             <PrimeInputText
               v-else-if="f.component === FIELD_COMPONENT.INPUT_EMAIL"
               :name="f.id"
+              :id="f.id"
               :class="f.class"
               type="email"
               fluid
@@ -33,6 +35,7 @@
             <PrimePassword
               v-else-if="f.component === FIELD_COMPONENT.INPUT_PASSWORD"
               :name="f.id"
+              :input-id="f.id"
               :class="f.class"
               fluid
               toggleMask
