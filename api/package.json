@@ -116,6 +116,7 @@
     "@typescript-eslint/parser": "^8.16.0",
     "@vitest/coverage-v8": "^1.6.0",
     "@vitest/ui": "^1.6.0",
+    "ajv": "^8.17.1",
     "axios": "^1.7.2",
     "cross-env": "^7.0.3",
     "eslint-config-love": "^109.0.0",

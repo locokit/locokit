@@ -15,4 +15,4 @@ app.configure(configuration(configurationValidator))
 // Load our database connection info from the app configuration
 const config = app.get('settings').db
 
-module.exports = config
+export default config

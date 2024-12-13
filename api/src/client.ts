@@ -9,6 +9,7 @@ import authenticationClient from '@feathersjs/authentication-client'
 import type { AuthenticationClientOptions } from '@feathersjs/authentication-client'
 
 import { signupClient } from './services/auth/signup/signup.shared'
+import './services/auth/authentication/authentication.shared'
 import { authManagementClient } from './services/auth/authmanagement/authmanagement.shared'
 
 import { userClient } from './services/core/user/user.shared'
@@ -51,6 +52,7 @@ export interface Configuration {
   connection: TransportConnection<ServiceTypes>
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ServiceTypes {}
 
 export type ClientApplication = Application<ServiceTypes, Configuration>

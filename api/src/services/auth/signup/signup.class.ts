@@ -37,7 +37,7 @@ export class SignUpService {
     if (params?.headers?.ip) {
       try {
         await this.rateLimiter.consume(params?.headers?.ip as string)
-      } catch (error) {
+      } catch {
         signupClassLogger.error('Rate limiter enabled for connexion... ? for 120s.')
         throw new TooManyRequests(
           'Your IP is now rate limited. Please wait 120 seconds before trying to signup again.',
