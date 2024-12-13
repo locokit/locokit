@@ -59,6 +59,8 @@
       </div>
     </slot>
 
+    <slot name="bottom" />
+
     <PrimeMessage
       v-if="message"
       :severity="message.status"
