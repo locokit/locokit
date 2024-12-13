@@ -1,156 +1,120 @@
 <template>
-  <FormGeneric
-    :display-reset-button="false"
-    label-tk-button-submit="locokit.components.updateGeneralForm.submit"
-    :response="response"
+  <generic-form
+    :fields
+    :buttons="{
+      submit: true,
+      reset: false,
+      cancel: false,
+    }"
+    :labels="{
+      submit: t('locokit.components.updateGeneralForm.submit'),
+    }"
     :loading="loading"
-    class="w-3/4"
+    :message="message"
     @submit="onSubmit"
   >
-    <Field
-      v-slot="{ field, errorMessage }"
-      v-model="username"
-      class="mb-4 flex flex-col gap-2"
-      name="updateGeneralForm.username"
-      rules="required"
-      as="div"
-    >
-      <label for="username" class="label-field-required">
-        {{ $t('locokit.components.updateGeneralForm.username') }}
-      </label>
-      <PrimeInputText
-        id="username"
-        :class="{ 'p-invalid': errorMessage }"
-        v-bind="field"
-        required
-      />
-      <span
-        v-if="errorMessage"
-        class="p-text-error"
-        role="alert"
-        aria-live="assertive"
-      >
-        {{ errorMessage }}
-      </span>
-    </Field>
-    <Field
-      v-slot="{ field, errorMessage }"
-      v-model="lastName"
-      class="mb-4 flex flex-col gap-2"
-      name="updateGeneralForm.lastName"
-      as="div"
-    >
-      <label for="lastName" class="label-field-required">
-        {{ $t('locokit.components.updateGeneralForm.lastName') }}
-      </label>
-      <PrimeInputText
-        id="lastName"
-        :class="{ 'p-invalid': errorMessage }"
-        v-bind="field"
-        required
-      />
-      <span
-        v-if="errorMessage"
-        class="p-text-error block"
-        role="alert"
-        aria-live="assertive"
-      >
-        {{ errorMessage }}
-      </span>
-    </Field>
-    <Field
-      v-slot="{ field, errorMessage }"
-      v-model="firstName"
-      class="mb-4 flex flex-col gap-2"
-      name="updateGeneralForm.firstName"
-      as="div"
-    >
-      <label for="firstName" class="label-field-required">
-        {{ $t('locokit.components.updateGeneralForm.firstName') }}
-      </label>
-      <PrimeInputText
-        id="firstName"
-        :class="{
-          'p-invalid': errorMessage,
-        }"
-        v-bind="field"
-        required
-      />
-      <span
-        v-if="errorMessage"
-        class="p-text-error block"
-        role="alert"
-        aria-live="assertive"
-      >
-        {{ errorMessage }}
-      </span>
-    </Field>
-    <div class="mb-4">
-      <p>
-        {{ $t('locokit.components.updateGeneralForm.email') }}
-      </p>
-      <p class="my-1 font-bold">
-        {{ user.email }}
-      </p>
-    </div>
-    <div class="mb-4">
-      <p>
-        {{ $t('locokit.components.updateGeneralForm.role') }}
-      </p>
-      <SingleTag
-        class="my-1 w-fit"
-        :label="
-          $t(
-            `locokit.components.updateGeneralForm.${user.profile.toLowerCase()}`,
-          )
-        "
-      />
-    </div>
-  </FormGeneric>
+    <template #bottom>
+      <div class="mb-4" v-if="user.email">
+        <p>{{ $t('locokit.components.updateGeneralForm.email') }}</p>
+        <p class="my-1 font-bold">
+          {{ user.email }}
+        </p>
+      </div>
+      <div class="mb-4">
+        <p>{{ $t('locokit.components.updateGeneralForm.role') }}</p>
+        <SingleTag
+          class="my-1 w-fit"
+          :label="$t(`locokit.components.updateGeneralForm.${user.profile.toLowerCase()}`)"
+        />
+      </div>
+    </template>
+  </generic-form>
 </template>
 
 <script setup lang="ts">
-import PrimeInputText from 'primevue/inputtext'
-import { Field } from 'vee-validate'
-import { ref } from 'vue'
-import SingleTag from '@/components/ui/SingleTag/SingleTag.vue'
-import FormGeneric from '@/components/forms/FormGeneric.vue'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { FIELD_COMPONENT, FIELD_TYPE, LocoKitFormField, LocoKitMessage } from '@locokit/definitions'
+import GenericForm from '@/components/commons/generic-form/generic-form.vue'
+import SingleTag from '@/components/ui/single-tag/single-tag.vue'
 
-const emit = defineEmits<
+const { t } = useI18n()
+
+const emit = defineEmits<{
+  /**
+   * Emitted when the submit button has been clicked
+   * and the form has been successfully validated.
+   */
   (
     e: 'submit',
     form: {
       id: string
-      lastName: string
+      username: string
+      lastName: string | null
       firstName: string | null
-      username: string | null
     },
-  ) => void
->()
+  ): void
+}>()
 
 const props = withDefaults(
   defineProps<{
+    /** The user object concerned by the update. */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     user: any
+    /** Is the form loading? `true` to put it in loading state. */
     loading?: boolean
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    response?: Error | Record<string, any> | null
+    /** A message to display into the form, just above the buttons. */
+    message?: LocoKitMessage
   }>(),
   {
     loading: false,
     response: null,
   },
 )
-const lastName = ref(props.user.lastName)
-const firstName = ref(props.user.firstName)
-const username = ref(props.user.username)
 
-const onSubmit = () => {
+const fields = computed<LocoKitFormField[]>(() => {
+  return [
+    {
+      id: 'username',
+      label: t('locokit.components.updateGeneralForm.username'),
+      type: FIELD_TYPE.TEXT,
+      component: FIELD_COMPONENT.INPUT_TEXT,
+      validationRules: {
+        required: true,
+        maxLength: 255,
+      },
+    },
+    {
+      id: 'lastName',
+      label: t('locokit.components.updateGeneralForm.lastName'),
+      type: FIELD_TYPE.TEXT,
+      component: FIELD_COMPONENT.INPUT_TEXT,
+      validationRules: {
+        required: false,
+        maxLength: 255,
+      },
+    },
+    {
+      id: 'firstName',
+      label: t('locokit.components.updateGeneralForm.firstName'),
+      type: FIELD_TYPE.TEXT,
+      component: FIELD_COMPONENT.INPUT_TEXT,
+      validationRules: {
+        required: false,
+        maxLength: 255,
+      },
+    },
+  ]
+})
+
+const onSubmit = (values: Record<string, unknown>) => {
   emit('submit', {
     id: props.user.id,
-    lastName: lastName.value,
-    firstName: firstName.value,
-    username: username.value,
+    ...values as {
+      username: string,
+      lastName: string,
+      firstName: string,
+    }
   })
 }
 </script>
