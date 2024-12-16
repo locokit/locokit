@@ -1,6 +1,6 @@
 {
   "name": "@locokit/definitions",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "LocoKit definitions, utilities, helpers...",
   "author": "Mathieu Dartigues",
   "license": "MIT",
@@ -8,7 +8,8 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "CHANGELOG"
   ],
   "scripts": {
     "build": "vite build",

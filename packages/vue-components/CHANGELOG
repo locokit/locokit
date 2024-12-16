@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.22
+
+* refacto: remove prime components from the build
+
+## 0.0.21
+
+* `commons/generic-form`
+  * new fields : input date, datetime, toggle switch, autocomplete, single select
+
 ## 0.0.20
 
 * `commons/generic-form`
