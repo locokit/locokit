@@ -21,11 +21,11 @@ export const Default: Story = {
   }),
 }
 
-export const WithError: Story = {
+export const WithMessage: Story = {
   render: () => ({
     components: { LostPasswordForm },
     template: `
-      <LostPasswordForm error="Your email is incorrect" />
+      <LostPasswordForm :message="{status: 'error', text: 'Your email is incorrect'}" />
     `,
   }),
 }

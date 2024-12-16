@@ -18,6 +18,11 @@ export const USER_PROFILE = Object.freeze({
   ADMIN: 'ADMIN',
 })
 
+export type LocoKitMessage = {
+  status: 'contrast'|'error'|'info'|'secondary'|'success'|'warn'
+  text: string
+}
+
 /**
  * Convert a string in the "snake_case" format.
  *
