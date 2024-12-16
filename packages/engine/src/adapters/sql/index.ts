@@ -236,10 +236,10 @@ export class SQLAdapter implements GenericAdapter {
         /**
          * Does the current model have at least one geom column
          */
-        static get hasGeomTable(): boolean {
+        static get hasGeomColumn(): boolean {
           return t.columns.findIndex((c) => isGeometryColumn(c)) > -1
         }
-        static get geomTables(): string[] {
+        static get geomColumns(): string[] {
           return t.columns.filter((c) => isGeometryColumn(c)).map((c) => c.name)
         }
 
@@ -248,7 +248,9 @@ export class SQLAdapter implements GenericAdapter {
         }
 
         static get idColumn(): string | string[] {
-          return t.id || [tableName + '.' + t.id]
+          if (!t.id) throw new Error('No primary column available for the table ' + tableName)
+          // TODO: handle for table alias
+          return t.id
         }
 
         static get jsonSchema(): JSONSchema {
@@ -275,10 +277,8 @@ export class SQLAdapter implements GenericAdapter {
             }
             // TODO: be better for format subtilities
             if (c.data_type === 'date') schema.properties[c.name].format = 'date'
-            // console.log('jsonSchema', tableName, c, schema.properties[c.name])
           })
 
-          // console.log('jsonSchema', tableName, schema)
           return schema
         }
 
@@ -599,10 +599,7 @@ export class SQLAdapter implements GenericAdapter {
     }
 
     if ($output === 'geojson') {
-      /**
-       * TODO: check if the model has a geom column
-       */
-      if (this.connexion.type !== 'pg' && !model.hasGeomTable)
+      if (this.connexion.type !== 'pg' && !model.hasGeomColumn)
         throw new Error('output "geojson" can only be used on pg connexions.')
       query.alias('agj').select(raw('ST_asGeoJSON(agj.*)::jsonb').as('data'))
     } else if ($select) {
@@ -638,7 +635,6 @@ export class SQLAdapter implements GenericAdapter {
     const resultQuery = (await query) as unknown as any[]
     if ($output === 'geojson') {
       const features = resultQuery.map((r) => r.data)
-      // TODO: specify a data can be a FeatureCollection
       // @ts-ignore
       result.data = {
         type: 'FeatureCollection',
@@ -734,14 +730,11 @@ export class SQLAdapter implements GenericAdapter {
     /**
      * Check if any data inserted is a geom one
      */
-    const geomTables = currentModel.geomTables
+    const geomColumns = currentModel.geomColumns
     Object.keys(data).forEach((dataKey) => {
-      if (geomTables.includes(dataKey)) {
+      if (geomColumns.includes(dataKey)) {
         // @ts-ignore
-        console.log('dataKey geom found ', dataKey, data?.[dataKey])
-        // @ts-ignore
-        data[dataKey] = raw(`ST_GeomFromText(?)::geometry`, [data[dataKey]])
-        console.log('dataKey updated')
+        data[dataKey] = raw(`ST_GeomFromText(?)`, [data[dataKey]])
       }
     })
     const query = currentModel.query(this.database).insert(data)

@@ -1,6 +1,6 @@
 import { Model } from 'objection'
 
 export class EngineModel extends Model {
-  static hasGeomTable: boolean
-  static geomTables: string[]
+  static hasGeomColumn: boolean
+  static geomColumns: string[]
 }
