@@ -1,6 +1,6 @@
 {
   "name": "@locokit/vue-components",
-  "version": "0.0.20",
+  "version": "0.0.22",
   "description": "LocoKit VueJS components library",
   "author": "Mathieu Dartigues",
   "license": "MIT",
@@ -9,7 +9,8 @@
   "module": "dist/lib.js",
   "types": "dist/lib.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "CHANGELOG"
   ],
   "scripts": {
     "dev": "storybook dev -p 6006",
@@ -23,7 +24,6 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.2",
-    "@locokit/definitions": "workspace:^",
     "@storybook/addon-a11y": "^8.4.5",
     "@storybook/addon-essentials": "^8.4.5",
     "@storybook/addon-interactions": "^8.4.5",
