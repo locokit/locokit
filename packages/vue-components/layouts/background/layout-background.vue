@@ -24,7 +24,6 @@
 </template>
 
 <script setup lang="ts">
-import { Slot } from 'vue'
 
 const props = defineProps<{
   /**
@@ -39,12 +38,17 @@ const props = defineProps<{
   textBottomRight?: string
 }>()
 
+defineEmits<{
+  (e: 'change', id: number): void
+  (e: 'update', value: string): void
+}>()
+
 defineSlots<{
   /**
    * The main slot
    *
    * Will be displayed under the logo if any.
    */
-  default: Slot
+  default(): any
 }>()
 </script>

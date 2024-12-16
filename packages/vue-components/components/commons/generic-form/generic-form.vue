@@ -4,14 +4,29 @@
     TODO: fix it when PrimeVue will fix this bug
     => typing is false for the template
    -->
-  <PrimeForm v-slot="states" :resolver @submit="onFormSubmit">
+  <PrimeForm
+    v-slot="states"
+    :resolver
+    @submit="onFormSubmit"
+    :initial-values
+    validate-on-blur
+    :validate-on-value-update="false"
+  >
     <slot name="top" />
-
     <slot>
       <div class="flex flex-col gap-1">
         <template v-for="f in fieldsDisplayed(states).value" :key="f.id">
           <div class="mb-4">
             <div class="flex items-center">
+              <!-- boolean -->
+              <PrimeToggleSwitch
+                v-if="f.component === FIELD_COMPONENT.TOGGLE_SWITCH"
+                :name="f.id"
+                class="mr-2"
+                :class="f.class"
+                fluid
+              />
+
               <label :for="f.id">
                 {{ f.label }}
                 <span v-if="f.validationRules?.required" class="text-red-500">*</span>
@@ -43,7 +58,79 @@
               toggleMask
               :feedback="false"
             />
-            <PrimeMessage severity="error" v-else>
+            <!-- number / float -->
+            <PrimeInputNumber
+              v-else-if="f.component === FIELD_COMPONENT.INPUT_NUMBER"
+              :name="f.id"
+              :class="f.class"
+              fluid
+            />
+            <!-- date / datetime -->
+            <PrimeInputText
+              v-else-if="
+                [FIELD_COMPONENT.INPUT_DATE, FIELD_COMPONENT.INPUT_DATETIME].includes(f.component)
+              "
+              :name="f.id"
+              :class="f.class"
+              fluid
+              show-icon
+              icon-display="input"
+              append-to="body"
+              :show-time="f.component === FIELD_COMPONENT.INPUT_DATETIME"
+              :type="f.component === FIELD_COMPONENT.INPUT_DATE ? 'date' : 'datetime-local'"
+            />
+            <!-- single select -->
+            <PrimeSelect
+              v-else-if="f.component === FIELD_COMPONENT.SINGLE_SELECT"
+              :name="f.id"
+              :class="f.class"
+              fluid
+              :options="f.source.options"
+              :showClear="true"
+              :placeholder="t('locokit.components.primeDropdown.placeholder')"
+              class="mb-2 w-full"
+            >
+              <template #value="slotProps">
+                <single-tag
+                  v-if="slotProps.value"
+                  :label="slotProps.value[f.source.label]"
+                  :color="slotProps.value[f.source.colorFields?.text]"
+                  :backgroundColor="slotProps.value[f.source.colorFields?.background]"
+                />
+                <span v-else>
+                  {{ slotProps.placeholder }}
+                </span>
+              </template>
+              <template #option="slotProps">
+                <single-tag
+                  :label="slotProps.option[f.source.label]"
+                  :color="slotProps.option[f.source.colorFields?.text]"
+                  :backgroundColor="slotProps.option[f.source.colorFields?.background]"
+                />
+              </template>
+            </PrimeSelect>
+
+            <!-- autocomplete -->
+            <PrimeAutocomplete
+              v-else-if="f.component === FIELD_COMPONENT.AUTOCOMPLETE"
+              :name="f.id"
+              :class="f.class"
+              :forceSelection="false"
+              dropdown
+              dropdown-mode="current"
+              :placeholder="t('locokit.components.primeAutocomplete.placeholder')"
+              fluid
+              :option-label="f.source.label"
+              :suggestions="props.autocompleteSuggestions"
+              @complete="emit('complete', f, $event)"
+              input-class="w-full border-r-0 hover:border-surface-500 "
+              dropdown-class="bg-transparent hover:bg-transparent primary border-l-0 border-surface-300 text-surface-500 hover:border-surface-500 w-12"
+            />
+
+            <PrimeMessage
+              severity="error"
+              v-else-if="f.component !== FIELD_COMPONENT.TOGGLE_SWITCH"
+            >
               Component {{ f.component }} is not yet implemented.
             </PrimeMessage>
 
@@ -73,7 +160,7 @@
     </PrimeMessage>
 
     <slot name="buttons">
-      <div class="flex items-center justify-center gap-2">
+      <div class="flex items-center justify-center gap-2 sticky bottom-0 drop-shadow-lg">
         <PrimeButton
           v-if="buttons.submit"
           type="submit"
@@ -99,21 +186,34 @@ import {
   FormSubmitEvent,
   Form as PrimeForm,
 } from '@primevue/forms'
+
 import { FIELD_COMPONENT, type LocoKitFormField, type LocoKitMessage } from '@locokit/definitions'
+
+import PrimeAutocomplete from 'primevue/autocomplete'
 import PrimeButton from 'primevue/button'
 import PrimeInputText from 'primevue/inputtext'
+import PrimeInputNumber from 'primevue/inputnumber'
 import PrimeMessage from 'primevue/message'
 import PrimePassword from 'primevue/password'
+import PrimeDatePicker from 'primevue/datepicker'
+import PrimeSelect from 'primevue/select'
+import PrimeToggleSwitch from 'primevue/toggleswitch'
+
+import SingleTag from '../../ui/single-tag/single-tag.vue'
+
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const emit = defineEmits<{ submit: [values: Record<string, unknown>] }>()
+const emit = defineEmits<{
+  (e: 'submit', values: Record<string, unknown>): void
+}>()
 
 const props = withDefaults(
   defineProps<{
     fields: LocoKitFormField[]
+    initialValues?: Record<string, string | number | boolean | Object | null>
     loading?: boolean
     buttons?: {
       submit: boolean
@@ -127,9 +227,11 @@ const props = withDefaults(
     }
     /** A message to display into the form, just above the buttons. */
     message?: LocoKitMessage
+    autocompleteSuggestions?: unknown[]
   }>(),
   {
     fields: () => [],
+    initialValues: () => ({}),
     loading: false,
     buttons: () => ({
       submit: true,
@@ -137,6 +239,7 @@ const props = withDefaults(
       cancel: true,
     }),
     labels: () => ({}),
+    autocompleteSuggestions: () => [],
   },
 )
 

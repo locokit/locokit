@@ -93,6 +93,16 @@ export const FIELD_COMPONENT = Object.freeze({
   INPUT_PASSWORD: 'INPUT_PASSWORD',
   INPUT_TEXT: 'INPUT_TEXT',
   INPUT_UUID: 'INPUT_UUID',
+  INPUT_CHECKBOX: 'INPUT_CHECKBOX',
+  INPUT_RADIO: 'INPUT_RADIO',
+
+  TOGGLE_SWITCH: 'TOGGLE_SWITCH',
+
+  TEXTAREA: 'TEXTAREA',
+
+  AUTOCOMPLETE: 'AUTOCOMPLETE',
+
+  SINGLE_SELECT: 'SINGLE_SELECT',
 })
 
 export type DB_TYPE = pgDbTypes | sqliteDbTypes
@@ -225,7 +235,7 @@ export type LocoKitFormFieldRule =
       value: string[] | number[]
     }
 
-export type LocoKitFormField = {
+type LocoKitFormFieldBase = {
   /**
    * Id allowing the form to have unique input ids,
    * ideal for accessibility / label purposes.
@@ -235,6 +245,10 @@ export type LocoKitFormField = {
    * Label displayed near the input field
    */
   label: string
+  /**
+   * Help text is displayed under the input field
+   */
+  helpText?: string[]
   /**
    * Class to apply on the input field
    */
@@ -270,3 +284,46 @@ export type LocoKitFormField = {
     rules: LocoKitFormFieldRule[]
   }
 }
+
+export type LocoKitFormFieldAutocomplete = LocoKitFormFieldBase & {
+  component: typeof FIELD_COMPONENT.AUTOCOMPLETE
+  /**
+   * Source for the data component
+   */
+  source: {
+    table: string
+    label: string
+    value: string
+    /**
+     * Color fields to use for font & background
+     */
+    colorFields?: {
+      text: string
+      background?: string
+    }
+  }
+}
+
+export type LocoKitFormFieldSingleSelect = LocoKitFormFieldBase & {
+  component: typeof FIELD_COMPONENT.SINGLE_SELECT
+  /**
+   * Source for the data component
+   */
+  source: {
+    options: unknown[]
+    label: string
+    value: string
+    /**
+     * Color fields to use for font & background
+     */
+    colorFields?: {
+      text: string
+      background?: string
+    }
+  }
+}
+
+export type LocoKitFormField =
+  | LocoKitFormFieldBase
+  | LocoKitFormFieldAutocomplete
+  | LocoKitFormFieldSingleSelect

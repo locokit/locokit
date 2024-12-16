@@ -503,6 +503,9 @@ importers:
 
   packages/vue-components:
     dependencies:
+      '@locokit/definitions':
+        specifier: workspace:^
+        version: link:../definitions
       '@locokit/locales':
         specifier: workspace:^
         version: link:../locales
@@ -537,9 +540,6 @@ importers:
       '@chromatic-com/storybook':
         specifier: ^3.2.2
         version: 3.2.2(react@18.3.1)(storybook@8.4.5(prettier@3.4.1))
-      '@locokit/definitions':
-        specifier: workspace:^
-        version: link:../definitions
       '@storybook/addon-a11y':
         specifier: ^8.4.5
         version: 8.4.5(storybook@8.4.5(prettier@3.4.1))
