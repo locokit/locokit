@@ -28,7 +28,7 @@ export const Default: Story = {
     const usernameInput = canvas.getByRole('textbox', { name: /Username/ })
     const emailInput = canvas.getByRole('textbox', { name: /Email/ })
 
-    const user = userEvent.setup({ delay: 100 })
+    const user = userEvent.setup({ delay: 60 })
     await user.type(usernameInput, 'ralph')
     await user.type(emailInput, 'ralph@example.com')
     await user.click(submitButton)
@@ -58,7 +58,7 @@ export const WithValidationError: Story = {
     const emailInput = canvas.getByRole('textbox', { name: /Email/ })
     const submitButton = canvas.getByRole('button', { name: "Sign up" }) as HTMLButtonElement
 
-    const user = userEvent.setup({ delay: 100 })
+    const user = userEvent.setup({ delay: 60 })
     await user.type(usernameInput, 'ralph')
     await user.type(emailInput, 'ralph')
     await user.click(submitButton)
