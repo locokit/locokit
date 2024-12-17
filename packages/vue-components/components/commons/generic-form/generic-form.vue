@@ -5,6 +5,8 @@
     => typing is false for the template
    -->
   <PrimeForm v-slot="states" :resolver @submit="onFormSubmit">
+    <slot name="top" />
+
     <slot>
       <div class="flex flex-col gap-1">
         <template v-for="f in fieldsDisplayed(states).value" :key="f.id">
