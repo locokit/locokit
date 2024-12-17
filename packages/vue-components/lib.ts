@@ -15,6 +15,7 @@ import Password from './components/auth/password/password.vue'
 import SignInForm from './components/auth/sign-in/sign-in.vue'
 import SignUpForm from './components/auth/sign-up/sign-up.vue'
 import SingleTag from './components/ui/single-tag/single-tag.vue'
+import UpdateEmailForm from './components/profile/update-email/update-email.vue'
 import UpdateGeneralForm from './components/profile/update-general/update-general.vue'
 
 export const components = {
@@ -25,6 +26,7 @@ export const components = {
   SignInForm,
   SignUpForm,
   SingleTag,
+  UpdateEmailForm,
   UpdateGeneralForm,
 }
 
@@ -36,6 +38,7 @@ export {
   SignInForm,
   SignUpForm,
   SingleTag,
+  UpdateEmailForm,
   UpdateGeneralForm,
 }
 

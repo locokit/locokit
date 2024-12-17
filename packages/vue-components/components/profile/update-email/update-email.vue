@@ -1,126 +1,98 @@
 <template>
-  <FormGeneric
-    :display-reset-button="false"
-    label-tk-button-submit="locokit.components.updateEmailForm.submit"
-    :response="response"
+  <generic-form
+    :fields
+    :buttons="{
+      submit: true,
+      reset: false,
+      cancel: false,
+    }"
+    :labels="{
+      submit: t('locokit.components.updateEmailForm.submit'),
+    }"
     :loading="loading"
-    custom-msg-success-form="locokit.components.updateEmailForm.successMsg"
-    class="w-3/4"
+    :message="message"
     @submit="onSubmit"
   >
-    <div class="mb-4">
-      <p>
-        {{ $t('locokit.components.updateEmailForm.currentEmail') }}
-      </p>
-      <p class="font-bold">
-        {{ user?.email }}
-      </p>
-    </div>
-    <Field
-      v-slot="{ field, errorMessage }"
-      v-model="newEmail"
-      class="mb-4 flex flex-col gap-2"
-      name="updateEmailForm.newEmail"
-      rules="required|email"
-      as="div"
-      type="email"
-    >
-      <label for="name" class="label-field-required">
-        {{ $t('locokit.components.updateEmailForm.newEmail') }}
-      </label>
-      <PrimeInputText
-        id="email"
-        :class="{ 'p-invalid': errorMessage }"
-        v-bind="field"
-        required
-        type="email"
-      />
-
-      <span
-        v-if="errorMessage"
-        class="p-text-error"
-        role="alert"
-        aria-live="assertive"
-      >
-        {{ errorMessage }}
-      </span>
-    </Field>
-    <Field
-      v-slot="{ field, errorMessage }"
-      v-model="password"
-      class="mb-4 flex flex-col gap-2"
-      name="updateEmailForm.password"
-      rules="required"
-      as="div"
-    >
-      <label for="name" class="label-field-required">
-        {{ $t('locokit.components.updateEmailForm.password') }}
-      </label>
-      <PrimePassword
-        v-bind="field"
-        v-model="password"
-        input-id="password"
-        :class="{ 'p-invalid': errorMessage }"
-        toggle-mask
-        :feedback="false"
-        spellcheck="false"
-        autocorrect="off"
-        autocapitalize="none"
-        required
-      />
-
-      <span
-        v-if="errorMessage"
-        class="p-text-error"
-        role="alert"
-        aria-live="assertive"
-      >
-        {{ errorMessage }}
-      </span>
-    </Field>
-  </FormGeneric>
+    <template #top>
+      <div class="mb-4">
+        <p>{{ $t('locokit.components.updateEmailForm.currentEmail') }}</p>
+        <p class="font-bold">{{ user?.email }}</p>
+      </div>
+    </template>
+  </generic-form>
 </template>
 
 <script setup lang="ts">
-import PrimeInputText from 'primevue/inputtext'
-import PrimePassword from 'primevue/password'
-import FormGeneric from '@/components/forms/FormGeneric.vue'
-import { Field } from 'vee-validate'
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { FIELD_COMPONENT, FIELD_TYPE, LocoKitFormField, LocoKitMessage } from '@locokit/definitions'
+import GenericForm from '@/components/commons/generic-form/generic-form.vue'
 
-const emit = defineEmits<
+const { t } = useI18n()
+
+const emit = defineEmits<{
+  /**
+   * Emitted when the submit button has been clicked
+   * and the form has been successfully validated.
+   */
   (
     e: 'submit',
     form: {
+      id: string
       newEmail: string
       password: string
     },
-  ) => void
->()
+  ): void
+}>()
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = withDefaults(
   defineProps<{
+    /** The user object concerned by the update. */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     user: any
+    /** Is the form loading? `true` to put it in loading state. */
     loading?: boolean
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    response?: Error | Record<string, any> | null
+    /** A message to display into the form, just above the buttons. */
+    message?: LocoKitMessage
   }>(),
   {
     user: null,
     loading: false,
-    response: null,
   },
 )
 
-const newEmail = ref()
-const password = ref()
+const fields = computed<LocoKitFormField[]>(() => {
+  return [
+    {
+      id: 'newEmail',
+      label: t('locokit.components.updateEmailForm.newEmail'),
+      type: FIELD_TYPE.TEXT,
+      component: FIELD_COMPONENT.INPUT_EMAIL,
+      validationRules: {
+        required: true,
+        maxLength: 255,
+      },
+    },
+    {
+      id: 'password',
+      label: t('locokit.components.updateEmailForm.password'),
+      type: FIELD_TYPE.TEXT,
+      component: FIELD_COMPONENT.INPUT_PASSWORD,
+      validationRules: {
+        required: true,
+        maxLength: 255,
+      },
+    },
+  ]
+})
 
-const onSubmit = () => {
+const onSubmit = (values: Record<string, unknown>) => {
   emit('submit', {
-    newEmail: newEmail.value,
-    password: password.value,
+    id: props.user.id,
+    ...values as {
+      newEmail: string,
+      password: string,
+    }
   })
 }
 </script>
