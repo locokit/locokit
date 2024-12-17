@@ -32,8 +32,11 @@ export const ForgottenPasswordEnabled = {
   },
 }
 
-export const ErrorFromServer = {
+export const WithMessage = {
   args: {
-    error: 'User is not authenticated.',
+    message: {
+      status: 'error',
+      text: 'User is not authenticated.',
+    },
   },
 }

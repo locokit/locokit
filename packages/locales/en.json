@@ -47,7 +47,7 @@
       "signUpForm": {
         "email": "Email",
         "username": "Username",
-        "signup": "Sign up"
+        "signUp": "Sign up"
       },
       "formGeneric": {
         "submit": "Save",

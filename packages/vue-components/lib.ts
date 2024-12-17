@@ -10,19 +10,31 @@
  */
 import GenericForm from './components/commons/generic-form/generic-form.vue'
 import LostPassword from './components/auth/lost-password/lost-password.vue'
-import SignInForm from './components/auth/sign-in/sign-in.vue'
 import MultiTag from './components/ui/multi-tag/multi-tag.vue'
+import Password from './components/auth/password/password.vue'
+import SignInForm from './components/auth/sign-in/sign-in.vue'
+import SignUpForm from './components/auth/sign-up/sign-up.vue'
 import SingleTag from './components/ui/single-tag/single-tag.vue'
 
 export const components = {
-  SingleTag,
-  MultiTag,
-  SignInForm,
-  LostPassword,
   GenericForm,
+  LostPassword,
+  MultiTag,
+  Password,
+  SignInForm,
+  SignUpForm,
+  SingleTag,
 }
 
-export { LostPassword, MultiTag, SignInForm, SingleTag, GenericForm }
+export {
+  GenericForm,
+  LostPassword,
+  MultiTag,
+  Password,
+  SignInForm,
+  SignUpForm,
+  SingleTag,
+}
 
 /**
  * Layouts

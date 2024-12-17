@@ -19,6 +19,7 @@
             <PrimeInputText
               v-if="f.component === FIELD_COMPONENT.INPUT_TEXT"
               :name="f.id"
+              :id="f.id"
               :class="f.class"
               type="text"
               fluid
@@ -26,6 +27,7 @@
             <PrimeInputText
               v-else-if="f.component === FIELD_COMPONENT.INPUT_EMAIL"
               :name="f.id"
+              :id="f.id"
               :class="f.class"
               type="email"
               fluid
@@ -33,6 +35,7 @@
             <PrimePassword
               v-else-if="f.component === FIELD_COMPONENT.INPUT_PASSWORD"
               :name="f.id"
+              :input-id="f.id"
               :class="f.class"
               fluid
               toggleMask
@@ -56,7 +59,14 @@
       </div>
     </slot>
 
-    <slot name="message" />
+    <PrimeMessage
+      v-if="message"
+      :severity="message.status"
+      class="my-2"
+      data-testid="form-generic-message"
+    >
+      {{ message.text }}
+    </PrimeMessage>
 
     <slot name="buttons">
       <div class="flex items-center justify-center gap-2">
@@ -69,7 +79,7 @@
           :icon="loading ? 'pi pi-spin pi-spinner' : 'bi bi-floppy'"
         />
         <PrimeButton v-if="buttons.cancel" severity="secondary" :label="buttonLabels.cancel" />
-        <PrimeButton type="reset" v-if="buttons.reset" :label="buttonLabels.reset" />
+        <PrimeButton v-if="buttons.reset" type="reset" :label="buttonLabels.reset" />
       </div>
     </slot>
   </PrimeForm>
@@ -85,9 +95,7 @@ import {
   FormSubmitEvent,
   Form as PrimeForm,
 } from '@primevue/forms'
-
-import { FIELD_COMPONENT, type LocoKitFormField } from '@locokit/definitions'
-
+import { FIELD_COMPONENT, type LocoKitFormField, type LocoKitMessage } from '@locokit/definitions'
 import PrimeButton from 'primevue/button'
 import PrimeInputText from 'primevue/inputtext'
 import PrimeMessage from 'primevue/message'
@@ -113,6 +121,8 @@ const props = withDefaults(
       reset?: string
       cancel?: string
     }
+    /** A message to display into the form, just above the buttons. */
+    message?: LocoKitMessage
   }>(),
   {
     fields: () => [],

@@ -11,14 +11,9 @@
       :labels="{
         submit: t('locokit.components.signInForm.signIn'),
       }"
+      :message="message"
       @submit="onSubmit"
-    >
-      <template #message>
-        <PrimeMessage severity="error" v-if="error" class="my-2">
-          {{ error }}
-        </PrimeMessage>
-      </template>
-    </generic-form>
+    />
 
     <div class="mt-4 text-center">
       {{ $t('locokit.components.lostPasswordForm.signInHelp') }}
@@ -30,11 +25,10 @@
 </template>
 
 <script setup lang="ts">
-import GenericForm from '../../commons/generic-form/generic-form.vue'
-import { FIELD_COMPONENT, FIELD_TYPE, type LocoKitFormField } from '@locokit/definitions'
-import PrimeMessage from 'primevue/message'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { FIELD_COMPONENT, FIELD_TYPE, type LocoKitFormField, type LocoKitMessage } from '@locokit/definitions'
+import GenericForm from '@/components/commons/generic-form/generic-form.vue'
 
 const { t } = useI18n()
 
@@ -42,13 +36,15 @@ const emit = defineEmits<(e: 'submit', email: string) => void>()
 
 withDefaults(
   defineProps<{
+    /** Is the form loading? `true` to put it in loading state. */
     loading?: boolean
-    error?: Error | null
+    /** A message to display into the form, just above the buttons. */
+    message?: LocoKitMessage
+    /** Route to the sign-in form. */
     signInRoute?: string
   }>(),
   {
     loading: false,
-    error: null,
     signInRoute: '/',
   },
 )
