@@ -5,6 +5,8 @@
     => typing is false for the template
    -->
   <PrimeForm v-slot="states" :resolver @submit="onFormSubmit">
+    <slot name="top" />
+
     <slot>
       <div class="flex flex-col gap-1">
         <template v-for="f in fieldsDisplayed(states).value" :key="f.id">
@@ -59,6 +61,8 @@
       </div>
     </slot>
 
+    <slot name="bottom" />
+
     <PrimeMessage
       v-if="message"
       :severity="message.status"
@@ -105,7 +109,7 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const emit = defineEmits<(e: 'submit', values: Record<string, unknown>) => void>()
+const emit = defineEmits<{ submit: [values: Record<string, unknown>] }>()
 
 const props = withDefaults(
   defineProps<{

@@ -7,12 +7,19 @@
       cancel: false,
     }"
     :labels="{
-      submit: t('locokit.components.signUpForm.signUp'),
+      submit: t('locokit.components.updateEmailForm.submit'),
     }"
     :loading="loading"
     :message="message"
     @submit="onSubmit"
-  />
+  >
+    <template #top>
+      <div class="mb-4">
+        <p>{{ $t('locokit.components.updateEmailForm.currentEmail') }}</p>
+        <p class="font-bold">{{ user?.email }}</p>
+      </div>
+    </template>
+  </generic-form>
 </template>
 
 <script setup lang="ts">
@@ -30,20 +37,25 @@ const emit = defineEmits<{
    */
   submit: [
     form: {
-      email: string
-      username: string
+      id: string
+      newEmail: string
+      password: string
     }
   ]
 }>()
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
+    /** The user object concerned by the update. */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    user: any
     /** Is the form loading? `true` to put it in loading state. */
     loading?: boolean
     /** A message to display into the form, just above the buttons. */
     message?: LocoKitMessage
   }>(),
   {
+    user: null,
     loading: false,
   },
 )
@@ -51,20 +63,20 @@ withDefaults(
 const fields = computed<LocoKitFormField[]>(() => {
   return [
     {
-      id: 'username',
-      label: t('locokit.components.signUpForm.username'),
+      id: 'newEmail',
+      label: t('locokit.components.updateEmailForm.newEmail'),
       type: FIELD_TYPE.TEXT,
-      component: FIELD_COMPONENT.INPUT_TEXT,
+      component: FIELD_COMPONENT.INPUT_EMAIL,
       validationRules: {
         required: true,
         maxLength: 255,
       },
     },
     {
-      id: 'email',
-      label: t('locokit.components.signUpForm.email'),
-      type: FIELD_TYPE.EMAIL,
-      component: FIELD_COMPONENT.INPUT_EMAIL,
+      id: 'password',
+      label: t('locokit.components.updateEmailForm.password'),
+      type: FIELD_TYPE.TEXT,
+      component: FIELD_COMPONENT.INPUT_PASSWORD,
       validationRules: {
         required: true,
         maxLength: 255,
@@ -74,6 +86,12 @@ const fields = computed<LocoKitFormField[]>(() => {
 })
 
 const onSubmit = (values: Record<string, unknown>) => {
-  emit('submit', values as { email: string; username: string })
+  emit('submit', {
+    id: props.user.id,
+    ...values as {
+      newEmail: string,
+      password: string,
+    }
+  })
 }
 </script>
