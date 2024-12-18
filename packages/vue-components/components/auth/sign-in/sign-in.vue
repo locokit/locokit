@@ -36,7 +36,14 @@ import GenericForm from '@/components/commons/generic-form/generic-form.vue'
 
 const { t } = useI18n()
 
-const emit = defineEmits<(e: 'submit', form: { email: string; password: string }) => void>()
+const emit = defineEmits<{
+  submit: [
+    form: {
+      email: string
+      password: string
+    }
+  ]
+}>()
 
 withDefaults(
   defineProps<{

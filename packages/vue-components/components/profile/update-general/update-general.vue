@@ -45,15 +45,14 @@ const emit = defineEmits<{
    * Emitted when the submit button has been clicked
    * and the form has been successfully validated.
    */
-  (
-    e: 'submit',
+  submit: [
     form: {
       id: string
       username: string
       lastName: string | null
       firstName: string | null
-    },
-  ): void
+    }
+  ]
 }>()
 
 const props = withDefaults(

@@ -109,7 +109,7 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const emit = defineEmits<(e: 'submit', values: Record<string, unknown>) => void>()
+const emit = defineEmits<{ submit: [values: Record<string, unknown>] }>()
 
 const props = withDefaults(
   defineProps<{
