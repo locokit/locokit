@@ -6,14 +6,6 @@ const meta: Meta<typeof UpdateEmailForm> = {
   title: 'components/profile/update-email',
   component: UpdateEmailForm,
   args: {
-    user: {
-      id: '3e5ffeeb-af13-412a-92e8-b3f3fad50593',
-      username: 'ralph',
-      lastName: '',
-      firstName: 'Ralph',
-      email: 'ralph@example.com',
-      profile: 'member',
-    },
     // Use `fn` to spy on the submit event, which will appear in the actions panel
     // once invoked: https://storybook.js.org/docs/essentials/actions#action-args
     onSubmit: fn(),
@@ -44,7 +36,6 @@ export const Default: Story = {
     await user.click(submitButton)
 
     await waitFor(() => expect(args.onSubmit).toHaveBeenCalledWith({
-      id: '3e5ffeeb-af13-412a-92e8-b3f3fad50593',
       newEmail: 'ralph.smith@example.com',
       password: 'password',
     }))
@@ -59,6 +50,17 @@ export const Loading: Story = {
     const canvas = within(canvasElement)
     const submitButton = canvas.getByRole('button', { name: "Submit" }) as HTMLButtonElement
     await expect(submitButton.disabled).toBe(true)
+  },
+}
+
+export const WithCurrentEmailAddress: Story = {
+  args: {
+    currentEmail: 'ralph@example.com',
+  },
+  play: async ({ canvasElement }: StoryContext) => {
+    const canvas = within(canvasElement)
+    const currentEmail = canvas.queryByText('ralph@example.com')
+    await expect(currentEmail).toBeInTheDocument()
   },
 }
 

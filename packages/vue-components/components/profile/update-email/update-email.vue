@@ -13,10 +13,10 @@
     :message="message"
     @submit="onSubmit"
   >
-    <template #top>
+    <template #top v-if="currentEmail">
       <div class="mb-4">
         <p>{{ $t('locokit.components.updateEmailForm.currentEmail') }}</p>
-        <p class="font-bold">{{ user?.email }}</p>
+        <p class="font-bold">{{ currentEmail }}</p>
       </div>
     </template>
   </generic-form>
@@ -37,25 +37,22 @@ const emit = defineEmits<{
    */
   submit: [
     form: {
-      id: string
       newEmail: string
       password: string
     }
   ]
 }>()
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
-    /** The user object concerned by the update. */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    user: any
+    /** The user's current email address. */
+    currentEmail?: string
     /** Is the form loading? `true` to put it in loading state. */
     loading?: boolean
     /** A message to display into the form, just above the buttons. */
     message?: LocoKitMessage
   }>(),
   {
-    user: null,
     loading: false,
   },
 )
@@ -86,12 +83,9 @@ const fields = computed<LocoKitFormField[]>(() => {
 })
 
 const onSubmit = (values: Record<string, unknown>) => {
-  emit('submit', {
-    id: props.user.id,
-    ...values as {
-      newEmail: string,
-      password: string,
-    }
+  emit('submit', values as {
+    newEmail: string
+    password: string
   })
 }
 </script>
