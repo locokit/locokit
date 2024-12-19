@@ -34,7 +34,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { FIELD_COMPONENT, FIELD_TYPE, LocoKitFormField, LocoKitMessage, LocoKitUser } from '@locokit/definitions'
+import {
+  FIELD_COMPONENT,
+  FIELD_TYPE,
+  type LocoKitFormField,
+  type LocoKitMessage,
+  type LocoKitUser,
+} from '@locokit/definitions'
 import GenericForm from '@/components/commons/generic-form/generic-form.vue'
 import SingleTag from '@/components/ui/single-tag/single-tag.vue'
 

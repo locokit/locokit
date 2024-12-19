@@ -1,4 +1,4 @@
-import { FIELD_COMPONENT, FIELD_TYPE, LocoKitFormField } from '@locokit/definitions'
+import { FIELD_COMPONENT, FIELD_TYPE, type LocoKitFormField } from '@locokit/definitions'
 import { expect, userEvent, within } from '@storybook/test'
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'

@@ -18,7 +18,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { FIELD_COMPONENT, FIELD_TYPE, LocoKitFormField, LocoKitMessage } from '@locokit/definitions'
+import {
+  FIELD_COMPONENT,
+  FIELD_TYPE,
+  type LocoKitFormField,
+  type LocoKitMessage,
+} from '@locokit/definitions'
 import GenericForm from '@/components/commons/generic-form/generic-form.vue'
 
 const { t } = useI18n()
