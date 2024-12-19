@@ -20,7 +20,7 @@
           {{ user.email }}
         </p>
       </div>
-      <div class="mb-4">
+      <div class="mb-4" v-if="user.profile">
         <p>{{ $t('locokit.components.updateGeneralForm.role') }}</p>
         <SingleTag
           class="my-1 w-fit"
@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { FIELD_COMPONENT, FIELD_TYPE, LocoKitFormField, LocoKitMessage } from '@locokit/definitions'
+import { FIELD_COMPONENT, FIELD_TYPE, LocoKitFormField, LocoKitMessage, LocoKitUser } from '@locokit/definitions'
 import GenericForm from '@/components/commons/generic-form/generic-form.vue'
 import SingleTag from '@/components/ui/single-tag/single-tag.vue'
 
@@ -58,8 +58,7 @@ const emit = defineEmits<{
 const props = withDefaults(
   defineProps<{
     /** The user object concerned by the update. */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    user: any
+    user: LocoKitUser
     /** Is the form loading? `true` to put it in loading state. */
     loading?: boolean
     /** A message to display into the form, just above the buttons. */
