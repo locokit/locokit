@@ -7,7 +7,7 @@
       cancel: false,
     }"
     :labels="{
-      submit: t('locokit.components.signUpForm.signUp'),
+      submit: t('locokit.components.updateGeneralForm.submit'),
     }"
     :loading="loading"
     :message="message"
@@ -24,9 +24,10 @@ import {
   type LocoKitFormField,
   type LocoKitMessage,
 } from '@locokit/definitions'
+//import { regexPasswordRules } from '@/helpers/regex'
 import GenericForm from '@/components/commons/generic-form/generic-form.vue'
 
-const { t } = useI18n()
+const { t } = useI18n();
 
 const emit = defineEmits<{
   /**
@@ -35,8 +36,8 @@ const emit = defineEmits<{
    */
   submit: [
     form: {
-      email: string
-      username: string
+      currentPassword: string
+      newPassword: string
     }
   ]
 }>()
@@ -56,29 +57,44 @@ withDefaults(
 const fields = computed<LocoKitFormField[]>(() => {
   return [
     {
-      id: 'username',
-      label: t('locokit.components.signUpForm.username'),
+      id: 'currentPassword',
+      label: t('locokit.components.updatePasswordForm.currentPassword'),
       type: FIELD_TYPE.TEXT,
-      component: FIELD_COMPONENT.INPUT_TEXT,
+      component: FIELD_COMPONENT.INPUT_PASSWORD,
       validationRules: {
         required: true,
         maxLength: 255,
       },
     },
     {
-      id: 'email',
-      label: t('locokit.components.signUpForm.email'),
-      type: FIELD_TYPE.EMAIL,
-      component: FIELD_COMPONENT.INPUT_EMAIL,
+      id: 'newPassword',
+      label: t('locokit.components.updatePasswordForm.newPassword'),
+      type: FIELD_TYPE.TEXT,
+      component: FIELD_COMPONENT.INPUT_PASSWORD,
       validationRules: {
         required: true,
         maxLength: 255,
+        // TODO: check that input matches a regex
+      },
+    },
+    {
+      id: 'confirmPassword',
+      label: t('locokit.components.updatePasswordForm.confirmPassword'),
+      type: FIELD_TYPE.TEXT,
+      component: FIELD_COMPONENT.INPUT_PASSWORD,
+      validationRules: {
+        required: true,
+        maxLength: 255,
+        // TODO: check that input is identical to the other field's value
       },
     },
   ]
 })
 
 const onSubmit = (values: Record<string, unknown>) => {
-  emit('submit', values as { email: string; username: string })
+  emit('submit', {
+    currentPassword: values.currentPassword as string,
+    newPassword: values.newPassword as string,
+  })
 }
 </script>

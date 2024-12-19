@@ -26,7 +26,7 @@ const emit = defineEmits<{
    * Emitted when the submit button has been clicked
    * and the form has been successfully validated.
    */
-  (e: 'submit', password: string): void
+  submit: [password: string]
 }>()
 
 withDefaults(

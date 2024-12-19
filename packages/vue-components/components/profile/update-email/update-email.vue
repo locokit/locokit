@@ -7,12 +7,19 @@
       cancel: false,
     }"
     :labels="{
-      submit: t('locokit.components.signUpForm.signUp'),
+      submit: t('locokit.components.updateEmailForm.submit'),
     }"
     :loading="loading"
     :message="message"
     @submit="onSubmit"
-  />
+  >
+    <template #top v-if="currentEmail">
+      <div class="mb-4">
+        <p>{{ $t('locokit.components.updateEmailForm.currentEmail') }}</p>
+        <p class="font-bold">{{ currentEmail }}</p>
+      </div>
+    </template>
+  </generic-form>
 </template>
 
 <script setup lang="ts">
@@ -35,14 +42,16 @@ const emit = defineEmits<{
    */
   submit: [
     form: {
-      email: string
-      username: string
+      newEmail: string
+      password: string
     }
   ]
 }>()
 
 withDefaults(
   defineProps<{
+    /** The user's current email address. */
+    currentEmail?: string
     /** Is the form loading? `true` to put it in loading state. */
     loading?: boolean
     /** A message to display into the form, just above the buttons. */
@@ -56,20 +65,20 @@ withDefaults(
 const fields = computed<LocoKitFormField[]>(() => {
   return [
     {
-      id: 'username',
-      label: t('locokit.components.signUpForm.username'),
+      id: 'newEmail',
+      label: t('locokit.components.updateEmailForm.newEmail'),
       type: FIELD_TYPE.TEXT,
-      component: FIELD_COMPONENT.INPUT_TEXT,
+      component: FIELD_COMPONENT.INPUT_EMAIL,
       validationRules: {
         required: true,
         maxLength: 255,
       },
     },
     {
-      id: 'email',
-      label: t('locokit.components.signUpForm.email'),
-      type: FIELD_TYPE.EMAIL,
-      component: FIELD_COMPONENT.INPUT_EMAIL,
+      id: 'password',
+      label: t('locokit.components.updateEmailForm.password'),
+      type: FIELD_TYPE.TEXT,
+      component: FIELD_COMPONENT.INPUT_PASSWORD,
       validationRules: {
         required: true,
         maxLength: 255,
@@ -79,6 +88,9 @@ const fields = computed<LocoKitFormField[]>(() => {
 })
 
 const onSubmit = (values: Record<string, unknown>) => {
-  emit('submit', values as { email: string; username: string })
+  emit('submit', values as {
+    newEmail: string
+    password: string
+  })
 }
 </script>

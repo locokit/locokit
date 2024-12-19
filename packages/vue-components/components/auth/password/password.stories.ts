@@ -29,7 +29,7 @@ export const Default: Story = {
     const passwordInput1 = canvas.getByLabelText(/Password [^\(]/)
     const passwordInput2 = canvas.getByLabelText(/Password \(check\)/)
 
-    const user = userEvent.setup({ delay: 100 })
+    const user = userEvent.setup({ delay: 60 })
     await user.type(passwordInput1, "password")
     await user.type(passwordInput2, "password")
     await user.click(submitButton)
@@ -56,7 +56,7 @@ export const WithValidationError: Story = {
     const passwordInput2 = canvas.getByLabelText(/Password \(check\)/)
     const submitButton = canvas.getByRole('button', { name: "Save" })
 
-    const user = userEvent.setup({ delay: 100 })
+    const user = userEvent.setup({ delay: 60 })
     await user.type(passwordInput1, 'password')
     await user.type(passwordInput2, 'secret')
     await user.click(submitButton)
