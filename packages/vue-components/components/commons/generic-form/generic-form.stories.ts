@@ -1,9 +1,10 @@
 import { FIELD_COMPONENT, FIELD_TYPE, type LocoKitFormField } from '@locokit/definitions'
-import { expect, userEvent, within } from '@storybook/test'
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
 import GenericForm from './generic-form.vue'
 import { LocoKitFormFieldAutocomplete } from '@locokit/definitions/dist/fieldType'
+import { Story } from '@storybook/blocks'
+import PrimeButton from 'primevue/button'
 
 const meta: Meta<typeof GenericForm> = {
   title: 'components/forms/GenericForm',
@@ -26,6 +27,7 @@ export const WithFields: Story = {
         {
           id: 'name',
           label: 'Name (text center aligned)',
+          description: 'This is the description on a single line',
           type: FIELD_TYPE.STRING,
           class: 'text-center',
           component: FIELD_COMPONENT.INPUT_TEXT,
@@ -36,6 +38,7 @@ export const WithFields: Story = {
         {
           id: 'pseudo',
           label: 'Pseudo (text right aligned)',
+          description: ['This is the description', 'on a multi', 'line'],
           type: FIELD_TYPE.STRING,
           class: 'text-right',
           component: FIELD_COMPONENT.INPUT_TEXT,
@@ -101,7 +104,6 @@ export const WithInitialValues: Story = {
           id: 'name',
           label: 'Name (text center aligned)',
           type: FIELD_TYPE.STRING,
-          class: 'text-center',
           component: FIELD_COMPONENT.INPUT_TEXT,
           validationRules: {
             required: true,
@@ -111,20 +113,33 @@ export const WithInitialValues: Story = {
           id: 'pseudo',
           label: 'Pseudo (text right aligned)',
           type: FIELD_TYPE.STRING,
-          class: 'text-right',
           component: FIELD_COMPONENT.INPUT_TEXT,
         },
       ]
-      const initialValues = {
-        name: 'My name',
-        pseudo: 'My pseudo',
+      const initialValues1 = {
+        name: 'My name 1',
+        pseudo: 'My pseudo 1',
       }
-      return { fields, initialValues }
+      const initialValues2 = {
+        name: 'My name 2',
+        pseudo: 'My pseudo 2',
+      }
+      const initialValues = ref(initialValues1)
+      function setInitialValues1() {
+        initialValues.value = initialValues1
+      }
+      function setInitialValues2() {
+        initialValues.value = initialValues2
+      }
+      return { fields, initialValues, setInitialValues1, setInitialValues2 }
     },
     components: {
       GenericForm,
+      PrimeButton,
     },
     template: `
+      <PrimeButton @click="setInitialValues1" label="Set 1" />
+      <PrimeButton @click="setInitialValues2" label="Set 2" />
       <generic-form
         :fields
         :initial-values
@@ -135,38 +150,27 @@ export const WithInitialValues: Story = {
 
 export const WithValidationErrors: Story = {
   name: 'with validation errors',
-  render: () => ({
-    setup() {
-      const fields: LocoKitFormField[] = [
-        {
-          id: 'name',
-          label: 'Name (text center aligned)',
-          type: FIELD_TYPE.STRING,
-          class: 'text-center',
-          component: FIELD_COMPONENT.INPUT_TEXT,
-          validationRules: {
-            required: true,
-          },
+  args: {
+    fields: [
+      {
+        id: 'name',
+        label: 'Name (text center aligned)',
+        type: FIELD_TYPE.STRING,
+        class: 'text-center',
+        component: FIELD_COMPONENT.INPUT_TEXT,
+        validationRules: {
+          required: true,
         },
-        {
-          id: 'pseudo',
-          label: 'Pseudo (text right aligned)',
-          type: FIELD_TYPE.STRING,
-          class: 'text-right',
-          component: FIELD_COMPONENT.INPUT_TEXT,
-        },
-      ]
-      return { fields }
-    },
-    components: {
-      GenericForm,
-    },
-    template: `
-      <generic-form
-        :fields
-      />
-    `,
-  }),
+      },
+      {
+        id: 'pseudo',
+        label: 'Pseudo (text right aligned)',
+        type: FIELD_TYPE.STRING,
+        class: 'text-right',
+        component: FIELD_COMPONENT.INPUT_TEXT,
+      },
+    ] as LocoKitFormField[],
+  },
 }
 
 export const WithAllSortsOfFields: Story = {
@@ -248,6 +252,7 @@ export const WithAllSortsOfFields: Story = {
           label: 'Autocomplete field',
           type: FIELD_TYPE.STRING,
           component: FIELD_COMPONENT.AUTOCOMPLETE,
+
           source: {
             table: 'myTable',
             label: 'fieldLabel',

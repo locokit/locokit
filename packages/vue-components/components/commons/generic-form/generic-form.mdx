@@ -31,6 +31,8 @@ export type LocoKitFormFieldRule =
 export type LocoKitFormField = {
   id: string
   label: string
+  description?: string | string[]
+  class?: string
   type: keyof typeof FIELD_TYPE
   component: keyof typeof FIELD_COMPONENT
   validationRules?: {

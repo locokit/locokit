@@ -5,7 +5,7 @@ import { sqliteDbTypes } from './sqlite/dbType'
 
 /**
  * Ids are not in order,
- * this is for retrocompatibility with 0.x version
+ * this is for backward compatibility with 0.x version
  */
 export const FIELD_TYPE = Object.freeze({
   /**
@@ -246,9 +246,9 @@ type LocoKitFormFieldBase = {
    */
   label: string
   /**
-   * Help text is displayed under the input field
+   * Description is displayed under the input field
    */
-  helpText?: string[]
+  description?: string | string[]
   /**
    * Class to apply on the input field
    */
@@ -288,7 +288,7 @@ type LocoKitFormFieldBase = {
 export type LocoKitFormFieldAutocomplete = LocoKitFormFieldBase & {
   component: typeof FIELD_COMPONENT.AUTOCOMPLETE
   /**
-   * Source for the data component
+   * Data source to use for the auto-completion
    */
   source: {
     table: string

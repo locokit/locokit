@@ -63,6 +63,7 @@
               v-else-if="f.component === FIELD_COMPONENT.INPUT_NUMBER"
               :name="f.id"
               :class="f.class"
+              :inputId="f.id"
               fluid
             />
             <!-- date / datetime -->
@@ -72,6 +73,7 @@
               "
               :name="f.id"
               :class="f.class"
+              :id="f.id"
               fluid
               show-icon
               icon-display="input"
@@ -84,6 +86,7 @@
               v-else-if="f.component === FIELD_COMPONENT.SINGLE_SELECT"
               :name="f.id"
               :class="f.class"
+              :labelId="f.id"
               fluid
               :options="f.source.options"
               :showClear="true"
@@ -115,6 +118,7 @@
               v-else-if="f.component === FIELD_COMPONENT.AUTOCOMPLETE"
               :name="f.id"
               :class="f.class"
+              :inputId="f.id"
               :forceSelection="false"
               dropdown
               dropdown-mode="current"
@@ -133,6 +137,12 @@
             >
               Component {{ f.component }} is not yet implemented.
             </PrimeMessage>
+
+            <template v-if="f.description">
+              <p class="text-slate-500" v-for="(line, index) in f.description" :key="index">
+                {{ line }}
+              </p>
+            </template>
 
             <PrimeMessage
               v-if="states?.[f.id]?.invalid"
@@ -189,7 +199,7 @@ import {
 
 import { FIELD_COMPONENT, type LocoKitFormField, type LocoKitMessage } from '@locokit/definitions'
 
-import PrimeAutocomplete from 'primevue/autocomplete'
+import PrimeAutocomplete, { AutoCompleteCompleteEvent } from 'primevue/autocomplete'
 import PrimeButton from 'primevue/button'
 import PrimeInputText from 'primevue/inputtext'
 import PrimeInputNumber from 'primevue/inputnumber'
@@ -201,13 +211,14 @@ import PrimeToggleSwitch from 'primevue/toggleswitch'
 
 import SingleTag from '../../ui/single-tag/single-tag.vue'
 
-import { computed } from 'vue'
+import { computed, watch, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
 const emit = defineEmits<{
-  (e: 'submit', values: Record<string, unknown>): void
+  submit: [values: Record<string, unknown>]
+  complete: [field: LocoKitFormFieldAutocomplete, event: AutoCompleteCompleteEvent]
 }>()
 
 const props = withDefaults(
@@ -227,6 +238,12 @@ const props = withDefaults(
     }
     /** A message to display into the form, just above the buttons. */
     message?: LocoKitMessage
+    /**
+     * Suggestions used for autocomplete fields.
+     * Only one prop is used,
+     * and passed to all autocomplete fields,
+     * as only one can be edited at a time.
+     */
     autocompleteSuggestions?: unknown[]
   }>(),
   {
@@ -254,6 +271,10 @@ const buttonLabels = computed(() => {
 const fieldsDisplayed = (state: Record<string, FormFieldState>) =>
   computed(() => {
     const result: LocoKitFormField[] = []
+    function getFieldDescription(f: LocoKitFormField) {
+      if (!f.description) return null
+      return Array.isArray(f.description) ? f.description : [f.description]
+    }
     props.fields.forEach((f) => {
       let isDisplayed = true
       if (f.conditionalDisplay?.enabled) {
@@ -271,7 +292,11 @@ const fieldsDisplayed = (state: Record<string, FormFieldState>) =>
           }
         })
       }
-      if (isDisplayed) result.push(f)
+      if (isDisplayed)
+        result.push({
+          ...f,
+          description: getFieldDescription(f),
+        })
     })
 
     return result

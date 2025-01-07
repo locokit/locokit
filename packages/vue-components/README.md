@@ -7,7 +7,7 @@ and can also be used for front-office applications.
 
 > [!IMPORTANT]
 > This package is not yet stabilized.
-> Some evolutions could break retrocompatibility through versions until we reach the 1.x .
+> Some evolutions could break backward compatibility through versions until we reach the 1.x .
 
 
 ## Getting started
@@ -36,8 +36,7 @@ Some files need to be created or updated :
 
 **`src/main.{js,ts}`**
 
-In your `src/main.{js,ts}` file,
-we configure PrimeVue, vue-i18n.
+In your `src/main.{js,ts}` file, configure PrimeVue and vue-i18n as shown below.
 
 ```js
 /* src/main.js */
@@ -149,7 +148,7 @@ export default {
 To import components, you can :
 
 ```js
-// import separately
+// import them separately
 import { SingleTag } from '@locokit/vue-components'
 // then use it with <single-tag /> or <SingleTag />
 
@@ -158,7 +157,7 @@ import { components, layouts } from '@locokit/vue-components'
 // then use <components.SingleTag />
 ```
 
-Autocomplete for properties and event is provided in IDE like VS Code :
+Autocomplete for properties and events is provided in IDE like VS Code :
 
 ![demo SignInForm](./docs/demo-signin.gif)
 
@@ -170,8 +169,8 @@ This package contains typings and some helpers.
 
 **[i18n](https://vue-i18n.intlify.dev/) + [@locokit/locales](https://www.npmjs.com/package/@locokit/locales)**
 
-This library provide `vue-i18n` and the `t` function for translation purpose,
-used in vue-components.
+This library provides `vue-i18n` and the `t` function for translation purpose,
+used in `vue-components`.
 
 **[primevue](https://primevue.org/) @primevue/themes**
 
