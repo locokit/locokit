@@ -1,0 +1,23 @@
+**0.0.5**
+
+* add new `FIELD_COMPONENT`
+  * `AUTOCOMPLETE`
+  * `TOGGLE_SWITCH`
+  * `TEXTAREA`
+  * `SINGLE_SELECT`
+  * `INPUT_CHECKBOX`
+  * `INPUT_RADIO`
+* add `LocoKitFormFieldAutocomplete`
+* add `LocoKitFormFieldSingleSelect`
+* rename `LocoKitFormField` => `LocoKitFormFieldBase`
+  * add `helpText` property
+* make `LocoKitFormField` the union of others fields definitions
+
+**0.0.4**
+
+* rename `LocoKitField` to `LocoKitFormField`
+* rename `LocoKitFieldRule` to `LocoKitFormFieldRule`
+
+**0.0.3**
+
+* add `LocoKitField` and `LocoKitFieldRule` types

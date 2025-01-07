@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import vueDevTools from 'vite-plugin-vue-devtools'
+
 import path from 'path'
 import dts from 'vite-plugin-dts'
 import { fileURLToPath, URL } from 'node:url'
@@ -12,6 +14,7 @@ export default defineConfig({
       // include: [path.resolve(__dirname, './lib.ts')],
       tsconfigPath: './tsconfig.app.json',
     }),
+    vueDevTools(),
   ],
   build: {
     lib: {
@@ -34,11 +37,17 @@ export default defineConfig({
          * have to be here, to avoid to be transpiled in the build
          */
         'primevue',
+        'primevue/autocomplete',
         'primevue/button',
         'primevue/card',
         'primevue/inputtext',
+        'primevue/inputnumber',
         'primevue/message',
         'primevue/password',
+        'primevue/datepicker',
+        'primevue/select',
+        'primevue/toggleswitch',
+
         'tailwindcss',
         'tailwindcss-primeui',
         'vue',
@@ -48,11 +57,17 @@ export default defineConfig({
       output: {
         globals: {
           vue: 'Vue',
-          // primevue: 'PrimeVue',
+          primevue: 'PrimeVue',
+          'primevue/autocomplete': 'PrimeAutocomplete',
           'primevue/button': 'PrimeButton',
+          'primevue/card': 'PrimeCard',
           'primevue/inputtext': 'PrimeInputText',
-          'primevue/password': 'PrimePassword',
+          'primevue/inputnumber': 'PrimeInputNumber',
           'primevue/message': 'PrimeMessage',
+          'primevue/password': 'PrimePassword',
+          'primevue/datepicker': 'PrimeDatePicker',
+          'primevue/select': 'PrimeSelect',
+          'primevue/toggleswitch': 'PrimeToggleSwitch',
         },
       },
     },
