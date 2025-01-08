@@ -3,20 +3,20 @@
     <div class="relative flex w-full">
       <i class="bi bi-funnel-fill" />
       <p class="pl-1 flex w-full">
-        {{ $t('locokit.components.filterButton.label', nbActiveFilters) }}
+        {{ $t('locokit.components.filterBuilder.label', nbActiveFilters) }}
       </p>
     </div>
   </PrimeButton>
-  <PrimeOverlayPanel
-    id="filter_overlay_panel"
-    ref="modalRef"
+  <PrimePopover
+    id="filter-overlay-panel"
+    ref="popoverRef"
     class="ml-1 min-w-[52em]"
     :append-to="appendTo"
   >
     <div class="flex">
       <div class="max-h-48 overflow-y-scroll m-1 w-full">
         <div
-          v-for="(filter, index) in filters"
+          v-for="({ filter, rules, component, properties }, index) in computedFilters"
           :key="`filter-${index}`"
           class="flex flex-row gap-1 items-end mt-0.5"
         >
@@ -31,119 +31,106 @@
           </div>
 
           <div class="w-20">
-            <PrimeDropdown
+            <PrimeSelect
               v-if="index > 0"
               v-model="currentOperator"
               :disabled="index > 1"
               class="w-full"
               input-class="!text-xs !px-1 text-center"
               panel-class="!text-xs"
-              :options="OPERATORS"
+              :options="LOGICAL_OPERATORS"
               option-label="label"
-              option-value="featherKey"
+              option-value="operator"
               @change="onChangeOperator"
             >
               <template #value="slotProps">
                 <span>
-                  {{
-                    $t(
-                      `locokit.components.filterButton.select.operator.${slotProps.value}`,
-                    )
-                  }}
+                  {{ $t(`locokit.components.filterBuilder.select.operator.${slotProps.value}`) }}
                 </span>
               </template>
               <template #option="slotProps">
                 <span>
-                  {{
-                    $t(
-                      `locokit.components.filterButton.select.operator.${slotProps.option.featherKey}`,
-                    )
-                  }}
+                  {{ $t(`locokit.components.filterBuilder.select.operator.${slotProps.option.operator}`) }}
                 </span>
               </template>
-            </PrimeDropdown>
+            </PrimeSelect>
           </div>
           <div class="w-1/4">
-            <label v-if="index === 0" class="text-xs" for="column">
-              {{ $t('locokit.components.filterButton.column') }}
+            <label v-if="index === 0" class="text-xs" :for="`field-${index}`">
+              {{ $t('locokit.components.filterBuilder.field') }}
             </label>
-            <PrimeDropdown
-              id="column"
-              v-model="filter.column"
-              input-id="column"
-              aria-label="column"
-              aria-labelledby="column"
+            <PrimeSelect
+              v-model="filter.field"
+              :label-id="`field-${index}`"
               class="w-full"
               input-class="!text-xs"
               panel-class="!text-xs"
-              :options="columnsDefinition"
+              :options="fieldsDefinition"
               data-key="name"
               option-label="name"
-              @change="onChangeColumn(index)"
+              :aria-label="$t(
+                'locokit.components.filterBuilder.fieldAriaLabel',
+                { number: index + 1 }
+              )"
+              :pt="{
+                list: {
+                  ariaLabel: 'Fields list',
+                }
+              }"
+              @change="onChangeField(index)"
             />
           </div>
           <div class="w-1/4">
-            <label v-if="index === 0" class="text-xs" for="action">
-              {{ $t('locokit.components.filterButton.action') }}
+            <label v-if="index === 0" class="text-xs" :for="`rule-${index}`">
+              {{ $t('locokit.components.filterBuilder.rule') }}
             </label>
-            <PrimeDropdown
-              v-model="filter.action"
-              input-id="action"
+            <PrimeSelect
+              v-model="filter.rule"
+              :label-id="`rule-${index}`"
               class="w-full"
               input-class="!text-xs"
               panel-class="!text-xs"
-              :disabled="!filter.column"
-              :options="
-                filter.column
-                  ? FILTER_CONFIG_TO_MATCH_FIELD[filter?.column.type].actions
-                  : []
-              "
-              option-label="label"
-              @change="onChangeAction(index, $event)"
+              :disabled="!filter.field"
+              :options="rules || []"
+              :option-label="getOptionLabel"
+              :aria-label="$t(
+                'locokit.components.filterBuilder.ruleAriaLabel',
+                { number: index + 1 }
+              )"
+              :pt="{
+                list: {
+                  ariaLabel: 'Rules list',
+                }
+              }"
+              @change="onChangeRule(index, $event)"
             >
               <template #value="slotProps">
                 <span v-if="slotProps.value">
-                  {{
-                    $t(
-                      `locokit.components.filterButton.select.action.${slotProps.value.label}`,
-                    )
-                  }}
+                  {{ $t(`locokit.components.filterBuilder.select.rule.${slotProps.value.label}`) }}
                 </span>
               </template>
               <template #option="slotProps">
                 <span>
-                  {{
-                    $t(
-                      `locokit.components.filterButton.select.action.${slotProps.option.label}`,
-                    )
-                  }}
+                  {{ $t(`locokit.components.filterBuilder.select.rule.${slotProps.option.label}`) }}
                 </span>
               </template>
-            </PrimeDropdown>
+            </PrimeSelect>
           </div>
           <div
             v-if="
-              filter.action &&
-              filter.action.predefinedPattern === undefined &&
-              FILTER_CONFIG_TO_MATCH_FIELD[filter.column.type]?.usedComponent
+              filter.field &&
+              filter.rule?.predefinedValue === undefined &&
+              component
             "
-            class="w-1/4 flex flex-col"
+            class="w-1/4"
           >
-            <label v-if="index === 0" class="text-xs" for="motif">
-              {{ $t('locokit.components.filterButton.motif') }}
+            <label v-if="index === 0" class="text-xs" for="value-0">
+              {{ $t('locokit.components.filterBuilder.value') }}
             </label>
             <component
-              :is="
-                FILTER_CONFIG_TO_MATCH_FIELD[filter.column.type].usedComponent
-              "
-              v-bind="
-                {
-                  ...(FILTER_CONFIG_TO_MATCH_FIELD[filter.column.type]
-                    ?.patternComponentOptions || {}),
-                  ...dataFromField[filter.column.slug],
-                } || {}
-              "
-              v-model="filter.motif"
+              :is="component"
+              v-bind="properties"
+              v-model="filter.value"
             />
           </div>
         </div>
@@ -157,7 +144,7 @@
         >
           <i class="bi bi-plus text-primary mr-1" />
           <p class="text-primary font-semibold">
-            {{ $t('locokit.components.filterButton.addFilter') }}
+            {{ $t('locokit.components.filterBuilder.addFilter') }}
           </p>
         </PrimeButton>
         <PrimeButton
@@ -166,33 +153,40 @@
         >
           <i class="bi bi-arrow-counterclockwise text-primary mr-1" />
           <p class="text-primary font-semibold">
-            {{ $t('locokit.components.filterButton.reset') }}
+            {{ $t('locokit.components.filterBuilder.reset') }}
           </p>
         </PrimeButton>
       </div>
       <PrimeButton
         class="p-button-secondary p-button-rounded font-semibold"
         icon="bi-check-lg"
-        :label="$t('locokit.components.filterButton.submit')"
+        :label="$t('locokit.components.filterBuilder.submit')"
         @click="onClickFilters"
       />
     </div>
-  </PrimeOverlayPanel>
+  </PrimePopover>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { computed, onMounted, ref, type Component } from 'vue'
+import { useI18n } from 'vue-i18n'
 import PrimeButton from 'primevue/button'
-import PrimeDropdown from 'primevue/dropdown'
-import PrimeOverlayPanel from 'primevue/overlaypanel'
-import { FILTER_CONFIG_TO_MATCH_FIELD, OPERATORS } from '@/helpers/filter'
-import type { Filter, FilterAction } from '@/helpers/filter'
-import type { OverlayPanel } from '@/types/prime.d.'
+import PrimePopover from 'primevue/popover'
+import PrimeSelect from 'primevue/select'
+import {
+  LOGICAL_OPERATORS,
+  getFilteringParamsFor,
+  type Filter,
+  type FilterRule,
+} from '@/helpers/filter'
+import type { Popover } from '@/types/prime.d'
+import InputNumber from 'primevue/inputnumber'
+
+const { t } = useI18n()
 
 const emit = defineEmits<{
-  (e: 'submit-filters', filters: Filter[]): void
-  (e: 'save-filters', filters: Filter[]): void
-  (e: 'reset-filters'): void
+  'submit-filters': [filters: Filter[]]
+  'reset-filters': []
 }>()
 
 const props = withDefaults(
@@ -203,74 +197,121 @@ const props = withDefaults(
     // can possibly override default config,
     // Key = Field slug
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dataFromField?: Record<string, any>
-    columnsDefinition: Array<{
+    fieldOptions?: Record<string, any>
+    fieldsDefinition: Array<{
       slug: string
       name: string
       type: string
     }>
   }>(),
   {
-    currentFilters: () => [],
     appendTo: 'body',
-    dataFromField: () => ({}),
+    currentFilters: () => [],
+    fieldOptions: () => ({}),
   },
 )
 
-const modalRef = ref<OverlayPanel | null>(null)
+const popoverRef = ref<Popover | null>(null)
 const filters = ref<Filter[]>([])
-const currentOperator = ref(OPERATORS[0].featherKey)
-const nbActiveFilters = ref<number | null>(null)
+const currentOperator = ref(LOGICAL_OPERATORS[0].operator)
+const nbActiveFilters = ref<number>(0)
+
+type FilterIterationItem = {
+  filter: Filter
+  rules?: FilterRule[]
+  component?: Component
+  properties?: { [key: string]: unknown }
+}
+
+const computedFilters = computed((): FilterIterationItem[] => {
+  return filters.value.map((filter, index): FilterIterationItem => {
+    if (!filter.field) {
+      return { filter }
+    }
+
+    const filteringParams = getFilteringParamsFor(filter.field.type)
+    const rules = filteringParams.rules
+    const component = filteringParams.valueComponent
+
+    if (!component) {
+      return { filter, rules }
+    }
+
+    // Compute component properties.
+    let idPropName = 'id'
+    switch (component.name) {
+      case InputNumber.name:
+        idPropName = 'inputId'
+    }
+
+    const properties = {
+      ...(filteringParams.valueComponentProps || {}),
+      ...props.fieldOptions[filter.field.slug],
+      ariaLabel: t(
+        'locokit.components.filterBuilder.valueAriaLabel',
+        { number: index + 1 }
+      ),
+      [idPropName]: `value-${index}`,
+    }
+
+    return { filter, rules, component, properties }
+  })
+})
 
 const togglePopover = (event: Event) => {
-  modalRef.value?.toggle(event)
+  popoverRef.value?.toggle(event)
+}
+
+const getOptionLabel = (opt: FilterRule): string => {
+  return t(`locokit.components.filterBuilder.select.rule.${opt.label}`)
 }
 
 const addFilter = () => {
   filters.value.push({
-    operator: currentOperator.value,
-    column: null,
-    action: null,
-    motif: null,
+    field: null,
+    rule: null,
+    value: null,
+    logicalOperator: currentOperator.value,
   })
 }
 
 const onChangeOperator = (event: { value: string }) => {
   currentOperator.value = event.value
   if (filters.value.length > 1) {
-    filters.value.forEach((filter) => (filter.operator = event.value))
+    filters.value.forEach((filter) => (filter.logicalOperator = event.value))
   }
 }
 
-const onChangeColumn = (index: number) => {
-  filters.value[index].action = null
-  filters.value[index].motif = null
+const onChangeField = (index: number) => {
+  filters.value[index].rule = null
+  filters.value[index].value = null
 }
 
-const onChangeAction = (index: number, { value }: { value: FilterAction }) => {
-  if (value?.predefinedPattern !== undefined) {
-    // Set the pattern if the selected action has a predefined one
-    filters.value[index].motif = value.predefinedPattern
+const onChangeRule = (index: number, { value }: { value: FilterRule }) => {
+  if (value?.predefinedValue !== undefined) {
+    // Set the pattern if the selected rule has a predefined one
+    filters.value[index].value = value.predefinedValue
   } else {
-    // Reset the pattern if the previous action had a predefined one
-    filters.value[index].motif = null
+    // Reset the pattern in case the previous rule had a predefined one
+    filters.value[index].value = null
   }
-  // Set the action
-  filters.value[index].action = value
+  // Set the rule
+  filters.value[index].rule = value
 }
 
 const onClickFilters = () => {
-  if (filters.value[0].column) {
+  if (filters.value[0].field) {
     nbActiveFilters.value = filters.value.length
   } else {
     nbActiveFilters.value = 0
   }
   emit('submit-filters', filters.value)
-  modalRef.value?.hide()
+  popoverRef.value?.hide()
 }
 
 const resetFilters = () => {
   filters.value = []
+  nbActiveFilters.value = 0
   addFilter()
   emit('reset-filters')
 }

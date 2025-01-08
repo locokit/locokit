@@ -1,11 +1,11 @@
-import { FIELD_TYPE } from '@locokit/definitions'
-import PrimeInputText from 'primevue/inputtext'
-import PrimeCalendar from 'primevue/calendar'
+import { FIELD_TYPE, type LocoKitFieldTypeId } from '@locokit/definitions'
+import PrimeDatePicker from 'primevue/datepicker'
 import PrimeInputNumber from 'primevue/inputnumber'
+import PrimeInputText from 'primevue/inputtext'
 import PrimeMultiSelect from 'primevue/multiselect'
 import { type Component } from 'vue'
 
-type inputPatternType =
+type FilterValue =
   | boolean
   | number
   | string
@@ -13,331 +13,342 @@ type inputPatternType =
   | Date
   | null
 
-export interface FilterAction {
+export interface FilterField {
+  name: string
+  slug: string
+  type: LocoKitFieldTypeId
+}
+
+export interface FilterRule {
   label: string
-  featherKey: string
-  predefinedPattern?: string | number | boolean | string[]
-  patternPrefix?: string
-  patternSuffix?: string
+  operator: string
+  predefinedValue?: string | number | boolean | string[]
+  valuePrefix?: string
+  valueSuffix?: string
 }
 
 export interface Filter {
-  operator: string
-  column: null | {
-    name: string
-    field: string
-    type: string
-  }
-  action: FilterAction | null
-  motif: inputPatternType
+  field: FilterField | null
+  rule: FilterRule | null
+  value: FilterValue
+  logicalOperator: string
 }
 
-export const OPERATORS = [
+export interface FilteringParameters {
+  rules: FilterRule[]
+  valueComponent?: Component
+  valueComponentProps?: Record<string, unknown>
+}
+
+export const LOGICAL_OPERATORS = [
   {
     label: 'and',
-    featherKey: '$and',
+    operator: '$and',
   },
   {
     label: 'or',
-    featherKey: '$or',
+    operator: '$or',
   },
 ]
 
 /**
- * All available action
+ * All available rules
  * "label" = used for translation
  * "value" = corresponding to the FeatherJS Query Operators.
  * "predefinedPattern" = used to give a value to an implicit pattern.
  */
-export const ACTIONS: Record<string, FilterAction> = {
+export const RULES: Record<string, FilterRule> = {
   MATCH: {
     label: 'match',
-    featherKey: '$ilike',
-    patternPrefix: '%',
-    patternSuffix: '%',
+    operator: '$ilike',
+    valuePrefix: '%',
+    valueSuffix: '%',
   },
   NOT_MATCH: {
     label: 'doesNotMatch',
-    featherKey: '$notILike',
-    patternPrefix: '%',
-    patternSuffix: '%',
+    operator: '$notILike',
+    valuePrefix: '%',
+    valueSuffix: '%',
   },
   EQUAL: {
     label: 'isEqualTo',
-    featherKey: '$eq',
+    operator: '$eq',
   },
   NOT_EQUAL: {
     label: 'isDifferentFrom',
-    featherKey: '$ne',
+    operator: '$ne',
   },
   IN: {
     label: 'in',
-    featherKey: '$in',
+    operator: '$in',
   },
   NOT_IN: {
     label: 'notIn',
-    featherKey: '$nin',
+    operator: '$nin',
   },
   ALL: {
     label: 'all',
-    featherKey: '$all',
+    operator: '$all',
   },
   ANY: {
     label: 'any',
-    featherKey: '$any',
+    operator: '$any',
   },
   EMPTY: {
     label: 'isEmpty',
-    featherKey: '$null',
-    predefinedPattern: true,
+    operator: '$null',
+    predefinedValue: true,
   },
   NOT_EMPTY: {
     label: 'isNotEmpty',
-    featherKey: '$notNull',
-    predefinedPattern: true,
+    operator: '$notNull',
+    predefinedValue: true,
   },
   TRUE: {
     label: 'isTrue',
-    featherKey: '$eq',
-    predefinedPattern: true,
+    operator: '$eq',
+    predefinedValue: true,
   },
   FALSE: {
     label: 'isFalse',
-    featherKey: '$eq',
-    predefinedPattern: false,
+    operator: '$eq',
+    predefinedValue: false,
   },
   GREATER_THAN: {
     label: 'isGreaterThan',
-    featherKey: '$gt',
+    operator: '$gt',
   },
   LOWER_THAN: {
     label: 'isLowerThan',
-    featherKey: '$lt',
+    operator: '$lt',
   },
   GREATER_EQUAL_THAN: {
     label: 'isGreaterThanOrEqualTo',
-    featherKey: '$gte',
+    operator: '$gte',
   },
   LOWER_EQUAL_THAN: {
     label: 'isLowerThanOrEqualTo',
-    featherKey: '$lte',
+    operator: '$lte',
   },
   START_WITH: {
     label: 'startWith',
-    featherKey: '$ilike',
-    patternSuffix: '%',
+    operator: '$ilike',
+    valueSuffix: '%',
   },
   END_WITH: {
     label: 'endWith',
-    featherKey: '$ilike',
-    patternPrefix: '%',
+    operator: '$ilike',
+    valuePrefix: '%',
   },
   EARLIER_THAN: {
     label: 'isEarlierThan',
-    featherKey: '$lt',
+    operator: '$lt',
   },
   EARLIER_EQUAL_THAN: {
     label: 'isEarlierThanOrEqualTo',
-    featherKey: '$lte',
+    operator: '$lte',
   },
   LATER_THAN: {
     label: 'isLaterThan',
-    featherKey: '$gt',
+    operator: '$gt',
   },
   LATER_EQUAL_THAN: {
     label: 'isLaterThanOrEqualTo',
-    featherKey: '$gte',
+    operator: '$gte',
   },
   IS_LOGGED_USER: {
     label: 'isLoggedInUser',
-    featherKey: '$eq',
-    predefinedPattern: '{userId}',
+    operator: '$eq',
+    predefinedValue: '{userId}',
   },
   IS_LOGGED_USER_GROUP: {
     label: 'isLoggedInUserGroup',
-    featherKey: '$eq',
-    predefinedPattern: '{groupId}',
+    operator: '$eq',
+    predefinedValue: '{groupId}',
   },
   CONTAINS_LOGGED_USER: {
     label: 'containsLoggedInUser',
-    featherKey: '$contains',
-    predefinedPattern: ['{userId}'],
+    operator: '$contains',
+    predefinedValue: ['{userId}'],
   },
   CONTAINS_LOGGED_USER_GROUP: {
     label: 'containsLoggedInUserGroup',
-    featherKey: '$contains',
-    predefinedPattern: ['{groupId}'],
+    operator: '$contains',
+    predefinedValue: ['{groupId}'],
   },
 }
 
 /**
- *  Action allowed according to field's type
- *  Each one must have an "actions" array.
- *  "usedComponent" = component to display
- *  "patternComponentOptions" = can be added to customize component
+ * Rules allowed for each field type.
+ *
+ * Aside the required "rules" array, here are the other optional configuration
+ * elements:
+ * - valueComponent: component to present to the user for entering a filtering
+ *   value when necessary.
+ * - valueComponentProps: properties to transmit to the component.
  */
-export const FILTER_CONFIG_TO_MATCH_FIELD: Record<
-  string,
-  {
-    actions: FilterAction[]
-    usedComponent?: Component
-    patternComponentOptions?: Record<string, unknown>
-  }
-> = {
+export const FIELD_TYPE_TO_FILTERING_PARAMS: Partial<Record<LocoKitFieldTypeId, FilteringParameters>> = {
   [FIELD_TYPE.BOOLEAN]: {
-    actions: [ACTIONS.TRUE, ACTIONS.FALSE, ACTIONS.EMPTY, ACTIONS.NOT_EMPTY],
+    rules: [RULES.TRUE, RULES.FALSE, RULES.EMPTY, RULES.NOT_EMPTY],
   },
   [FIELD_TYPE.STRING]: {
-    actions: [
-      ACTIONS.EQUAL,
-      ACTIONS.NOT_EQUAL,
-      ACTIONS.MATCH,
-      ACTIONS.NOT_MATCH,
-      ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY,
-      ACTIONS.START_WITH,
-      ACTIONS.END_WITH,
+    rules: [
+      RULES.EQUAL,
+      RULES.NOT_EQUAL,
+      RULES.MATCH,
+      RULES.NOT_MATCH,
+      RULES.EMPTY,
+      RULES.NOT_EMPTY,
+      RULES.START_WITH,
+      RULES.END_WITH,
     ],
-    usedComponent: PrimeInputText,
-    patternComponentOptions: {
-      size: 'small',
-      class: '!text-xs',
+    valueComponent: PrimeInputText,
+    valueComponentProps: {
+      class: 'w-full !text-xs',
     },
   },
   [FIELD_TYPE.NUMBER]: {
-    actions: [
-      ACTIONS.EQUAL,
-      ACTIONS.NOT_EQUAL,
-      ACTIONS.LOWER_THAN,
-      ACTIONS.LOWER_EQUAL_THAN,
-      ACTIONS.GREATER_THAN,
-      ACTIONS.GREATER_EQUAL_THAN,
-      ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY,
+    rules: [
+      RULES.EQUAL,
+      RULES.NOT_EQUAL,
+      RULES.LOWER_THAN,
+      RULES.LOWER_EQUAL_THAN,
+      RULES.GREATER_THAN,
+      RULES.GREATER_EQUAL_THAN,
+      RULES.EMPTY,
+      RULES.NOT_EMPTY,
     ],
-    usedComponent: PrimeInputNumber,
-    patternComponentOptions: {
+    valueComponent: PrimeInputNumber,
+    valueComponentProps: {
+      class: 'w-full',
       inputClass: '!text-xs !py-[0.4375rem] !px-[0.65625rem]',
       useGrouping: false,
     },
   },
   [FIELD_TYPE.FLOAT]: {
-    actions: [
-      ACTIONS.EQUAL,
-      ACTIONS.NOT_EQUAL,
-      ACTIONS.LOWER_THAN,
-      ACTIONS.LOWER_EQUAL_THAN,
-      ACTIONS.GREATER_THAN,
-      ACTIONS.GREATER_EQUAL_THAN,
-      ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY,
+    rules: [
+      RULES.EQUAL,
+      RULES.NOT_EQUAL,
+      RULES.LOWER_THAN,
+      RULES.LOWER_EQUAL_THAN,
+      RULES.GREATER_THAN,
+      RULES.GREATER_EQUAL_THAN,
+      RULES.EMPTY,
+      RULES.NOT_EMPTY,
     ],
-    usedComponent: PrimeInputNumber,
-    patternComponentOptions: {
+    valueComponent: PrimeInputNumber,
+    valueComponentProps: {
       minFractionDigits: 2,
-      inputClass: '!text-xs !py-[0.4375rem] !px-[0.65625rem]',
+      inputClass: 'w-full !text-xs !py-[0.4375rem] !px-[0.65625rem]',
     },
   },
   [FIELD_TYPE.RELATION]: {
-    actions: [
-      ACTIONS.EQUAL,
-      ACTIONS.NOT_EQUAL,
-      ACTIONS.MATCH,
-      ACTIONS.NOT_MATCH,
-      ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY,
-      ACTIONS.START_WITH,
-      ACTIONS.END_WITH,
+    rules: [
+      RULES.EQUAL,
+      RULES.NOT_EQUAL,
+      RULES.MATCH,
+      RULES.NOT_MATCH,
+      RULES.EMPTY,
+      RULES.NOT_EMPTY,
+      RULES.START_WITH,
+      RULES.END_WITH,
     ],
-    usedComponent: PrimeInputText,
-    patternComponentOptions: {
-      size: 'small',
-      class: '!text-xs',
+    valueComponent: PrimeInputText,
+    valueComponentProps: {
+      class: 'w-full !text-xs',
     },
   },
   [FIELD_TYPE.SINGLE_SELECT]: {
-    actions: [ACTIONS.IN, ACTIONS.NOT_IN, ACTIONS.EMPTY, ACTIONS.NOT_EMPTY],
-    usedComponent: PrimeMultiSelect,
-    patternComponentOptions: {
+    rules: [RULES.IN, RULES.NOT_IN, RULES.EMPTY, RULES.NOT_EMPTY],
+    valueComponent: PrimeMultiSelect,
+    valueComponentProps: {
       optionLabel: 'label',
-      class: '!text-xs !py-0 w-56',
+      class: 'w-full !text-xs !py-0 w-56',
       panelClass: '!text-xs',
       showToggleAll: false,
       display: 'chip',
     },
   },
   [FIELD_TYPE.MULTI_SELECT]: {
-    actions: [ACTIONS.ALL, ACTIONS.ANY, ACTIONS.EMPTY, ACTIONS.NOT_EMPTY],
-    usedComponent: PrimeMultiSelect,
-    patternComponentOptions: {
+    rules: [RULES.ALL, RULES.ANY, RULES.EMPTY, RULES.NOT_EMPTY],
+    valueComponent: PrimeMultiSelect,
+    valueComponentProps: {
       optionLabel: 'label',
-      class: '!text-xs !py-0 w-56',
+      class: 'w-full !text-xs !py-0 w-56',
       panelClass: '!text-xs',
       showToggleAll: false,
       display: 'chip',
     },
   },
   [FIELD_TYPE.LOOKUP]: {
-    actions: [
-      ACTIONS.EQUAL,
-      ACTIONS.NOT_EQUAL,
-      ACTIONS.MATCH,
-      ACTIONS.NOT_MATCH,
-      ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY,
-      ACTIONS.START_WITH,
-      ACTIONS.END_WITH,
+    rules: [
+      RULES.EQUAL,
+      RULES.NOT_EQUAL,
+      RULES.MATCH,
+      RULES.NOT_MATCH,
+      RULES.EMPTY,
+      RULES.NOT_EMPTY,
+      RULES.START_WITH,
+      RULES.END_WITH,
     ],
-    usedComponent: PrimeInputText,
-    patternComponentOptions: {
+    valueComponent: PrimeInputText,
+    valueComponentProps: {
       size: 'small',
       class: '!text-xs',
     },
   },
   [FIELD_TYPE.DATE]: {
-    actions: [
-      ACTIONS.EQUAL,
-      ACTIONS.NOT_EQUAL,
-      ACTIONS.EARLIER_THAN,
-      ACTIONS.EARLIER_EQUAL_THAN,
-      ACTIONS.LATER_THAN,
-      ACTIONS.LATER_EQUAL_THAN,
-      ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY,
+    rules: [
+      RULES.EQUAL,
+      RULES.NOT_EQUAL,
+      RULES.EARLIER_THAN,
+      RULES.EARLIER_EQUAL_THAN,
+      RULES.LATER_THAN,
+      RULES.LATER_EQUAL_THAN,
+      RULES.EMPTY,
+      RULES.NOT_EMPTY,
     ],
-    usedComponent: PrimeCalendar,
-    patternComponentOptions: {
+    valueComponent: PrimeDatePicker,
+    valueComponentProps: {
       showTime: false,
       inputClass: '!text-xs !py-[0.4375rem] !px-[0.65625rem]',
     },
   },
   [FIELD_TYPE.DATETIME]: {
-    actions: [
-      ACTIONS.EQUAL,
-      ACTIONS.NOT_EQUAL,
-      ACTIONS.EARLIER_THAN,
-      ACTIONS.EARLIER_EQUAL_THAN,
-      ACTIONS.LATER_THAN,
-      ACTIONS.LATER_EQUAL_THAN,
-      ACTIONS.EMPTY,
-      ACTIONS.NOT_EMPTY,
+    rules: [
+      RULES.EQUAL,
+      RULES.NOT_EQUAL,
+      RULES.EARLIER_THAN,
+      RULES.EARLIER_EQUAL_THAN,
+      RULES.LATER_THAN,
+      RULES.LATER_EQUAL_THAN,
+      RULES.EMPTY,
+      RULES.NOT_EMPTY,
     ],
-    usedComponent: PrimeCalendar,
-    patternComponentOptions: {
+    valueComponent: PrimeDatePicker,
+    valueComponentProps: {
       showTime: true,
       inputClass: '!text-xs !py-[0.4375rem] !px-[0.65625rem]',
     },
   },
   [FIELD_TYPE.USER]: {
-    actions: [ACTIONS.IS_LOGGED_USER],
+    rules: [RULES.IS_LOGGED_USER],
   },
   [FIELD_TYPE.GROUP]: {
-    actions: [ACTIONS.IS_LOGGED_USER_GROUP],
+    rules: [RULES.IS_LOGGED_USER_GROUP],
   },
   [FIELD_TYPE.MULTI_USER]: {
-    actions: [ACTIONS.CONTAINS_LOGGED_USER],
+    rules: [RULES.CONTAINS_LOGGED_USER],
   },
   [FIELD_TYPE.MULTI_GROUP]: {
-    actions: [ACTIONS.CONTAINS_LOGGED_USER_GROUP],
+    rules: [RULES.CONTAINS_LOGGED_USER_GROUP],
   },
+}
+
+export function getFilteringParamsFor(fieldType: LocoKitFieldTypeId): FilteringParameters {
+  if (fieldType in FIELD_TYPE_TO_FILTERING_PARAMS) {
+    return FIELD_TYPE_TO_FILTERING_PARAMS[fieldType]!
+  }
+
+  throw new Error(`No defined filtering parameters for the ${fieldType} field type`)
 }

@@ -6,6 +6,8 @@ export {
   convertDBTypeToFieldType,
   type DB_DIALECT,
   type DB_TYPE,
+  type LocoKitFieldTypeId,
+  type LocoKitFieldComponentId,
   type LocoKitFormField,
   type LocoKitFormFieldRule,
 } from './fieldType'
