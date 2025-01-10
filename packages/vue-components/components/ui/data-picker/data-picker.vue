@@ -1,5 +1,5 @@
 <template>
-  <div class="pick-data flex text-lck mb-4">
+  <div class="data-picker flex text-lck mb-4">
     <div class="from-container flex-[1_1_50%]">
       <div
         class="bg-primary-lighten border-t border-x border-slate-300 p-2 font-bold rounded-t-md"

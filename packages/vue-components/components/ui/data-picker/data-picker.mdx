@@ -1,0 +1,19 @@
+import { Canvas, Controls, Meta } from '@storybook/blocks'
+import * as DataPickerStories from './data-picker.stories'
+
+<Meta of={DataPickerStories} />
+
+# Data picker
+
+Alternative implementation of a multiple `<select>` offering to the user to
+make a selection of items by picking them from a first list of all available
+items to a second list representing the selected ones.
+
+This component is inspired by PrimeVue's [PickList](https://primevue.org/picklist/).
+
+Unlike PrimeVue's, this component allows you to manage a dynamic list of items,
+but unfortunately it is not as good in Responsive and Accessibility.
+
+<Canvas of={DataPickerStories.Default} />
+
+<Controls />

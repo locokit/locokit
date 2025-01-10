@@ -1,45 +1,46 @@
-import PickData from './PickData.vue'
-import type { Meta, StoryObj } from '@storybook/vue3'
+import type { Args, Meta, StoryObj } from '@storybook/vue3'
+import DataPicker from './data-picker.vue'
 
-const meta: Meta<typeof PickData> = {
-  title: 'components/ui/PickDataWithSearch',
-  component: PickData,
-  tags: ['autodocs'],
+const meta: Meta<typeof DataPicker> = {
+  title: 'components/ui/data-picker',
+  component: DataPicker,
 }
+export default meta
 
-export default meta;
-type Story = StoryObj<typeof PickData>;
+type Story = StoryObj<typeof DataPicker>
 
 export const Default: Story = {
-  name: 'default one',
-  render: () => ({
-    components: { PickData },
-    data: () => ({
-      fromData: [
-        {
-          id: '1',
-          name: 'Force',
-          description: 'Din',
-          color: 'bg-red-500',
-        },
-        {
-          id: '2',
-          name: 'Sagesse',
-          description: 'Nayru',
-          color: 'bg-indigo-500',
-        },
-      ],
-      toData: [
-        {
-          id: '3',
-          name: 'Courage',
-          description: 'Farore',
-          color: 'bg-green-500',
-        },
-      ]
-    }),
+  args: {
+    fromData: [
+      {
+        id: '1',
+        name: 'Force',
+        description: 'Din',
+        color: 'bg-red-500',
+      },
+      {
+        id: '2',
+        name: 'Sagesse',
+        description: 'Nayru',
+        color: 'bg-indigo-500',
+      },
+    ],
+    modelValue: [
+      {
+        id: '3',
+        name: 'Courage',
+        description: 'Farore',
+        color: 'bg-green-500',
+      },
+    ],
+  },
+  render: (args: Args) => ({
+    components: { DataPicker },
+    setup() {
+      return { args };
+    },
     template: `
-      <PickData v-model="toData" :from-data="fromData">
+      <data-picker v-model="toData" v-bind="args">
         <template #fromDataHeader>Todo</template>
         <template #toDataHeader>Done</template>
         <template #item="slotProps">
@@ -56,15 +57,5 @@ export const Default: Story = {
         </template>
       </PickData>
     `
-  })
+  }),
 }
-
-// <docs lang="md">
-// ### PickData
-
-// This component is inspired by [Primevue's PickList](https://primevue.org/picklist/).
-
-// Unlike Primevue's, this component allows you to manage a dynamic list of items but unfortunately it is not as good in Responsive and Accessibility.
-
-// The v-model is only used on the right column.
-// </docs>
