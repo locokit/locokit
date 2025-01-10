@@ -107,12 +107,14 @@ export const FIELD_COMPONENT = Object.freeze({
 
 export type DB_TYPE = pgDbTypes | sqliteDbTypes
 export type DB_DIALECT = 'pg' | 'sqlite3'
+export type LocoKitFieldTypeId = keyof typeof FIELD_TYPE
+export type LocoKitFieldComponentId = keyof typeof FIELD_COMPONENT
 
 export function convertDBTypeToFieldType(
   dbDialect: DB_DIALECT,
   dbType: DB_TYPE | undefined,
   primary: boolean = false,
-): keyof typeof FIELD_TYPE {
+): LocoKitFieldTypeId {
   if (!dbDialect) throw new Error('Dialect undefined.')
   if (!dbType) throw new Error('Data type undefined.')
 
@@ -256,11 +258,11 @@ type LocoKitFormFieldBase = {
   /**
    * What type of data this field is
    */
-  type: keyof typeof FIELD_TYPE
+  type: LocoKitFieldTypeId
   /**
    * Which component to use for display and input purpose
    */
-  component: keyof typeof FIELD_COMPONENT
+  component: LocoKitFieldComponentId
   /**
    * Validation rules to specify if a field's value is OK
    */

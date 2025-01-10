@@ -1,0 +1,13 @@
+import { Canvas, Controls, Meta } from '@storybook/blocks'
+import * as FilterBuilderStories from './filter-builder.stories'
+
+<Meta of={FilterBuilderStories} />
+
+# Filter builder
+
+Allows you to create one or more filters in order to format them to the API
+standard.
+
+<Canvas of={FilterBuilderStories.Default} />
+
+<Controls />

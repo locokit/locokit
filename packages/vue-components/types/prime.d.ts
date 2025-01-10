@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export declare class OverlayPanel extends HTMLInputElement {
+export declare class Popover extends HTMLElement {
   /**
    * Toggles the visibility of the overlay.
    * @param {Event} event - Browser event.

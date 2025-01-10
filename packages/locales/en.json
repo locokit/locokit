@@ -111,11 +111,14 @@
         "statusSuccess": "Successful sent",
         "loading": "Loading"
       },
-      "filterButton": {
+      "filterBuilder": {
         "label": "{count} filter | {count} filter | {count} filters",
-        "column": "Column",
-        "action": "Action",
-        "motif": "Motif",
+        "field": "Field",
+        "rule": "Rule",
+        "value": "Value",
+        "fieldAriaLabel": "Field to consider for filter #{number}",
+        "ruleAriaLabel": "Rule to apply for filter #{number}",
+        "valueAriaLabel": "Reference value for filter #{number}",
         "addFilter": "Add a filter",
         "noFilter": "No filters are applied. Please add at least one and validate.",
         "reset": "Reset",
@@ -125,7 +128,7 @@
             "$or": "OR",
             "$and": "AND"
           },
-          "action": {
+          "rule": {
             "match": "match",
             "doesNotMatch": "does not match",
             "isEqualTo": "is equal to",

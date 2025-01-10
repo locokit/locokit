@@ -8,6 +8,7 @@
 /**
  * Components
  */
+import FilterBuilder from './components/ui/filter-builder/filter-builder.vue'
 import GenericForm from './components/commons/generic-form/generic-form.vue'
 import LostPassword from './components/auth/lost-password/lost-password.vue'
 import MultiTag from './components/ui/multi-tag/multi-tag.vue'
@@ -20,6 +21,7 @@ import UpdateGeneralForm from './components/profile/update-general/update-genera
 import UpdatePasswordForm from './components/profile/update-password/update-password.vue'
 
 export const components = {
+  FilterBuilder,
   GenericForm,
   LostPassword,
   MultiTag,
@@ -33,6 +35,7 @@ export const components = {
 }
 
 export {
+  FilterBuilder,
   GenericForm,
   LostPassword,
   MultiTag,

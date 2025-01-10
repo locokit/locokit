@@ -111,11 +111,14 @@
         "statusSuccess": "Formulaire correctement envoyé",
         "loading": "Chargement"
       },
-      "filterButton": {
+      "filterBuilder": {
         "label": "{count} filtre | {count} filtre | {count} filtres",
-        "column": "Colonne",
-        "action": "Action",
-        "motif": "Motif",
+        "field": "Champ",
+        "rule": "Règle",
+        "value": "Valeur",
+        "fieldAriaLabel": "Champ à considérer pour le filtre n°{number}",
+        "ruleAriaLabel": "Règle à appliquer pour le filtre n°{number}",
+        "valueAriaLabel": "Valeur de référence pour le filtre n°{number}",
         "addFilter": "Ajouter un filtre",
         "noFilter": "Aucun filtre appliqué. Veuillez en rajouter au moins un et validez.",
         "reset": "Réinitialiser",
@@ -125,7 +128,7 @@
             "$or": "OU",
             "$and": "ET"
           },
-          "action": {
+          "rule": {
             "match": "contient",
             "doesNotMatch": "ne contient pas",
             "isEqualTo": "est égal à",
