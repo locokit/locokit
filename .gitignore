@@ -45,3 +45,5 @@ locokit-api
 locokit-app
 
 dumps/
+
+coverage/
