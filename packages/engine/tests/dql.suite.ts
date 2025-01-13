@@ -17,6 +17,7 @@ import { FeatureCollectionResult } from '../src/adapters/interface'
  */
 export function playDQLSuite(
   adapter: GenericAdapter,
+  dropUnaccentExtension: Function,
   // configuration?: {
   //   geojsonShouldFail: boolean
   // },
@@ -187,7 +188,6 @@ export function playDQLSuite(
         $output: 'geojson',
       },
     })) as FeatureCollectionResult<Place>
-    console.log(places.data.features[0])
     expect(places).toBeDefined()
     expect(places.total).toBe(2)
     expect(places.data.type).toBe('FeatureCollection')
@@ -217,7 +217,6 @@ export function playDQLSuite(
         },
       },
     })
-    console.log(persons)
     expect(persons).toBeDefined()
     expect(persons.total).toBe(1)
     expect(persons.data[0].id).toBe(currentData.person3.id)
@@ -235,7 +234,21 @@ export function playDQLSuite(
     expect(places.total).toBe(1)
     expect(places.data[0].id).toBe(currentData.place2.id)
   })
-  it.todo('can not filter data through unaccent operator if not available')
+  it('can not filter data through unaccent operator if not available', async () => {
+    expect.assertions(2)
+    await dropUnaccentExtension()
+    const query = adapter.query('place', {
+      query: {
+        name: {
+          $unaccent: '%bagnere%',
+        },
+      },
+    })
+    await expect(query).rejects.toThrow()
+    await expect(query).rejects.toThrowError(
+      /function unaccent\(character varying\) does not exist/,
+    )
+  })
   it.todo(
     'can retrieve multiple relations to the same foreign table, with different relation names',
   )

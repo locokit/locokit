@@ -8,6 +8,7 @@ export async function initDatasource(connection: string) {
   await knexConnection.schema.createSchema(schemaName)
 
   await knexConnection.raw('CREATE EXTENSION IF NOT EXISTS unaccent;')
+
   /**
    * Create the schema
    */
@@ -83,4 +84,11 @@ export async function initDatasource(connection: string) {
     table.datetime('begin')
     table.datetime('end')
   })
+}
+
+export function dropUnaccentExtension(connection: string) {
+  const knexConnection = knex({ client: 'pg', connection })
+  return async function () {
+    await knexConnection.raw('DROP EXTENSION IF EXISTS unaccent;')
+  }
 }

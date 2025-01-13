@@ -2,7 +2,7 @@ import { createAdapter } from '../../../src'
 import { SQLAdapter } from '../../../src/adapters/sql'
 import { describe, expect, it } from 'vitest'
 import { playDDLSuite } from '../../ddl.suite'
-import { initDatasource } from './pg.init'
+import { dropUnaccentExtension, initDatasource } from './pg.init'
 import { playDQLSuite } from '../../dql.suite'
 
 /**
@@ -52,7 +52,7 @@ describe('engine pg adapter', () => {
       schema: 'lck-engine',
     })) as SQLAdapter
 
-    playDQLSuite(adapter)
+    playDQLSuite(adapter, dropUnaccentExtension(process.env.VITE_POSTGRES_CONNECTION as string))
   })
   // describe('play the dml suite', () => {
   //   playDDLSuite(adapter)
