@@ -7,7 +7,8 @@
   "scripts": {
     "build": "rm -rf dist && vite build",
     "build:watch": "rm -rf dist && vite build --watch",
-    "lint": "eslint src --fix"
+    "lint": "eslint src --fix",
+    "test": "vitest"
   },
   "keywords": [
     "lowcode",
@@ -29,6 +30,7 @@
     "@types/geojson": "^7946.0.15",
     "ajv": "^8.17.1",
     "vite": "^6.0.3",
-    "vite-plugin-dts": "^4.3.0"
+    "vite-plugin-dts": "^4.3.0",
+    "vitest": "^2.1.8"
   }
 }
