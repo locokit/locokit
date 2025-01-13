@@ -72,6 +72,26 @@ export interface PaginatedResult<T> {
   data: Array<TableRecord<T>>
 }
 
+export interface FeatureCollectionResult<T> {
+  /**
+   * Total number of records in the requested table
+   * according optional filters
+   */
+  total: number
+  /**
+   * Maximum number of records retrieved
+   */
+  limit: number
+  /**
+   * Offset used to retrieve records
+   */
+  skip: number
+  /**
+   * Single record
+   */
+  data: FeatureCollection<Geometry, T>
+}
+
 export type GenericAdapter = {
   boot: () => Promise<void>
 
@@ -102,7 +122,7 @@ export type GenericAdapter = {
   query: <T extends TableRecord<T>>(
     tableName: string,
     params?: Params & { query: Record<string, any> },
-  ) => Promise<PaginatedResult<T | FeatureCollection<Geometry, T>>>
+  ) => Promise<PaginatedResult<T> | FeatureCollectionResult<T>>
 
   get: <T extends TableRecord<T>>(
     tableName: string,
