@@ -7,6 +7,7 @@ export async function initDatasource(connection: string) {
   await knexConnection.schema.dropSchemaIfExists(schemaName, true)
   await knexConnection.schema.createSchema(schemaName)
 
+  await knexConnection.raw('CREATE EXTENSION IF NOT EXISTS unaccent;')
   /**
    * Create the schema
    */
