@@ -137,7 +137,7 @@ export function playDQLSuite(
     await expect(
       adapter.query<Session>('session', {
         query: {
-          $joinRelated: ['pouet'],
+          $joinRelated: ['relation-does-not-exist'],
         },
       }),
     ).rejects.toThrow()

@@ -14,7 +14,7 @@ describe('engine pg adapter', () => {
       createAdapter({
         type: 'pg',
         options: process.env.VITE_POSTGRES_CONNECTION as string,
-        schema: 'pouet',
+        schema: 'schema-does-not-exist',
       }),
     ).rejects.toThrowError()
   })
