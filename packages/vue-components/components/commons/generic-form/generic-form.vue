@@ -170,7 +170,12 @@
     </PrimeMessage>
 
     <slot name="buttons">
-      <div class="flex items-center justify-center gap-2 sticky bottom-0 drop-shadow-lg">
+      <div
+        class="flex items-center justify-center gap-2 drop-shadow-lg"
+        :class="{
+          'sticky bottom-0': props.buttonPosition === 'sticky',
+        }"
+      >
         <PrimeButton
           v-if="buttons.submit"
           type="submit"
@@ -236,6 +241,8 @@ const props = withDefaults(
       reset?: string
       cancel?: string
     }
+    /** How to display submit buttons, default to sticky */
+    buttonPosition?: 'sticky' | 'block'
     /** A message to display into the form, just above the buttons. */
     message?: LocoKitMessage
     /**
@@ -255,6 +262,7 @@ const props = withDefaults(
       reset: false,
       cancel: true,
     }),
+    buttonPosition: 'sticky',
     labels: () => ({}),
     autocompleteSuggestions: () => [],
   },
