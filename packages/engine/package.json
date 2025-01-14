@@ -7,7 +7,8 @@
   "scripts": {
     "build": "rm -rf dist && vite build",
     "build:watch": "rm -rf dist && vite build --watch",
-    "lint": "eslint src --fix"
+    "lint": "eslint src --fix",
+    "test": "vitest --coverage"
   },
   "keywords": [
     "lowcode",
@@ -20,6 +21,7 @@
     "@directus/schema": "^12.1.0",
     "@feathersjs/feathers": "^5.0.10",
     "@locokit/definitions": "workspace:*",
+    "@vitest/coverage-v8": "^2.1.8",
     "ajv-formats": "^2.1.1",
     "knex": "^3.1.0",
     "objection": "^3.1.5",
@@ -29,6 +31,7 @@
     "@types/geojson": "^7946.0.15",
     "ajv": "^8.17.1",
     "vite": "^6.0.3",
-    "vite-plugin-dts": "^4.3.0"
+    "vite-plugin-dts": "^4.3.0",
+    "vitest": "^2.1.8"
   }
 }

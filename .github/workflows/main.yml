@@ -39,6 +39,32 @@ jobs:
           ./compareKeyTranslation.sh
         shell: bash
 
+  ## pkg engine
+  pkg-engine-quality:
+    runs-on: ubuntu-latest
+    container: node:18
+    env:
+      VITE_POSTGRES_CONNECTION: postgres://locokit:locokit@lck-db:5432/locokit
+
+    services:
+      lck-db:
+        image: postgis/postgis:15-3.3-alpine
+        env:
+          POSTGRES_DB: locokit
+          POSTGRES_USER: locokit
+          POSTGRES_PASSWORD: locokit
+          TZ: 'UTC'
+          PGTZ: 'UTC'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
+      - name: Install dependencies
+        run: pnpm i --ignore-scripts
+      - name: Build @locokit/definitions
+        run: cd packages/definitions && pnpm build
+      - name: Test pkg engine
+        run: cd packages/engine && pnpm test
+
   ## api
   api-quality:
     runs-on: ubuntu-latest

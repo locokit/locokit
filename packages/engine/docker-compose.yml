@@ -1,0 +1,29 @@
+services:
+  lck-engine-pg:
+    image: postgis/postgis:15-3.3-alpine
+    ports:
+      - 15432:5432
+    environment:
+      POSTGRES_DB: locokit
+      POSTGRES_USER: locokit
+      POSTGRES_PASSWORD: locokit
+      TZ: 'UTC'
+      PGTZ: 'UTC'
+    # restart: always
+    volumes:
+      - lck-engine-pg-data:/var/lib/postgresql/data
+      # - ./dumps:/dumps
+    container_name: lck-engine-pg
+
+  # lck-engine-baserow:
+  #   image: baserow/baserow:1.30.1
+  #   ports:
+  #     - 8090:80
+  #   volumes:
+  #     - lck-engine-baserow-data:/baserow/data
+  #   environment:
+  #     BASEROW_PUBLIC_URL: http://localhost:8090
+
+volumes:
+  lck-engine-pg-data:
+  # lck-engine-baserow-data:

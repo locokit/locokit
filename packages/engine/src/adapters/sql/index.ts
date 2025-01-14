@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import knex, { Knex } from 'knex'
-import { createInspector, type Column, type ForeignKey } from '@directus/schema'
+import { type Column, type ForeignKey } from '@directus/schema'
 import {
   ConnexionSQL,
   type GenericAdapter,
-  Field,
   Table,
   PaginatedResult,
   TableRecord,
+  FeatureCollectionResult,
 } from '../interface'
 import {
   Model,
@@ -16,6 +16,7 @@ import {
   RelationMappingsThunk,
   AjvValidator,
   raw,
+  ColumnRef,
 } from 'objection'
 import addFormats from 'ajv-formats'
 import { getJSONTypeFromSQLType } from '../../utils/sqlTypeConverter'
@@ -32,6 +33,7 @@ import {
 } from '@locokit/definitions'
 import { EngineModel } from './model'
 import { FeatureCollection, Geometry } from 'geojson'
+import { createInspector } from './inspector'
 
 const adapterLogger = logger.child({ service: 'engine', name: 'sql-adapter' })
 
@@ -86,33 +88,6 @@ export class SQLAdapter implements GenericAdapter {
     adapterLogger.info('[boot] booting...')
 
     const inspector = createInspector(this.database)
-    /**
-     * Quick fix for retrieving primary keys
-     * when composite keys
-     */
-    inspector.primary = async (table: string): Promise<string | null> => {
-      // @ts-expect-error
-      const schemaIn = inspector.explodedSchema.map(
-        (schemaName: string) => `${inspector.knex.raw('?', [schemaName])}::regnamespace`,
-      )
-
-      const result = await inspector.knex.raw(
-        `
-       SELECT
-          att.attname AS column
-        FROM
-          (select *, unnest(conkey) as conkey_id from pg_constraint where contype = 'p') as con
-        LEFT JOIN pg_class rel ON con.conrelid = rel.oid
-        LEFT JOIN pg_attribute att ON att.attrelid = con.conrelid AND att.attnum = conkey_id
-        WHERE con.connamespace IN (${schemaIn})
-          AND con.contype = 'p'
-          AND rel.relname = ?
-      `,
-        [table],
-      )
-
-      return result.rows?.map((r: { column: string }) => /* table + '.' + */ r.column) ?? null
-    }
 
     if (this.connexion.type === 'pg') {
       if (this.connexion.role) {
@@ -120,11 +95,15 @@ export class SQLAdapter implements GenericAdapter {
         await this.database.raw('SET ROLE ??', [this.connexion.role])
       }
       if (this.connexion.schema) {
-        adapterLogger.info('set search path to %s', this.connexion.schema)
-        await this.database.raw('SET SEARCH_PATH TO ??', [this.connexion.schema])
+        const searchPathResult = await this.database.raw('SHOW SEARCH_PATH;')
+        const searchPathValue = searchPathResult.rows[0].search_path
+        const newSearchPath = `"${this.connexion.schema}", ${searchPathValue}`
+        adapterLogger.info('set search path to %s', newSearchPath)
+        await this.database.raw(`SET SEARCH_PATH TO ${newSearchPath};`)
         inspector.withSchema?.(this.connexion.schema)
       }
     }
+
     /**
      * Fetch all tables to create Objection's Model for each one
      */
@@ -330,7 +309,7 @@ export class SQLAdapter implements GenericAdapter {
       tables.map(async (tableName: string) => {
         adapterLogger.info('[retrieveSchema] inspecting table %s', tableName)
         const table = await inspector.tableInfo(tableName)
-        // remove the double quotes for better comparaison
+        // remove the double quotes for better comparison
         const regexpRemovingDoubleQuotes = /^"(.*)"$/
         const columnInfos = await inspector.columnInfo(tableName)
         columnInfos.forEach((c: Column) => {
@@ -351,23 +330,24 @@ export class SQLAdapter implements GenericAdapter {
     return result
   }
 
-  async retrieveTables() {
+  retrieveTables(schema?: string): Promise<string[]> {
     const inspector = createInspector(this.database)
-    const tables = await inspector.tables()
-    return tables
-  }
-
-  async retrieveTable(tableName: string): Promise<Table> {
-    const inspector = createInspector(this.database)
-    return await inspector.tableInfo(tableName)
-  }
-
-  async retrieveTableSchema(tableName: string) {
-    const result = {
-      name: tableName,
-      fields: [] as Field[],
+    if (schema) {
+      inspector.withSchema?.(schema)
+    } else if (this.connexion.schema) {
+      inspector.withSchema?.(this.connexion.schema)
     }
+    return inspector.tables()
+  }
+
+  async retrieveTable(tableName: string, schema?: string): Promise<Table> {
     const inspector = createInspector(this.database)
+    if (schema) {
+      inspector.withSchema?.(schema)
+    } else if (this.connexion.schema) {
+      inspector.withSchema?.(this.connexion.schema)
+    }
+    const result: Table = await inspector.tableInfo(tableName)
     result.fields = await inspector.columnInfo(tableName)
     return result
   }
@@ -504,7 +484,7 @@ export class SQLAdapter implements GenericAdapter {
   async query<T>(
     tableName: string,
     params?: any,
-  ): Promise<PaginatedResult<T | FeatureCollection<Geometry, T>>> {
+  ): Promise<PaginatedResult<T> | FeatureCollectionResult<T>> {
     adapterLogger.debug('queryTable %s', tableName)
     const {
       $limit = 20,
@@ -529,8 +509,24 @@ export class SQLAdapter implements GenericAdapter {
 
     if (!model) throw new Error(`Table ${tableName} is unknown.`)
 
-    const query = model.query(this.database).limit($limit).offset($skip)
-    const totalQuery = model.query(this.database).countDistinct(...model.idColumn) // tableName + '.id', { as: 'count' })
+    const query = model.query(this.database)
+
+    if ($limit > -1) query.limit($limit).offset($skip)
+
+    /**
+     * Compute the count distinct value,
+     * to provide it for count distinct on the total query,
+     * needed for pagination result.
+     */
+    let countDistinctOn: ColumnRef[] = []
+    if (Array.isArray(model.idColumn)) {
+      countDistinctOn = model.idColumn.map((c) => `${model.tableName}.${c}`)
+    } else {
+      countDistinctOn = [`${model.tableName}.${model.idColumn}`]
+    }
+
+    // const totalQuery = model.query(this.database).countDistinct(...model.idColumn) // tableName + '.id', { as: 'count' })
+    const totalQuery = model.query(this.database).countDistinct(countDistinctOn)
 
     if (this.connexion.type === 'pg') {
       if (this.connexion.schema) {
@@ -715,6 +711,12 @@ export class SQLAdapter implements GenericAdapter {
        */
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       query.select(selectFields)
+    }
+    if (this.connexion.type === 'pg') {
+      if (this.connexion.schema) {
+        adapterLogger.info('set search path for queries to %s', this.connexion.schema)
+        query.withSchema?.(this.connexion.schema)
+      }
     }
 
     const result = await query.findById(id)
