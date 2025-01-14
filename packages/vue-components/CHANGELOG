@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.23
+
+* `commons/generic-form`
+  * allow submit / reset buttons to be displayed in block
+* `ui/filter-builder`: new components ✨
+
 ## 0.0.22
 
 * refacto: remove prime components from the build

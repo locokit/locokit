@@ -267,7 +267,8 @@ export const WithAllSortsOfFields: Story = {
         },
       ]
       const autocompleteSuggestions = ref([])
-      return { fields, autocompleteSuggestions }
+      const buttonPosition = 'block'
+      return { fields, autocompleteSuggestions, buttonPosition }
     },
     components: {
       GenericForm,
@@ -298,6 +299,7 @@ export const WithAllSortsOfFields: Story = {
       <generic-form
         :fields
         :autocomplete-suggestions="autocompleteSuggestions"
+        :button-position="buttonPosition"
         @complete="onComplete"
       />
     `,
