@@ -7,7 +7,7 @@
         <nav class="h-full flex items-center justify-between">
           <div class="flex flex-shrink-0 flex-grow items-center">
             <div class="flex w-full items-center justify-between md:w-auto">
-              <RouterLink :to="ROUTES_NAMES.HOME">
+              <RouterLink :to="{ name: ROUTE_NAMES.HOME }">
                 <span class="sr-only">
                   {{ settings.PORTAL_NAME }}
                 </span>
@@ -40,7 +40,7 @@
             <RouterLink
               v-for="navLink in navLinks"
               :key="navLink.routeName"
-              :to="navLink.routeName"
+              :to="{ name: navLink.routeName }"
               class="nav-link p-2 hover:bg-primary flex flex-row items-center border-b-2 rounded-t border-b-transparent"
               @click="toggleMenu"
             >
@@ -69,7 +69,7 @@
         >
           <div class="flex items-center justify-between mx-1 mt-1">
             <div>
-              <RouterLink class="h-12" to="/">
+              <RouterLink class="h-12" :to="{ name: ROUTE_NAMES.HOME }">
                 <span class="sr-only">
                   {{ settings.PORTAL_NAME }}
                 </span>
@@ -93,7 +93,7 @@
             <RouterLink
               v-for="navLink in navLinks"
               :key="navLink.routeName"
-              :to="navLink.routeName"
+              :to="{ name: navLink.routeName }"
               class="block rounded-sm pl-3 py-2 text-base font-medium hover:bg-primary flex flex-row items-center"
               @click="toggleMenu"
             >
@@ -124,6 +124,7 @@
 import { computed, ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { USER_PROFILE } from '@locokit/definitions'
+import ROUTE_NAMES from '@/router/routes'
 import { useStoreAuth } from '@/stores/auth'
 import ButtonTranslate from '@/components/button-translate.vue'
 
@@ -131,21 +132,6 @@ const router = useRouter()
 const { authState, logout } = useStoreAuth()
 
 const menuOpened = ref(false)
-
-const ROUTES_NAMES = {
-  HOME: '/',
-  WORKSPACE: {
-    WORKSPACES: '/w',
-  },
-  ADMIN: {
-    HOME: '/admin',
-  },
-  ACCOUNT: {
-    SIGN_IN: '/account/sign-in',
-    LOST_PASSWORD: '/account/lost-password',
-    PROFILE: '/account/user-profile',
-  },
-}
 
 const settings = {
   PORTAL_NAME: 'LocoKit',
@@ -157,22 +143,22 @@ const navLinks = computed(() => {
     if (authState.user?.profile === USER_PROFILE.ADMIN) {
       return [
         {
-          routeName: ROUTES_NAMES.HOME,
+          routeName: ROUTE_NAMES.HOME,
           title: 'home',
           icon: 'bi-house',
         },
         {
-          routeName: ROUTES_NAMES.WORKSPACE.WORKSPACES,
+          routeName: ROUTE_NAMES.WORKSPACE.LIST,
           title: 'workspaces',
           icon: 'bi-person-workspace',
         },
         {
-          routeName: ROUTES_NAMES.ADMIN.HOME,
+          routeName: ROUTE_NAMES.ADMIN.HOME,
           title: 'admin',
           icon: 'bi-gear-fill',
         },
         {
-          routeName: ROUTES_NAMES.ACCOUNT.PROFILE,
+          routeName: ROUTE_NAMES.ACCOUNT.PROFILE.ROOT,
           title: 'profile',
           icon: 'bi-person-circle',
         },
@@ -180,17 +166,17 @@ const navLinks = computed(() => {
     }
     return [
       {
-        routeName: ROUTES_NAMES.HOME,
+        routeName: ROUTE_NAMES.HOME,
         title: 'home',
         icon: 'bi-house',
       },
       {
-        routeName: ROUTES_NAMES.WORKSPACE.WORKSPACES,
+        routeName: ROUTE_NAMES.WORKSPACE.LIST,
         title: 'workspaces',
         icon: 'bi-person-workspace',
       },
       {
-        routeName: ROUTES_NAMES.ACCOUNT.PROFILE,
+        routeName: ROUTE_NAMES.ACCOUNT.PROFILE.ROOT,
         title: 'profile',
         icon: 'bi-person-circle',
       },
@@ -198,17 +184,17 @@ const navLinks = computed(() => {
   }
   return [
     {
-      routeName: ROUTES_NAMES.HOME,
+      routeName: ROUTE_NAMES.HOME,
       title: 'home',
       icon: 'bi-house',
     },
     {
-      routeName: ROUTES_NAMES.WORKSPACE.WORKSPACES,
+      routeName: ROUTE_NAMES.WORKSPACE.LIST,
       title: 'workspaces',
       icon: 'bi-person-workspace',
     },
     {
-      routeName: ROUTES_NAMES.ACCOUNT.SIGN_IN,
+      routeName: ROUTE_NAMES.ACCOUNT.SIGN_IN,
       title: 'signIn',
       icon: 'bi-person-badge',
     },
@@ -221,7 +207,7 @@ function toggleMenu() {
 
 async function onClickLogout() {
   await logout()
-  await router.push(ROUTES_NAMES.HOME)
+  await router.push({ name: ROUTE_NAMES.HOME })
 }
 </script>
 

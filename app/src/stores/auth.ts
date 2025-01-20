@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { SERVICES } from '@locokit/definitions'
 import { ref } from 'vue'
-import { useSDK } from '@/composables/useSDK'
+import { sdkClient } from '@/services/sdk'
 import { type UserData } from '@locokit/sdk'
 
 export const useStoreAuth = defineStore('auth', () => {
@@ -11,8 +11,6 @@ export const useStoreAuth = defineStore('auth', () => {
     error: null as Error | null,
     user: {} as UserData,
   })
-
-  const { sdkClient } = useSDK()
 
   async function authenticate(data: { email: string; password: string }) {
     authState.value.loading = true
@@ -143,18 +141,24 @@ export const useStoreAuth = defineStore('auth', () => {
     authState.value.loading = false
   }
 
-  async function patchCurrentUser(id: string, data = {}) {
+  async function patchCurrentUser(data = {}) {
     authState.value.loading = true
     authState.value.error = null
+
     try {
-      const res = await sdkClient.service(SERVICES.CORE_USER).patch(id, data)
+      const res = await sdkClient
+        .service(SERVICES.CORE_USER)
+        .patch(authState.value.user.id, data)
+
       authState.value.user = res
       authState.value.loading = false
+
       return res
     } catch (err) {
       console.error(err)
       authState.value.error = err as Error
     }
+
     authState.value.loading = false
   }
 

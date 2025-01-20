@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import { useSDK } from '@/composables/useSDK'
+import { sdkClient } from '@/services/sdk'
 import { onMounted, ref } from 'vue'
 import LayoutHeader from '@/layouts/header.vue'
+import ROUTE_NAMES from '@/router/routes'
 
-const { sdkClient } = useSDK()
+definePage({
+  name: ROUTE_NAMES.WORKSPACE.LIST,
+})
+
 const state = ref({
   loading: false,
   total: 0,

@@ -1,50 +1,65 @@
 <template>
-  <div class="py-3 my-2">
-    <h3 class="mb-4">
-      {{ $t('locokit.pages.updatePassword.title') }}
-    </h3>
-    <UpdatePasswordForm
-      v-if="user"
-      :response="response"
-      :loading="loading"
-      @submit="updatePassword"
-    />
-    <p v-else>{{ $t('locokit.pages.updatePassword.userNotFound') }}</p>
-  </div>
+  <h1 class="mb-4 text-2xl text-primary font-bold">
+    {{ $t('locokit.pages.updatePassword.title') }}
+  </h1>
+  <update-password-form
+    v-if="authStore.authState.user"
+    :loading="authStore.authState.loading"
+    :message="message"
+    @submit="onSubmit"
+  />
+  <p v-else>
+    {{ $t('locokit.pages.updatePassword.userNotFound') }}
+  </p>
 </template>
 
 <script setup lang="ts">
-import { UpdatePasswordForm } from '@locokit/designsystem'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { storeToRefs } from 'pinia'
-import { useStoreAuth } from '../../../stores/auth'
-import { ref, useHead } from '#imports'
+import { useHead } from '@unhead/vue'
+import { useToast } from 'primevue/usetoast'
+import { UpdatePasswordForm } from '@locokit/vue-components'
+import { type LocoKitMessage } from '@locokit/definitions'
+import { useStoreAuth } from '@/stores/auth'
+import { sdkClient } from '@/services/sdk'
+import ROUTE_NAMES from '@/router/routes'
 
-const { t } = useI18n({ useScope: 'global' })
+const { t } = useI18n()
+
+definePage({
+  name: ROUTE_NAMES.ACCOUNT.PROFILE.UPDATE_PASSWORD,
+})
+useHead({
+  titleTemplate: `${t('locokit.pages.profile.title')} | %s`,
+})
+
 const authStore = useStoreAuth()
+const message = ref<LocoKitMessage | undefined>(undefined)
+const toast = useToast()
 
-const { error, loading, user } = storeToRefs(authStore)
-const response = ref()
-
-const updatePassword = async (data: {
+async function onSubmit(data: {
   currentPassword: string
   newPassword: string
-}) => {
-  response.value = null
-  const res = await authStore.updatePassword({
-    email: user.value.email,
+}) {
+  await authStore.updatePassword({
+    email: authStore.authState.user.email,
     password: data.currentPassword,
     newPassword: data.newPassword,
   })
 
-  if (error.value !== null) {
-    response.value = error.value
+  if (authStore.authState.error) {
+    message.value = {
+      status: 'error',
+      text: authStore.authState.error.message,
+    }
   } else {
-    response.value = res
+    message.value = undefined
+
+    toast.add({
+      severity: 'success',
+      summary: t('locokit.success.basic'),
+      life: 3000,
+    })
   }
 }
-
-useHead({
-  titleTemplate: `${t('locokit.pages.updatePassword.title')} | %s`,
-})
 </script>

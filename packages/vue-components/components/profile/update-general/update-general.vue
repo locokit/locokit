@@ -1,6 +1,11 @@
 <template>
   <generic-form
     :fields
+    :initial-values="{
+      username: user.username,
+      lastName: user.lastName ?? null,
+      firstName: user.firstName ?? null,
+    }"
     :buttons="{
       submit: true,
       reset: false,

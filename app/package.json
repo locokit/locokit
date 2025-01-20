@@ -25,6 +25,7 @@
     "@locokit/vue-components": "workspace:^",
     "@primevue/forms": "^4.2.4",
     "@primevue/themes": "^4.2.4",
+    "@unhead/vue": "^1.11.15",
     "bootstrap-icons": "^1.11.3",
     "pinia": "^2.2.8",
     "primeicons": "^7.0.0",

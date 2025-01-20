@@ -69,6 +69,7 @@ const fields = computed<LocoKitFormField[]>(() => {
     {
       id: 'newPassword',
       label: t('locokit.components.updatePasswordForm.newPassword'),
+      // description: TODO: describe password validation rules
       type: FIELD_TYPE.TEXT,
       component: FIELD_COMPONENT.INPUT_PASSWORD,
       validationRules: {

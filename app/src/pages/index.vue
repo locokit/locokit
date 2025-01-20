@@ -84,7 +84,12 @@
 
 <script setup lang="ts">
 import LayoutHeader from '@/layouts/header.vue'
+import ROUTE_NAMES from '@/router/routes';
 import { useI18n } from 'vue-i18n'
+
+definePage({
+  name: ROUTE_NAMES.HOME,
+})
 
 const { t } = useI18n()
 </script>
