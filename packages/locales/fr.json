@@ -260,7 +260,7 @@
         "logoutButton": "Déconnexion"
       },
       "profile": {
-        "sectionTitle": "Mon profil",
+        "title": "Mon profil",
         "updateGeneral": "Informations générales",
         "updateEmail": "Email",
         "updatePassword": "Mot de passe"

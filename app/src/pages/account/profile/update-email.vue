@@ -1,6 +1,6 @@
 <template>
   <h1 class="mb-4 text-2xl text-primary font-bold">
-    {{ $t('locokit.pages.updateEmail.title') }}
+    {{ t('locokit.pages.updateEmail.title') }}
   </h1>
   <update-email-form
     v-if="authStore.authState.user"
@@ -10,7 +10,7 @@
     @submit="onSubmit"
   />
   <p v-else>
-    {{ $t('locokit.pages.updateEmail.userNotFound') }}
+    {{ t('locokit.pages.updateEmail.userNotFound') }}
   </p>
 </template>
 
@@ -30,7 +30,7 @@ definePage({
   name: ROUTE_NAMES.ACCOUNT.PROFILE.UPDATE_EMAIL,
 })
 useHead({
-  titleTemplate: `${t('locokit.pages.profile.sectionTitle')} | %s`,
+  titleTemplate: `${t('locokit.pages.profile.title')} | %s`,
 })
 
 const authStore = useStoreAuth()

@@ -2,7 +2,7 @@
   <LayoutHeader>
     <main class="bg-white dark:bg-slate-800 rounded-md max-w-[48rem] mx-auto mt-4 p-4 shadow-md">
       <h1 class="text-xl text-center font-medium mb-4">
-        {{ $t('app.routes.auth.login') }}
+        {{ t('app.routes.auth.login') }}
       </h1>
       <sign-in-form
         class="bg-white dark:bg-slate-800 rounded-md p-4"

@@ -260,7 +260,7 @@
         "logoutButton": "Log out"
       },
       "profile": {
-        "sectionTitle": "My profile",
+        "title": "My profile",
         "updateGeneral": "General information",
         "updateEmail": "Email",
         "updatePassword": "Password"

@@ -5,7 +5,7 @@
         <ul class="flex flex-col flex-wrap list-none pl-0 w-4/12">
           <li class="flex-grow text-left">
             <h2 class="mb-4 text-lg font-bold">
-              {{ $t('locokit.pages.profile.sectionTitle') }}
+              {{ t('locokit.pages.profile.title') }}
             </h2>
           </li>
           <li v-for="link in navLinks" class="group flex-grow text-left border-b last:border-b-0 border-slate-300">

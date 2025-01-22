@@ -1,6 +1,6 @@
 <template>
   <h1 class="mb-4 text-2xl text-primary font-bold">
-    {{ $t('locokit.pages.updatePassword.title') }}
+    {{ t('locokit.pages.updatePassword.title') }}
   </h1>
   <update-password-form
     v-if="authStore.authState.user"
@@ -9,7 +9,7 @@
     @submit="onSubmit"
   />
   <p v-else>
-    {{ $t('locokit.pages.updatePassword.userNotFound') }}
+    {{ t('locokit.pages.updatePassword.userNotFound') }}
   </p>
 </template>
 

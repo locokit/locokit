@@ -1,6 +1,6 @@
 <template>
   <h1 class="mb-4 text-2xl text-primary font-bold">
-    {{ $t('locokit.pages.updateGeneral.title') }}
+    {{ t('locokit.pages.updateGeneral.title') }}
   </h1>
   <update-general-form
     v-if="authStore.authState.user"
@@ -10,7 +10,7 @@
     @submit="onSubmit"
   />
   <p v-else>
-    {{ $t('locokit.pages.updateGeneral.userNotFound') }}
+    {{ t('locokit.pages.updateGeneral.userNotFound') }}
   </p>
 </template>
 
@@ -31,7 +31,7 @@ definePage({
   name: ROUTE_NAMES.ACCOUNT.PROFILE.UPDATE_GENERAL,
 })
 useHead({
-  titleTemplate: `${t('locokit.pages.profile.sectionTitle')} | %s`,
+  titleTemplate: `${t('locokit.pages.profile.title')} | %s`,
 })
 
 const authStore = useStoreAuth()
@@ -44,7 +44,7 @@ async function onSubmit(data: {
   lastName: string | null
   firstName: string | null
 }) {
-  const user = await authStore.patchCurrentUser({
+  await authStore.patchCurrentUser({
     username: data.username,
     lastName: data.lastName,
     firstName: data.firstName,
