@@ -2,12 +2,14 @@ import './assets/main.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import { createHead } from '@unhead/vue'
 
 import PrimeVue from 'primevue/config'
 import { definePreset } from '@primevue/themes'
 import Aura from '@primevue/themes/aura'
-import { TAILWIND_COLORS } from '@locokit/definitions'
 import ToastService from 'primevue/toastservice'
+
+import { TAILWIND_COLORS } from '@locokit/definitions'
 
 import App from './App.vue'
 import router from './router'
@@ -19,7 +21,7 @@ async function boot() {
   const app = createApp(App)
 
   app.use(i18n)
-
+  app.use(createHead())
   app.use(createPinia())
   app.use(router)
   app.use(PrimeVue, {

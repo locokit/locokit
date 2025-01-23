@@ -3,7 +3,7 @@
     The actual slot of the PrimeForm is the states property...
     TODO: fix it when PrimeVue will fix this bug
     => typing is false for the template
-   -->
+  -->
   <PrimeForm
     v-slot="states"
     :resolver

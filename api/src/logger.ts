@@ -58,7 +58,7 @@ export const logErrorHook = async (_context: HookContext, next: NextFunction): P
     if ((error as FeathersError).type === 'FeathersError') {
       switch ((error as FeathersError).name) {
         case 'NotAuthenticated':
-          if ((error as NotAuthenticated).data.name === 'TokenExpiredError')
+          if ((error as NotAuthenticated).data?.name === 'TokenExpiredError')
             captureException = false
           break
       }

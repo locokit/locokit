@@ -90,8 +90,7 @@
         "currentEmail": "Current email",
         "newEmail": "New email",
         "password": "Password",
-        "submit": "Submit",
-        "successMsg": "An email has been sent to your current email address to confirm the change."
+        "submit": "Submit"
       },
       "updatePasswordForm": {
         "currentPassword": "Current password",
@@ -262,20 +261,21 @@
       },
       "profile": {
         "title": "My profile",
-        "general": "Information general",
-        "updateEmail": "Update email",
-        "updatePassword": "Update password"
+        "updateGeneral": "General information",
+        "updateEmail": "Email",
+        "updatePassword": "Password"
       },
       "updateGeneral": {
-        "title": "@:locokit.pages.profile.general",
+        "title": "Update my general information",
         "userNotFound": "Unable to retrieve user record."
       },
       "updateEmail": {
-        "title": "@:locokit.pages.profile.updateEmail",
-        "userNotFound": "Unable to retrieve user record."
+        "title": "Update my email",
+        "userNotFound": "Unable to retrieve user record.",
+        "successMessage": "An email has been sent to your current email address to confirm the change."
       },
       "updatePassword": {
-        "title": "@:locokit.pages.profile.updatePassword",
+        "title": "Update my password",
         "userNotFound": "Unable to retrieve user record."
       },
       "admin": {
@@ -506,7 +506,7 @@
       }
     },
     "success": {
-      "basic": "The form have been sent correctly."
+      "basic": "The form has been successfully saved."
     },
     "error": {
       "title": "Error",

@@ -87,11 +87,10 @@
         "member": "@:locokit.commons.userProfile.member"
       },
       "updateEmailForm": {
-        "currentEmail": "Email utilisé",
-        "newEmail": "Nouveau email",
+        "currentEmail": "Adresse email actuelle",
+        "newEmail": "Nouvelle adresse email",
         "password": "Mot de passe",
-        "submit": "Enregistrer",
-        "successMsg": "Un email a été envoyé à votre adresse email actuelle pour confirmer le changement."
+        "submit": "Enregistrer"
       },
       "updatePasswordForm": {
         "currentPassword": "Mot de passe utilisé",
@@ -262,20 +261,21 @@
       },
       "profile": {
         "title": "Mon profil",
-        "general": "Information générale",
-        "updateEmail": "Modifier son email",
-        "updatePassword": "Modifier son mot de passe"
+        "updateGeneral": "Informations générales",
+        "updateEmail": "Email",
+        "updatePassword": "Mot de passe"
       },
       "updateGeneral": {
-        "title": "@:locokit.pages.profile.general",
+        "title": "Modifier mes informations générales",
         "userNotFound": "Impossible de récupérer les informations de l'utilisateur."
       },
       "updateEmail": {
-        "title": "@:locokit.pages.profile.updateEmail",
-        "userNotFound": "Impossible de récupérer les informations de l'utilisateur."
+        "title": "Modifier mon email",
+        "userNotFound": "Impossible de récupérer les informations de l'utilisateur.",
+        "successMessage": "Un email a été envoyé à votre adresse email actuelle pour confirmer le changement."
       },
       "updatePassword": {
-        "title": "@:locokit.pages.profile.updatePassword",
+        "title": "Modifier mon mot de passe",
         "userNotFound": "Impossible de récupérer les informations de l'utilisateur."
       },
       "admin": {
@@ -506,7 +506,7 @@
       }
     },
     "success": {
-      "basic": "Le formulaire a bien été envoyé."
+      "basic": "Le formulaire a bien été sauvegardé."
     },
     "error": {
       "title": "Erreur",
