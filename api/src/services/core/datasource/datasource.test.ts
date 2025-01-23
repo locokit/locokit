@@ -158,6 +158,18 @@ describe('[core] datasource service', () => {
       expect(datasource.id).toBe(forbidDatasource.id)
     })
 
+    it('allow external calls for ADMIN users', async () => {
+      expect.assertions(2)
+      const datasource = await app.service(SERVICES.CORE_DATASOURCE).get(forbidDatasource.id, {
+        provider: 'external',
+        authenticated: true,
+        user: setupData.userAdmin,
+        authentication: setupData.userAdminAuthentication,
+      })
+      expect(datasource).toBeDefined()
+      expect(datasource.id).toBe(forbidDatasource.id)
+    })
+
     afterAll(async () => {
       await app.service(SERVICES.WORKSPACE_DATASOURCE).remove(forbidDatasource.id)
     })
