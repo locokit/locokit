@@ -336,6 +336,23 @@ export function builderTestEnvironment(prefix: string) {
       // users: [user5],
     })
 
+    await app.service(SERVICES.CORE_USERGROUP).create({
+      userId: user1.id,
+      groupId: group1.id,
+    })
+    await app.service(SERVICES.CORE_USERGROUP).create({
+      userId: user1.id,
+      groupId: group2.id,
+    })
+    await app.service(SERVICES.CORE_USERGROUP).create({
+      userId: user2.id,
+      groupId: group3.id,
+    })
+    await app.service(SERVICES.CORE_USERGROUP).create({
+      userId: user4.id,
+      groupId: group4.id,
+    })
+
     user1Authentication = await app.service(SERVICES.AUTH_AUTHENTICATION).create(
       {
         strategy: 'local',

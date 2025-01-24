@@ -17,6 +17,8 @@ export async function seed(knex: Knex): Promise<any> {
     )
 
     console.log('All workspaces dedicated schemas removed')
+    await knex('lck_group').withSchema('core').transacting(trx).delete()
+    await knex('lck_policy').withSchema('core').transacting(trx).delete()
     await knex('lck_workspace').withSchema('core').transacting(trx).delete()
     console.log('Workspaces removed')
 
