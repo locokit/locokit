@@ -1,10 +1,9 @@
 import { KnexAdapterParams } from '@feathersjs/knex'
-import { HookMap } from '@feathersjs/feathers'
+import { HookContext, HookMap } from '@feathersjs/feathers'
 import { ObjectionService } from '@/feathers-objection'
 import { hooks as schemaHooks } from '@feathersjs/schema'
-import { Application, HookContext } from '@/declarations'
+import { Application } from '@/declarations'
 import { USER_PROFILE } from '@locokit/definitions'
-import { Forbidden } from '@feathersjs/errors/lib'
 
 import {
   GroupData,
@@ -13,10 +12,10 @@ import {
   groupDataValidator,
   groupQueryValidator,
   groupPatchValidator,
+  groupUpdateValidator,
 } from './group.schema'
 import { groupResolvers } from './group.resolver'
 import { authenticate } from '@feathersjs/authentication'
-import { checkInternalCallOrSpecificProfile } from '@/hooks/profile.hooks'
 import { UserResult } from '../user/user.schema'
 
 async function checkProfile(context: HookContext) {
@@ -26,6 +25,11 @@ async function checkProfile(context: HookContext) {
   if (profile === USER_PROFILE.MEMBER)
     throw new Forbidden("You don't have sufficient privilege to create a group.")
 }
+import { defineRules } from './group.ability'
+import { authorize } from 'feathers-casl'
+import { Forbidden } from '@feathersjs/errors'
+
+const authorizeHook = authorize({ adapter: '@feathersjs/knex' })
 
 export const groupHooks: HookMap<Application, GroupService> = {
   around: {
@@ -36,7 +40,7 @@ export const groupHooks: HookMap<Application, GroupService> = {
     ],
   },
   before: {
-    all: [checkInternalCallOrSpecificProfile([USER_PROFILE.ADMIN])],
+    all: [defineRules, authorizeHook],
     find: [
       schemaHooks.validateQuery(groupQueryValidator),
       schemaHooks.resolveQuery(groupResolvers.query),
@@ -53,9 +57,10 @@ export const groupHooks: HookMap<Application, GroupService> = {
     ],
     update: [
       checkProfile,
-      schemaHooks.validateData(groupDataValidator),
+      schemaHooks.validateData(groupUpdateValidator),
       schemaHooks.resolveData(...groupResolvers.data.update),
     ],
+    remove: [],
   },
   after: {},
   error: {},

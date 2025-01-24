@@ -50,7 +50,7 @@
     "client:bundle:watch": "vite build -c vite.client.config.ts --watch"
   },
   "dependencies": {
-    "@casl/ability": "^5.4.4",
+    "@casl/ability": "^6.7.3",
     "@directus/schema": "^12.1.0",
     "@feathersjs/adapter-commons": "5.0.10",
     "@feathersjs/authentication": "5.0.10",
@@ -79,6 +79,7 @@
     "dotenv-flow": "^3.3.0",
     "ejs": "^3.1.10",
     "feathers-authentication-management": "^5.0.1",
+    "feathers-casl": "^2.2.0",
     "feathers-hooks-common": "^7.0.3",
     "feathers-swagger": "^3.0.0",
     "knex": "^3.1.0",

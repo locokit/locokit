@@ -1,20 +1,6 @@
 /**
  * Load of all ressources we want to manage with CASL
  */
-/**
- * user
- * group
- * (organization ?)
- * workspace
- * datasource
- *
- * media
- *
- * application
- *
- * automation
- *
- */
 // import { Workspace } from '../models/workspace.model'
 // import { LckAttachment } from '../models/attachment.model'
 // import { Block } from '../models/block.model'
@@ -33,14 +19,14 @@
 // import { TableColumnRelation } from '../models/tablecolumnrelation.model'
 
 // import { UsersResult } from '../services/users/users.schema'
-import { WorkspaceService } from '@/services/core/workspace/workspace.class'
+// import { WorkspaceService } from '@/services/core/workspace/workspace.class'
 
 import {
-  AbilityClass,
+  //   AbilityClass,
   createAliasResolver,
-  InferSubjects,
-  PureAbility,
-  Ability,
+  //   InferSubjects,
+  //   PureAbility,
+  //   Ability,
 } from '@casl/ability'
 
 /**
@@ -57,14 +43,14 @@ export type Actions =
   | 'manage'
   | 'read'
   | 'delete'
-export type Subjects = InferSubjects<
-  'all' | 'user' | 'group' | 'workspace' | 'datasource' | typeof WorkspaceService,
-  true
->
+// export type Subjects = InferSubjects<
+//   'all' | 'user' | 'group' | 'workspace' | 'datasource' | typeof WorkspaceService,
+//   true
+// >
 
-export type AppAbility = Ability<[Actions, Subjects]>
+// export type AppAbility = Ability<[Actions, Subjects]>
 
-export const AppAbility = PureAbility as AbilityClass<AppAbility>
+// export const AppAbility = PureAbility as AbilityClass<AppAbility>
 
 export const resolveAction = createAliasResolver({
   update: 'patch', // define the same rules for update & patch

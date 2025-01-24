@@ -1,7 +1,7 @@
 import { resolve, Resolver } from '@feathersjs/schema'
 import type { HookContext } from '@/declarations'
 import { workspaceDispatchResolver } from '@/services/core/workspace/workspace.resolver'
-import { userDispatchResolver } from '@/services/core/user/user.resolver'
+import { userRestrictedDispatchResolver } from '@/services/core/user/user.resolver'
 import { GroupQuery, GroupSchema } from './group.schema'
 import { policyDispatchResolver } from '../policy/policy.resolver'
 
@@ -29,7 +29,7 @@ export const groupDefaultResolver: Resolver<GroupSchema, HookContext> = resolve<
   async users(users, _data, context) {
     if (users)
       return await Promise.all(
-        users.map(async (u) => await userDispatchResolver.resolve(u, context)),
+        users.map(async (u) => await userRestrictedDispatchResolver.resolve(u, context)),
       )
   },
 })
