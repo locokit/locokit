@@ -8,7 +8,7 @@ import { Forbidden, MethodNotAllowed } from '@feathersjs/errors/lib'
 
 describe('[core] datasource service', () => {
   const app = createApp()
-  const builder = builderTestEnvironment('core-workspace')
+  const builder = builderTestEnvironment('core-datasource')
   let setupData: SetupData
   const port = app.get('port') || 8998
   // const getUrl = (pathname: string) =>

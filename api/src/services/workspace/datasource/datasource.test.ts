@@ -9,7 +9,7 @@ import { NotAcceptable } from '@feathersjs/errors'
 
 describe('[workspace] datasource service', () => {
   const app = createApp()
-  const builder = builderTestEnvironment('core-workspace')
+  const builder = builderTestEnvironment('workspace-datasource')
   let setupData: SetupData
   const port = app.get('port') || 8998
   let workspace: WorkspaceResult
