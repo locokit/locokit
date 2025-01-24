@@ -3,13 +3,12 @@ import { hooks as schemaHooks } from '@feathersjs/schema'
 
 import { PolicyData, PolicyResult, PolicyQuery, policyDataValidator } from './policy.schema'
 import { policyQueryValidator, policyResolvers } from './policy.resolver'
-import { Application, HookContext } from '@/declarations'
+import { Application } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
 import { ObjectionService } from '@/feathers-objection'
-import { UserResult } from '@/services/core/user/user.schema'
 import { USER_PROFILE } from '@locokit/definitions'
-import { Forbidden } from '@feathersjs/errors/lib'
 import { HookMap } from '@feathersjs/feathers'
+import { checkInternalCallOrSpecificProfile } from '@/hooks/profile.hooks'
 
 export const policyHooks: HookMap<Application, PolicyService> = {
   around: {
@@ -20,6 +19,7 @@ export const policyHooks: HookMap<Application, PolicyService> = {
     ],
   },
   before: {
+    all: [checkInternalCallOrSpecificProfile([USER_PROFILE.ADMIN])],
     find: [
       schemaHooks.validateQuery(policyQueryValidator),
       schemaHooks.resolveQuery(policyResolvers.query),
@@ -27,13 +27,6 @@ export const policyHooks: HookMap<Application, PolicyService> = {
     create: [
       schemaHooks.validateData(policyDataValidator),
       schemaHooks.resolveData(policyResolvers.data.create),
-      async function checkProfile(context: HookContext) {
-        const user: UserResult = context.params.user
-        const profile = user.profile
-
-        if (profile === USER_PROFILE.MEMBER)
-          throw new Forbidden("You don't have sufficient privilege to create a policy.")
-      },
     ],
   },
   after: {

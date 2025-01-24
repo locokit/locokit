@@ -16,7 +16,8 @@ import {
 } from './group.schema'
 import { groupResolvers } from './group.resolver'
 import { authenticate } from '@feathersjs/authentication'
-import { UserResult } from '@/services/core/user/user.schema'
+import { checkInternalCallOrSpecificProfile } from '@/hooks/profile.hooks'
+import { UserResult } from '../user/user.schema'
 
 async function checkProfile(context: HookContext) {
   const user: UserResult = context.params.user
@@ -35,6 +36,7 @@ export const groupHooks: HookMap<Application, GroupService> = {
     ],
   },
   before: {
+    all: [checkInternalCallOrSpecificProfile([USER_PROFILE.ADMIN])],
     find: [
       schemaHooks.validateQuery(groupQueryValidator),
       schemaHooks.resolveQuery(groupResolvers.query),

@@ -4,6 +4,10 @@
  * 5 users are created, and one admin user.
  *
  * A public workspace is created and affected to the user 1.
+ *
+ * A private workspace is created and affected to the user 2.
+ *
+ * Several policies and groups are created for both workspaces.
  */
 import { AuthenticationResult } from '@feathersjs/authentication/lib'
 import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
@@ -13,12 +17,14 @@ import { SERVICES, USER_PROFILE } from '@locokit/definitions'
 import { createApp } from './app'
 import { UserResult } from './services/core/user/user.schema'
 import { WorkspaceResult } from './services/core/workspace/workspace.schema'
+import { GroupResult } from './services/core/group/group.schema'
+import { PolicyResult } from './client'
 
 const app = createApp()
 
 export interface SetupData {
   publicWorkspaceId: string
-  // workspace2Id: string
+  workspace2Id: string
   // database1Id: string
   // database2Id: string
   // columnTable1GroupId: string
@@ -42,16 +48,16 @@ export interface SetupData {
   user4Authentication: AuthenticationResult
   user5Authentication: AuthenticationResult
   userAdminAuthentication: AuthenticationResult
-  // group1: Group
-  // group2: Group
-  // group3: Group
-  // group4: Group
-  // group5: Group
-  // aclset1: LckAclSet
-  // aclset2: LckAclSet
-  // aclset3: LckAclSet
-  // aclset4: LckAclSet
-  // aclset5: LckAclSet
+  group1: GroupResult
+  group2: GroupResult
+  group3: GroupResult
+  group4: GroupResult
+  group5: GroupResult
+  policy1: PolicyResult
+  policy2: PolicyResult
+  policy3: PolicyResult
+  policy4: PolicyResult
+  policy5: PolicyResult
   // table1Id: string
   // table2Id: string
   // table1Workspace2Id: string
@@ -65,6 +71,7 @@ export interface SetupData {
 }
 
 export function builderTestEnvironment(prefix: string) {
+  console.log('building test environment for ', prefix)
   /**
    * Create all necessary resources for testing use case
    * * several workspaces
@@ -78,19 +85,19 @@ export function builderTestEnvironment(prefix: string) {
    */
   let _data: SetupData
   let publicWorkspace: WorkspaceResult
-  // let workspace2: Workspace
+  let workspace2: WorkspaceResult
   // let database1: Database
   // let database2: Database
-  // let aclset1: LckAclSet
-  // let aclset2: LckAclSet
-  // let aclset3: LckAclSet
-  // let aclset4: LckAclSet
-  // let aclset5: LckAclSet
-  // let group1: Group
-  // let group2: Group
-  // let group3: Group
-  // let group4: Group
-  // let group5: Group
+  let policy1: PolicyResult
+  let policy2: PolicyResult
+  let policy3: PolicyResult
+  let policy4: PolicyResult
+  let policy5: PolicyResult
+  let group1: GroupResult
+  let group2: GroupResult
+  let group3: GroupResult
+  let group4: GroupResult
+  let group5: GroupResult
   let user1: UserResult
   let user2: UserResult
   let user3: UserResult
@@ -149,9 +156,106 @@ export function builderTestEnvironment(prefix: string) {
      */
     if (_data) return _data
 
-    // workspace2 = await app.services.workspace.create({
-    //   text: `[${prefix} abilities] Workspace 2`,
-    // })
+    /**
+     * 1 Creating users first
+     */
+    const userPassword = 'locokit'
+    const [localStrategy] = app
+      .service(SERVICES.AUTH_AUTHENTICATION)
+      .getStrategies('local') as LocalStrategy[]
+    const passwordHashed = await localStrategy.hashPassword(userPassword, {})
+
+    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
+    user1 = await app.service(SERVICES.CORE_USER)._create(
+      {
+        username: `${prefix}-user1`,
+        email: `${prefix}abilities-user1@locokit.io`,
+        isVerified: true,
+        password: passwordHashed,
+        profile: USER_PROFILE.CREATOR,
+      },
+      {},
+    )
+    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
+    user2 = await app.service(SERVICES.CORE_USER)._create(
+      {
+        username: `${prefix}-user2`,
+        email: `${prefix}abilities-user2@locokit.io`,
+        isVerified: true,
+        password: passwordHashed,
+        firstName: 'User',
+        lastName: 'Two',
+      },
+      {},
+    )
+    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
+    user3 = await app.service(SERVICES.CORE_USER)._create(
+      {
+        username: `${prefix}-user3`,
+        email: `${prefix}abilities-user3@locokit.io`,
+        isVerified: true,
+        password: passwordHashed,
+      },
+      {},
+    )
+    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
+    user4 = await app.service(SERVICES.CORE_USER)._create(
+      {
+        username: `${prefix}-user4`,
+        email: `${prefix}abilities-user4@locokit.io`,
+        isVerified: true,
+        password: passwordHashed,
+      },
+      {},
+    )
+    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
+    user5 = await app.service(SERVICES.CORE_USER)._create(
+      {
+        username: `${prefix}-user5`,
+        email: `${prefix}abilities-user5@locokit.io`,
+        isVerified: true,
+        password: passwordHashed,
+      },
+      {},
+    )
+    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
+    userAdmin = await app.service(SERVICES.CORE_USER)._create(
+      {
+        username: `${prefix}-admin`,
+        email: `${prefix}admin@locokit.io`,
+        isVerified: true,
+        password: passwordHashed,
+        profile: USER_PROFILE.ADMIN,
+      },
+      {},
+    )
+    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
+    userBlocked = await app.service(SERVICES.CORE_USER)._create(
+      {
+        username: `${prefix}-blocked-user`,
+        email: `${prefix}abilities-user-blocked@locokit.io`,
+        isVerified: true,
+        blocked: true,
+        password: passwordHashed,
+      },
+      {},
+    )
+
+    /**
+     * 2 Then workspaces
+     */
+    publicWorkspace = await app.service(SERVICES.CORE_WORKSPACE).create({
+      name: `[${prefix}] Public workspace 1`,
+      documentation: 'Public workspace for user1',
+      createdBy: user1.id,
+      public: true,
+    })
+
+    workspace2 = await app.service(SERVICES.CORE_WORKSPACE).create({
+      name: `[${prefix}] Workspace 2`,
+      createdBy: user2.id,
+      public: false,
+    })
     // const workspaceDatabases = (await app.service('database').find({
     //   query: {
     //     workspace_id: workspace1.id,
@@ -166,108 +270,71 @@ export function builderTestEnvironment(prefix: string) {
     //   },
     // })) as Paginated<Database>
     // database2 = workspace2Databases.data[0]
-    // aclset1 = await app.services.aclset.create({
-    //   label: `[${prefix} abilities] Acl Set 1 workspace 1`,
-    //   workspace_id: workspace1.id,
-    //   manager: true,
-    // })
-    // aclset2 = await app.services.aclset.create({
-    //   label: `[${prefix} abilities] Acl Set 2 workspace 1`,
-    //   workspace_id: workspace1.id,
-    // })
-    // aclset3 = await app.services.aclset.create({
-    //   label: `[${prefix} abilities] Acl Set 3 workspace 2`,
-    //   workspace_id: workspace2.id,
-    //   manager: true,
-    // })
-    // aclset4 = await app.services.aclset.create({
-    //   label: `[${prefix} abilities] Acl Set 4 workspace 2`,
-    //   workspace_id: workspace2.id,
-    // })
-    // aclset5 = await app.services.aclset.create({
-    //   label: `[${prefix} abilities] Acl Set 5 workspace 1`,
-    //   workspace_id: workspace1.id,
-    // })
-    const userPassword = 'locokit'
-    const [localStrategy] = app
-      .service(SERVICES.AUTH_AUTHENTICATION)
-      .getStrategies('local') as LocalStrategy[]
-    const passwordHashed = await localStrategy.hashPassword(userPassword, {})
-    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
-    user1 = await app.service(SERVICES.CORE_USER)._create(
-      {
-        username: 'User 1',
-        email: `${prefix}abilities-user1@locokit.io`,
-        isVerified: true,
-        password: passwordHashed,
-        profile: USER_PROFILE.CREATOR,
-      },
-      {},
-    )
-    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
-    user2 = await app.service(SERVICES.CORE_USER)._create(
-      {
-        username: 'User 2',
-        email: `${prefix}abilities-user2@locokit.io`,
-        isVerified: true,
-        password: passwordHashed,
-        firstName: 'User',
-        lastName: 'Two',
-      },
-      {},
-    )
-    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
-    user3 = await app.service(SERVICES.CORE_USER)._create(
-      {
-        username: 'User 3',
-        email: `${prefix}abilities-user3@locokit.io`,
-        isVerified: true,
-        password: passwordHashed,
-      },
-      {},
-    )
-    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
-    user4 = await app.service(SERVICES.CORE_USER)._create(
-      {
-        username: 'User 4',
-        email: `${prefix}abilities-user4@locokit.io`,
-        isVerified: true,
-        password: passwordHashed,
-      },
-      {},
-    )
-    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
-    user5 = await app.service(SERVICES.CORE_USER)._create(
-      {
-        username: 'User 5',
-        email: `${prefix}abilities-user5@locokit.io`,
-        isVerified: true,
-        password: passwordHashed,
-      },
-      {},
-    )
-    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
-    userAdmin = await app.service(SERVICES.CORE_USER)._create(
-      {
-        username: 'Admin',
-        email: `${prefix}admin@locokit.io`,
-        isVerified: true,
-        password: passwordHashed,
-        profile: USER_PROFILE.ADMIN,
-      },
-      {},
-    )
-    // @ts-expect-error don't respectful of the UserData schema (we provide a password)
-    userBlocked = await app.service(SERVICES.CORE_USER)._create(
-      {
-        username: 'Blocked User',
-        email: `${prefix}abilities-user-blocked@locokit.io`,
-        isVerified: true,
-        blocked: true,
-        password: passwordHashed,
-      },
-      {},
-    )
+
+    /**
+     * 3 Then policies
+     */
+    policy1 = await app.service(SERVICES.CORE_POLICY).create({
+      name: `[${prefix} abilities] Acl Set 1 workspace 1`,
+      workspaceId: publicWorkspace.id,
+      manager: true,
+      public: false,
+    })
+    policy2 = await app.service(SERVICES.CORE_POLICY).create({
+      name: `[${prefix} abilities] Acl Set 2 workspace 1`,
+      workspaceId: publicWorkspace.id,
+      manager: false,
+      public: false,
+    })
+    policy3 = await app.service(SERVICES.CORE_POLICY).create({
+      name: `[${prefix} abilities] Acl Set 3 workspace 2`,
+      workspaceId: workspace2.id,
+      manager: true,
+      public: false,
+    })
+    policy4 = await app.service(SERVICES.CORE_POLICY).create({
+      name: `[${prefix} abilities] Acl Set 4 workspace 2`,
+      workspaceId: workspace2.id,
+      manager: false,
+      public: false,
+    })
+    policy5 = await app.service(SERVICES.CORE_POLICY).create({
+      name: `[${prefix} abilities] Acl Set 5 workspace 1`,
+      workspaceId: publicWorkspace.id,
+      manager: false,
+      public: false,
+    })
+
+    group1 = await app.service(SERVICES.CORE_GROUP).create({
+      name: `[${prefix} policy] Group 1`,
+      workspaceId: workspace2.id,
+      policyId: policy1.id,
+      // users: [user1, user4],
+    })
+    group2 = await app.service(SERVICES.CORE_GROUP).create({
+      name: `[${prefix} policy] Group 2`,
+      workspaceId: workspace2.id,
+      policyId: policy2.id,
+      // users: [user2, user3, user5],
+    })
+    group3 = await app.service(SERVICES.CORE_GROUP).create({
+      name: `[${prefix} policy] Group 3`,
+      workspaceId: workspace2.id,
+      policyId: policy3.id,
+      // users: [user2],
+    })
+    group4 = await app.service(SERVICES.CORE_GROUP).create({
+      name: `[${prefix} policy] Group 4`,
+      workspaceId: workspace2.id,
+      policyId: policy4.id,
+      // users: [user1, user5],
+    })
+    group5 = await app.service(SERVICES.CORE_GROUP).create({
+      name: `[${prefix} policy] Group 5`,
+      workspaceId: workspace2.id,
+      policyId: policy5.id,
+      // users: [user5],
+    })
 
     user1Authentication = await app.service(SERVICES.AUTH_AUTHENTICATION).create(
       {
@@ -317,39 +384,6 @@ export function builderTestEnvironment(prefix: string) {
       },
       {},
     )
-
-    publicWorkspace = await app.service(SERVICES.CORE_WORKSPACE).create({
-      name: `[${prefix}] Public workspace 1`,
-      documentation: 'Public workspace for user1',
-      createdBy: user1.id,
-      public: true,
-    })
-
-    // group1 = await app.services.group.create({
-    //   name: `[${prefix} abilities] Group 1`,
-    //   aclset_id: aclset1.id,
-    //   users: [user1, user4],
-    // })
-    // group2 = await app.services.group.create({
-    //   name: `[${prefix} abilities] Group 2`,
-    //   aclset_id: aclset2.id,
-    //   users: [user2, user3, user5],
-    // })
-    // group3 = await app.services.group.create({
-    //   name: `[${prefix} abilities] Group 3`,
-    //   aclset_id: aclset3.id,
-    //   users: [user2],
-    // })
-    // group4 = await app.services.group.create({
-    //   name: `[${prefix} abilities] Group 4`,
-    //   aclset_id: aclset4.id,
-    //   users: [user1, user5],
-    // })
-    // group5 = await app.services.group.create({
-    //   name: `[${prefix} abilities] Group 5`,
-    //   aclset_id: aclset5.id,
-    //   users: [user5],
-    // })
 
     // // let user1: User
     // // let group1: Group
@@ -622,6 +656,7 @@ export function builderTestEnvironment(prefix: string) {
 
     _data = {
       publicWorkspaceId: publicWorkspace.id,
+      workspace2Id: workspace2.id,
       user1,
       user2,
       user3,
@@ -635,16 +670,16 @@ export function builderTestEnvironment(prefix: string) {
       user4Authentication,
       user5Authentication,
       userAdminAuthentication,
-      // group1,
-      // group2,
-      // group3,
-      // group4,
-      // group5,
-      // aclset1,
-      // aclset2,
-      // aclset3,
-      // aclset4,
-      // aclset5,
+      group1,
+      group2,
+      group3,
+      group4,
+      group5,
+      policy1,
+      policy2,
+      policy3,
+      policy4,
+      policy5,
       // row1Table1,
       // row2Table1,
       // row3Table1,
@@ -658,6 +693,22 @@ export function builderTestEnvironment(prefix: string) {
   }
 
   async function teardownWorkspace(): Promise<void> {
+    console.log('teardown')
+    await app.service(SERVICES.CORE_GROUP).remove(group1.id)
+    await app.service(SERVICES.CORE_GROUP).remove(group2.id)
+    await app.service(SERVICES.CORE_GROUP).remove(group3.id)
+    await app.service(SERVICES.CORE_GROUP).remove(group4.id)
+    await app.service(SERVICES.CORE_GROUP).remove(group5.id)
+
+    // console.log('teardown groups OK')
+
+    await app.service(SERVICES.CORE_POLICY).remove(policy1.id)
+    await app.service(SERVICES.CORE_POLICY).remove(policy2.id)
+    await app.service(SERVICES.CORE_POLICY).remove(policy3.id)
+    await app.service(SERVICES.CORE_POLICY).remove(policy4.id)
+    await app.service(SERVICES.CORE_POLICY).remove(policy5.id)
+
+    // console.log('teardown policies OK')
     await app.service(SERVICES.CORE_WORKSPACE).patch(publicWorkspace.id, {
       softDeletedAt: new Date().toISOString(),
     })
@@ -667,28 +718,28 @@ export function builderTestEnvironment(prefix: string) {
       authenticated: true,
       authentication: userAdminAuthentication,
     })
+    await app.service(SERVICES.CORE_WORKSPACE).patch(workspace2.id, {
+      softDeletedAt: new Date().toISOString(),
+    })
+
+    await app.service(SERVICES.CORE_WORKSPACE).remove(workspace2.id, {
+      user: userAdmin,
+      authenticated: true,
+      authentication: userAdminAuthentication,
+    })
+    // console.log('teardown workspaces OK')
 
     await app.service(SERVICES.CORE_USER).remove(userAdmin.id)
-
     await app.service(SERVICES.CORE_USER).remove(userBlocked.id)
+
     await app.service(SERVICES.CORE_USER).remove(user5.id)
     await app.service(SERVICES.CORE_USER).remove(user4.id)
     await app.service(SERVICES.CORE_USER).remove(user3.id)
     await app.service(SERVICES.CORE_USER).remove(user2.id)
     await app.service(SERVICES.CORE_USER).remove(user1.id)
 
-    /*
-    await app.services.aclset.remove(aclset4.id)
-    await app.services.aclset.remove(aclset3.id)
-    await app.services.aclset.remove(aclset2.id)
-    await app.services.aclset.remove(aclset1.id)
-
-    await app.services.database.remove(database1.id)
-    await app.services.workspace.remove(workspace1.id)
-    await app.services.workspace.remove(workspace2.id)
-    */
-    // await dropWorkspace(app, workspace1.id)
-    // await dropWorkspace(app, workspace2.id)
+    // console.log('teardown users OK')
+    console.log('teardown OK')
   }
 
   return {
