@@ -1,7 +1,13 @@
 const ROUTE_NAMES = Object.freeze({
   HOME: 'home',
   ADMIN: {
-    HOME: 'admin',
+    ROOT: 'admin',
+    USERS: {
+      CREATE: 'admin.users.create',
+    },
+    GROUPS: {
+      CREATE: 'admin.groups.create',
+    },
   },
   ACCOUNT: {
     SIGN_IN: 'account.sign_in',

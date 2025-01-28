@@ -18,7 +18,7 @@
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
-import { useToast } from 'primevue/usetoast';
+import { useToast } from 'primevue/usetoast'
 import { UpdateGeneralForm } from '@locokit/vue-components'
 import { type LocoKitMessage } from '@locokit/definitions'
 import { useStoreAuth } from '@/stores/auth'

@@ -25,7 +25,17 @@ declare module 'vue-router/auto-routes' {
     '/account/profile/update-general': RouteRecordInfo<'/account/profile/update-general', '/account/profile/update-general', Record<never, never>, Record<never, never>>,
     '/account/profile/update-password': RouteRecordInfo<'/account/profile/update-password', '/account/profile/update-password', Record<never, never>, Record<never, never>>,
     '/account/sign-in': RouteRecordInfo<'/account/sign-in', '/account/sign-in', Record<never, never>, Record<never, never>>,
+    '/admin': RouteRecordInfo<'/admin', '/admin', Record<never, never>, Record<never, never>>,
     '/admin/': RouteRecordInfo<'/admin/', '/admin', Record<never, never>, Record<never, never>>,
+    '/admin/groups': RouteRecordInfo<'/admin/groups', '/admin/groups', Record<never, never>, Record<never, never>>,
+    '/admin/groups/': RouteRecordInfo<'/admin/groups/', '/admin/groups', Record<never, never>, Record<never, never>>,
+    '/admin/groups/about': RouteRecordInfo<'/admin/groups/about', '/admin/groups/about', Record<never, never>, Record<never, never>>,
+    '/admin/groups/create': RouteRecordInfo<'/admin/groups/create', '/admin/groups/create', Record<never, never>, Record<never, never>>,
+    '/admin/groups/record': RouteRecordInfo<'/admin/groups/record', '/admin/groups/record', Record<never, never>, Record<never, never>>,
+    '/admin/users/': RouteRecordInfo<'/admin/users/', '/admin/users', Record<never, never>, Record<never, never>>,
+    '/admin/users/about': RouteRecordInfo<'/admin/users/about', '/admin/users/about', Record<never, never>, Record<never, never>>,
+    '/admin/users/create': RouteRecordInfo<'/admin/users/create', '/admin/users/create', Record<never, never>, Record<never, never>>,
+    '/admin/users/record': RouteRecordInfo<'/admin/users/record', '/admin/users/record', Record<never, never>, Record<never, never>>,
     '/w/': RouteRecordInfo<'/w/', '/w', Record<never, never>, Record<never, never>>,
   }
 }

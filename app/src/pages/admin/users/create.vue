@@ -1,192 +1,141 @@
 <template>
   <div class="max-w-lg lg:h-full mx-auto px-4 lg:px-0 flex flex-col">
-    <div class="my-8">
-      <h1>
-        {{ $t('locokit.pages.createUser.title') }}
-      </h1>
-    </div>
-    <FormGeneric
-      label-tk-button-submit="locokit.pages.createUser.submit"
-      :response="error"
-      :loading="loading"
-      color-submit-button="secondary"
-      :full-width-button="true"
-      icon-submit-button="bi-check-2"
-      :reset-form-with-empty-value="false"
+    <h1 class="mb-4 text-2xl text-primary font-bold"><!-- my-8 -->
+      {{ $t('locokit.pages.createUser.title') }}
+    </h1>
+    <generic-form
+      :fields
+      :loading
+      :message
       @submit="onSubmit"
-      @reset="onReset"
-    >
-      <Field
-        v-slot="{ field, errorMessage, meta: { valid, touched } }"
-        v-model="username"
-        class="mb-4"
-        name="createUser.username"
-        rules="required"
-        as="div"
-      >
-        <label for="username" class="label-field-required">
-          {{ $t('locokit.pages.createUser.username') }}
-        </label>
-        <PrimeInputText
-          id="username"
-          v-bind="field"
-          v-focus
-          :class="{ 'p-invalid': !valid && touched }"
-          required
-        />
-        <span
-          v-if="errorMessage"
-          class="p-text-error"
-          role="alert"
-          aria-live="assertive"
-        >
-          {{ errorMessage }}
-        </span>
-      </Field>
-      <Field
-        v-slot="{ field, meta: { valid, touched } }"
-        v-model="lastName"
-        class="mb-4"
-        name="createUser.lastName"
-        as="div"
-      >
-        <label for="lastName">
-          {{ $t('locokit.pages.createUser.lastName') }}
-        </label>
-        <PrimeInputText
-          id="lastName"
-          v-bind="field"
-          :class="{ 'p-invalid': !valid && touched }"
-        />
-      </Field>
-      <Field
-        v-slot="{ field, meta: { valid, touched } }"
-        v-model="firstName"
-        class="mb-4"
-        name="createUser.firstName"
-        as="div"
-      >
-        <label for="firstName">
-          {{ $t('locokit.pages.createUser.firstName') }}
-        </label>
-        <PrimeInputText
-          id="firstName"
-          v-bind="field"
-          :class="{ 'p-invalid': !valid && touched }"
-        />
-      </Field>
-      <Field
-        v-slot="{ field, errorMessage, meta: { valid, touched } }"
-        v-model="email"
-        class="mb-4"
-        name="createUser.email"
-        rules="required|email"
-        as="div"
-      >
-        <label for="email" class="label-field-required">
-          {{ $t('locokit.pages.createUser.email') }}
-        </label>
-        <PrimeInputText
-          id="email"
-          type="email"
-          v-bind="field"
-          :class="{ 'p-invalid': !valid && touched }"
-          required
-        />
-        <span
-          v-if="errorMessage"
-          class="p-text-error"
-          role="alert"
-          aria-live="assertive"
-        >
-          {{ errorMessage }}
-        </span>
-      </Field>
-      <Field
-        v-slot="{ field }"
-        v-model="profile"
-        class="mb-4"
-        name="createUser.profile"
-        rules="required"
-        as="div"
-      >
-        <label for="profile" class="label-field-required">
-          {{ $t('locokit.pages.createUser.profile') }}
-        </label>
-        <PrimeDropdown
-          v-bind="{
-            ...field,
-            onChange: ({ value: newValue }) => field.onChange(newValue),
-            'model-value': field.value,
-          }"
-          input-id="profile"
-          :options="PROFILE"
-          option-label="label"
-          dropdown-icon="bi-chevron-down"
-          required
-        >
-          <template #value="slotProps">
-            <span v-if="slotProps.value">
-              {{ $t(`locokit.pages.createUser.${slotProps.value.name}`) }}
-            </span>
-          </template>
-          <template #option="slotProps">
-            <span>
-              {{ $t(`locokit.pages.createUser.${slotProps.option.name}`) }}
-            </span>
-          </template>
-        </PrimeDropdown>
-      </Field>
-    </FormGeneric>
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { FormGeneric } from '@locokit/designsystem'
-import { Field } from 'vee-validate'
-import { ref } from 'vue'
-import { PROFILE } from '../../../../interfaces/toMigrate'
-import { ROUTES_NAMES } from '../../../../locokit-paths'
-import { createUser } from '../../../../services/core/user'
-import { useRouter } from '#imports'
+import { computed, ref } from 'vue'
+//import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { useHead } from '@unhead/vue'
+import { useToast } from 'primevue/usetoast'
+import { GenericForm } from '@locokit/vue-components'
+import {
+  FIELD_COMPONENT,
+  FIELD_TYPE,
+  SERVICES,
+  USER_PROFILE,
+  type LocoKitFormField,
+  type LocoKitMessage,
+} from '@locokit/definitions'
+import ROUTE_NAMES from '@/router/routes'
+import { sdkClient } from '@/services/sdk'
 
-const router = useRouter()
+const { t } = useI18n()
 
+definePage({
+  name: ROUTE_NAMES.ADMIN.USERS.CREATE,
+})
+useHead({
+  titleTemplate: `${t('locokit.pages.admin.title')} | %s`,
+})
+
+//const router = useRouter()
+const toast = useToast()
 const loading = ref(false)
-const error = ref<Error | null>(null)
-const username = ref('')
-const lastName = ref(null)
-const firstName = ref(null)
-const email = ref('')
-const profile = ref(PROFILE[0])
+const message = ref<LocoKitMessage | undefined>(undefined)
 
-const onSubmit = async () => {
+const fields = computed<LocoKitFormField[]>(() => {
+  return [
+    {
+      id: 'username',
+      label: t('locokit.pages.createUser.username'),
+      type: FIELD_TYPE.TEXT,
+      component: FIELD_COMPONENT.INPUT_TEXT,
+      validationRules: {
+        required: true,
+        maxLength: 255,
+      },
+    },
+    {
+      id: 'lastName',
+      label: t('locokit.pages.createUser.lastName'),
+      type: FIELD_TYPE.TEXT,
+      component: FIELD_COMPONENT.INPUT_TEXT,
+      validationRules: {
+        required: false,
+        maxLength: 255,
+      },
+    },
+    {
+      id: 'firstName',
+      label: t('locokit.pages.createUser.firstName'),
+      type: FIELD_TYPE.TEXT,
+      component: FIELD_COMPONENT.INPUT_TEXT,
+      validationRules: {
+        required: false,
+        maxLength: 255,
+      },
+    },
+    {
+      id: 'email',
+      label: t('locokit.pages.createUser.email'),
+      type: FIELD_TYPE.EMAIL,
+      component: FIELD_COMPONENT.INPUT_EMAIL,
+      validationRules: {
+        required: true,
+        maxLength: 255,
+      },
+    },
+    {
+      id: 'profile',
+      label: t('locokit.pages.createUser.profile'),
+      type: FIELD_TYPE.SINGLE_SELECT,
+      component: FIELD_COMPONENT.SINGLE_SELECT,
+      source: {
+        options: [
+          USER_PROFILE.MEMBER,
+          USER_PROFILE.CREATOR,
+          USER_PROFILE.ADMIN,
+        ],
+      },
+      validationRules: {
+        required: true,
+      },
+    },
+  ]
+})
+
+async function onSubmit(values: Record<string, unknown>) {
   loading.value = true
-  if (!profile.value) return
-  const res = await createUser({
-    username: username.value,
-    lastName: lastName.value,
-    firstName: firstName.value,
-    email: email.value,
-    profile: profile.value.value,
-  })
 
-  if (res && res.id) {
-    await router.push({
-      name: ROUTES_NAMES.ADMIN.USERS.RECORD,
-      params: { id: res.id },
+  try {
+    const user = await sdkClient.service(SERVICES.CORE_USER).create({
+      username: values.username,
+      lastName: values.lastName,
+      firstName: values.firstName,
+      email: values.email,
+      profile: values.profile,
     })
-  } else {
-    error.value = res
-  }
-  loading.value = false
-}
 
-const onReset = () => {
-  username.value = ''
-  lastName.value = null
-  firstName.value = null
-  email.value = ''
-  profile.value = PROFILE[0]
+    message.value = undefined
+
+    toast.add({
+      severity: 'success',
+      summary: t('locokit.success.basic'),
+      life: 3000,
+    })
+
+    // await router.push({
+    //   name: ROUTE_NAMES.ADMIN.USERS.RECORD,
+    //   params: { id: user.id },
+    // })
+  } catch (err) {
+    message.value = {
+      status: 'error',
+      text: (err as Error).message,
+    }
+  }
+
+  loading.value = false
 }
 </script>

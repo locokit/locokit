@@ -153,7 +153,7 @@ const navLinks = computed(() => {
           icon: 'bi-person-workspace',
         },
         {
-          routeName: ROUTE_NAMES.ADMIN.HOME,
+          routeName: ROUTE_NAMES.ADMIN.ROOT,
           title: 'admin',
           icon: 'bi-gear-fill',
         },

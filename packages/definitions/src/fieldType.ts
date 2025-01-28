@@ -289,6 +289,7 @@ type LocoKitFormFieldBase = {
 
 export type LocoKitFormFieldAutocomplete = LocoKitFormFieldBase & {
   component: typeof FIELD_COMPONENT.AUTOCOMPLETE
+  freeInput?: boolean // true by default
   /**
    * Data source to use for the auto-completion
    */
@@ -313,8 +314,8 @@ export type LocoKitFormFieldSingleSelect = LocoKitFormFieldBase & {
    */
   source: {
     options: unknown[]
-    label: string
-    value: string
+    label?: string
+    value?: string
     /**
      * Color fields to use for font & background
      */

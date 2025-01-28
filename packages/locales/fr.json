@@ -280,8 +280,8 @@
       },
       "admin": {
         "title": "Administration",
-        "users": "Gestion des utilisateurs⋅rices",
-        "groups": "Gestion des groupes"
+        "users": "Utilisateurs⋅rices",
+        "groups": "Groupes"
       },
       "adminUsers": {
         "title": "@:locokit.pages.admin.users",
@@ -382,10 +382,10 @@
         "submit": "Créer",
         "name": "Nom",
         "workspace": "Espace de travail",
-        "policy": "Droit d'accès du groupe",
+        "policy": "Politique de contrôle d'accès",
         "documentation": "Notes",
         "search": "Commencez la saisie pour rechercher…",
-        "emptyResult": "Aucun resultats trouvé"
+        "emptyResult": "Aucun résultat trouvé"
       },
       "recordGroup": {
         "title": "Information d'un groupe",

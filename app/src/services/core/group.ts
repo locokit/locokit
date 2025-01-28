@@ -1,11 +1,10 @@
+import type { Paginated } from '@feathersjs/feathers'
 import { SERVICES } from '@locokit/definitions'
-import type { GroupData } from '@locokit/sdk'
-import type { ApiUserGroup, Filter } from '../../interfaces/toMigrate'
-import { getCurrentFilters } from '../../helpers/filter'
-import { useLocoKitClient } from '../api'
+import type { GroupData, GroupPatch, UserGroupResult } from '@locokit/sdk'
+import type { Filter } from '@locokit/vue-components'
+import { getCurrentFilters } from '@/helpers/filter'
+import { sdkClient } from '../sdk'
 import { findUserGroups } from './usergroup'
-
-const sdkClient = useLocoKitClient()
 
 export const ITEMS_PER_PAGE_GROUPS = 20
 
@@ -14,11 +13,7 @@ export async function getGroup(id: string, params: null | any = null) {
   return await sdkClient.service(SERVICES.CORE_GROUP).get(id, params)
 }
 
-export async function createGroup(data: GroupData) {
-  return await sdkClient.service(SERVICES.CORE_GROUP).create(data)
-}
-
-export async function patchGroup(id: string, data = {}) {
+export async function patchGroup(id: string, data: GroupPatch = {}) {
   return await sdkClient.service(SERVICES.CORE_GROUP).patch(id, data)
 }
 
@@ -107,10 +102,10 @@ export async function searchGroups({
 }
 
 export async function findGroupsFomUser(userId: string) {
-  const usergroups: ApiUserGroup = await findUserGroups({ userId })
-  if (usergroups && usergroups.total > 0) {
-    const userGroupsIds = usergroups.data.reduce((acc: string[], usergroup) => {
-      acc.push(usergroup.groupId)
+  const userGroups: Paginated<UserGroupResult> = await findUserGroups({ userId })
+  if (userGroups && userGroups.total > 0) {
+    const userGroupsIds = userGroups.data.reduce((acc: string[], userGroup) => {
+      acc.push(userGroup.groupId)
       return acc
     }, [])
     const foundGroups = await findGroups({

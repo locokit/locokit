@@ -5,7 +5,7 @@ import PrimeInputText from 'primevue/inputtext'
 import PrimeMultiSelect from 'primevue/multiselect'
 import { type Component } from 'vue'
 
-type FilterValue =
+export type FilterValue =
   | boolean
   | number
   | string

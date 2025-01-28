@@ -25,14 +25,18 @@ export const groupSchema = Type.Object(
       format: 'uuid',
       description: 'Related policy of the workspace',
     }),
-    createdAt: Type.String({
-      format: 'date-time',
-      description: 'Creation date of the group',
-    }),
-    updatedAt: Type.String({
-      format: 'date-time',
-      description: 'Update date of the group',
-    }),
+    createdAt: Type.Optional(
+      Type.String({
+        format: 'date-time',
+        description: 'Creation date of the group',
+      }),
+    ),
+    updatedAt: Type.Optional(
+      Type.String({
+        format: 'date-time',
+        description: 'Update date of the group',
+      }),
+    ),
 
     workspace: Type.Optional(
       Type.Object(

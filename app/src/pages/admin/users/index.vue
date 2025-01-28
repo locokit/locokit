@@ -227,7 +227,7 @@ const columnsDefinition = [
 
 // Initialization
 if (!users.value) {
-  await usersStore.updateUsers()
+  await usersStore.fetchUsers()
 }
 
 const applySearch = () => {

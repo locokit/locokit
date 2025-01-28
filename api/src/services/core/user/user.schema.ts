@@ -1,5 +1,5 @@
-import { USER_PROFILE } from '@locokit/definitions'
 import { Type, querySyntax, Static, getValidator } from '@feathersjs/typebox'
+import { USER_PROFILE } from '@locokit/definitions'
 import { dataValidator, queryValidator } from '@/commons/validators'
 import { queryStringExtend } from '@/feathers-objection'
 

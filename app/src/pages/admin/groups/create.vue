@@ -1,215 +1,186 @@
 <template>
   <div class="max-w-lg lg:h-full mx-auto px-4 lg:px-0 flex flex-col">
-    <div class="my-8">
-      <h1>
-        {{ $t('locokit.pages.createGroup.title') }}
-      </h1>
-    </div>
-    <FormGeneric
-      label-tk-button-submit="locokit.pages.createGroup.submit"
-      :response="error"
-      :loading="loading"
-      color-submit-button="secondary"
-      :full-width-button="true"
-      icon-submit-button="bi-check-2"
-      :reset-form-with-empty-value="false"
+    <h1 class="mb-4 text-2xl text-primary font-bold">
+      {{ $t('locokit.pages.createGroup.title') }}
+    </h1>
+    <generic-form
+      :fields
+      :loading
+      :message
+      :autocomplete-suggestions="suggestions"
+      @complete="onComplete"
       @submit="onSubmit"
-      @reset="onReset"
-    >
-      <Field
-        v-slot="{ field, errorMessage, meta: { valid, touched } }"
-        v-model="name"
-        class="mb-4"
-        name="createGroup.name"
-        rules="required"
-        as="div"
-      >
-        <label for="name" class="label-field-required">
-          {{ $t('locokit.pages.createGroup.name') }}
-        </label>
-        <PrimeInputText
-          id="name"
-          v-bind="field"
-          v-focus
-          :class="{ 'p-invalid': !valid && touched }"
-          required
-        />
-        <span
-          v-if="errorMessage"
-          class="p-text-error"
-          role="alert"
-          aria-live="assertive"
-        >
-          {{ errorMessage }}
-        </span>
-      </Field>
-      <Field
-        v-slot="{ field, errorMessage, meta: { valid, touched } }"
-        v-model="workspace"
-        class="mb-4"
-        name="createGroup.workspace"
-        rules="required"
-        as="div"
-      >
-        <label for="workspace" class="label-field-required">
-          {{ $t('locokit.pages.createGroup.workspace') }}
-        </label>
-        <PrimeAutoComplete
-          v-bind="{
-            ...field,
-            onChange: ({ value: newValue }) =>
-              field.onChange.forEach((fct) => fct(newValue)),
-            'model-value': field.value,
-          }"
-          input-id="workspace"
-          :placeholder="$t('locokit.pages.createGroup.search')"
-          :empty-search-message="$t('locokit.pages.createGroup.emptyResult')"
-          :suggestions="suggestedWorkspaces"
-          option-label="name"
-          :class="{ 'p-invalid': !valid && touched }"
-          force-selection
-          @complete="searchWorkspaces"
-        />
-        <span
-          v-if="errorMessage"
-          class="p-text-error"
-          role="alert"
-          aria-live="assertive"
-        >
-          {{ errorMessage }}
-        </span>
-      </Field>
-      <Field
-        v-slot="{ field, errorMessage, meta: { valid, touched } }"
-        v-model="policy"
-        class="mb-4"
-        name="createGroup.policy"
-        rules="required"
-        as="div"
-      >
-        <label for="policy" class="label-field-required">
-          {{ $t('locokit.pages.createGroup.policy') }}
-        </label>
-        <PrimeAutoComplete
-          v-bind="{
-            ...field,
-            onChange: ({ value: newValue }) =>
-              field.onChange.forEach((fct) => fct(newValue)),
-            'model-value': field.value,
-          }"
-          input-id="policy"
-          :placeholder="$t('locokit.pages.createGroup.search')"
-          :empty-search-message="$t('locokit.pages.createGroup.emptyResult')"
-          :suggestions="suggestedPolicies"
-          option-label="name"
-          :class="{ 'p-invalid': !valid && touched }"
-          force-selection
-          @complete="searchPolicies"
-        />
-        <span
-          v-if="errorMessage"
-          class="p-text-error"
-          role="alert"
-          aria-live="assertive"
-        >
-          {{ errorMessage }}
-        </span>
-      </Field>
-      <Field
-        v-slot="{ field }"
-        v-model="documentation"
-        class="mb-4"
-        name="createGroup.documentation"
-        as="div"
-      >
-        <label for="name">
-          {{ $t('locokit.pages.createGroup.documentation') }}
-        </label>
-        <PrimeTextarea id="documentation" v-bind="field" auto-resize rows="5" />
-      </Field>
-    </FormGeneric>
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { FormGeneric } from '@locokit/designsystem'
-import { Field } from 'vee-validate'
-import { ref } from 'vue'
-import { ROUTES_NAMES } from '../../../../locokit-paths'
-import { createGroup } from '../../../../services/core/group'
-import { Policy, Workspace } from '../../../../interfaces/toMigrate'
-import { findWorkspaces } from '../../../../services/core/workspace'
-import { findPolicies } from '../../../../services/core/policy'
-import { useStoreGroups } from '../../../../stores/groups'
-import { useRouter } from '#imports'
+import { computed, ref } from 'vue'
+//import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { useHead } from '@unhead/vue'
+import type { AutoCompleteCompleteEvent } from 'primevue/autocomplete'
+import { useToast } from 'primevue/usetoast'
+import { GenericForm } from '@locokit/vue-components'
+import {
+  FIELD_COMPONENT,
+  FIELD_TYPE,
+  SERVICES,
+  type LocoKitFormField,
+  type LocoKitFormFieldAutocomplete,
+  type LocoKitMessage,
+} from '@locokit/definitions'
+import type { WorkspaceResult } from '@locokit/sdk'
+import { sdkClient } from '@/services/sdk'
+import { findWorkspaces } from '@/services/core/workspace'
+import { findPolicies } from '@/services/core/policy'
+import { useStoreGroups } from '@/stores/groups'
+import ROUTE_NAMES from '@/router/routes'
 
-const router = useRouter()
+const { t } = useI18n()
+
+definePage({
+  name: ROUTE_NAMES.ADMIN.GROUPS.CREATE,
+})
+useHead({
+  titleTemplate: `${t('locokit.pages.admin.title')} | %s`,
+})
+
+//const router = useRouter()
+const toast = useToast()
 const groupsStore = useStoreGroups()
-
 const loading = ref(false)
-const error = ref<Error | null>(null)
-const name = ref('')
-const documentation = ref(null)
-const workspace = ref<Workspace | null>(null)
-const policy = ref<Policy | null>(null)
-const suggestedWorkspaces = ref<Workspace[] | null>(null)
-const suggestedPolicies = ref<Policy[] | null>(null)
+const message = ref<LocoKitMessage | undefined>(undefined)
+const suggestions = ref<unknown[] | undefined>(undefined)
 
-const onSubmit = async () => {
-  loading.value = true
-  if (!workspace.value || !policy.value) return
-  const res = await createGroup({
-    name: name.value,
-    workspaceId: workspace.value.id,
-    roleId: policy.value.id,
-    documentation: documentation.value,
-  })
+const fields = computed<LocoKitFormField[]>(() => {
+  return [
+    {
+      id: 'name',
+      label: t('locokit.pages.createGroup.name'),
+      type: FIELD_TYPE.STRING,
+      component: FIELD_COMPONENT.INPUT_TEXT,
+      validationRules: {
+        required: true,
+        maxLength: 255,
+      },
+    },
+    {
+      id: 'workspace',
+      label: t('locokit.pages.createGroup.workspace'),
+      type: FIELD_TYPE.ID_UUID,
+      component: FIELD_COMPONENT.AUTOCOMPLETE,
+      freeInput: false,
+      source: {
+        table: 'lck_workspace',
+        value: 'id',
+        label: 'name',
+      },
+      validationRules: {
+        required: true,
+        //maxLength: 255,
+      },
+    },
+    {
+      id: 'policy',
+      label: t('locokit.pages.createGroup.policy'),
+      type: FIELD_TYPE.ID_UUID,
+      component: FIELD_COMPONENT.AUTOCOMPLETE,
+      freeInput: false,
+      source: {
+        table: 'lck_policy',
+        value: 'id',
+        label: 'name',
+      },
+      validationRules: {
+        required: true,
+        //maxLength: 255,
+      },
+    },
+    {
+      id: 'documentation',
+      label: t('locokit.pages.createGroup.documentation'),
+      type: FIELD_TYPE.TEXT,
+      component: FIELD_COMPONENT.TEXTAREA,
+      validationRules: {
+        required: false,
+      },
+    },
+  ]
+})
 
-  if (res && res.id) {
-    await groupsStore.updateGroups()
-    await router.push({
-      name: ROUTES_NAMES.ADMIN.GROUPS.RECORD,
-      params: { id: res.id },
-    })
-  } else {
-    error.value = res
+async function onComplete(
+  event: AutoCompleteCompleteEvent,
+  field: LocoKitFormFieldAutocomplete,
+  values: Record<string, unknown>
+) {
+  try {
+    if (field.id === 'workspace') {
+      const params: Record<string, unknown> = {}
+      if (event.query) {
+        params.name = { $ilike: `%${event.query}%` }
+      }
+
+      const workspaces = await findWorkspaces({ params, sort: { name: 1 } })
+
+      suggestions.value = ('data' in workspaces) ? workspaces.data : workspaces
+    } else if (field.id === 'policy') {
+      if (!values.workspace) {
+        suggestions.value = []
+      }
+
+      const params: Record<string, unknown> = {
+        workspaceId: values.workspace,
+      }
+
+      if (event.query) {
+        params.name = { $ilike: `%${event.query}%` }
+      }
+
+      const policies = await findPolicies({ params, sort: { name: 1 } })
+
+      suggestions.value = ('data' in policies) ? policies.data : policies
+    }
+  } catch (e) {
+    message.value = {
+      status: 'error',
+      text: (e as Error).message,
+    }
   }
+}
+
+async function onSubmit(values: Record<string, unknown>) {
+  loading.value = true
+
+  try {
+    const group = await sdkClient.service(SERVICES.CORE_GROUP).create({
+      name: values.name,
+      workspaceId: values.workspace,
+      policyId: values.policy,
+      documentation: values.documentation,
+    })
+
+    message.value = undefined
+
+    toast.add({
+      severity: 'success',
+      summary: t('locokit.success.basic'),
+      life: 3000,
+    })
+
+    await groupsStore.fetchGroups()
+
+    // await router.push({
+    //   name: ROUTE_NAMES.ADMIN.GROUPS.RECORD,
+    //   params: { id: group.id },
+    // })
+  } catch (err) {
+    message.value = {
+      status: 'error',
+      text: (err as Error).message,
+    }
+  }
+
   loading.value = false
-}
-
-const onReset = () => {
-  name.value = ''
-  workspace.value = null
-  policy.value = null
-  documentation.value = null
-}
-
-const searchWorkspaces = async (event: {
-  originalEvent: Event
-  query: string
-}) => {
-  suggestedWorkspaces.value = (
-    await findWorkspaces({
-      params: {
-        name: {
-          $ilike: `%${event.query}%`,
-        },
-      },
-    })
-  ).data
-}
-const searchPolicies = async (event: {
-  originalEvent: Event
-  query: string
-}) => {
-  suggestedPolicies.value = (
-    await findPolicies({
-      params: {
-        name: {
-          $ilike: `%${event.query}%`,
-        },
-      },
-    })
-  ).data
 }
 </script>

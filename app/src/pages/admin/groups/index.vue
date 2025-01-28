@@ -182,7 +182,7 @@ const columnsDefinition = [
 
 // Initialization
 if (!groups.value) {
-  await groupsStore.updateGroups({ $eager: 'workspace' })
+  await groupsStore.fetchGroups({ $eager: 'workspace' })
 }
 
 const applySearch = () => {

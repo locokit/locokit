@@ -2,7 +2,12 @@
 import type { ClientApplication } from '@/client'
 import { SERVICES } from '@locokit/definitions'
 import type { WorkspaceService } from './workspace.class'
-export type { WorkspaceData, WorkspacePatch, WorkspaceQuery } from './workspace.schema'
+export type {
+  WorkspaceData,
+  WorkspacePatch,
+  WorkspaceQuery,
+  WorkspaceResult,
+} from './workspace.schema'
 
 export type WorkspaceClientService = Pick<WorkspaceService, (typeof workspaceMethods)[number]>
 
