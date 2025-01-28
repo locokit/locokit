@@ -58,7 +58,7 @@ describe('[core] user service', () => {
       expect(res.data).toHaveProperty('isVerified')
       expect(res.data).toHaveProperty('createdAt')
       expect(res.data).not.toHaveProperty('password')
-      expect(res.data.username).toBe('User 2')
+      expect(res.data.username).toBe('authentication-user2')
     })
 
     it('User try to get other user information', async () => {
