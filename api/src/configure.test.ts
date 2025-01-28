@@ -195,6 +195,7 @@ export function builderTestEnvironment(prefix: string) {
         email: `${prefix}abilities-user3@locokit.io`,
         isVerified: true,
         password: passwordHashed,
+        profile: USER_PROFILE.MEMBER,
       },
       {},
     )
@@ -205,6 +206,7 @@ export function builderTestEnvironment(prefix: string) {
         email: `${prefix}abilities-user4@locokit.io`,
         isVerified: true,
         password: passwordHashed,
+        profile: USER_PROFILE.CREATOR,
       },
       {},
     )
@@ -256,20 +258,6 @@ export function builderTestEnvironment(prefix: string) {
       createdBy: user2.id,
       public: false,
     })
-    // const workspaceDatabases = (await app.service('database').find({
-    //   query: {
-    //     workspace_id: workspace1.id,
-    //     $limit: 1,
-    //   },
-    // })) as Paginated<Database>
-    // database1 = workspaceDatabases.data[0]
-    // const workspace2Databases = (await app.service('database').find({
-    //   query: {
-    //     workspace_id: workspace2.id,
-    //     $limit: 1,
-    //   },
-    // })) as Paginated<Database>
-    // database2 = workspace2Databases.data[0]
 
     /**
      * 3 Then policies
@@ -307,37 +295,36 @@ export function builderTestEnvironment(prefix: string) {
 
     group1 = await app.service(SERVICES.CORE_GROUP).create({
       name: `[${prefix} policy] Group 1`,
-      workspaceId: workspace2.id,
+      workspaceId: publicWorkspace.id,
       policyId: policy1.id,
-      // users: [user1, user4],
     })
     group2 = await app.service(SERVICES.CORE_GROUP).create({
       name: `[${prefix} policy] Group 2`,
-      workspaceId: workspace2.id,
+      workspaceId: publicWorkspace.id,
       policyId: policy2.id,
-      // users: [user2, user3, user5],
     })
     group3 = await app.service(SERVICES.CORE_GROUP).create({
       name: `[${prefix} policy] Group 3`,
       workspaceId: workspace2.id,
       policyId: policy3.id,
-      // users: [user2],
     })
     group4 = await app.service(SERVICES.CORE_GROUP).create({
       name: `[${prefix} policy] Group 4`,
       workspaceId: workspace2.id,
       policyId: policy4.id,
-      // users: [user1, user5],
     })
     group5 = await app.service(SERVICES.CORE_GROUP).create({
       name: `[${prefix} policy] Group 5`,
-      workspaceId: workspace2.id,
+      workspaceId: publicWorkspace.id,
       policyId: policy5.id,
-      // users: [user5],
     })
 
     await app.service(SERVICES.CORE_USERGROUP).create({
       userId: user1.id,
+      groupId: group1.id,
+    })
+    await app.service(SERVICES.CORE_USERGROUP).create({
+      userId: user2.id,
       groupId: group1.id,
     })
     await app.service(SERVICES.CORE_USERGROUP).create({

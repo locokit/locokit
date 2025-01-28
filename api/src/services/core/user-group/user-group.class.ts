@@ -8,13 +8,12 @@ import {
   userGroupDataValidator,
 } from './user-group.schema'
 import { userGroupQueryValidator, userGroupResolvers } from './user-group.resolver'
-import { Application, HookContext } from '@/declarations'
+import { Application } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
 import { ObjectionService } from '@/feathers-objection'
-import { UserResult } from '../../core/user/user.schema'
 import { USER_PROFILE } from '@locokit/definitions'
-import { Forbidden } from '@feathersjs/errors/lib'
 import { HookMap } from '@feathersjs/feathers'
+import { checkInternalCallOrSpecificProfile } from '@/hooks/profile.hooks'
 
 export const userGroupHooks: HookMap<Application, UserGroupService> = {
   around: {
@@ -25,6 +24,7 @@ export const userGroupHooks: HookMap<Application, UserGroupService> = {
     ],
   },
   before: {
+    all: [checkInternalCallOrSpecificProfile([USER_PROFILE.ADMIN, USER_PROFILE.CREATOR])],
     find: [
       schemaHooks.validateQuery(userGroupQueryValidator),
       schemaHooks.resolveQuery(userGroupResolvers.query),
@@ -32,13 +32,6 @@ export const userGroupHooks: HookMap<Application, UserGroupService> = {
     create: [
       schemaHooks.resolveData(userGroupResolvers.data.create),
       schemaHooks.validateData(userGroupDataValidator),
-      async function checkProfile(context: HookContext) {
-        const user: UserResult = context.params.user
-        const profile = user.profile
-
-        if (profile === USER_PROFILE.MEMBER)
-          throw new Forbidden("You don't have sufficient privilege to create a group.")
-      },
     ],
   },
   after: {},
