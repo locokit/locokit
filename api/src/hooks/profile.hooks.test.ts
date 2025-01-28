@@ -7,7 +7,6 @@ import {
 } from './profile.hooks'
 import { USER_PROFILE } from '@locokit/definitions'
 import { HookContext } from '@/declarations'
-import { error } from 'console'
 
 describe('[hooks] profile', () => {
   describe('isUserProfile', () => {

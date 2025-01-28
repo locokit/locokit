@@ -3,7 +3,6 @@ import { HookContext, HookMap } from '@feathersjs/feathers'
 import { ObjectionService } from '@/feathers-objection'
 import { hooks as schemaHooks } from '@feathersjs/schema'
 import { Application } from '@/declarations'
-import { USER_PROFILE } from '@locokit/definitions'
 
 import {
   GroupData,
