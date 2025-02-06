@@ -144,8 +144,9 @@
               :name="f.id"
               :class="f.class"
               :id="f.id"
-              rows="6"
-              fluid
+              :rows="f.rows ?? 6"
+              :cols="f.cols"
+              :fluid="!f.cols"
             />
 
             <PrimeMessage

@@ -330,7 +330,21 @@ export type LocoKitFormFieldSingleSelect = LocoKitFormFieldBase & {
   }
 }
 
+export type LocoKitFormFieldTextarea = LocoKitFormFieldBase & {
+  component: typeof FIELD_COMPONENT.TEXTAREA
+  /**
+   * Number of visible rows (6 by default).
+   */
+  rows?: number
+  /**
+   * Number of visible columns. If undefined, the component will take up
+   * all the available width.
+   */
+  cols?: number
+}
+
 export type LocoKitFormField =
   | LocoKitFormFieldBase
   | LocoKitFormFieldAutocomplete
   | LocoKitFormFieldSingleSelect
+  | LocoKitFormFieldTextarea
