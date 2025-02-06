@@ -289,7 +289,11 @@ type LocoKitFormFieldBase = {
 
 export type LocoKitFormFieldAutocomplete = LocoKitFormFieldBase & {
   component: typeof FIELD_COMPONENT.AUTOCOMPLETE
-  freeInput?: boolean // true by default
+  /**
+   * Indicates if the component accepts an arbitrary value or not. If not,
+   * a value must be chosen among the list of suggestions (true by default).
+   */
+  freeInput?: boolean
   /**
    * Data source to use for the auto-completion
    */
