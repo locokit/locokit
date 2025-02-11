@@ -1,6 +1,7 @@
 import { AnyQueryBuilder, Model, Modifiers, RelationMappings, raw } from 'objection'
 import BaseModel from '@/commons/BaseModel'
 import { WorkspaceModel } from '@/services/core/workspace/workspace.model'
+import { UserGroupModel } from '@/services/core/user-group/user-group.model'
 
 export class UserModel extends BaseModel {
   static readonly model = 'user'
@@ -24,6 +25,14 @@ export class UserModel extends BaseModel {
 
   static get relationMappings(): RelationMappings {
     return {
+      memberships: {
+        relation: Model.HasManyRelation,
+        modelClass: UserGroupModel,
+        join: {
+          from: 'lck_user.id',
+          to: 'lck_userGroup.userId',
+        },
+      },
       workspaces: {
         relation: Model.HasManyRelation,
         modelClass: WorkspaceModel,

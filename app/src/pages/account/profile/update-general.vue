@@ -1,17 +1,19 @@
 <template>
-  <h1 class="mb-4 text-2xl text-primary font-bold">
-    {{ t('locokit.pages.updateGeneral.title') }}
-  </h1>
-  <update-general-form
-    v-if="authStore.authState.user"
-    :user="authStore.authState.user"
-    :loading="authStore.authState.loading"
-    :message="message"
-    @submit="onSubmit"
-  />
-  <p v-else>
-    {{ t('locokit.pages.updateGeneral.userNotFound') }}
-  </p>
+  <div class="max-w-3xl mx-auto px-6 py-8">
+    <h1 class="mb-4 text-2xl text-primary font-bold">
+      {{ t('locokit.pages.updateGeneral.title') }}
+    </h1>
+    <update-general-form
+      v-if="authStore.authState.user"
+      :user="authStore.authState.user"
+      :loading="authStore.authState.loading"
+      :message="message"
+      @submit="onSubmit"
+    />
+    <p v-else>
+      {{ t('locokit.pages.updateGeneral.userNotFound') }}
+    </p>
+  </div>
 </template>
 
 <script setup lang="ts">

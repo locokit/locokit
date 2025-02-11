@@ -280,6 +280,10 @@ type LocoKitFormFieldBase = {
    */
   class?: string
   /**
+   * Class to apply on the wrapping <div>
+   */
+  wrapperClass?: string
+  /**
    * What type of data this field is
    */
   type: LocoKitFieldTypeId
@@ -335,6 +339,54 @@ export type LocoKitFormFieldAutocomplete = LocoKitFormFieldBase & {
   }
 }
 
+export type LocoKitFormFieldTextual = LocoKitFormFieldBase & {
+  /**
+   * Is the input readable only?
+   */
+  readonly?: boolean
+}
+
+export type LocoKitFormFieldInputCurrency = LocoKitFormFieldTextual & {
+  component: typeof FIELD_COMPONENT.INPUT_CURRENCY
+}
+export type LocoKitFormFieldInputDate = LocoKitFormFieldTextual & {
+  component: typeof FIELD_COMPONENT.INPUT_DATE
+}
+export type LocoKitFormFieldInputDateTime = LocoKitFormFieldTextual & {
+  component: typeof FIELD_COMPONENT.INPUT_DATETIME
+}
+export type LocoKitFormFieldInputEmail = LocoKitFormFieldTextual & {
+  component: typeof FIELD_COMPONENT.INPUT_EMAIL
+}
+export type LocoKitFormFieldInputFloat = LocoKitFormFieldTextual & {
+  component: typeof FIELD_COMPONENT.INPUT_FLOAT
+}
+export type LocoKitFormFieldInputNumber = LocoKitFormFieldTextual & {
+  component: typeof FIELD_COMPONENT.INPUT_NUMBER
+}
+export type LocoKitFormFieldInputPassword = LocoKitFormFieldTextual & {
+  component: typeof FIELD_COMPONENT.INPUT_PASSWORD
+}
+export type LocoKitFormFieldInputText = LocoKitFormFieldTextual & {
+  component: typeof FIELD_COMPONENT.INPUT_TEXT
+}
+export type LocoKitFormFieldInputUuid = LocoKitFormFieldTextual & {
+  component: typeof FIELD_COMPONENT.INPUT_UUID
+}
+
+export type LocoKitFormFieldTextarea = LocoKitFormFieldTextual & {
+  component: typeof FIELD_COMPONENT.TEXTAREA
+  /**
+   * Number of visible rows (6 by default).
+   */
+  rows?: number
+  /**
+   * Number of visible columns. If undefined, the component will take up
+   * all the available width.
+   */
+  cols?: number
+}
+
 export type LocoKitFormFieldSingleSelect = LocoKitFormFieldBase & {
   component: typeof FIELD_COMPONENT.SINGLE_SELECT
   /**
@@ -354,21 +406,17 @@ export type LocoKitFormFieldSingleSelect = LocoKitFormFieldBase & {
   }
 }
 
-export type LocoKitFormFieldTextarea = LocoKitFormFieldBase & {
-  component: typeof FIELD_COMPONENT.TEXTAREA
-  /**
-   * Number of visible rows (6 by default).
-   */
-  rows?: number
-  /**
-   * Number of visible columns. If undefined, the component will take up
-   * all the available width.
-   */
-  cols?: number
-}
-
 export type LocoKitFormField =
   | LocoKitFormFieldBase
   | LocoKitFormFieldAutocomplete
+  | LocoKitFormFieldInputCurrency
+  | LocoKitFormFieldInputDate
+  | LocoKitFormFieldInputDateTime
+  | LocoKitFormFieldInputEmail
+  | LocoKitFormFieldInputFloat
+  | LocoKitFormFieldInputNumber
+  | LocoKitFormFieldInputPassword
+  | LocoKitFormFieldInputText
+  | LocoKitFormFieldInputUuid
   | LocoKitFormFieldSingleSelect
   | LocoKitFormFieldTextarea

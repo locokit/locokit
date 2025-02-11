@@ -10,4 +10,16 @@ export const i18n = createI18n({
     en,
     fr,
   },
+  datetimeFormats: {
+    en: {
+      dateShort: {
+        year: 'numeric', month: '2-digit', day: '2-digit',
+      },
+    },
+    fr: {
+      dateShort: {
+        year: 'numeric', month: '2-digit', day: '2-digit',
+      },
+    },
+  },
 })

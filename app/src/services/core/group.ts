@@ -1,21 +1,12 @@
 import type { Paginated } from '@feathersjs/feathers'
 import { SERVICES } from '@locokit/definitions'
-import type { GroupData, GroupPatch, UserGroupResult } from '@locokit/sdk'
+import type { GroupPatch, UserGroupResult } from '@locokit/sdk'
 import type { Filter } from '@locokit/vue-components'
 import { getCurrentFilters } from '@/helpers/filter'
 import { sdkClient } from '../sdk'
 import { findUserGroups } from './usergroup'
 
 export const ITEMS_PER_PAGE_GROUPS = 20
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function getGroup(id: string, params: null | any = null) {
-  return await sdkClient.service(SERVICES.CORE_GROUP).get(id, params)
-}
-
-export async function patchGroup(id: string, data: GroupPatch = {}) {
-  return await sdkClient.service(SERVICES.CORE_GROUP).patch(id, data)
-}
 
 export async function findGroups(
   {
@@ -44,8 +35,8 @@ export async function findGroups(
     query: {
       $limit: limit,
       $skip: pageIndex * limit,
+      $sort: sort,
       ...params,
-      // $sort: sort,
     },
   })
 }
@@ -72,7 +63,7 @@ export async function searchGroups({
   let parameters: Record<string, any> = {
     $limit: limit,
     $skip: pageIndex * limit,
-    // $sort: sort,
+    $sort: sort,
     ...params,
   }
   if (filters && query) {

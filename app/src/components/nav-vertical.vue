@@ -2,7 +2,7 @@
   <nav>
     <ul class="flex flex-col flex-wrap list-none pl-0">
       <li v-if="title" class="flex-grow text-left">
-        <component :is="titleTag ?? 'h2'" class="mb-4 text-lg font-bold">
+        <component :is="titleTag ?? 'h2'" :class="titleClass">
           {{ title }}
         </component>
       </li>
@@ -10,6 +10,7 @@
         <RouterLink
           :to="{ name: link.routeName }"
           class="block px-5 py-4 hover:bg-slate-300 focus:bg-slate-200"
+          active-class="ps-4 font-bold border-l-4 border-secondary bg-slate-200"
         >
           <i v-if="link.iconClass" class="mr-2 bi" :class="link.iconClass" aria-hidden="true"/>
           <span>{{ link.title }}</span>
@@ -34,11 +35,6 @@ defineProps<{
   links: NavLink[]
   title?: string
   titleTag?: string
+  titleClass?: string
 }>()
 </script>
-
-<style scoped>
-.router-link-exact-active {
-  @apply ps-4 font-bold border-l-4 border-secondary bg-slate-200;
-}
-</style>

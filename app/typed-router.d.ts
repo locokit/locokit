@@ -28,7 +28,12 @@ declare module 'vue-router/auto-routes' {
     '/admin': RouteRecordInfo<'/admin', '/admin', Record<never, never>, Record<never, never>>,
     '/admin/': RouteRecordInfo<'/admin/', '/admin', Record<never, never>, Record<never, never>>,
     '/admin/groups': RouteRecordInfo<'/admin/groups', '/admin/groups', Record<never, never>, Record<never, never>>,
+    '/admin/groups/': RouteRecordInfo<'/admin/groups/', '/admin/groups', Record<never, never>, Record<never, never>>,
+    '/admin/groups/[id]': RouteRecordInfo<'/admin/groups/[id]', '/admin/groups/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/admin/groups/create': RouteRecordInfo<'/admin/groups/create', '/admin/groups/create', Record<never, never>, Record<never, never>>,
+    '/admin/users': RouteRecordInfo<'/admin/users', '/admin/users', Record<never, never>, Record<never, never>>,
+    '/admin/users/': RouteRecordInfo<'/admin/users/', '/admin/users', Record<never, never>, Record<never, never>>,
+    '/admin/users/[id]': RouteRecordInfo<'/admin/users/[id]', '/admin/users/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/admin/users/create': RouteRecordInfo<'/admin/users/create', '/admin/users/create', Record<never, never>, Record<never, never>>,
     '/w/': RouteRecordInfo<'/w/', '/w', Record<never, never>, Record<never, never>>,
   }

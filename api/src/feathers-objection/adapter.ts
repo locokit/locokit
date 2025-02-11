@@ -9,7 +9,7 @@ import {
 
 import { _ } from '@feathersjs/commons'
 import { AdapterBase, PaginationOptions, filterQuery } from '@feathersjs/adapter-commons'
-import { BadRequest, NotFound } from '@feathersjs/errors'
+import { BadRequest, NotFound, NotImplemented } from '@feathersjs/errors'
 
 import { errorHandler } from './error-handler'
 import { ObjectionAdapterOptions, ObjectionAdapterParams } from './declarations'
@@ -902,40 +902,21 @@ export class ObjectionAdapter<
   async _patch(id: NullableId, data: PatchData, _params?: ServiceParams): Promise<Result | Result[]>
   async _patch(
     id: NullableId,
-    raw: PatchData,
+    data: PatchData,
     params: ServiceParams = {} as ServiceParams,
   ): Promise<Result | Result[]> {
-    const data = _.omit(raw, this.id)
-    const results = await this._findOrGet(id, {
-      ...params,
-      query: {
-        ...params?.query,
-        $select: [`${this.table}.${this.id}`],
-      },
-    })
-    const idList = results.map((current: any) => current[this.id])
-    const updateParams = {
-      ...params,
-      query: {
-        [`${this.table}.${this.id}`]: { $in: idList },
-        ...(params?.query?.$select ? { $select: params?.query?.$select } : {}),
-      },
+    if (id === null) {
+      throw new NotImplemented("Patching multiple records is not supported, the identifier is required.")
     }
+
+    const idQuery = this.computeIdQuery(id, params)
+    const updateParams = { ...params, query: idQuery }
+    const updateData = _.omit(data, this.id)
+
     const builder = this.createQuery(updateParams)
+    await builder.patch(updateData)
 
-    await builder.update(data)
-
-    const items = await this._findOrGet(null, updateParams)
-
-    if (id !== null) {
-      if (items.length === 1) {
-        return items[0]
-      } else {
-        throw new NotFound(`No record found for id '${id}'`)
-      }
-    }
-
-    return items
+    return await this._get(id, updateParams)
   }
 
   async _update(id: Id, _data: Data, params: ServiceParams = {} as ServiceParams): Promise<Result> {

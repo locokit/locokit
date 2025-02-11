@@ -7,6 +7,7 @@ import { createHead } from '@unhead/vue'
 import PrimeVue from 'primevue/config'
 import { definePreset } from '@primevue/themes'
 import Aura from '@primevue/themes/aura'
+import ConfirmationService from 'primevue/confirmationservice'
 import ToastService from 'primevue/toastservice'
 
 import { TAILWIND_COLORS } from '@locokit/definitions'
@@ -37,6 +38,7 @@ async function boot() {
       },
     },
   })
+  app.use(ConfirmationService)
   app.use(ToastService)
 
   /**

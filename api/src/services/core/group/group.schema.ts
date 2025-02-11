@@ -134,7 +134,7 @@ export const groupQuerySchema = Type.Intersect(
         Type.RegEx(
           /workspace|users|policy|\[workspace.owner\]|\[workspace,users\]|\[workspace,users,policy\]|\[workspace.owner,users\]|\[workspace.owner,users,policy\]/,
           {
-            description: 'Join policy to its relations (and nested).',
+            description: 'Join group to its relations (and nested).',
           },
         ),
       ),
@@ -142,7 +142,7 @@ export const groupQuerySchema = Type.Intersect(
         Type.RegEx(
           /workspace|users|policy|\[workspace.owner\]|\[workspace,users\]|\[workspace,users,policy\]|\[workspace.owner,users\]|\[workspace.owner,users,policy\]/,
           {
-            description: 'Join policy to its relations (and nested).',
+            description: 'Join group to its relations (and nested).',
           },
         ),
       ),
@@ -150,7 +150,7 @@ export const groupQuerySchema = Type.Intersect(
         Type.RegEx(
           /workspace|users|policy|\[workspace.owner\]|\[workspace,users\]|\[workspace,policy\]|\[workspace,users,policy\]|\[workspace.owner,users\]|\[workspace.owner,users,policy\]/,
           {
-            description: 'Join policy to its relations (and nested).',
+            description: 'Join group to its relations (and nested).',
           },
         ),
       ),

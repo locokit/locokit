@@ -8,6 +8,8 @@ import type { TransportConnection, Application } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
 import type { AuthenticationClientOptions } from '@feathersjs/authentication-client'
 
+import { SERVICES } from '@locokit/definitions'
+
 import { signupClient } from './services/auth/signup/signup.shared'
 import './services/auth/authentication/authentication.shared'
 import { authManagementClient } from './services/auth/authmanagement/authmanagement.shared'
@@ -19,17 +21,28 @@ import { workspaceClient } from './services/core/workspace/workspace.shared'
 import { datasourceClient } from './services/core/datasource/datasource.shared'
 import { policyClient } from './services/core/policy/policy.shared'
 
-import { SERVICES } from '@locokit/definitions'
 import { workspaceDatasourceClient } from './services/workspace/datasource/datasource.shared'
 
 export type { SignUpData } from './services/auth/signup/signup.shared'
 
-export type { User, UserData, UserQuery, UserPatch } from './services/core/user/user.shared'
-export type { GroupData, GroupPatch, GroupQuery } from './services/core/group/group.shared'
+export type {
+  User,
+  UserData,
+  UserQuery,
+  UserPatch,
+  UserResult,
+} from './services/core/user/user.shared'
+export type {
+  GroupData,
+  GroupPatch,
+  GroupQuery,
+  GroupResult,
+} from './services/core/group/group.shared'
 export type {
   UserGroupData,
   UserGroupPatch,
   UserGroupQuery,
+  UserGroupResult,
 } from './services/core/user-group/user-group.shared'
 export type {
   WorkspaceData,

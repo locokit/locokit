@@ -6,17 +6,17 @@
   -->
   <PrimeForm
     v-slot="states"
+    :initial-values
     :resolver
     @submit="onFormSubmit"
-    :initial-values
     validate-on-blur
     :validate-on-value-update="false"
   >
     <slot name="top" />
     <slot>
-      <div class="flex flex-col gap-1">
+      <div :class="fieldAreaClass">
         <template v-for="f in fieldsDisplayed(states).value" :key="f.id">
-          <div class="mb-4">
+          <div :class="f.wrapperClass">
             <!-- boolean -->
             <div class="flex items-center">
               <PrimeToggleSwitch
@@ -36,18 +36,20 @@
             <!-- text / email -->
             <PrimeInputText
               v-if="f.component === FIELD_COMPONENT.INPUT_TEXT"
+              type="text"
               :name="f.id"
               :class="f.class"
               :id="f.id"
-              type="text"
+              :readonly="f.readonly ?? false"
               fluid
             />
             <PrimeInputText
               v-else-if="f.component === FIELD_COMPONENT.INPUT_EMAIL"
+              type="email"
               :name="f.id"
               :id="f.id"
               :class="f.class"
-              type="email"
+              :readonly="f.readonly ?? false"
               fluid
             />
 
@@ -68,6 +70,7 @@
               :name="f.id"
               :class="f.class"
               :input-id="f.id"
+              :readonly="f.readonly ?? false"
               fluid
             />
 
@@ -81,6 +84,7 @@
               :id="f.id"
               :type="f.component === FIELD_COMPONENT.INPUT_DATE ? 'date' : 'datetime-local'"
               :show-time="f.component === FIELD_COMPONENT.INPUT_DATETIME"
+              :readonly="f.readonly ?? false"
               show-icon
               icon-display="input"
               append-to="body"
@@ -189,7 +193,7 @@
 
     <slot name="buttons">
       <div
-        class="flex items-center justify-center gap-2 drop-shadow-lg"
+        class="flex items-center justify-center gap-2 mt-6 drop-shadow-lg"
         :class="{
           'sticky bottom-0': props.buttonPosition === 'sticky',
         }"
@@ -208,6 +212,10 @@
     </slot>
   </PrimeForm>
 </template>
+
+<script lang="ts">
+export type GenericFormInitialValues = Record<string, string | number | boolean | Object | null>
+</script>
 
 <script setup lang="ts">
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -254,7 +262,7 @@ const emit = defineEmits<{
 const props = withDefaults(
   defineProps<{
     fields: LocoKitFormField[]
-    initialValues?: Record<string, string | number | boolean | Object | null>
+    initialValues?: GenericFormInitialValues
     loading?: boolean
     buttons?: {
       submit: boolean
@@ -266,6 +274,7 @@ const props = withDefaults(
       reset?: string
       cancel?: string
     }
+    fieldAreaClass?: string
     /** How to display submit buttons, default to sticky */
     buttonPosition?: 'sticky' | 'block'
     /** A message to display into the form, just above the buttons. */
@@ -287,6 +296,7 @@ const props = withDefaults(
       reset: false,
       cancel: true,
     }),
+    fieldAreaClass: 'flex flex-col gap-4',
     buttonPosition: 'sticky',
     labels: () => ({}),
     autocompleteSuggestions: () => [],

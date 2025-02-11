@@ -6,8 +6,10 @@ import {
   UserGroupResult,
   UserGroupQuery,
   userGroupDataValidator,
+  userGroupPatchValidator,
+  userGroupQueryValidator,
 } from './user-group.schema'
-import { userGroupQueryValidator, userGroupResolvers } from './user-group.resolver'
+import { userGroupResolvers } from './user-group.resolver'
 import { Application } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
 import { ObjectionService } from '@/feathers-objection'
@@ -36,8 +38,16 @@ export const userGroupHooks: HookMap<Application, UserGroupService> = {
       schemaHooks.resolveQuery(userGroupResolvers.query),
     ],
     create: [
-      schemaHooks.resolveData(userGroupResolvers.data.create),
       schemaHooks.validateData(userGroupDataValidator),
+      schemaHooks.resolveData(userGroupResolvers.data.create),
+    ],
+    patch: [
+      schemaHooks.validateData(userGroupPatchValidator),
+      schemaHooks.resolveData(userGroupResolvers.data.patch),
+    ],
+    update: [
+      schemaHooks.validateData(userGroupDataValidator),
+      schemaHooks.resolveData(userGroupResolvers.data.update),
     ],
   },
   after: {},
