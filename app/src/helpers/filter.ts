@@ -1,5 +1,5 @@
 import { FIELD_TYPE } from '@locokit/definitions'
-import { Filter, FilterAction, inputPatternType } from '../interfaces/toMigrate'
+import type { Filter, FilterRule, FilterValue } from '@locokit/vue-components'
 import { formatDateISO, formatDateTimeISO } from './date'
 
 // Not all v0.7 functions have been migrated, as we are not yet sure whether they are needed.
@@ -8,31 +8,31 @@ import { formatDateISO, formatDateTimeISO } from './date'
  * Convert the pattern used in the FilterButton component to a pattern that can be used in FeathersJS or saved into the database.
  * pattern = The filters specified in the FilterButton component
  */
-export function getFormattedPattern(
-  motif: inputPatternType,
+export function getFormattedValue(
+  value: FilterValue,
   columnType: string,
-  action: FilterAction,
+  rule: FilterRule,
   wildCards: Record<string, string | number> = {},
 ): boolean | number | string | Array<string | number> {
-  if (typeof motif === 'string') {
+  if (typeof value === 'string') {
     // Replace the specific keys containing in the string pattern by the corresponding values
     return (
-      wildCards[motif] ||
-      (action.patternPrefix ?? '') + motif + (action.patternSuffix ?? '')
+      wildCards[value] ||
+      (rule.valuePrefix ?? '') + value + (rule.valueSuffix ?? '')
     )
-  } else if (Array.isArray(motif)) {
+  } else if (Array.isArray(value)) {
     // Replace the specific keys containing in the items of the pattern by the corresponding values
-    return motif.map((item) => wildCards[item] || item)
-  } else if (motif instanceof Date) {
+    return value.map((item) => wildCards[item] || item)
+  } else if (value instanceof Date) {
     if (columnType === FIELD_TYPE.DATE) {
       // Get the iso string representation of the date
-      return formatDateISO(motif)
+      return formatDateISO(value)
     } else {
       // Get the iso string representation of the datetime
-      return formatDateTimeISO(motif)
+      return formatDateTimeISO(value)
     }
   } else {
-    return motif as boolean | number | string | Array<string | number>
+    return value as boolean | number | string | Array<string | number>
   }
 }
 
@@ -43,21 +43,21 @@ export function getCurrentFilters(
   filters: Filter[],
   wildCards: Record<string, string | number> = {},
 ) {
-  const formattedFilters: Record<string, inputPatternType> = {}
+  const formattedFilters: Record<string, FilterValue> = {}
   const cleanedFilters = filters.filter(
-    (filter) => ![filter.column, filter.action, filter.motif].includes(null),
+    (filter) => ![filter.field, filter.rule, filter.value].includes(null),
   )
   if (cleanedFilters.length > 0) {
-    cleanedFilters.forEach(({ operator, column, action, motif }, index) => {
-      if (column && action) {
+    cleanedFilters.forEach(({ field, rule, value, logicalOperator }, index) => {
+      if (field && rule) {
         formattedFilters[
           // Operator
-          `${operator}[${index}]` +
-            // Field
-            `[${column.field}]` +
-            // Action
-            `[${action.featherKey}]`
-        ] = getFormattedPattern(motif, column.type, action, wildCards)
+          `${logicalOperator}[${index}]` +
+          // Field
+          `[${field.slug}]` +
+          // Action
+          `[${rule.operator}]`
+        ] = getFormattedValue(value, field.type, rule, wildCards)
       }
     })
   }
