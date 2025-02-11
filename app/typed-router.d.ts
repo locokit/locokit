@@ -28,14 +28,8 @@ declare module 'vue-router/auto-routes' {
     '/admin': RouteRecordInfo<'/admin', '/admin', Record<never, never>, Record<never, never>>,
     '/admin/': RouteRecordInfo<'/admin/', '/admin', Record<never, never>, Record<never, never>>,
     '/admin/groups': RouteRecordInfo<'/admin/groups', '/admin/groups', Record<never, never>, Record<never, never>>,
-    '/admin/groups/': RouteRecordInfo<'/admin/groups/', '/admin/groups', Record<never, never>, Record<never, never>>,
-    '/admin/groups/about': RouteRecordInfo<'/admin/groups/about', '/admin/groups/about', Record<never, never>, Record<never, never>>,
     '/admin/groups/create': RouteRecordInfo<'/admin/groups/create', '/admin/groups/create', Record<never, never>, Record<never, never>>,
-    '/admin/groups/record': RouteRecordInfo<'/admin/groups/record', '/admin/groups/record', Record<never, never>, Record<never, never>>,
-    '/admin/users/': RouteRecordInfo<'/admin/users/', '/admin/users', Record<never, never>, Record<never, never>>,
-    '/admin/users/about': RouteRecordInfo<'/admin/users/about', '/admin/users/about', Record<never, never>, Record<never, never>>,
     '/admin/users/create': RouteRecordInfo<'/admin/users/create', '/admin/users/create', Record<never, never>, Record<never, never>>,
-    '/admin/users/record': RouteRecordInfo<'/admin/users/record', '/admin/users/record', Record<never, never>, Record<never, never>>,
     '/w/': RouteRecordInfo<'/w/', '/w', Record<never, never>, Record<never, never>>,
   }
 }
