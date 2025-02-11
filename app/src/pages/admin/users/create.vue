@@ -27,8 +27,8 @@ import {
   type LocoKitFormField,
   type LocoKitMessage,
 } from '@locokit/definitions'
-import ROUTE_NAMES from '@/router/routes'
 import { sdkClient } from '@/services/sdk'
+import ROUTE_NAMES from '@/router/routes'
 
 const { t } = useI18n()
 
@@ -42,7 +42,7 @@ useHead({
 //const router = useRouter()
 const toast = useToast()
 const loading = ref(false)
-const message = ref<LocoKitMessage | undefined>(undefined)
+const message = ref<LocoKitMessage | null>(null)
 
 const fields = computed<LocoKitFormField[]>(() => {
   return [
@@ -117,7 +117,7 @@ async function onSubmit(values: Record<string, unknown>) {
       profile: values.profile,
     })
 
-    message.value = undefined
+    message.value = null
 
     toast.add({
       severity: 'success',

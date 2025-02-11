@@ -269,7 +269,7 @@ const props = withDefaults(
     /** How to display submit buttons, default to sticky */
     buttonPosition?: 'sticky' | 'block'
     /** A message to display into the form, just above the buttons. */
-    message?: LocoKitMessage
+    message?: LocoKitMessage | null
     /**
      * Suggestions used for autocomplete fields.
      * Only one prop is used,

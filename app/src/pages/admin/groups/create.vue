@@ -50,8 +50,8 @@ useHead({
 const toast = useToast()
 const groupsStore = useStoreGroups()
 const loading = ref(false)
-const message = ref<LocoKitMessage | undefined>(undefined)
-const suggestions = ref<unknown[] | undefined>(undefined)
+const message = ref<LocoKitMessage | null>(null)
+const suggestions = ref<unknown[]>([])
 
 const fields = computed<LocoKitFormField[]>(() => {
   return [
@@ -115,31 +115,35 @@ async function onComplete(
   values: Record<string, unknown>
 ) {
   try {
-    if (field.id === 'workspace') {
-      const params: Record<string, unknown> = {}
-      if (event.query) {
-        params.name = { $ilike: `%${event.query}%` }
-      }
+    const params: Record<string, unknown> = {}
 
-      const workspaces = await findWorkspaces({ params, sort: { name: 1 } })
+    switch (field.id) {
+      case 'workspace':
+        if (event.query) {
+          params.name = { $ilike: `%${event.query}%` }
+        }
 
-      suggestions.value = ('data' in workspaces) ? workspaces.data : workspaces
-    } else if (field.id === 'policy') {
-      if (!values.workspace) {
-        suggestions.value = []
-      }
+        const workspaces = await findWorkspaces({ params, sort: { name: 1 } })
 
-      const params: Record<string, unknown> = {
-        workspaceId: values.workspace,
-      }
+        suggestions.value = ('data' in workspaces) ? workspaces.data : workspaces
+        break
 
-      if (event.query) {
-        params.name = { $ilike: `%${event.query}%` }
-      }
+      case 'policy':
+        if (!values.workspace) {
+          suggestions.value = []
 
-      const policies = await findPolicies({ params, sort: { name: 1 } })
+          return
+        }
 
-      suggestions.value = ('data' in policies) ? policies.data : policies
+        params.workspaceId = values.workspace
+        if (event.query) {
+          params.name = { $ilike: `%${event.query}%` }
+        }
+
+        const policies = await findPolicies({ params, sort: { name: 1 } })
+
+        suggestions.value = ('data' in policies) ? policies.data : policies
+        break
     }
   } catch (e) {
     message.value = {
@@ -160,7 +164,7 @@ async function onSubmit(values: Record<string, unknown>) {
       documentation: values.documentation,
     })
 
-    message.value = undefined
+    message.value = null
 
     toast.add({
       severity: 'success',
