@@ -19,6 +19,7 @@ import { computed, ref } from 'vue'
 //import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
+import type { Paginated } from '@feathersjs/feathers'
 import type { AutoCompleteCompleteEvent } from 'primevue/autocomplete'
 import { useToast } from 'primevue/usetoast'
 import { GenericForm } from '@locokit/vue-components'
@@ -30,7 +31,7 @@ import {
   type LocoKitFormFieldAutocomplete,
   type LocoKitMessage,
 } from '@locokit/definitions'
-import type { WorkspaceResult } from '@locokit/sdk'
+import type { PolicyResult, WorkspaceResult } from '@locokit/sdk'
 import { sdkClient } from '@/services/sdk'
 import { findWorkspaces } from '@/services/core/workspace'
 import { findPolicies } from '@/services/core/policy'
@@ -123,9 +124,9 @@ async function onComplete(
           params.name = { $ilike: `%${event.query}%` }
         }
 
-        const workspaces = await findWorkspaces({ params, sort: { name: 1 } })
+        const workspaces = await findWorkspaces({ params, sort: { name: 1 } }) as Paginated<WorkspaceResult>
 
-        suggestions.value = ('data' in workspaces) ? workspaces.data : workspaces
+        suggestions.value = workspaces.data
         break
 
       case 'policy':
@@ -140,9 +141,9 @@ async function onComplete(
           params.name = { $ilike: `%${event.query}%` }
         }
 
-        const policies = await findPolicies({ params, sort: { name: 1 } })
+        const policies = await findPolicies({ params, sort: { name: 1 } }) as Paginated<PolicyResult>
 
-        suggestions.value = ('data' in policies) ? policies.data : policies
+        suggestions.value = policies.data
         break
     }
   } catch (e) {
