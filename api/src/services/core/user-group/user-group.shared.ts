@@ -2,7 +2,12 @@
 import type { ClientApplication } from '@/client'
 import { SERVICES } from '@locokit/definitions'
 import type { UserGroupService } from './user-group.class'
-export type { UserGroupData, UserGroupPatch, UserGroupQuery } from './user-group.schema'
+export type {
+  UserGroupData,
+  UserGroupPatch,
+  UserGroupQuery,
+  UserGroupResult,
+} from './user-group.schema'
 
 export type UserGroupClientService = Pick<UserGroupService, (typeof userGroupMethods)[number]>
 

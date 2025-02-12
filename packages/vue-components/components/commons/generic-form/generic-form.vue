@@ -17,8 +17,8 @@
       <div class="flex flex-col gap-1">
         <template v-for="f in fieldsDisplayed(states).value" :key="f.id">
           <div class="mb-4">
+            <!-- boolean -->
             <div class="flex items-center">
-              <!-- boolean -->
               <PrimeToggleSwitch
                 v-if="f.component === FIELD_COMPONENT.TOGGLE_SWITCH"
                 :name="f.id"
@@ -33,11 +33,12 @@
               </label>
             </div>
 
+            <!-- text / email -->
             <PrimeInputText
               v-if="f.component === FIELD_COMPONENT.INPUT_TEXT"
               :name="f.id"
-              :id="f.id"
               :class="f.class"
+              :id="f.id"
               type="text"
               fluid
             />
@@ -49,23 +50,27 @@
               type="email"
               fluid
             />
+
+            <!-- password -->
             <PrimePassword
               v-else-if="f.component === FIELD_COMPONENT.INPUT_PASSWORD"
               :name="f.id"
               :input-id="f.id"
               :class="f.class"
-              fluid
-              toggleMask
               :feedback="false"
+              toggleMask
+              fluid
             />
+
             <!-- number / float -->
             <PrimeInputNumber
               v-else-if="f.component === FIELD_COMPONENT.INPUT_NUMBER"
               :name="f.id"
               :class="f.class"
-              :inputId="f.id"
+              :input-id="f.id"
               fluid
             />
+
             <!-- date / datetime -->
             <PrimeInputText
               v-else-if="
@@ -74,31 +79,32 @@
               :name="f.id"
               :class="f.class"
               :id="f.id"
-              fluid
+              :type="f.component === FIELD_COMPONENT.INPUT_DATE ? 'date' : 'datetime-local'"
+              :show-time="f.component === FIELD_COMPONENT.INPUT_DATETIME"
               show-icon
               icon-display="input"
               append-to="body"
-              :show-time="f.component === FIELD_COMPONENT.INPUT_DATETIME"
-              :type="f.component === FIELD_COMPONENT.INPUT_DATE ? 'date' : 'datetime-local'"
+              fluid
             />
+
             <!-- single select -->
             <PrimeSelect
               v-else-if="f.component === FIELD_COMPONENT.SINGLE_SELECT"
               :name="f.id"
               :class="f.class"
-              :labelId="f.id"
-              fluid
+              :label-id="f.id"
               :options="f.source.options"
-              :showClear="true"
+              :show-clear="true"
               :placeholder="t('locokit.components.primeDropdown.placeholder')"
               class="mb-2 w-full"
+              fluid
             >
               <template #value="slotProps">
                 <single-tag
                   v-if="slotProps.value"
-                  :label="slotProps.value[f.source.label]"
-                  :color="slotProps.value[f.source.colorFields?.text]"
-                  :backgroundColor="slotProps.value[f.source.colorFields?.background]"
+                  :label="getSelectOptionLabel(slotProps.value, f)"
+                  :color="getSelectOptionColors(slotProps.value, f)?.text"
+                  :background-color="getSelectOptionColors(slotProps.value, f)?.background"
                 />
                 <span v-else>
                   {{ slotProps.placeholder }}
@@ -106,9 +112,9 @@
               </template>
               <template #option="slotProps">
                 <single-tag
-                  :label="slotProps.option[f.source.label]"
-                  :color="slotProps.option[f.source.colorFields?.text]"
-                  :backgroundColor="slotProps.option[f.source.colorFields?.background]"
+                  :label="getSelectOptionLabel(slotProps.option, f)"
+                  :color="getSelectOptionColors(slotProps.option, f)?.text"
+                  :background-color="getSelectOptionColors(slotProps.option, f)?.background"
                 />
               </template>
             </PrimeSelect>
@@ -118,22 +124,34 @@
               v-else-if="f.component === FIELD_COMPONENT.AUTOCOMPLETE"
               :name="f.id"
               :class="f.class"
-              :inputId="f.id"
-              :forceSelection="false"
+              :input-id="f.id"
+              :placeholder="t('locokit.components.primeAutocomplete.placeholder')"
+              :suggestions="props.autocompleteSuggestions"
+              :option-label="f.source.label"
+              :force-selection="!(f.freeInput ?? true)"
+              @complete="onComplete($event, f, states)"
+              @value-change="(value) => onValueChange(value, f)"
+              input-class="w-full border-r-0 hover:border-surface-500 "
               dropdown
               dropdown-mode="current"
-              :placeholder="t('locokit.components.primeAutocomplete.placeholder')"
-              fluid
-              :option-label="f.source.label"
-              :suggestions="props.autocompleteSuggestions"
-              @complete="emit('complete', f, $event)"
-              input-class="w-full border-r-0 hover:border-surface-500 "
               dropdown-class="bg-transparent hover:bg-transparent primary border-l-0 border-surface-300 text-surface-500 hover:border-surface-500 w-12"
+              fluid
+            />
+
+            <!-- textarea -->
+            <PrimeTextarea
+              v-else-if="f.component === FIELD_COMPONENT.TEXTAREA"
+              :name="f.id"
+              :class="f.class"
+              :id="f.id"
+              :rows="f.rows ?? 6"
+              :cols="f.cols"
+              :fluid="!f.cols"
             />
 
             <PrimeMessage
-              severity="error"
               v-else-if="f.component !== FIELD_COMPONENT.TOGGLE_SWITCH"
+              severity="error"
             >
               Component {{ f.component }} is not yet implemented.
             </PrimeMessage>
@@ -195,35 +213,42 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 // correlated to PrimeVue forms "states" / v-slot
+import { computed, onMounted, ref, toValue } from 'vue'
+import { useI18n } from 'vue-i18n'
 import {
   FormFieldState,
   FormResolverOptions,
   FormSubmitEvent,
   Form as PrimeForm,
 } from '@primevue/forms'
-
-import { FIELD_COMPONENT, type LocoKitFormField, type LocoKitMessage } from '@locokit/definitions'
-
 import PrimeAutocomplete, { AutoCompleteCompleteEvent } from 'primevue/autocomplete'
 import PrimeButton from 'primevue/button'
-import PrimeInputText from 'primevue/inputtext'
+import PrimeDatePicker from 'primevue/datepicker'
 import PrimeInputNumber from 'primevue/inputnumber'
+import PrimeInputText from 'primevue/inputtext'
 import PrimeMessage from 'primevue/message'
 import PrimePassword from 'primevue/password'
-import PrimeDatePicker from 'primevue/datepicker'
 import PrimeSelect from 'primevue/select'
+import PrimeTextarea from 'primevue/textarea'
 import PrimeToggleSwitch from 'primevue/toggleswitch'
-
+import {
+  FIELD_COMPONENT,
+  type LocoKitFormField,
+  type LocoKitFormFieldAutocomplete,
+  type LocoKitFormFieldSingleSelect,
+  type LocoKitMessage,
+} from '@locokit/definitions'
 import SingleTag from '../../ui/single-tag/single-tag.vue'
-
-import { computed, watch, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
 const emit = defineEmits<{
   submit: [values: Record<string, unknown>]
-  complete: [field: LocoKitFormFieldAutocomplete, event: AutoCompleteCompleteEvent]
+  complete: [
+    event: AutoCompleteCompleteEvent,
+    field: LocoKitFormFieldAutocomplete,
+    values: Record<string, unknown>
+  ]
 }>()
 
 const props = withDefaults(
@@ -244,7 +269,7 @@ const props = withDefaults(
     /** How to display submit buttons, default to sticky */
     buttonPosition?: 'sticky' | 'block'
     /** A message to display into the form, just above the buttons. */
-    message?: LocoKitMessage
+    message?: LocoKitMessage | null
     /**
      * Suggestions used for autocomplete fields.
      * Only one prop is used,
@@ -268,6 +293,8 @@ const props = withDefaults(
   },
 )
 
+const autocompleteSelectedOptions = ref<Record<string, unknown>>({})
+
 const buttonLabels = computed(() => {
   return {
     submit: props.labels.submit ?? t('locokit.components.formGeneric.submit'),
@@ -276,8 +303,8 @@ const buttonLabels = computed(() => {
   }
 })
 
-const fieldsDisplayed = (state: Record<string, FormFieldState>) =>
-  computed(() => {
+const fieldsDisplayed = (state: Record<string, FormFieldState>) => {
+  return computed(() => {
     const result: LocoKitFormField[] = []
     function getFieldDescription(f: LocoKitFormField) {
       if (!f.description) return null
@@ -309,6 +336,55 @@ const fieldsDisplayed = (state: Record<string, FormFieldState>) =>
 
     return result
   })
+}
+
+onMounted(() => {
+  // Initialize autocompleteSelectedOptions variable with initial values
+  // of autocomplete fields.
+  for (const key in props.initialValues) {
+    // Find the field definition matching the current initial value.
+    const field = props.fields.find((item) => item.id === key)
+    // Skip if the value does not concern any field.
+    if (!field) {
+      continue
+    }
+
+    if (field.component === FIELD_COMPONENT.AUTOCOMPLETE) {
+      const value = props.initialValues[key]
+      if (typeof value === 'object') {
+        autocompleteSelectedOptions.value[field.id] = toValue(value)
+      }
+    }
+  }
+})
+
+function getSelectOptionLabel(option: unknown, field: LocoKitFormFieldSingleSelect) {
+  if (typeof option === 'object' && field.source.label) {
+    return option[field.source.label]
+  }
+
+  return option
+}
+
+function getSelectOptionValue(option: unknown, field: LocoKitFormFieldSingleSelect) {
+  if (typeof option === 'object' && field.source.value) {
+    return option[field.source.value]
+  }
+
+  return option
+}
+
+function getSelectOptionColors(option: unknown, field: LocoKitFormFieldSingleSelect) {
+  if (typeof option === 'object' && field.source.colorFields) {
+    const colorFields = field.source.colorFields
+    return {
+      text: colorFields.text ? option[colorFields.text] : null,
+      background: colorFields.background ? option[colorFields.background] : null,
+    }
+  }
+
+  return null
+}
 
 const resolver = ({ values }: FormResolverOptions) => {
   const errors: Record<string, { message: string }[]> = {}
@@ -329,12 +405,72 @@ const resolver = ({ values }: FormResolverOptions) => {
   }
 }
 
-const onFormSubmit = ({ valid, states }: FormSubmitEvent) => {
+function extractValuesFromStates(states: Record<string, unknown>) {
   const values = {}
-  Object.keys(states).forEach((stateKey) => {
-    values[stateKey] = states[stateKey].value
-  })
 
-  if (valid) emit('submit', values)
+  for (const key in states) {
+    // Ignore states which are not objects or do not have a "value" property.
+    if (typeof states[key] !== 'object' || !('value' in states[key])) {
+      continue
+    }
+
+    // Find the field definition matching the current state.
+    const field = props.fields.find((item) => item.id === key)
+    // No need to continue if the state does not concern one of our fields.
+    if (!field) {
+      continue
+    }
+
+    // Special handling of autocomplete fields whose suggestions can be objects
+    // and not just strings.
+    if (
+      field.component === FIELD_COMPONENT.AUTOCOMPLETE &&
+      field.id in autocompleteSelectedOptions.value
+    ) {
+      const option = autocompleteSelectedOptions.value[field.id]
+      const valueProp = (field as LocoKitFormFieldAutocomplete).source.value
+      values[field.id] = valueProp ? option[valueProp] : option
+
+      continue
+    }
+
+    // Special handling of single select fields whose suggestions can be objects
+    // and not just strings or numbers.
+    if (field.component === FIELD_COMPONENT.SINGLE_SELECT) {
+      values[field.id] = getSelectOptionValue(states[field.id].value, field)
+
+      continue
+    }
+
+    values[field.id] = states[field.id].value
+  }
+
+  return values
+}
+
+function onValueChange(value: unknown, field: LocoKitFormFieldAutocomplete) {
+  // If the value is an object, this means it matches a suggestion
+  // which is represented by an object.
+  if (value && typeof value === 'object') {
+    autocompleteSelectedOptions.value[field.id] = toValue(value)
+  } else if (field.id in autocompleteSelectedOptions.value) {
+    delete autocompleteSelectedOptions.value[field.id]
+  }
+}
+
+function onComplete(
+  event: AutoCompleteCompleteEvent,
+  field: LocoKitFormFieldAutocomplete,
+  formState: Record<string, unknown>,
+) {
+  const values = extractValuesFromStates(formState)
+  emit('complete', event, field, values)
+}
+
+function onFormSubmit({ valid, states }: FormSubmitEvent) {
+  if (valid) {
+    const values = extractValuesFromStates(states)
+    emit('submit', values)
+  }
 }
 </script>

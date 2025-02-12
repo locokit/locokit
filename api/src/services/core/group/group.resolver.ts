@@ -34,6 +34,15 @@ export const groupDefaultResolver: Resolver<GroupSchema, HookContext> = resolve<
   },
 })
 
+export const groupPatchResolver: Resolver<GroupSchema, HookContext> = resolve<
+  GroupSchema,
+  HookContext
+>({
+  async updatedAt() {
+    return new Date().toISOString()
+  },
+})
+
 export const groupDispatchResolver = groupDefaultResolver
 
 // Resolver for query properties
@@ -45,8 +54,8 @@ export const groupResolvers = {
   dispatch: groupDispatchResolver,
   data: {
     create: groupCreateResolver,
-    update: groupDefaultResolver,
-    patch: groupDefaultResolver,
+    update: [groupDefaultResolver, groupPatchResolver],
+    patch: [groupDefaultResolver, groupPatchResolver],
   },
   query: groupQueryResolver,
 }

@@ -1,14 +1,15 @@
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { findUsers, patchUser } from '../services/core/user'
-import { ApiUser } from '../interfaces/toMigrate'
-import { ref } from '#imports'
+import type { Paginated } from '@feathersjs/feathers'
+import type { UserResult } from '@locokit/sdk'
+import { findUsers, patchUser } from '@/services/core/user'
 
 export const useStoreUsers = defineStore('users', () => {
   const loading = ref(false)
   const error = ref<Error | null>(null)
-  const users = ref<ApiUser | undefined>()
+  const users = ref<Paginated<UserResult> | undefined>()
 
-  async function updateUsers(
+  async function fetchUsers(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     params?: Record<string, any>,
     sort = {
@@ -65,7 +66,7 @@ export const useStoreUsers = defineStore('users', () => {
     loading,
     error,
     users,
-    updateUsers,
+    fetchUsers,
     toggleBlockAccountUser,
     squashUsers,
   }

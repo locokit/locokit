@@ -18,6 +18,7 @@
     "generate-pwa-assets": "pwa-assets-generator"
   },
   "dependencies": {
+    "@feathersjs/feathers": "^5.0.31",
     "@feathersjs/rest-client": "^5.0.31",
     "@locokit/definitions": "workspace:^",
     "@locokit/locales": "workspace:^",
@@ -27,6 +28,7 @@
     "@primevue/themes": "^4.2.4",
     "@unhead/vue": "^1.11.15",
     "bootstrap-icons": "^1.11.3",
+    "date-fns": "^4.1.0",
     "pinia": "^2.2.8",
     "primeicons": "^7.0.0",
     "primevue": "^4.2.4",

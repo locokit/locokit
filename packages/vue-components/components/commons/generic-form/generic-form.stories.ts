@@ -1,26 +1,28 @@
-import { FIELD_COMPONENT, FIELD_TYPE, type LocoKitFormField } from '@locokit/definitions'
-import type { Meta, StoryObj } from '@storybook/vue3'
 import { ref } from 'vue'
-import GenericForm from './generic-form.vue'
-import { LocoKitFormFieldAutocomplete } from '@locokit/definitions/dist/fieldType'
-import { Story } from '@storybook/blocks'
+import type { Meta, StoryContext, StoryObj } from '@storybook/vue3'
+import { expect, fn, screen, userEvent, waitFor, within } from '@storybook/test'
 import PrimeButton from 'primevue/button'
+import {
+  FIELD_COMPONENT,
+  FIELD_TYPE,
+  type LocoKitFormField,
+  type LocoKitFormFieldAutocomplete
+} from '@locokit/definitions'
+import GenericForm from './generic-form.vue'
+import { AutoCompleteCompleteEvent } from 'primevue'
 
 const meta: Meta<typeof GenericForm> = {
   title: 'components/forms/GenericForm',
   component: GenericForm,
   tags: ['autodocs'],
 }
-
 export default meta
+
 type Story = StoryObj<typeof GenericForm>
 
-export const Default: Story = {
-  name: 'default one',
-}
+export const Default: Story = {}
 
 export const WithFields: Story = {
-  name: 'with fields',
   render: () => ({
     setup() {
       const fields: LocoKitFormField[] = [
@@ -58,7 +60,7 @@ export const WithFields: Story = {
 }
 
 export const WithFieldsLoading: Story = {
-  name: 'loading, with fields',
+  name: 'Loading',
   render: () => ({
     setup() {
       const fields: LocoKitFormField[] = [
@@ -96,7 +98,6 @@ export const WithFieldsLoading: Story = {
 }
 
 export const WithInitialValues: Story = {
-  name: 'with initial values',
   render: () => ({
     setup() {
       const fields: LocoKitFormField[] = [
@@ -149,7 +150,6 @@ export const WithInitialValues: Story = {
 }
 
 export const WithValidationErrors: Story = {
-  name: 'with validation errors',
   args: {
     fields: [
       {
@@ -173,8 +173,7 @@ export const WithValidationErrors: Story = {
   },
 }
 
-export const WithAllSortsOfFields: Story = {
-  name: 'with all sorts of fields',
+export const WithAllSortsOfField: Story = {
   render: () => ({
     setup() {
       const fields: LocoKitFormField[] = [
@@ -212,6 +211,12 @@ export const WithAllSortsOfFields: Story = {
           label: 'Number',
           type: FIELD_TYPE.NUMBER,
           component: FIELD_COMPONENT.INPUT_NUMBER,
+        },
+        {
+          id: 'textarea',
+          label: 'Textarea',
+          type: FIELD_TYPE.TEXT,
+          component: FIELD_COMPONENT.TEXTAREA,
         },
         {
           id: 'select',
@@ -252,7 +257,6 @@ export const WithAllSortsOfFields: Story = {
           label: 'Autocomplete field',
           type: FIELD_TYPE.STRING,
           component: FIELD_COMPONENT.AUTOCOMPLETE,
-
           source: {
             table: 'myTable',
             label: 'fieldLabel',
@@ -304,6 +308,171 @@ export const WithAllSortsOfFields: Story = {
       />
     `,
   }),
+}
+
+export const AutocompleteFields: Story = {
+  args: {
+    buttonPosition: 'block',
+    autocompleteSuggestions: [
+      { fieldLabel: 'Suggestion 1', fieldValue: 'value1' },
+      { fieldLabel: 'Suggestion 2', fieldValue: 'value2' },
+    ],
+    initialValues: {
+      with_initial_value: { fieldLabel: 'Suggestion 2', fieldValue: 'value2' },
+    },
+    fields: [
+      {
+        id: 'default',
+        label: 'An autocomplete field by default',
+        type: FIELD_TYPE.STRING,
+        component: FIELD_COMPONENT.AUTOCOMPLETE,
+        source: {
+          table: 'myTable',
+          label: 'fieldLabel',
+          value: 'fieldValue',
+        },
+      },
+      {
+        id: 'without_free_input',
+        label: 'An autocomplete field without free input',
+        description: "This field will be emptied if you do not select one of the suggestions.",
+        type: FIELD_TYPE.STRING,
+        component: FIELD_COMPONENT.AUTOCOMPLETE,
+        freeInput: false,
+        source: {
+          table: 'myTable',
+          label: 'fieldLabel',
+          value: 'fieldValue',
+        },
+      },
+      {
+        id: 'with_initial_value',
+        label: 'An autocomplete field with an initial value',
+        type: FIELD_TYPE.STRING,
+        component: FIELD_COMPONENT.AUTOCOMPLETE,
+        source: {
+          table: 'myTable',
+          label: 'fieldLabel',
+          value: 'fieldValue',
+        },
+      },
+    ] as LocoKitFormField[],
+    onSubmit: fn(),
+  },
+  render: (args) => ({
+    components: { GenericForm },
+    setup() {
+      args.onComplete = fn().mockImplementation(
+        (
+          event: AutoCompleteCompleteEvent,
+          field: LocoKitFormFieldAutocomplete,
+          values: Record<string, unknown>
+        ) => {
+          if (field.id === 'default') {
+            args.autocompleteSuggestions = [
+              { fieldLabel: 'Suggestion 3', fieldValue: 'value3' },
+              { fieldLabel: 'Suggestion 4', fieldValue: 'value4' },
+            ]
+          } else {
+            args.autocompleteSuggestions = [
+              { fieldLabel: 'Suggestion 5', fieldValue: 'value5' },
+              { fieldLabel: 'Suggestion 6', fieldValue: 'value6' },
+            ]
+          }
+        }
+      )
+
+      return { args };
+    },
+    template: '<generic-form v-bind="args" />',
+  }),
+  play: async ({ args, canvasElement }: StoryContext) => {
+    const canvas = within(canvasElement)
+    const user = userEvent.setup({ delay: 80 })
+
+    let listbox = screen.queryByRole('listbox', { name: /option list/i })
+    await expect(listbox).not.toBeInTheDocument()
+
+    const defaultInput = canvas.getByRole('combobox', { name: /by default$/i })
+    await user.type(defaultInput, 'test')
+
+    await waitFor(() => {
+      expect(args.onComplete).toHaveBeenLastCalledWith(
+        expect.objectContaining({ query: 'test' }),
+        expect.objectContaining({
+          id: 'default',
+          label: 'An autocomplete field by default',
+          type: FIELD_TYPE.STRING,
+          component: FIELD_COMPONENT.AUTOCOMPLETE,
+          source: {
+            table: 'myTable',
+            label: 'fieldLabel',
+            value: 'fieldValue',
+          },
+        }),
+        {
+          default: 'test',
+          without_free_input: undefined,
+          with_initial_value: 'value2',
+        }
+      )
+    })
+
+    listbox = await screen.findByRole('listbox', { name: /option list/i })
+    await expect(listbox).toBeInTheDocument()
+
+    let options = within(listbox).getAllByRole('option')
+    await expect(options).toHaveLength(2)
+    await expect(options[0]).toHaveTextContent("Suggestion 3")
+    await expect(options[1]).toHaveTextContent("Suggestion 4")
+
+    const restrictedInput = canvas.getByRole('combobox', { name: /without free input$/i })
+    await user.type(restrictedInput, 'test')
+
+    listbox = await screen.findByRole('listbox', { name: /option list/i })
+    await expect(listbox).toBeInTheDocument()
+
+    options = within(listbox).getAllByRole('option')
+    await expect(options).toHaveLength(2)
+    await expect(options[0]).toHaveTextContent("Suggestion 5")
+    await expect(options[1]).toHaveTextContent("Suggestion 6")
+
+    const thirdInput = canvas.getByRole('combobox', { name: /with an initial value$/i })
+    await user.click(thirdInput)
+
+    await waitFor(() => {
+      expect(listbox).not.toBeInTheDocument()
+    })
+
+    await user.type(thirdInput, '{Control>}a{/Control}{Backspace}test')
+
+    listbox = await screen.findByRole('listbox', { name: /option list/i })
+    await expect(listbox).toBeInTheDocument()
+
+    options = within(listbox).getAllByRole('option')
+    await expect(options).toHaveLength(2)
+    await expect(options[0]).toHaveTextContent("Suggestion 5")
+    await expect(options[1]).toHaveTextContent("Suggestion 6")
+
+    await user.click(options[0])
+
+    await waitFor(() => {
+      expect(listbox).not.toBeInTheDocument()
+    })
+
+    await expect(thirdInput).toHaveValue("Suggestion 5")
+
+    const saveButton = canvas.getByRole('button', { name: /Save/i })
+    await user.click(saveButton)
+
+    await waitFor(() => {
+      expect(args.onSubmit).toHaveBeenCalledWith({
+        default: 'test',
+        without_free_input: '',
+        with_initial_value: 'value5',
+      })
+    })
+  },
 }
 
 export const WithConditionalDisplayedFields: Story = {}

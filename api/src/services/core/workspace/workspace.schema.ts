@@ -154,9 +154,7 @@ export const workspaceQuerySchema = Type.Intersect(
   [
     querySyntax(
       Type.Intersect([
-        Type.Omit(workspaceSchema, ['owner', 'groups', 'policies', 'datasources'], {
-          name: queryStringExtend,
-        }),
+        Type.Omit(workspaceSchema, ['owner', 'groups', 'policies', 'datasources']),
         Type.Object({
           'owner.username': Type.Optional(
             Type.String({
@@ -166,6 +164,7 @@ export const workspaceQuerySchema = Type.Intersect(
         }),
       ]),
       {
+        name: queryStringExtend,
         'owner.username': queryStringExtend,
       },
     ),

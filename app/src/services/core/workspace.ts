@@ -1,8 +1,6 @@
 import { SERVICES } from '@locokit/definitions'
 import type { WorkspaceData, WorkspacePatch } from '@locokit/sdk'
-import { useLocoKitClient } from '../api'
-
-const sdkClient = useLocoKitClient()
+import { sdkClient } from '../sdk'
 
 const ITEMS_PER_PAGE = 10
 
@@ -34,20 +32,14 @@ export async function findWorkspaces(
     },
   },
 ) {
-  try {
-    return await sdkClient.service(SERVICES.CORE_WORKSPACE).find({
-      query: {
-        $limit: limit,
-        $skip: pageIndex * limit,
-        ...params,
-        // $sort: sort,
-      },
-    })
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err)
-    return err as Error
-  }
+  return await sdkClient.service(SERVICES.CORE_WORKSPACE).find({
+    query: {
+      $limit: limit,
+      $skip: pageIndex * limit,
+      $sort: sort,
+      ...params,
+    },
+  })
 }
 
 export async function createWorkspace(data: WorkspaceData) {

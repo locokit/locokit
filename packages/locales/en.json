@@ -280,8 +280,8 @@
       },
       "admin": {
         "title": "Administration",
-        "users": "Users administration",
-        "groups": "Groups administration"
+        "users": "Users",
+        "groups": "Groups"
       },
       "adminUsers": {
         "title": "@:locokit.pages.admin.users",

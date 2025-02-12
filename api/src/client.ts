@@ -35,6 +35,7 @@ export type {
   WorkspaceData,
   WorkspacePatch,
   WorkspaceQuery,
+  WorkspaceResult,
 } from './services/core/workspace/workspace.shared'
 export type {
   DatasourceData,
@@ -44,15 +45,14 @@ export type {
 export type {
   PolicyData,
   PolicyPatch,
-  PolicyResult,
   PolicyQuery,
+  PolicyResult,
 } from './services/core/policy/policy.shared'
 
 export interface Configuration {
   connection: TransportConnection<ServiceTypes>
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ServiceTypes {}
 
 export type ClientApplication = Application<ServiceTypes, Configuration>

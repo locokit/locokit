@@ -25,7 +25,11 @@ declare module 'vue-router/auto-routes' {
     '/account/profile/update-general': RouteRecordInfo<'/account/profile/update-general', '/account/profile/update-general', Record<never, never>, Record<never, never>>,
     '/account/profile/update-password': RouteRecordInfo<'/account/profile/update-password', '/account/profile/update-password', Record<never, never>, Record<never, never>>,
     '/account/sign-in': RouteRecordInfo<'/account/sign-in', '/account/sign-in', Record<never, never>, Record<never, never>>,
+    '/admin': RouteRecordInfo<'/admin', '/admin', Record<never, never>, Record<never, never>>,
     '/admin/': RouteRecordInfo<'/admin/', '/admin', Record<never, never>, Record<never, never>>,
+    '/admin/groups': RouteRecordInfo<'/admin/groups', '/admin/groups', Record<never, never>, Record<never, never>>,
+    '/admin/groups/create': RouteRecordInfo<'/admin/groups/create', '/admin/groups/create', Record<never, never>, Record<never, never>>,
+    '/admin/users/create': RouteRecordInfo<'/admin/users/create', '/admin/users/create', Record<never, never>, Record<never, never>>,
     '/w/': RouteRecordInfo<'/w/', '/w', Record<never, never>, Record<never, never>>,
   }
 }

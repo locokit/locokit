@@ -158,7 +158,7 @@ importers:
         version: 6.9.13
       objection:
         specifier: ^3.1.5
-        version: 3.1.5(knex@3.1.0(pg@8.12.0)(sqlite3@5.1.7))
+        version: 3.1.5(knex@3.1.0)
       password-generator:
         specifier: ^2.3.2
         version: 2.3.2
@@ -234,7 +234,7 @@ importers:
         version: 8.16.0(eslint@9.16.0(jiti@2.4.0))(typescript@5.7.2)
       '@vitest/coverage-v8':
         specifier: ^1.6.0
-        version: 1.6.0(vitest@1.6.0)
+        version: 1.6.0(vitest@1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(jsdom@25.0.1)(sass@1.77.4)(terser@5.31.1))
       '@vitest/ui':
         specifier: ^1.6.0
         version: 1.6.0(vitest@1.6.0)
@@ -292,6 +292,9 @@ importers:
 
   app:
     dependencies:
+      '@feathersjs/feathers':
+        specifier: ^5.0.31
+        version: 5.0.31
       '@feathersjs/rest-client':
         specifier: ^5.0.31
         version: 5.0.31
@@ -319,6 +322,9 @@ importers:
       bootstrap-icons:
         specifier: ^1.11.3
         version: 1.11.3
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
       pinia:
         specifier: ^2.2.8
         version: 2.2.8(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))
@@ -373,7 +379,7 @@ importers:
         version: 10.1.0(eslint@9.16.0(jiti@2.4.0))(prettier@3.4.1)
       '@vue/eslint-config-typescript':
         specifier: ^14.1.4
-        version: 14.1.4(@typescript-eslint/parser@8.16.0(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3))(eslint-plugin-vue@9.31.0(eslint@9.16.0(jiti@2.4.0)))(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3)
+        version: 14.1.4(@typescript-eslint/parser@8.15.0(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3))(eslint-plugin-vue@9.31.0(eslint@9.16.0(jiti@2.4.0)))(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3)
       '@vue/test-utils':
         specifier: ^2.4.6
         version: 2.4.6
@@ -433,11 +439,11 @@ importers:
         version: 5.0.10(typescript@5.7.2)
       vite-plugin-dts:
         specifier: ^4.3.0
-        version: 4.3.0(@types/node@22.9.3)(rollup@4.25.0)(typescript@5.7.2)(vite@6.0.3(@types/node@22.9.3)(jiti@2.4.0)(sass@1.77.4)(terser@5.31.1)(yaml@2.5.1))
+        version: 4.3.0(@types/node@22.9.3)(rollup@4.25.0)(typescript@5.7.2)(vite@6.0.3(@types/node@22.9.3)(jiti@2.4.0)(sass@1.77.4)(terser@5.31.1))
     devDependencies:
       '@vitest/coverage-v8':
         specifier: ^1.6.0
-        version: 1.6.0(vitest@1.6.0)
+        version: 1.6.0(vitest@1.6.0(@types/node@22.9.3)(@vitest/ui@1.6.0)(jsdom@25.0.1)(sass@1.77.4)(terser@5.31.1))
       '@vitest/ui':
         specifier: ^1.6.0
         version: 1.6.0(vitest@1.6.0)
@@ -446,7 +452,7 @@ importers:
         version: 3.3.0
       vite-tsconfig-paths:
         specifier: ^4.3.2
-        version: 4.3.2(typescript@5.7.2)(vite@6.0.3(@types/node@22.9.3)(jiti@2.4.0)(sass@1.77.4)(terser@5.31.1)(yaml@2.5.1))
+        version: 4.3.2(typescript@5.7.2)(vite@6.0.3(@types/node@22.9.3)(jiti@2.4.0)(sass@1.77.4)(terser@5.31.1))
       vitest:
         specifier: ^1.6.0
         version: 1.6.0(@types/node@22.9.3)(@vitest/ui@1.6.0)(jsdom@25.0.1)(sass@1.77.4)(terser@5.31.1)
@@ -473,7 +479,7 @@ importers:
         version: 3.1.0(pg@8.12.0)(sqlite3@5.1.7)
       objection:
         specifier: ^3.1.5
-        version: 3.1.5(knex@3.1.0(pg@8.12.0)(sqlite3@5.1.7))
+        version: 3.1.5(knex@3.1.0)
       winston:
         specifier: ^3.13.0
         version: 3.13.0
@@ -489,7 +495,7 @@ importers:
         version: 6.0.3(@types/node@22.9.3)(jiti@2.4.0)(sass@1.77.4)(terser@5.31.1)(yaml@2.5.1)
       vite-plugin-dts:
         specifier: ^4.3.0
-        version: 4.3.0(@types/node@22.9.3)(rollup@4.25.0)(typescript@5.7.2)(vite@6.0.3(@types/node@22.9.3)(jiti@2.4.0)(sass@1.77.4)(terser@5.31.1)(yaml@2.5.1))
+        version: 4.3.0(@types/node@22.9.3)(rollup@4.25.0)(typescript@5.7.2)(vite@6.0.3(@types/node@22.9.3)(jiti@2.4.0)(sass@1.77.4)(terser@5.31.1))
       vitest:
         specifier: ^2.1.8
         version: 2.1.8(@types/node@22.9.3)(jsdom@25.0.1)(sass@1.77.4)(terser@5.31.1)
@@ -3789,6 +3795,9 @@ packages:
   data-view-byte-offset@1.0.0:
     resolution: {integrity: sha512-t/Ygsytq+R995EJ5PZlD4Cu56sWa8InXySaViRzw9apusqsOO2bQP+SbYzAhR0pFKoB+43lYy8rWban9JSuXnA==}
     engines: {node: '>= 0.4'}
+
+  date-fns@4.1.0:
+    resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
 
   db-errors@0.2.3:
     resolution: {integrity: sha512-OOgqgDuCavHXjYSJoV2yGhv6SeG8nk42aoCSoyXLZUH7VwFG27rxbavU1z+VrZbZjphw5UkDQwUlD21MwZpUng==}
@@ -10109,10 +10118,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/eslint-plugin@8.16.0(@typescript-eslint/parser@8.16.0(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3))(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3)':
+  '@typescript-eslint/eslint-plugin@8.16.0(@typescript-eslint/parser@8.15.0(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3))(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3)':
     dependencies:
       '@eslint-community/regexpp': 4.12.1
-      '@typescript-eslint/parser': 8.16.0(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3)
+      '@typescript-eslint/parser': 8.15.0(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3)
       '@typescript-eslint/scope-manager': 8.16.0
       '@typescript-eslint/type-utils': 8.16.0(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3)
       '@typescript-eslint/utils': 8.16.0(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3)
@@ -10194,19 +10203,6 @@ snapshots:
       eslint: 9.16.0(jiti@2.4.0)
     optionalDependencies:
       typescript: 5.4.5
-    transitivePeerDependencies:
-      - supports-color
-
-  '@typescript-eslint/parser@8.16.0(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3)':
-    dependencies:
-      '@typescript-eslint/scope-manager': 8.16.0
-      '@typescript-eslint/types': 8.16.0
-      '@typescript-eslint/typescript-estree': 8.16.0(typescript@5.6.3)
-      '@typescript-eslint/visitor-keys': 8.16.0
-      debug: 4.3.7
-      eslint: 9.16.0(jiti@2.4.0)
-    optionalDependencies:
-      typescript: 5.6.3
     transitivePeerDependencies:
       - supports-color
 
@@ -10527,7 +10523,26 @@ snapshots:
       vite: 5.4.11(@types/node@22.9.3)(sass@1.77.4)(terser@5.31.1)
       vue: 3.5.13(typescript@5.6.3)
 
-  '@vitest/coverage-v8@1.6.0(vitest@1.6.0)':
+  '@vitest/coverage-v8@1.6.0(vitest@1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(jsdom@25.0.1)(sass@1.77.4)(terser@5.31.1))':
+    dependencies:
+      '@ampproject/remapping': 2.3.0
+      '@bcoe/v8-coverage': 0.2.3
+      debug: 4.3.7
+      istanbul-lib-coverage: 3.2.2
+      istanbul-lib-report: 3.0.1
+      istanbul-lib-source-maps: 5.0.4
+      istanbul-reports: 3.1.7
+      magic-string: 0.30.13
+      magicast: 0.3.5
+      picocolors: 1.1.1
+      std-env: 3.8.0
+      strip-literal: 2.1.0
+      test-exclude: 6.0.0
+      vitest: 1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(jsdom@25.0.1)(sass@1.77.4)(terser@5.31.1)
+    transitivePeerDependencies:
+      - supports-color
+
+  '@vitest/coverage-v8@1.6.0(vitest@1.6.0(@types/node@22.9.3)(@vitest/ui@1.6.0)(jsdom@25.0.1)(sass@1.77.4)(terser@5.31.1))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -10686,7 +10701,7 @@ snapshots:
       pathe: 1.1.2
       picocolors: 1.0.1
       sirv: 2.0.4
-      vitest: 1.6.0(@types/node@22.9.3)(@vitest/ui@1.6.0)(jsdom@25.0.1)(sass@1.77.4)(terser@5.31.1)
+      vitest: 1.6.0(@types/node@20.14.2)(@vitest/ui@1.6.0)(jsdom@25.0.1)(sass@1.77.4)(terser@5.31.1)
 
   '@vitest/utils@1.6.0':
     dependencies:
@@ -10888,9 +10903,9 @@ snapshots:
     transitivePeerDependencies:
       - '@types/eslint'
 
-  '@vue/eslint-config-typescript@14.1.4(@typescript-eslint/parser@8.16.0(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3))(eslint-plugin-vue@9.31.0(eslint@9.16.0(jiti@2.4.0)))(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3)':
+  '@vue/eslint-config-typescript@14.1.4(@typescript-eslint/parser@8.15.0(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3))(eslint-plugin-vue@9.31.0(eslint@9.16.0(jiti@2.4.0)))(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3)':
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.16.0(@typescript-eslint/parser@8.16.0(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3))(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3)
+      '@typescript-eslint/eslint-plugin': 8.16.0(@typescript-eslint/parser@8.15.0(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3))(eslint@9.16.0(jiti@2.4.0))(typescript@5.6.3)
       eslint: 9.16.0(jiti@2.4.0)
       eslint-plugin-vue: 9.31.0(eslint@9.16.0(jiti@2.4.0))
       fast-glob: 3.3.2
@@ -11781,6 +11796,8 @@ snapshots:
       call-bind: 1.0.7
       es-errors: 1.3.0
       is-data-view: 1.0.1
+
+  date-fns@4.1.0: {}
 
   db-errors@0.2.3: {}
 
@@ -14091,7 +14108,7 @@ snapshots:
       define-properties: 1.2.1
       es-object-atoms: 1.0.0
 
-  objection@3.1.5(knex@3.1.0(pg@8.12.0)(sqlite3@5.1.7)):
+  objection@3.1.5(knex@3.1.0):
     dependencies:
       ajv: 8.17.1
       ajv-formats: 2.1.1(ajv@8.17.1)
@@ -15813,7 +15830,7 @@ snapshots:
       - rollup
       - supports-color
 
-  vite-plugin-dts@4.3.0(@types/node@22.9.3)(rollup@4.25.0)(typescript@5.7.2)(vite@6.0.3(@types/node@22.9.3)(jiti@2.4.0)(sass@1.77.4)(terser@5.31.1)(yaml@2.5.1)):
+  vite-plugin-dts@4.3.0(@types/node@22.9.3)(rollup@4.25.0)(typescript@5.7.2)(vite@6.0.3(@types/node@22.9.3)(jiti@2.4.0)(sass@1.77.4)(terser@5.31.1)):
     dependencies:
       '@microsoft/api-extractor': 7.48.0(@types/node@22.9.3)
       '@rollup/pluginutils': 5.1.3(rollup@4.25.0)
@@ -15898,7 +15915,7 @@ snapshots:
       - supports-color
       - typescript
 
-  vite-tsconfig-paths@4.3.2(typescript@5.7.2)(vite@6.0.3(@types/node@22.9.3)(jiti@2.4.0)(sass@1.77.4)(terser@5.31.1)(yaml@2.5.1)):
+  vite-tsconfig-paths@4.3.2(typescript@5.7.2)(vite@6.0.3(@types/node@22.9.3)(jiti@2.4.0)(sass@1.77.4)(terser@5.31.1)):
     dependencies:
       debug: 4.3.5
       globrex: 0.1.2

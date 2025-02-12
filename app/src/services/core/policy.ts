@@ -1,9 +1,7 @@
 import { SERVICES } from '@locokit/definitions'
-import { useLocoKitClient } from '../api'
+import { sdkClient } from '../sdk'
 
 const ITEMS_PER_PAGE = 10
-
-const sdkClient = useLocoKitClient()
 
 export async function getPolicy(id: string) {
   return await sdkClient.service(SERVICES.CORE_POLICY).get(id)
@@ -36,8 +34,8 @@ export async function findPolicies(
     query: {
       $limit: limit,
       $skip: pageIndex * limit,
+      $sort: sort,
       ...params,
-      // $sort: sort,
     },
   })
 }

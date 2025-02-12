@@ -290,6 +290,11 @@ type LocoKitFormFieldBase = {
 export type LocoKitFormFieldAutocomplete = LocoKitFormFieldBase & {
   component: typeof FIELD_COMPONENT.AUTOCOMPLETE
   /**
+   * Indicates if the component accepts an arbitrary value or not. If not,
+   * a value must be chosen among the list of suggestions (true by default).
+   */
+  freeInput?: boolean
+  /**
    * Data source to use for the auto-completion
    */
   source: {
@@ -313,8 +318,8 @@ export type LocoKitFormFieldSingleSelect = LocoKitFormFieldBase & {
    */
   source: {
     options: unknown[]
-    label: string
-    value: string
+    label?: string
+    value?: string
     /**
      * Color fields to use for font & background
      */
@@ -325,7 +330,21 @@ export type LocoKitFormFieldSingleSelect = LocoKitFormFieldBase & {
   }
 }
 
+export type LocoKitFormFieldTextarea = LocoKitFormFieldBase & {
+  component: typeof FIELD_COMPONENT.TEXTAREA
+  /**
+   * Number of visible rows (6 by default).
+   */
+  rows?: number
+  /**
+   * Number of visible columns. If undefined, the component will take up
+   * all the available width.
+   */
+  cols?: number
+}
+
 export type LocoKitFormField =
   | LocoKitFormFieldBase
   | LocoKitFormFieldAutocomplete
   | LocoKitFormFieldSingleSelect
+  | LocoKitFormFieldTextarea

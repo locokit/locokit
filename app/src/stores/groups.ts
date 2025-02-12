@@ -1,14 +1,15 @@
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import type { Paginated } from '@feathersjs/feathers'
+import type { GroupResult } from '@locokit/sdk'
 import { findGroups } from '../services/core/group'
-import { ApiGroup } from '../interfaces/toMigrate'
-import { ref } from '#imports'
 
 export const useStoreGroups = defineStore('groups', () => {
   const loading = ref(false)
   const error = ref<Error | null>(null)
-  const groups = ref<ApiGroup | undefined>()
+  const groups = ref<Paginated<GroupResult> | undefined>()
 
-  async function updateGroups(
+  async function fetchGroups(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     params?: Record<string, any>,
     sort = {
@@ -46,7 +47,7 @@ export const useStoreGroups = defineStore('groups', () => {
     loading,
     error,
     groups,
-    updateGroups,
+    fetchGroups,
     squashGroups,
   }
 })

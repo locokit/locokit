@@ -1,5 +1,5 @@
 import type { Meta, StoryContext, StoryObj } from '@storybook/vue3'
-import { expect, fireEvent, fn, screen, userEvent, waitFor, within } from '@storybook/test'
+import { expect, fn, screen, userEvent, waitFor, within } from '@storybook/test'
 import { FIELD_TYPE } from '@locokit/definitions'
 import FilterBuilder from './filter-builder.vue'
 

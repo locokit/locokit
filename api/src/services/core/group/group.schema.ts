@@ -77,12 +77,16 @@ dataValidator.addSchema(groupSchema)
 
 export type GroupSchema = Static<typeof groupSchema>
 
-export const groupDataSchema = Type.Omit(groupSchema, ['id', 'workspace', 'users'], {
-  $id: 'GroupData',
-})
+export const groupDataSchema = Type.Omit(
+  groupSchema,
+  ['id', 'workspace', 'users', 'createdAt', 'updatedAt'],
+  { $id: 'GroupData' },
+)
 export type GroupData = Static<typeof groupSchema>
 
-export const groupPatchSchema = Type.Partial(Type.Omit(groupDataSchema, ['workspaceId']))
+export const groupPatchSchema = Type.Partial(
+  Type.Omit(groupDataSchema, ['workspaceId'], { $id: 'GroupPatch' }),
+)
 export type GroupPatch = Static<typeof groupPatchSchema>
 
 export type GroupResult = Static<typeof groupSchema>
@@ -146,5 +150,7 @@ export const groupQuerySchema = Type.Intersect(
 export type GroupQuery = Static<typeof groupQuerySchema>
 
 export const groupDataValidator = getValidator(groupDataSchema, dataValidator)
+
+export const groupPatchValidator = getValidator(groupPatchSchema, dataValidator)
 
 export const groupQueryValidator = getValidator(groupQuerySchema, queryValidator)

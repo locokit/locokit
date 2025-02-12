@@ -1,8 +1,6 @@
 import { SERVICES } from '@locokit/definitions'
 import { type UserGroupData } from '@locokit/sdk'
-import { useLocoKitClient } from '../api'
-
-const sdkClient = useLocoKitClient()
+import { sdkClient } from '../sdk'
 
 const ITEMS_PER_PAGE = 20
 

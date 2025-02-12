@@ -2,7 +2,7 @@
 import type { ClientApplication } from '@/client'
 import { SERVICES } from '@locokit/definitions'
 import type { UserService } from './user.class'
-export type { User, UserData, UserPatch, UserQuery } from './user.schema'
+export type { User, UserData, UserPatch, UserQuery, UserResult } from './user.schema'
 
 export type UserClientService = Pick<UserService, (typeof userMethods)[number]>
 
