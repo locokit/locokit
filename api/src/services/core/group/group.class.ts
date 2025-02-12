@@ -17,6 +17,12 @@ import { groupResolvers } from './group.resolver'
 import { authenticate } from '@feathersjs/authentication'
 import { UserResult } from '../user/user.schema'
 
+import { setAbilities } from './group.ability'
+import { authorize } from 'feathers-casl'
+import { Forbidden } from '@feathersjs/errors'
+import { USER_PROFILE } from '@locokit/definitions'
+
+const authorizeHook = authorize({ adapter: '@feathersjs/knex' })
 async function checkProfile(context: HookContext) {
   const user: UserResult = context.params.user
   const profile = user.profile
@@ -24,11 +30,6 @@ async function checkProfile(context: HookContext) {
   if (profile === USER_PROFILE.MEMBER)
     throw new Forbidden("You don't have sufficient privilege to create a group.")
 }
-import { defineRules } from './group.ability'
-import { authorize } from 'feathers-casl'
-import { Forbidden } from '@feathersjs/errors'
-
-const authorizeHook = authorize({ adapter: '@feathersjs/knex' })
 
 export const groupHooks: HookMap<Application, GroupService> = {
   around: {
@@ -39,7 +40,7 @@ export const groupHooks: HookMap<Application, GroupService> = {
     ],
   },
   before: {
-    all: [defineRules, authorizeHook],
+    all: [setAbilities, authorizeHook],
     find: [
       schemaHooks.validateQuery(groupQueryValidator),
       schemaHooks.resolveQuery(groupResolvers.query),

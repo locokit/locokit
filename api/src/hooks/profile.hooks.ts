@@ -1,48 +1,64 @@
 import { USER_PROFILE } from '@locokit/definitions'
-import { HookFunction, SyncPredicateFn } from 'feathers-hooks-common'
 import { HookContext } from '../declarations'
 import { Forbidden } from '@feathersjs/errors'
 
 /**
  * Check if a user profile match a listing of PROFILE
  */
-export const isUserProfile =
-  (
-    profile: Array<keyof typeof USER_PROFILE> | keyof typeof USER_PROFILE,
-  ): SyncPredicateFn<HookContext> =>
-  (context: HookContext): boolean => {
-    const profiles = Array.isArray(profile) ? profile : [profile]
-    return profiles.includes(context.params.user?.profile as keyof typeof USER_PROFILE)
-  }
+export function checkUserHasProfile(
+  profile: Array<keyof typeof USER_PROFILE> | keyof typeof USER_PROFILE,
+  context: HookContext,
+): boolean {
+  const profiles = Array.isArray(profile) ? profile : [profile]
+  return profiles.includes(context.params.user?.profile as keyof typeof USER_PROFILE)
+}
 
-/**
- * Check if the user has a ADMIN profile
- */
-export const isAdminProfile = (context: HookContext): boolean => {
-  return isUserProfile(USER_PROFILE.ADMIN)(context)
+export function checkProviderInternal(context: HookContext): boolean {
+  return !context.params.provider
+  // if (!context.params.user || context.params.user.profile === USER_PROFILE.ADMIN) return true
 }
 
 /**
- * Let internal calls pass OR user with specific profile
+ * Check access rights according options
  */
-export const checkInternalCallOrSpecificProfile =
-  (
-    profile: Array<keyof typeof USER_PROFILE> | keyof typeof USER_PROFILE = [USER_PROFILE.ADMIN],
-  ): HookFunction<HookContext> =>
+export const checkUserHasAccess =
+  (options: {
+    /**
+     * which profile(s) is(are) needed
+     */
+    userProfile: Array<keyof typeof USER_PROFILE> | keyof typeof USER_PROFILE
+    /**
+     * is the call has to be an internal one ?
+     */
+    internalProvider: boolean
+    /**
+     * do we need to check the user profile,
+     * even if we are in an internal call
+     */
+    internalProviderProfileCheck?: 'ALWAYS' | 'IF_USER_PROVIDED'
+  }) =>
   (context: HookContext): HookContext => {
-    const hasSpecificProfile = isUserProfile(profile)(context)
-    if (hasSpecificProfile) return context
+    const userHasProfile = checkUserHasProfile(options.userProfile, context)
+    const isInternalProvider = checkProviderInternal(context)
 
-    if (!context.params.provider) {
-      if (!context.params.user || context.params.user.profile === USER_PROFILE.ADMIN) return context
+    if (!isInternalProvider && userHasProfile) return context
+    if (options.internalProvider && isInternalProvider) {
+      switch (options.internalProviderProfileCheck) {
+        case 'ALWAYS':
+          if (userHasProfile) return context
+          break
+        case 'IF_USER_PROVIDED':
+          if (context.params.user && userHasProfile) return context
+          if (!context.params.user) return context
+          break
+        default:
+          return context
+      }
     }
 
     throw new Forbidden("You can't access this service.")
   }
 
-/**
- * Check if the call is internal and the user is an ADMIN one
- */
-export function isInternalCallOrInternalAndAdminProfile(context: HookContext) {
-  return checkInternalCallOrSpecificProfile([USER_PROFILE.ADMIN])(context)
+export function checkUserIsAdmin(context: HookContext): boolean {
+  return checkUserHasProfile([USER_PROFILE.ADMIN], context)
 }

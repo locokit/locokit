@@ -24,7 +24,7 @@ const app = createApp()
 
 export interface SetupData {
   publicWorkspaceId: string
-  workspace2Id: string
+  privateWorkspaceId: string
   // database1Id: string
   // database2Id: string
   // columnTable1GroupId: string
@@ -35,17 +35,17 @@ export interface SetupData {
   // columnTable2LkdUpUserId: string
   // columnTable1W2Ref: string
   // columnTable1W2Name: string
-  user1: UserResult
+  userCreator1: UserResult
   user2: UserResult
   user3: UserResult
-  user4: UserResult
+  userCreator4: UserResult
   user5: UserResult
   userAdmin: UserResult
   userBlocked: UserResult
-  user1Authentication: AuthenticationResult
+  userCreator1Authentication: AuthenticationResult
   user2Authentication: AuthenticationResult
   user3Authentication: AuthenticationResult
-  user4Authentication: AuthenticationResult
+  userCreator4Authentication: AuthenticationResult
   user5Authentication: AuthenticationResult
   userAdminAuthentication: AuthenticationResult
   group1: GroupResult
@@ -85,7 +85,7 @@ export function builderTestEnvironment(prefix: string) {
    */
   let _data: SetupData
   let publicWorkspace: WorkspaceResult
-  let workspace2: WorkspaceResult
+  let privateWorkspace: WorkspaceResult
   // let database1: Database
   // let database2: Database
   let policy1: PolicyResult
@@ -98,17 +98,17 @@ export function builderTestEnvironment(prefix: string) {
   let group3: GroupResult
   let group4: GroupResult
   let group5: GroupResult
-  let user1: UserResult
+  let userCreator1: UserResult
   let user2: UserResult
   let user3: UserResult
-  let user4: UserResult
+  let userCreator4: UserResult
   let user5: UserResult
   let userAdmin: UserResult
   let userBlocked: UserResult
-  let user1Authentication: AuthenticationResult
+  let userCreator1Authentication: AuthenticationResult
   let user2Authentication: AuthenticationResult
   let user3Authentication: AuthenticationResult
-  let user4Authentication: AuthenticationResult
+  let userCreator4Authentication: AuthenticationResult
   let user5Authentication: AuthenticationResult
   let userAdminAuthentication: AuthenticationResult
 
@@ -166,7 +166,7 @@ export function builderTestEnvironment(prefix: string) {
     const passwordHashed = await localStrategy.hashPassword(userPassword, {})
 
     // @ts-expect-error don't respectful of the UserData schema (we provide a password)
-    user1 = await app.service(SERVICES.CORE_USER)._create(
+    userCreator1 = await app.service(SERVICES.CORE_USER)._create(
       {
         username: `${prefix}-user1`,
         email: `${prefix}abilities-user1@locokit.io`,
@@ -200,7 +200,7 @@ export function builderTestEnvironment(prefix: string) {
       {},
     )
     // @ts-expect-error don't respectful of the UserData schema (we provide a password)
-    user4 = await app.service(SERVICES.CORE_USER)._create(
+    userCreator4 = await app.service(SERVICES.CORE_USER)._create(
       {
         username: `${prefix}-user4`,
         email: `${prefix}abilities-user4@locokit.io`,
@@ -249,11 +249,11 @@ export function builderTestEnvironment(prefix: string) {
     publicWorkspace = await app.service(SERVICES.CORE_WORKSPACE).create({
       name: `[${prefix}] Public workspace 1`,
       documentation: 'Public workspace for user1',
-      createdBy: user1.id,
+      createdBy: userCreator1.id,
       public: true,
     })
 
-    workspace2 = await app.service(SERVICES.CORE_WORKSPACE).create({
+    privateWorkspace = await app.service(SERVICES.CORE_WORKSPACE).create({
       name: `[${prefix}] Workspace 2`,
       createdBy: user2.id,
       public: false,
@@ -276,13 +276,13 @@ export function builderTestEnvironment(prefix: string) {
     })
     policy3 = await app.service(SERVICES.CORE_POLICY).create({
       name: `[${prefix} abilities] Acl Set 3 workspace 2`,
-      workspaceId: workspace2.id,
+      workspaceId: privateWorkspace.id,
       manager: true,
       public: false,
     })
     policy4 = await app.service(SERVICES.CORE_POLICY).create({
       name: `[${prefix} abilities] Acl Set 4 workspace 2`,
-      workspaceId: workspace2.id,
+      workspaceId: privateWorkspace.id,
       manager: false,
       public: false,
     })
@@ -305,12 +305,12 @@ export function builderTestEnvironment(prefix: string) {
     })
     group3 = await app.service(SERVICES.CORE_GROUP).create({
       name: `[${prefix} policy] Group 3`,
-      workspaceId: workspace2.id,
+      workspaceId: privateWorkspace.id,
       policyId: policy3.id,
     })
     group4 = await app.service(SERVICES.CORE_GROUP).create({
       name: `[${prefix} policy] Group 4`,
-      workspaceId: workspace2.id,
+      workspaceId: privateWorkspace.id,
       policyId: policy4.id,
     })
     group5 = await app.service(SERVICES.CORE_GROUP).create({
@@ -320,7 +320,7 @@ export function builderTestEnvironment(prefix: string) {
     })
 
     await app.service(SERVICES.CORE_USERGROUP).create({
-      userId: user1.id,
+      userId: userCreator1.id,
       groupId: group1.id,
     })
     await app.service(SERVICES.CORE_USERGROUP).create({
@@ -328,7 +328,7 @@ export function builderTestEnvironment(prefix: string) {
       groupId: group1.id,
     })
     await app.service(SERVICES.CORE_USERGROUP).create({
-      userId: user1.id,
+      userId: userCreator1.id,
       groupId: group2.id,
     })
     await app.service(SERVICES.CORE_USERGROUP).create({
@@ -336,11 +336,11 @@ export function builderTestEnvironment(prefix: string) {
       groupId: group3.id,
     })
     await app.service(SERVICES.CORE_USERGROUP).create({
-      userId: user4.id,
+      userId: userCreator4.id,
       groupId: group4.id,
     })
 
-    user1Authentication = await app.service(SERVICES.AUTH_AUTHENTICATION).create(
+    userCreator1Authentication = await app.service(SERVICES.AUTH_AUTHENTICATION).create(
       {
         strategy: 'local',
         email: `${prefix}abilities-user1@locokit.io`,
@@ -364,7 +364,7 @@ export function builderTestEnvironment(prefix: string) {
       },
       {},
     )
-    user4Authentication = await app.service(SERVICES.AUTH_AUTHENTICATION).create(
+    userCreator4Authentication = await app.service(SERVICES.AUTH_AUTHENTICATION).create(
       {
         strategy: 'local',
         email: `${prefix}abilities-user4@locokit.io`,
@@ -388,7 +388,6 @@ export function builderTestEnvironment(prefix: string) {
       },
       {},
     )
-
     // // let user1: User
     // // let group1: Group
     // const singleSelectOption1UUID = '1efa77d0-c07a-4d3e-8677-2c19c6a26ecd'
@@ -566,7 +565,7 @@ export function builderTestEnvironment(prefix: string) {
     //   },
     // })
     // table1Workspace2 = await app.service('table').create({
-    //   text: 'table1 workspace2',
+    //   text: 'table1 privateWorkspace',
     //   database_id: database2.id,
     // })
     // columnTable1W2Ref = await app.service('column').create({
@@ -660,18 +659,18 @@ export function builderTestEnvironment(prefix: string) {
 
     _data = {
       publicWorkspaceId: publicWorkspace.id,
-      workspace2Id: workspace2.id,
-      user1,
+      privateWorkspaceId: privateWorkspace.id,
+      userCreator1,
       user2,
       user3,
-      user4,
+      userCreator4,
       user5,
       userAdmin,
       userBlocked,
-      user1Authentication,
+      userCreator1Authentication,
       user2Authentication,
       user3Authentication,
-      user4Authentication,
+      userCreator4Authentication,
       user5Authentication,
       userAdminAuthentication,
       group1,
@@ -722,11 +721,11 @@ export function builderTestEnvironment(prefix: string) {
       authenticated: true,
       authentication: userAdminAuthentication,
     })
-    await app.service(SERVICES.CORE_WORKSPACE).patch(workspace2.id, {
+    await app.service(SERVICES.CORE_WORKSPACE).patch(privateWorkspace.id, {
       softDeletedAt: new Date().toISOString(),
     })
 
-    await app.service(SERVICES.CORE_WORKSPACE).remove(workspace2.id, {
+    await app.service(SERVICES.CORE_WORKSPACE).remove(privateWorkspace.id, {
       user: userAdmin,
       authenticated: true,
       authentication: userAdminAuthentication,
@@ -737,10 +736,10 @@ export function builderTestEnvironment(prefix: string) {
     await app.service(SERVICES.CORE_USER).remove(userBlocked.id)
 
     await app.service(SERVICES.CORE_USER).remove(user5.id)
-    await app.service(SERVICES.CORE_USER).remove(user4.id)
+    await app.service(SERVICES.CORE_USER).remove(userCreator4.id)
     await app.service(SERVICES.CORE_USER).remove(user3.id)
     await app.service(SERVICES.CORE_USER).remove(user2.id)
-    await app.service(SERVICES.CORE_USER).remove(user1.id)
+    await app.service(SERVICES.CORE_USER).remove(userCreator1.id)
 
     // console.log('teardown users OK')
     console.log('teardown OK')

@@ -13,7 +13,7 @@ import { authenticate } from '@feathersjs/authentication'
 import { ObjectionService } from '@/feathers-objection'
 import { USER_PROFILE } from '@locokit/definitions'
 import { HookMap } from '@feathersjs/feathers'
-import { checkInternalCallOrSpecificProfile } from '@/hooks/profile.hooks'
+import { checkUserHasAccess } from '@/hooks/profile.hooks'
 
 export const userGroupHooks: HookMap<Application, UserGroupService> = {
   around: {
@@ -24,7 +24,13 @@ export const userGroupHooks: HookMap<Application, UserGroupService> = {
     ],
   },
   before: {
-    all: [checkInternalCallOrSpecificProfile([USER_PROFILE.ADMIN, USER_PROFILE.CREATOR])],
+    all: [
+      checkUserHasAccess({
+        userProfile: [USER_PROFILE.ADMIN, USER_PROFILE.CREATOR],
+        internalProvider: true,
+        internalProviderProfileCheck: 'IF_USER_PROVIDED',
+      }),
+    ],
     find: [
       schemaHooks.validateQuery(userGroupQueryValidator),
       schemaHooks.resolveQuery(userGroupResolvers.query),

@@ -20,7 +20,7 @@ describe('[workspace] datasource service', () => {
 
     workspace = await app.service(SERVICES.CORE_WORKSPACE).create({
       name: 'Testing workspace datasource',
-      createdBy: setupData.user1.id,
+      createdBy: setupData.userCreator1.id,
     })
   })
 

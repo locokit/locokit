@@ -16,7 +16,7 @@ import { resolveAction } from '@/abilities/definitions'
  * * ADMIN profiles : OK
  * * CREATOR profiles : filter on workspaceId $in [workspace they created]
  */
-export const defineRules = async (context: HookContext) => {
+export const setAbilities = async (context: HookContext) => {
   if (!context.params.provider) return context
   const { app } = context
 

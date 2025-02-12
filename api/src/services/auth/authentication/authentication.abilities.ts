@@ -34,7 +34,7 @@ export function getAbility(user: UserResult) {
   return build({ resolveAction })
 }
 
-export function defineRules(context: HookContext) {
+export function setAbilities(context: HookContext) {
   if (!context.params.provider) return context
 
   const ability = getAbility(context.params.user as UserResult)

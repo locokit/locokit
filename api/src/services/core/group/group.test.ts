@@ -65,7 +65,7 @@ describe('[core] group service', () => {
         const result = await app.service(SERVICES.CORE_GROUP).create(
           {
             name: 'new group for ADMIN user',
-            workspaceId: setupData.workspace2Id,
+            workspaceId: setupData.privateWorkspaceId,
             policyId: setupData.policy1.id,
           },
           {
@@ -86,8 +86,8 @@ describe('[core] group service', () => {
         const result = await app.service(SERVICES.CORE_GROUP).find({
           provider: 'external',
           authenticated: true,
-          authentication: setupData.user4Authentication,
-          user: setupData.user4,
+          authentication: setupData.userCreator4Authentication,
+          user: setupData.userCreator4,
           query: {
             $sort: {
               createdAt: 1, // sort by createdAt to match ids in creation time
@@ -103,8 +103,8 @@ describe('[core] group service', () => {
         const result = await app.service(SERVICES.CORE_GROUP).find({
           provider: 'external',
           authenticated: true,
-          authentication: setupData.user1Authentication,
-          user: setupData.user1,
+          authentication: setupData.userCreator1Authentication,
+          user: setupData.userCreator1,
           query: {
             $sort: {
               createdAt: 1, // sort by createdAt to match ids in creation time
@@ -123,8 +123,8 @@ describe('[core] group service', () => {
         const result = await app.service(SERVICES.CORE_GROUP).get(setupData.group1.id, {
           provider: 'external',
           authenticated: true,
-          authentication: setupData.user1Authentication,
-          user: setupData.user1,
+          authentication: setupData.userCreator1Authentication,
+          user: setupData.userCreator1,
           query: {
             $joinEager: 'users',
           },
@@ -145,7 +145,7 @@ describe('[core] group service', () => {
         const result = await app.service(SERVICES.CORE_GROUP).create(
           {
             name: 'new group for CREATOR user',
-            workspaceId: setupData.workspace2Id,
+            workspaceId: setupData.privateWorkspaceId,
             policyId: setupData.policy1.id,
           },
           {
@@ -163,14 +163,14 @@ describe('[core] group service', () => {
         const request = app.service(SERVICES.CORE_GROUP).create(
           {
             name: 'new group for CREATOR user',
-            workspaceId: setupData.workspace2Id,
+            workspaceId: setupData.privateWorkspaceId,
             policyId: setupData.policy1.id,
           },
           {
             provider: 'external',
             authenticated: true,
-            authentication: setupData.user4Authentication,
-            user: setupData.user4,
+            authentication: setupData.userCreator4Authentication,
+            user: setupData.userCreator4,
           },
         )
         await expect(request).rejects.toThrow()
@@ -181,7 +181,7 @@ describe('[core] group service', () => {
         const request = app.service(SERVICES.CORE_GROUP).create(
           {
             name: 'new group for CREATOR user',
-            workspaceId: setupData.workspace2Id,
+            workspaceId: setupData.privateWorkspaceId,
             policyId: setupData.policy1.id,
           },
           {
@@ -291,7 +291,7 @@ describe('[core] group service', () => {
       expect.assertions(1)
       const result = await app.service(SERVICES.CORE_GROUP).create({
         name: 'new group for ADMIN user',
-        workspaceId: setupData.workspace2Id,
+        workspaceId: setupData.privateWorkspaceId,
         policyId: setupData.policy1.id,
       })
       expect(result).toBeDefined()
@@ -301,7 +301,7 @@ describe('[core] group service', () => {
       expect.assertions(2)
       const result = await app.service(SERVICES.CORE_GROUP).create({
         name: 'new group for ADMIN user',
-        workspaceId: setupData.workspace2Id,
+        workspaceId: setupData.privateWorkspaceId,
         policyId: setupData.policy1.id,
       })
       expect(result).toBeDefined()

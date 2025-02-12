@@ -1,14 +1,22 @@
 import { authenticate } from '@feathersjs/authentication'
 import { transaction } from '@/feathers-objection'
 import { disallow } from 'feathers-hooks-common'
-import { isInternalCallOrInternalAndAdminProfile } from '@/hooks/profile.hooks'
+import { checkUserHasAccess } from '@/hooks/profile.hooks'
+import { USER_PROFILE } from '@locokit/definitions'
 
 export const coreDatasourceHooks = {
   around: {
     all: [authenticate('jwt')],
   },
   before: {
-    all: [isInternalCallOrInternalAndAdminProfile, transaction.start()],
+    all: [
+      checkUserHasAccess({
+        userProfile: [USER_PROFILE.ADMIN],
+        internalProvider: true,
+        internalProviderProfileCheck: 'ALWAYS',
+      }),
+      transaction.start(),
+    ],
     create: [disallow()],
     update: [disallow()],
     remove: [disallow()],

@@ -23,7 +23,7 @@ describe('[core] datasource service', () => {
 
     workspace = await app.service(SERVICES.CORE_WORKSPACE).create({
       name: 'Testing workspace datasource',
-      createdBy: setupData.user1.id,
+      createdBy: setupData.userCreator1.id,
     })
   })
 
@@ -130,8 +130,8 @@ describe('[core] datasource service', () => {
         app.service(SERVICES.CORE_DATASOURCE).get(forbidDatasource.id, {
           provider: 'external',
           authenticated: true,
-          user: setupData.user1,
-          authentication: setupData.user1Authentication,
+          user: setupData.userCreator1,
+          authentication: setupData.userCreator1Authentication,
         }),
       ).rejects.toThrowError(Forbidden)
     })
@@ -141,8 +141,8 @@ describe('[core] datasource service', () => {
       await expect(
         app.service(SERVICES.CORE_DATASOURCE).get(forbidDatasource.id, {
           authenticated: true,
-          user: setupData.user1,
-          authentication: setupData.user1Authentication,
+          user: setupData.userCreator1,
+          authentication: setupData.userCreator1Authentication,
         }),
       ).rejects.toThrowError(Forbidden)
     })

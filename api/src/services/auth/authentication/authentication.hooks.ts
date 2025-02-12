@@ -1,6 +1,6 @@
 import { Forbidden } from '@feathersjs/errors'
 import { HookContext } from '@/declarations'
-import { defineRules } from './authentication.abilities'
+import { setAbilities } from './authentication.abilities'
 
 // Don't remove this comment. It's needed to format import lines nicely.
 
@@ -37,7 +37,7 @@ export const hooks = {
       //   delete rec.user.resetAttempts
       //   console.log('alterItems', rec)
       // }),
-      defineRules,
+      setAbilities,
       addRulesToUser,
     ],
   },
