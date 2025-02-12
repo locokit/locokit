@@ -51,13 +51,17 @@ describe('[core] workspace service', () => {
       })
     })
 
-    it('returns the public workspace when making a find request of internal calls', async () => {
+    it('returns all workspaces when making a find request from internal', async () => {
       expect.assertions(3)
-      const publicWorkspaces = await app.service(SERVICES.CORE_WORKSPACE).find()
+      const workspaces = await app.service(SERVICES.CORE_WORKSPACE).find()
 
-      expect(publicWorkspaces.total).toBe(1)
-      expect(publicWorkspaces.data[0]).toBeDefined()
-      expect(publicWorkspaces.data[0].name).toContain('Public workspace')
+      expect(workspaces.total).toBe(2)
+      expect(
+        [setupData.publicWorkspaceId, setupData.privateWorkspaceId].includes(workspaces.data[0].id),
+      ).toBe(true)
+      expect(
+        [setupData.publicWorkspaceId, setupData.privateWorkspaceId].includes(workspaces.data[1].id),
+      ).toBe(true)
     })
 
     it('returns the public workspace when making a find request for unauthenticated users', async () => {
@@ -360,7 +364,7 @@ describe('[core] workspace service', () => {
           $limit: 0,
         },
       })
-      expect(workspaces.total).toBe(2)
+      expect(workspaces.total).toBe(3)
 
       // remove workspace as owner (so soft-deleted)
       await app.service(SERVICES.CORE_WORKSPACE).remove(resWorkspace.id, {
@@ -374,7 +378,7 @@ describe('[core] workspace service', () => {
           $limit: 0,
         },
       })
-      expect(workspacesAfter.total).toBe(1)
+      expect(workspacesAfter.total).toBe(2)
     })
 
     it('returns workspace "soft-deleted" if asked by the workspace owner', async () => {
@@ -383,13 +387,13 @@ describe('[core] workspace service', () => {
       // find workspaces with soft-deleted set to != null and workspace owner,
       // expect to find it
       expect.assertions(3)
-      // find workspaces, expect 2 (I think)
+      // find workspaces, expect 3 (I think)
       const workspaces = await app.service(SERVICES.CORE_WORKSPACE).find({
         query: {
           $limit: 0,
         },
       })
-      expect(workspaces.total).toBe(2)
+      expect(workspaces.total).toBe(3)
 
       // remove workspace as owner (so soft-deleted)
       await app.service(SERVICES.CORE_WORKSPACE).remove(resWorkspace.id, {
@@ -608,7 +612,7 @@ describe('[core] workspace service', () => {
         user: setupData.userCreator1,
         authentication: setupData.userCreator1Authentication,
       })
-      expect(allWs.total).toBe(3)
+      expect(allWs.total).toBe(4)
 
       const result = await app.service(SERVICES.CORE_WORKSPACE).find({
         query: {
