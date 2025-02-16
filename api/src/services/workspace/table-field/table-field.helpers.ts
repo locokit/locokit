@@ -36,6 +36,16 @@ export function convertLocoKitFieldTypeToDBType(
         case FIELD_TYPE.GEOMETRY_MULTILINESTRING:
         case FIELD_TYPE.GEOMETRY_MULTIPOLYGON:
           return 'geometry'
+        case FIELD_TYPE.ARRAY_TEXT:
+          return '_text'
+        case FIELD_TYPE.ARRAY_UUID:
+          return '_uuid'
+        case FIELD_TYPE.ARRAY_NUMBER:
+          return '_integer'
+        case FIELD_TYPE.ARRAY_BOOLEAN:
+          return '_boolean'
+        case FIELD_TYPE.ARRAY_DATE:
+          return '_date'
 
         default:
           throw new Error('Field type not recognized for validation : ' + locokitFieldType)

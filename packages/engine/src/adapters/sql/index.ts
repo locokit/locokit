@@ -140,7 +140,7 @@ export class SQLAdapter implements GenericAdapter {
       const columnInfos = await inspector.columnInfo(tableName)
       tables[tableName].columns = columnInfos
       columnInfos.forEach((c: Column) => {
-        adapterLogger.info('[boot] inspecting table %s, column %s', tableName, c.name)
+        adapterLogger.info('[boot] inspecting table %s, column %s', tableName, c.name, c.data_type)
 
         /**
          * is this column linked to a foreign ?
@@ -179,6 +179,42 @@ export class SQLAdapter implements GenericAdapter {
     Object.keys(tables).forEach((tableName) => {
       adapterLogger.info('[boot] building Model %s', tableName)
       const t = tables[tableName]
+
+      const schema = {
+        type: 'object',
+        required: [] as string[],
+        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+        properties: {} as Record<string, JSONSchema>, // and not a boolean like in JSONSchemaDefinition
+      }
+      const jsonAttributes: string[] = []
+
+      t.columns.forEach((c) => {
+        /**
+         * We convert the SQL type into a JSON one
+         */
+        const jsonType = getJSONTypeFromSQLType(c.data_type as DB_TYPE)
+        if (jsonType === 'array') {
+          schema.properties[c.name] = {
+            type: jsonType,
+          }
+        } else {
+          const propertyType = [jsonType]
+          /**
+           * If the field is nullable,
+           * we add to field's types the `null` one.
+           */
+          if (c.is_nullable) propertyType.push('null')
+          schema.properties[c.name] = {
+            type: propertyType,
+          }
+        }
+        if (jsonType === 'object') jsonAttributes.push(c.name)
+
+        if (!c.is_nullable && c.default_value === null) schema.required.push(c.name)
+
+        // TODO: be better for format subtilities
+        if (c.data_type === 'date') schema.properties[c.name].format = 'date'
+      })
 
       allModels[tableName] = class extends EngineModel {
         static createValidator() {
@@ -232,32 +268,18 @@ export class SQLAdapter implements GenericAdapter {
           return t.id
         }
 
+        // https://github.com/Vincit/objection.js/issues/52
+        /**
+         * Specify which types need to be JSON encoded/decoded via string
+         * https://vincit.github.io/objection.js/api/model/static-properties.html#static-jsonattributes
+         *
+         * Beware, arrays in PG don't need to be encoded/decoded => we exclude them
+         */
+        static get jsonAttributes() {
+          return jsonAttributes
+        }
+
         static get jsonSchema(): JSONSchema {
-          const schema = {
-            type: 'object',
-            required: [] as string[],
-            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-            properties: {} as Record<string, JSONSchema>, // and not a boolean like in JSONSchemaDefinition
-          }
-
-          t.columns.forEach((c) => {
-            /**
-             * We convert the SQL type into a JSON one
-             */
-            const propertyType = [getJSONTypeFromSQLType(c.data_type as DB_TYPE)]
-            /**
-             * If the field is nullable,
-             * we add to field's types the `null` one.
-             */
-            if (c.is_nullable) propertyType.push('null')
-            else if (c.default_value === null) schema.required.push(c.name)
-            schema.properties[c.name] = {
-              type: propertyType,
-            }
-            // TODO: be better for format subtilities
-            if (c.data_type === 'date') schema.properties[c.name].format = 'date'
-          })
-
           return schema
         }
 

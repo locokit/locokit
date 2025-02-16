@@ -2,10 +2,10 @@ import { HookContext, NextFunction } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
 import { SERVICES, USER_PROFILE } from '@locokit/definitions'
 import { Ajv, addFormats, Validator, hooks as schemaHooks } from '@feathersjs/schema'
-import type { FormatsPluginOptions } from '@feathersjs/schema'
+import type { DataValidatorMap, FormatsPluginOptions } from '@feathersjs/schema'
 import ajvErrors from 'ajv-errors'
 import { NotFound } from '@feathersjs/errors/lib'
-import { Type, querySyntax, getValidator, TSchema } from '@feathersjs/typebox'
+import { Type, querySyntax, getValidator, TSchema, getDataValidator } from '@feathersjs/typebox'
 import { ConnexionSQL, createAdapter, GenericAdapter } from '@locokit/engine'
 import { convertLocoKitFieldTypeToTypeboxSchema } from './table-record.helpers'
 import { toEagerRegExp } from '@/utils/toEagerRegExp'
@@ -13,6 +13,7 @@ import { toEagerRegExp } from '@/utils/toEagerRegExp'
 const adapters: Record<string, GenericAdapter> = {}
 
 const validators: Record<string, Validator> = {}
+const validatorsData: Record<string, DataValidatorMap> = {}
 
 export const formats: FormatsPluginOptions = [
   'date-time',
@@ -63,7 +64,7 @@ dataValidator.addFormat('user-profile', {
 export const tableRecordHooks = {
   around: {
     all: [
-      authenticate('jwt', 'public'),
+      authenticate('jwt' /*, 'public' */), // TODO: remove public auth if we don't have permission stabilized
       async function checkPermission(context: HookContext, next: NextFunction) {
         await next()
       },
@@ -132,8 +133,6 @@ export const tableRecordHooks = {
               .join('|') ?? ''
 
           const tableRelationRegexp = toEagerRegExp(tableRelationsNames + '|' + tableLookupsNames)
-          // console.log('relations', tableRelationsNames, tableRelationRegexp)
-
           const tableQuerySchema = Type.Intersect(
             [
               querySyntax(
@@ -158,7 +157,12 @@ export const tableRecordHooks = {
               additionalProperties: true,
             },
           )
+          const tableResultSchema = Type.Object(tableSchema, {
+            additionalProperties: false,
+            $id: context.params.$$id + 'Result',
+          })
           context.params.$$schema = tableQuerySchema
+          context.params.$$schemaResult = tableResultSchema
         }
 
         await next()
@@ -169,14 +173,32 @@ export const tableRecordHooks = {
           // TODO: is this safe as it could grow a lot in the mid term running ?
           // how does this scale ?
           validators[context.params.$$id] = getValidator(context.params.$$schema, dataValidator)
+          validatorsData[context.params.$$id] = getDataValidator(
+            context.params.$$schemaResult,
+            dataValidator,
+          )
         }
+
         context.params.$$validator = validators[context.params.$$id]
+        context.params.$$validatorData = validatorsData[context.params.$$id]
+
         await next()
       },
       // async function computeResolver(context: HookContext) { },
       // async function computeAbilities(context: HookContext) { },
-      async function applyValidator(context: HookContext, next: NextFunction) {
-        return await schemaHooks.validateQuery(context.params.$$validator)(context, next)
+      async function applyQueryValidator(context: HookContext, next: NextFunction) {
+        switch (context.method) {
+          case 'find':
+          case 'get':
+            return await schemaHooks.validateQuery(context.params.$$validator)(context, next)
+          case 'create':
+          case 'update':
+          case 'patch':
+          case 'remove':
+            return await schemaHooks.validateData(context.params.$$validatorData)(context, next)
+          default:
+            throw new Error("Method unknown. Can't validate your call.")
+        }
       },
       // async function applyResolver(context: HookContext) { },
       async function createAdapterIfNeeded(context: HookContext, next: NextFunction) {
@@ -255,6 +277,7 @@ export const tableRecordHooks = {
       },
       // async function createTransaction(context: HookContext) { },
       // async function validateData(context: HookContext) { },
+      // filter data to only the one the user is able to access (casl ?)
       // async function resolveData(context: HookContext) { },
     ],
   },

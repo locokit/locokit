@@ -22,6 +22,14 @@ export function convertLocoKitFieldTypeToTypeboxSchema(locokitField: TableFieldS
     case FIELD_TYPE.NUMBER:
     case FIELD_TYPE.FLOAT:
       return Type.Number()
+
+    case FIELD_TYPE.UUID:
+    case FIELD_TYPE.ID_UUID:
+      return Type.String()
+
+    /**
+     * Geometry fields
+     */
     case FIELD_TYPE.GEOMETRY:
     case FIELD_TYPE.GEOMETRY_POINT:
     case FIELD_TYPE.GEOMETRY_LINESTRING:
@@ -31,9 +39,23 @@ export function convertLocoKitFieldTypeToTypeboxSchema(locokitField: TableFieldS
     case FIELD_TYPE.GEOMETRY_MULTIPOLYGON:
       return Type.String()
 
-    case FIELD_TYPE.UUID:
-    case FIELD_TYPE.ID_UUID:
-      return Type.String()
+    /**
+     * Array fields
+     */
+    case FIELD_TYPE.ARRAY_TEXT:
+    case FIELD_TYPE.ARRAY_UUID:
+      return Type.Array(Type.String())
+
+    case FIELD_TYPE.ARRAY_DATE:
+      return Type.Array(
+        Type.String({
+          format: 'date',
+        }),
+      )
+    case FIELD_TYPE.ARRAY_BOOLEAN:
+      return Type.Array(Type.Boolean())
+    case FIELD_TYPE.ARRAY_NUMBER:
+      return Type.Array(Type.Number())
 
     default:
       throw new Error(

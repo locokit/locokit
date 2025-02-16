@@ -301,7 +301,16 @@ BEGIN
       'GEOMETRY_LINESTRING'::text,
       'GEOMETRY_MULTIPOINT'::text,
       'GEOMETRY_MULTIPOLYGON'::text,
-      'GEOMETRY_MULTILINESTRING'::text
+      'GEOMETRY_MULTILINESTRING'::text,
+      --
+      -- Arrays
+      --
+      'ARRAY_TEXT'::text,
+      'ARRAY_UUID'::text,
+      'ARRAY_BOOLEAN'::text,
+      'ARRAY_NUMBER'::text,
+      'ARRAY_DATE'::text
+
     ]))
   );
   CREATE INDEX IF NOT EXISTS "IDX_tableField_table"

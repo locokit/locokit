@@ -8,7 +8,7 @@ import { type DB_TYPE } from '@locokit/definitions'
  */
 export function getJSONTypeFromSQLType(sqlType: DB_TYPE) {
   const arrayDeep = (sqlType.match(/\[\]/g) || []).length
-  if (arrayDeep > 0) return 'string'
+  if (arrayDeep > 0) return 'array'
 
   switch (sqlType.toLowerCase()) {
     case 'jsonb':
