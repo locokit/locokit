@@ -20,6 +20,8 @@ import { WorkspaceResult } from './services/core/workspace/workspace.schema'
 import { GroupResult } from './services/core/group/group.schema'
 import { PolicyResult } from './client'
 
+import { seed as resetDB } from '../seeds/test'
+
 const app = createApp()
 
 export interface SetupData {
@@ -155,6 +157,11 @@ export function builderTestEnvironment(prefix: string) {
      * We just return it.
      */
     if (_data) return _data
+
+    /**
+     * Reset the DB
+     */
+    resetDB(app.get('db'))
 
     /**
      * 1 Creating users first

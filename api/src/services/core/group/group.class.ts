@@ -17,7 +17,7 @@ import { groupResolvers } from './group.resolver'
 import { authenticate } from '@feathersjs/authentication'
 
 import { setAbilities } from './group.ability'
-import { authorize, authorize } from 'feathers-casl'
+import { authorize } from 'feathers-casl'
 
 const authorizeHook = authorize({ adapter: '@feathersjs/knex' })
 

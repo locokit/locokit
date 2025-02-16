@@ -18,8 +18,8 @@ describe('[core] user service', () => {
   })
 
   afterAll(async () => {
-    await app.teardown()
     await builder.teardownWorkspace()
+    await app.teardown()
   })
 
   it('registered the service', () => {

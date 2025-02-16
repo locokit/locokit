@@ -29,8 +29,8 @@ describe('authentication', () => {
   })
 
   afterAll(async () => {
-    await app.teardown()
     await builder.teardownWorkspace()
+    await app.teardown()
   })
 
   beforeEach(async () => {
