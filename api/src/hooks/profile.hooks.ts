@@ -13,7 +13,7 @@ export function checkUserHasProfile(
   return profiles.includes(context.params.user?.profile as keyof typeof USER_PROFILE)
 }
 
-export function checkProviderInternal(context: HookContext): boolean {
+export function checkProviderIsInternal(context: HookContext): boolean {
   return !context.params.provider
   // if (!context.params.user || context.params.user.profile === USER_PROFILE.ADMIN) return true
 }
@@ -26,7 +26,7 @@ export const checkUserHasAccess =
     /**
      * which profile(s) is(are) needed
      */
-    userProfile: Array<keyof typeof USER_PROFILE> | keyof typeof USER_PROFILE
+    allowedProfile: Array<keyof typeof USER_PROFILE> | keyof typeof USER_PROFILE
     /**
      * is the call has to be an internal one ?
      */
@@ -38,8 +38,8 @@ export const checkUserHasAccess =
     internalProviderProfileCheck?: 'ALWAYS' | 'IF_USER_PROVIDED'
   }) =>
   (context: HookContext): HookContext => {
-    const userHasProfile = checkUserHasProfile(options.userProfile, context)
-    const isInternalProvider = checkProviderInternal(context)
+    const userHasProfile = checkUserHasProfile(options.allowedProfile, context)
+    const isInternalProvider = checkProviderIsInternal(context)
 
     if (!isInternalProvider && userHasProfile) return context
     if (options.internalProvider && isInternalProvider) {

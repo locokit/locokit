@@ -12,7 +12,7 @@ export const coreTableHooks = {
   before: {
     all: [
       checkUserHasAccess({
-        userProfile: [USER_PROFILE.ADMIN],
+        allowedProfile: [USER_PROFILE.ADMIN],
         internalProvider: true,
         internalProviderProfileCheck: 'ALWAYS',
       }),

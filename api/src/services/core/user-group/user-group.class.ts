@@ -26,7 +26,7 @@ export const userGroupHooks: HookMap<Application, UserGroupService> = {
   before: {
     all: [
       checkUserHasAccess({
-        userProfile: [USER_PROFILE.ADMIN, USER_PROFILE.CREATOR],
+        allowedProfile: [USER_PROFILE.ADMIN, USER_PROFILE.CREATOR],
         internalProvider: true,
         internalProviderProfileCheck: 'IF_USER_PROVIDED',
       }),

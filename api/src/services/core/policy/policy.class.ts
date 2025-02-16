@@ -21,7 +21,7 @@ export const policyHooks: HookMap<Application, PolicyService> = {
   before: {
     all: [
       checkUserHasAccess({
-        userProfile: [USER_PROFILE.ADMIN],
+        allowedProfile: [USER_PROFILE.ADMIN],
         internalProvider: true,
         internalProviderProfileCheck: 'IF_USER_PROVIDED',
       }),

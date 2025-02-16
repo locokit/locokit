@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import {
   checkUserHasProfile,
-  checkProviderInternal,
+  checkProviderIsInternal,
   checkUserHasAccess,
   checkUserIsAdmin,
 } from './profile.hooks'
@@ -9,7 +9,7 @@ import { USER_PROFILE } from '@locokit/definitions'
 import { HookContext } from '@/declarations'
 
 describe('[hooks] profile', () => {
-  describe('checkProviderInternal', () => {
+  describe('checkProviderIsInternal', () => {
     it('return false if external call', () => {
       expect.assertions(1)
       const context: Partial<HookContext> = {
@@ -21,7 +21,7 @@ describe('[hooks] profile', () => {
         },
       }
 
-      expect(checkProviderInternal(context as HookContext)).toBe(false)
+      expect(checkProviderIsInternal(context as HookContext)).toBe(false)
     })
     it('return true if internal call', () => {
       expect.assertions(1)
@@ -32,7 +32,7 @@ describe('[hooks] profile', () => {
           },
         },
       }
-      expect(checkProviderInternal(context as HookContext)).toBe(true)
+      expect(checkProviderIsInternal(context as HookContext)).toBe(true)
     })
   })
   describe('checkUserHasProfile', () => {
@@ -123,7 +123,7 @@ describe('[hooks] profile', () => {
         },
       }
       const result = checkUserHasAccess({
-        userProfile: [USER_PROFILE.CREATOR],
+        allowedProfile: [USER_PROFILE.CREATOR],
         internalProvider: true,
       })(context as HookContext)
       expect(result).toBeDefined()
@@ -141,7 +141,7 @@ describe('[hooks] profile', () => {
       }
       try {
         checkUserHasAccess({
-          userProfile: [USER_PROFILE.CREATOR],
+          allowedProfile: [USER_PROFILE.CREATOR],
           internalProvider: true,
         })(context as HookContext)
       } catch (error) {
@@ -157,7 +157,7 @@ describe('[hooks] profile', () => {
         params: {},
       }
       const result = checkUserHasAccess({
-        userProfile: [USER_PROFILE.CREATOR],
+        allowedProfile: [USER_PROFILE.CREATOR],
         internalProvider: true,
         internalProviderProfileCheck: false,
       })(context as HookContext)
@@ -175,7 +175,7 @@ describe('[hooks] profile', () => {
       }
       try {
         checkUserHasAccess({
-          userProfile: [USER_PROFILE.ADMIN],
+          allowedProfile: [USER_PROFILE.ADMIN],
           internalProvider: true,
           internalProviderProfileCheck: 'IF_USER_PROVIDED',
         })(context as HookContext)
@@ -197,7 +197,7 @@ describe('[hooks] profile', () => {
         },
       }
       const result = checkUserHasAccess({
-        userProfile: [USER_PROFILE.ADMIN],
+        allowedProfile: [USER_PROFILE.ADMIN],
         internalProvider: true,
         internalProviderProfileCheck: 'IF_USER_PROVIDED',
       })(context as HookContext)
@@ -216,7 +216,7 @@ describe('[hooks] profile', () => {
       }
       try {
         checkUserHasAccess({
-          userProfile: [USER_PROFILE.ADMIN],
+          allowedProfile: [USER_PROFILE.ADMIN],
           internalProvider: true,
           internalProviderProfileCheck: 'IF_USER_PROVIDED',
         })(context as HookContext)
@@ -233,7 +233,7 @@ describe('[hooks] profile', () => {
         params: {},
       }
       const result = checkUserHasAccess({
-        userProfile: [USER_PROFILE.ADMIN],
+        allowedProfile: [USER_PROFILE.ADMIN],
         internalProvider: true,
         internalProviderProfileCheck: 'IF_USER_PROVIDED',
       })(context as HookContext)
@@ -251,7 +251,7 @@ describe('[hooks] profile', () => {
       }
       try {
         checkUserHasAccess({
-          userProfile: [USER_PROFILE.ADMIN],
+          allowedProfile: [USER_PROFILE.ADMIN],
           internalProvider: true,
           internalProviderProfileCheck: 'IF_USER_PROVIDED',
         })(context as HookContext)

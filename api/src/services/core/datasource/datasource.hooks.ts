@@ -11,7 +11,7 @@ export const coreDatasourceHooks = {
   before: {
     all: [
       checkUserHasAccess({
-        userProfile: [USER_PROFILE.ADMIN],
+        allowedProfile: [USER_PROFILE.ADMIN],
         internalProvider: true,
         internalProviderProfileCheck: 'IF_USER_PROVIDED',
       }),
