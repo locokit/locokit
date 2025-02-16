@@ -16,7 +16,7 @@ import {
 } from './user.resolver'
 import { disallow, iff, isProvider } from 'feathers-hooks-common'
 import { addVerification } from 'feathers-authentication-management'
-import { isAdminProfile } from '@/hooks/profile.hooks'
+import { checkUserIsAdmin } from '@/hooks/profile.hooks'
 import { HookOptions } from '@feathersjs/feathers'
 import type { Application, HookContext } from '@/declarations'
 import { UserService } from './user.class'
@@ -43,7 +43,7 @@ export const hooks: HookOptions<Application, UserService> = {
     get: [
       iff(
         (context: HookContext) => {
-          return isProvider('external')(context) && !isAdminProfile(context)
+          return isProvider('external')(context) && !checkUserIsAdmin(context)
         },
         validateQuery(userQueryValidator),
         resolveQuery(userQueryResolver),
@@ -55,7 +55,7 @@ export const hooks: HookOptions<Application, UserService> = {
       // otherwise, could search on "username"
       // need to return only "username" for non admin users
       iff((context: HookContext) => {
-        return isProvider('external')(context) && !isAdminProfile(context)
+        return isProvider('external')(context) && !checkUserIsAdmin(context)
       }, validateQuery(userQueryValidator)),
     ],
     create: [
@@ -64,7 +64,7 @@ export const hooks: HookOptions<Application, UserService> = {
        * from external calls and user not admin
        */
       iff((context: HookContext) => {
-        return isProvider('external')(context) && !isAdminProfile(context)
+        return isProvider('external')(context) && !checkUserIsAdmin(context)
       }, disallow()).else(
         validateData(userDataValidator),
         addVerification(SERVICES.AUTH_MANAGEMENT),
@@ -84,7 +84,7 @@ export const hooks: HookOptions<Application, UserService> = {
       iff(
         isProvider('external'),
         iff(
-          isAdminProfile,
+          checkUserIsAdmin,
           validateData(userPatchAdminValidator),
           resolveData(userPatchAdminResolver),
         ).else(validateData(userPatchValidator), resolveData(userPatchResolver)),
@@ -95,7 +95,7 @@ export const hooks: HookOptions<Application, UserService> = {
       /**
        * User not admin can't remove user
        */
-      iff(!isAdminProfile, disallow()),
+      iff(!checkUserIsAdmin, disallow()),
     ],
   },
   after: {

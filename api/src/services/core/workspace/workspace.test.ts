@@ -34,7 +34,7 @@ describe('[core] workspace service', () => {
         name: 'core-workspace public',
         documentation: 'Public workspace',
         public: true,
-        createdBy: setupData.user1.id,
+        createdBy: setupData.userCreator1.id,
       })
 
       expect(workspace).toBeDefined()
@@ -51,13 +51,17 @@ describe('[core] workspace service', () => {
       })
     })
 
-    it('returns the public workspace when making a find request of internal calls', async () => {
+    it('returns all workspaces when making a find request from internal', async () => {
       expect.assertions(3)
-      const publicWorkspaces = await app.service(SERVICES.CORE_WORKSPACE).find()
+      const workspaces = await app.service(SERVICES.CORE_WORKSPACE).find()
 
-      expect(publicWorkspaces.total).toBe(1)
-      expect(publicWorkspaces.data[0]).toBeDefined()
-      expect(publicWorkspaces.data[0].name).toContain('Public workspace')
+      expect(workspaces.total).toBe(2)
+      expect(
+        [setupData.publicWorkspaceId, setupData.privateWorkspaceId].includes(workspaces.data[0].id),
+      ).toBe(true)
+      expect(
+        [setupData.publicWorkspaceId, setupData.privateWorkspaceId].includes(workspaces.data[1].id),
+      ).toBe(true)
     })
 
     it('returns the public workspace when making a find request for unauthenticated users', async () => {
@@ -124,7 +128,7 @@ describe('[core] workspace service', () => {
         name: '[core-workspace] WS 1',
         documentation: 'Core workspace for testing creation of a dedicated SQL workspace',
         public: false,
-        createdBy: setupData.user1.id,
+        createdBy: setupData.userCreator1.id,
       })
       schemaName = 'w_' + ws.slug
     })
@@ -229,7 +233,7 @@ describe('[core] workspace service', () => {
         name: 'for removal purpose',
         documentation: 'Core workspace for testing forbid workspace removal for non admin users',
         public: false,
-        createdBy: setupData.user1.id,
+        createdBy: setupData.userCreator1.id,
       })
       alreadyRemoved = false
       schemaName = 'w_' + resWorkspace.slug
@@ -244,7 +248,7 @@ describe('[core] workspace service', () => {
        */
       await axios.delete(getUrl(SERVICES.CORE_WORKSPACE) + '/' + resWorkspace.id, {
         headers: {
-          Authorization: 'Bearer ' + (setupData.user1Authentication.accessToken as string),
+          Authorization: 'Bearer ' + (setupData.userCreator1Authentication.accessToken as string),
         },
       })
 
@@ -336,18 +340,18 @@ describe('[core] workspace service', () => {
 
       // first removal, we have a softDeletedAt
       const wsFirstRemoval = await app.service(SERVICES.CORE_WORKSPACE).remove(resWorkspace.id, {
-        user: setupData.user1,
+        user: setupData.userCreator1,
         authenticated: true,
-        authentication: setupData.user1Authentication,
+        authentication: setupData.userCreator1Authentication,
       })
       expect(wsFirstRemoval.softDeletedAt).not.toBeNull()
 
       // second removal, we have an error
       await expect(
         app.service(SERVICES.CORE_WORKSPACE).remove(resWorkspace.id, {
-          user: setupData.user1,
+          user: setupData.userCreator1,
           authenticated: true,
-          authentication: setupData.user1Authentication,
+          authentication: setupData.userCreator1Authentication,
         }),
       ).rejects.toThrowError(/Workspace is already soft-deleted./)
     })
@@ -360,13 +364,13 @@ describe('[core] workspace service', () => {
           $limit: 0,
         },
       })
-      expect(workspaces.total).toBe(2)
+      expect(workspaces.total).toBe(3)
 
       // remove workspace as owner (so soft-deleted)
       await app.service(SERVICES.CORE_WORKSPACE).remove(resWorkspace.id, {
         authenticated: true,
-        user: setupData.user1,
-        authentication: setupData.user1Authentication,
+        user: setupData.userCreator1,
+        authentication: setupData.userCreator1Authentication,
       })
       // find again, expect one less
       const workspacesAfter = await app.service(SERVICES.CORE_WORKSPACE).find({
@@ -374,7 +378,7 @@ describe('[core] workspace service', () => {
           $limit: 0,
         },
       })
-      expect(workspacesAfter.total).toBe(1)
+      expect(workspacesAfter.total).toBe(2)
     })
 
     it('returns workspace "soft-deleted" if asked by the workspace owner', async () => {
@@ -383,19 +387,19 @@ describe('[core] workspace service', () => {
       // find workspaces with soft-deleted set to != null and workspace owner,
       // expect to find it
       expect.assertions(3)
-      // find workspaces, expect 2 (I think)
+      // find workspaces, expect 3 (I think)
       const workspaces = await app.service(SERVICES.CORE_WORKSPACE).find({
         query: {
           $limit: 0,
         },
       })
-      expect(workspaces.total).toBe(2)
+      expect(workspaces.total).toBe(3)
 
       // remove workspace as owner (so soft-deleted)
       await app.service(SERVICES.CORE_WORKSPACE).remove(resWorkspace.id, {
         authenticated: true,
-        user: setupData.user1,
-        authentication: setupData.user1Authentication,
+        user: setupData.userCreator1,
+        authentication: setupData.userCreator1Authentication,
       })
       // find again, expect the same
       const workspacesAfter = await app.service(SERVICES.CORE_WORKSPACE).find({
@@ -449,8 +453,8 @@ describe('[core] workspace service', () => {
           },
           {
             authenticated: true,
-            user: setupData.user1,
-            authentication: setupData.user1Authentication,
+            user: setupData.userCreator1,
+            authentication: setupData.userCreator1Authentication,
           },
         ),
       ).rejects.toThrow(BadRequest)
@@ -512,7 +516,7 @@ describe('[core] workspace service', () => {
         name: 'private repo for filtering',
         documentation: 'Core workspace for testing filtering public workspace',
         public: false,
-        createdBy: setupData.user1.id,
+        createdBy: setupData.userCreator1.id,
       })
       privateWorkspace2 = await app.service(SERVICES.CORE_WORKSPACE).create({
         name: 'private repo 2 for filtering',
@@ -532,7 +536,7 @@ describe('[core] workspace service', () => {
       const resultFilter = await app.service(SERVICES.CORE_WORKSPACE).find({
         query: {
           $joinEager: 'owner',
-          'owner.username': setupData.user1.username,
+          'owner.username': setupData.userCreator1.username,
         },
         authenticated: false,
         authentication: {
@@ -552,7 +556,7 @@ describe('[core] workspace service', () => {
       const resultFilter = await app.service(SERVICES.CORE_WORKSPACE).find({
         query: {
           $joinRelated: 'owner',
-          'owner.username': setupData.user1.username,
+          'owner.username': setupData.userCreator1.username,
         },
         authenticated: false,
         authentication: {
@@ -605,19 +609,19 @@ describe('[core] workspace service', () => {
 
       const allWs = await app.service(SERVICES.CORE_WORKSPACE).find({
         authenticated: true,
-        user: setupData.user1,
-        authentication: setupData.user1Authentication,
+        user: setupData.userCreator1,
+        authentication: setupData.userCreator1Authentication,
       })
-      expect(allWs.total).toBe(3)
+      expect(allWs.total).toBe(4)
 
       const result = await app.service(SERVICES.CORE_WORKSPACE).find({
         query: {
           $joinEager: 'owner',
-          'owner.username': setupData.user1.username,
+          'owner.username': setupData.userCreator1.username,
         },
         authenticated: true,
-        user: setupData.user1,
-        authentication: setupData.user1Authentication,
+        user: setupData.userCreator1,
+        authentication: setupData.userCreator1Authentication,
       })
       expect(result.total).toBe(2)
     })
@@ -635,8 +639,8 @@ describe('[core] workspace service', () => {
       // soft-delete the private workspace
       await app.service(SERVICES.CORE_WORKSPACE).remove(privateWorkspace.id, {
         authenticated: true,
-        user: setupData.user1,
-        authentication: setupData.user1Authentication,
+        user: setupData.userCreator1,
+        authentication: setupData.userCreator1Authentication,
       })
 
       // check public user see only 1 workspace now
@@ -763,7 +767,7 @@ $BODY$;
         name: 'for removal purpose',
         documentation: 'Core workspace for testing forbid workspace removal for non admin users',
         public: false,
-        createdBy: setupData.user1.id,
+        createdBy: setupData.userCreator1.id,
       })
       const workspaceSlug = 'w_' + (workspace.slug as string)
 
@@ -817,7 +821,7 @@ $BODY$;
         name: 'for removal purpose',
         documentation: 'Core workspace for testing forbid workspace removal for non admin users',
         public: false,
-        createdBy: setupData.user1.id,
+        createdBy: setupData.userCreator1.id,
       })
       const workspaceSlug = 'w_' + (workspace.slug as string)
       // setup / mock the core-workspace for overwrite the `_remove` function and fail
@@ -955,7 +959,7 @@ $BODY$;
         name: 'for removal purpose',
         documentation: 'Core workspace for testing forbid workspace removal for non admin users',
         public: false,
-        createdBy: setupData.user1.id,
+        createdBy: setupData.userCreator1.id,
       })
       // try to patch the name => fail
       await expect(

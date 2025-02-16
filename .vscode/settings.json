@@ -10,7 +10,7 @@
       "column": 100
     }
   ],
-  "workbench.colorTheme": "Default Dark Modern",
+  "workbench.colorTheme": "Default Light Modern",
   "workbench.colorCustomizations": {
     "activityBar.background": "#1f5665",
     "activityBar.foreground": "#f9b232",

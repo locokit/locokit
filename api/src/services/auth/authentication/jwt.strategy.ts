@@ -7,7 +7,7 @@ import { AnyMongoAbility } from '@casl/ability'
 
 import { UserResult } from '@/services/core/user/user.schema'
 import { logger } from '@/logger'
-import { defineAbilities } from './authentication.abilities'
+import { getAbility } from './authentication.abilities'
 
 const jwtLogger = logger.child({ service: 'authentication-jwt-enhanced' })
 
@@ -42,7 +42,7 @@ export class JWTStrategyEnhanced extends JWTStrategy {
     }
     const result = {
       ...superResult,
-      ability: defineAbilities(superResult.user) as AnyMongoAbility,
+      ability: getAbility(superResult.user) as AnyMongoAbility,
     }
     return result
   }

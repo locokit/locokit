@@ -42,7 +42,7 @@ export type PolicySchema = Static<typeof policySchema>
 export const policyDataSchema = Type.Omit(policySchema, ['id', 'workspace'], {
   $id: 'PolicyData',
 })
-export type PolicyData = Static<typeof policySchema>
+export type PolicyData = Static<typeof policyDataSchema>
 
 export const policyPatchSchema = Type.Partial(Type.Omit(policyDataSchema, ['workspaceId']), {
   $id: 'PolicyPatch',

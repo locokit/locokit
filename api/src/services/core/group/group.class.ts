@@ -2,9 +2,7 @@ import { KnexAdapterParams } from '@feathersjs/knex'
 import { HookMap } from '@feathersjs/feathers'
 import { ObjectionService } from '@/feathers-objection'
 import { hooks as schemaHooks } from '@feathersjs/schema'
-import { Application, HookContext } from '@/declarations'
-import { USER_PROFILE } from '@locokit/definitions'
-import { Forbidden } from '@feathersjs/errors/lib'
+import { Application } from '@/declarations'
 
 import {
   GroupData,
@@ -13,18 +11,15 @@ import {
   groupDataValidator,
   groupQueryValidator,
   groupPatchValidator,
+  groupUpdateValidator,
 } from './group.schema'
 import { groupResolvers } from './group.resolver'
 import { authenticate } from '@feathersjs/authentication'
-import { UserResult } from '@/services/core/user/user.schema'
 
-async function checkProfile(context: HookContext) {
-  const user: UserResult = context.params.user
-  const profile = user.profile
+import { setAbilities } from './group.ability'
+import { authorize } from 'feathers-casl'
 
-  if (profile === USER_PROFILE.MEMBER)
-    throw new Forbidden("You don't have sufficient privilege to create a group.")
-}
+const authorizeHook = authorize({ adapter: '@feathersjs/knex' })
 
 export const groupHooks: HookMap<Application, GroupService> = {
   around: {
@@ -35,25 +30,24 @@ export const groupHooks: HookMap<Application, GroupService> = {
     ],
   },
   before: {
+    all: [setAbilities, authorizeHook],
     find: [
       schemaHooks.validateQuery(groupQueryValidator),
       schemaHooks.resolveQuery(groupResolvers.query),
     ],
     create: [
-      checkProfile,
       schemaHooks.validateData(groupDataValidator),
       schemaHooks.resolveData(groupResolvers.data.create),
     ],
     patch: [
-      checkProfile,
       schemaHooks.validateData(groupPatchValidator),
       schemaHooks.resolveData(...groupResolvers.data.patch),
     ],
     update: [
-      checkProfile,
-      schemaHooks.validateData(groupDataValidator),
+      schemaHooks.validateData(groupUpdateValidator),
       schemaHooks.resolveData(...groupResolvers.data.update),
     ],
+    remove: [],
   },
   after: {},
   error: {},

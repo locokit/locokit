@@ -4,6 +4,7 @@ import { dataValidator, queryValidator } from '@/commons/validators'
 import { workspaceOwnerSchema } from '@/services/core/user/user.schema'
 import { policySchema } from '../policy/policy.schema'
 import { queryStringExtend } from '@/feathers-objection'
+import { userGroupSchema } from '../user-group/user-group.schema'
 
 // Schema for the basic data model (e.g. creating new entries)
 export const groupSchema = Type.Object(
@@ -66,6 +67,16 @@ export const groupSchema = Type.Object(
         ),
       ),
     ),
+    usergroups: Type.Optional(
+      Type.Array(
+        Type.Object(
+          { ...userGroupSchema.properties },
+          {
+            description: 'Related user groups',
+          },
+        ),
+      ),
+    ),
     // policy: Type.Ref(),
   },
   {
@@ -84,9 +95,12 @@ export const groupDataSchema = Type.Omit(
 )
 export type GroupData = Static<typeof groupSchema>
 
-export const groupPatchSchema = Type.Partial(
-  Type.Omit(groupDataSchema, ['workspaceId'], { $id: 'GroupPatch' }),
-)
+export const groupUpdateSchema = Type.Omit(groupDataSchema, ['workspaceId'], {
+  $id: 'GroupUpdate',
+})
+export type GroupUpdate = Static<typeof groupUpdateSchema>
+
+export const groupPatchSchema = Type.Partial(groupUpdateSchema, { $id: 'GroupPatch' })
 export type GroupPatch = Static<typeof groupPatchSchema>
 
 export type GroupResult = Static<typeof groupSchema>
@@ -150,7 +164,7 @@ export const groupQuerySchema = Type.Intersect(
 export type GroupQuery = Static<typeof groupQuerySchema>
 
 export const groupDataValidator = getValidator(groupDataSchema, dataValidator)
-
+export const groupUpdateValidator = getValidator(groupUpdateSchema, dataValidator)
 export const groupPatchValidator = getValidator(groupPatchSchema, dataValidator)
 
 export const groupQueryValidator = getValidator(groupQuerySchema, queryValidator)

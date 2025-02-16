@@ -1,12 +1,12 @@
-import { AbilityBuilder, AnyMongoAbility } from '@casl/ability'
+import { AbilityBuilder, createMongoAbility } from '@casl/ability'
 import { USER_PROFILE } from '@locokit/definitions'
-import { AppAbility, resolveAction } from '../../../abilities/definitions'
-import makeAbilityFromRules from '../../../abilities/makeAbilityFromRules'
+import { resolveAction } from '@/abilities/definitions'
 import { UserResult } from '@/services/core/user/user.schema'
+import { HookContext } from '@feathersjs/feathers'
 
-export function defineAbilities(user: UserResult): AnyMongoAbility {
+export function getAbility(user: UserResult) {
   // also see https://casl.js.org/v5/en/guide/define-rules
-  const { can, rules } = new AbilityBuilder(AppAbility)
+  const { can, build } = new AbilityBuilder(createMongoAbility)
 
   /**
    * TODO: add public rules for anonymous (e.g., read public workspaces ?)
@@ -31,5 +31,16 @@ export function defineAbilities(user: UserResult): AnyMongoAbility {
       break
   }
 
-  return makeAbilityFromRules(rules, { resolveAction })
+  return build({ resolveAction })
+}
+
+export function setAbilities(context: HookContext) {
+  if (!context.params.provider) return context
+
+  const ability = getAbility(context.params.user as UserResult)
+
+  context.params.ability = ability
+  context.params.rules = ability.rules
+
+  return context
 }

@@ -29,8 +29,8 @@ describe('authentication', () => {
   })
 
   afterAll(async () => {
-    await app.teardown()
     await builder.teardownWorkspace()
+    await app.teardown()
   })
 
   beforeEach(async () => {
@@ -103,4 +103,6 @@ describe('authentication', () => {
   it.todo(
     'can work in local strategy with the couple username/password too instead of email/password',
   )
+
+  it.todo('restrict fields returned to the user, like sensitive data')
 })

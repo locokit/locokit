@@ -8,7 +8,7 @@ export type DatasourceClientService = Pick<DatasourceService, (typeof datasource
 
 export const datasourcePath = SERVICES.CORE_DATASOURCE
 
-export const datasourceMethods = ['find', 'get', 'patch'] as const
+export const datasourceMethods = ['find', 'get'] as const
 
 export const datasourceClient = (client: ClientApplication) => {
   const connection = client.get('connection')

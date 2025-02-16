@@ -131,10 +131,7 @@ export async function setLocoKitContext(context: HookContext) {
 
         break
       case SERVICES.WORKSPACE_TABLE_FIELD:
-        locokitContextLogger.debug(
-          'workspace table field service found (method %s)',
-          context.method,
-        )
+        locokitContextLogger.info('workspace table field service found (method %s)', context.method)
         switch (context.method) {
           /**
            * We know the tableId,
@@ -167,7 +164,7 @@ export async function setLocoKitContext(context: HookContext) {
         }
         break
       case SERVICES.WORKSPACE_TABLE_RELATION:
-        locokitContextLogger.debug(
+        locokitContextLogger.info(
           'workspace table relation service found (method %s)',
           context.method,
         )

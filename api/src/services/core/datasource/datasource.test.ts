@@ -8,7 +8,7 @@ import { Forbidden, MethodNotAllowed } from '@feathersjs/errors/lib'
 
 describe('[core] datasource service', () => {
   const app = createApp()
-  const builder = builderTestEnvironment('core-workspace')
+  const builder = builderTestEnvironment('core-datasource')
   let setupData: SetupData
   const port = app.get('port') || 8998
   // const getUrl = (pathname: string) =>
@@ -23,7 +23,7 @@ describe('[core] datasource service', () => {
 
     workspace = await app.service(SERVICES.CORE_WORKSPACE).create({
       name: 'Testing workspace datasource',
-      createdBy: setupData.user1.id,
+      createdBy: setupData.userCreator1.id,
     })
   })
 
@@ -130,8 +130,8 @@ describe('[core] datasource service', () => {
         app.service(SERVICES.CORE_DATASOURCE).get(forbidDatasource.id, {
           provider: 'external',
           authenticated: true,
-          user: setupData.user1,
-          authentication: setupData.user1Authentication,
+          user: setupData.userCreator1,
+          authentication: setupData.userCreator1Authentication,
         }),
       ).rejects.toThrowError(Forbidden)
     })
@@ -141,8 +141,8 @@ describe('[core] datasource service', () => {
       await expect(
         app.service(SERVICES.CORE_DATASOURCE).get(forbidDatasource.id, {
           authenticated: true,
-          user: setupData.user1,
-          authentication: setupData.user1Authentication,
+          user: setupData.userCreator1,
+          authentication: setupData.userCreator1Authentication,
         }),
       ).rejects.toThrowError(Forbidden)
     })
@@ -150,6 +150,18 @@ describe('[core] datasource service', () => {
     it('allow internal calls for ADMIN users', async () => {
       expect.assertions(2)
       const datasource = await app.service(SERVICES.CORE_DATASOURCE).get(forbidDatasource.id, {
+        authenticated: true,
+        user: setupData.userAdmin,
+        authentication: setupData.userAdminAuthentication,
+      })
+      expect(datasource).toBeDefined()
+      expect(datasource.id).toBe(forbidDatasource.id)
+    })
+
+    it('allow external calls for ADMIN users', async () => {
+      expect.assertions(2)
+      const datasource = await app.service(SERVICES.CORE_DATASOURCE).get(forbidDatasource.id, {
+        provider: 'external',
         authenticated: true,
         user: setupData.userAdmin,
         authentication: setupData.userAdminAuthentication,

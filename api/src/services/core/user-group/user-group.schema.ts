@@ -31,10 +31,10 @@ dataValidator.addSchema(userGroupSchema)
 
 export type UserGroupSchema = Static<typeof userGroupSchema>
 
-export const userGroupDataSchema = Type.Omit(userGroupSchema, ['user', 'group'], {
-  $id: 'UsesrGroupData',
+export const userGroupDataSchema = Type.Pick(userGroupSchema, ['userId', 'groupId'], {
+  $id: 'UserGroupData',
 })
-export type UserGroupData = Static<typeof userGroupSchema>
+export type UserGroupData = Static<typeof userGroupDataSchema>
 
 export const userGroupPatchSchema = Type.Never()
 export type UserGroupPatch = Static<typeof userGroupPatchSchema>

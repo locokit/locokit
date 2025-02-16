@@ -479,6 +479,11 @@ export class ObjectionAdapter<
      */
 
     const { table, id } = this
+    const idColumns = []
+    if (Array.isArray(id)) {
+      id.forEach((currentId: string) => idColumns.push(`${table}.${currentId}`))
+    } else idColumns.push(`${table}.${id}`)
+
     const { filters, query } = this.filterQuery(params)
     // const q = this._createQuery(params).skipUndefined()
     const builder = this.db(params)
@@ -492,7 +497,7 @@ export class ObjectionAdapter<
     // $select uses a specific find syntax, so it has to come first.
     if (filters.$select) {
       // always select the id field, but make sure we only select it once
-      builder.select(...new Set([...filters.$select, `${table}.${id}`]))
+      builder.select(...new Set([...filters.$select, ...idColumns]))
     } else {
       builder.select(`${table}.*`)
     }
