@@ -157,10 +157,12 @@ export const tableRecordHooks = {
               additionalProperties: true,
             },
           )
-          const tableResultSchema = Type.Object(tableSchema, {
-            additionalProperties: false,
-            $id: context.params.$$id + 'Result',
-          })
+          const tableResultSchema = Type.Partial(
+            Type.Object(tableSchema, {
+              additionalProperties: true, // TODO: do we need to be more strict ?
+              $id: context.params.$$id + 'Result',
+            })
+          )
           context.params.$$schema = tableQuerySchema
           context.params.$$schemaResult = tableResultSchema
         }
