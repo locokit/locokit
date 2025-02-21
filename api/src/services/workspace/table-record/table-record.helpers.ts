@@ -25,7 +25,7 @@ export function convertLocoKitFieldTypeToTypeboxSchema(locokitField: TableFieldS
 
     case FIELD_TYPE.UUID:
     case FIELD_TYPE.ID_UUID:
-      return Type.String()
+      return Type.String({ format: 'uuid' })
 
     /**
      * Geometry fields
