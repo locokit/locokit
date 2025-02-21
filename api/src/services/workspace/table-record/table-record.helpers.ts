@@ -43,8 +43,9 @@ export function convertLocoKitFieldTypeToTypeboxSchema(locokitField: TableFieldS
      * Array fields
      */
     case FIELD_TYPE.ARRAY_TEXT:
-    case FIELD_TYPE.ARRAY_UUID:
       return Type.Array(Type.String())
+    case FIELD_TYPE.ARRAY_UUID:
+      return Type.Array(Type.String({ format: 'uuid' }))
 
     case FIELD_TYPE.ARRAY_DATE:
       return Type.Array(
