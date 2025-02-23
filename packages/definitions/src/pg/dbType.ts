@@ -148,3 +148,13 @@ export type pgDbTypes =
   | 'topoelementarray' //	postgis domain: An array of TopoElement objects
   | 'topogeometry' //	postgis type: A composite type representing a topologically defined geometry
   | 'validatetopology_returntype' //	postgis type: A composite type that consists of an error message and id1 and id2 to denote location of error. This is the return type for ValidateTopology
+
+  /**
+   * Array types,
+   * restricted to the ones who are tested
+   */
+  | '_text'
+  | '_uuid'
+  | '_boolean'
+  | '_integer'
+  | '_date'

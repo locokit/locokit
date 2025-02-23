@@ -78,6 +78,15 @@ export const FIELD_TYPE = Object.freeze({
   GEOMETRY_MULTIPOINT: 'GEOMETRY_MULTIPOINT',
   GEOMETRY_MULTIPOLYGON: 'GEOMETRY_MULTIPOLYGON',
   GEOMETRY_MULTILINESTRING: 'GEOMETRY_MULTILINESTRING',
+
+  /**
+   * Arrays of
+   */
+  ARRAY_TEXT: 'ARRAY_TEXT',
+  ARRAY_UUID: 'ARRAY_UUID',
+  ARRAY_BOOLEAN: 'ARRAY_BOOLEAN',
+  ARRAY_NUMBER: 'ARRAY_NUMBER',
+  ARRAY_DATE: 'ARRAY_DATE',
 })
 
 /**
@@ -183,6 +192,21 @@ export function convertDBTypeToFieldType(
           return FIELD_TYPE.NETWORK
         case 'uuid':
           return primary ? FIELD_TYPE.ID_UUID : FIELD_TYPE.UUID
+
+        /**
+         * Array types
+         */
+        case '_text':
+          return FIELD_TYPE.ARRAY_TEXT
+        case '_uuid':
+          return FIELD_TYPE.ARRAY_UUID
+        case '_boolean':
+          return FIELD_TYPE.ARRAY_BOOLEAN
+        case '_integer':
+          return FIELD_TYPE.ARRAY_NUMBER
+        case '_date':
+          return FIELD_TYPE.ARRAY_DATE
+
         default:
           if (process.env.NODE_ENV === 'production') {
             console.warn('New data type found without matching field type : ' + dbType)
