@@ -9,7 +9,7 @@ import {
 
 import { _ } from '@feathersjs/commons'
 import { AdapterBase, PaginationOptions, filterQuery } from '@feathersjs/adapter-commons'
-import { NotFound } from '@feathersjs/errors'
+import { BadRequest, NotFound } from '@feathersjs/errors'
 
 import { errorHandler } from './error-handler'
 import { ObjectionAdapterOptions, ObjectionAdapterParams } from './declarations'
@@ -827,38 +827,17 @@ export class ObjectionAdapter<
   }
 
   async _findOrGet(id: NullableId, params: ServiceParams = {} as ServiceParams) {
-    const { name, id: idField } = this.getOptions(params)
+    const { id: idField } = this.getOptions(params)
     objectionLogger.debug('_findOrGet for id: %s, with idField: %s', id, idField)
 
-    /**
-     * Compute ids query for comoposable keys
-     */
-    const queryId: Record<string, any> = {}
-    if (Array.isArray(idField)) {
-      /**
-       * if id is set, and is is not an array, maybe this is in a comma separated values
-       */
-      let idValues: any[] | null = null
-      if (Array.isArray(id)) {
-        idValues = id as any[]
-      } else if (id) {
-        idValues = (id as string).split(',')
-      }
-      if (idValues) {
-        idField.forEach((f, i) => {
-          queryId[f] = (idValues as any[])[i]
-        })
-      }
-    } else if (id !== null) {
-      queryId[`${name}.${idField as string}`] = id
-    }
+    const idQuery = id ? this.computeIdQuery(id, params) : {}
 
     const findParams = {
       ...params,
       paginate: false,
       query: {
         ...params?.query,
-        ...queryId,
+        ...idQuery,
       },
     }
 
@@ -1010,5 +989,29 @@ export class ObjectionAdapter<
     }
 
     return items
+  }
+
+  private computeIdQuery(id: Id, params: ServiceParams = {} as ServiceParams): Record<string, any> {
+    const { name, id: idField } = this.getOptions(params)
+    const query: Record<string, any> = {}
+
+    if (Array.isArray(idField)) {
+      if (typeof id === 'number') {
+        throw new BadRequest("A single number is not a valid identifier for a composite primary key")
+      }
+
+      const idValues: string[] = Array.isArray(id) ? id : id.split(this.idSeparator ?? ',')
+      if (idValues.length !== idField.length) {
+        throw new BadRequest("The identifier must contain as many values as fields composing the primary key")
+      }
+
+      idField.forEach((field, index) => {
+        query[`${name}.${field}`] = idValues[index]
+      })
+    } else {
+      query[`${name}.${idField}`] = id
+    }
+
+    return query
   }
 }

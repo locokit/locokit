@@ -18,12 +18,18 @@ import * as Sentry from '@sentry/node'
 
 import helmet from 'koa-helmet'
 
-import type { Application } from './declarations'
+import type { Application, HookContext } from './declarations'
 import { configurationValidator } from './commons/configuration.schema'
 import { logErrorHook } from './logger'
 import { db } from './db'
 import { services } from './services'
 import { channels } from './channels'
+
+function decodeId(context: HookContext): void {
+  if (context.id && typeof context.id === 'string') {
+    context.id = decodeURIComponent(context.id)
+  }
+}
 
 export function createApp(): Application {
   Sentry.init({
@@ -115,7 +121,9 @@ We hope you will enjoy this tool!
     around: {
       all: [logErrorHook],
     },
-    before: {},
+    before: {
+      all: [decodeId],
+    },
     after: {},
     error: {},
   })
