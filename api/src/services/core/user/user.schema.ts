@@ -169,6 +169,7 @@ export const userQuerySchema = Type.Intersect(
       },
     ),
     Type.Object({
+      $modify: Type.Optional(Type.String()),
       $joinRelated: Type.Optional(
         Type.RegEx(/workspaces/, {
           description: 'Join user to its relations (and nested).',

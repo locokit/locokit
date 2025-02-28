@@ -33,9 +33,9 @@ export async function createAbility(user: UserResult): Promise<AppAbility> {
      */
     case USER_PROFILE.CREATOR:
     case USER_PROFILE.MEMBER:
-      can('read', 'user', ['id', 'name'], { id: { $ne: user.id } })
+      can('read', 'user', ['id', 'username'], { id: { $ne: user.id } })
       can('read', 'user', { id: user.id })
-      can('update', 'user', ['name'], { id: user.id })
+      can('update', 'user', ['username'], { id: user.id })
   }
 
   return makeAbilityFromRules(rules, { resolveAction }) as AppAbility

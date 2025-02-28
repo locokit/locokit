@@ -1,11 +1,26 @@
-import { Model, RelationMappings } from 'objection'
-import BaseModel from '../../../commons/BaseModel'
+import { AnyQueryBuilder, Model, Modifiers, RelationMappings, raw } from 'objection'
+import BaseModel from '@/commons/BaseModel'
 import { WorkspaceModel } from '@/services/core/workspace/workspace.model'
 
 export class UserModel extends BaseModel {
   static readonly model = 'user'
 
   static readonly tableName = 'lck_user'
+
+  static modifiers: Modifiers<AnyQueryBuilder> = {
+    notInGroup(query, groupId) {
+      query
+        .leftJoin('lck_userGroup as nig_group', function () {
+          this.on('lck_user.id', '=', 'nig_group.userId').andOn(
+            'nig_group.groupId',
+            '=',
+            // @ts-expect-error bad typing between objection and knex
+            raw('?', [groupId]),
+          )
+        })
+        .whereNull('nig_group.groupId')
+    },
+  }
 
   static get relationMappings(): RelationMappings {
     return {

@@ -128,6 +128,13 @@ export class ObjectionAdapter<
         $joinRelated: (value: any) => value,
         $joinEager: (value: any) => value,
         $eager: (value: any) => value,
+        $modify: (value: any) => {
+          if (!value) return value
+          const json = JSON.parse(value)
+          if (Array.isArray(json)) return json
+
+          throw new Error('$modify must be an array.')
+        },
       },
       operators: [...(options.operators ?? []), '$like', '$notlike', '$ilike', '$and', '$or'],
     })
@@ -538,10 +545,10 @@ export class ObjectionAdapter<
       delete filters.$mergeEager
     }
 
-    // if (filters?.$modify) {
-    //   this.modifyQuery(q, filters.$modify)
-    //   delete filters.$modify
-    // }
+    if (filters?.$modify) {
+      builder.modify(...filters.$modify)
+      delete filters.$modify
+    }
 
     if (joinRelated) {
       const groupByColumns = this.getGroupByColumns(builder)
@@ -677,10 +684,10 @@ export class ObjectionAdapter<
       delete filters.$mergeEager
     }
 
-    // if (filters?.$modify) {
-    //   this.modifyQuery(q, filters.$modify)
-    //   delete filters.$modify
-    // }
+    if (filters?.$modify) {
+      builder.modify(...filters.$modify)
+      delete filters.$modify
+    }
 
     // apply eager filters if specified
     if (this.eagerFilters) {
@@ -997,12 +1004,16 @@ export class ObjectionAdapter<
 
     if (Array.isArray(idField)) {
       if (typeof id === 'number') {
-        throw new BadRequest("A single number is not a valid identifier for a composite primary key")
+        throw new BadRequest(
+          'A single number is not a valid identifier for a composite primary key',
+        )
       }
 
       const idValues: string[] = Array.isArray(id) ? id : id.split(this.idSeparator ?? ',')
       if (idValues.length !== idField.length) {
-        throw new BadRequest("The identifier must contain as many values as fields composing the primary key")
+        throw new BadRequest(
+          'The identifier must contain as many values as fields composing the primary key',
+        )
       }
 
       idField.forEach((field, index) => {
