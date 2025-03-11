@@ -24,6 +24,7 @@
                 :name="f.id"
                 class="mr-2"
                 :class="f.class"
+                :disabled="f.disabled ?? false"
                 fluid
               />
 
@@ -41,6 +42,7 @@
               :class="f.class"
               :id="f.id"
               :readonly="f.readonly ?? false"
+              :disabled="f.disabled ?? false"
               fluid
             />
             <PrimeInputText
@@ -50,6 +52,7 @@
               :id="f.id"
               :class="f.class"
               :readonly="f.readonly ?? false"
+              :disabled="f.disabled ?? false"
               fluid
             />
 
@@ -60,6 +63,7 @@
               :input-id="f.id"
               :class="f.class"
               :feedback="false"
+              :disabled="f.disabled ?? false"
               toggleMask
               fluid
             />
@@ -71,6 +75,7 @@
               :class="f.class"
               :input-id="f.id"
               :readonly="f.readonly ?? false"
+              :disabled="f.disabled ?? false"
               fluid
             />
 
@@ -85,6 +90,7 @@
               :type="f.component === FIELD_COMPONENT.INPUT_DATE ? 'date' : 'datetime-local'"
               :show-time="f.component === FIELD_COMPONENT.INPUT_DATETIME"
               :readonly="f.readonly ?? false"
+              :disabled="f.disabled ?? false"
               show-icon
               icon-display="input"
               append-to="body"
@@ -100,6 +106,7 @@
               :options="f.source.options"
               :show-clear="true"
               :placeholder="t('locokit.components.primeDropdown.placeholder')"
+              :disabled="f.disabled ?? false"
               class="mb-2 w-full"
               fluid
             >
@@ -133,6 +140,7 @@
               :suggestions="props.autocompleteSuggestions"
               :option-label="f.source.label"
               :force-selection="!(f.freeInput ?? true)"
+              :disabled="f.disabled ?? false"
               @complete="onComplete($event, f, states)"
               @value-change="(value) => onValueChange(value, f)"
               input-class="w-full border-r-0 hover:border-surface-500 "
@@ -151,6 +159,7 @@
               :rows="f.rows ?? 6"
               :cols="f.cols"
               :fluid="!f.cols"
+              :disabled="f.disabled ?? false"
             />
 
             <PrimeMessage

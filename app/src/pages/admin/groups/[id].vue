@@ -216,7 +216,6 @@ import ErrorHandler from '@/components/error-handler.vue'
 import { sdkClient } from '@/services/sdk'
 import { searchUsers } from '@/services/core/user'
 import { findPolicies } from '@/services/core/policy'
-import { findWorkspaces } from '@/services/core/workspace'
 import ROUTE_NAMES from '@/router/routes'
 
 interface LabelValuePair {
@@ -298,17 +297,9 @@ const fields = computed<LocoKitFormField[]>(() => {
     {
       id: 'workspace',
       label: t('locokit.pages.recordGroup.workspace'),
-      type: FIELD_TYPE.ID_UUID,
-      component: FIELD_COMPONENT.AUTOCOMPLETE,
-      freeInput: false,
-      source: {
-        table: 'lck_workspace',
-        value: 'id',
-        label: 'name',
-      },
-      validationRules: {
-        required: true,
-      },
+      type: FIELD_TYPE.STRING,
+      component: FIELD_COMPONENT.INPUT_TEXT,
+      disabled: true,
     },
     {
       id: 'policy',
@@ -348,10 +339,7 @@ const formInitialValues = computed<GenericFormInitialValues>(() => {
     id: group.value.id,
     name: group.value.name,
     documentation: group.value.documentation,
-    workspace: {
-      id: group.value.workspace.id,
-      name: group.value.workspace.name,
-    },
+    workspace: group.value.workspace.name,
     policy: {
       id: group.value.policy.id,
       name: group.value.policy.name,
@@ -589,22 +577,9 @@ async function onComplete(
     const params: Record<string, unknown> = {}
 
     switch (field.id) {
-      case 'workspace':
-        if (event.query) {
-          params.name = { $ilike: `%${event.query}%` }
-        }
-
-        const workspaces = await findWorkspaces({ params, sort: { name: 1 } }) as Paginated<WorkspaceResult>
-
-        suggestions.value = workspaces.data
-        break
-
       case 'policy':
-        if (!values.workspace) {
-          suggestions.value = []
-        }
-
-        params.workspaceId = values.workspace
+        //params.workspaceId = values.workspace
+        params.workspaceId = group.value.workspace.id
         if (event.query) {
           params.name = { $ilike: `%${event.query}%` }
         }
@@ -630,7 +605,6 @@ async function onSubmit(values: Record<string, unknown>) {
   try {
     await groupService.patch(group.value.id, {
       name: values.name,
-      workspaceId: values.workspace,
       policyId: values.policy,
       documentation: values.documentation,
     })

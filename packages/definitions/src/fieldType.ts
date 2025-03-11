@@ -292,6 +292,10 @@ type LocoKitFormFieldBase = {
    */
   component: LocoKitFieldComponentId
   /**
+   * Is the input disabled?
+   */
+  disabled?: boolean
+  /**
    * Validation rules to specify if a field's value is OK
    */
   validationRules?: {
