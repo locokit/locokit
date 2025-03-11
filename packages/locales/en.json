@@ -360,9 +360,9 @@
       "adminGroups": {
         "title": "@:locokit.pages.admin.groups",
         "addGroup": "Add a group",
-        "emptyResult": "No result found",
-        "search": "Type to search…",
-        "result": "Showing {elements} out of {total} groups.",
+        "search": "Search",
+        "emptyResult": "No result found.",
+        "emptyList": "No existing group.",
         "filters": {
           "name": "Name",
           "workspace": "Workspace"
