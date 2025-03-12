@@ -25,7 +25,7 @@
     </slot>
     <slot name="error" :error="currentError">
       <p>{{ t('locokit.error.basic') }}</p>
-      <p>{{ currentError }}</p>
+      <p v-if="$isDevEnv">{{ currentError }}</p>
     </slot>
   </div>
   <template v-else>

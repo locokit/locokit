@@ -21,6 +21,8 @@ import { i18n } from './plugins/i18n'
 async function boot() {
   const app = createApp(App)
 
+  app.config.globalProperties.$isDevEnv = import.meta.env.DEV
+
   app.use(i18n)
   app.use(createHead())
   app.use(createPinia())
