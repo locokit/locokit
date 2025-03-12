@@ -31,6 +31,20 @@ async function boot() {
     theme: {
       preset: definePreset(Aura, {
         semantic: TAILWIND_COLORS,
+        components: {
+          paginator: {
+            nav: {
+              button: {
+                width: '2.25rem',
+                height: '2.25rem',
+                selected: {
+                  background: '{primary.color}',
+                  color: '{surface.0}',
+                },
+              },
+            },
+          },
+        },
       }),
       options: {
         cssLayer: {
