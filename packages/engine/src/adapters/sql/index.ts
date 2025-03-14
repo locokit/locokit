@@ -32,7 +32,7 @@ import {
   FIELD_TYPE,
 } from '@locokit/definitions'
 import { EngineModel } from './model'
-import { FeatureCollection, Geometry } from 'geojson'
+import { Feature, FeatureCollection, Geometry } from 'geojson'
 import { createInspector } from './inspector'
 
 const adapterLogger = logger.child({ service: 'engine', name: 'sql-adapter' })
@@ -663,15 +663,26 @@ export class SQLAdapter implements GenericAdapter {
     return result
   }
 
-  async get<T>(tableName: string, id: string | number, params?: any): Promise<T> {
+  async get<T>(
+    tableName: string,
+    id: string | number,
+    params?: any,
+  ): Promise<T | Feature<Geometry, T>> {
     adapterLogger.debug(tableName, id, this.databaseObjectionModel)
-    const { $joinRelated, $select } = params?.query ?? {}
+    const { $joinRelated, $select, $output } = params?.query ?? {}
 
     const model = this.databaseObjectionModel[tableName]
 
     if (!model) throw new Error(`Table ${tableName} is unknown.`)
 
     const query = model.query(this.database)
+
+    if (this.connexion.type === 'pg') {
+      if (this.connexion.schema) {
+        adapterLogger.info('set search path for queries to %s', this.connexion.schema)
+        query.withSchema?.(this.connexion.schema)
+      }
+    }
 
     if ($joinRelated) {
       /**
@@ -726,7 +737,11 @@ export class SQLAdapter implements GenericAdapter {
       }
     }
 
-    if ($select) {
+    if ($output === 'geojson') {
+      if (this.connexion.type !== 'pg' && !model.hasGeomColumn)
+        throw new Error('output "geojson" can only be used on pg connexions.')
+      query.alias('agj').select(raw('ST_asGeoJSON(agj.*)::jsonb').as('data'))
+    } else if ($select) {
       const selectFields = Array.isArray($select) ? $select : [$select]
       /**
        * for each field, add the table as a prefix if not set
@@ -734,18 +749,28 @@ export class SQLAdapter implements GenericAdapter {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       query.select(selectFields)
     }
-    if (this.connexion.type === 'pg') {
-      if (this.connexion.schema) {
-        adapterLogger.info('set search path for queries to %s', this.connexion.schema)
-        query.withSchema?.(this.connexion.schema)
-      }
-    }
 
     const result = await query.findById(id)
+    if ($output === 'geojson') {
+      const feature = result.data
+      if (Array.isArray($joinRelated)) {
+        for (const key in result) {
+          if (key !== 'data') {
+            feature.properties[key] = result[key]
+          }
+        }
+      }
+      return feature as Feature<Geometry, T>
+    }
+
     return result as unknown as T
   }
 
-  async create<T extends TableRecord<T>>(tableName: string, data: Partial<T>): Promise<T> {
+  async create<T extends TableRecord<T>>(
+    tableName: string,
+    data: Partial<T>,
+    params?: any,
+  ): Promise<T | Feature<Geometry, T>> {
     const currentModel = this.databaseObjectionModel[tableName]
     adapterLogger.debug('create', tableName, data)
     adapterLogger.debug('create', currentModel)
@@ -770,17 +795,39 @@ export class SQLAdapter implements GenericAdapter {
       }
     }
     const result = await query
+    const idField = currentModel.idColumn
 
-    return result as unknown as T
+    /**
+     * If we have a composite key, we need to compute id accordingly
+     */
+    const id = Array.isArray(idField)
+      ? idField.reduce((acc: any[], f: string) => {
+          acc.push(result[f])
+          return acc
+        }, [])
+      : data[this.id] || result[this.id] || result
+
+    if (!id) {
+      return result as unknown as T
+    }
+
+    /**
+     * Do another GET before sending result to end user
+     */
+    return this.get<T>(tableName, id, params)
   }
 
-  async update<T>(tableName: string, id: string | number, record: Partial<T>): Promise<T> {
+  async update<T>(
+    tableName: string,
+    id: string | number,
+    record: Partial<T>,
+    params?: any,
+  ): Promise<T | Feature<Geometry, T>> {
+    const currentModel = this.databaseObjectionModel[tableName]
     adapterLogger.debug('update', tableName, id, record)
-    adapterLogger.debug('update', this.databaseObjectionModel[tableName])
-    const queryFind = this.databaseObjectionModel[tableName].query(this.database).findById(id)
-    const query = this.databaseObjectionModel[tableName]
-      .query(this.database)
-      .updateAndFetchById(id, record)
+    adapterLogger.debug('update', currentModel)
+    const queryFind = currentModel.query(this.database).findById(id)
+    const query = currentModel.query(this.database).updateAndFetchById(id, record)
 
     if (this.connexion.type === 'pg') {
       if (this.connexion.schema) {
@@ -794,10 +841,20 @@ export class SQLAdapter implements GenericAdapter {
 
     adapterLogger.debug(object)
 
-    return (await query) as unknown as T
+    const result = await query
+
+    /**
+     * Do another GET before sending result to end user
+     */
+    return this.get<T>(tableName, id, params)
   }
 
-  async patch<T>(tableName: string, id: string | number, record: Partial<T>): Promise<T> {
+  async patch<T>(
+    tableName: string,
+    id: string | number,
+    record: Partial<T>,
+    params?: any,
+  ): Promise<T | Feature<Geometry, T>> {
     adapterLogger.debug('patch', tableName, id, record)
     adapterLogger.debug('patch', this.databaseObjectionModel[tableName])
     const queryFind = this.databaseObjectionModel[tableName].query(this.database).findById(id)
@@ -817,7 +874,12 @@ export class SQLAdapter implements GenericAdapter {
 
     adapterLogger.debug(object)
 
-    return (await query) as unknown as T
+    await query
+
+    /**
+     * Do another GET before sending result to end user
+     */
+    return this.get<T>(tableName, id, params)
   }
 
   async delete<T>(tableName: string, id: string | number): Promise<T | null> {
