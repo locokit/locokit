@@ -1,31 +1,40 @@
 import { Type } from '@feathersjs/typebox'
-import { FIELD_TYPE } from '@locokit/definitions'
+import { FIELD_TYPE, Nullable } from '@locokit/definitions'
 import { TableFieldSchema } from '../table-field/table-field.schema'
 
 export function convertLocoKitFieldTypeToTypeboxSchema(locokitField: TableFieldSchema) {
+  const nullable = locokitField.settings?.nullable
+  const defaultType = Type.String()
+  let currentType = defaultType
   switch (locokitField.type) {
     case FIELD_TYPE.NATIVE:
     case FIELD_TYPE.STRING:
     case FIELD_TYPE.TEXT:
-      return Type.String()
+    //   return Type.String()
+      break
     case FIELD_TYPE.DATE:
-      return Type.String({
+      currentType = Type.String({
         format: 'date',
       })
+      break
     case FIELD_TYPE.DATETIME:
-      return Type.String({
+      currentType = Type.String({
         format: 'date-time',
       })
+      break
     case FIELD_TYPE.BOOLEAN:
-      return Type.Boolean()
+      currentType = Type.Boolean()
+      break
     case FIELD_TYPE.ID_NUMBER:
     case FIELD_TYPE.NUMBER:
     case FIELD_TYPE.FLOAT:
-      return Type.Number()
+      currentType = Type.Number()
+      break
 
     case FIELD_TYPE.UUID:
     case FIELD_TYPE.ID_UUID:
-      return Type.String({ format: 'uuid' })
+      currentType = Type.String({ format: 'uuid' })
+      break
 
     /**
      * Geometry fields
@@ -37,26 +46,32 @@ export function convertLocoKitFieldTypeToTypeboxSchema(locokitField: TableFieldS
     case FIELD_TYPE.GEOMETRY_MULTIPOINT:
     case FIELD_TYPE.GEOMETRY_MULTILINESTRING:
     case FIELD_TYPE.GEOMETRY_MULTIPOLYGON:
-      return Type.String()
+    //   return Type.String()
+      break
 
     /**
      * Array fields
      */
     case FIELD_TYPE.ARRAY_TEXT:
-      return Type.Array(Type.String())
+      currentType = Type.Array(Type.String())
+      break
     case FIELD_TYPE.ARRAY_UUID:
-      return Type.Array(Type.String({ format: 'uuid' }))
+      currentType = Type.Array(Type.String({ format: 'uuid' }))
+      break
 
     case FIELD_TYPE.ARRAY_DATE:
-      return Type.Array(
+      currentType = Type.Array(
         Type.String({
           format: 'date',
         }),
       )
+      break
     case FIELD_TYPE.ARRAY_BOOLEAN:
-      return Type.Array(Type.Boolean())
+      currentType = Type.Array(Type.Boolean())
+      break
     case FIELD_TYPE.ARRAY_NUMBER:
-      return Type.Array(Type.Number())
+      currentType = Type.Array(Type.Number())
+      break
 
     default:
       throw new Error(
@@ -68,4 +83,7 @@ export function convertLocoKitFieldTypeToTypeboxSchema(locokitField: TableFieldS
           locokitField.dbType,
       )
   }
+
+  return nullable ? Nullable(currentType) : currentType
+
 }
