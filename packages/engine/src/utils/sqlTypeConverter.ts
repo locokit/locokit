@@ -25,6 +25,7 @@ export function getJSONTypeFromSQLType(sqlType: DB_TYPE) {
     case 'timestamp with time zone':
     case 'timestamp without time zone':
     case 'character varying':
+    case 'character':
     case 'text':
     case 'varchar':
     case 'date':
@@ -33,8 +34,11 @@ export function getJSONTypeFromSQLType(sqlType: DB_TYPE) {
     case 'geometry':
     case 'geography':
     case 'point':
+    case 'multipoint':
     case 'polygon':
+    case 'multipolygon':
     case 'line':
+    case 'multiline':
       return 'string'
     default:
       if (process.env.NODE_ENV === 'production') return 'string'

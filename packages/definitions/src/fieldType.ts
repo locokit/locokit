@@ -167,6 +167,7 @@ export function convertDBTypeToFieldType(
         /**
          * String fields
          */
+        case 'character':
         case 'character varying':
           return FIELD_TYPE.STRING
         case 'text':
@@ -180,8 +181,16 @@ export function convertDBTypeToFieldType(
           return FIELD_TYPE.GEOMETRY
         case 'point':
           return FIELD_TYPE.GEOMETRY_POINT
+        case 'line':
+          return FIELD_TYPE.GEOMETRY_LINESTRING
         case 'polygon':
           return FIELD_TYPE.GEOMETRY_POLYGON
+        case 'multipoint':
+          return FIELD_TYPE.GEOMETRY_MULTIPOINT
+        case 'multiline':
+          return FIELD_TYPE.GEOMETRY_MULTILINESTRING
+        case 'multipolygon':
+          return FIELD_TYPE.GEOMETRY_MULTIPOLYGON
 
         /**
          * Other types
@@ -197,8 +206,10 @@ export function convertDBTypeToFieldType(
          * Array types
          */
         case '_text':
+        case 'text[]':
           return FIELD_TYPE.ARRAY_TEXT
         case '_uuid':
+        case 'uuid[]':
           return FIELD_TYPE.ARRAY_UUID
         case '_boolean':
           return FIELD_TYPE.ARRAY_BOOLEAN

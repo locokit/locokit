@@ -22,7 +22,7 @@ export const tableFieldSettings = Type.Object(
      */
     maxLength: Nullable(
       Type.Number({
-        maximum: 255,
+        // maximum: 255,
       }),
     ),
     /**
