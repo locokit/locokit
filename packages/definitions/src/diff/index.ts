@@ -65,7 +65,7 @@ export const diffItemFieldSettingsSchema = Type.Object(
     default: Nullable(Type.String({ default: null })),
     maxLength: Nullable(
       Type.Number({
-        maximum: 255,
+        // maximum: 255,
         default: null,
       }),
     ),

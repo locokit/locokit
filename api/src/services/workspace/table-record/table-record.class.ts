@@ -96,7 +96,7 @@ export class TableRecord<T = any, Data = Partial<T>, PatchData = Partial<Data>>
     if (Array.isArray(data)) throw new NotImplemented('Multi creation is not yet implemented.')
     const adapter = params.$$adapter as GenericAdapter
 
-    return await adapter.create<T>(params.$$lckTable, data)
+    return await adapter.create<T>(params.$$lckTable, data, params)
   }
 
   async update(id: Id, data: Data, params: EngineParams): Promise<T>
@@ -105,7 +105,7 @@ export class TableRecord<T = any, Data = Partial<T>, PatchData = Partial<Data>>
     if (!id) throw new NotImplemented('Multi update is not yet implemented')
     const adapter = params.$$adapter as GenericAdapter
 
-    return await adapter.update<T>(params.$$lckTable, id, data)
+    return await adapter.update<T>(params.$$lckTable, id, data, params)
   }
 
   async patch(id: Id, data: PatchData, params: EngineParams): Promise<T>
@@ -114,7 +114,7 @@ export class TableRecord<T = any, Data = Partial<T>, PatchData = Partial<Data>>
     if (!id) throw new NotImplemented('Multi patch is not yet implemented')
     const adapter = params.$$adapter as GenericAdapter
 
-    return await adapter.patch<T>(params.$$lckTable, id, data)
+    return await adapter.patch<T>(params.$$lckTable, id, data, params)
   }
 
   async remove(id: Id, params: EngineParams): Promise<T>

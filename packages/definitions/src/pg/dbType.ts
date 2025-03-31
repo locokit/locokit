@@ -61,6 +61,7 @@ export type pgDbTypes =
   | 'jsonb' //	Binary JSON
   | 'language_handler' //
   | 'line' //	geometric line
+  | 'multiline'
   | 'lseg' //	geometric line segment '(pt1,pt2)'
   | 'macaddr' //	XX:XX:XX:XX:XX:XX, MAC address
   | 'money' //	monetary amounts, $d,ddd.cc
@@ -75,7 +76,9 @@ export type pgDbTypes =
   | 'pg_lsn' //	PostgreSQL LSN datatype
   | 'pg_node_tree' //	string representing an internal node tree
   | 'point' //	geometric point '(x, y)'
+  | 'multipoint'
   | 'polygon' //	geometric polygon '(pt1,...)'
+  | 'multipolygon' //  geometric multipolygon
   | 'real' //	single-precision floating point number, 4-byte storage
   | 'record' //
   | 'refcursor' //	reference to cursor (portal name)

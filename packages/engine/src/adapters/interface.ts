@@ -1,7 +1,7 @@
 import { type Column, type Table as KnexInspectorTable, type ForeignKey } from '@directus/schema'
 import { Params } from '@feathersjs/feathers'
 import { DiffItem } from '@locokit/definitions'
-import { FeatureCollection, Geometry } from 'geojson'
+import { Feature, FeatureCollection, Geometry } from 'geojson'
 
 /**
  * Field propertys,
@@ -121,27 +121,33 @@ export type GenericAdapter = {
 
   query: <T extends TableRecord<T>>(
     tableName: string,
-    params?: Params & { query: Record<string, any> },
+    params?: Params & { query?: Record<string, any>; $output?: 'geojson' | 'json' },
   ) => Promise<PaginatedResult<T> | FeatureCollectionResult<T>>
 
   get: <T extends TableRecord<T>>(
     tableName: string,
     id: string | number,
-    params?: Params & { query: Record<string, any> },
-  ) => Promise<T>
+    params?: Params & { query: Record<string, any>; $output?: 'geojson' | 'json' },
+  ) => Promise<T | Feature<Geometry, T>>
 
-  create: <T extends TableRecord<T>>(tableName: string, record: Partial<T>) => Promise<T>
+  create: <T extends TableRecord<T>>(
+    tableName: string,
+    record: Partial<T>,
+    params?: Params & { $output?: 'geojson' | 'json' },
+  ) => Promise<T | Feature<Geometry, T>>
 
   patch: <T extends TableRecord<T>, PatchData extends Partial<T> = Partial<T>>(
     tableName: string,
     id: string | number,
     record: PatchData,
-  ) => Promise<T>
+    params?: Params & { $output?: 'geojson' | 'json' },
+  ) => Promise<T | Feature<Geometry, T>>
 
   update: <T extends TableRecord<T>, UpdateData extends Partial<T> = Partial<T>>(
     tableName: string,
     id: string | number,
     record: UpdateData,
+    params?: Params & { $output?: 'geojson' | 'json' },
   ) => Promise<T>
 
   delete: <T extends TableRecord<T>>(tableName: string, id: string | number) => Promise<T | null>
