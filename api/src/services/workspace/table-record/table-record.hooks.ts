@@ -165,7 +165,7 @@ export const tableRecordHooks = {
             Type.Object(tableSchema, {
               additionalProperties: true, // TODO: do we need to be more strict ?
               $id: context.params.$$id + 'Result',
-            })
+            }),
           )
           context.params.$$schema = tableQuerySchema
           context.params.$$schemaResult = tableResultSchema

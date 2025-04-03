@@ -906,7 +906,9 @@ export class ObjectionAdapter<
     params: ServiceParams = {} as ServiceParams,
   ): Promise<Result | Result[]> {
     if (id === null) {
-      throw new NotImplemented("Patching multiple records is not supported, the identifier is required.")
+      throw new NotImplemented(
+        'Patching multiple records is not supported, the identifier is required.',
+      )
     }
 
     const idQuery = this.computeIdQuery(id, params)
