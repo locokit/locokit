@@ -1,5 +1,5 @@
 import { Type, querySyntax, Static, getValidator } from '@feathersjs/typebox'
-import { USER_PROFILE } from '@locokit/definitions'
+import { GROUP_ROLE } from '@locokit/definitions'
 import { dataValidator, queryValidator } from '@/commons/validators'
 import { queryStringExtend } from '@/feathers-objection'
 
@@ -8,7 +8,7 @@ export const userGroupSchema = Type.Object(
   {
     userId: Type.String({ format: 'uuid' }),
     groupId: Type.String({ format: 'uuid' }),
-    role: Type.String({ format: 'user-profile', default: USER_PROFILE.MEMBER }),
+    role: Type.String({ format: 'group-role', default: GROUP_ROLE.MEMBER }),
     createdAt: Type.String({
       format: 'date-time',
       description: 'Creation date of the user-group',

@@ -1,5 +1,5 @@
 import { resolve, Resolver } from '@feathersjs/schema'
-import { USER_PROFILE } from '@locokit/definitions'
+import { GROUP_ROLE } from '@locokit/definitions'
 import type { HookContext } from '@/declarations'
 import { groupDispatchResolver } from '../group/group.resolver'
 import { userDispatchResolver } from '../../core/user/user.resolver'
@@ -10,7 +10,7 @@ export const userGroupDefaultResolver = resolve<UserGroupSchema, HookContext>({}
 // Resolver for the basic data model (e.g. creating new entries)
 export const userGroupCreateResolver = resolve<UserGroupSchema, HookContext>({
   async role(role) {
-    return role ?? USER_PROFILE.MEMBER
+    return role ?? GROUP_ROLE.MEMBER
   },
 })
 

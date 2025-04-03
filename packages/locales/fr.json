@@ -676,6 +676,11 @@
         "creator": "Créateur⋅rice",
         "member": "Membre"
       },
+      "groupRole": {
+        "admin": "Admin",
+        "owner": "Propriétaire",
+        "member": "Membre"
+      },
       "typeDatasource": {
         "local": "Local",
         "remote": "Serveur distant"

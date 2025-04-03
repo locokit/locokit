@@ -1,14 +1,14 @@
 import type { Knex } from 'knex'
-import { USER_PROFILE } from '@locokit/definitions'
+import { GROUP_ROLE } from '@locokit/definitions'
 
 export async function up(knex: Knex): Promise<void> {
   const doesColumnExist = await knex.schema.withSchema('core').hasColumn('lck_userGroup', 'role')
   if (!doesColumnExist) {
     await knex.schema.withSchema('core').alterTable('lck_userGroup', (table) => {
       table
-        .enum('role', [USER_PROFILE.MEMBER, USER_PROFILE.CREATOR, USER_PROFILE.ADMIN])
+        .enum('role', [GROUP_ROLE.MEMBER, GROUP_ROLE.OWNER, GROUP_ROLE.ADMIN])
         .notNullable()
-        .defaultTo(USER_PROFILE.MEMBER)
+        .defaultTo(GROUP_ROLE.MEMBER)
     })
   }
 }

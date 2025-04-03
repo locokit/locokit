@@ -676,6 +676,11 @@
         "creator": "Creator",
         "member": "Member"
       },
+      "groupRole": {
+        "admin": "Admin",
+        "owner": "Owner",
+        "member": "Member"
+      },
       "typeDatasource": {
         "local": "Local",
         "remote": "Remote"

@@ -200,8 +200,8 @@ import { GenericForm, type GenericFormInitialValues } from '@locokit/vue-compone
 import {
   FIELD_COMPONENT,
   FIELD_TYPE,
+  GROUP_ROLE,
   SERVICES,
-  USER_PROFILE,
   type LocoKitFormField,
   type LocoKitFormFieldAutocomplete,
   type LocoKitMessage,
@@ -261,7 +261,7 @@ const formMessage = ref<LocoKitMessage | null>(null)
 
 const userSuggestions = ref<UserResult[]>([])
 const selectedUser = ref<UserResult | string | null>(null)
-const selectedRole = ref<keyof typeof USER_PROFILE>(USER_PROFILE.MEMBER)
+const selectedRole = ref<keyof typeof GROUP_ROLE>(GROUP_ROLE.MEMBER)
 const memberRoles = ref<Record<string, string>>({})
 const membershipFormMessage = ref<LocoKitMessage | null>(null)
 const membershipPage = ref<number>(0)
@@ -269,9 +269,9 @@ const MEMBERS_PER_PAGE = 20
 
 const roles = computed<LabelValuePair[]>(() => {
   return [
-    { label: t('locokit.commons.userProfile.member'), value: USER_PROFILE.MEMBER },
-    { label: t('locokit.commons.userProfile.creator'), value: USER_PROFILE.CREATOR },
-    { label: t('locokit.commons.userProfile.admin'), value: USER_PROFILE.ADMIN },
+    { label: t('locokit.commons.groupRole.member'), value: GROUP_ROLE.MEMBER },
+    { label: t('locokit.commons.groupRole.owner'), value: GROUP_ROLE.OWNER },
+    { label: t('locokit.commons.groupRole.admin'), value: GROUP_ROLE.ADMIN },
   ]
 })
 
@@ -512,7 +512,7 @@ function onRemoveButtonClick(event: MouseEvent, user: UserResult) {
   })
 }
 
-async function onMemberRoleChange(newRole: keyof typeof USER_PROFILE, user: UserResult) {
+async function onMemberRoleChange(newRole: keyof typeof GROUP_ROLE, user: UserResult) {
   const member = groupMembers.value.data.find((item) => item.id === user.id)
 
   try {
