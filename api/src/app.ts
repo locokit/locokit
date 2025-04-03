@@ -25,6 +25,11 @@ import { db } from './db'
 import { services } from './services'
 import { channels } from './channels'
 
+/**
+ * Decode the identifier (if present in the context) which might contain
+ * encoded characters if it is a composite identifier (because transmitted
+ * as part of the URL).
+ */
 function decodeId(context: HookContext): void {
   if (context.id && typeof context.id === 'string') {
     context.id = decodeURIComponent(context.id)
