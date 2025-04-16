@@ -567,7 +567,7 @@ export class SQLAdapter implements GenericAdapter {
         $joinRelated.forEach((r) => {
           adapterLogger.debug('left join with fetch ', r)
 
-          query.withGraphFetched(r)
+          // query.withGraphFetched(r)
           query.leftJoinRelated(r)
 
           // we do the join only, without fetching the graph
