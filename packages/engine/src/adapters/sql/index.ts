@@ -512,6 +512,7 @@ export class SQLAdapter implements GenericAdapter {
       $limit = 20,
       $skip = 0,
       $joinRelated,
+      $joinEager,
       $output,
       $select,
       ...realQuery
@@ -558,62 +559,47 @@ export class SQLAdapter implements GenericAdapter {
       }
     }
 
+    /**
+     * Add relation to the query,
+     * is an objection expression
+     */
     if ($joinRelated) {
+      adapterLogger.debug('left join ', $joinRelated)
+
+      // query.withGraphFetched(r)
+      query.leftJoinRelated($joinRelated)
+
+      // we do the join only, without fetching the graph
+      totalQuery.leftJoinRelated($joinRelated)
+
       /**
-       * Add relation to the query,
-       * $joinRelated need to be an array
+       * Find if some $select rules
+       * apply to the current relation,
+       * and so apply it to the select of graphFetched
        */
-      if (Array.isArray($joinRelated)) {
-        $joinRelated.forEach((r) => {
-          adapterLogger.debug('left join with fetch ', r)
+      // adapterLogger.debug($select)
+      // if ($select) {
+      //   const allSubSelect: string[] = []
+      //   $select.forEach((currentSelect: string, index: number) => {
+      //     if (currentSelect.indexOf(r) === 0) {
+      //       adapterLogger.debug('$select for relation ', r, currentSelect)
+      //       allSubSelect.push(currentSelect)
+      //       $select.splice(index, 1)
+      //     }
+      //   })
+      //   if (allSubSelect.length > 0) {
+      //     query.modifyGraph(r, (builder) => {
+      //       builder.select(allSubSelect)
+      //     })
+      //   }
+      // }
+    }
 
-          // query.withGraphFetched(r)
-          query.leftJoinRelated(r)
+    if ($joinEager) {
+      adapterLogger.debug('left join for fetch', $joinEager)
 
-          // we do the join only, without fetching the graph
-          totalQuery.leftJoinRelated(r)
-
-          /**
-           * Find if some $select rules
-           * apply to the current relation,
-           * and so apply it to the select of graphFetched
-           */
-          adapterLogger.debug($select)
-          if ($select) {
-            const allSubSelect: string[] = []
-            $select.forEach((currentSelect: string, index: number) => {
-              if (currentSelect.indexOf(r) === 0) {
-                adapterLogger.debug('$select for relation ', r, currentSelect)
-                allSubSelect.push(currentSelect)
-                $select.splice(index, 1)
-              }
-            })
-            if (allSubSelect.length > 0) {
-              query.modifyGraph(r, (builder) => {
-                builder.select(allSubSelect)
-              })
-            }
-          }
-          /**
-           * Find if there is a realQuery key related to this relation
-           */
-          // const relationQuery = Object.keys(realQuery).filter(
-          //   (key) => key.indexOf(r) === 0
-          // )
-          // relationQuery.forEach((rq) => {
-          //   adapterLogger.debug('fetch joined modify graph', rq, r, {
-          //     [rq.substring(r.length + 1)]: realQuery[rq],
-          //   })
-          //   query.modifyGraph(r, (builder) =>
-          //     objectify(builder, {
-          //       [rq.substring(r.length + 1)]: realQuery[rq],
-          //     })
-          //   )
-          //   objectify(query, { rq: realQuery[rq] })
-          //   delete realQuery[rq]
-          // })
-        })
-      }
+      // we add it to the query, not the totalQuery as it's not here to filter result
+      query.withGraphFetched($joinEager)
     }
 
     if ($output === 'geojson') {

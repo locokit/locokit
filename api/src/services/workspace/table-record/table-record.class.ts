@@ -65,29 +65,14 @@ export class TableRecord<T = any, Data = Partial<T>, PatchData = Partial<Data>>
      * * return result
      */
     const adapter = params.$$adapter as GenericAdapter
-    return await adapter.query<T>(params.$$lckTable as string, {
-      ...params,
-      query: {
-        ...params.query,
-        $joinRelated: Array.isArray(params.query?.$joinRelated)
-          ? params.query?.$joinRelated
-          : [params.query?.$joinRelated],
-      },
-    })
+
+    return await adapter.query<T>(params.$$lckTable as string, params)
   }
 
   async get(id: Id, params: EngineParams): Promise<T>
   async get(id: Id, params: EngineParams): Promise<null | T> {
     const adapter = params.$$adapter as GenericAdapter
-    return await adapter.get(params.$$lckTable, id, {
-      ...params,
-      query: {
-        ...params.query,
-        $joinRelated: Array.isArray(params.query?.$joinRelated)
-          ? params.query?.$joinRelated
-          : [params.query?.$joinRelated],
-      },
-    })
+    return await adapter.get(params.$$lckTable, id, params)
   }
 
   async create(data: Data, params: EngineParams): Promise<T>
