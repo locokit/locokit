@@ -83,7 +83,25 @@ export async function initDatasource(connection: string) {
 
     table.datetime('begin')
     table.datetime('end')
+
+    table.datetime('created_at').defaultTo(knexConnection.fn.now())
+    table.datetime('updated_at').defaultTo(knexConnection.fn.now())
   })
+
+  await knexConnection.schema.withSchema(schemaName).raw(`
+    CREATE OR REPLACE FUNCTION set_updated_at()
+    RETURNS trigger
+      LANGUAGE plpgsql AS
+    $$BEGIN
+      NEW.updated_at := NOW();
+      RETURN NEW;
+    END;$$;
+
+    CREATE OR REPLACE TRIGGER t_au_session
+    BEFORE UPDATE ON "${schemaName}".session
+    FOR EACH ROW
+    EXECUTE FUNCTION set_updated_at();
+  `)
 }
 
 export function dropUnaccentExtension(connection: string) {

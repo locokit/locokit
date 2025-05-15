@@ -140,7 +140,12 @@ export class SQLAdapter implements GenericAdapter {
       const columnInfos = await inspector.columnInfo(tableName)
       tables[tableName].columns = columnInfos
       columnInfos.forEach((c: Column) => {
-        adapterLogger.info('[boot] inspecting table %s, column %s', tableName, c.name, c.data_type)
+        adapterLogger.info(
+          '[boot] inspecting table %s, column %s, type %s',
+          tableName,
+          c.name,
+          c.data_type,
+        )
 
         /**
          * is this column linked to a foreign ?
@@ -507,12 +512,12 @@ export class SQLAdapter implements GenericAdapter {
     tableName: string,
     params?: any,
   ): Promise<PaginatedResult<T> | FeatureCollectionResult<T>> {
-    adapterLogger.debug('queryTable %s', tableName)
+    adapterLogger.debug('queryTable %s %o', tableName, params?.query)
     const {
       $limit = 20,
       $skip = 0,
-      $joinRelated,
-      $joinEager,
+      $join,
+      $fetch,
       $output,
       $select,
       ...realQuery
@@ -563,14 +568,14 @@ export class SQLAdapter implements GenericAdapter {
      * Add relation to the query,
      * is an objection expression
      */
-    if ($joinRelated) {
-      adapterLogger.debug('left join ', $joinRelated)
+    if ($join) {
+      adapterLogger.debug('left join %o', { $join })
 
       // query.withGraphFetched(r)
-      query.leftJoinRelated($joinRelated)
+      query.leftJoinRelated($join)
 
       // we do the join only, without fetching the graph
-      totalQuery.leftJoinRelated($joinRelated)
+      totalQuery.leftJoinRelated($join)
 
       /**
        * Find if some $select rules
@@ -595,11 +600,14 @@ export class SQLAdapter implements GenericAdapter {
       // }
     }
 
-    if ($joinEager) {
-      adapterLogger.debug('left join for fetch', $joinEager)
+    if ($fetch) {
+      adapterLogger.debug('left join for fetch %o', { $fetch })
 
-      // we add it to the query, not the totalQuery as it's not here to filter result
-      query.withGraphFetched($joinEager)
+      // we add it to the query
+      query.withGraphJoined($fetch)
+
+      // we do the left join only for total query, for filtering purpose
+      totalQuery.leftJoinRelated($fetch)
     }
 
     if ($output === 'geojson') {
@@ -615,7 +623,7 @@ export class SQLAdapter implements GenericAdapter {
       query.select(selectFields)
     }
 
-    adapterLogger.debug('real query', realQuery)
+    adapterLogger.debug('real query', { realQuery })
     /**
      * Remove id filter to add tableName in front of to avoid incoherence
      * TODO: need to be recursive
@@ -654,8 +662,8 @@ export class SQLAdapter implements GenericAdapter {
     id: string | number,
     params?: any,
   ): Promise<T | Feature<Geometry, T>> {
-    adapterLogger.debug(tableName, id, this.databaseObjectionModel)
-    const { $joinRelated, $select, $output } = params?.query ?? {}
+    adapterLogger.debug('get table %s, id %s', tableName, id, this.databaseObjectionModel)
+    const { $join, $select, $output } = params?.query ?? {}
 
     const model = this.databaseObjectionModel[tableName]
 
@@ -669,14 +677,13 @@ export class SQLAdapter implements GenericAdapter {
         query.withSchema?.(this.connexion.schema)
       }
     }
-
-    if ($joinRelated) {
+    if ($join) {
       /**
        * Add relation to the query,
-       * $joinRelated need to be an array
+       * $join need to be an array
        */
-      if (Array.isArray($joinRelated)) {
-        $joinRelated.forEach((r) => {
+      if (Array.isArray($join)) {
+        $join.forEach((r) => {
           query.withGraphFetched(r)
 
           query.joinRelated(r)
@@ -739,7 +746,7 @@ export class SQLAdapter implements GenericAdapter {
     const result = await query.findById(id)
     if ($output === 'geojson') {
       const feature = result.data
-      if (Array.isArray($joinRelated)) {
+      if (Array.isArray($join)) {
         for (const key in result) {
           if (key !== 'data') {
             feature.properties[key] = result[key]
@@ -758,9 +765,7 @@ export class SQLAdapter implements GenericAdapter {
     params?: any,
   ): Promise<T | Feature<Geometry, T>> {
     const currentModel = this.databaseObjectionModel[tableName]
-    adapterLogger.debug('create', tableName, data)
-    adapterLogger.debug('create', currentModel)
-    adapterLogger.debug(currentModel)
+    adapterLogger.debug('create %s', tableName, data)
 
     /**
      * Check if any data inserted is a geom one
@@ -810,8 +815,7 @@ export class SQLAdapter implements GenericAdapter {
     params?: any,
   ): Promise<T | Feature<Geometry, T>> {
     const currentModel = this.databaseObjectionModel[tableName]
-    adapterLogger.debug('update', tableName, id, record)
-    adapterLogger.debug('update', currentModel)
+    adapterLogger.debug('update %s, id %s', tableName, id, record)
     const queryFind = currentModel.query(this.database).findById(id)
     const query = currentModel.query(this.database).updateAndFetchById(id, record)
 
@@ -823,11 +827,13 @@ export class SQLAdapter implements GenericAdapter {
       }
     }
 
-    const object = await queryFind // this will raise an error if not found
+    // check the object really exist OR raise an error if not found
+    const object = await queryFind
 
     adapterLogger.debug(object)
 
-    const result = await query
+    // Do the update
+    await query
 
     /**
      * Do another GET before sending result to end user
@@ -841,7 +847,7 @@ export class SQLAdapter implements GenericAdapter {
     record: Partial<T>,
     params?: any,
   ): Promise<T | Feature<Geometry, T>> {
-    adapterLogger.debug('patch', tableName, id, record)
+    adapterLogger.debug('patch %s, id %s', tableName, id, record)
     adapterLogger.debug('patch', this.databaseObjectionModel[tableName])
     const queryFind = this.databaseObjectionModel[tableName].query(this.database).findById(id)
     const query = this.databaseObjectionModel[tableName]
@@ -869,7 +875,7 @@ export class SQLAdapter implements GenericAdapter {
   }
 
   async delete<T>(tableName: string, id: string | number): Promise<T | null> {
-    adapterLogger.debug('delete', tableName, id)
+    adapterLogger.debug('delete %s, id %s', tableName, id)
     adapterLogger.debug('delete', this.databaseObjectionModel[tableName])
     const queryFind = this.databaseObjectionModel[tableName].query(this.database).findById(id)
     const query = this.databaseObjectionModel[tableName].query(this.database).deleteById(id)

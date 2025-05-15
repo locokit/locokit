@@ -119,7 +119,7 @@ export function playDQLSuite(
     expect.assertions(6)
     const sessions = await adapter.query<Session>('session', {
       query: {
-        $joinRelated: ['event', 'person', 'room'],
+        $fetch: '[event,person,room]',
       },
     })
     expect(sessions).toBeDefined()
@@ -137,7 +137,7 @@ export function playDQLSuite(
     await expect(
       adapter.query<Session>('session', {
         query: {
-          $joinRelated: ['relation-does-not-exist'],
+          $join: 'relation-does-not-exist',
         },
       }),
     ).rejects.toThrow()
@@ -145,7 +145,7 @@ export function playDQLSuite(
   it('can retrieve records through relations with primary keys generic `id`', async () => {
     const events = await adapter.query<Event>('event', {
       query: {
-        $joinRelated: ['company'],
+        $fetch: 'company',
       },
     })
     expect(events.total).toBe(1)
@@ -164,7 +164,7 @@ export function playDQLSuite(
     expect.assertions(4)
     const participations = await adapter.query<Event>('participate', {
       query: {
-        $joinRelated: ['event', 'person'],
+        $fetch: { event: true, person: true }, // other notation instead of a string array
       },
     })
     expect(participations.total).toBe(3)
@@ -249,7 +249,113 @@ export function playDQLSuite(
       /function unaccent\(character varying\) does not exist/,
     )
   })
-  it.todo(
-    'can retrieve multiple relations to the same foreign table, with different relation names',
-  )
+  it('can retrieve data filtered through relations to the same foreign table, with different relation names', async () => {
+    expect.assertions(5)
+    const participations = await adapter.query<Participate>('participate', {
+      query: {
+        $join: '[person as p1, person as p2]', // notation with alias
+        $fetch: '[person,event]',
+        'p1.name': {
+          $ne: '',
+        },
+        'p2.name': {
+          $ne: '',
+        },
+      },
+    })
+    expect(participations.total).toBe(2)
+    expect(participations.data[0].event.id).toBe(currentData.event1.id)
+    expect([currentData.person1.id, currentData.person3.id]).toContain(
+      participations.data[0].person.id,
+    )
+    expect(participations.data[1].event.id).toBe(currentData.event1.id)
+    expect([currentData.person1.id, currentData.person3.id]).toContain(
+      participations.data[1].person.id,
+    )
+  })
+  // use the GET query after a POST / PUT / UPDATE
+  it('can retrieve data after trigger execution', async () => {
+    expect.assertions(3)
+
+    // create a trigger to modify the content inserted, AFTER insertion
+    // check the result sent by checking updatedAt
+    const session = await adapter.get('session', currentData.session1.s_uuid)
+    expect(session).toBeDefined()
+    expect(session.updated_at).toBeDefined()
+    const updatedSession = await adapter.patch('session', currentData.session1.s_uuid, {
+      name: 'new session name',
+    })
+    expect(session.updated_at.valueOf()).toBeLessThan(updatedSession.updated_at.valueOf())
+  })
+
+  // $join
+  it('can retrieve data filtered with $join operator without retrieving related data', async () => {
+    expect.assertions(4)
+
+    // create a trigger to modify the content inserted, AFTER insertion
+    // check the result sent by checking updatedAt
+    const session = await adapter.query('session', {
+      query: {
+        $join: 'event',
+        'event.name': 'event1',
+      },
+    })
+    expect(session).toBeDefined()
+    expect(session.total).toBe(3)
+    expect(session.data[0].event_uuid).toBe(currentData.event1.id)
+    expect(session.data[0].event).toBeUndefined()
+  })
+
+  // $fetch
+  it('can retrieve data filtered with $fetch operator with related data', async () => {
+    expect.assertions(5)
+
+    // create a trigger to modify the content inserted, AFTER insertion
+    // check the result sent by checking updatedAt
+    const session = await adapter.query('session', {
+      query: {
+        $fetch: 'event',
+        'event.name': 'event1',
+      },
+    })
+    expect(session).toBeDefined()
+    expect(session.total).toBe(3)
+    expect(session.data[0].event_uuid).toBe(currentData.event1.id)
+    expect(session.data[0].event).toBeDefined()
+    expect(session.data[0].event.name).toBe('event1')
+  })
+
+  // $join & $fetch combined
+  it('can retrieve data filtered through relations and retrieve some related data', async () => {
+    expect.assertions(10)
+
+    // create a trigger to modify the content inserted, AFTER insertion
+    // check the result sent by checking updatedAt
+    const participate = await adapter.query('participate', {
+      query: {
+        $fetch: 'event',
+        $join: 'person',
+        'person.name': {
+          $in: `["Jack Black", "Charles Darwin"]`,
+        },
+      },
+    })
+    console.log(participate)
+    expect(participate).toBeDefined()
+    expect(participate.total).toBe(2)
+
+    expect(participate.data[0].event_id).toBe(currentData.event1.id)
+    expect(participate.data[0].event).toBeDefined()
+    expect(participate.data[0].event.name).toBe('event1')
+    expect([currentData.person1.id, currentData.person3.id]).toContain(
+      participate.data[0].person_id,
+    )
+
+    expect(participate.data[1].event_id).toBe(currentData.event1.id)
+    expect(participate.data[1].event).toBeDefined()
+    expect(participate.data[1].event.name).toBe('event1')
+    expect([currentData.person1.id, currentData.person3.id]).toContain(
+      participate.data[1].person_id,
+    )
+  })
 }
