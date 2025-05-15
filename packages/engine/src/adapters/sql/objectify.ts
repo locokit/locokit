@@ -51,7 +51,18 @@ export function objectify<T extends Model>(
       //   return currentQuery
       // }
 
-      return (currentQuery as any)[method](column, value)
+      /**
+       * Try to parse in JSON the value to use
+       * This is useful for example when using the $in operator
+       * and passing a JSON stringified array
+       * Example: { $in: '[1,2,3]' } will be parsed to [1,2,3]
+       */
+      let valueToUse = value
+      try {
+        valueToUse = JSON.parse(value as string)
+      } catch {}
+
+      return (currentQuery as any)[method](column, valueToUse)
     }
 
     const operator = OPERATORS[key as keyof typeof OPERATORS] || '='

@@ -10,7 +10,7 @@ export function convertLocoKitFieldTypeToTypeboxSchema(locokitField: TableFieldS
     case FIELD_TYPE.NATIVE:
     case FIELD_TYPE.STRING:
     case FIELD_TYPE.TEXT:
-    //   return Type.String()
+      //   return Type.String()
       break
     case FIELD_TYPE.DATE:
       currentType = Type.String({
@@ -46,7 +46,7 @@ export function convertLocoKitFieldTypeToTypeboxSchema(locokitField: TableFieldS
     case FIELD_TYPE.GEOMETRY_MULTIPOINT:
     case FIELD_TYPE.GEOMETRY_MULTILINESTRING:
     case FIELD_TYPE.GEOMETRY_MULTIPOLYGON:
-    //   return Type.String()
+      //   return Type.String()
       break
 
     /**
@@ -85,5 +85,4 @@ export function convertLocoKitFieldTypeToTypeboxSchema(locokitField: TableFieldS
   }
 
   return nullable ? Nullable(currentType) : currentType
-
 }
