@@ -20,6 +20,12 @@ export const USER_PROFILE = Object.freeze({
   ADMIN: 'ADMIN',
 })
 
+export const GROUP_ROLE = Object.freeze({
+  MEMBER: 'MEMBER',
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+})
+
 export type LocoKitUser = {
   id: string
   username: string

@@ -12,19 +12,3 @@ export async function findUserGroups(params: Record<string, string> = {}) {
     },
   })
 }
-
-export async function updateUserGroup(data: UserGroupData) {
-  return await sdkClient.service(SERVICES.CORE_USERGROUP).create(data)
-}
-
-export async function removeUserGroup({
-  userId,
-  groupId,
-}: {
-  userId: string
-  groupId: string
-}) {
-  return await sdkClient
-    .service(SERVICES.CORE_USERGROUP)
-    .remove(`${userId},${groupId}`)
-}

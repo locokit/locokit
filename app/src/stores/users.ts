@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { Paginated } from '@feathersjs/feathers'
 import type { UserResult } from '@locokit/sdk'
-import { findUsers, patchUser } from '@/services/core/user'
+import { findUsers } from '@/services/core/user'
 
 export const useStoreUsers = defineStore('users', () => {
   const loading = ref(false)
@@ -27,19 +27,19 @@ export const useStoreUsers = defineStore('users', () => {
     loading.value = false
   }
 
-  async function toggleBlockAccountUser(id: string, blocked: boolean) {
-    loading.value = true
-    error.value = null
-    const res = await patchUser(id, {
-      blocked: !blocked,
-    })
-    if (res instanceof Error) {
-      error.value = res
-    } else {
-      users.value = res
-    }
-    loading.value = false
-  }
+  // async function toggleBlockAccountUser(id: string, blocked: boolean) {
+  //   loading.value = true
+  //   error.value = null
+  //   const res = await patchUser(id, {
+  //     blocked: !blocked,
+  //   })
+  //   if (res instanceof Error) {
+  //     error.value = res
+  //   } else {
+  //     users.value = res
+  //   }
+  //   loading.value = false
+  // }
 
   async function squashUsers(data: {
     id: string
@@ -67,7 +67,7 @@ export const useStoreUsers = defineStore('users', () => {
     error,
     users,
     fetchUsers,
-    toggleBlockAccountUser,
+    // toggleBlockAccountUser,
     squashUsers,
   }
 })

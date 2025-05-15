@@ -30,7 +30,7 @@ export class GroupModel extends Model {
           to: 'lck_policy.id',
         },
       },
-      userGroups: {
+      memberships: {
         relation: Model.HasManyRelation,
         modelClass: UserGroupModel,
         join: {

@@ -63,3 +63,4 @@ export { LayoutBackground }
  * Others
  */
 export * from './helpers/filter'
+export type { GenericFormInitialValues } from './components/commons/generic-form/generic-form.vue'

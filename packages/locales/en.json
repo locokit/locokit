@@ -360,9 +360,9 @@
       "adminGroups": {
         "title": "@:locokit.pages.admin.groups",
         "addGroup": "Add a group",
-        "emptyResult": "No result found",
-        "search": "Type to search…",
-        "result": "Showing {elements} out of {total} groups.",
+        "search": "Search",
+        "emptyResult": "No result found.",
+        "emptyList": "No existing group.",
         "filters": {
           "name": "Name",
           "workspace": "Workspace"
@@ -388,24 +388,32 @@
         "emptyResult": "No results found"
       },
       "recordGroup": {
-        "title": "Group record",
+        "noGroupFound": "Group not found.",
+        "title": "Group \"{name}\"",
         "submit": "Update",
         "id": "ID",
         "name": "Name",
         "workspace": "Workspace",
         "policy": "Access control policy",
         "documentation": "Notes",
-        "search": "Type to search…",
-        "emptyResult": "No results found",
         "users": "Users",
-        "usersAvailable": "Available users",
-        "userMembers": "Members",
-        "searchPlaceholder": "Search a user",
-        "explanationAddingUsers": "To assign one or more users to this group, select the users in the left column and click on the button with the right arrow.",
-        "explanationRemovingUsers": "It also possible to remove one or more users for this group by selecting users in the right column.",
-        "noUserFound": "No user found",
-        "noGroupFound": "No group found",
-        "result": "Showing of maximum {elements} users."
+        "explanationAddingUsers": "Use the form below to search for a user and add it to the group.",
+        "explanationRemovingUsers": "Click on the removal button at the right of a member row to remove it from the group.",
+        "userSearchPlaceholder": "Start typing to search for a user",
+        "noUserFound": "No user belongs to this group.",
+        "memberColumnAccount": "Account",
+        "memberColumnRole": "Role",
+        "memberColumnCreatedAt": "Created at",
+        "memberAdd": "Add",
+        "memberAddAria": "Add the selected user to the group",
+        "memberAdded": "User {username} has been added into the group.",
+        "memberRemovalConfirm": "Remove {username} from the group?",
+        "memberRemovalReject": "Cancel",
+        "memberRemovalAccept": "Confirm",
+        "memberRemoved": "User {username} has been removed from the group.",
+        "memberRoleChanged": "User {username} has now {role} role.",
+        "alreadyMemberError": "User {username} is already a group member.",
+        "memberLinkTitle": "Access {username}'s user profile"
       },
       "workspace": {
         "title": "Workspace",
@@ -666,6 +674,11 @@
       "userProfile": {
         "admin": "Admin",
         "creator": "Creator",
+        "member": "Member"
+      },
+      "groupRole": {
+        "admin": "Admin",
+        "owner": "Owner",
         "member": "Member"
       },
       "typeDatasource": {

@@ -1,15 +1,25 @@
 import { resolve, Resolver } from '@feathersjs/schema'
-import { getValidator } from '@feathersjs/typebox'
+import { GROUP_ROLE } from '@locokit/definitions'
 import type { HookContext } from '@/declarations'
-import { queryValidator } from '@/commons/validators'
 import { groupDispatchResolver } from '../group/group.resolver'
 import { userDispatchResolver } from '../../core/user/user.resolver'
-import { UserGroupQuery, userGroupQuerySchema, UserGroupSchema } from './user-group.schema'
-
-// Resolver for the basic data model (e.g. creating new entries)
-export const userGroupCreateResolver = resolve<UserGroupSchema, HookContext>({})
+import { UserGroupQuery, UserGroupSchema } from './user-group.schema'
 
 export const userGroupDefaultResolver = resolve<UserGroupSchema, HookContext>({})
+
+// Resolver for the basic data model (e.g. creating new entries)
+export const userGroupCreateResolver = resolve<UserGroupSchema, HookContext>({
+  async role(role) {
+    return role ?? GROUP_ROLE.MEMBER
+  },
+})
+
+// Resolver for the basic data model (e.g. creating new entries)
+export const userGroupPatchResolver = resolve<UserGroupSchema, HookContext>({
+  async updatedAt() {
+    return new Date().toISOString()
+  },
+})
 
 export const userGroupDispatchResolver: Resolver<UserGroupSchema, HookContext> = resolve<
   UserGroupSchema,
@@ -32,17 +42,14 @@ export const userGroupDispatchResolver: Resolver<UserGroupSchema, HookContext> =
 // Resolver for query properties
 export const userGroupQueryResolver = resolve<UserGroupQuery, HookContext>({})
 
-// @ts-expect-error type instanciation too deep ts(2589)
-export const userGroupQueryValidator = getValidator(userGroupQuerySchema, queryValidator)
-
 // Export all resolvers in a format that can be used with the resolveAll hook
 export const userGroupResolvers = {
   result: userGroupDefaultResolver,
   dispatch: userGroupDispatchResolver,
   data: {
     create: userGroupCreateResolver,
-    update: userGroupDefaultResolver,
-    patch: userGroupDefaultResolver,
+    update: userGroupPatchResolver,
+    patch: userGroupPatchResolver,
   },
   query: userGroupQueryResolver,
 }

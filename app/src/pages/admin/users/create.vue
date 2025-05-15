@@ -1,6 +1,6 @@
 <template>
-  <div class="max-w-lg lg:h-full mx-auto px-4 lg:px-0 flex flex-col">
-    <h1 class="mb-4 text-2xl text-primary font-bold"><!-- my-8 -->
+  <div class="max-w-lg mx-auto">
+    <h1 class="mb-4 text-2xl text-primary font-bold">
       {{ $t('locokit.pages.createUser.title') }}
     </h1>
     <generic-form

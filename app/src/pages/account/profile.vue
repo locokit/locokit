@@ -1,15 +1,14 @@
 <template>
   <LayoutHeader>
-    <div class="max-w-6xl mx-auto mt-8 pb-4 px-4 lg:px-0">
-      <div class="flex items-start gap-14">
-        <NavVertical
-          :title="t('locokit.pages.profile.title')"
-          :links="navLinks"
-          class="w-4/12"
-        />
-        <div class="w-full">
-          <RouterView/>
-        </div>
+    <div class="flex items-stretch min-h-full">
+      <NavVertical
+        :links="navLinks"
+        :title="t('locokit.pages.profile.title')"
+        class="w-80 border-e border-slate-300"
+        title-class="p-4 text-lg font-bold border-b border-slate-300"
+      />
+      <div class="w-full">
+        <RouterView/>
       </div>
     </div>
   </LayoutHeader>

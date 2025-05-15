@@ -229,4 +229,6 @@ describe('[core] user service', () => {
   it.todo('forbid to filter through this endpoint if external call without being admin')
 
   it.todo('forbid the filtering of users from this endpoint without being an admin user')
+
+  it.todo('return users that are not in a group') // use of notInGroup modifier
 })

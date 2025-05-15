@@ -9,7 +9,7 @@ import {
 
 import { _ } from '@feathersjs/commons'
 import { AdapterBase, PaginationOptions, filterQuery } from '@feathersjs/adapter-commons'
-import { NotFound } from '@feathersjs/errors'
+import { BadRequest, NotFound, NotImplemented } from '@feathersjs/errors'
 
 import { errorHandler } from './error-handler'
 import { ObjectionAdapterOptions, ObjectionAdapterParams } from './declarations'
@@ -128,6 +128,13 @@ export class ObjectionAdapter<
         $joinRelated: (value: any) => value,
         $joinEager: (value: any) => value,
         $eager: (value: any) => value,
+        $modify: (value: any) => {
+          if (!value) return value
+          const json = JSON.parse(value)
+          if (Array.isArray(json)) return json
+
+          throw new Error('$modify must be an array.')
+        },
       },
       operators: [...(options.operators ?? []), '$like', '$notlike', '$ilike', '$and', '$or'],
     })
@@ -538,10 +545,10 @@ export class ObjectionAdapter<
       delete filters.$mergeEager
     }
 
-    // if (filters?.$modify) {
-    //   this.modifyQuery(q, filters.$modify)
-    //   delete filters.$modify
-    // }
+    if (filters?.$modify) {
+      builder.modify(...filters.$modify)
+      delete filters.$modify
+    }
 
     if (joinRelated) {
       const groupByColumns = this.getGroupByColumns(builder)
@@ -677,10 +684,10 @@ export class ObjectionAdapter<
       delete filters.$mergeEager
     }
 
-    // if (filters?.$modify) {
-    //   this.modifyQuery(q, filters.$modify)
-    //   delete filters.$modify
-    // }
+    if (filters?.$modify) {
+      builder.modify(...filters.$modify)
+      delete filters.$modify
+    }
 
     // apply eager filters if specified
     if (this.eagerFilters) {
@@ -827,38 +834,17 @@ export class ObjectionAdapter<
   }
 
   async _findOrGet(id: NullableId, params: ServiceParams = {} as ServiceParams) {
-    const { name, id: idField } = this.getOptions(params)
+    const { id: idField } = this.getOptions(params)
     objectionLogger.debug('_findOrGet for id: %s, with idField: %s', id, idField)
 
-    /**
-     * Compute ids query for comoposable keys
-     */
-    const queryId: Record<string, any> = {}
-    if (Array.isArray(idField)) {
-      /**
-       * if id is set, and is is not an array, maybe this is in a comma separated values
-       */
-      let idValues: any[] | null = null
-      if (Array.isArray(id)) {
-        idValues = id as any[]
-      } else if (id) {
-        idValues = (id as string).split(',')
-      }
-      if (idValues) {
-        idField.forEach((f, i) => {
-          queryId[f] = (idValues as any[])[i]
-        })
-      }
-    } else if (id !== null) {
-      queryId[`${name}.${idField as string}`] = id
-    }
+    const idQuery = id ? this.computeIdQuery(id, params) : {}
 
     const findParams = {
       ...params,
       paginate: false,
       query: {
         ...params?.query,
-        ...queryId,
+        ...idQuery,
       },
     }
 
@@ -916,40 +902,23 @@ export class ObjectionAdapter<
   async _patch(id: NullableId, data: PatchData, _params?: ServiceParams): Promise<Result | Result[]>
   async _patch(
     id: NullableId,
-    raw: PatchData,
+    data: PatchData,
     params: ServiceParams = {} as ServiceParams,
   ): Promise<Result | Result[]> {
-    const data = _.omit(raw, this.id)
-    const results = await this._findOrGet(id, {
-      ...params,
-      query: {
-        ...params?.query,
-        $select: [`${this.table}.${this.id}`],
-      },
-    })
-    const idList = results.map((current: any) => current[this.id])
-    const updateParams = {
-      ...params,
-      query: {
-        [`${this.table}.${this.id}`]: { $in: idList },
-        ...(params?.query?.$select ? { $select: params?.query?.$select } : {}),
-      },
+    if (id === null) {
+      throw new NotImplemented(
+        'Patching multiple records is not supported, the identifier is required.',
+      )
     }
+
+    const idQuery = this.computeIdQuery(id, params)
+    const updateParams = { ...params, query: idQuery }
+    const updateData = _.omit(data, this.id)
+
     const builder = this.createQuery(updateParams)
+    await builder.patch(updateData)
 
-    await builder.update(data)
-
-    const items = await this._findOrGet(null, updateParams)
-
-    if (id !== null) {
-      if (items.length === 1) {
-        return items[0]
-      } else {
-        throw new NotFound(`No record found for id '${id}'`)
-      }
-    }
-
-    return items
+    return await this._get(id, updateParams)
   }
 
   async _update(id: Id, _data: Data, params: ServiceParams = {} as ServiceParams): Promise<Result> {
@@ -1010,5 +979,33 @@ export class ObjectionAdapter<
     }
 
     return items
+  }
+
+  private computeIdQuery(id: Id, params: ServiceParams = {} as ServiceParams): Record<string, any> {
+    const { name, id: idField } = this.getOptions(params)
+    const query: Record<string, any> = {}
+
+    if (Array.isArray(idField)) {
+      if (typeof id === 'number') {
+        throw new BadRequest(
+          'A single number is not a valid identifier for a composite primary key',
+        )
+      }
+
+      const idValues: string[] = Array.isArray(id) ? id : id.split(this.idSeparator ?? ',')
+      if (idValues.length !== idField.length) {
+        throw new BadRequest(
+          'The identifier must contain as many values as fields composing the primary key',
+        )
+      }
+
+      idField.forEach((field, index) => {
+        query[`${name}.${field}`] = idValues[index]
+      })
+    } else {
+      query[`${name}.${idField}`] = id
+    }
+
+    return query
   }
 }

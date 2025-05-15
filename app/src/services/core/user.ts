@@ -1,32 +1,11 @@
 import type { Paginated } from '@feathersjs/feathers'
 import { SERVICES } from '@locokit/definitions'
-import type { UserData, UserGroupResult } from '@locokit/sdk'
+import type { UserData } from '@locokit/sdk'
 import type { Filter } from '@locokit/vue-components'
 import { getCurrentFilters } from '@/helpers/filter'
 import { sdkClient } from '../sdk'
-import { findUserGroups } from './usergroup'
 
 const ITEMS_PER_PAGE = 10
-
-export async function getUser(id: string) {
-  try {
-    return await sdkClient.service(SERVICES.CORE_USER).get(id)
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err)
-    return err as Error
-  }
-}
-
-export async function patchUser(id: string, data: Partial<UserData> = {}) {
-  try {
-    return await sdkClient.service(SERVICES.CORE_USER).patch(id, data)
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err)
-    return err as Error
-  }
-}
 
 export async function findUsers(
   {
@@ -52,24 +31,18 @@ export async function findUsers(
     },
   },
 ) {
-  try {
-    return await sdkClient.service(SERVICES.CORE_USER).find({
-      query: {
-        $limit: limit,
-        $skip: pageIndex * limit,
-        ...params,
-        // $sort: sort,
-      },
-    })
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err)
-    return err as Error
-  }
+  return await sdkClient.service(SERVICES.CORE_USER).find({
+    query: {
+      $limit: limit,
+      $skip: pageIndex * limit,
+      // $sort: sort,
+      ...params,
+    },
+  })
 }
 
 export async function searchUsers({
-  query,
+  search,
   filters,
   params = {},
   pageIndex = 0,
@@ -78,7 +51,7 @@ export async function searchUsers({
     createdAt: -1,
   },
 }: {
-  query?: string | null
+  search?: string | null
   filters?: Filter[] | null
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   params?: Record<string, any>
@@ -90,45 +63,24 @@ export async function searchUsers({
   let parameters: Record<string, any> = {
     $limit: limit,
     $skip: pageIndex * limit,
-    // $sort: sort,
+    $sort: sort,
     ...params,
   }
-  if (filters && query) {
-    parameters = {
-      ...parameters,
-      username: {
-        $ilike: `%${query}%`,
-      },
-      ...getCurrentFilters(filters),
-    }
-  } else if (query) {
-    parameters = {
-      ...parameters,
-      username: {
-        $ilike: `%${query}%`,
-      },
-    }
-  } else if (filters) {
+
+  if (search) {
+    parameters.$or = [
+      { username: { $ilike: `%${search}%` } },
+    ]
+  }
+
+  if (filters) {
     parameters = {
       ...parameters,
       ...getCurrentFilters(filters),
     }
   }
+
   return await sdkClient.service(SERVICES.CORE_USER).find({
     query: parameters,
   })
-}
-
-export async function findMembersFomGroup(groupId: string) {
-  const userGroups: Paginated<UserGroupResult> = await findUserGroups({ groupId })
-  if (userGroups && userGroups.total > 0) {
-    const userIds = userGroups.data.reduce((acc: string[], userGroup: UserGroupResult) => {
-      acc.push(userGroup.userId)
-      return acc
-    }, [])
-    return await findUsers({
-      params: { id: { $in: userIds } },
-    })
-  }
-  return { total: 0, data: [] }
 }

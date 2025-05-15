@@ -360,9 +360,9 @@
       "adminGroups": {
         "title": "@:locokit.pages.admin.groups",
         "addGroup": "Ajouter un groupe",
+        "search": "Rechercher",
         "emptyResult": "Aucun résultat trouvé",
-        "search": "Commencez la saisie pour rechercher…",
-        "result": "Affichage d'un groupe sur {total}. | Affichage de {elements} groupes sur {total}.",
+        "emptyList": "Aucun groupe existant.",
         "filters": {
           "name": "Nom",
           "workspace": "Espace de travail"
@@ -378,7 +378,7 @@
         }
       },
       "createGroup": {
-        "title": "Créer un groupe",
+        "title": "Ajouter un groupe",
         "submit": "Créer",
         "name": "Nom",
         "workspace": "Espace de travail",
@@ -388,24 +388,32 @@
         "emptyResult": "Aucun résultat trouvé"
       },
       "recordGroup": {
-        "title": "Information d'un groupe",
-        "submit": "Mise à jour",
+        "noGroupFound": "Groupe non trouvé.",
+        "title": "Groupe « {name} »",
+        "submit": "Mettre à jour",
         "id": "ID",
         "name": "Nom",
         "workspace": "Espace de travail",
-        "policy": "Droit d'accès",
+        "policy": "Politique de contrôle d'accès",
         "documentation": "Notes",
-        "search": "Commencez la saisie pour rechercher…",
-        "emptyResult": "Aucun resultats trouvé",
         "users": "Personnes",
-        "usersAvailable": "Personnes",
-        "userMembers": "Membres",
-        "searchPlaceholder": "Chercher une personne",
-        "explanationAddingUsers": "Pour attribuer une ou plusieurs peronnes à ce groupe, sélectionnez les personnes dans la colonne de gauche et cliquez sur le bouton avec la flèche vers la droite",
-        "explanationRemovingUsers": "Il est également possible de supprimer une ou plusieurs personnes pour ce groupe en sélectionnant les personnes dans la colonne de droite.",
-        "noUserFound": "Aucune personne trouvée",
-        "noGroupFound": "Aucun groupe trouvé",
-        "result": "Affichage de maximum {elements} personnes."
+        "explanationAddingUsers": "Utilisez le formulaire ci-dessous pour rechercher une personne et l'ajouter au groupe.",
+        "explanationRemovingUsers": "Cliquez sur le bouton de suppression à la droite d'un membre pour le retirer du groupe.",
+        "userSearchPlaceholder": "Commencez la saisie pour rechercher une personne",
+        "noUserFound": "Personne ne fait partie du groupe.",
+        "memberColumnAccount": "Compte",
+        "memberColumnRole": "Rôle",
+        "memberColumnCreatedAt": "Créé le",
+        "memberAdd": "Ajouter",
+        "memberAddAria": "Ajouter la personne selectionnée au groupe",
+        "memberAdded": "La personne {username} a été ajoutée au groupe.",
+        "memberRemovalConfirm": "Supprimer {username} du groupe ?",
+        "memberRemovalReject": "Annuler",
+        "memberRemovalAccept": "Confirmer",
+        "memberRemoved": "La personne {username} a été retirée du groupe.",
+        "memberRoleChanged": "La personne {username} a désormais le rôle {role}.",
+        "alreadyMemberError": "La personne {username} est déjà membre du groupe.",
+        "memberLinkTitle": "Accéder au profil utilisateur de {username}"
       },
       "workspace": {
         "title": "Espace de travail",
@@ -666,6 +674,11 @@
       "userProfile": {
         "admin": "Admin",
         "creator": "Créateur⋅rice",
+        "member": "Membre"
+      },
+      "groupRole": {
+        "admin": "Admin",
+        "owner": "Propriétaire",
         "member": "Membre"
       },
       "typeDatasource": {

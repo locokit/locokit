@@ -7,6 +7,7 @@ import { createHead } from '@unhead/vue'
 import PrimeVue from 'primevue/config'
 import { definePreset } from '@primevue/themes'
 import Aura from '@primevue/themes/aura'
+import ConfirmationService from 'primevue/confirmationservice'
 import ToastService from 'primevue/toastservice'
 
 import { TAILWIND_COLORS } from '@locokit/definitions'
@@ -20,6 +21,8 @@ import { i18n } from './plugins/i18n'
 async function boot() {
   const app = createApp(App)
 
+  app.config.globalProperties.$isDevEnv = import.meta.env.DEV
+
   app.use(i18n)
   app.use(createHead())
   app.use(createPinia())
@@ -28,6 +31,20 @@ async function boot() {
     theme: {
       preset: definePreset(Aura, {
         semantic: TAILWIND_COLORS,
+        components: {
+          paginator: {
+            nav: {
+              button: {
+                width: '2.25rem',
+                height: '2.25rem',
+                selected: {
+                  background: '{primary.color}',
+                  color: '{surface.0}',
+                },
+              },
+            },
+          },
+        },
       }),
       options: {
         cssLayer: {
@@ -37,6 +54,7 @@ async function boot() {
       },
     },
   })
+  app.use(ConfirmationService)
   app.use(ToastService)
 
   /**

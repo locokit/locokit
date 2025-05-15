@@ -1,5 +1,6 @@
 import { Type, querySyntax, Static, getValidator } from '@feathersjs/typebox'
-import { dataValidator } from '@/commons/validators'
+import { GROUP_ROLE } from '@locokit/definitions'
+import { dataValidator, queryValidator } from '@/commons/validators'
 import { queryStringExtend } from '@/feathers-objection'
 
 // Schema for the basic data model (e.g. creating new entries)
@@ -7,6 +8,7 @@ export const userGroupSchema = Type.Object(
   {
     userId: Type.String({ format: 'uuid' }),
     groupId: Type.String({ format: 'uuid' }),
+    role: Type.String({ format: 'group-role', default: GROUP_ROLE.MEMBER }),
     createdAt: Type.String({
       format: 'date-time',
       description: 'Creation date of the user-group',
@@ -31,12 +33,16 @@ dataValidator.addSchema(userGroupSchema)
 
 export type UserGroupSchema = Static<typeof userGroupSchema>
 
-export const userGroupDataSchema = Type.Pick(userGroupSchema, ['userId', 'groupId'], {
+export const userGroupDataSchema = Type.Pick(userGroupSchema, ['userId', 'groupId', 'role'], {
   $id: 'UserGroupData',
 })
+
 export type UserGroupData = Static<typeof userGroupDataSchema>
 
-export const userGroupPatchSchema = Type.Never()
+export const userGroupPatchSchema = Type.Pick(userGroupDataSchema, ['role'], {
+  $id: 'UserGroupPatch',
+})
+
 export type UserGroupPatch = Static<typeof userGroupPatchSchema>
 
 export type UserGroupResult = Static<typeof userGroupSchema>
@@ -88,3 +94,7 @@ export const userGroupQuerySchema = Type.Intersect(
 export type UserGroupQuery = Static<typeof userGroupQuerySchema>
 
 export const userGroupDataValidator = getValidator(userGroupDataSchema, dataValidator)
+export const userGroupPatchValidator = getValidator(userGroupPatchSchema, dataValidator)
+
+// @ts-expect-error type instanciation too deep ts(2589)
+export const userGroupQueryValidator = getValidator(userGroupQuerySchema, queryValidator)
