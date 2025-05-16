@@ -57,4 +57,7 @@ describe('table-record service', () => {
   it.todo('use the right role to access dedicated schema for PUT')
   it.todo('use the right role to access dedicated schema for DELETE')
   it.todo('use the right role to access dedicated schema for find')
+
+  it.todo('allow $fetch in a GET / .find request')
+  it.todo('allow $join in a GET / .find request')
 })

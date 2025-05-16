@@ -8,18 +8,11 @@
       type="module"
       src="https://unpkg.com/rapidoc/dist/rapidoc-min.js"
     ></script>
-    <style type="text/css">
-      rapi-doc::part(section-navbar) {
-        /* <<< targets navigation bar */
-        /*background: linear-gradient(90deg, #3d4e70, #29264F);*/
-        background-color: #29264f;
-      }
-    </style>
   </head>
   <body>
     <rapi-doc
       spec-url="./swagger.json"
-      primary-color="#65b084"
+      primary-color="#005767ff"
       show-header="false"
       show-method-in-nav-bar="as-colored-block"
       use-path-in-nav-bar="true"
@@ -28,7 +21,7 @@
       schema-expand-level="1"
     >
       <!-- provide slot attribute to place an element at desired location -->
-      <img slot="nav-logo" src="/logo-dark.svg" style="height: 75px" />
+      <img slot="nav-logo" src="/logo.svg" style="height: 75px" />
 
       <div slot="auth">
         To access LocoKit API, you will need to get an auth token.

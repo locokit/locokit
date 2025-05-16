@@ -313,6 +313,7 @@ describe('[core] group service', () => {
     })
     // for removal, already removed...
   })
+  describe.todo('forbid patch workspaceId on group')
 
   afterAll(async () => {
     await builder.teardownWorkspace()

@@ -10,6 +10,7 @@ import {
 } from '@locokit/definitions'
 import GenericForm from './generic-form.vue'
 import { AutoCompleteCompleteEvent } from 'primevue'
+import PrimeMultiSelect from 'primevue/multiselect'
 
 const meta: Meta<typeof GenericForm> = {
   title: 'components/forms/GenericForm',
@@ -472,6 +473,32 @@ export const AutocompleteFields: Story = {
         with_initial_value: 'value5',
       })
     })
+  },
+}
+
+const options = [{name: 'Pouet'}, {name: 'Pouic'}, {name: 'Lambda'}]
+export const WithSpecificFields: Story = {
+  args: {
+    buttonPosition: 'block',
+    fields: [
+      {
+        id: 'default',
+        label: 'A specific field',
+        type: FIELD_TYPE.ARRAY_STRING,
+        component: 'SPECIFIC_COMPONENT',
+        specificComponent: PrimeMultiSelect,
+        initialValue: [options[0]],
+        attrs: {
+          options,
+          optionLabel: 'name',
+          selectionLimit: 2,
+          display: 'chip',
+        },
+        class: 'w-full',
+        validationRules: 'required'
+      },
+    ] as LocoKitFormField[],
+    onSubmit: fn(),
   },
 }
 

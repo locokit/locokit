@@ -112,6 +112,7 @@ export const FIELD_COMPONENT = Object.freeze({
   AUTOCOMPLETE: 'AUTOCOMPLETE',
 
   SINGLE_SELECT: 'SINGLE_SELECT',
+  MULTI_SELECT: 'MULTI_SELECT',
 })
 
 export type DB_TYPE = pgDbTypes | sqliteDbTypes
@@ -328,6 +329,11 @@ type LocoKitFormFieldBase = {
     enabled: boolean
     rules: LocoKitFormFieldRule[]
   }
+  /**
+   * Default value for the field,
+   * can be a function (eg. for date) or a static value
+   */
+  defaultValue?: Function | number | string | boolean | number[] | string[] | boolean[] | null
 }
 
 export type LocoKitFormFieldAutocomplete = LocoKitFormFieldBase & {

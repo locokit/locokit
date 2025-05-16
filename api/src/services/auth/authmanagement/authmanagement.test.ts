@@ -97,6 +97,9 @@ describe("'auth-management' service", () => {
     expect(response.data.id).toBeDefined()
   })
 
+  it.todo('return a HTTP 200 when asking for a lost password and account does not exist')
+  it.todo('return a HTTP 200 when asking for a lost password and account exist')
+
   afterAll(async () => {
     await builder.teardownWorkspace()
     await app.teardown()

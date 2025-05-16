@@ -162,6 +162,23 @@
               :disabled="f.disabled ?? false"
             />
 
+            <template v-else-if="f.component === 'SPECIFIC_COMPONENT'">
+              <FormField v-slot="$field" :name="f.id" :initialValue="f.initialValue" class="flex flex-col gap-1">
+                <component v-model="$field.value"
+                  :id="f.id"
+                  :is="f.specificComponent"
+                  :class="f.class"
+                  @input="$field.onInput"
+                  @blur="$field.onBlur"
+                  @change="$field.onChange"
+                  v-bind="f.attrs"
+                />
+                <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
+                  {{ $field.error?.message }}
+                </Message>
+              </FormField>
+            </template>
+
             <PrimeMessage
               v-else-if="f.component !== FIELD_COMPONENT.TOGGLE_SWITCH"
               severity="error"
@@ -236,6 +253,7 @@ import {
   FormFieldState,
   FormResolverOptions,
   FormSubmitEvent,
+  FormField,
   Form as PrimeForm,
 } from '@primevue/forms'
 import PrimeAutocomplete, { AutoCompleteCompleteEvent } from 'primevue/autocomplete'
