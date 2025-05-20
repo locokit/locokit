@@ -43,3 +43,10 @@ COPY packages/engine/dist /code/packages/engine/dist
 USER locokit
 WORKDIR /code/api
 CMD pm2 start index.mjs
+
+#
+# LocoKit APP image
+# nginx serving static files
+#
+FROM nginx:alpine AS locokit-app
+COPY app/dist/ /etc/nginx/html

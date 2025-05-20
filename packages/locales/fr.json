@@ -202,7 +202,7 @@
         "title": "Page de connexion"
       },
       "indexPage": {
-        "presentation": "LocoKit est une LCAP open source (Low Code Application Platform) qui fournit une gestion de base de données sous forme de feuille de calcul avec un Constructeur d'application.",
+        "presentation": "Construisez votre plate-forme de données et gérez les de manière sécurisée !",
         "buildData": "Construisez vos données",
         "shareSecurely": "et partagez-les en toute sécurité",
         "createDatabase": "Créez votre base de données, selon votre métier. Partagez vos données, selon les permissions que vous définissez !",
@@ -212,7 +212,7 @@
         "createWorkflows": "Créer des workflows",
         "automateProcess": "pour automatiser vos processus",
         "getStarted": "C'est parti !",
-        "liveDemo": "Live Demo"
+        "liveDemo": "Démonstration"
       },
       "lostPassword": {
         "title": "Mot de passe perdu",
@@ -243,11 +243,11 @@
         "labelSubmit": "Définir le mot de passe",
         "missingToken": "Impossible de retrouver votre compte. Il semble que vous n'avez pas utilisé le lien présent dans le mail envoyé par l'application"
       },
-      "workspacesList": {
+      "w": {
         "title": "Espaces de travail",
         "intro": "Vous devez créer un workspace et le sélectionner avant d'ajouter des données ou des gabarits de pages.",
         "addWorkspace": "Ajouter un espace de travail",
-        "public": "Publique"
+        "public": "Public"
       },
       "createWorkspace": {
         "title": "Nouvel espace de travail",

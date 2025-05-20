@@ -1,21 +1,18 @@
 <template>
   <LayoutHeader>
-    <div class="flex flex-col w-full lg:max-w-7xl mx-auto mb-16">
-      <section class="w-full flex flex-col items-center justify-center mx-auto h-screen">
-        <img src="/logo.png" />
-        <h1 class="text-4xl font-bold tracking-tight text-gray-500 sm:text-5xl md:text-6xl">
+    <div class="flex flex-col w-full lg:max-w-7xl mx-auto">
+      <section class="w-full flex flex-col items-center justify-center mx-auto h-[30rem] p-8">
+        <h1 class="text-7xl text-center mb-4 font-semibold tracking-tight">
           The
           <span class="text-primary">Low Code </span>
           <span class="text-secondary">Kit</span>
           platform
         </h1>
-        <p
-          class="mt-3 text-base text-gray-500 sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg md:mt-5 md:text-xl"
-        >
+        <p class="mt-3 text-base sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg md:mt-5 md:text-xl">
           {{ t('locokit.pages.indexPage.presentation') }}
         </p>
       </section>
-      <section class="sm:text-center lg:text-left mx-4 lg:mr-auto h-[50vh] lg:ml-16 lg:w-1/2">
+      <section class="sm:text-center lg:text-left m-4 h-[300px] bg-white rounded-lg shadow-lg p-8">
         <h1 class="text-4xl font-bold tracking-tight text-primary sm:text-5xl md:text-6xl">
           <span class="block">
             {{ t('locokit.pages.indexPage.buildData') }}
@@ -25,12 +22,12 @@
           </span>
         </h1>
         <p
-          class="mt-3 text-base text-gray-500 sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg md:mt-5 md:text-xl lg:ml-0"
+          class="mt-6 text-base text-gray-500 sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg md:mt-5 md:text-xl lg:ml-0"
         >
           {{ t('locokit.pages.indexPage.createDatabase') }}
         </p>
       </section>
-      <section class="sm:text-center lg:text-right mx-4 lg:ml-auto h-[50vh] lg:mr-16 lg:w-1/2">
+      <section class="sm:text-center lg:text-right m-4 h-[300px] bg-white rounded-lg shadow-lg p-8">
         <h1 class="text-4xl font-bold tracking-tight text-primary sm:text-5xl md:text-6xl">
           <span class="block">
             {{ t('locokit.pages.indexPage.shareData') }}
@@ -45,7 +42,7 @@
           {{ t('locokit.pages.indexPage.afterBuilding') }}
         </p>
       </section>
-      <section class="sm:text-center lg:text-left mx-4 lg:mr-auto h-[50vh] lg:ml-16 lg:w-1/2">
+      <section class="sm:text-center lg:text-left m-4 h-[300px] bg-white rounded-lg shadow-lg p-8">
         <h1 class="text-4xl font-bold tracking-tight text-primary sm:text-5xl md:text-6xl">
           <span class="block">{{ t('locokit.pages.indexPage.createWorkflows') }}</span>
           <span class="block text-secondary">
@@ -58,7 +55,7 @@
           {{ t('locokit.pages.indexPage.createDatabase') }}
         </p>
       </section>
-      <section class="sm:text-center lg:text-center mx-auto h-[50vh] mb-10">
+      <section class="sm:text-center lg:text-center mx-auto mb-10">
         <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
           <div class="rounded-md shadow">
             <a
@@ -84,7 +81,7 @@
 
 <script setup lang="ts">
 import LayoutHeader from '@/layouts/header.vue'
-import ROUTE_NAMES from '@/router/routes';
+import ROUTE_NAMES from '@/router/routes'
 import { useI18n } from 'vue-i18n'
 
 definePage({

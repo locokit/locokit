@@ -171,21 +171,21 @@ const primary = {
 }
 
 /**
- * from https://uicolors.app/create with #ff8d00 and fic input color to 500 shade
+ * from https://uicolors.app/create with #ffb000 and fic input color to 500 shade
  */
 const secondary = {
-  '50': '#fff9eb',
-  '100': '#fff2d1',
-  '200': '#ffe2a2',
-  '300': '#ffcb67',
-  '400': '#ffa82a',
-  '500': '#ff8d00',
-  DEFAULT: '#ff8d00',
-  '600': '#f57400',
-  '700': '#c45402',
-  '800': '#9b420b',
-  '900': '#7d380c',
-  '950': '#431a04',
+  '50': '#fffdea',
+  '100': '#fff8c5',
+  '200': '#fff185',
+  '300': '#ffe246',
+  '400': '#ffd11b',
+  '500': '#ffb000',
+  DEFAULT: '#ffb000',
+  '600': '#e28600',
+  '700': '#bb5d02',
+  '800': '#984808',
+  '900': '#7c3b0b',
+  '950': '#481d00',
 }
 export const TAILWIND_COLORS = {
   primary,

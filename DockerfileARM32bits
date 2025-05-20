@@ -44,8 +44,6 @@ RUN pnpm --filter @locokit/definitions build
 RUN pnpm --filter @locokit/designsystem build
 RUN pnpm --filter @locokit/engine build
 RUN pnpm --filter @locokit/vue-components build
-# RUN pnpm --filter nuxt-locokit nuxt:prepare
-# RUN pnpm --filter nuxt-locokit build
 RUN pnpm --filter locokit-api build
 RUN pnpm --filter @locokit/sdk build
 # RUN pnpm run build --workspace app
@@ -70,3 +68,10 @@ COPY --from=builder /code/packages/engine/dist /code/packages/engine/dist
 USER locokit
 WORKDIR /code/api
 CMD pm2 start index.mjs
+
+#
+# LocoKit APP image
+# nginx serving static files
+#
+FROM nginx:alpine AS locokit-app
+COPY app/dist/ /etc/nginx/html
