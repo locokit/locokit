@@ -15,7 +15,7 @@
           <RouterLink
             :to="{
               name: ROUTE_NAMES.ADMIN.USERS.RECORD,
-              params: { id: user.id }
+              params: { id: user.id },
             }"
             class="flex px-4 py-2 group hover:bg-slate-300 focus:bg-slate-200"
             active-class="router-link-active ps-3 border-l-4 border-secondary bg-slate-200"
@@ -32,29 +32,26 @@
               </span> -->
             </div>
             <div>
-              <Tag value="0" class="text-xs px-2 py-1"/>
+              <Tag value="0" class="text-xs px-2 py-1" />
             </div>
           </RouterLink>
         </li>
       </ul>
     </div>
     <div class="w-full px-6 py-8">
-      <RouterView/>
+      <RouterView />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Button from 'primevue/button'
 import Tag from 'primevue/tag'
-import { FilterBuilder } from '@locokit/vue-components'
-import { FIELD_TYPE } from '@locokit/definitions'
 import { useStoreUsers } from '@/stores/users'
 import ROUTE_NAMES from '@/router/routes'
 
-const { t } = useI18n()
 const usersStore = useStoreUsers()
 
 // const fieldsDefinition = [
