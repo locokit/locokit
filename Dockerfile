@@ -36,12 +36,16 @@ COPY *.json ./
 COPY pnpm-lock.yaml ./
 COPY pnpm-workspace.yaml ./
 COPY api api
+COPY app app
 COPY docs docs
 COPY packages packages
 RUN pnpm i --frozen-lockfile --ignore-scripts
 WORKDIR /code/api
 RUN turbo run build
 RUN turbo prune --scope=locokit-api --out-dir=locokit-api --docker
+WORKDIR /code/app
+RUN turbo run build
+
 
 #
 # LocoKit API image
@@ -59,3 +63,10 @@ COPY --from=builder /code/locokit-api/full/packages/engine/dist /code/packages/e
 USER locokit
 WORKDIR /code/api
 CMD pm2 start index.mjs
+
+#
+# LocoKit App image
+# Static files from build
+#
+FROM nginx:alpine AS locokit-app
+COPY --from=builder /code/app/dist/ /etc/nginx/html

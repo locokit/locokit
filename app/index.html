@@ -2,37 +2,15 @@
 <html lang="" class="h-full">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" sizes="48x48" />
-    <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
+    <link rel="icon" href="%VITE_PORTAL_FAVICON_ICO%" sizes="48x48" />
+    <link rel="icon" href="%VITE_PORTAL_FAVICON_SVG%" sizes="any" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LocoKit - The low-code kit platform</title>
+    <title>%VITE_PORTAL_NAME% - %VITE_PORTAL_TITLE%</title>
   </head>
   <body class="h-full">
     <div id="app" class="h-full"></div>
+    <script type="module" src="/src/config.ts"></script>
     <script type="module" src="/src/main.ts"></script>
-    <script>
-      const LCK_SETTINGS = {
-        PROJECT_NAME: '%VITE_PROJECT_NAME%',
-        HOME_BG_IMAGE_URL: '%VITE_HOME_BG_IMAGE_URL%',
-        ERROR_BG_IMAGE_URL: '%VITE_ERROR_BG_IMAGE_URL%',
-        LOGO_MOBILE: '%VITE_LOGO_MOBILE%',
-        LOGO_BG_PRIMARY_URL: '%VITE_LOGO_BG_PRIMARY_URL%',
-        // the URL of LocoKit API
-        API_URL: '%VITE_API_URL%',
-        // the auth token of the current logged user
-        LOCALSTORAGE_KEY_AUTH_TOKEN: '%VITE_LOCALSTORAGE_KEY_AUTH_TOKEN%',
-        // the auth user data
-        LOCALSTORAGE_KEY_AUTH_USER: '%VITE_LOCALSTORAGE_KEY_AUTH_USER%',
-
-        SENTRY_DSN: '%VITE_SENTRY_DSN%',
-        SENTRY_ENV: '%VITE_SENTRY_ENV%',
-        /**
-         * URL for attachments.
-         * Generally a prefix like '/storage' or a full URL like 'https://locokit.io/storage'
-         */
-        STORAGE_URL: '%VITE_STORAGE_URL%',
-      }
-    </script>
   </body>
 </html>

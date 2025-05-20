@@ -25,6 +25,15 @@ const ROUTE_NAMES = Object.freeze({
   },
   WORKSPACE: {
     LIST: 'workspace.list',
+    CREATE: 'workspace.create',
+    SLUG: 'workspace.slug',
+    ADMIN: {
+      ROOT: 'workspace.admin',
+      DASHBOADS: 'workspace.admin.dashboards',
+      DATASOURCES: 'workspace.admin.datasources',
+      APPS: 'workspace.admin.apps',
+      SETTINGS: 'workspace.admin.settings',
+    },
   },
 })
 
