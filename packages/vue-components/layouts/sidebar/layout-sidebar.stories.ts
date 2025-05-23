@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 
 import LayoutSidebar from './layout-sidebar.vue'
+import PrimeMenu from 'primevue/menu'
 
 const meta: Meta<typeof LayoutSidebar> = {
   title: 'layouts/sidebar',
@@ -114,6 +115,48 @@ export const WithMenuItems: Story = {
           </ul>
         </template>
         <p>This is a layout sidebar</p>
+      </layout-sidebar>
+    `,
+  }),
+}
+
+const items = [
+  {
+    label: 'Profile',
+    items: [
+      {
+        label: 'Settings',
+        icon: 'pi pi-cog',
+        route: '/auth/settings',
+      },
+      {
+        label: 'Logout',
+        icon: 'pi pi-sign-out',
+        route: '/auth/logout',
+      },
+    ],
+  },
+]
+export const OverrideUserMenu: Story = {
+  render: () => ({
+    components: { LayoutSidebar, PrimeMenu },
+    data() {
+      return {
+        items,
+      }
+    },
+    template: `
+      <layout-sidebar>
+        <template #user-menu="{ setMenuRef }">
+          <PrimeMenu :ref="(el) => setMenuRef(el)" id="overlay_menu" :model="items" :popup="true">
+            <template #item="{ item, props }">
+              <a v-ripple :href="item.route" v-bind="props.action">
+                <span :class="item.icon" />
+                <span class="ml-2">{{ item.label }}</span>
+              </a>
+            </template>
+          </PrimeMenu>
+        </template>
       </layout-sidebar>
     `,
   }),

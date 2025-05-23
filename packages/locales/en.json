@@ -171,6 +171,11 @@
       }
     },
     "layouts": {
+      "sidebar": {
+        "poweredBy": "Powered by"
+      },
+      "header": {},
+      "background": {},
       "withHeader": {
         "openMenu": "Open menu",
         "closeMenu": "Close main menu",

@@ -52,12 +52,14 @@ export {
  * Layouts
  */
 import LayoutBackground from './layouts/background/layout-background.vue'
+import LayoutSidebar from './layouts/sidebar/layout-sidebar.vue'
 
 export const layouts = {
   LayoutBackground,
+  LayoutSidebar,
 }
 
-export { LayoutBackground }
+export { LayoutBackground, LayoutSidebar }
 
 /**
  * Others

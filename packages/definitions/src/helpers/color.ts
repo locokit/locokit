@@ -187,7 +187,22 @@ const secondary = {
   '900': '#7c3b0b',
   '950': '#481d00',
 }
+
+const surface = {
+  '50': '#f8fafc',
+  '100': '#f1f5f9',
+  '200': '#e2e8f0',
+  '300': '#cbd5e1',
+  '400': '#94a3b8',
+  '500': '#64748b',
+  '600': '#475569',
+  '700': '#334155',
+  '800': '#1e293b',
+  '900': '#0f172a',
+  '950': '#020617',
+}
 export const TAILWIND_COLORS = {
   primary,
   secondary,
+  surface,
 }

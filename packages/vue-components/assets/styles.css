@@ -1,0 +1,66 @@
+/**
+  * This file contains the global styles for the vue-components package,
+  * and for all projects using them.
+  * It uses Tailwind CSS for utility-first styling.
+  * The styles are applied globally to all components.
+  * Some classes are here to provide utilities combining Tailwind CSS classes.
+  */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('bootstrap-icons/font/bootstrap-icons.css');
+@import url('primeicons/primeicons.css');
+
+@layer tailwind-base, primevue, tailwind-utilities;
+
+@layer tailwind-base {
+  @tailwind base;
+}
+
+@layer tailwind-utilities {
+  @tailwind components;
+  @tailwind utilities;
+}
+
+@layer base {
+  /* Add custom base styles here */
+  html {
+    @apply text-gray-900 bg-white h-full;
+  }
+  body {
+    @apply font-sans antialiased h-full;
+    font-family: 'Raleway', sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+  }
+}
+/* Typography */
+h1 {
+  @apply text-3xl font-medium;
+}
+h2 {
+  @apply text-2xl font-medium;
+}
+h3 {
+  @apply text-xl font-medium;
+}
+
+.scroll-shadows {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+
+  /** utiliser les couleurs de tailwind ? **/
+  background:
+    /* Shadow Cover TOP */
+    linear-gradient(var(--p-surface-100), rgba(255, 255, 255, 0)) top,
+    /* Shadow Cover BOTTOM */ linear-gradient(rgba(255, 255, 255, 0), var(--p-surface-100)) bottom,
+    /* Shadow TOP */ linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) top,
+    /* Shadow BOTTOM */ linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2)) bottom;
+
+  background-repeat: no-repeat;
+  background-size:
+    100% 40px,
+    100% 40px,
+    100% 14px,
+    100% 14px;
+  background-attachment: local, local, scroll, scroll;
+}

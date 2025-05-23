@@ -43,6 +43,7 @@ export default defineConfig({
         'primevue/datepicker',
         'primevue/inputnumber',
         'primevue/inputtext',
+        'primevue/menu',
         'primevue/message',
         'primevue/multiselect',
         'primevue/password',
