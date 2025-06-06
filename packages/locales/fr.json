@@ -424,14 +424,16 @@
         "title": "Espace de travail",
         "noResult": "Aucun espace de travail trouvé",
         "dashboard": "Tableau de bord",
-        "datasource": "Source des données",
+        "datasources": "Sources des données",
+        "policies": "Permissions",
+        "groups": "Groupes d'utilisateurs",
         "settings": "Paramètres du workspace"
       },
       "dashboard": {
         "title": "@:locokit.pages.workspace.dashboard"
       },
       "datasource": {
-        "title": "@:locokit.pages.workspace.datasource",
+        "title": "@:locokit.pages.workspace.datasources",
         "subtitle": "Tables",
         "schema": "Schéma",
         "settings": "Paramètres",
@@ -442,7 +444,7 @@
         "title": "@:locokit.pages.workspace.settings"
       },
       "aboutDatasource": {
-        "title": "@:locokit.pages.workspace.datasource",
+        "title": "@:locokit.pages.workspace.datasources",
         "explainDatasource": "Pour commencer, il est nécessaire de créer ou d'importer une base de données pour stocker vos données via le bouton « @:locokit.pages.datasource.addDatasource ».",
         "explainTable": "Dès lors, il est possible d'afficher une base de données sous forme de schéma ou d'afficher le détail d'une table."
       },

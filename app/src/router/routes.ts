@@ -29,7 +29,14 @@ const ROUTE_NAMES = Object.freeze({
     SLUG: 'workspace.slug',
     ADMIN: {
       ROOT: 'workspace.admin',
-      DASHBOARDS: 'workspace.admin.dashboards',
+      APPS: {
+        ROOT: 'workspace.admin.apps',
+        UUID: 'workspace.admin.apps.uuid',
+      },
+      DASHBOARDS: {
+        ROOT: 'workspace.admin.dashboards',
+        UUID: 'workspace.admin.dashboards.uuid',
+      },
       DATASOURCES: {
         ROOT: 'workspace.admin.datasources',
         SLUG: 'workspace.admin.datasource.slug',
@@ -42,12 +49,20 @@ const ROUTE_NAMES = Object.freeze({
           },
         },
       },
-      APPS: 'workspace.admin.apps',
-      GROUPS: 'workspace.admin.groups',
-      POLICIES: 'workspace.admin.policies',
+      POLICIES: {
+        ROOT: 'workspace.admin.policies',
+        UUID: 'workspace.admin.policies.uuid',
+      },
+      GROUPS: {
+        ROOT: 'workspace.admin.groups',
+        UUID: 'workspace.admin.groups.uuid',
+      },
       USERS: 'workspace.admin.users',
       MEDIAS: 'workspace.admin.medias',
-      WORKFLOWS: 'workspace.admin.workflows',
+      WORKFLOWS: {
+        ROOT: 'workspace.admin.workflows',
+        UUID: 'workspace.admin.workflows.uuid',
+      },
       SETTINGS: 'workspace.admin.settings',
     },
   },

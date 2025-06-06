@@ -1,7 +1,12 @@
 import ROUTE_NAMES from '@/router/routes'
-import { routeLocationKey, useRoute } from 'vue-router'
-import { inject, ref, watch } from 'vue'
-import { type WorkspaceResult } from '@locokit/sdk'
+import { useRoute, type RouteLocationRaw } from 'vue-router'
+import { ref, watch } from 'vue'
+
+export type BreadcrumbItem = {
+  label: string
+  icon: string
+  to: RouteLocationRaw
+}
 
 /**
  * Composable to help compute the breadcrumb to display
@@ -9,11 +14,11 @@ import { type WorkspaceResult } from '@locokit/sdk'
  * Accordingly current route, we adapt the context.
  */
 export function useBreadcrumb() {
-  const breadcrumbItems = ref([])
+  const breadcrumbItems = ref<BreadcrumbItem[]>([])
   const route = useRoute()
 
   function computeBreadcrumbItems() {
-    const items = [
+    const items: BreadcrumbItem[] = [
       {
         label: 'Home',
         icon: 'bi bi-house',
@@ -66,6 +71,14 @@ export function useBreadcrumb() {
       items.push({
         label: 'my current table',
         icon: 'bi bi-table',
+        to: {
+          name: ROUTE_NAMES.WORKSPACE.ADMIN.DATASOURCES.TABLES.SLUG,
+          params: {
+            wsslug: route.params.wsslug,
+            dsslug: route.params.dsslug,
+            tslug: route.params.tslug,
+          },
+        },
       })
     }
     breadcrumbItems.value = items
@@ -73,7 +86,7 @@ export function useBreadcrumb() {
 
   watch(
     route,
-    (newRoute) => {
+    () => {
       computeBreadcrumbItems()
     },
     {

@@ -423,15 +423,20 @@
       "workspace": {
         "title": "Workspace",
         "noResult": "No workspace found",
-        "dashboard": "Dashboard",
-        "datasource": "Datasource",
+        "dashboards": "Dashboards",
+        "datasources": "Datasources",
+        "policies": "Permissions",
+        "groups": "User groups",
         "settings": "Workspace settings"
       },
       "dashboard": {
-        "title": "@:locokit.pages.workspace.dashboard"
+        "title": "@:locokit.pages.workspace.dashboards"
+      },
+      "policie": {
+        "title": "@:locokit.pages.workspace.policies"
       },
       "datasource": {
-        "title": "@:locokit.pages.workspace.datasource",
+        "title": "@:locokit.pages.workspace.datasources",
         "subtitle": "Tables",
         "schema": "Schema",
         "settings": "Settings",
@@ -442,7 +447,7 @@
         "title": "@:locokit.pages.workspace.settings"
       },
       "aboutDatasource": {
-        "title": "@:locokit.pages.workspace.datasource",
+        "title": "@:locokit.pages.workspace.datasources",
         "explainDatasource": "First thing to do, it is create or import a database to stock your data through the ” @:locokit.pages.datasource.addDatasource ” button.",
         "explainTable": "Then, it is possible to display database diagram or to display details of a table."
       },

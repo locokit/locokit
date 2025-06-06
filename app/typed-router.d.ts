@@ -42,5 +42,8 @@ declare module 'vue-router/auto-routes' {
     '/w/[wsslug]/admin/ds/[dsslug]': RouteRecordInfo<'/w/[wsslug]/admin/ds/[dsslug]', '/w/:wsslug/admin/ds/:dsslug', { wsslug: ParamValue<true>, dsslug: ParamValue<true> }, { wsslug: ParamValue<false>, dsslug: ParamValue<false> }>,
     '/w/[wsslug]/admin/ds/[dsslug]/t/[tslug]': RouteRecordInfo<'/w/[wsslug]/admin/ds/[dsslug]/t/[tslug]', '/w/:wsslug/admin/ds/:dsslug/t/:tslug', { wsslug: ParamValue<true>, dsslug: ParamValue<true>, tslug: ParamValue<true> }, { wsslug: ParamValue<false>, dsslug: ParamValue<false>, tslug: ParamValue<false> }>,
     '/w/[wsslug]/admin/ds/[dsslug]/tables': RouteRecordInfo<'/w/[wsslug]/admin/ds/[dsslug]/tables', '/w/:wsslug/admin/ds/:dsslug/tables', { wsslug: ParamValue<true>, dsslug: ParamValue<true> }, { wsslug: ParamValue<false>, dsslug: ParamValue<false> }>,
+    '/w/[wsslug]/admin/groups': RouteRecordInfo<'/w/[wsslug]/admin/groups', '/w/:wsslug/admin/groups', { wsslug: ParamValue<true> }, { wsslug: ParamValue<false> }>,
+    '/w/[wsslug]/admin/groups/[guuid]': RouteRecordInfo<'/w/[wsslug]/admin/groups/[guuid]', '/w/:wsslug/admin/groups/:guuid', { wsslug: ParamValue<true>, guuid: ParamValue<true> }, { wsslug: ParamValue<false>, guuid: ParamValue<false> }>,
+    '/w/[wsslug]/admin/policies': RouteRecordInfo<'/w/[wsslug]/admin/policies', '/w/:wsslug/admin/policies', { wsslug: ParamValue<true> }, { wsslug: ParamValue<false> }>,
   }
 }
