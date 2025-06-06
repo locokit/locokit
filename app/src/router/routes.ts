@@ -29,9 +29,25 @@ const ROUTE_NAMES = Object.freeze({
     SLUG: 'workspace.slug',
     ADMIN: {
       ROOT: 'workspace.admin',
-      DASHBOADS: 'workspace.admin.dashboards',
-      DATASOURCES: 'workspace.admin.datasources',
+      DASHBOARDS: 'workspace.admin.dashboards',
+      DATASOURCES: {
+        ROOT: 'workspace.admin.datasources',
+        SLUG: 'workspace.admin.datasource.slug',
+        TABLES: {
+          ROOT: 'workspace.admin.datasource.slug.tables',
+          SLUG: 'workspace.admin.datasource.slug.table.slug',
+          VIEWS: {
+            ROOT: 'workspace.admin.datasource.slug.table.slug.views',
+            SLUG: 'workspace.admin.datasource.slug.table.slug.view.slug',
+          },
+        },
+      },
       APPS: 'workspace.admin.apps',
+      GROUPS: 'workspace.admin.groups',
+      POLICIES: 'workspace.admin.policies',
+      USERS: 'workspace.admin.users',
+      MEDIAS: 'workspace.admin.medias',
+      WORKFLOWS: 'workspace.admin.workflows',
       SETTINGS: 'workspace.admin.settings',
     },
   },
