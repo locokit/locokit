@@ -22,7 +22,7 @@ On a VueJS project, please add these dependencies :
 pnpm add primevue @primevue/themes \ # primevue dependencies
   tailwindcss postcss autoprefixer tailwindcss-primeui \ # tailwind dependencies
   @locokit/locales vue-i18n \ # translation dependencies
-  @locokit/vue-components @locokit/definitions \ # other @locokit dependencies
+  @locokit/definitions \ # other @locokit dependencies
   primeicons bootstrap-icons # icons (bootstrap + prime)
 ```
 
@@ -201,3 +201,11 @@ Icons from these two packages are used, and are available for your project too.
 A storybook is included in this project.
 
 Run it with `pnpm dev`.
+
+### Contributing
+
+After creating an issue,
+if you want to implement the new feature / component,
+please be aware that in case you add a primevue component
+not already used, you'll have to add it in the `vite.config.ts`
+in external rollupOptions, to avoid add them in the final bundle.
