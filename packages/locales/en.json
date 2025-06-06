@@ -19,8 +19,8 @@
       "signInForm": {
         "email": "Email",
         "password": "Password",
-        "signIn": "Sign in",
-        "signInAgain": "Sign in again",
+        "signIn": "Log in",
+        "signInAgain": "Log in again",
         "forgottenPassword": "Forgot your password?",
         "signUp": "Sign up",
         "error": "Unable to sign in. Please contact the administrator or try again later."
@@ -29,7 +29,7 @@
         "email": "Email",
         "submit": "Submit and get a temporary link to choose your new password.",
         "signInHelp": "Already have login and password?",
-        "signIn": "Sign in",
+        "signIn": "Log in",
         "feedback": "Your request has been processed. If your email was found, you will receive an email with a link to reset your password. If not, please check your spam folder."
       },
       "passwordForm": {
@@ -182,7 +182,7 @@
         "home": "Home",
         "workspaces": "Workspaces",
         "profile": "Profile",
-        "signIn": "Sign in",
+        "signIn": "Log in",
         "signUp": "Sign up",
         "admin": "Admin",
         "logout": "Logout"
@@ -360,7 +360,7 @@
         "title": "Updating your email",
         "message": "This operation has been successfully completed. You can now log in with your new email.",
         "errorMessage": "Unfortunately, the operation could not be completed. If the problem persists, please contact the site administrator.",
-        "signIn": "Sign in"
+        "signIn": "Log in"
       },
       "adminGroups": {
         "title": "@:locokit.pages.admin.groups",

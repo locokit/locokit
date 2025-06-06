@@ -150,7 +150,7 @@ export const OverrideUserMenu: Story = {
         <template #user-menu="{ setMenuRef }">
           <PrimeMenu :ref="(el) => setMenuRef(el)" id="overlay_menu" :model="items" :popup="true">
             <template #item="{ item, props }">
-              <a v-ripple :href="item.route" v-bind="props.action">
+              <a :href="item.route" v-bind="props.action">
                 <span :class="item.icon" />
                 <span class="ml-2">{{ item.label }}</span>
               </a>

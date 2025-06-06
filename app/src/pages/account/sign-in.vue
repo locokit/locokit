@@ -1,16 +1,18 @@
 <template>
   <LayoutHeader>
-    <main class="bg-white dark:bg-slate-800 rounded-md max-w-[48rem] mx-auto mt-4 p-4 shadow-md">
-      <h1 class="text-xl text-center font-medium mb-4">
-        {{ t('app.routes.auth.login') }}
-      </h1>
-      <sign-in-form
-        class="bg-white dark:bg-slate-800 rounded-md p-4"
-        :display-lost-password-link="true"
-        lost-password-route="/auth/lost-password"
-        @submit="onSubmit"
-      />
-    </main>
+    <div class="grow flex items-center">
+      <main class="bg-white dark:bg-slate-800 rounded-md max-w-[48rem] mx-auto mt-4 p-4 shadow-md">
+        <h1 class="text-xl text-center font-medium mb-4">
+          {{ t('app.routes.auth.login') }}
+        </h1>
+        <sign-in-form
+          class="bg-white dark:bg-slate-800 rounded-md p-4"
+          :display-lost-password-link="true"
+          lost-password-route="/auth/lost-password"
+          @submit="onSubmit"
+        />
+      </main>
+    </div>
   </LayoutHeader>
 </template>
 

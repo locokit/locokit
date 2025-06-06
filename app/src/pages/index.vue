@@ -1,18 +1,31 @@
 <template>
   <LayoutHeader>
-    <div class="flex flex-col w-full lg:max-w-7xl mx-auto">
-      <section class="w-full flex flex-col items-center justify-center mx-auto h-[30rem] p-8">
-        <h1 class="text-7xl text-center mb-4 font-semibold tracking-tight">
-          The
-          <span class="text-primary">Low Code </span>
-          <span class="text-secondary">Kit</span>
-          platform
-        </h1>
-        <p class="mt-3 text-base sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg md:mt-5 md:text-xl">
-          {{ t('locokit.pages.indexPage.presentation') }}
-        </p>
-      </section>
-      <section class="sm:text-center lg:text-left m-4 h-[300px] bg-white rounded-lg shadow-lg p-8">
+    <div class="flex flex-col grow">
+      <div class="grow flex items-center justify-center h-full w-full mx-auto max-w-[1320px]">
+        <section class="w-full lg:w-2/5 flex flex-col items-center mx-auto h-[30rem] p-8">
+          <h1 class="text-6xl mb-4 font-medium flex flex-col gap-4">
+            The<br />
+            <span class="drop-shadow-xl whitespace-nowrap">
+              <span class="text-primary">Low Code </span>
+              <span class="text-secondary">Kit</span>
+            </span>
+            <br />
+            platform
+          </h1>
+          <p class="my-3 text-base mt-5 sm:text-lg md:mt-5 md:text-xl">
+            {{ t('locokit.pages.indexPage.presentation') }}
+          </p>
+          <RouterLink
+            :to="{ name: ROUTE_NAMES.ACCOUNT.SIGN_IN }"
+            class="nav-link py-1 px-2 min-w-28 text-primary hover:bg-slate-100 flex flex-row items-center justify-center rounded-md bg-secondary"
+          >
+            {{ t('locokit.layouts.withHeader.signIn') }}
+          </RouterLink>
+        </section>
+        <section class="w-full lg:w-3/5 flex items-center mx-auto p-8">
+          <img alt="Portal logo" class="w-full drop-shadow-xl" :src="LCK_SETTINGS.IMAGE_LOGO_URL" />
+        </section>
+        <!-- <section class="sm:text-center lg:text-left m-4 h-[300px] bg-white rounded-lg shadow-lg p-8">
         <h1 class="text-4xl font-bold tracking-tight text-primary sm:text-5xl md:text-6xl">
           <span class="block">
             {{ t('locokit.pages.indexPage.buildData') }}
@@ -74,7 +87,17 @@
             </a>
           </div>
         </div>
-      </section>
+      </section> -->
+      </div>
+      <footer class="bg-white border-t h-12 min-h-12 flex items-center justify-center">
+        <a
+          href="https://makina-corpus.com?utm_source=locokit&utm_medium=next-saas"
+          class="text-sm"
+          target="_blank"
+        >
+          © Makina Corpus - Autonomens
+        </a>
+      </footer>
     </div>
   </LayoutHeader>
 </template>
@@ -83,6 +106,7 @@
 import LayoutHeader from '@/layouts/header.vue'
 import ROUTE_NAMES from '@/router/routes'
 import { useI18n } from 'vue-i18n'
+import LCK_SETTINGS from '@/config'
 
 definePage({
   name: ROUTE_NAMES.HOME,

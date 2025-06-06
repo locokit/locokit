@@ -41,26 +41,26 @@ export const useStoreUsers = defineStore('users', () => {
   //   loading.value = false
   // }
 
-  async function squashUsers(data: {
-    id: string
-    username: string
-    lastName: string | null
-    firstName: string | null
-  }) {
-    if (users.value && users.value.total > 0) {
-      const userFound = users.value.data.findIndex(
-        ({ id }: { id: string }) => id === data.id,
-      )
-      if (userFound > -1) {
-        const res = await findUsers()
-        if (res instanceof Error) {
-          error.value = res
-        } else {
-          users.value = res
-        }
-      }
-    }
-  }
+  // async function squashUsers(data: {
+  //   id: string
+  //   username: string
+  //   lastName: string | null
+  //   firstName: string | null
+  // }) {
+  //   if (users.value && users.value.total > 0) {
+  //     const userFound = users.value.data.findIndex(
+  //       ({ id }: { id: string }) => id === data.id,
+  //     )
+  //     if (userFound > -1) {
+  //       const res = await findUsers()
+  //       if (res instanceof Error) {
+  //         error.value = res
+  //       } else {
+  //         users.value = res
+  //       }
+  //     }
+  //   }
+  // }
 
   return {
     loading,
@@ -68,6 +68,6 @@ export const useStoreUsers = defineStore('users', () => {
     users,
     fetchUsers,
     // toggleBlockAccountUser,
-    squashUsers,
+    // squashUsers,
   }
 })

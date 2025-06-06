@@ -4,7 +4,7 @@
       v-if="!isRetracted"
       class="w-full lg:w-80 lg:min-w-80 bg-surface-100 text-primary flex flex-col"
     >
-      <header class="h-12 flex items-center justify-between px-3 border-b-2 border-white">
+      <header class="min-h-12 h-12 flex items-center justify-between px-3 border-b-2 border-white">
         <slot name="sidebar-title">
           <h3>Sidebar Header</h3>
         </slot>
@@ -24,7 +24,7 @@
           <slot name="user-menu" :set-menu-ref="setMenuRef">
             <PrimeMenu ref="menu" id="overlay_menu" :model="defaultMenuItems" :popup="true">
               <template #item="{ item, props }">
-                <a v-ripple :href="item.route" v-bind="props.action">
+                <a :href="item.route" v-bind="props.action">
                   <span :class="item.icon" />
                   <span class="ml-2">{{ item.label }}</span>
                 </a>
@@ -44,17 +44,22 @@
         v1.x
       </footer>
     </aside>
-    <main class="lg:flex flex-col grow" :class="{ flex: isRetracted, hidden: !isRetracted }">
-      <header class="h-12 flex gap-2 items-center px-3 text-primary">
+    <main
+      class="lg:flex flex-col grow overflow-hidden"
+      :class="{ flex: isRetracted, hidden: !isRetracted }"
+    >
+      <header class="min-h-12 h-12 flex gap-2 items-center px-3 text-primary">
         <button @click="openSidebar" v-if="isRetracted">
           <i class="bi bi-layout-sidebar text-xl"></i>
         </button>
-        <nav>Fil d'ariane</nav>
+        <slot name="breadcrumb">
+          <nav>Breadcrumb</nav>
+        </slot>
       </header>
-      <div class="p-3 grow bg-gray-200 text-primary relative">
+      <div class="grow bg-gray-200 text-primary relative overflow-hidden">
         <!-- Background blured -->
         <div
-          class="blur-[2px] absolute top-0 left-0 w-full h-full bg-center bg-[length:80%] bg-no-repeat opacity-10 pointer-events-none"
+          class="blur-[2px] absolute top-0 left-0 w-full h-full bg-center bg-no-repeat bg-contain opacity-10 pointer-events-none"
           :style="`background-image: url('${workspaceLogoUrl}')`"
         />
         <slot :openSidebar="openSidebar" :closeSidebar="closeSidebar">

@@ -1,13 +1,7 @@
 import { SERVICES } from '@locokit/definitions'
-import type { WorkspaceData, WorkspacePatch } from '@locokit/sdk'
 import { sdkClient } from '../sdk'
 
 const ITEMS_PER_PAGE = 10
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function getWorkspace(id: string, params?: any) {
-  return await sdkClient.service(SERVICES.CORE_WORKSPACE).get(id, params)
-}
 
 export async function findWorkspaces(
   {
@@ -40,12 +34,4 @@ export async function findWorkspaces(
       ...params,
     },
   })
-}
-
-export async function createWorkspace(data: WorkspaceData) {
-  return await sdkClient.service(SERVICES.CORE_WORKSPACE).create(data)
-}
-
-export async function patchWorkspace(id: string, data: WorkspacePatch) {
-  return await sdkClient.service(SERVICES.CORE_WORKSPACE).patch(id, data)
 }

@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-col">
-    <header class="relative h-[100px] z-10 bg-white w-full shadow-md flex items-center">
+  <div class="flex flex-col h-full">
+    <header class="relative min-h-16 h-16 z-10 bg-white w-full shadow-md flex items-center">
       <div class="relative h-full px-4 sm:px-6 lg:px-8 w-full">
         <nav class="h-full flex items-center justify-between">
-          <div class="flex flex-shrink-0 items-center">
+          <div class="flex items-center">
             <div class="flex w-full items-center justify-between md:w-auto">
               <RouterLink :to="{ name: ROUTE_NAMES.HOME }">
                 <span class="sr-only">
@@ -25,27 +25,26 @@
                   <span class="sr-only">
                     {{ t('locokit.layouts.withHeader.openMenu') }}
                   </span>
-                  <i class="bi bi-list" aria-hidden="true" />
+                  <i class="bi bi-list text-2xl" aria-hidden="true" />
                 </button>
               </div>
             </div>
           </div>
           <div
             v-if="navLinks && navLinks.length > 0"
-            class="hidden md:ml-auto md:flex md:space-x-8 md:pr-8 md:flex-row md:items-center md:flex-grow md:justify-center"
+            class="hidden md:ml-auto md:flex md:space-x-8 md:flex-row md:items-center md:flex-grow md:justify-end"
           >
             <RouterLink
               v-for="navLink in navLinks"
               :key="navLink.routeName"
               :to="{ name: navLink.routeName }"
-              class="nav-link p-2 hover:bg-slate-100 flex flex-row items-center border-b-2 rounded-md border-b-transparent"
+              class="nav-link py-1 px-2 min-w-28 text-primary hover:bg-slate-100 flex flex-row items-center justify-center rounded-md"
+              :class="navLink.class"
               @click="toggleMenu"
             >
               <i v-if="navLink.icon" :class="'bi ' + navLink.icon" class="mr-2" />
               <p>{{ t('locokit.layouts.withHeader.' + navLink.title) }}</p>
             </RouterLink>
-          </div>
-          <div>
             <button-translate />
           </div>
           <button
@@ -105,7 +104,7 @@
             <button
               type="button"
               class="inline-flex items-center justify-center rounded-sm bg-white dark:bg-slate-900 p-2 pl-3 hover:bg-slate-100"
-              @click="logout"
+              @click="onClickLogout"
             >
               <i class="bi bi-door-open-fill mr-2" />
               <p>{{ t('locokit.layouts.withHeader.logout') }}</p>
@@ -114,11 +113,9 @@
         </div>
       </div>
     </header>
-    <div class="content-main bg-slate-100 dark:bg-slate-900 overflow-auto p-4">
-      <main class="w-full max-w-[1320px] mx-auto">
-        <slot />
-      </main>
-    </div>
+    <main class="grow flex bg-slate-100 dark:bg-slate-900 overflow-hidden">
+      <slot />
+    </main>
   </div>
 </template>
 
@@ -163,7 +160,6 @@ const navLinks = computed(() => {
       {
         routeName: ROUTE_NAMES.WORKSPACE.LIST,
         title: 'workspaces',
-        icon: 'bi-person-workspace',
       },
       {
         routeName: ROUTE_NAMES.ACCOUNT.PROFILE.ROOT,
@@ -176,12 +172,11 @@ const navLinks = computed(() => {
     {
       routeName: ROUTE_NAMES.WORKSPACE.LIST,
       title: 'workspaces',
-      icon: 'bi-person-workspace',
     },
     {
       routeName: ROUTE_NAMES.ACCOUNT.SIGN_IN,
       title: 'signIn',
-      icon: 'bi-person-badge',
+      class: 'bg-secondary',
     },
   ]
 })
@@ -200,10 +195,5 @@ async function onClickLogout() {
 .nav-link.router-link-active {
   @apply border-primary text-primary;
   font-weight: bold;
-  @apply rounded-b-none;
-}
-
-.content-main {
-  height: calc(100vh - 100px);
 }
 </style>

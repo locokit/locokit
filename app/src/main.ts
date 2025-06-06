@@ -69,8 +69,11 @@ async function boot() {
   /**
    * Re authent user before router guards
    */
-  const { reAuthenticate } = useStoreAuth()
+  const { reAuthenticate, authState } = useStoreAuth()
   await reAuthenticate()
+  if (!authState.isAuthenticated) {
+    router.push('/')
+  }
 
   app.mount('#app')
 }
