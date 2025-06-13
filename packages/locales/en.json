@@ -425,7 +425,7 @@
         "noResult": "No workspace found",
         "dashboards": "Dashboards",
         "datasources": "Datasources",
-        "policies": "Permissions",
+        "policies": "Policies",
         "groups": "User groups",
         "settings": "Workspace settings"
       },
