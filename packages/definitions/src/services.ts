@@ -29,8 +29,13 @@ export const SERVICES = Object.freeze({
 
   WORKSPACE_USER: '/workspace/:workspaceSlug/user',
   WORKSPACE_GROUP: '/workspace/:workspaceSlug/group',
+  WORKSPACE_GROUP_POLICY_VARIABLE: '/workspace/:workspaceSlug/group-policy-variable',
   WORKSPACE_USERGROUP: '/workspace/:workspaceSlug/user-group',
+  WORKSPACE_USERGROUP_POLICY_VARIABLE: '/workspace/:workspaceSlug/user-group-policy-variable',
   WORKSPACE_POLICY: '/workspace/:workspaceSlug/policy',
+  WORKSPACE_POLICY_VARIABLE: '/workspace/:workspaceSlug/policy-variable',
+  WORKSPACE_POLICY_TABLE: '/workspace/:workspaceSlug/policy-table',
+  WORKSPACE_POLICY_TABLE_FIELD: '/workspace/:workspaceSlug/policy-table-field',
 
   WORKSPACE_TABLE: '/workspace/:workspaceSlug/datasource/:datasourceSlug/table',
   WORKSPACE_TABLE_FIELD:
