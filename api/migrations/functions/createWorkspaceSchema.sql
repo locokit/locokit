@@ -137,6 +137,8 @@ BEGIN
 
     CONSTRAINT "PK_userGroup" PRIMARY KEY ("id"),
 
+    CONSTRAINT "UNQ_userGroup" UNIQUE ("groupId", "userId"),
+
     CONSTRAINT "FK_userGroup_group" FOREIGN KEY ("groupId")
       REFERENCES "group" (id) MATCH SIMPLE
       ON UPDATE NO ACTION

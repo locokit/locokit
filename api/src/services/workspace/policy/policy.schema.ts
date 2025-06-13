@@ -43,7 +43,6 @@ export const workspacePolicySchema = Type.Object(
     variables: Type.Optional(Type.Array(Type.Any())),
     fields: Type.Optional(Type.Array(Type.Any())),
     tables: Type.Optional(Type.Array(Type.Any())),
-
     groups: Type.Optional(Type.Array(Type.Any())),
   },
   {

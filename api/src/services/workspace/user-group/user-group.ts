@@ -18,9 +18,8 @@ export function workspaceUserGroupService(app: Application): void {
   const options: ObjectionAdapterOptions = {
     paginate: app.get('paginate'),
     Model: WorkspaceUserGroupModel,
-    name: 'workspaceUserGroup',
+    name: 'userGroup',
     allowedGraph: '[group,user]',
-    id: ['userId', 'groupId'],
   }
 
   // Register our service on the Feathers application

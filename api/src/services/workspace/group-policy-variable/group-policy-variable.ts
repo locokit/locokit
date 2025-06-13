@@ -24,7 +24,7 @@ export function workspaceGroupPolicyVariableService(app: Application): void {
   const options: ObjectionAdapterOptions = {
     paginate: app.get('paginate'),
     Model: WorkspaceGroupPolicyVariableModel,
-    name: 'group-policy-variable',
+    name: 'groupPolicyVariable',
     allowedGraph: '[policy,group]',
   }
 

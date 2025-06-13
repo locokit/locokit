@@ -17,6 +17,7 @@ import { ObjectionService, transaction } from '@/feathers-objection'
 import { USER_PROFILE } from '@locokit/definitions'
 import { HookMap } from '@feathersjs/feathers'
 import { checkUserHasAccess } from '@/hooks/profile.hooks'
+import { setLocoKitContext } from '@/hooks/locokit'
 
 export const workspaceGroupPolicyVariableHooks: HookMap<
   Application,
@@ -32,12 +33,12 @@ export const workspaceGroupPolicyVariableHooks: HookMap<
   before: {
     all: [
       transaction.start(),
-      // setLocoKitContext,
-      checkUserHasAccess({
-        allowedProfile: [USER_PROFILE.ADMIN],
-        internalProvider: true,
-        internalProviderProfileCheck: 'IF_USER_PROVIDED',
-      }),
+      setLocoKitContext,
+      // checkUserHasAccess({
+      //   allowedProfile: [USER_PROFILE.ADMIN],
+      //   internalProvider: true,
+      //   internalProviderProfileCheck: 'IF_USER_PROVIDED',
+      // }),
     ],
     find: [
       schemaHooks.validateQuery(workspaceGroupPolicyVariableQueryValidator),
@@ -50,7 +51,7 @@ export const workspaceGroupPolicyVariableHooks: HookMap<
   },
   after: {
     find: [
-      schemaHooks.resolveData(workspaceGroupPolicyVariableResolvers.result),
+      // schemaHooks.resolveData(workspaceGroupPolicyVariableResolvers.result),
       transaction.end(),
     ],
   },

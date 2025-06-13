@@ -16,6 +16,7 @@ import { ObjectionService } from '@/feathers-objection'
 import { USER_PROFILE } from '@locokit/definitions'
 import { HookMap } from '@feathersjs/feathers'
 import { checkUserHasAccess } from '@/hooks/profile.hooks'
+import { setLocoKitContext } from '@/hooks/locokit'
 
 export const workspaceUserGroupHooks: HookMap<Application, WorkspaceUserGroupService> = {
   around: {
@@ -27,11 +28,12 @@ export const workspaceUserGroupHooks: HookMap<Application, WorkspaceUserGroupSer
   },
   before: {
     all: [
-      checkUserHasAccess({
-        allowedProfile: [USER_PROFILE.ADMIN, USER_PROFILE.CREATOR],
-        internalProvider: true,
-        internalProviderProfileCheck: 'IF_USER_PROVIDED',
-      }),
+      setLocoKitContext,
+      // checkUserHasAccess({
+      //   allowedProfile: [USER_PROFILE.ADMIN, USER_PROFILE.CREATOR],
+      //   internalProvider: true,
+      //   internalProviderProfileCheck: 'IF_USER_PROVIDED',
+      // }),
     ],
     find: [
       schemaHooks.validateQuery(workspaceUserGroupQueryValidator),

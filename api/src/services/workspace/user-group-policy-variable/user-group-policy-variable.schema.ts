@@ -52,7 +52,7 @@ export const workspaceUserGroupPolicyVariableSchema = Type.Object(
 )
 dataValidator.addSchema(workspaceUserGroupPolicyVariableSchema)
 
-export type UserGroupSchema = Static<typeof workspaceUserGroupPolicyVariableSchema>
+export type UserGroupPolicyVariableSchema = Static<typeof workspaceUserGroupPolicyVariableSchema>
 
 export const workspaceUserGroupPolicyVariableDataSchema = Type.Pick(
   workspaceUserGroupPolicyVariableSchema,
@@ -62,7 +62,7 @@ export const workspaceUserGroupPolicyVariableDataSchema = Type.Pick(
   },
 )
 
-export type UserGroupData = Static<typeof workspaceUserGroupPolicyVariableDataSchema>
+export type UserGroupPolicyVariableData = Static<typeof workspaceUserGroupPolicyVariableDataSchema>
 
 export const workspaceUserGroupPolicyVariablePatchSchema = Type.Pick(
   workspaceUserGroupPolicyVariableDataSchema,
@@ -72,9 +72,11 @@ export const workspaceUserGroupPolicyVariablePatchSchema = Type.Pick(
   },
 )
 
-export type UserGroupPatch = Static<typeof workspaceUserGroupPolicyVariablePatchSchema>
+export type UserGroupPolicyVariablePatch = Static<
+  typeof workspaceUserGroupPolicyVariablePatchSchema
+>
 
-export type UserGroupResult = Static<typeof workspaceUserGroupPolicyVariableSchema>
+export type UserGroupPolicyVariableResult = Static<typeof workspaceUserGroupPolicyVariableSchema>
 
 const eagerRegExp = toEagerRegExp('userGroup|policyVariable')
 export const workspaceUserGroupPolicyVariableQuerySchema = Type.Intersect(
@@ -103,7 +105,9 @@ export const workspaceUserGroupPolicyVariableQuerySchema = Type.Intersect(
   },
 )
 
-export type UserGroupQuery = Static<typeof workspaceUserGroupPolicyVariableQuerySchema>
+export type UserGroupPolicyVariableQuery = Static<
+  typeof workspaceUserGroupPolicyVariableQuerySchema
+>
 
 export const workspaceUserGroupPolicyVariableDataValidator = getValidator(
   workspaceUserGroupPolicyVariableDataSchema,

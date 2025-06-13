@@ -19,7 +19,7 @@ export function workspacePolicyService(app: Application): void {
     paginate: app.get('paginate'),
     Model: WorkspacePolicyModel,
     name: 'policy',
-    allowedGraph: '[groups]',
+    allowedGraph: '[variables,fields,tables,groups]',
   }
 
   // Register our service on the Feathers application

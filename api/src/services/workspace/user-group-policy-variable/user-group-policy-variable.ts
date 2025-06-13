@@ -25,8 +25,7 @@ export function workspaceUserGroupPolicyVariableService(app: Application): void 
     paginate: app.get('paginate'),
     Model: WorkspaceUserGroupPolicyVariableModel,
     name: 'workspaceUserGroupPolicyVariable',
-    allowedGraph: '[group,user]',
-    id: ['userId', 'groupId'],
+    allowedGraph: '[]',
   }
 
   // Register our service on the Feathers application

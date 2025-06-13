@@ -24,7 +24,7 @@ export function workspacePolicyVariableService(app: Application): void {
   const options: ObjectionAdapterOptions = {
     paginate: app.get('paginate'),
     Model: WorkspacePolicyVariableModel,
-    name: 'policy-variable',
+    name: 'policyVariable',
     allowedGraph: '[policy]',
   }
 

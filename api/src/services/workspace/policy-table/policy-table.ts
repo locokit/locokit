@@ -18,7 +18,7 @@ export function workspacePolicyTableService(app: Application): void {
   const options: ObjectionAdapterOptions = {
     paginate: app.get('paginate'),
     Model: WorkspacePolicyTableModel,
-    name: 'policy-table',
+    name: 'policyTable',
     allowedGraph: '[policy]',
   }
 

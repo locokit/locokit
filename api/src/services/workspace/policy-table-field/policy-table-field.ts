@@ -24,8 +24,8 @@ export function workspacePolicyTableFieldService(app: Application): void {
   const options: ObjectionAdapterOptions = {
     paginate: app.get('paginate'),
     Model: WorkspacePolicyTableFieldModel,
-    name: 'policy-table-field',
-    allowedGraph: '[policy,tableField]',
+    name: 'policyTableField',
+    allowedGraph: '[tableField]',
   }
 
   // Register our service on the Feathers application

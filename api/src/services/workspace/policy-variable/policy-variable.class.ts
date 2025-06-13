@@ -30,7 +30,7 @@ export const workspacePolicyVariableHooks: HookMap<Application, WorkspacePolicyV
   before: {
     all: [
       transaction.start(),
-      // setLocoKitContext,
+      setLocoKitContext,
       checkUserHasAccess({
         allowedProfile: [USER_PROFILE.ADMIN],
         internalProvider: true,

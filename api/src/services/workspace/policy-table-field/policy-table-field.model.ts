@@ -1,22 +1,22 @@
 import { Model, RelationMappings } from 'objection'
-import { WorkspacePolicyModel } from '../policy/policy.model'
+import { TableFieldModel } from '../table-field/table-field.model'
 
 /**
  * Policy objection Model
  */
 export class WorkspacePolicyTableFieldModel extends Model {
-  static readonly model = 'policy-variable'
+  static readonly model = 'policy-table-field'
 
-  static readonly tableName = 'policyVariable'
+  static readonly tableName = 'policyTableField'
 
   static get relationMappings(): RelationMappings {
     return {
-      policy: {
+      tableField: {
         relation: Model.HasOneRelation,
-        modelClass: WorkspacePolicyModel,
+        modelClass: TableFieldModel,
         join: {
-          from: 'policyVariable.policyId',
-          to: 'policy.id',
+          from: 'policyTableField.tableFieldId',
+          to: 'tableField.id',
         },
       },
     }

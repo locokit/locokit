@@ -2,9 +2,9 @@ import { KnexAdapterParams } from '@feathersjs/knex'
 import { hooks as schemaHooks } from '@feathersjs/schema'
 
 import {
-  UserGroupData,
-  UserGroupResult,
-  UserGroupQuery,
+  UserGroupPolicyVariableData,
+  UserGroupPolicyVariableResult,
+  UserGroupPolicyVariableQuery,
   workspaceUserGroupPolicyVariableDataValidator,
   workspaceUserGroupPolicyVariablePatchValidator,
   workspaceUserGroupPolicyVariableQueryValidator,
@@ -13,9 +13,8 @@ import { workspaceUserGroupPolicyVariableResolvers } from './user-group-policy-v
 import { Application } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
 import { ObjectionService } from '@/feathers-objection'
-import { USER_PROFILE } from '@locokit/definitions'
 import { HookMap } from '@feathersjs/feathers'
-import { checkUserHasAccess } from '@/hooks/profile.hooks'
+import { setLocoKitContext } from '@/hooks/locokit'
 
 export const workspaceUserGroupPolicyVariableHooks: HookMap<
   Application,
@@ -30,11 +29,12 @@ export const workspaceUserGroupPolicyVariableHooks: HookMap<
   },
   before: {
     all: [
-      checkUserHasAccess({
-        allowedProfile: [USER_PROFILE.ADMIN, USER_PROFILE.CREATOR],
-        internalProvider: true,
-        internalProviderProfileCheck: 'IF_USER_PROVIDED',
-      }),
+      setLocoKitContext,
+      // checkUserHasAccess({
+      //   allowedProfile: [USER_PROFILE.ADMIN, USER_PROFILE.CREATOR],
+      //   internalProvider: true,
+      //   internalProviderProfileCheck: 'IF_USER_PROVIDED',
+      // }),
     ],
     find: [
       schemaHooks.validateQuery(workspaceUserGroupPolicyVariableQueryValidator),
@@ -57,11 +57,10 @@ export const workspaceUserGroupPolicyVariableHooks: HookMap<
   error: {},
 }
 
-export interface UserGroupParams extends KnexAdapterParams<UserGroupQuery> {}
+export interface UserGroupParams extends KnexAdapterParams<UserGroupPolicyVariableQuery> {}
 
 // By default calls the standard Knex adapter service methods but can be customized with your own functionality.
 export class WorkspaceUserGroupPolicyVariableService extends ObjectionService<
-  UserGroupResult,
-  UserGroupData,
-  UserGroupParams
+  UserGroupPolicyVariableResult,
+  UserGroupPolicyVariableData
 > {}
