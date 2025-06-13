@@ -50,10 +50,11 @@ export const workspaceGroupPolicyVariableHooks: HookMap<
     ],
   },
   after: {
-    find: [
-      // schemaHooks.resolveData(workspaceGroupPolicyVariableResolvers.result),
-      transaction.end(),
-    ],
+    // find: [
+    //   // schemaHooks.resolveData(workspaceGroupPolicyVariableResolvers.result),
+    //   transaction.end(),
+    // ],
+    all: [transaction.end()],
   },
   error: {
     all: [transaction.rollback()],

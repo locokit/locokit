@@ -60,9 +60,9 @@ export const workspaceGroupPolicyVariableSchema = Type.Object(
 
 export type WorkspaceGroupPolicyVariableSchema = Static<typeof workspaceGroupPolicyVariableSchema>
 
-export const workspaceGroupPolicyVariableDataSchema = Type.Omit(
+export const workspaceGroupPolicyVariableDataSchema = Type.Pick(
   workspaceGroupPolicyVariableSchema,
-  ['id', 'policyVariable', 'group'],
+  ['documentation', 'value', 'policyVariableId', 'groupId'],
   {
     $id: 'WorkspaceGroupPolicyVariableData',
     additionalProperties: false,

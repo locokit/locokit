@@ -4,11 +4,11 @@
       v-if="!isRetracted"
       class="w-full lg:w-80 lg:min-w-80 bg-surface-100 text-primary flex flex-col"
     >
-      <header class="min-h-12 h-12 flex items-center justify-between px-3 border-b-2 border-white">
+      <header class="min-h-12 h-12 flex items-center justify-between border-b-2 border-white">
         <slot name="sidebar-title">
-          <h3>Sidebar Header</h3>
+          <h3 class="px-3">Sidebar Header</h3>
         </slot>
-        <section class="flex items-center gap-4 text-xl">
+        <section class="flex items-center gap-4 text-xl pr-3">
           <button @click="closeSidebar" aria-label="Close sidebar" title="Close sidebar">
             <i class="bi bi-layout-sidebar"></i>
           </button>
@@ -33,9 +33,9 @@
           </slot>
         </section>
       </header>
-      <nav class="p-3 grow overflow-auto relative scroll-shadows" title="Sidebar navigation">
+      <nav class="grow overflow-auto relative scroll-shadows" title="Sidebar navigation">
         <slot name="sidebar-nav" :openSidebar="openSidebar" :closeSidebar="closeSidebar">
-          Here goes your navigation menu.
+          <div class="p-3">Here goes your navigation menu.</div>
         </slot>
       </nav>
       <footer class="p-2 flex gap-2 justify-center items-center border-t border-white">
@@ -59,8 +59,11 @@
       <div class="grow bg-gray-200 text-primary relative overflow-hidden">
         <!-- Background blured -->
         <div
-          class="blur-[2px] absolute top-0 left-0 w-full h-full bg-center bg-no-repeat bg-contain opacity-10 pointer-events-none"
-          :style="`background-image: url('${workspaceLogoUrl}')`"
+          class="blur-[2px] absolute top-0 left-0 w-full h-full bg-center bg-no-repeat opacity-10 pointer-events-none"
+          :style="{
+            'background-image': `url('${workspaceLogoUrl}')`,
+            'background-size': 'min(80%, 800px)',
+          }"
         />
         <slot :openSidebar="openSidebar" :closeSidebar="closeSidebar">
           <h2>Sidebar Content</h2>

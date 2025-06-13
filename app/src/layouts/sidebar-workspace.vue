@@ -2,7 +2,7 @@
   <LayoutSidebar
     v-if="workspace"
     locokit-logo-url="/assets/themes/locokit/logo.svg"
-    workspace-logo-url="/assets/themes/hm/logo.png"
+    workspace-logo-url="/assets/themes/locokit/logo.svg"
   >
     <template #breadcrumb>
       <nav class="flex gap-2 overflow-x-auto">
@@ -20,27 +20,42 @@
       </nav>
     </template>
     <template #sidebar-title>
-      <h3 class="flex items-center text-2xl font-bold">
-        <template v-if="workspace">
+      <h3 class="flex items-center gap-2 text-2xl font-bold" v-if="workspace">
+        <div class="flex items-center justify-center w-[3rem]">
           <i
             v-if="workspace.settings?.icon"
             :class="workspace.settings?.icon"
             class="w-8 h-8 rounded-full mr-2"
           />
-          <img v-else class="w-8 h-8 rounded-full mr-2" src="/assets/themes/locokit/favicon.svg" />
-          {{ workspace.name }}
-        </template>
-        <template v-else>
-          <i class="pi pi-spin pi-spinner"></i>
-        </template>
+          <img v-else class="w-8 h-8 rounded-full" src="/assets/themes/locokit/favicon.svg" />
+        </div>
+        {{ workspace.name }}
       </h3>
+      <div v-else>
+        <i class="pi pi-spin pi-spinner"></i>
+      </div>
     </template>
     <template #sidebar-nav>
-      <ul class="pl-2">
-        <sidebar-item v-for="i in items" :item="i" :key="i.key" />
-      </ul>
+      <div class="flex h-full">
+        <div class="w-[3rem] bg-primary flex flex-col border-r border-white text-white">
+          <router-link
+            v-for="i in items"
+            :key="i.key"
+            :to="i.to"
+            :title="i.label"
+            class="w-[3rem] h-[3rem] flex items-center justify-center hover:bg-white hover:text-primary"
+            :active-class="i.activeClass"
+            :exact-active-class="i.exactActiveClass"
+          >
+            <i :class="i.icon" />
+          </router-link>
+        </div>
+        <div class="grow overflow-y-auto overflow-x-hidden" ref="sidebar"></div>
+      </div>
     </template>
-    <slot></slot>
+    <div class="relative z-10 h-full">
+      <slot></slot>
+    </div>
   </LayoutSidebar>
 </template>
 
@@ -51,11 +66,12 @@ import type { DatasourceResult } from '@locokit/sdk/dist/src/services/core/datas
 import { LayoutSidebar } from '@locokit/vue-components'
 import { RouterLink } from 'vue-router'
 import { useBreadcrumb } from '@/composables/useBreadcrumb'
-import { computed } from 'vue'
+import { computed, provide, useTemplateRef } from 'vue'
 import { useI18n } from 'vue-i18n'
-import SidebarItem from '@/components/sidebar-item.vue'
 
 const { t } = useI18n()
+const sidebar = useTemplateRef('sidebar')
+provide('sidebar', sidebar)
 
 const props = defineProps<{
   workspace?: WorkspaceResult & {
@@ -67,36 +83,30 @@ const { breadcrumbItems } = useBreadcrumb()
 
 const items = computed(() => [
   {
+    key: 'workspace',
+    label: t('locokit.pages.workspace.title'),
+    icon: 'bi bi-house-fill text-xl',
+    exactActiveClass: 'bg-white text-primary',
+    to: {
+      name: ROUTE_NAMES.WORKSPACE.ADMIN.ROOT,
+      params: { wsslug: props.workspace.slug },
+    },
+  },
+  {
     key: 'datasources',
     label: t('locokit.pages.workspace.datasources'),
     icon: 'bi bi-database-fill text-xl',
+    activeClass: 'bg-white text-primary',
     to: {
       name: ROUTE_NAMES.WORKSPACE.ADMIN.DATASOURCES.ROOT,
       params: { wsslug: props.workspace.slug },
     },
-    children: props.workspace?.datasources?.map((d) => ({
-      key: 'datasource-' + d.id,
-      label: d.slug,
-      icon: 'bi bi-database text-xl',
-      to: {
-        name: ROUTE_NAMES.WORKSPACE.ADMIN.DATASOURCES.SLUG,
-        params: { wsslug: props.workspace.slug, dsslug: d.slug },
-      },
-      children: d.tables?.map((t) => ({
-        key: 'table-' + t.id,
-        label: t.slug,
-        icon: 'bi bi-table text-xl',
-        to: {
-          name: ROUTE_NAMES.WORKSPACE.ADMIN.DATASOURCES.TABLES.SLUG,
-          params: { wsslug: props.workspace.slug, dsslug: d.slug, tslug: t.slug },
-        },
-      })),
-    })),
   },
   {
     key: 'policies',
     label: t('locokit.pages.workspace.policies'),
     icon: 'bi bi-shield-lock-fill text-xl',
+    activeClass: 'bg-white text-primary',
     to: {
       name: ROUTE_NAMES.WORKSPACE.ADMIN.POLICIES.ROOT,
       params: { wsslug: props.workspace.slug },
@@ -106,6 +116,7 @@ const items = computed(() => [
     key: 'groups',
     label: t('locokit.pages.workspace.groups'),
     icon: 'bi bi-people-fill text-xl',
+    activeClass: 'bg-white text-primary',
     to: {
       name: ROUTE_NAMES.WORKSPACE.ADMIN.GROUPS.ROOT,
       params: { wsslug: props.workspace.slug },

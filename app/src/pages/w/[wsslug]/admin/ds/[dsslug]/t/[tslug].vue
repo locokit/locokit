@@ -11,7 +11,6 @@
       @fetch="onFetch"
       @patch="onPatch"
     />
-    <!-- :currentPageReportTemplate="$t('components.paginator.currentPageReportTemplate')" -->
     <prime-paginator
       class="bg-white"
       :rows="50"

@@ -31,11 +31,11 @@ export const workspacePolicyVariableHooks: HookMap<Application, WorkspacePolicyV
     all: [
       transaction.start(),
       setLocoKitContext,
-      checkUserHasAccess({
-        allowedProfile: [USER_PROFILE.ADMIN],
-        internalProvider: true,
-        internalProviderProfileCheck: 'IF_USER_PROVIDED',
-      }),
+      // checkUserHasAccess({
+      //   allowedProfile: [USER_PROFILE.ADMIN],
+      //   internalProvider: true,
+      //   internalProviderProfileCheck: 'IF_USER_PROVIDED',
+      // }),
     ],
     find: [
       schemaHooks.validateQuery(workspacePolicyVariableQueryValidator),

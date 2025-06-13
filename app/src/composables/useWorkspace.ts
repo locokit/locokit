@@ -22,14 +22,15 @@ export function useWorkspace() {
       }
       const currentWorkspace: WorkspaceResult = workspaceResponse.data[0] as WorkspaceResult
       // fetch all datasources related resources
-      const datasourceTables = await sdkClient
+      const datasources = await sdkClient
         .service('/workspace/' + currentWorkspace.slug + '/datasource')
         .find({
           query: {
+            $limit: 50,
             $eager: '[tables.[fields]]',
           },
         })
-      currentWorkspace.datasources = datasourceTables.data
+      currentWorkspace.datasources = datasources.data
       state.value.workspace = currentWorkspace
     } catch (error) {
       state.value.error = error as Error

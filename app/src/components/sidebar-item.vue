@@ -5,6 +5,7 @@
       exactActiveClass="font-bold"
       :to="item.to"
       class="flex items-center justify-between hover:font-bold hover:bg-primary hover:text-white p-1 rounded"
+      @click="isOpened = !isOpened"
     >
       <span class="flex items-center gap-2">
         <i :class="item.icon"></i>
@@ -14,10 +15,9 @@
         v-if="item.children"
         class="bi font-bold text-xs"
         :class="{ 'bi-chevron-right': !isOpened, 'bi-chevron-down': isOpened }"
-        @click.prevent="isOpened = !isOpened"
       />
     </router-link>
-    <ul v-if="item.children && isOpened" class="ml-8 my-1">
+    <ul v-if="item.children && isOpened" class="ml-3 my-1 pl-3 border-l hover:border-primary-400">
       <sidebar-item :item="i" v-for="i in item.children" :key="i.key" />
     </ul>
   </li>

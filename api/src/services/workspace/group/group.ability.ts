@@ -94,8 +94,5 @@ export const setAbilities = async (context: HookContext) => {
   context.params.ability = ability
   context.params.rules = ability.rules
 
-  console.log(context.params.ability)
-  console.log(context.params.rules)
-
   return context
 }
