@@ -24,6 +24,16 @@ import { datasourceMermaidService } from './workspace/datasource-mermaid/datasou
 import { workflowService } from './workspace/workflow/workflow'
 import { workflowRunService } from './workspace/workflow-run/workflow-run'
 
+import { workspacePolicyService } from './workspace/policy/policy'
+import { workspacePolicyVariableService } from './workspace/policy-variable/policy-variable'
+import { workspacePolicyTableService } from './workspace/policy-table/policy-table'
+import { workspacePolicyTableFieldService } from './workspace/policy-table-field/policy-table-field'
+
+import { workspaceGroupService } from './workspace/group/group'
+import { workspaceGroupPolicyVariableService } from './workspace/group-policy-variable/group-policy-variable'
+import { workspaceUserGroupService } from './workspace/user-group/user-group'
+import { workspaceUserGroupPolicyVariableService } from './workspace/user-group-policy-variable/user-group-policy-variable'
+
 export const services = (app: Application): void => {
   /**
    * Auth / user / groups
@@ -50,10 +60,21 @@ export const services = (app: Application): void => {
   app.configure(workspaceDatasourceService)
   app.configure(datasourceMermaidService)
   app.configure(migrationService)
+
   app.configure(tableService)
   app.configure(tableFieldService)
   app.configure(tableRelationService)
   app.configure(tableRecordService)
+
+  app.configure(workspacePolicyService)
+  app.configure(workspacePolicyVariableService)
+  app.configure(workspacePolicyTableService)
+  app.configure(workspacePolicyTableFieldService)
+
+  app.configure(workspaceGroupService)
+  app.configure(workspaceGroupPolicyVariableService)
+  app.configure(workspaceUserGroupService)
+  app.configure(workspaceUserGroupPolicyVariableService)
 
   /**
    * Workflows

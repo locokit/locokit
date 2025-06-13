@@ -135,7 +135,7 @@ BEGIN
 
   CREATE TABLE IF NOT EXISTS "userGroup" (
 
-    CONSTRAINT "PK_userGroup" PRIMARY KEY ("userId", "groupId"),
+    CONSTRAINT "PK_userGroup" PRIMARY KEY ("id"),
 
     CONSTRAINT "FK_userGroup_group" FOREIGN KEY ("groupId")
       REFERENCES "group" (id) MATCH SIMPLE
@@ -441,7 +441,6 @@ BEGIN
         ON DELETE CASCADE,
     CONSTRAINT "CHECK_datasetField_sortOrder"
       CHECK ("sortOrder" = ANY (ARRAY['ASC'::text, 'DESC'::text]))
-
   );
   CREATE INDEX IF NOT EXISTS "IDX_datasetField_dataset"
     ON "datasetField" USING btree
@@ -450,6 +449,196 @@ BEGIN
   CREATE INDEX IF NOT EXISTS "IDX_datasetField_tableField"
     ON "datasetField" USING btree
     ("tableFieldId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+  CREATE TABLE IF NOT EXISTS "policyVariable" (
+    id uuid NOT NULL DEFAULT gen_random_uuid(),
+
+    name character varying(50),
+    slug character varying(50) NOT NULL,
+    documentation text,
+
+    "policyId" uuid NOT NULL,
+    "tableId" uuid NOT NULL,
+    "tableFieldId" uuid NOT NULL,
+    "level" character varying(10),
+
+    "defaultValue" jsonb DEFAULT '{}'::jsonb,
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "PK_policyVariable" PRIMARY KEY (id),
+
+    CONSTRAINT "FK_policyVariable_policyId" FOREIGN KEY ("policyId")
+        REFERENCES "policy" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE,
+    CONSTRAINT "FK_policyVariable_tableId" FOREIGN KEY ("tableId")
+        REFERENCES "table" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE,
+    CONSTRAINT "FK_policyVariable_tableFieldId" FOREIGN KEY ("tableFieldId")
+        REFERENCES "tableField" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE,
+
+    CONSTRAINT "CHECK_policyVariable_level" CHECK (
+      "level" = ANY (ARRAY[
+        'user'::text,
+        'group'::text,
+        'user+group'::text
+      ])
+    )
+  );
+  CREATE INDEX IF NOT EXISTS "IDX_policyVariable_policy"
+    ON "policyVariable" USING btree
+    ("policyId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+  CREATE INDEX IF NOT EXISTS "IDX_policyVariable_table"
+    ON "policyVariable" USING btree
+    ("tableId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+  CREATE INDEX IF NOT EXISTS "IDX_policyVariable_tableField"
+    ON "policyVariable" USING btree
+    ("tableFieldId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+  CREATE TABLE IF NOT EXISTS "policyTable" (
+    id uuid NOT NULL DEFAULT gen_random_uuid(),
+
+    documentation text,
+
+    "policyId" uuid NOT NULL,
+    "tableId" uuid NOT NULL,
+
+    "read" jsonb DEFAULT '{}'::jsonb,
+    "create" jsonb DEFAULT '{}'::jsonb,
+    "patch" jsonb DEFAULT '{}'::jsonb,
+    "remove" jsonb DEFAULT '{}'::jsonb,
+
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "PK_policyTable" PRIMARY KEY (id),
+
+    CONSTRAINT "FK_policyTable_policyId" FOREIGN KEY ("policyId")
+        REFERENCES "policy" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE,
+    CONSTRAINT "FK_policyTable_tableId" FOREIGN KEY ("tableId")
+        REFERENCES "table" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+  );
+  CREATE INDEX IF NOT EXISTS "IDX_policyTable_policy"
+    ON "policyTable" USING btree
+    ("policyId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+  CREATE INDEX IF NOT EXISTS "IDX_policyTable_table"
+    ON "policyTable" USING btree
+    ("tableId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+
+  CREATE TABLE IF NOT EXISTS "policyTableField" (
+    id uuid NOT NULL DEFAULT gen_random_uuid(),
+
+    documentation text,
+
+    "policyId" uuid NOT NULL,
+    "tableFieldId" uuid NOT NULL,
+
+    "read" boolean DEFAULT FALSE,
+    "write" boolean DEFAULT FALSE,
+
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "PK_policyTableField" PRIMARY KEY (id),
+
+    CONSTRAINT "FK_policyTableField_policyId" FOREIGN KEY ("policyId")
+        REFERENCES "policy" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE,
+    CONSTRAINT "FK_policyTableField_tableFieldId" FOREIGN KEY ("tableFieldId")
+        REFERENCES "tableField" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+  );
+  CREATE INDEX IF NOT EXISTS "IDX_policyTableField_policy"
+    ON "policyTableField" USING btree
+    ("policyId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+  CREATE INDEX IF NOT EXISTS "IDX_policyTableField_tableField"
+    ON "policyTableField" USING btree
+    ("tableFieldId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+
+  CREATE TABLE IF NOT EXISTS "groupPolicyVariable" (
+    id uuid NOT NULL DEFAULT gen_random_uuid(),
+
+    documentation text,
+
+    "value" jsonb DEFAULT '{}'::jsonb,
+
+    "policyVariableId" uuid NOT NULL,
+    "groupId" uuid NOT NULL,
+
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "PK_groupPolicyVariable" PRIMARY KEY (id),
+
+    CONSTRAINT "FK_groupPolicyVariable_policyVariableId" FOREIGN KEY ("policyVariableId")
+      REFERENCES "policyVariable" (id) MATCH SIMPLE
+      ON UPDATE NO ACTION
+      ON DELETE CASCADE,
+    CONSTRAINT "FK_groupPolicyVariable_groupId" FOREIGN KEY ("groupId")
+      REFERENCES "group" (id) MATCH SIMPLE
+      ON UPDATE NO ACTION
+      ON DELETE CASCADE
+
+  );
+  CREATE INDEX IF NOT EXISTS "IDX_groupPolicyVariable_policyVariable"
+    ON "groupPolicyVariable" USING btree
+    ("policyVariableId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+  CREATE INDEX IF NOT EXISTS "IDX_groupPolicyVariable_group"
+    ON "groupPolicyVariable" USING btree
+    ("groupId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+  CREATE TABLE IF NOT EXISTS "userGroupPolicyVariable" (
+    id uuid NOT NULL DEFAULT gen_random_uuid(),
+
+    "value" jsonb DEFAULT '{}'::jsonb,
+
+    "userGroupId" uuid NOT NULL,
+    "policyVariableId" uuid NOT NULL,
+
+    "createdAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "PK_userGroupPolicyVariable" PRIMARY KEY (id),
+
+    CONSTRAINT "FK_userGroupPolicyVariable_policyVariableId" FOREIGN KEY ("policyVariableId")
+      REFERENCES "policyVariable" (id) MATCH SIMPLE
+      ON UPDATE NO ACTION
+      ON DELETE CASCADE,
+    CONSTRAINT "FK_userGroupPolicyVariable_groupId" FOREIGN KEY ("userGroupId")
+      REFERENCES "userGroup" (id) MATCH SIMPLE
+      ON UPDATE NO ACTION
+      ON DELETE CASCADE
+
+  );
+  CREATE INDEX IF NOT EXISTS "IDX_userGroupPolicyVariable_policyVariable"
+    ON "userGroupPolicyVariable" USING btree
+    ("policyVariableId" ASC NULLS LAST)
+    TABLESPACE pg_default;
+  CREATE INDEX IF NOT EXISTS "IDX_userGroupPolicyVariable_userGroup"
+    ON "userGroupPolicyVariable" USING btree
+    ("userGroupId" ASC NULLS LAST)
     TABLESPACE pg_default;
 
   CREATE TABLE IF NOT EXISTS "workflow" (
@@ -493,6 +682,13 @@ BEGIN
       'NOK'::text
     ]))
   );
+
+  RAISE NOTICE 'View ''%''.''lck_user'' set up.', v_schema;
+
+  EXECUTE format('
+  CREATE OR REPLACE VIEW %I.lck_user AS
+  SELECT id, username, email, blocked, "isVerified" from "core"."lck_user";'
+  , v_schema);
 
   RAISE NOTICE 'Schema ''%'' set up.', v_schema;
 

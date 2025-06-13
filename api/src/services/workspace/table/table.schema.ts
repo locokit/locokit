@@ -40,6 +40,15 @@ export const tableSchema = Type.Object(
         }),
       ),
     ),
+    /**
+     * Date times
+     */
+    createdAt: Type.String({
+      format: 'date-time',
+    }),
+    updatedAt: Type.String({
+      format: 'date-time',
+    }),
   },
   {
     $id: 'TableSchema',
@@ -101,21 +110,21 @@ export const tableQuerySchema = Type.Intersect(
         // Type.RegEx(
         //   /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
         Type.String({
-          description: 'Join table to its datasource / relations / fields.',
+          description: 'Join table to its relations / fields.',
         }),
       ),
       $joinEager: Type.Optional(
         // Type.RegEx(
         //   /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
         Type.String({
-          description: 'Join table to its datasource / relations / fields.',
+          description: 'Join table to its relations / fields.',
         }),
       ),
       $eager: Type.Optional(
         // Type.RegEx(
         //   /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
         Type.String({
-          description: 'Join table to its datasource / relations / fields.',
+          description: 'Join table to its relations / fields.',
         }),
       ),
     }),

@@ -4,7 +4,17 @@ import type { Application } from '@/declarations'
 import { TableRecord } from './table-record.class'
 import { tableRecordHooks } from './table-record.hooks'
 
-// A configure function that registers the service and its hooks via `app.configure`
+/**
+ * Virtual service able to retrieve data
+ * through the LocoKit engine package.
+ *
+ * The table record service will retrieve datasource credentials
+ * and remotely / locally access to it.
+ *
+ * Then it will process the related query (CRUD) on it,
+ * applying the right policy, according the user connected
+ * and the group he's using to access the data (default group = first one ?).
+ */
 export function tableRecordService(app: Application): void {
   // Register our service on the Feathers application
   app.use(SERVICES.WORKSPACE_TABLE_RECORD, new TableRecord(), {

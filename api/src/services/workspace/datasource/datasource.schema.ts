@@ -65,6 +65,12 @@ export const workspaceDatasourceSchema = Type.Object(
         description: 'Related tables of the datasource',
       }),
     ),
+    createdAt: Type.String({
+      format: 'date-time',
+    }),
+    updatedAt: Type.String({
+      format: 'date-time',
+    }),
   },
   {
     $id: 'WorkspaceDatasourceSchema',
@@ -144,7 +150,7 @@ export const workspaceDatasourceQuerySchema = Type.Intersect(
           'workspaceId',
           'tables',
         ],
-        { $id: 'DatasourceQuery', additionalProperties: false },
+        { $id: 'WorkspaceDatasourceQuery', additionalProperties: false },
       ),
     ),
     Type.Object({

@@ -43,6 +43,15 @@ export const tableFieldSettings = Type.Object(
         },
       ),
     ),
+    /**
+     * Date times
+     */
+    createdAt: Type.String({
+      format: 'date-time',
+    }),
+    updatedAt: Type.String({
+      format: 'date-time',
+    }),
   },
   {
     description: 'Field settings',

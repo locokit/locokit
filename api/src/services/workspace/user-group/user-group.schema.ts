@@ -4,7 +4,7 @@ import { dataValidator, queryValidator } from '@/commons/validators'
 import { queryStringExtend } from '@/feathers-objection'
 
 // Schema for the basic data model (e.g. creating new entries)
-export const userGroupSchema = Type.Object(
+export const workspaceUserGroupSchema = Type.Object(
   {
     id: Type.String({ format: 'uuid' }),
 
@@ -27,31 +27,35 @@ export const userGroupSchema = Type.Object(
     group: Type.Optional(Type.Any()),
   },
   {
-    $id: 'UserGroupSchema',
+    $id: 'WorkspaceUserGroupSchema',
     additionalProperties: false,
   },
 )
-dataValidator.addSchema(userGroupSchema)
+dataValidator.addSchema(workspaceUserGroupSchema)
 
-export type UserGroupSchema = Static<typeof userGroupSchema>
+export type UserGroupSchema = Static<typeof workspaceUserGroupSchema>
 
-export const userGroupDataSchema = Type.Pick(userGroupSchema, ['userId', 'groupId', 'role'], {
-  $id: 'UserGroupData',
+export const workspaceUserGroupDataSchema = Type.Pick(
+  workspaceUserGroupSchema,
+  ['userId', 'groupId', 'role'],
+  {
+    $id: 'WorkspaceUserGroupData',
+  },
+)
+
+export type UserGroupData = Static<typeof workspaceUserGroupDataSchema>
+
+export const workspaceUserGroupPatchSchema = Type.Pick(workspaceUserGroupDataSchema, ['role'], {
+  $id: 'WorkspaceUserGroupPatch',
 })
 
-export type UserGroupData = Static<typeof userGroupDataSchema>
+export type UserGroupPatch = Static<typeof workspaceUserGroupPatchSchema>
 
-export const userGroupPatchSchema = Type.Pick(userGroupDataSchema, ['role'], {
-  $id: 'UserGroupPatch',
-})
+export type UserGroupResult = Static<typeof workspaceUserGroupSchema>
 
-export type UserGroupPatch = Static<typeof userGroupPatchSchema>
-
-export type UserGroupResult = Static<typeof userGroupSchema>
-
-export const userGroupQuerySchema = Type.Intersect(
+export const workspaceUserGroupQuerySchema = Type.Intersect(
   [
-    querySyntax(Type.Omit(userGroupSchema, ['user', 'group'])),
+    querySyntax(Type.Omit(workspaceUserGroupSchema, ['user', 'group'])),
     querySyntax(
       Type.Object({
         'group.name': Type.Optional(
@@ -93,10 +97,19 @@ export const userGroupQuerySchema = Type.Intersect(
   },
 )
 
-export type UserGroupQuery = Static<typeof userGroupQuerySchema>
+export type UserGroupQuery = Static<typeof workspaceUserGroupQuerySchema>
 
-export const userGroupDataValidator = getValidator(userGroupDataSchema, dataValidator)
-export const userGroupPatchValidator = getValidator(userGroupPatchSchema, dataValidator)
+export const workspaceUserGroupDataValidator = getValidator(
+  workspaceUserGroupDataSchema,
+  dataValidator,
+)
+export const workspaceUserGroupPatchValidator = getValidator(
+  workspaceUserGroupPatchSchema,
+  dataValidator,
+)
 
 // @ts-expect-error type instanciation too deep ts(2589)
-export const userGroupQueryValidator = getValidator(userGroupQuerySchema, queryValidator)
+export const workspaceUserGroupQueryValidator = getValidator(
+  workspaceUserGroupQuerySchema,
+  queryValidator,
+)
