@@ -6,6 +6,7 @@ import {
   WorkspacePolicyTableResult,
   WorkspacePolicyTableQuery,
   workspacePolicyTableDataValidator,
+  workspacePolicyTablePatchValidator,
 } from './policy-table.schema'
 import {
   workspacePolicyTableQueryValidator,
@@ -45,9 +46,14 @@ export const workspacePolicyTableHooks: HookMap<Application, WorkspacePolicyTabl
       schemaHooks.validateData(workspacePolicyTableDataValidator),
       schemaHooks.resolveData(workspacePolicyTableResolvers.data.create),
     ],
+    patch: [
+      schemaHooks.validateData(workspacePolicyTablePatchValidator),
+      schemaHooks.resolveData(workspacePolicyTableResolvers.data.patch),
+    ],
   },
   after: {
-    find: [schemaHooks.resolveData(workspacePolicyTableResolvers.result), transaction.end()],
+    all: [transaction.end()],
+    find: [schemaHooks.resolveData(workspacePolicyTableResolvers.result)],
   },
   error: {
     all: [transaction.rollback()],

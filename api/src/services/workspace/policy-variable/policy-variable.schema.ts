@@ -2,6 +2,7 @@ import { Type, querySyntax, Static, getValidator, StringEnum } from '@feathersjs
 import { dataValidator } from '@/commons/validators'
 import { queryStringExtend } from '../../../feathers-objection'
 import { toEagerRegExp } from '@/utils/toEagerRegExp'
+import { format } from 'path'
 
 // Schema for the basic data model (e.g. creating new entries)
 export const workspacePolicyVariableSchema = Type.Object(
@@ -25,14 +26,18 @@ export const workspacePolicyVariableSchema = Type.Object(
       format: 'uuid',
       description: 'Related policy',
     }),
-    tableId: Type.String({
-      format: 'uuid',
-      description: 'Related table',
-    }),
-    tableFieldId: Type.String({
-      format: 'uuid',
-      description: 'Related table field',
-    }),
+    tableId: Type.Optional(
+      Type.String({
+        format: 'uuid',
+        description: 'Related table',
+      }),
+    ),
+    tableFieldId: Type.Optional(
+      Type.String({
+        format: 'uuid',
+        description: 'Related table field',
+      }),
+    ),
     defaultValue: Type.Object(
       {
         string: Type.String({
@@ -75,7 +80,7 @@ export type WorkspacePolicyVariableSchema = Static<typeof workspacePolicyVariabl
 
 export const workspacePolicyVariableDataSchema = Type.Omit(
   workspacePolicyVariableSchema,
-  ['id', 'policy'],
+  ['id', 'policy', 'createdAt', 'updatedAt'],
   {
     $id: 'WorkspacePolicyVariableData',
     additionalProperties: false,
@@ -124,5 +129,10 @@ export type WorkspacePolicyVariableQuery = Static<typeof workspacePolicyVariable
 
 export const workspacePolicyVariableDataValidator = getValidator(
   workspacePolicyVariableDataSchema,
+  dataValidator,
+)
+
+export const workspacePolicyVariablePatchValidator = getValidator(
+  workspacePolicyVariablePatchSchema,
   dataValidator,
 )

@@ -11,7 +11,8 @@ export function tableService(app: Application): void {
     paginate: app.get('paginate'),
     Model: TableModel,
     name: 'table',
-    allowedGraph: '[fields, relations.[toTable], lookups.[fromTable]]',
+    allowedGraph:
+      '[fields, relations.[toTable], lookups.[fromTable], policyVariables, policyTable]',
     // Service options will go here
   }
 
@@ -22,7 +23,7 @@ export function tableService(app: Application): void {
     // You can add additional custom events to be sent to clients here
     events: [],
     docs: {
-      tag: 'workspace > table',
+      tag: 'workspace > datasource > table',
     },
   })
   // Initialize hooks

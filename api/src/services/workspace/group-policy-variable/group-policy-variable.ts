@@ -25,7 +25,7 @@ export function workspaceGroupPolicyVariableService(app: Application): void {
     paginate: app.get('paginate'),
     Model: WorkspaceGroupPolicyVariableModel,
     name: 'groupPolicyVariable',
-    allowedGraph: '[policy,group]',
+    allowedGraph: '[group,policyVariable]',
   }
 
   // Register our service on the Feathers application
@@ -40,7 +40,7 @@ export function workspaceGroupPolicyVariableService(app: Application): void {
         workspaceGroupPolicyVariableQuerySchema,
         workspaceGroupPolicyVariableSchema,
       },
-      docs: { description: 'Policy variable service', tag: 'workspace > policy variable' },
+      docs: { description: 'Policy variable service', tag: 'workspace > group policy variable' },
     }),
   })
   // Initialize hooks

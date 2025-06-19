@@ -1,5 +1,6 @@
 import { Model, RelationMappings } from 'objection'
-import { WorkspacePolicyModel } from '../policy/policy.model'
+import { WorkspaceGroupModel } from '../group/group.model'
+import { WorkspacePolicyVariableModel } from '../policy-variable/policy-variable.model'
 
 /**
  * Policy objection Model
@@ -11,12 +12,20 @@ export class WorkspaceGroupPolicyVariableModel extends Model {
 
   static get relationMappings(): RelationMappings {
     return {
-      policy: {
+      policyVariable: {
         relation: Model.HasOneRelation,
-        modelClass: WorkspacePolicyModel,
+        modelClass: WorkspacePolicyVariableModel,
         join: {
-          from: 'groupPolicyVariable.policyId',
-          to: 'policy.id',
+          from: 'groupPolicyVariable.policyVariableId',
+          to: 'policyVariable.id',
+        },
+      },
+      group: {
+        relation: Model.HasOneRelation,
+        modelClass: WorkspaceGroupModel,
+        join: {
+          from: 'groupPolicyVariable.groupId',
+          to: 'group.id',
         },
       },
     }

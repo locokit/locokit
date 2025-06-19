@@ -88,6 +88,9 @@ export const workspaceGroupPolicyVariableQuerySchema = Type.Intersect(
   [
     querySyntax(workspaceGroupPolicyVariableSchema),
     Type.Object({
+      'policyVariable.policyId': Type.Optional(Type.String()),
+    }),
+    Type.Object({
       $joinRelated: Type.Optional(
         Type.RegEx(eagerRegExp, {
           description: 'Join group-policy-variable to its relations.',

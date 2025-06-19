@@ -30,7 +30,7 @@ export function workspaceGroupService(app: Application): void {
     events: [],
     docs: createSwaggerServiceOptions({
       schemas: { workspaceGroupDataSchema, workspaceGroupQuerySchema, workspaceGroupSchema },
-      docs: { description: 'Group service', tag: 'workspace > workspaceGroup' },
+      docs: { description: 'Group service', tag: 'workspace > group' },
     }),
   })
   // Initialize hooks

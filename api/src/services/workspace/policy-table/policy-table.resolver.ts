@@ -6,12 +6,22 @@ import { workspacePolicyTableQuerySchema, WorkspacePolicyTableSchema } from './p
 import { PolicyQuery } from '@/client'
 
 // Resolver for the basic data model (e.g. creating new entries)
-export const workspacePolicyTableCreateResolver = resolve<WorkspacePolicyTableSchema, HookContext>(
-  {},
-)
+export const workspacePolicyTableCreateResolver = resolve<WorkspacePolicyTableSchema, HookContext>({
+  createdAt: async () => {
+    return new Date().toISOString()
+  },
+
+  updatedAt: async () => {
+    return new Date().toISOString()
+  },
+})
 
 export const workspacePolicyTableDefaultResolver = resolve<WorkspacePolicyTableSchema, HookContext>(
-  {},
+  {
+    updatedAt: async () => {
+      return new Date().toISOString()
+    },
+  },
 )
 
 export const workspacePolicyTableDispatchResolver = resolve<
@@ -33,7 +43,6 @@ export const workspacePolicyTableResolvers = {
   dispatch: workspacePolicyTableDispatchResolver,
   data: {
     create: workspacePolicyTableCreateResolver,
-    update: workspacePolicyTableDefaultResolver,
     patch: workspacePolicyTableDefaultResolver,
   },
   query: workspacePolicyTableQueryResolver,

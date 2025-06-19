@@ -24,33 +24,57 @@ export const workspacePolicyTableSchema = Type.Object(
       allow: Type.Boolean({
         description: 'Allow read for this table, according to filters',
       }),
-      filter: Type.Any({
-        title:
-          "Filter rules to apply for access control when group's users read the table. Can use any of the variables defined at the group / user level.",
-      }),
+      filter: Type.Optional(
+        Type.Object(
+          {},
+          {
+            title:
+              "Filter rules to apply for access control when group's users read the table. Can use any of the variables defined at the group / user level.",
+          },
+        ),
+      ),
     }),
     create: Type.Object({
       allow: Type.Boolean({
         description: 'Allow record creation for this table',
       }),
+      filter: Type.Optional(
+        Type.Object(
+          {},
+          {
+            title:
+              "Filter rules to apply for access control when group's users create a record of the table. Can use any of the variables defined at the group / user level.",
+          },
+        ),
+      ),
     }),
     patch: Type.Object({
       allow: Type.Boolean({
         description: 'Allow patch records for this table, according to filters',
       }),
-      filter: Type.Any({
-        title:
-          "Filter rules to apply for access control when group's users patch a record of the table. Can use any of the variables defined at the group / user level.",
-      }),
+      filter: Type.Optional(
+        Type.Object(
+          {},
+          {
+            title:
+              "Filter rules to apply for access control when group's users patch a record of the table. Can use any of the variables defined at the group / user level.",
+          },
+        ),
+      ),
     }),
     remove: Type.Object({
       allow: Type.Boolean({
         description: 'Allow removal records for this table, according to filters',
       }),
-      filter: Type.Any({
-        title:
-          "Filter rules to apply for access control when group's users remove a record of the table. Can use any of the variables defined at the group / user level.",
-      }),
+      filter: Type.Optional(
+        Type.Object(
+          {},
+          {
+            title:
+              "Filter rules to apply for access control when group's users remove a record of the table. Can use any of the variables defined at the group / user level.",
+          },
+        ),
+      ),
     }),
     /**
      * Date times
@@ -73,9 +97,9 @@ export const workspacePolicyTableSchema = Type.Object(
 
 export type WorkspacePolicyTableSchema = Static<typeof workspacePolicyTableSchema>
 
-export const workspacePolicyTableDataSchema = Type.Omit(
+export const workspacePolicyTableDataSchema = Type.Pick(
   workspacePolicyTableSchema,
-  ['id', 'policy'],
+  ['documentation', 'policyId', 'tableId', 'read', 'create', 'patch', 'remove'],
   {
     $id: 'WorkspacePolicyTableData',
     additionalProperties: false,
@@ -83,10 +107,13 @@ export const workspacePolicyTableDataSchema = Type.Omit(
 )
 export type WorkspacePolicyTableData = Static<typeof workspacePolicyTableDataSchema>
 
-export const workspacePolicyTablePatchSchema = Type.Partial(workspacePolicyTableDataSchema, {
-  $id: 'WorkspacePolicyTablePatch',
-  additionalProperties: false,
-})
+export const workspacePolicyTablePatchSchema = Type.Partial(
+  Type.Pick(workspacePolicyTableDataSchema, ['create', 'read', 'patch', 'remove']),
+  {
+    $id: 'WorkspacePolicyTablePatch',
+    additionalProperties: false,
+  },
+)
 export type WorkspacePolicyTablePatch = Static<typeof workspacePolicyTablePatchSchema>
 
 export type WorkspacePolicyTableResult = Static<typeof workspacePolicyTableSchema>
@@ -117,5 +144,10 @@ export type WorkspacePolicyTableQuery = Static<typeof workspacePolicyTableQueryS
 
 export const workspacePolicyTableDataValidator = getValidator(
   workspacePolicyTableDataSchema,
+  dataValidator,
+)
+
+export const workspacePolicyTablePatchValidator = getValidator(
+  workspacePolicyTablePatchSchema,
   dataValidator,
 )

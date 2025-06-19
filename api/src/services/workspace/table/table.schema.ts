@@ -4,6 +4,8 @@ import { WorkspaceDatasourceSchema } from '../datasource/datasource.schema'
 import { TableFieldSchema } from '../table-field/table-field.schema'
 import { TableRelationSchema } from '../table-relation/table-relation.schema'
 import { OptionalNullable } from '@locokit/definitions'
+import { WorkspacePolicyTableSchema } from '../policy-table/policy-table.schema'
+import { WorkspacePolicyVariableSchema } from '../policy-variable/policy-variable.schema'
 
 /**
  * Main schema
@@ -61,6 +63,8 @@ interface TableRelations {
   fields?: TableFieldSchema[]
   relations?: TableRelationSchema[]
   lookups?: TableRelationSchema[]
+  policyTable?: WorkspacePolicyTableSchema
+  policyVariables?: WorkspacePolicyVariableSchema[]
 }
 
 export type TableSchema = Static<typeof tableSchema> & TableRelations
@@ -129,7 +133,7 @@ export const tableQuerySchema = Type.Intersect(
       ),
     }),
   ],
-  { $id: 'TableQuery', additionalProperties: false },
+  { $id: 'TableQuery', additionalProperties: true },
 )
 export type TableQuery = Static<typeof tableQuerySchema>
 export const tableQueryValidator = getValidator(tableQuerySchema, queryValidator)

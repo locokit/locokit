@@ -95,7 +95,7 @@ export type WorkspaceGroupPatch = Static<typeof workspaceGroupPatchSchema>
 
 export type WorkspaceGroupResult = Static<typeof workspaceGroupSchema>
 
-const eagerRegExp = toEagerRegExp('policy|users|usergroups')
+const eagerRegExp = toEagerRegExp('users|policy|groupPolicyVariable')
 export const workspaceGroupQuerySchema = Type.Intersect(
   [
     querySyntax(Type.Omit(workspaceGroupSchema, ['policy', 'users', 'usergroups']), {
