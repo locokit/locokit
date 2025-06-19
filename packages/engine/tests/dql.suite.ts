@@ -10,7 +10,7 @@ import {
   Company,
   Participate,
 } from './definitions'
-import { FeatureCollectionResult } from '../src/adapters/interface'
+import { FeatureCollectionResult, PaginatedResult } from '../src/adapters/interface'
 
 /**
  * Data Query Language
@@ -25,62 +25,62 @@ export function playDQLSuite(
   const currentData: Record<string, LocoKitEngineTestType> = {}
 
   beforeAll(async () => {
-    const place1 = await adapter.create<Place>('place', {
+    const place1 = (await adapter.create<Place>('place', {
       name: 'Toulouse',
       point: 'POINT(1.443774704895361 43.60490776433437)',
-    })
-    const place2 = await adapter.create<Place>('place', {
+    })) as Place
+    const place2 = (await adapter.create<Place>('place', {
       name: 'Bagnères de Bigorre',
       point: 'POINT(0.15045479931004024 43.065363758275254)',
-    })
-    const company1 = await adapter.create<Company>('company', {
+    })) as Place
+    const company1 = (await adapter.create<Company>('company', {
       name: 'company1',
-    })
-    const event1 = await adapter.create<Event>('event', {
+    })) as Company
+    const event1 = (await adapter.create<Event>('event', {
       name: 'event1',
       p_uuid: place1.p_uuid,
       c_uuid: company1.id,
-    })
-    const speaker1 = await adapter.create<Person>('person', {
+    })) as Event
+    const speaker1 = (await adapter.create<Person>('person', {
       name: 'Speaker 1',
-    })
-    const room1 = await adapter.create<Room>('room', {
+    })) as Person
+    const room1 = (await adapter.create<Room>('room', {
       name: 'room1',
       p_uuid: place1.p_uuid,
-    })
-    const session1 = await adapter.create<Session>('session', {
+    })) as Room
+    const session1 = (await adapter.create<Session>('session', {
       name: 'Session 1',
       event_uuid: event1.id,
       speaker_uuid: speaker1.id,
       room_uuid: room1.r_uuid,
       begin: '2025-10-01T08:00:00',
       end: '2025-10-01T09:00:00',
-    })
-    const session2 = await adapter.create<Session>('session', {
+    })) as Session
+    const session2 = (await adapter.create<Session>('session', {
       name: 'Session 2',
       event_uuid: event1.id,
       speaker_uuid: speaker1.id,
       room_uuid: room1.r_uuid,
       begin: '2025-10-01T09:00:00',
       end: '2025-10-01T10:00:00',
-    })
-    const session3 = await adapter.create<Session>('session', {
+    })) as Session
+    const session3 = (await adapter.create<Session>('session', {
       name: 'Session 3',
       event_uuid: event1.id,
       speaker_uuid: speaker1.id,
       room_uuid: room1.r_uuid,
       begin: '2025-10-01T10:00:00',
       end: '2025-10-01T11:00:00',
-    })
-    const person1 = await adapter.create<Person>('person', {
+    })) as Session
+    const person1 = (await adapter.create<Person>('person', {
       name: 'Jack Black',
-    })
-    const person2 = await adapter.create<Person>('person', {
+    })) as Person
+    const person2 = (await adapter.create<Person>('person', {
       name: '',
-    })
-    const person3 = await adapter.create<Person>('person', {
+    })) as Person
+    const person3 = (await adapter.create<Person>('person', {
       name: 'Charles Darwin',
-    })
+    })) as Person
     const participate1 = await adapter.create<Participate>('participate', {
       event_id: event1.id,
       person_id: person1.id,
@@ -117,11 +117,11 @@ export function playDQLSuite(
   })
   it('can retrieve records through relations with primary keys not generic', async () => {
     expect.assertions(6)
-    const sessions = await adapter.query<Session>('session', {
+    const sessions = (await adapter.query<Session>('session', {
       query: {
         $fetch: '[event,person,room]',
       },
-    })
+    })) as PaginatedResult<Session>
     expect(sessions).toBeDefined()
     expect(sessions.data.length).toBe(3)
     expect(sessions.total).toBe(3)
@@ -331,7 +331,7 @@ export function playDQLSuite(
 
     // create a trigger to modify the content inserted, AFTER insertion
     // check the result sent by checking updatedAt
-    const participate = await adapter.query('participate', {
+    const participate = (await adapter.query('participate', {
       query: {
         $fetch: 'event',
         $join: 'person',
@@ -339,8 +339,7 @@ export function playDQLSuite(
           $in: `["Jack Black", "Charles Darwin"]`,
         },
       },
-    })
-    console.log(participate)
+    })) as PaginatedResult<Participate & { event: Event }>
     expect(participate).toBeDefined()
     expect(participate.total).toBe(2)
 
@@ -357,5 +356,84 @@ export function playDQLSuite(
     expect([currentData.person1.id, currentData.person3.id]).toContain(
       participate.data[1].person_id,
     )
+  })
+
+  // security filters
+  it('can retrieve data with dedicated filters for security purpose with $join+$fetch on same relations', async () => {
+    expect.assertions(6)
+
+    // create a trigger to modify the content inserted, AFTER insertion
+    // check the result sent by checking updatedAt
+    const participate = (await adapter.query('participate', {
+      query: {
+        $fetch: 'event',
+        // double join with dedicated alias
+        $join: '[person, person as acl_person]',
+        'person.name': {
+          $in: `["Jack Black", "Charles Darwin"]`,
+        },
+        // security filters
+        'acl_person.name': 'Jack Black',
+      },
+    })) as PaginatedResult<Participate & { event: Event }>
+    expect(participate).toBeDefined()
+    expect(participate.total).toBe(1)
+
+    expect(participate.data[0].event_id).toBe(currentData.event1.id)
+    expect(participate.data[0].event).toBeDefined()
+    expect(participate.data[0].event.name).toBe('event1')
+    expect(participate.data[0].person_id).toBe(currentData.person1.id)
+  })
+  it('can get data with dedicated filters for security purpose with $join+$fetch on same relations', async () => {
+    expect.assertions(5)
+
+    // create a trigger to modify the content inserted, AFTER insertion
+    // check the result sent by checking updatedAt
+    const participate = (await adapter.get(
+      'participate',
+      // composite key !
+      [currentData.event1.id, currentData.person1.id],
+      {
+        query: {
+          $fetch: 'event',
+          // double join with dedicated alias
+          $join: '[person, person as acl_person]',
+          'person.name': {
+            $in: `["Jack Black", "Charles Darwin"]`,
+          },
+          // security filters
+          'acl_person.name': 'Jack Black',
+        },
+      },
+    )) as Participate & { event: Event }
+    expect(participate).toBeDefined()
+
+    expect(participate.event_id).toBe(currentData.event1.id)
+    expect(participate.event).toBeDefined()
+    expect(participate.event.name).toBe('event1')
+    expect(participate.person_id).toBe(currentData.person1.id)
+  })
+  it('cannot get data with dedicated filters for security purpose with $join on same relations if user cannot access the record', async () => {
+    expect.assertions(1)
+
+    // create a trigger to modify the content inserted, AFTER insertion
+    // check the result sent by checking updatedAt
+    const req = adapter.get(
+      'participate',
+      // composite key !
+      [currentData.event1.id, currentData.person1.id],
+      {
+        query: {
+          // double join with dedicated alias
+          $join: ['person', 'person as acl_person'],
+          'person.name': {
+            $in: `["Jack Black", "Charles Darwin"]`,
+          },
+          // security filters
+          'acl_person.name': 'Testing security layer',
+        },
+      },
+    )
+    await expect(req).rejects.toThrowError(/NotFoundError/)
   })
 }

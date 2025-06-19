@@ -106,7 +106,6 @@ export class BaserowAdapter implements GenericAdapter {
   }
 
   async create(tableName: string, data: any) {
-    console.log('create record', tableName, data)
     const apiURL = this.apiURL + 'api/database/rows/table/' + tableName.replace('table_', '') + '/'
     const response = await fetch(apiURL, {
       headers: {
@@ -118,7 +117,6 @@ export class BaserowAdapter implements GenericAdapter {
   }
 
   async patch<T>(tableName: string, id: string | number, record: Partial<T>) {
-    console.log('patch record', tableName, id)
     const apiURL = this.apiURL + 'api/database/rows/table/' + tableName.replace('table_', '') + '/'
     const response = await fetch(apiURL, {
       headers: {
@@ -130,7 +128,6 @@ export class BaserowAdapter implements GenericAdapter {
   }
 
   async update<T>(tableName: string, id: string | number, record: Partial<T>) {
-    console.log('update record', tableName, id)
     const apiURL = this.apiURL + 'api/database/rows/table/' + tableName.replace('table_', '') + '/'
     const response = await fetch(apiURL, {
       headers: {
@@ -142,7 +139,6 @@ export class BaserowAdapter implements GenericAdapter {
   }
 
   async delete<T>(tableName: string, id: string | number): Promise<T | null> {
-    console.log('delete record', tableName, id)
     const apiURL = this.apiURL + 'api/database/rows/table/' + tableName.replace('table_', '') + '/'
     await fetch(apiURL, {
       headers: {

@@ -2,14 +2,15 @@ import { createAdapter } from '../../../src'
 import { SQLAdapter } from '../../../src/adapters/sql'
 import { describe, expect, it } from 'vitest'
 import { playDDLSuite } from '../../ddl.suite'
-import { dropUnaccentExtension, initDatasource } from './pg.init'
+import { dropUnaccentExtension, initDatasource, initDatasource } from './pg.init'
 import { playDQLSuite } from '../../dql.suite'
+import { playDMLSuite, playDMLSuite } from '../../dml.suite'
 
 /**
  * Test suite for pg database
  */
 describe('engine pg adapter', () => {
-  it.skip('fail to create it if schema does not exist', async () => {
+  it('fail to create it if schema does not exist', async () => {
     await expect(
       createAdapter({
         type: 'pg',
@@ -19,7 +20,7 @@ describe('engine pg adapter', () => {
     ).rejects.toThrowError()
   })
 
-  it.skip('can create it if schema exist', async () => {
+  it('can create it if schema exist', async () => {
     await initDatasource(process.env.VITE_POSTGRES_CONNECTION as string)
 
     await expect(
@@ -31,7 +32,7 @@ describe('engine pg adapter', () => {
     ).resolves.toBeDefined()
   })
 
-  describe.skip('play the ddl suite', async () => {
+  describe('play the ddl suite', async () => {
     await initDatasource(process.env.VITE_POSTGRES_CONNECTION as string)
 
     const adapter: SQLAdapter = (await createAdapter({
@@ -54,7 +55,15 @@ describe('engine pg adapter', () => {
 
     playDQLSuite(adapter, dropUnaccentExtension(process.env.VITE_POSTGRES_CONNECTION as string))
   })
-  // describe('play the dml suite', () => {
-  //   playDDLSuite(adapter)
-  // })
+  describe('play the dml suite', async () => {
+    await initDatasource(process.env.VITE_POSTGRES_CONNECTION as string)
+
+    const adapter: SQLAdapter = (await createAdapter({
+      type: 'pg',
+      options: process.env.VITE_POSTGRES_CONNECTION as string,
+      schema: 'lck-engine',
+    })) as SQLAdapter
+
+    playDMLSuite(adapter)
+  })
 })

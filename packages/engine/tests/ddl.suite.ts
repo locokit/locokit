@@ -10,17 +10,17 @@ export function playDDLSuite(adapter: GenericAdapter) {
    */
   it('retrieve schema', async () => {
     const tables = await adapter.retrieveSchema('lck-engine')
-    expect(tables.length).toBe(4)
+    expect(tables.length).toBe(7)
   })
   it('retrieve table', async () => {
-    const eventsTable = await adapter.retrieveTable('events')
-    expect(eventsTable).toBeDefined()
-    expect(eventsTable.name).toBe('events')
+    const eventTable = await adapter.retrieveTable('event')
+    expect(eventTable).toBeDefined()
+    expect(eventTable.name).toBe('event')
   })
   it('give access to fields on a table', async () => {
-    const eventsTable = await adapter.retrieveTable('events')
-    expect(eventsTable.fields).toBeDefined()
-    expect(eventsTable.fields?.length).toBe(2)
+    const eventTable = await adapter.retrieveTable('event')
+    expect(eventTable.fields).toBeDefined()
+    expect(eventTable.fields?.length).toBe(4)
   })
 
   it.todo('add new table')
