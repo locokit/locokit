@@ -36,8 +36,12 @@ BEGIN
   v_role_readonly := v_schema || '_ro';
   v_role_readwrite := v_schema || '_rw';
 
+
   -- CREATE workspace schema
   EXECUTE format('CREATE SCHEMA IF NOT EXISTS %I', v_schema);
+
+  -- CREATE extension postgis
+  EXECUTE format('CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA %I', v_schema);
 
   RAISE NOTICE 'Schema ''%'' created.', v_schema;
 

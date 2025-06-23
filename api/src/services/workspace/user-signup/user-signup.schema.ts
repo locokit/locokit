@@ -1,0 +1,17 @@
+import { Type, Static, getValidator } from '@feathersjs/typebox'
+import { dataValidator } from '@/commons/validators'
+
+export const userSignUpDataSchema = Type.Object(
+  {
+    username: Type.String(),
+    email: Type.String({ format: 'email' }),
+  },
+  {
+    $id: 'UserSignUpData',
+    additionalProperties: false,
+  },
+)
+
+export type UserSignUpData = Static<typeof userSignUpDataSchema>
+
+export const userSignUpDataValidator = getValidator(userSignUpDataSchema, dataValidator)

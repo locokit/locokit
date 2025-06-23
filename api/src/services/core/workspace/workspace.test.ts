@@ -11,7 +11,7 @@ import fs from 'fs'
 
 describe('[core] workspace service', () => {
   const app = createApp()
-  const builder = builderTestEnvironment('core-workspace')
+  const builder = builderTestEnvironment('core-workspace', app)
   let setupData: SetupData
   const port = app.get('port') || 8998
   const getUrl = (pathname: string) =>

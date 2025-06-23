@@ -13,7 +13,6 @@ export const coreDatasourceHooks = {
       checkUserHasAccess({
         allowedProfile: [USER_PROFILE.ADMIN],
         internalProvider: true,
-        internalProviderProfileCheck: 'IF_USER_PROVIDED',
       }),
       transaction.start(),
     ],

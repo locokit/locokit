@@ -28,6 +28,11 @@ export const tableHooks = {
       schemaHooks.resolveData(tableResolvers.data.create),
       schemaHooks.validateData(tableDataInternalValidator),
     ],
+    patch: [
+      setLocoKitContext,
+      schemaHooks.resolveData(tableResolvers.data.patch),
+      schemaHooks.validateData(tableDataInternalValidator),
+    ],
   },
   after: {
     all: [transaction.end()],

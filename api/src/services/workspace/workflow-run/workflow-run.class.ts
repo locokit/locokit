@@ -13,7 +13,7 @@ import { join } from 'node:path'
 import { SERVICES } from '@locokit/definitions'
 import { WorkspaceDatasourceResult } from '../datasource/datasource.schema'
 import { Paginated } from '@feathersjs/feathers'
-import { ConnexionSQL, createAdapter, GenericAdapter } from '@locokit/engine'
+import { type Connexion, createAdapter, GenericAdapter } from '@locokit/engine'
 
 const workflowRunLogger = logger.child({ service: 'workflow-run' })
 
@@ -59,8 +59,8 @@ export class WorkflowRun extends ObjectionService<
         /**
          * Create the adapter
          */
-        const dsParams: ConnexionSQL = {
-          // TODO: change ConnexionSQL's engine typing from 'type' to 'client' property ?
+        const dsParams: Connexion = {
+          // TODO: change Connexion's engine typing from 'type' to 'client' property ?
           // be careful for ConnexionBaserow as it's 'type' is 'baserow'
           type: datasource.client,
           options: datasource.connection,

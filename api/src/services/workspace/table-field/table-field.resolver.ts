@@ -62,10 +62,20 @@ export const tableFieldDataResolver = resolve<TableFieldDataInternal, HookContex
     }
     return localSettings
   },
+  async createdAt() {
+    return new Date().toISOString()
+  },
+  async updatedAt() {
+    return new Date().toISOString()
+  },
 })
 
 // Resolver for making partial updates
-export const tableFieldPatchResolver = resolve<TableFieldPatch, HookContext>({})
+export const tableFieldPatchResolver = resolve<TableFieldPatch, HookContext>({
+  async updatedAt() {
+    return new Date().toISOString()
+  },
+})
 // Resolver for the data that is being returned
 export const tableFieldResultResolver = resolve<TableFieldResult, HookContext>({})
 

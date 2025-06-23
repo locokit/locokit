@@ -5,6 +5,7 @@ import { Validator } from '@feathersjs/schema'
 import { TSchema } from '@feathersjs/typebox'
 
 import { GenericAdapter } from '@locokit/engine'
+import { Filter } from './replacePlaceholder.helper'
 
 type EngineParams = Partial<Params> & {
   /**
@@ -27,6 +28,10 @@ type EngineParams = Partial<Params> & {
    * LocoKit table / endpoint
    */
   $$lckTable: string
+  /**
+   * Rules to apply for Access Control List / Policies
+   */
+  $$filters: Filter
 }
 
 export class TableRecord<T = any, Data = Partial<T>, PatchData = Partial<Data>>
@@ -66,12 +71,19 @@ export class TableRecord<T = any, Data = Partial<T>, PatchData = Partial<Data>>
      */
     const adapter = params.$$adapter as GenericAdapter
 
+    if (params.$$filters) {
+      params.query = { ...(params.query || {}), ...params.$$filters }
+    }
+
     return await adapter.query<T>(params.$$lckTable as string, params)
   }
 
   async get(id: Id, params: EngineParams): Promise<T>
   async get(id: Id, params: EngineParams): Promise<null | T> {
     const adapter = params.$$adapter as GenericAdapter
+    if (params.$$filters) {
+      params.query = { ...(params.query || {}), ...params.$$filters }
+    }
     return await adapter.get(params.$$lckTable, id, params)
   }
 
@@ -80,6 +92,9 @@ export class TableRecord<T = any, Data = Partial<T>, PatchData = Partial<Data>>
   async create(data: Data | Data[], params: EngineParams): Promise<T | T[]> {
     if (Array.isArray(data)) throw new NotImplemented('Multi creation is not yet implemented.')
     const adapter = params.$$adapter as GenericAdapter
+    if (params.$$filters) {
+      params.query = { ...(params.query || {}), ...params.$$filters }
+    }
 
     return await adapter.create<T>(params.$$lckTable, data, params)
   }
@@ -89,6 +104,9 @@ export class TableRecord<T = any, Data = Partial<T>, PatchData = Partial<Data>>
   async update(id: NullableId, data: Data, params: EngineParams): Promise<T | T[]> {
     if (!id) throw new NotImplemented('Multi update is not yet implemented')
     const adapter = params.$$adapter as GenericAdapter
+    if (params.$$filters) {
+      params.query = { ...(params.query || {}), ...params.$$filters }
+    }
 
     return await adapter.update<T>(params.$$lckTable, id, data, params)
   }
@@ -98,6 +116,9 @@ export class TableRecord<T = any, Data = Partial<T>, PatchData = Partial<Data>>
   async patch(id: NullableId, data: PatchData, params: EngineParams): Promise<T | T[]> {
     if (!id) throw new NotImplemented('Multi patch is not yet implemented')
     const adapter = params.$$adapter as GenericAdapter
+    if (params.$$filters) {
+      params.query = { ...(params.query || {}), ...params.$$filters }
+    }
 
     return await adapter.patch<T>(params.$$lckTable, id, data, params)
   }
@@ -108,6 +129,9 @@ export class TableRecord<T = any, Data = Partial<T>, PatchData = Partial<Data>>
     if (!id)
       throw new NotImplemented('Id for removal is mandatory. Multi remove are not yet implemented.')
     const adapter = params.$$adapter as GenericAdapter
+    if (params.$$filters) {
+      params.query = { ...(params.query || {}), ...params.$$filters }
+    }
 
     return await adapter.delete(params.$$lckTable, id)
   }

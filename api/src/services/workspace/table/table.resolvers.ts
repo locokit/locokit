@@ -2,7 +2,7 @@ import { resolve } from '@feathersjs/schema'
 import type { HookContext } from '@/declarations'
 import { toSnakeCase } from '@locokit/definitions'
 
-import type { TableDataInternal, TablePatch, TableResult, TableQuery } from './table.schema'
+import type { TableDataInternal, TableResult, TableQuery, TablePatchInternal } from './table.schema'
 
 // Resolver for the basic data model (e.g. creating new entries)
 export const tableDataResolver = resolve<TableDataInternal, HookContext>({
@@ -25,10 +25,20 @@ export const tableDataResolver = resolve<TableDataInternal, HookContext>({
     return context.params.$locokit?.currentDatasource?.id
     // Todo WIP ACL
   },
+  async createdAt() {
+    return new Date().toISOString()
+  },
+  async updatedAt() {
+    return new Date().toISOString()
+  },
 })
 
 // Resolver for making partial updates
-export const tablePatchResolver = resolve<TablePatch, HookContext>({})
+export const tablePatchResolver = resolve<TablePatchInternal, HookContext>({
+  async updatedAt() {
+    return new Date().toISOString()
+  },
+})
 // Resolver for the data that is being returned
 export const tableResultResolver = resolve<TableResult, HookContext>({})
 

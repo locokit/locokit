@@ -18,4 +18,4 @@ export async function createAdapter(adapterOptions: Connexion): Promise<GenericA
   return adapter
 }
 
-export { GenericAdapter }
+export { GenericAdapter, Connexion }

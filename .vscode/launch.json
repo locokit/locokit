@@ -5,7 +5,7 @@
       "type": "node-terminal",
       "name": "Debug LocoKit API",
       "request": "launch",
-      "command": "npm run dev",
+      "command": "pnpm dev",
       "cwd": "${workspaceFolder}/api"
     }
   ]

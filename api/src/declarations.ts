@@ -13,6 +13,8 @@ import { UserResult } from './services/core/user/user.schema'
 import { WorkspaceResult } from './services/core/workspace/workspace.schema'
 import { DatasourceResult } from './services/core/datasource/datasource.schema'
 import { WorkflowResult } from './services/workspace/workflow/workflow.schema'
+import { UserGroupResult } from './services/workspace/user-group/user-group.schema'
+import { WorkspacePolicyResult } from './services/workspace/policy/policy.schema'
 
 export { NextFunction }
 
@@ -39,6 +41,11 @@ declare module '@feathersjs/feathers' {
       currentDatasourceSlug?: string
       currentWorkflow?: WorkflowResult
       currentWorkflowSlug?: string
+    }
+    $workspace?: WorkspaceResult & {
+      memberships?: UserGroupResult[]
+      policies?: WorkspacePolicyResult[]
+      creator?: boolean
     }
   }
   interface ServiceOptions {

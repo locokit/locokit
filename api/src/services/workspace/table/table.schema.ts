@@ -74,28 +74,39 @@ export type TableResult = Static<typeof tableResultSchema> & TableRelations
 /**
  * Creation
  */
-export const tableDataSchema = Type.Omit(tableSchema, ['id', 'slug', 'datasource', 'fields'], {
+export const tableDataSchema = Type.Pick(tableSchema, ['name', 'documentation', 'datasourceId'], {
   $id: 'TableDataSchema',
   additionalProperties: false,
 })
 export type TableData = Static<typeof tableDataSchema>
 export const tableDataValidator = getValidator(tableDataSchema, dataValidator)
 
-export const tableDataInternalSchema = Type.Omit(tableSchema, ['id', 'datasource', 'fields'], {
-  $id: 'TableDataInternalSchema',
-  additionalProperties: false,
-})
+export const tableDataInternalSchema = Type.Partial(
+  Type.Pick(tableSchema, [
+    'name',
+    'slug',
+    'documentation',
+    'datasourceId',
+    'createdAt',
+    'updatedAt',
+  ]),
+  {
+    $id: 'TableDataInternalSchema',
+    additionalProperties: false,
+  },
+)
+
 export type TableDataInternal = Static<typeof tableDataInternalSchema>
 export const tableDataInternalValidator = getValidator(tableDataInternalSchema, dataValidator)
 
 /**
- * Patch
+ * Patch is the same than table data internal for validation ?
  */
-export const tablePatchSchema = Type.Partial(tableDataSchema, {
+export const tablePatchInternalSchema = Type.Partial(tableDataInternalSchema, {
   additionalProperties: false,
-  $id: 'TablePatchSchema',
+  $id: 'TablePatchInternalSchema',
 })
-export type TablePatch = Static<typeof tablePatchSchema>
+export type TablePatchInternal = Static<typeof tablePatchInternalSchema>
 
 /**
  * Query

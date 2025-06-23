@@ -3,6 +3,8 @@ import { describe, it } from 'vitest'
 describe('migration service', () => {
   it.todo('is well configured')
 
+  it.todo('is available only for workspace owner or platform admins')
+
   it.todo('create a meta model from a distant database')
 
   it.todo('create a distant database from a meta model')

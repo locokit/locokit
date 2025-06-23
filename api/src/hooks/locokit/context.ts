@@ -1,4 +1,4 @@
-import { HookContext } from '@/declarations'
+import { HookContext, NextFunction } from '@/declarations'
 import { TableResult } from '@/services/workspace/table/table.schema'
 import { NotAcceptable, NotFound, NotImplemented } from '@feathersjs/errors'
 import { SERVICES } from '@locokit/definitions'
@@ -19,7 +19,7 @@ const locokitContextLogger = logger.child({ service: 'hook-locokit-context' })
  *
  * Those data are populated according route params
  */
-export async function setLocoKitContext(context: HookContext) {
+export async function setLocoKitContext(context: HookContext, next?: NextFunction) {
   locokitContextLogger.info('starting on service "%s" ...', context.service.constructor.name)
   const { transaction } = context.params
 
@@ -189,11 +189,36 @@ export async function setLocoKitContext(context: HookContext) {
         context.params.$locokit.currentDatasource = tableDatasource
 
         break
+      case SERVICES.WORKSPACE_GROUP:
+      case SERVICES.WORKSPACE_GROUP_POLICY_VARIABLE:
+      case SERVICES.WORKSPACE_POLICY:
+      case SERVICES.WORKSPACE_POLICY_TABLE:
+      case SERVICES.WORKSPACE_POLICY_TABLE_FIELD:
+      case SERVICES.WORKSPACE_POLICY_VARIABLE:
+        locokitContextLogger.info(
+          context.method,
+          'workspace service (root/table/field/variable) found (method %s)',
+        )
+        const workspaceSlug = context.params.route.workspaceSlug
+        const workspacePolicy = await context.app.service(SERVICES.CORE_WORKSPACE).find({
+          transaction,
+          query: {
+            slug: workspaceSlug,
+          },
+        })
+        if (workspacePolicy.total !== 1) throw new NotFound('Workspace not found.')
+
+        context.params.$locokit.currentWorkspaceSlug = workspaceSlug
+        context.params.$locokit.currentWorkspace = workspacePolicy.data[0]
+        context.service.schema = `w_${workspacePolicy.data[0].slug as string}`
+        break
       default:
         throw new NotImplemented('LocoKit context is uncomplete. Need to implement this.')
     }
   }
   locokitContextLogger.info('ending... schema found: %s', context.service.schema)
 
-  return context
+  if (next) {
+    await next()
+  } else return context
 }

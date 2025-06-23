@@ -4,11 +4,18 @@ import { GROUP_ROLE, SERVICES, USER_PROFILE } from '@locokit/definitions'
 import { Ajv, addFormats, Validator, hooks as schemaHooks } from '@feathersjs/schema'
 import type { DataValidatorMap, FormatsPluginOptions } from '@feathersjs/schema'
 import ajvErrors from 'ajv-errors'
-import { NotFound } from '@feathersjs/errors/lib'
+import { Forbidden, NotFound } from '@feathersjs/errors/lib'
 import { Type, querySyntax, getValidator, TSchema, getDataValidator } from '@feathersjs/typebox'
-import { ConnexionSQL, createAdapter, GenericAdapter } from '@locokit/engine'
+import { type Connexion, createAdapter, GenericAdapter } from '@locokit/engine'
 import { convertLocoKitFieldTypeToTypeboxSchema } from './table-record.helpers'
 import { toEagerRegExp } from '@/utils/toEagerRegExp'
+import { UserGroupResult } from '@/client'
+import { WorkspacePolicyTableSchema } from '../policy-table/policy-table.schema'
+import { WorkspaceGroupResult } from '../group/group.schema'
+import { replacePlaceholder } from './replacePlaceholder.helper'
+import { ERROR_CODE } from '@/errors'
+import { setLocoKitContext } from '@/hooks/locokit'
+import { checkUserWorkspaceAccess } from '@/hooks/locokit/access'
 
 const adapters: Record<string, GenericAdapter> = {}
 
@@ -69,7 +76,134 @@ export const tableRecordHooks = {
   around: {
     all: [
       authenticate('jwt' /*, 'public' */), // TODO: remove public auth if we don't have permission stabilized
-      async function checkPermission(context: HookContext, next: NextFunction) {
+      setLocoKitContext,
+      /**
+       * check user has access to the current workspace
+       */
+      checkUserWorkspaceAccess,
+      /**
+       * Compute abilities for the table, according the user membership/group
+       * unless user is an ADMIN one.
+       *
+       * BUT ! if there is a dedicated header, we use it, even if user is an ADMIN one.
+       *
+       * Retrieve policy related, table rules & policy variables
+       * Match variables with group-policy-variables,
+       * Then compute rules to apply for filtering
+       */
+      async function computeAbilities(context: HookContext, next: NextFunction) {
+        console.log('computeAbilities', context.params.$locokit, context.params.$workspace)
+        const { workspaceSlug, datasourceSlug, tableSlug } = context.params.route
+        const groupId = context.params.headers?.['x-lck-group']
+        /**
+         * If no groupId is provided,
+         * we check the current user is authorized to access all the data :
+         * * is the current user the creator of the workspace ?
+         * * is the current user a LocoKit ADMIN ?
+         * if, so, this is OK
+         * if not, we throw a Forbidden Error
+         *
+         */
+        console.log('groupId', groupId)
+
+        /**
+         * Compute abilities for the group only if necessary
+         * * check the x-lck-group is available if specified for the current user
+         * * raise error if not
+         */
+        if (groupId) {
+          // first step, retrieve user membership/group + group-policy-variable
+          const currentMembership = context.params.$workspace.memberships?.find(
+            (ug: UserGroupResult) => ug.groupId === groupId,
+          )
+
+          console.log(currentMembership)
+
+          if (!currentMembership)
+            throw new Error(
+              `
+        User is unauthorized to access this endpoint through the group provided.
+        Please be sure to specify the right id in your request by providing the header 'x-lck-group'.
+        `,
+            )
+
+          const currentGroup: WorkspaceGroupResult = currentMembership.group
+
+          // retrieve policy table + variables : FAUX, il peut y avoir plusieurs policyTable à travers plusieurs groupes
+          const table = await context.app.service(SERVICES.WORKSPACE_TABLE).find({
+            query: {
+              $joinEager: '[policyVariables,policyTable]',
+              slug: tableSlug,
+            },
+            route: {
+              workspaceSlug,
+              datasourceSlug,
+            },
+          })
+
+          if (table.total !== 1)
+            throw new Error(
+              `Mismatch for policy table ${workspaceSlug}:${datasourceSlug}.${tableSlug}`,
+            )
+
+          // check user has right for the method (POST/PATCH/DELETE/GET)
+          const policyTable = table.data[0].policyTable as WorkspacePolicyTableSchema
+
+          if (!policyTable)
+            throw new Forbidden('Table unavailable', {
+              CODE: ERROR_CODE.WS.POLICY.TABLE.UNAVAILABLE,
+            })
+          type Filter = {
+            [key: string]: string | Filter
+          }
+          let filterToApply = {}
+          let currentPolicy = null
+          switch (context.method) {
+            case 'find':
+            case 'get':
+              currentPolicy = policyTable.read
+              break
+            case 'create':
+              currentPolicy = policyTable.create
+              break
+            case 'patch':
+              currentPolicy = policyTable.patch
+              break
+            case 'remove':
+              currentPolicy = policyTable.remove
+              break
+            default:
+              throw new Forbidden('Method unauthorized.', {
+                CODE: ERROR_CODE.WS.POLICY.TABLE.METHOD_NOT_ALLOWED,
+              })
+          }
+          if (!currentPolicy.allow)
+            throw new Forbidden('Method unauthorized.', {
+              CODE: ERROR_CODE.WS.POLICY.TABLE.METHOD_NOT_ALLOWED,
+            })
+
+          const groupPolicyVariables = await context.app
+            .service(SERVICES.WORKSPACE_GROUP_POLICY_VARIABLE)
+            .find({
+              query: {
+                groupId,
+                $joinEager: 'policyVariable',
+                'policyVariable.policyId': currentGroup.policyId,
+              },
+              route: {
+                workspaceSlug,
+              },
+            })
+
+          const placeholders = groupPolicyVariables.data.map((gpv) => ({
+            key: gpv.policyVariable.slug,
+            value: gpv.value.string,
+          }))
+          filterToApply = replacePlaceholder(currentPolicy.filter as Filter, placeholders)
+
+          context.params.$$filters = filterToApply
+        }
+
         await next()
       },
       async function computeTypeBoxSchema(context: HookContext, next: NextFunction) {
@@ -190,9 +324,18 @@ export const tableRecordHooks = {
 
         await next()
       },
-      // async function computeResolver(context: HookContext) { },
+      /**
+       * compute resolver and apply default values (with dynamic variables if needed)
+       *
+       * useful for setting a field for a group
+       *
+       * TODO: how do we manage default values on a foreign table/relation ?
+       */
+      async function computeResolver(context: HookContext, next: NextFunction) {
+        await next()
+      },
       // async function computeAbilities(context: HookContext) { },
-      async function applyQueryValidator(context: HookContext, next: NextFunction) {
+      async function validateData(context: HookContext, next: NextFunction) {
         switch (context.method) {
           case 'find':
           case 'get':
@@ -246,7 +389,7 @@ export const tableRecordHooks = {
             /**
              * Create the adapter
              */
-            const dsParams: ConnexionSQL = {
+            const dsParams: Connexion = {
               // TODO: change ConnexionSQL's engine typing from 'type' to 'client' property ?
               // be careful for ConnexionBaserow as it's 'type' is 'baserow'
               type: datasource.data[0].client,
@@ -282,7 +425,6 @@ export const tableRecordHooks = {
         await next()
       },
       // async function createTransaction(context: HookContext) { },
-      // async function validateData(context: HookContext) { },
       // filter data to only the one the user is able to access (casl ?)
       // async function resolveData(context: HookContext) { },
     ],

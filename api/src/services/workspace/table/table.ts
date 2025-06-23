@@ -19,7 +19,7 @@ export function tableService(app: Application): void {
   // Register our service on the Feathers application
   app.use(SERVICES.WORKSPACE_TABLE, new Table(options), {
     // A list of all methods this service exposes externally
-    methods: ['find', 'get', 'create', 'update', 'patch', 'remove'],
+    methods: ['find', 'get', 'create', 'patch', 'remove'],
     // You can add additional custom events to be sent to clients here
     events: [],
     docs: {

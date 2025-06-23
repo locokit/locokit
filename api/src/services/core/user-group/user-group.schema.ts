@@ -59,6 +59,11 @@ export const userGroupQuerySchema = Type.Intersect(
             description: "Filter on related group's name",
           }),
         ),
+        'group.workspaceId': Type.Optional(
+          Type.String({
+            description: "Filter on workspace's id",
+          }),
+        ),
         'user.username': Type.Optional(
           Type.String({
             description: "Filter on related user's name",
@@ -67,6 +72,7 @@ export const userGroupQuerySchema = Type.Intersect(
       }),
       {
         'group.name': queryStringExtend,
+        'group.workspaceId': queryStringExtend,
         'user.username': queryStringExtend,
       },
     ),

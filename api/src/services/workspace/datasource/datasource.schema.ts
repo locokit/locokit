@@ -80,6 +80,8 @@ export const workspaceDatasourceSchema = Type.Object(
 
 interface WorkspaceDatasourceRelations {
   tables?: TableResult[]
+  workspace?: WorkspaceResult
+  client: DB_DIALECT
 }
 
 export type WorkspaceDatasourceSchema = Static<typeof workspaceDatasourceSchema> &
@@ -90,15 +92,12 @@ export type WorkspaceDatasourceSchema = Static<typeof workspaceDatasourceSchema>
 // Schema for the data that is being returned
 export const workspaceDatasourceResultSchema = workspaceDatasourceSchema
 export type WorkspaceDatasourceResult = Static<typeof workspaceDatasourceResultSchema> &
-  WorkspaceDatasourceRelations & {
-    client: DB_DIALECT
-    workspace?: WorkspaceResult
-  }
+  WorkspaceDatasourceRelations
 
 // Schema / validator for creation
-export const workspaceDatasourceDataSchema = Type.Omit(
+export const workspaceDatasourceDataSchema = Type.Pick(
   workspaceDatasourceSchema,
-  ['id', 'tables', 'slug'],
+  ['name', 'documentation', 'client', 'type', 'connection'],
   {
     $id: 'WorkspaceDatasourceData',
     additionalProperties: false,
@@ -112,9 +111,9 @@ export const workspaceDatasourceDataValidator = getValidator(
   dataValidator,
 )
 
-export const workspaceDatasourceDataInternalSchema = Type.Omit(
+export const workspaceDatasourceDataInternalSchema = Type.Pick(
   workspaceDatasourceSchema,
-  ['id', 'tables'],
+  ['name', 'slug', 'documentation', 'client', 'type', 'connection', 'workspaceId'],
   {
     $id: 'WorkspaceDatasourceDataInternal',
     additionalProperties: false,
@@ -131,7 +130,7 @@ export const workspaceDatasourceDataInternalValidator = getValidator(
 )
 
 // Schema for making partial updates
-export const workspaceDatasourcePatchSchema = Type.Omit(workspaceDatasourceSchema, ['id'])
+export const workspaceDatasourcePatchSchema = Type.Partial(workspaceDatasourceDataSchema)
 export type WorkspaceDatasourcePatch = Static<typeof workspaceDatasourcePatchSchema> & {
   client: DB_DIALECT
 }

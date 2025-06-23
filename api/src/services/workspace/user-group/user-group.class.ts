@@ -13,9 +13,9 @@ import { workspaceUserGroupResolvers } from './user-group.resolver'
 import { Application } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
 import { ObjectionService } from '@/feathers-objection'
-import { USER_PROFILE } from '@locokit/definitions'
+// import { USER_PROFILE } from '@locokit/definitions'
 import { HookMap } from '@feathersjs/feathers'
-import { checkUserHasAccess } from '@/hooks/profile.hooks'
+// import { checkUserHasAccess } from '@/hooks/profile.hooks'
 import { setLocoKitContext } from '@/hooks/locokit'
 
 export const workspaceUserGroupHooks: HookMap<Application, WorkspaceUserGroupService> = {

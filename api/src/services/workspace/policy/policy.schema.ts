@@ -53,18 +53,32 @@ export const workspacePolicySchema = Type.Object(
 
 export type WorkspacePolicySchema = Static<typeof workspacePolicySchema>
 
-export const workspacePolicyDataSchema = Type.Omit(
+export const workspacePolicyDataSchema = Type.Pick(
   workspacePolicySchema,
-  ['id', 'variables', 'fields', 'tables', 'workspaceId', 'groups'],
+  ['name', 'documentation', 'manager', 'public'],
   {
     $id: 'WorkspacePolicyData',
+    additionalProperties: false,
   },
 )
 export type WorkspacePolicyData = Static<typeof workspacePolicyDataSchema>
 
-export const workspacePolicyPatchSchema = Type.Partial(workspacePolicyDataSchema, {
-  $id: 'WorkspacePolicyPatch',
-})
+export const workspacePolicyDataInternalSchema = Type.Intersect(
+  [workspacePolicyDataSchema, Type.Pick(workspacePolicySchema, ['createdAt', 'updatedAt'])],
+  {
+    $id: 'WorkspacePolicyDataInternalSchema',
+    additionalProperties: false,
+  },
+)
+export type WorkspacePolicyInternalData = Static<typeof workspacePolicyDataInternalSchema>
+
+export const workspacePolicyPatchSchema = Type.Partial(
+  Type.Omit(workspacePolicyDataInternalSchema, ['createdAt']),
+  {
+    $id: 'WorkspacePolicyPatch',
+    additionalProperties: false,
+  },
+)
 export type WorkspacePolicyPatch = Static<typeof workspacePolicyPatchSchema>
 
 export type WorkspacePolicyResult = Static<typeof workspacePolicySchema>
@@ -96,3 +110,8 @@ export const workspacePolicyQuerySchema = Type.Intersect([
 export type WorkspacePolicyQuery = Static<typeof workspacePolicyQuerySchema>
 
 export const workspacePolicyDataValidator = getValidator(workspacePolicyDataSchema, dataValidator)
+export const workspacePolicyPatchValidator = getValidator(workspacePolicyPatchSchema, dataValidator)
+export const workspacePolicyDataInternalValidator = getValidator(
+  workspacePolicyDataInternalSchema,
+  dataValidator,
+)

@@ -28,6 +28,7 @@ export const SERVICES = Object.freeze({
   WORKSPACE_DATASOURCE_MERMAID: '/workspace/:workspaceSlug/datasource/:datasourceSlug/mermaid',
 
   WORKSPACE_USER: '/workspace/:workspaceSlug/user',
+  WORKSPACE_USER_SIGNUP: '/workspace/:workspaceSlug/user-signup',
   WORKSPACE_GROUP: '/workspace/:workspaceSlug/group',
   WORKSPACE_GROUP_POLICY_VARIABLE: '/workspace/:workspaceSlug/group-policy-variable',
   WORKSPACE_USERGROUP: '/workspace/:workspaceSlug/user-group',

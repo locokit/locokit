@@ -28,7 +28,7 @@ describe("'auth-management' service", () => {
   const port = app.get('port') || 8998
   const getUrl = (pathname: string) =>
     new URL(`http://${app.get('host') || 'localhost'}:${port}/${pathname}`).toString()
-  const builder = builderTestEnvironment('authmanagement')
+  const builder = builderTestEnvironment('authmanagement', app)
 
   beforeAll(async () => {
     setupData = await builder.setupWorkspace()

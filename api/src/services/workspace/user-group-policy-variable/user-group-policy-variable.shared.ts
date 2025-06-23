@@ -3,10 +3,10 @@ import type { ClientApplication } from '@/client'
 import { SERVICES } from '@locokit/definitions'
 import type { WorkspaceUserGroupPolicyVariableService } from './user-group-policy-variable.class'
 export type {
-  UserGroupData,
-  UserGroupPatch,
-  UserGroupQuery,
-  UserGroupResult,
+  UserGroupPolicyVariableData,
+  UserGroupPolicyVariablePatch,
+  UserGroupPolicyVariableQuery,
+  UserGroupPolicyVariableResult,
 } from './user-group-policy-variable.schema'
 
 export type UserGroupClientService = Pick<

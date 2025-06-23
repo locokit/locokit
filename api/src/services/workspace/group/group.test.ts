@@ -5,7 +5,7 @@ import { builderTestEnvironment, SetupData } from '@/configure.test'
 
 describe('[core] group service', () => {
   const app = createApp()
-  const builder = builderTestEnvironment('core-group')
+  const builder = builderTestEnvironment('core-group', app)
   let setupData: SetupData
   const port = app.get('port') || 8998
   // const getUrl = (pathname: string) =>

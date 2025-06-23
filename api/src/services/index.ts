@@ -33,6 +33,7 @@ import { workspaceGroupService } from './workspace/group/group'
 import { workspaceGroupPolicyVariableService } from './workspace/group-policy-variable/group-policy-variable'
 import { workspaceUserGroupService } from './workspace/user-group/user-group'
 import { workspaceUserGroupPolicyVariableService } from './workspace/user-group-policy-variable/user-group-policy-variable'
+import { userSignup } from './workspace/user-signup/user-signup'
 
 export const services = (app: Application): void => {
   /**
@@ -75,6 +76,8 @@ export const services = (app: Application): void => {
   app.configure(workspaceGroupPolicyVariableService)
   app.configure(workspaceUserGroupService)
   app.configure(workspaceUserGroupPolicyVariableService)
+
+  app.configure(userSignup)
 
   /**
    * Workflows

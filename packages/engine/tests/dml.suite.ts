@@ -1,15 +1,7 @@
 import { GenericAdapter } from '../src'
 import { beforeAll, it, expect } from 'vitest'
-import {
-  Place,
-  Company,
-  Person,
-  Room,
-  Session,
-  Participate,
-  Event,
-  LocoKitEngineTestType,
-} from './definitions'
+import { Company, Room, Session, LocoKitEngineTestType } from './definitions'
+import { seedEventDatasource } from './adapters/pg/pg.init'
 
 /**
  * Data Manipulation Language suite
@@ -20,89 +12,10 @@ export function playDMLSuite(
     geojsonShouldFail: boolean
   },
 ) {
-  const currentData: Record<string, LocoKitEngineTestType> = {}
+  let currentData: Record<string, LocoKitEngineTestType> = {}
 
   beforeAll(async () => {
-    const place1 = (await adapter.create<Place>('place', {
-      name: 'Toulouse',
-      point: 'POINT(1.443774704895361 43.60490776433437)',
-    })) as Place
-    const place2 = (await adapter.create<Place>('place', {
-      name: 'Bagnères de Bigorre',
-      point: 'POINT(0.15045479931004024 43.065363758275254)',
-    })) as Place
-    const company1 = (await adapter.create<Company>('company', {
-      name: 'company1',
-    })) as Company
-    const event1 = (await adapter.create<Event>('event', {
-      name: 'event1',
-      p_uuid: place1.p_uuid,
-      c_uuid: company1.id,
-    })) as Event
-    const speaker1 = (await adapter.create<Person>('person', {
-      name: 'Speaker 1',
-    })) as Person
-    const room1 = (await adapter.create<Room>('room', {
-      name: 'room1',
-      p_uuid: place1.p_uuid,
-    })) as Room
-    const session1 = (await adapter.create<Session>('session', {
-      name: 'Session 1',
-      event_uuid: event1.id,
-      speaker_uuid: speaker1.id,
-      room_uuid: room1.r_uuid,
-      begin: '2025-10-01T08:00:00',
-      end: '2025-10-01T09:00:00',
-    })) as Session
-    const session2 = (await adapter.create<Session>('session', {
-      name: 'Session 2',
-      event_uuid: event1.id,
-      speaker_uuid: speaker1.id,
-      room_uuid: room1.r_uuid,
-      begin: '2025-10-01T09:00:00',
-      end: '2025-10-01T10:00:00',
-    })) as Session
-    const session3 = (await adapter.create<Session>('session', {
-      name: 'Session 3',
-      event_uuid: event1.id,
-      speaker_uuid: speaker1.id,
-      room_uuid: room1.r_uuid,
-      begin: '2025-10-01T10:00:00',
-      end: '2025-10-01T11:00:00',
-    })) as Session
-    const person1 = (await adapter.create<Person>('person', {
-      name: 'Jack Black',
-    })) as Person
-    const person2 = (await adapter.create<Person>('person', {
-      name: '',
-    })) as Person
-    const person3 = (await adapter.create<Person>('person', {
-      name: 'Charles Darwin',
-    })) as Person
-    const participate1 = await adapter.create<Participate>('participate', {
-      event_id: event1.id,
-      person_id: person1.id,
-    })
-    const participate2 = await adapter.create<Participate>('participate', {
-      event_id: event1.id,
-      person_id: person2.id,
-    })
-    const participate3 = await adapter.create<Participate>('participate', {
-      event_id: event1.id,
-      person_id: person3.id,
-    })
-    currentData.place1 = place1
-    currentData.place2 = place2
-    currentData.company1 = company1
-    currentData.event1 = event1
-    currentData.speaker1 = speaker1
-    currentData.room1 = room1
-    currentData.session1 = session1
-    currentData.session2 = session2
-    currentData.session3 = session3
-    currentData.person1 = person1
-    currentData.person2 = person2
-    currentData.person3 = person3
+    currentData = await seedEventDatasource(adapter)
   })
 
   it('can insert new data', async () => {

@@ -12,9 +12,8 @@
 import { AuthenticationResult } from '@feathersjs/authentication/lib'
 import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
 
-import { SERVICES, USER_PROFILE } from '@locokit/definitions'
+import { GROUP_ROLE, SERVICES, USER_PROFILE } from '@locokit/definitions'
 
-import { createApp } from './app'
 import { UserResult } from './services/core/user/user.schema'
 import { WorkspaceResult } from './services/core/workspace/workspace.schema'
 import { GroupResult } from './services/core/group/group.schema'
@@ -22,9 +21,28 @@ import { PolicyResult } from './client'
 
 import { seed as resetDB } from '../seeds/test'
 
-const app = createApp()
+import {
+  Place,
+  Company,
+  Person,
+  Room,
+  Session,
+  Participate,
+  Event,
+  LocoKitEngineTestType,
+} from '@locokit/engine/tests/definitions'
+import {
+  configureEventDatasource,
+  seedEventDatasource,
+} from '@locokit/engine/tests/adapters/pg/pg.init'
+import { createAdapter, type GenericAdapter } from '@locokit/engine'
+import { DatasourceResult } from './services/core/datasource/datasource.schema'
+import { Application } from '@/declarations'
+
+export { Place, Company, Person, Room, Session, Participate, Event, LocoKitEngineTestType }
 
 export interface SetupData {
+  publicWorkspace: WorkspaceResult
   publicWorkspaceId: string
   privateWorkspaceId: string
   // database1Id: string
@@ -72,7 +90,7 @@ export interface SetupData {
   // row3Table2: TableRow
 }
 
-export function builderTestEnvironment(prefix: string) {
+export function builderTestEnvironment(prefix: string, app: Application) {
   console.log('building test environment for ', prefix)
   /**
    * Create all necessary resources for testing use case
@@ -161,7 +179,7 @@ export function builderTestEnvironment(prefix: string) {
     /**
      * Reset the DB
      */
-    resetDB(app.get('db'))
+    await resetDB(app.get('db'))
 
     /**
      * 1 Creating users first
@@ -253,6 +271,7 @@ export function builderTestEnvironment(prefix: string) {
     /**
      * 2 Then workspaces
      */
+
     publicWorkspace = await app.service(SERVICES.CORE_WORKSPACE).create({
       name: `[${prefix}] Public workspace 1`,
       documentation: 'Public workspace for user1',
@@ -329,22 +348,27 @@ export function builderTestEnvironment(prefix: string) {
     await app.service(SERVICES.CORE_USERGROUP).create({
       userId: userCreator1.id,
       groupId: group1.id,
+      role: GROUP_ROLE.MEMBER,
     })
     await app.service(SERVICES.CORE_USERGROUP).create({
       userId: user2.id,
       groupId: group1.id,
+      role: GROUP_ROLE.MEMBER,
     })
     await app.service(SERVICES.CORE_USERGROUP).create({
       userId: userCreator1.id,
       groupId: group2.id,
+      role: GROUP_ROLE.MEMBER,
     })
     await app.service(SERVICES.CORE_USERGROUP).create({
       userId: user2.id,
       groupId: group3.id,
+      role: GROUP_ROLE.MEMBER,
     })
     await app.service(SERVICES.CORE_USERGROUP).create({
       userId: userCreator4.id,
       groupId: group4.id,
+      role: GROUP_ROLE.MEMBER,
     })
 
     userCreator1Authentication = await app.service(SERVICES.AUTH_AUTHENTICATION).create(
@@ -395,6 +419,7 @@ export function builderTestEnvironment(prefix: string) {
       },
       {},
     )
+
     // // let user1: User
     // // let group1: Group
     // const singleSelectOption1UUID = '1efa77d0-c07a-4d3e-8677-2c19c6a26ecd'
@@ -665,6 +690,7 @@ export function builderTestEnvironment(prefix: string) {
     // })
 
     _data = {
+      publicWorkspace,
       publicWorkspaceId: publicWorkspace.id,
       privateWorkspaceId: privateWorkspace.id,
       userCreator1,
@@ -756,4 +782,84 @@ export function builderTestEnvironment(prefix: string) {
     setupWorkspace,
     teardownWorkspace,
   }
+}
+
+/**
+ * Configure a local datasource + metamodel
+ * To be able to tests workspace endpoints (policies, records, ...)
+ *
+ * Workspace is already created
+ */
+export async function createEventDatasource(setupData: SetupData, app: Application) {
+  /**
+   * Datasource creation
+   */
+  const datasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create(
+    {
+      name: 'event',
+      documentation: 'Event datasource for test purpose',
+      client: 'pg',
+      type: 'local',
+      connection: '',
+    },
+    {
+      route: {
+        workspaceSlug: setupData.publicWorkspace.slug,
+      },
+    },
+  )
+
+  /**
+   * Connexion to the local schema of datasource
+   */
+  const knexConnection = app.get('db')
+  await knexConnection.raw('SET SEARCH_PATH TO core, public;')
+  const config = app.get('settings')
+  const schemaName = 'ds_' + datasource.id
+
+  /**
+   * Configuration of schema
+   */
+  await configureEventDatasource(knexConnection, schemaName)
+  /**
+   * Creation of records
+   */
+  const adapter: GenericAdapter = (await createAdapter({
+    type: config.db.client,
+    options: config.db.connection,
+    schema: schemaName,
+  })) as GenericAdapter
+  const currentData: Record<string, LocoKitEngineTestType | DatasourceResult> =
+    await seedEventDatasource(adapter)
+  currentData.datasource = datasource
+
+  /**
+   * Synchronization of metamodel
+   */
+  const migration = await app.service(SERVICES.WORKSPACE_MIGRATION).create(
+    {
+      name: 'first migration for ds ',
+      datasourceId: datasource.id,
+      direction: 'from-datasource-to-metamodel',
+    },
+    {
+      route: {
+        workspaceSlug: setupData.publicWorkspace.slug,
+        datasourceSlug: datasource.slug,
+      },
+    },
+  )
+  /**
+   * Apply it
+   */
+  await app.service(SERVICES.WORKSPACE_MIGRATION).apply({
+    id: migration.id,
+    datasourceId: datasource.id,
+  })
+
+  /**
+   * Policy definitions ?
+   */
+
+  return currentData
 }

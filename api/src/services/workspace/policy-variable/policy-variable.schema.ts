@@ -2,7 +2,6 @@ import { Type, querySyntax, Static, getValidator, StringEnum } from '@feathersjs
 import { dataValidator } from '@/commons/validators'
 import { queryStringExtend } from '../../../feathers-objection'
 import { toEagerRegExp } from '@/utils/toEagerRegExp'
-import { format } from 'path'
 
 // Schema for the basic data model (e.g. creating new entries)
 export const workspacePolicyVariableSchema = Type.Object(
