@@ -76,6 +76,12 @@ module.exports = {
         text: 'Processes / Workflows',
         link: 'advanced/processes.html'
       }]
+    }, {
+      text: 'Ecosystem',
+      children: [{
+        text: 'Superset',
+        link: 'ecosystem/superset.html'
+      }]
     }]
   },
 }
