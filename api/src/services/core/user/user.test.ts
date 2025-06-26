@@ -7,7 +7,7 @@ import { builderTestEnvironment, SetupData } from '@/configure.test'
 describe('[core] user service', () => {
   const app = createApp()
   const port = (app.get('port') as number) || 8998
-  const builder = builderTestEnvironment('authentication')
+  const builder = builderTestEnvironment('authentication', app)
   let setupData: SetupData
   const getUrl = (endpoint: string) =>
     `http://${(app.get('host') as string) || 'localhost'}:${port}${endpoint}`

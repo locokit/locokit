@@ -30,13 +30,20 @@ describe('[core] datasource service', () => {
   describe('general purpose', async () => {
     let generalDatasource: DatasourceResult
     beforeAll(async () => {
-      generalDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create({
-        name: 'Testing datasource general',
-        client: 'pg',
-        type: 'local',
-        connection: '',
-        workspaceId: workspace.id,
-      })
+      generalDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create(
+        {
+          name: 'Testing datasource general',
+          client: 'pg',
+          type: 'local',
+          connection: '',
+          // workspaceId: workspace.id,
+        },
+        {
+          route: {
+            workspaceSlug: workspace.slug,
+          },
+        },
+      )
     })
 
     it('registered the service', () => {
@@ -72,13 +79,19 @@ describe('[core] datasource service', () => {
   describe('manage permissions / forbid methods', async () => {
     let forbidDatasource: DatasourceResult
     beforeAll(async () => {
-      forbidDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create({
-        name: 'Testing datasource forbids',
-        client: 'pg',
-        type: 'local',
-        connection: '',
-        workspaceId: workspace.id,
-      })
+      forbidDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create(
+        {
+          name: 'Testing datasource forbids',
+          client: 'pg',
+          type: 'local',
+          connection: '',
+        },
+        {
+          route: {
+            workspaceSlug: workspace.slug,
+          },
+        },
+      )
     })
 
     it('forbid create', async () => {

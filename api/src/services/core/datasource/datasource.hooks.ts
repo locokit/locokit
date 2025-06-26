@@ -10,9 +10,14 @@ export const coreDatasourceHooks = {
   },
   before: {
     all: [
+      /**
+       * Authorize only ADMIN profiles
+       * Internal calls are forbidden for non ADMIN, too.
+       */
       checkUserHasAccess({
         allowedProfile: [USER_PROFILE.ADMIN],
         internalProvider: true,
+        internalProviderProfileCheck: 'IF_USER_PROVIDED',
       }),
       transaction.start(),
     ],
