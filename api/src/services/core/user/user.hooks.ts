@@ -31,7 +31,7 @@ import { SERVICES } from '@locokit/definitions'
 
 export const hooks: HookOptions<Application, UserService> = {
   around: {
-    all: [authenticate('api-key', 'jwt')],
+    all: [authenticate('jwt')],
     get: [schemaHooks.resolveExternal(userDispatchResolver)],
     find: [schemaHooks.resolveExternal(userRestrictedDispatchResolver)],
     create: [schemaHooks.resolveExternal(userDispatchResolver)],

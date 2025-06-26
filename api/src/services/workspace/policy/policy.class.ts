@@ -13,9 +13,9 @@ import { workspacePolicyQueryValidator, workspacePolicyResolvers } from './polic
 import { Application } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
 import { ObjectionService, transaction } from '@/feathers-objection'
-// import { USER_PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/definitions'
 import { HookMap } from '@feathersjs/feathers'
-// import { checkUserHasAccess } from '@/hooks/profile.hooks'
+import { checkUserHasAccess } from '@/hooks/profile.hooks'
 import { setLocoKitContext } from '@/hooks/locokit'
 
 export const workspacePolicyHooks: HookMap<Application, WorkspacePolicyService> = {
@@ -28,13 +28,13 @@ export const workspacePolicyHooks: HookMap<Application, WorkspacePolicyService> 
   },
   before: {
     all: [
+      checkUserHasAccess({
+        allowedProfile: [USER_PROFILE.ADMIN],
+        internalProvider: true,
+        internalProviderProfileCheck: 'IF_USER_PROVIDED',
+      }),
       transaction.start(),
       setLocoKitContext,
-      // checkUserHasAccess({
-      //   allowedProfile: [USER_PROFILE.ADMIN],
-      //   internalProvider: true,
-      //   internalProviderProfileCheck: 'IF_USER_PROVIDED',
-      // }),
     ],
     find: [
       schemaHooks.validateQuery(workspacePolicyQueryValidator),

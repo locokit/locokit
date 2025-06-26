@@ -2,19 +2,27 @@ import { SERVICES } from '@locokit/definitions'
 import { describe, it, assert, beforeAll, expect, afterAll } from 'vitest'
 import { createApp } from '../../../app'
 import { builderTestEnvironment, SetupData } from '@/configure.test'
+import { Application } from '@/declarations'
+import { Server } from 'http'
 
 describe('[core] group service', () => {
-  const app = createApp()
-  const builder = builderTestEnvironment('core-group', app)
+  let app: Application
+  let server: Server
+  let port: number
+  let builder: ReturnType<typeof builderTestEnvironment>
   let setupData: SetupData
-  const port = app.get('port') || 8998
-  // const getUrl = (pathname: string) =>
-  //   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-  //   new URL(`http://${app.get('host') || 'localhost'}:${port}${pathname}`).toString()
 
   beforeAll(async () => {
+    app = createApp()
+    builder = builderTestEnvironment('core-group', app)
+    port = app.get('port') || 8998
     setupData = await builder.setupWorkspace()
-    await app.listen(port)
+    server = await app.listen(port)
+  })
+
+  afterAll(async () => {
+    await builder.teardownWorkspace()
+    await app.teardown(server)
   })
 
   it('registered the service', () => {
@@ -221,6 +229,18 @@ describe('[core] group service', () => {
         await expect(request).rejects.toThrowError(/You are not allowed to remove core\/group/)
       })
     })
+
+    describe('for public users', () => {
+      it('forbid access to the service', async () => {
+        expect.assertions(2)
+        const request = app.service(SERVICES.CORE_GROUP).find({
+          provider: 'external',
+          authenticated: false,
+        })
+        await expect(request).rejects.toThrow()
+        await expect(request).rejects.toThrowError(/Not authenticated/)
+      })
+    })
   })
 
   describe('filter', () => {
@@ -314,8 +334,4 @@ describe('[core] group service', () => {
     // for removal, already removed...
   })
   describe.todo('forbid patch workspaceId on group')
-
-  afterAll(async () => {
-    await builder.teardownWorkspace()
-  })
 })
