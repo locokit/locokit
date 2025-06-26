@@ -21,7 +21,7 @@ as you should know credentials to access the LocoKit database.
 From the SuperSet tool, you can create a database
 by specifying host, port, db, user & password.
 
-![Database form creation for SuperSet](image.png)
+![Database form creation for SuperSet](./superset_db_form.png)
 
 To make the LocoKit database available for SuperSet,
 you can bind the `5432` to a local port available.
