@@ -46,7 +46,7 @@ export async function checkUserWorkspaceAccess(context: HookContext, next?: Next
         query: {
           userId: context.params.user?.id,
           'group.workspaceId': $workspace.id,
-          $fetch: 'group',
+          $joinEager: 'group',
           $limit: 100,
         },
       },
