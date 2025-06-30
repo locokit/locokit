@@ -961,6 +961,8 @@ export async function createEventDatasource(setupData: SetupData, app: Applicati
     },
   )
 
+  console.log(tables.data)
+
   const tablesByName = {}
   tables.data.forEach((t) => (tablesByName[t.slug] = t))
 

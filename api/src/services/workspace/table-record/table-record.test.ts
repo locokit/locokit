@@ -7,26 +7,37 @@ import {
   createEventDatasource,
   LocoKitEngineTestType,
 } from '@/configure.test'
+import { Application } from '@/declarations'
+import { Server } from 'http'
+import { WorkspacePolicyTableResult } from '../policy-table/policy-table.schema'
+import { WorkspacePolicyResult } from '../policy/policy.schema'
+import { WorkspacePolicyVariableResult } from '../policy-variable/policy-variable.schema'
+import { WorkspaceGroupResult } from '../group/group.schema'
+import { WorkspaceGroupPolicyVariableResult } from '../group-policy-variable/group-policy-variable.schema'
 
 describe.only('table-record service', () => {
-  const app = createApp()
-  const port = (app.get('port') as number) || 8998
-  const builder = builderTestEnvironment('table-record', app)
+  let app: Application
+  let server: Server
+  let port: number
+  let builder: ReturnType<typeof builderTestEnvironment>
   let setupData: SetupData
   let currentData: Record<string, LocoKitEngineTestType> = {}
 
-  // const getUrl = (endpoint: string) =>
-  //   `http://${(app.get('host') as string) || 'localhost'}:${port}${endpoint}`
-
-  beforeAll(async () => {
-    await app.listen(port)
+  beforeAll(async function tableRecordBeforeAll() {
+    setTimeout(() => console.log(new Date().toISOString()), 1000)
+    app = createApp()
+    builder = builderTestEnvironment('table-record', app)
+    port = app.get('port') || 8998
     setupData = await builder.setupWorkspace()
+    server = await app.listen(port)
     currentData = await createEventDatasource(setupData, app)
-  })
+    console.log(currentData)
+  }, 20000)
 
   afterAll(async () => {
-    // await builder.teardownWorkspace()
-    await app.teardown()
+    console.log('déjà fini ?')
+    await builder.teardownWorkspace()
+    await app.teardown(server)
   })
 
   it('registered the service', () => {
@@ -34,7 +45,7 @@ describe.only('table-record service', () => {
     expect(service).toBeDefined()
   })
 
-  describe('respect basic goals', () => {
+  describe.skip('respect basic goals', () => {
     it('allow internal calls to retrieve records of a table', async () => {
       expect.assertions(2)
       const result = await app.service(SERVICES.WORKSPACE_TABLE_RECORD).find({
@@ -54,15 +65,86 @@ describe.only('table-record service', () => {
     it.todo('fail on a patch if validation is data is wrong ?')
   })
 
-  describe.only('respect policies defined', () => {
+  describe('respect policies defined', () => {
     /**
      * Configure a workspace with tables + policies
      */
-    beforeAll(() => {
+    const policyRefs = {
+      policy: null as WorkspacePolicyResult | null,
+      policyVariables: [] as WorkspacePolicyVariableResult[],
+      policyTables: [] as WorkspacePolicyTableResult[],
+      groups: [] as WorkspaceGroupResult[],
+      groupPolicyVariables: [] as WorkspaceGroupPolicyVariableResult[],
+    }
+    beforeAll(async () => {
       // const tablePolicy
+      policyRefs.policy = await app.service(SERVICES.WORKSPACE_POLICY).create(
+        {
+          name: 'Access policy n°1',
+          documentation: 'For testing purpose',
+          manager: false,
+          public: false,
+        },
+        {
+          route: {
+            workspaceSlug: setupData.publicWorkspace.slug,
+          },
+        },
+      )
+      policyRefs.policyTables.push(
+        await app.service(SERVICES.WORKSPACE_POLICY_TABLE).create(
+          {
+            policyId: policyRefs.policy!.id,
+            documentation: 'Rules for table event',
+            tableId: currentData.tables.event.id,
+            read: {
+              allow: true,
+            },
+            create: {
+              allow: true,
+            },
+            patch: {
+              allow: false,
+            },
+            remove: {
+              allow: false,
+            },
+          },
+          {
+            route: {
+              workspaceSlug: setupData.publicWorkspace.slug,
+            },
+          },
+        ),
+      )
     })
-    it.todo('forbid (404) user to retrieve records of a table he does not have access')
-    it.todo('forbid (404) user to retrieve records on a workspace he does not have access')
+    it('forbid (404) user to retrieve records of a table he does not have access', async () => {
+      expect.assertions(1)
+      const request = app.service(SERVICES.WORKSPACE_TABLE_RECORD).find(
+        {},
+        {
+          workspaceSlug: setupData.publicWorkspace.slug,
+          datasourceSlug: currentData.datasource.slug,
+          tableSlug: currentData.tables.event.slug,
+        },
+      )
+      await expect(request).rejects.toThrowError(/Forbidden/)
+    })
+    it.todo(
+      'forbid (404) user to retrieve records on a workspace he does not have access',
+      async () => {
+        expect.assertions(1)
+        const request = app.service(SERVICES.WORKSPACE_TABLE_RECORD).find(
+          {},
+          {
+            workspaceSlug: setupData.publicWorkspace.slug,
+            datasourceSlug: currentData.datasource.slug,
+            tableSlug: currentData.tables.event.slug,
+          },
+        )
+        await expect(request).rejects.toThrowError(/Forbidden/)
+      },
+    )
 
     it.todo('use the right role to access dedicated schema for GET')
     it.todo('use the right role to access dedicated schema for POST')
@@ -76,10 +158,14 @@ describe.only('table-record service', () => {
     it.todo('filter relations authorized with permissions')
     it.todo('allow user to retrieve records of a table according its fields permissions')
     it.todo('allow user to retrieve records of a table according its filters permissions')
-    it.todo('allow to create a new record')
-    it.todo('allow to patch a record')
-    it.todo('allow to update a record')
-    it.todo('allow to delete a record')
+    it.todo('allow to create a new record if policy allow it')
+    it.todo('forbid to create a new record if policy forbid it')
+    it.todo('allow to patch a record if policy allow it')
+    it.todo('forbid to patch a record if policy forbid it')
+    it.todo('allow to update a record if policy allow it')
+    it.todo('forbid to update a record if policy forbid it')
+    it.todo('allow to delete a record if policy allow it')
+    it.todo('forbid to delete a record if policy forbid it')
     it.todo('allow access to the endpoint if public access is granted for a specific table')
     it.todo('allow access to the endpoint if public access is granted for the workspace')
   })

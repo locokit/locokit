@@ -2,10 +2,13 @@ import { ref, watch } from 'vue'
 import { sdkClient } from '@/services/sdk'
 import { useDebounceFn } from '@vueuse/core'
 import type { Query } from '@feathersjs/feathers'
+import type { WorkspacePolicyVariableData } from '@locokit/sdk/dist/src/services/workspace/policy-variable/policy-variable.schema'
 
 /**
  * Composable to work with workspace policies
  * Fetch, create, patch and remove policies.
+ *
+ * Able to manage also tables / variables / fields for a policy
  *
  * @param workspaceSlug slug of the current workspace
  */
@@ -60,7 +63,11 @@ export function useWorkspacePolicies(workspaceSlug: string) {
     try {
       state.value.policy = await sdkClient
         .service('/workspace/' + workspaceSlug + '/policy')
-        .get(id)
+        .get(id, {
+          query: {
+            $joinEager: '[variables,fields,tables]',
+          },
+        })
     } catch (error) {
       state.value.error = error as Error
       console.error(error)
@@ -68,9 +75,9 @@ export function useWorkspacePolicies(workspaceSlug: string) {
     state.value.loadingSingle = false
   }
 
-  async function createPolicy() {}
+  async function createPolicy(data: WorkspacePolicyVariableData) {}
 
-  async function patchPolicy(id: string) {}
+  async function patchPolicy(id: string, data: WorkspacePolicyVariableData) {}
 
   async function removePolicy(id: string) {}
 

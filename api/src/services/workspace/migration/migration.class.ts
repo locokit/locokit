@@ -221,6 +221,7 @@ export class Migration extends ObjectionService<
         (m) => m.target === 'TABLE' && m.action === 'CREATE',
       ) as DiffItemTable[]
       await tables.reduce(async (p: Promise<any>, m: DiffItemTable) => {
+        await p
         migrationLogger.debug('creating table %s', m.settings.name, {
           name: m.settings.name,
           slug: m.settings.name,
