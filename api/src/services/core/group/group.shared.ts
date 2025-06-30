@@ -8,7 +8,7 @@ export type GroupClientService = Pick<GroupService, (typeof groupMethods)[number
 
 export const groupPath = SERVICES.CORE_GROUP
 
-export const groupMethods = ['find', 'get', 'create', 'patch', 'remove'] as const
+export const groupMethods = ['find', 'get', 'patch', 'remove'] as const
 
 export const groupClient = (client: ClientApplication) => {
   const connection = client.get('connection')

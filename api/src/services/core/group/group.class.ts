@@ -8,7 +8,6 @@ import {
   GroupData,
   GroupResult,
   GroupQuery,
-  groupDataValidator,
   groupQueryValidator,
   groupPatchValidator,
   groupUpdateValidator,
@@ -19,6 +18,7 @@ import { authenticate } from '@feathersjs/authentication'
 
 import { setAbilities } from './group.ability'
 import { authorize } from 'feathers-casl'
+import { Forbidden } from '@feathersjs/errors'
 
 const authorizeHook = authorize({ adapter: '@feathersjs/knex' })
 
@@ -37,8 +37,11 @@ export const groupHooks: HookMap<Application, GroupService> = {
       schemaHooks.resolveQuery(groupResolvers.query),
     ],
     create: [
-      schemaHooks.validateData(groupDataValidator),
-      schemaHooks.resolveData(groupResolvers.data.create),
+      () => {
+        throw new Forbidden(
+          'You cannot create group from the core endpoint. Please use the workspace one.',
+        )
+      },
     ],
     patch: [
       schemaHooks.validateData(groupPatchValidator),

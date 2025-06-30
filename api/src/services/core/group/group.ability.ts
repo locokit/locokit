@@ -17,77 +17,90 @@ import { resolveAction } from '@/abilities/definitions'
  * * CREATOR profiles : filter on workspaceId $in [workspace they created]
  */
 export const setAbilities = async (context: HookContext) => {
-  if (!context.params.provider) return context
   const { app } = context
 
   const user = context.params.user as UserResult
   const { can, cannot, build } = new AbilityBuilder(createMongoAbility)
 
-  const userProfile: keyof typeof USER_PROFILE = user?.profile
+  cannot('create', 'core/group')
 
-  switch (userProfile) {
-    case USER_PROFILE.MEMBER:
-      /**
-       * can only read their groups
-       */
-      const memberGroupsId = (
-        await app.service(SERVICES.CORE_USERGROUP).find({
-          query: {
-            $select: ['groupId'],
-            userId: user.id,
-          },
-          paginate: false,
-        })
-      ).map((ug) => ug.groupId)
-      can('read', 'core/group', {
-        id: {
-          $in: memberGroupsId,
-        },
-      })
-      cannot(['update', 'delete'], 'core/group')
+  if (!context.params.provider) {
+    can('read', 'core/group')
+    can('patch', 'core/group')
+    can('remove', 'core/group')
+  } else {
+    const userProfile: keyof typeof USER_PROFILE = user?.profile
 
-      break
-    case USER_PROFILE.CREATOR:
-      /**
-       * can access only to their groups
-       */
-      const creatorGroupsId = (
-        await app.service(SERVICES.CORE_USERGROUP).find({
-          query: {
-            $select: ['groupId'],
-            userId: user.id,
+    switch (userProfile) {
+      case USER_PROFILE.ADMIN:
+        /**
+         * can manage all groups
+         */
+        can('read', 'core/group')
+        can('patch', 'core/group')
+        can('remove', 'core/group')
+        break
+
+      case USER_PROFILE.MEMBER:
+        /**
+         * can only read their groups
+         */
+        const memberGroupsId = (
+          await app.service(SERVICES.CORE_USERGROUP).find({
+            query: {
+              $select: ['groupId'],
+              userId: user.id,
+            },
+            paginate: false,
+          })
+        ).map((ug) => ug.groupId)
+        can('read', 'core/group', {
+          id: {
+            $in: memberGroupsId,
           },
-          paginate: false,
         })
-      ).map((ug) => ug.groupId)
-      can('read', 'core/group', {
-        id: {
-          $in: creatorGroupsId,
-        },
-      })
-      /**
-       * but can create / update / delete related groups of their workspaces
-       */
-      const userWorkspacesId = (
-        await app.service(SERVICES.CORE_WORKSPACE).find({
-          query: {
-            $select: ['id'],
-            createdBy: user.id,
+        cannot(['patch', 'remove'], 'core/group')
+
+        break
+      case USER_PROFILE.CREATOR:
+        cannot(['patch', 'remove'], 'core/group')
+
+        /**
+         * can access only to their groups
+         */
+        const creatorGroupsId = (
+          await app.service(SERVICES.CORE_USERGROUP).find({
+            query: {
+              $select: ['groupId'],
+              userId: user.id,
+            },
+            paginate: false,
+          })
+        ).map((ug) => ug.groupId)
+        can('read', 'core/group', {
+          id: {
+            $in: creatorGroupsId,
           },
-          paginate: false,
         })
-      ).map((w) => w.id)
-      can('manage', 'core/group', {
-        workspaceId: {
-          $in: userWorkspacesId,
-        },
-      })
-      break
-    case USER_PROFILE.ADMIN:
-      /**
-       * can manage all groups
-       */
-      can('manage', 'core/group')
+        /**
+         * but can only read related groups of their workspaces
+         */
+        const userWorkspacesId = (
+          await app.service(SERVICES.CORE_WORKSPACE).find({
+            query: {
+              $select: ['id'],
+              createdBy: user.id,
+            },
+            paginate: false,
+          })
+        ).map((w) => w.id)
+        can('read', 'core/group', {
+          workspaceId: {
+            $in: userWorkspacesId,
+          },
+        })
+        break
+    }
   }
 
   const ability = build({ resolveAction })

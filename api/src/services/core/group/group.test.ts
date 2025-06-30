@@ -68,9 +68,9 @@ describe('[core] group service', () => {
         expect(result.users?.[1].isVerified).toBeDefined()
       })
 
-      it('create a new group if user is ADMIN', async () => {
-        expect.assertions(1)
-        const result = await app.service(SERVICES.CORE_GROUP).create(
+      it('forbid to create a new group if user is ADMIN', async () => {
+        expect.assertions(2)
+        const request = app.service(SERVICES.CORE_GROUP).create(
           {
             name: 'new group for ADMIN user',
             workspaceId: setupData.privateWorkspaceId,
@@ -83,8 +83,8 @@ describe('[core] group service', () => {
             user: setupData.userAdmin,
           },
         )
-        expect(result).toBeDefined()
-        await app.service(SERVICES.CORE_GROUP).remove(result.id)
+        await expect(request).rejects.toThrow()
+        await expect(request).rejects.toThrowError(/You are not allowed to create core\/group/)
       })
     })
 
@@ -149,11 +149,11 @@ describe('[core] group service', () => {
         expect(result.users?.[1].isVerified).not.toBeDefined()
       })
       it('create a new group in a workspace if the user is its CREATOR', async () => {
-        expect.assertions(1)
-        const result = await app.service(SERVICES.CORE_GROUP).create(
+        expect.assertions(2)
+        const request = app.service(SERVICES.CORE_GROUP).create(
           {
             name: 'new group for CREATOR user',
-            workspaceId: setupData.privateWorkspaceId,
+            workspaceId: setupData.publicWorkspaceId,
             policyId: setupData.policy1.id,
           },
           {
@@ -163,8 +163,8 @@ describe('[core] group service', () => {
             user: setupData.user2,
           },
         )
-        expect(result).toBeDefined()
-        await app.service(SERVICES.CORE_GROUP).remove(result.id)
+        await expect(request).rejects.toThrow()
+        await expect(request).rejects.toThrowError(/You are not allowed to create core\/group/)
       })
       it('forbid to create a new group in a workspace if the user is not the owner', async () => {
         expect.assertions(2)
@@ -184,7 +184,7 @@ describe('[core] group service', () => {
         await expect(request).rejects.toThrow()
         await expect(request).rejects.toThrowError(/You are not allowed to create core\/group/)
       })
-      it('forbid group creation for MEMBER', async () => {
+      it('forbid group creation for MEMBER users', async () => {
         expect.assertions(2)
         const request = app.service(SERVICES.CORE_GROUP).create(
           {
@@ -307,23 +307,29 @@ describe('[core] group service', () => {
       expect(result).toBeDefined()
       expect(result.total).toBe(5)
     })
-    it('for creation', async () => {
-      expect.assertions(1)
-      const result = await app.service(SERVICES.CORE_GROUP).create({
-        name: 'new group for ADMIN user',
-        workspaceId: setupData.privateWorkspaceId,
-        policyId: setupData.policy1.id,
-      })
-      expect(result).toBeDefined()
-      await app.service(SERVICES.CORE_GROUP).remove(result.id)
-    })
-    it('for patch', async () => {
+    it('except for creation', async () => {
       expect.assertions(2)
-      const result = await app.service(SERVICES.CORE_GROUP).create({
+      const request = app.service(SERVICES.CORE_GROUP).create({
         name: 'new group for ADMIN user',
         workspaceId: setupData.privateWorkspaceId,
         policyId: setupData.policy1.id,
       })
+      await expect(request).rejects.toThrow()
+      await expect(request).rejects.toThrowError(/You are not allowed to create core\/group/)
+    })
+    it('for patch and removal', async () => {
+      expect.assertions(2)
+      const result = await app.service(SERVICES.WORKSPACE_GROUP).create(
+        {
+          name: 'new group for ADMIN user',
+          policyId: setupData.policy1.id,
+        },
+        {
+          route: {
+            workspaceSlug: setupData.publicWorkspace.slug,
+          },
+        },
+      )
       expect(result).toBeDefined()
       const resultPatched = await app.service(SERVICES.CORE_GROUP).patch(result.id, {
         name: 'new name',
@@ -331,7 +337,6 @@ describe('[core] group service', () => {
       expect(resultPatched.name).toBe('new name')
       await app.service(SERVICES.CORE_GROUP).remove(result.id)
     })
-    // for removal, already removed...
   })
   describe.todo('forbid patch workspaceId on group')
 })
