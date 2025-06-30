@@ -18,9 +18,9 @@
     "generate-pwa-assets": "pwa-assets-generator"
   },
   "dependencies": {
-    "@feathersjs/errors": "^5.0.31",
-    "@feathersjs/feathers": "^5.0.31",
-    "@feathersjs/rest-client": "^5.0.31",
+    "@feathersjs/errors": "^5.0.34",
+    "@feathersjs/feathers": "^5.0.34",
+    "@feathersjs/rest-client": "^5.0.34",
     "@locokit/definitions": "workspace:^",
     "@locokit/locales": "workspace:^",
     "@locokit/sdk": "workspace:1.0.0-alpha.0",

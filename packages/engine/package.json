@@ -19,7 +19,7 @@
   "type": "module",
   "dependencies": {
     "@directus/schema": "^12.1.0",
-    "@feathersjs/feathers": "^5.0.10",
+    "@feathersjs/feathers": "^5.0.34",
     "@locokit/definitions": "workspace:*",
     "@vitest/coverage-v8": "^2.1.8",
     "ajv-formats": "^2.1.1",
