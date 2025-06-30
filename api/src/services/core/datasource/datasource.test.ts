@@ -6,6 +6,7 @@ import { WorkspaceResult } from '@/services/core/workspace/workspace.schema'
 import { DatasourceResult } from '@/services/core/datasource/datasource.schema'
 import { Forbidden, MethodNotAllowed } from '@feathersjs/errors/lib'
 import { Application } from '@/declarations'
+import { Server } from 'http'
 
 describe('[core] datasource service', () => {
   let app: Application
@@ -28,22 +29,17 @@ describe('[core] datasource service', () => {
   })
 
   afterAll(async () => {
-    console.log('datasource afterAll')
     await app.service(SERVICES.CORE_WORKSPACE).patch(workspace.id, {
       softDeletedAt: new Date().toISOString(),
     })
-    console.log('workspace', workspace.id, 'soft deleted')
     await app.service(SERVICES.CORE_WORKSPACE).remove(workspace.id, {
       authenticated: true,
       user: setupData.userAdmin,
       authentication: setupData.userAdminAuthentication,
     })
-    console.log('workspace', workspace.id, 'deleted')
 
     await builder.teardownWorkspace()
-    console.log('workspace teardown')
     await app.teardown(server)
-    console.log('app teardown')
   })
 
   describe('general purpose', async () => {

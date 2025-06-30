@@ -12,7 +12,7 @@ import {
 import { workspaceUserGroupPolicyVariableResolvers } from './user-group-policy-variable.resolver'
 import { Application } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
-import { ObjectionService } from '@/feathers-objection'
+import { ObjectionService, transaction } from '@/feathers-objection'
 import { HookMap } from '@feathersjs/feathers'
 import { setLocoKitContext } from '@/hooks/locokit'
 
@@ -29,6 +29,8 @@ export const workspaceUserGroupPolicyVariableHooks: HookMap<
   },
   before: {
     all: [
+      transaction.start(),
+
       setLocoKitContext,
       // checkUserHasAccess({
       //   allowedProfile: [USER_PROFILE.ADMIN, USER_PROFILE.CREATOR],
@@ -53,7 +55,9 @@ export const workspaceUserGroupPolicyVariableHooks: HookMap<
       schemaHooks.resolveData(workspaceUserGroupPolicyVariableResolvers.data.update),
     ],
   },
-  after: {},
+  after: {
+    all: [transaction.end()],
+  },
   error: {},
 }
 

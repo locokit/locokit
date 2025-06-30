@@ -51,7 +51,8 @@ export const workspacePolicyHooks: HookMap<Application, WorkspacePolicyService> 
     ],
   },
   after: {
-    find: [schemaHooks.resolveData(workspacePolicyResolvers.result), transaction.end()],
+    all: [transaction.end()],
+    find: [schemaHooks.resolveData(workspacePolicyResolvers.result)],
   },
   error: {
     all: [transaction.rollback()],

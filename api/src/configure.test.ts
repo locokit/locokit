@@ -91,7 +91,6 @@ export interface SetupData {
 }
 
 export function builderTestEnvironment(prefix: string, app: Application) {
-  console.log('building test environment for ', prefix)
   /**
    * Create all necessary resources for testing use case
    * * several workspaces
@@ -288,88 +287,182 @@ export function builderTestEnvironment(prefix: string, app: Application) {
     /**
      * 3 Then policies
      */
-    policy1 = await app.service(SERVICES.CORE_POLICY).create({
-      name: `[${prefix} abilities] Acl Set 1 workspace 1`,
-      workspaceId: publicWorkspace.id,
-      manager: true,
-      public: false,
-    })
-    policy2 = await app.service(SERVICES.CORE_POLICY).create({
-      name: `[${prefix} abilities] Acl Set 2 workspace 1`,
-      workspaceId: publicWorkspace.id,
-      manager: false,
-      public: false,
-    })
-    policy3 = await app.service(SERVICES.CORE_POLICY).create({
-      name: `[${prefix} abilities] Acl Set 3 workspace 2`,
-      workspaceId: privateWorkspace.id,
-      manager: true,
-      public: false,
-    })
-    policy4 = await app.service(SERVICES.CORE_POLICY).create({
-      name: `[${prefix} abilities] Acl Set 4 workspace 2`,
-      workspaceId: privateWorkspace.id,
-      manager: false,
-      public: false,
-    })
-    policy5 = await app.service(SERVICES.CORE_POLICY).create({
-      name: `[${prefix} abilities] Acl Set 5 workspace 1`,
-      workspaceId: publicWorkspace.id,
-      manager: false,
-      public: false,
-    })
+    policy1 = await app.service(SERVICES.WORKSPACE_POLICY).create(
+      {
+        name: `[${prefix} abilities] Acl Set 1 workspace public 1`,
+        manager: true,
+        public: false,
+      },
+      {
+        route: {
+          workspaceSlug: publicWorkspace.slug,
+        },
+      },
+    )
+    policy2 = await app.service(SERVICES.WORKSPACE_POLICY).create(
+      {
+        name: `[${prefix} abilities] Acl Set 2 workspace public 1`,
+        manager: false,
+        public: false,
+      },
+      {
+        route: {
+          workspaceSlug: publicWorkspace.slug,
+        },
+      },
+    )
+    policy3 = await app.service(SERVICES.WORKSPACE_POLICY).create(
+      {
+        name: `[${prefix} abilities] Acl Set 3 workspace private 2`,
+        manager: true,
+        public: false,
+      },
+      {
+        route: {
+          workspaceSlug: privateWorkspace.slug,
+        },
+      },
+    )
+    policy4 = await app.service(SERVICES.WORKSPACE_POLICY).create(
+      {
+        name: `[${prefix} abilities] Acl Set 4 workspace private 2`,
+        manager: false,
+        public: false,
+      },
+      {
+        route: {
+          workspaceSlug: privateWorkspace.slug,
+        },
+      },
+    )
+    policy5 = await app.service(SERVICES.WORKSPACE_POLICY).create(
+      {
+        name: `[${prefix} abilities] Acl Set 5 workspace public 1`,
+        manager: false,
+        public: false,
+      },
+      {
+        route: {
+          workspaceSlug: publicWorkspace.slug,
+        },
+      },
+    )
+    group1 = await app.service(SERVICES.WORKSPACE_GROUP).create(
+      {
+        name: `[${prefix} policy] Group 1 public`,
+        policyId: policy1.id,
+      },
+      {
+        route: {
+          workspaceSlug: publicWorkspace.slug,
+        },
+      },
+    )
+    group2 = await app.service(SERVICES.WORKSPACE_GROUP).create(
+      {
+        name: `[${prefix} policy] Group 2 public`,
+        policyId: policy2.id,
+      },
+      {
+        route: {
+          workspaceSlug: publicWorkspace.slug,
+        },
+      },
+    )
+    group3 = await app.service(SERVICES.WORKSPACE_GROUP).create(
+      {
+        name: `[${prefix} policy] Group 3 private`,
+        policyId: policy3.id,
+      },
+      {
+        route: {
+          workspaceSlug: privateWorkspace.slug,
+        },
+      },
+    )
+    group4 = await app.service(SERVICES.WORKSPACE_GROUP).create(
+      {
+        name: `[${prefix} policy] Group 4 private`,
+        policyId: policy4.id,
+      },
+      {
+        route: {
+          workspaceSlug: privateWorkspace.slug,
+        },
+      },
+    )
+    group5 = await app.service(SERVICES.WORKSPACE_GROUP).create(
+      {
+        name: `[${prefix} policy] Group 5 public`,
+        policyId: policy5.id,
+      },
+      {
+        route: {
+          workspaceSlug: publicWorkspace.slug,
+        },
+      },
+    )
 
-    group1 = await app.service(SERVICES.CORE_GROUP).create({
-      name: `[${prefix} policy] Group 1`,
-      workspaceId: publicWorkspace.id,
-      policyId: policy1.id,
-    })
-    group2 = await app.service(SERVICES.CORE_GROUP).create({
-      name: `[${prefix} policy] Group 2`,
-      workspaceId: publicWorkspace.id,
-      policyId: policy2.id,
-    })
-    group3 = await app.service(SERVICES.CORE_GROUP).create({
-      name: `[${prefix} policy] Group 3`,
-      workspaceId: privateWorkspace.id,
-      policyId: policy3.id,
-    })
-    group4 = await app.service(SERVICES.CORE_GROUP).create({
-      name: `[${prefix} policy] Group 4`,
-      workspaceId: privateWorkspace.id,
-      policyId: policy4.id,
-    })
-    group5 = await app.service(SERVICES.CORE_GROUP).create({
-      name: `[${prefix} policy] Group 5`,
-      workspaceId: publicWorkspace.id,
-      policyId: policy5.id,
-    })
-
-    await app.service(SERVICES.CORE_USERGROUP).create({
-      userId: userCreator1.id,
-      groupId: group1.id,
-      role: GROUP_ROLE.MEMBER,
-    })
-    await app.service(SERVICES.CORE_USERGROUP).create({
-      userId: user2.id,
-      groupId: group1.id,
-      role: GROUP_ROLE.MEMBER,
-    })
-    await app.service(SERVICES.CORE_USERGROUP).create({
-      userId: userCreator1.id,
-      groupId: group2.id,
-      role: GROUP_ROLE.MEMBER,
-    })
-    await app.service(SERVICES.CORE_USERGROUP).create({
-      userId: user2.id,
-      groupId: group3.id,
-      role: GROUP_ROLE.MEMBER,
-    })
-    await app.service(SERVICES.CORE_USERGROUP).create({
-      userId: userCreator4.id,
-      groupId: group4.id,
-      role: GROUP_ROLE.MEMBER,
-    })
+    await app.service(SERVICES.WORKSPACE_USERGROUP).create(
+      {
+        userId: userCreator1.id,
+        groupId: group1.id,
+        role: GROUP_ROLE.MEMBER,
+      },
+      {
+        route: {
+          workspaceSlug: publicWorkspace.slug,
+        },
+      },
+    )
+    await app.service(SERVICES.WORKSPACE_USERGROUP).create(
+      {
+        userId: user2.id,
+        groupId: group1.id,
+        role: GROUP_ROLE.MEMBER,
+      },
+      {
+        route: {
+          workspaceSlug: publicWorkspace.slug,
+        },
+      },
+    )
+    await app.service(SERVICES.WORKSPACE_USERGROUP).create(
+      {
+        userId: userCreator1.id,
+        groupId: group2.id,
+        role: GROUP_ROLE.MEMBER,
+      },
+      {
+        route: {
+          workspaceSlug: publicWorkspace.slug,
+        },
+      },
+    )
+    await app.service(SERVICES.WORKSPACE_USERGROUP).create(
+      {
+        userId: user2.id,
+        groupId: group3.id,
+        role: GROUP_ROLE.MEMBER,
+      },
+      {
+        route: {
+          workspaceSlug: privateWorkspace.slug,
+        },
+      },
+    )
+    await app.service(SERVICES.WORKSPACE_USERGROUP).create(
+      {
+        userId: userCreator4.id,
+        groupId: group4.id,
+        role: GROUP_ROLE.MEMBER,
+      },
+      {
+        route: {
+          workspaceSlug: privateWorkspace.slug,
+        },
+      },
+    )
 
     userCreator1Authentication = await app.service(SERVICES.AUTH_AUTHENTICATION).create(
       {
@@ -729,14 +822,11 @@ export function builderTestEnvironment(prefix: string, app: Application) {
   }
 
   async function teardownWorkspace(): Promise<void> {
-    console.log('teardown')
     await app.service(SERVICES.CORE_GROUP).remove(group1.id)
     await app.service(SERVICES.CORE_GROUP).remove(group2.id)
     await app.service(SERVICES.CORE_GROUP).remove(group3.id)
     await app.service(SERVICES.CORE_GROUP).remove(group4.id)
     await app.service(SERVICES.CORE_GROUP).remove(group5.id)
-
-    // console.log('teardown groups OK')
 
     await app.service(SERVICES.CORE_POLICY).remove(policy1.id)
     await app.service(SERVICES.CORE_POLICY).remove(policy2.id)
@@ -744,7 +834,6 @@ export function builderTestEnvironment(prefix: string, app: Application) {
     await app.service(SERVICES.CORE_POLICY).remove(policy4.id)
     await app.service(SERVICES.CORE_POLICY).remove(policy5.id)
 
-    // console.log('teardown policies OK')
     await app.service(SERVICES.CORE_WORKSPACE).patch(publicWorkspace.id, {
       softDeletedAt: new Date().toISOString(),
     })
@@ -763,7 +852,6 @@ export function builderTestEnvironment(prefix: string, app: Application) {
       authenticated: true,
       authentication: userAdminAuthentication,
     })
-    // console.log('teardown workspaces OK')
 
     await app.service(SERVICES.CORE_USER).remove(userAdmin.id)
     await app.service(SERVICES.CORE_USER).remove(userBlocked.id)
@@ -773,9 +861,6 @@ export function builderTestEnvironment(prefix: string, app: Application) {
     await app.service(SERVICES.CORE_USER).remove(user3.id)
     await app.service(SERVICES.CORE_USER).remove(user2.id)
     await app.service(SERVICES.CORE_USER).remove(userCreator1.id)
-
-    // console.log('teardown users OK')
-    console.log('teardown OK')
   }
 
   return {
@@ -856,6 +941,28 @@ export async function createEventDatasource(setupData: SetupData, app: Applicati
     id: migration.id,
     datasourceId: datasource.id,
   })
+
+  /**
+   * Retrieve all tables / fields
+   */
+  const tables = await app.service(SERVICES.WORKSPACE_TABLE).find(
+    {
+      query: {
+        $joinEager: 'fields',
+      },
+    },
+    {
+      route: {
+        workspaceSlug: setupData.publicWorkspace.slug,
+        datasourceSlug: datasource.slug,
+      },
+    },
+  )
+
+  const tablesByName = {}
+  tables.data.forEach((t) => (tablesByName[t.slug] = t))
+
+  currentData.tables = tablesByName
 
   /**
    * Policy definitions ?

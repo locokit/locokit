@@ -34,11 +34,6 @@ describe('[core] workspace service', () => {
   const getUrl = (pathname: string) =>
     new URL(`http://${app.get('host') || 'localhost'}:${port}${pathname}`).toString()
 
-  beforeAll(async () => {
-    setupData = await builder.setupWorkspace()
-    await app.listen(port)
-  })
-
   describe('general purpose', async () => {
     it('registered the service', () => {
       const service = app.service(SERVICES.CORE_WORKSPACE)
@@ -1007,9 +1002,4 @@ $BODY$;
   })
 
   it.todo("don't take in consideration a slug given for creation (and maybe throw an error ?)")
-
-  afterAll(async () => {
-    await builder.teardownWorkspace()
-    await app.teardown()
-  })
 })

@@ -50,7 +50,8 @@ export const workspacePolicyTableFieldHooks: HookMap<
     ],
   },
   after: {
-    find: [schemaHooks.resolveData(workspacePolicyTableFieldResolvers.result), transaction.end()],
+    all: [transaction.end()],
+    find: [schemaHooks.resolveData(workspacePolicyTableFieldResolvers.result)],
   },
   error: {
     all: [transaction.rollback()],

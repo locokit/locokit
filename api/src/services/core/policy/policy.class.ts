@@ -1,7 +1,7 @@
 import { KnexAdapterParams } from '@feathersjs/knex'
 import { hooks as schemaHooks } from '@feathersjs/schema'
 
-import { PolicyData, PolicyResult, PolicyQuery, policyDataValidator } from './policy.schema'
+import { PolicyResult, PolicyQuery, policyPatchValidator, PolicyPatch } from './policy.schema'
 import { policyQueryValidator, policyResolvers } from './policy.resolver'
 import { Application } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
@@ -30,9 +30,9 @@ export const policyHooks: HookMap<Application, PolicyService> = {
       schemaHooks.validateQuery(policyQueryValidator),
       schemaHooks.resolveQuery(policyResolvers.query),
     ],
-    create: [
-      schemaHooks.validateData(policyDataValidator),
-      schemaHooks.resolveData(policyResolvers.data.create),
+    patch: [
+      schemaHooks.validateData(policyPatchValidator),
+      schemaHooks.resolveData(policyResolvers.data.patch),
     ],
   },
   after: {
@@ -44,4 +44,9 @@ export const policyHooks: HookMap<Application, PolicyService> = {
 export interface PolicyParams extends KnexAdapterParams<PolicyQuery> {}
 
 // By default calls the standard Knex adapter service methods but can be customized with your own functionality.
-export class PolicyService extends ObjectionService<PolicyResult, PolicyData, PolicyParams> {}
+export class PolicyService extends ObjectionService<
+  PolicyResult,
+  null,
+  PolicyParams,
+  PolicyPatch
+> {}

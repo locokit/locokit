@@ -6,6 +6,7 @@ import { userSignUpDataSchema, userSignUpDataValidator } from './user-signup.sch
 import pkg from 'feathers-swagger'
 import { setLocoKitContext } from '@/hooks/locokit'
 import { authenticate } from '@feathersjs/authentication'
+import { transaction } from '@/feathers-objection'
 
 const { createSwaggerServiceOptions } = pkg
 
@@ -36,7 +37,10 @@ export function userSignup(app: Application): void {
       all: [authenticate('jwt')],
     },
     before: {
-      create: [setLocoKitContext, validateData(userSignUpDataValidator)],
+      create: [transaction.start(), setLocoKitContext, validateData(userSignUpDataValidator)],
+    },
+    after: {
+      all: [transaction.end()],
     },
   })
 }

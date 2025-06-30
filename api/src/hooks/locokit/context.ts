@@ -196,8 +196,8 @@ export async function setLocoKitContext(context: HookContext, next?: NextFunctio
       case SERVICES.WORKSPACE_POLICY_TABLE_FIELD:
       case SERVICES.WORKSPACE_POLICY_VARIABLE:
         locokitContextLogger.info(
-          context.method,
           'workspace service (root/table/field/variable) found (method %s)',
+          context.method,
         )
         const workspaceSlug = context.params.route.workspaceSlug
         const workspacePolicy = await context.app.service(SERVICES.CORE_WORKSPACE).find({

@@ -39,14 +39,12 @@ export const policySchema = Type.Object(
 
 export type PolicySchema = Static<typeof policySchema>
 
-export const policyDataSchema = Type.Omit(policySchema, ['id', 'workspace'], {
-  $id: 'PolicyData',
-})
-export type PolicyData = Static<typeof policyDataSchema>
-
-export const policyPatchSchema = Type.Partial(Type.Omit(policyDataSchema, ['workspaceId']), {
-  $id: 'PolicyPatch',
-})
+export const policyPatchSchema = Type.Partial(
+  Type.Omit(policySchema, ['id', 'workspace', 'workspaceId']),
+  {
+    $id: 'PolicyPatch',
+  },
+)
 export type PolicyPatch = Static<typeof policyPatchSchema>
 
 export type PolicyResult = Static<typeof policySchema>
@@ -91,4 +89,4 @@ export const policyQuerySchema = Type.Intersect([
 
 export type PolicyQuery = Static<typeof policyQuerySchema>
 
-export const policyDataValidator = getValidator(policyDataSchema, dataValidator)
+export const policyPatchValidator = getValidator(policyPatchSchema, dataValidator)

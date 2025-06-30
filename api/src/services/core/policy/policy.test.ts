@@ -36,4 +36,7 @@ describe('[core] policy service', () => {
   it('creates a new group if user is ADMIN')
 
   it('creates a new group in a workspace if the user is CREATOR')
+
+  it.todo('forbid creation from core policy service')
+  it.todo('forbid update from core policy service')
 })
