@@ -33,17 +33,11 @@ export const workspaceGroupHooks: HookMap<Application, WorkspaceGroupService> = 
     find: [
       schemaHooks.validateQuery(workspaceGroupQueryValidator),
       schemaHooks.resolveQuery(workspaceGroupResolvers.query),
-      (context) => {
-        return context
-      },
       authorizeHook,
     ],
     create: [
       schemaHooks.validateData(workspaceGroupDataValidator),
       schemaHooks.resolveData(...workspaceGroupResolvers.data.create),
-      (context) => {
-        return context
-      },
       authorizeHook,
     ],
     patch: [

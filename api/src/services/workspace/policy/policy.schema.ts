@@ -64,7 +64,10 @@ export const workspacePolicyDataSchema = Type.Pick(
 export type WorkspacePolicyData = Static<typeof workspacePolicyDataSchema>
 
 export const workspacePolicyDataInternalSchema = Type.Intersect(
-  [workspacePolicyDataSchema, Type.Pick(workspacePolicySchema, ['createdAt', 'updatedAt'])],
+  [
+    workspacePolicyDataSchema,
+    Type.Pick(workspacePolicySchema, ['createdAt', 'updatedAt', 'workspaceId']),
+  ],
   {
     $id: 'WorkspacePolicyDataInternalSchema',
     additionalProperties: false,

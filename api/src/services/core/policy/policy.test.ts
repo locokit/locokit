@@ -17,7 +17,7 @@ describe('[core] policy service', () => {
     // builder = builderTestEnvironment('core-polict', app)
     port = app.get('port') || 8998
     // setupData = await builder.setupWorkspace()
-    await app.listen(port)
+    server = await app.listen(port)
   })
 
   afterAll(async () => {
@@ -39,4 +39,6 @@ describe('[core] policy service', () => {
 
   it.todo('forbid creation from core policy service')
   it.todo('forbid update from core policy service')
+
+  it.todo('allow owner of a workspace to see its policies')
 })

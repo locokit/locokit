@@ -13,10 +13,11 @@ import { workspacePolicyQueryValidator, workspacePolicyResolvers } from './polic
 import { Application } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
 import { ObjectionService, transaction } from '@/feathers-objection'
-import { USER_PROFILE } from '@locokit/definitions'
 import { HookMap } from '@feathersjs/feathers'
-import { checkUserHasAccess } from '@/hooks/profile.hooks'
 import { setLocoKitContext } from '@/hooks/locokit'
+import { setAbilities } from './policy.ability'
+import { authorize } from 'feathers-casl'
+const authorizeHook = authorize({ adapter: '@feathersjs/knex', modelName: 'workspace/policy' })
 
 export const workspacePolicyHooks: HookMap<Application, WorkspacePolicyService> = {
   around: {
@@ -27,27 +28,22 @@ export const workspacePolicyHooks: HookMap<Application, WorkspacePolicyService> 
     ],
   },
   before: {
-    all: [
-      checkUserHasAccess({
-        allowedProfile: [USER_PROFILE.ADMIN],
-        internalProvider: true,
-        internalProviderProfileCheck: 'IF_USER_PROVIDED',
-      }),
-      transaction.start(),
-      setLocoKitContext,
-    ],
+    all: [transaction.start(), setLocoKitContext, setAbilities],
     find: [
       schemaHooks.validateQuery(workspacePolicyQueryValidator),
       schemaHooks.resolveQuery(workspacePolicyResolvers.query),
+      authorizeHook,
     ],
     create: [
       schemaHooks.validateData(workspacePolicyDataValidator),
       schemaHooks.resolveData(workspacePolicyResolvers.data.create),
       schemaHooks.validateData(workspacePolicyDataInternalValidator),
+      authorizeHook,
     ],
     patch: [
       schemaHooks.resolveData(workspacePolicyResolvers.data.patch),
       schemaHooks.validateData(workspacePolicyPatchValidator),
+      authorizeHook,
     ],
   },
   after: {

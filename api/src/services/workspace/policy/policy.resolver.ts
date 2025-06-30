@@ -15,11 +15,27 @@ export const workspacePolicyCreateResolver = resolve<WorkspacePolicySchema, Hook
   updatedAt: async () => {
     return new Date().toISOString()
   },
+  /**
+   * Return the workspace id for the current group,
+   * useful for checking permissions
+   */
+  async workspaceId(workspaceId, _data, context) {
+    if (workspaceId) return workspaceId
+    return context.params.$locokit.currentWorkspace.id
+  },
 })
 
 export const workspacePolicyDefaultResolver = resolve<WorkspacePolicySchema, HookContext>({
   updatedAt: async () => {
     return new Date().toISOString()
+  },
+  /**
+   * Return the workspace id for the current group,
+   * useful for checking permissions
+   */
+  async workspaceId(workspaceId, _data, context) {
+    if (workspaceId) return workspaceId
+    return context.params.$locokit.currentWorkspace.id
   },
 })
 
