@@ -1,7 +1,7 @@
 import { resolve, Resolver } from '@feathersjs/schema'
 import { GROUP_ROLE } from '@locokit/definitions'
 import type { HookContext } from '@/declarations'
-import { workspaceGroupDispatchResolver } from '../group/group.resolver'
+import { workspaceGroupDefaultResolver } from '../group/group.resolver'
 import { userDispatchResolver } from '../../core/user/user.resolver'
 import { UserGroupQuery, UserGroupSchema } from './user-group.schema'
 
@@ -32,7 +32,7 @@ export const workspaceUserGroupDispatchResolver: Resolver<UserGroupSchema, HookC
    * The relation `workspace` is fetched when used in a find/get + $joinRelated
    */
   async group(group, _data, context) {
-    if (group) return await workspaceGroupDispatchResolver.resolve(group, context)
+    if (group) return await workspaceGroupDefaultResolver.resolve(group, context)
   },
   async user(user, _data, context) {
     if (user) return await userDispatchResolver.resolve(user, context)

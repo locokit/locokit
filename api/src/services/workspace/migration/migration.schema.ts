@@ -48,6 +48,11 @@ export const migrationSchema = Type.Object(
       format: 'date-time',
       description: 'Update date of the migration',
     }),
+
+    /**
+     * Related models
+     */
+    datasoure: Type.Optional(Type.Any()),
   },
   {
     $id: 'MigrationSchema',
@@ -88,9 +93,9 @@ export const migrationDataExternalValidator = getValidator(
   dataValidator,
 )
 
-export const migrationDataInternalSchema = Type.Omit(
+export const migrationDataInternalSchema = Type.Pick(
   migrationSchema,
-  ['id', 'applied', 'reverted'],
+  ['name', 'datasourceId', 'direction', 'diffToApply', 'createdAt', 'updatedAt'],
   {
     $id: '#/locokit/MigrationDataInternal',
     additionalProperties: false,
@@ -148,6 +153,7 @@ export const migrationDataApplySchema = Type.Object(
       format: 'uuid',
       description: 'Related datasource of the migration',
     }),
+    datasource: Type.Optional(Type.Any()),
   },
   {
     $id: 'MigrationApply',

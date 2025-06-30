@@ -7,6 +7,7 @@ import type {
   MigrationResult,
   MigrationQuery,
 } from './migration.schema'
+import { SERVICES } from '@locokit/definitions'
 
 // Resolver for the basic data model (e.g. creating new entries)
 export const migrationDataResolver = resolve<MigrationDataInternal, HookContext>({
@@ -33,6 +34,14 @@ export const migrationResultResolver = resolve<MigrationResult, HookContext>({})
 // Resolver for query properties
 export const migrationQueryResolver = resolve<MigrationQuery, HookContext>({})
 
+export const migrationApplyResolver = resolve<MigrationResult, HookContext>({
+  async datasoure(_value, migration, context) {
+    return await context.app
+      .service(SERVICES.WORKSPACE_DATASOURCE)
+      .get(migration.datasourceId, { query: { $eager: '[tables.[fields]]' } })
+  },
+})
+
 // Export all resolvers in a format that can be used with the resolveAll hook
 export const migrationResolvers = {
   result: migrationResultResolver,
@@ -42,4 +51,5 @@ export const migrationResolvers = {
     patch: migrationPatchResolver,
   },
   query: migrationQueryResolver,
+  apply: migrationApplyResolver,
 }

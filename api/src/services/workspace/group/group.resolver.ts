@@ -9,6 +9,24 @@ export const workspaceGroupCreateResolver = resolve<WorkspaceGroupSchema, HookCo
   async createdAt() {
     return new Date().toISOString()
   },
+  async updatedAt() {
+    return new Date().toISOString()
+  },
+})
+
+// Resolver for the basic data model (e.g. creating new entries)
+export const workspaceGroupPatchResolver = resolve<WorkspaceGroupSchema, HookContext>({
+  async updatedAt() {
+    return new Date().toISOString()
+  },
+  /**
+   * Return the workspace id for the current group,
+   * useful for checking permissions
+   */
+  async workspaceId(workspaceId, _data, context) {
+    if (workspaceId) return workspaceId
+    return context.params.$locokit.currentWorkspace.id
+  },
 })
 
 export const workspaceGroupDefaultResolver: Resolver<WorkspaceGroupSchema, HookContext> = resolve<
@@ -25,17 +43,6 @@ export const workspaceGroupDefaultResolver: Resolver<WorkspaceGroupSchema, HookC
         users.map(async (u) => await userRestrictedDispatchResolver.resolve(u, context)),
       )
   },
-  async updatedAt() {
-    return new Date().toISOString()
-  },
-  /**
-   * Return the workspace id for the current group,
-   * useful for checking permissions
-   */
-  async workspaceId(workspaceId, _data, context) {
-    if (workspaceId) return workspaceId
-    return context.params.$locokit.currentWorkspace.id
-  },
 })
 
 // Resolver for query properties
@@ -46,8 +53,12 @@ export const workspaceGroupResolvers = {
   result: workspaceGroupDefaultResolver,
   dispatch: workspaceGroupDefaultResolver,
   data: {
-    create: [workspaceGroupDefaultResolver, workspaceGroupCreateResolver],
-    patch: [workspaceGroupDefaultResolver],
+    create: [
+      workspaceGroupDefaultResolver,
+      workspaceGroupCreateResolver,
+      workspaceGroupPatchResolver,
+    ],
+    patch: [workspaceGroupDefaultResolver, workspaceGroupPatchResolver],
     remove: [workspaceGroupDefaultResolver],
   },
   query: workspaceGroupQueryResolver,

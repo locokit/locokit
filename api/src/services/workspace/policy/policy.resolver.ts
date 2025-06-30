@@ -4,7 +4,7 @@ import type { HookContext } from '@/declarations'
 import { queryValidator } from '@/commons/validators'
 import { workspacePolicyQuerySchema, WorkspacePolicySchema } from './policy.schema'
 import { PolicyQuery } from '@/client'
-import { workspaceGroupDispatchResolver } from '../group/group.resolver'
+import { workspaceGroupDefaultResolver } from '../group/group.resolver'
 
 // Resolver for the basic data model (e.g. creating new entries)
 export const workspacePolicyCreateResolver = resolve<WorkspacePolicySchema, HookContext>({
@@ -31,7 +31,7 @@ export const workspacePolicyDispatchResolver = resolve<WorkspacePolicySchema, Ho
   async groups(groups, _data, context) {
     if (groups) {
       return await Promise.all(
-        groups.map(async (g) => await workspaceGroupDispatchResolver.resolve(g, context)),
+        groups.map(async (g) => await workspaceGroupDefaultResolver.resolve(g, context)),
       )
     }
   },

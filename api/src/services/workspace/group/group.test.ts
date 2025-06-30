@@ -20,10 +20,10 @@ describe('[workspace] group service', () => {
     server = await app.listen(port)
   })
 
-  // afterAll(async () => {
-  //   await builder.teardownWorkspace()
-  //   await app.teardown(server)
-  // })
+  afterAll(async () => {
+    await builder.teardownWorkspace()
+    await app.teardown(server)
+  })
 
   it('registered the service', () => {
     const service = app.service(SERVICES.WORKSPACE_GROUP)
