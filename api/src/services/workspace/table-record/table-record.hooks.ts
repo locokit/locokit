@@ -92,9 +92,9 @@ export const tableRecordHooks = {
        * Then compute rules to apply for filtering
        */
       async function computeAbilities(context: HookContext, next: NextFunction) {
-        console.log('computeAbilities', context.params.$locokit, context.params.$workspace)
         const { workspaceSlug, datasourceSlug, tableSlug } = context.params.route
         const groupId = context.params.headers?.['x-lck-group']
+
         /**
          * If no groupId is provided,
          * we check the current user is authorized to access all the data :
@@ -104,7 +104,13 @@ export const tableRecordHooks = {
          * if not, we throw a Forbidden Error
          *
          */
-        console.log('groupId', groupId)
+        if (
+          !groupId &&
+          !context.params.$workspace.creator &&
+          context.params.user.profile !== USER_PROFILE.ADMIN
+        ) {
+          throw new Forbidden('Please provide the header x-lck-group to access records.')
+        }
 
         /**
          * Compute abilities for the group only if necessary
