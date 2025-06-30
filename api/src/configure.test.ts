@@ -44,6 +44,7 @@ export { Place, Company, Person, Room, Session, Participate, Event, LocoKitEngin
 export interface SetupData {
   publicWorkspace: WorkspaceResult
   publicWorkspaceId: string
+  privateWorkspace: WorkspaceResult
   privateWorkspaceId: string
   // database1Id: string
   // database2Id: string
@@ -785,6 +786,7 @@ export function builderTestEnvironment(prefix: string, app: Application) {
     _data = {
       publicWorkspace,
       publicWorkspaceId: publicWorkspace.id,
+      privateWorkspace,
       privateWorkspaceId: privateWorkspace.id,
       userCreator1,
       user2,

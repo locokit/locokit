@@ -8,86 +8,79 @@ import { resolveAction } from '@/abilities/definitions'
  * /workspace/group
  *
  * READ
- * * ADMIN profiles : all groups
+ * * ADMIN profiles : all groups for all workspaces
  * * other : filter by group of the current user
  *
  * CREATE / UPDATE / DELETE
- * * forbidden for MEMBER profiles
  * * ADMIN profiles : OK
- * * CREATOR profiles : filter on workspaceId $in [workspace they created]
+ * * USER owners : OK
+ * * forbidden for other profiles
+ *
+ * Beware, we restrict the abilities to the current workspace
+ * to avoid any overload on other workspaces.
  */
 export const setAbilities = async (context: HookContext) => {
-  if (!context.params.provider) return context
-  const { app } = context
+  const { app, params } = context
 
   const user = context.params.user as UserResult
+  const workspaceId = params.$locokit.currentWorkspace.id
+  const workspaceSlug = params.$locokit.currentWorkspace.slug
   const { can, cannot, build } = new AbilityBuilder(createMongoAbility)
 
-  const userProfile: keyof typeof USER_PROFILE = user?.profile
+  /**
+   * If no provider, we authorize everything = internal calls
+   */
+  if (!context.params.provider) {
+    can('manage', 'workspace/group', { workspaceId })
+  } else {
+    const userProfile: keyof typeof USER_PROFILE = user?.profile
 
-  switch (userProfile) {
-    case USER_PROFILE.MEMBER:
-      /**
-       * can only read their groups
-       */
-      const memberGroupsId = (
-        await app.service(SERVICES.CORE_USERGROUP).find({
-          query: {
-            $select: ['groupId'],
-            userId: user.id,
-          },
-          paginate: false,
-        })
-      ).map((ug) => ug.groupId)
-      can('read', 'workspace/group', {
-        id: {
-          $in: memberGroupsId,
-        },
-      })
-      cannot(['update', 'delete'], 'workspace/group')
-
-      break
-    case USER_PROFILE.CREATOR:
-      /**
-       * can access only to their groups
-       */
-      const creatorGroupsId = (
-        await app.service(SERVICES.CORE_USERGROUP).find({
-          query: {
-            $select: ['groupId'],
-            userId: user.id,
-          },
-          paginate: false,
-        })
-      ).map((ug) => ug.groupId)
-      can('read', 'workspace/group', {
-        id: {
-          $in: creatorGroupsId,
-        },
-      })
-      /**
-       * but can create / update / delete related groups of their workspaces
-       */
-      const userWorkspacesId = (
-        await app.service(SERVICES.CORE_WORKSPACE).find({
-          query: {
-            $select: ['id'],
-            createdBy: user.id,
-          },
-          paginate: false,
-        })
-      ).map((w) => w.id)
-      can('manage', 'workspace/group', {
-        workspaceId: {
-          $in: userWorkspacesId,
-        },
-      })
-      break
-    case USER_PROFILE.ADMIN:
-      /**
-       * can manage all groups
-       */
-      can('manage', 'workspace/group')
+    switch (userProfile) {
+      case USER_PROFILE.ADMIN:
+        /**
+         * can manage all groups
+         */
+        can('manage', 'workspace/group', { workspaceId })
+        break
+      case USER_PROFILE.MEMBER:
+      case USER_PROFILE.CREATOR:
+      default:
+        /**
+         * if user is the owner
+         */
+        if (user.id === params.$locokit.currentWorkspace.createdBy) {
+          can('manage', 'workspace/group', {
+            workspaceId,
+          })
+        } else {
+          /**
+           * can only read their groups
+           */
+          cannot(['create', 'update', 'delete'], 'workspace/group', {
+            workspaceId,
+          })
+          const groupIds = (
+            await app.service(SERVICES.WORKSPACE_USERGROUP).find({
+              query: {
+                $select: ['groupId'],
+                userId: user.id,
+              },
+              paginate: false,
+              route: {
+                workspaceSlug,
+              },
+            })
+          ).map((ug) => ug.groupId)
+          console.log('groupIds', groupIds)
+          can('read', 'workspace/group', {
+            id: {
+              $in: groupIds,
+            },
+            workspaceId,
+          })
+        }
+        break
+    }
   }
 
   const ability = build({ resolveAction })

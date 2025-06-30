@@ -29,20 +29,29 @@ export const workspaceGroupHooks: HookMap<Application, WorkspaceGroupService> = 
     ],
   },
   before: {
-    all: [transaction.start(), setLocoKitContext, setAbilities, authorizeHook],
+    all: [transaction.start(), setLocoKitContext, setAbilities],
     find: [
       schemaHooks.validateQuery(workspaceGroupQueryValidator),
       schemaHooks.resolveQuery(workspaceGroupResolvers.query),
+      (context) => {
+        return context
+      },
+      authorizeHook,
     ],
     create: [
       schemaHooks.validateData(workspaceGroupDataValidator),
-      schemaHooks.resolveData(workspaceGroupResolvers.data.create),
+      schemaHooks.resolveData(...workspaceGroupResolvers.data.create),
+      (context) => {
+        return context
+      },
+      authorizeHook,
     ],
     patch: [
       schemaHooks.validateData(workspaceGroupPatchValidator),
       schemaHooks.resolveData(...workspaceGroupResolvers.data.patch),
+      authorizeHook,
     ],
-    remove: [],
+    remove: [schemaHooks.resolveData(...workspaceGroupResolvers.data.remove), authorizeHook],
   },
   after: {
     all: [transaction.end()],

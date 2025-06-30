@@ -7,9 +7,21 @@ import { PolicyQuery } from '@/client'
 import { workspaceGroupDispatchResolver } from '../group/group.resolver'
 
 // Resolver for the basic data model (e.g. creating new entries)
-export const workspacePolicyCreateResolver = resolve<WorkspacePolicySchema, HookContext>({})
+export const workspacePolicyCreateResolver = resolve<WorkspacePolicySchema, HookContext>({
+  createdAt: async () => {
+    return new Date().toISOString()
+  },
 
-export const workspacePolicyDefaultResolver = resolve<WorkspacePolicySchema, HookContext>({})
+  updatedAt: async () => {
+    return new Date().toISOString()
+  },
+})
+
+export const workspacePolicyDefaultResolver = resolve<WorkspacePolicySchema, HookContext>({
+  updatedAt: async () => {
+    return new Date().toISOString()
+  },
+})
 
 export const workspacePolicyDispatchResolver = resolve<WorkspacePolicySchema, HookContext>({
   /**
