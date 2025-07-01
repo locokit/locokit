@@ -14,4 +14,19 @@ export const userSignUpDataSchema = Type.Object(
 
 export type UserSignUpData = Static<typeof userSignUpDataSchema>
 
+export const userSignUpResultSchema = Type.Intersect(
+  [
+    userSignUpDataSchema,
+    Type.Object({
+      token: Type.String(),
+    }),
+  ],
+  {
+    $id: 'UserSignUpResult',
+    additionalProperties: false,
+  },
+)
+
+export type UserSignUpResult = Static<typeof userSignUpResultSchema>
+
 export const userSignUpDataValidator = getValidator(userSignUpDataSchema, dataValidator)

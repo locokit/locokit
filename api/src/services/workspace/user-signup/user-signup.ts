@@ -1,5 +1,5 @@
-import { SERVICES } from '@locokit/definitions'
-import { Application } from '@/declarations'
+import { SERVICES, USER_PROFILE } from '@locokit/definitions'
+import { Application, HookContext, NextFunction } from '@/declarations'
 import { UserSignUpService } from './user-signup.class'
 import { validateData } from '@feathersjs/schema/lib'
 import { userSignUpDataSchema, userSignUpDataValidator } from './user-signup.schema'
@@ -7,6 +7,8 @@ import pkg from 'feathers-swagger'
 import { setLocoKitContext } from '@/hooks/locokit'
 import { authenticate } from '@feathersjs/authentication'
 import { transaction } from '@/feathers-objection'
+import { checkUserWorkspaceAccess } from '@/hooks/locokit/access'
+import { Forbidden } from '@feathersjs/errors'
 
 const { createSwaggerServiceOptions } = pkg
 
@@ -34,10 +36,26 @@ export function userSignup(app: Application): void {
 
   app.service(SERVICES.WORKSPACE_USER_SIGNUP).hooks({
     around: {
-      all: [authenticate('jwt')],
+      all: [
+        authenticate('jwt'),
+        setLocoKitContext,
+        /**
+         * Check user is an ADMIN or the owner
+         */
+        checkUserWorkspaceAccess,
+        async function computeAbilities(context: HookContext, next: NextFunction) {
+          if (
+            context.params.user.profile !== USER_PROFILE.ADMIN &&
+            !context.params.$workspace.creator
+          ) {
+            throw new Forbidden('You cannot access this endpoint.')
+          }
+          await next()
+        },
+      ],
     },
     before: {
-      create: [transaction.start(), setLocoKitContext, validateData(userSignUpDataValidator)],
+      create: [transaction.start(), validateData(userSignUpDataValidator)],
     },
     after: {
       all: [transaction.end()],

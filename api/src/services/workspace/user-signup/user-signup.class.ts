@@ -5,7 +5,7 @@ import { RateLimiterMemory } from 'rate-limiter-flexible'
 
 import { Application } from '@/declarations'
 import { logger } from '../../../logger'
-import { UserSignUpData } from './user-signup.schema'
+import { UserSignUpData, UserSignUpResult } from './user-signup.schema'
 
 const userSignupClassLogger = logger.child({ service: 'user-signup' })
 
@@ -24,12 +24,16 @@ export class UserSignUpService {
     })
   }
 
-  async create(credentials: UserSignUpData, params?: Params): Promise<UserSignUpData> {
+  async create(credentials: UserSignUpData, params?: Params): Promise<UserSignUpResult> {
     userSignupClassLogger.info(
       '[create] email: %s, username: %s',
       credentials.email,
       credentials.username,
     )
+    const result: UserSignUpResult = {
+      ...credentials,
+      token: '',
+    }
     /**
      * Use the rate limiter to protect the platform of signup attacks
      */
@@ -56,7 +60,7 @@ export class UserSignUpService {
         credentials.username,
         USER_PROFILE.CREATOR,
       )
-      await this.app.service(SERVICES.CORE_USER).create(
+      const newUser = await this.app.service(SERVICES.CORE_USER).create(
         {
           username: credentials.username,
           email: credentials.email,
@@ -68,6 +72,9 @@ export class UserSignUpService {
           },
         },
       )
+      // TODO: security issue, only for agrinichoirs.
+      // rapidly implement the signup with templates issue #375
+      result.token = newUser.verifyToken!
       userSignupClassLogger.info('Creation ok.')
     } catch (error: any) {
       userSignupClassLogger.error(
@@ -77,6 +84,6 @@ export class UserSignUpService {
       )
       throw error
     }
-    return credentials
+    return result
   }
 }
