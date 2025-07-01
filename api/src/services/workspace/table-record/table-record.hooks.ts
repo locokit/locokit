@@ -4,7 +4,7 @@ import { GROUP_ROLE, SERVICES, USER_PROFILE } from '@locokit/definitions'
 import { Ajv, addFormats, Validator, hooks as schemaHooks } from '@feathersjs/schema'
 import type { DataValidatorMap, FormatsPluginOptions } from '@feathersjs/schema'
 import ajvErrors from 'ajv-errors'
-import { Forbidden, NotFound } from '@feathersjs/errors/lib'
+import { BadRequest, Forbidden, NotFound } from '@feathersjs/errors/lib'
 import { Type, querySyntax, getValidator, TSchema, getDataValidator } from '@feathersjs/typebox'
 import { type Connexion, createAdapter, GenericAdapter } from '@locokit/engine'
 import { convertLocoKitFieldTypeToTypeboxSchema } from './table-record.helpers'
@@ -78,6 +78,9 @@ export const tableRecordHooks = {
       authenticate('jwt' /*, 'public' */), // TODO: remove public auth if we don't have permission stabilized
       setLocoKitContext,
       /**
+       * TODO : reject user if he's not a member of the workspace (via owner / ADMIN / memberships)
+       */
+      /**
        * check user has access to the current workspace
        */
       checkUserWorkspaceAccess,
@@ -93,7 +96,7 @@ export const tableRecordHooks = {
        */
       async function computeAbilities(context: HookContext, next: NextFunction) {
         const { workspaceSlug, datasourceSlug, tableSlug } = context.params.route
-        const groupId = context.params.headers?.['x-lck-group']
+        let groupId = context.params.headers?.['x-lck-group']
 
         /**
          * If no groupId is provided,
@@ -101,15 +104,26 @@ export const tableRecordHooks = {
          * * is the current user the creator of the workspace ?
          * * is the current user a LocoKit ADMIN ?
          * if, so, this is OK
-         * if not, we throw a Forbidden Error
+         * if not, we check the user have only one membership
+         * we throw a BadRequest Error
          *
+         */
+        /**
+         * If no groupId, check if the user has a single membership,
+         * if so, affect it to the groupId
          */
         if (
           !groupId &&
           !context.params.$workspace.creator &&
           context.params.user.profile !== USER_PROFILE.ADMIN
         ) {
-          throw new Forbidden('Please provide the header x-lck-group to access records.')
+          if (context.params.$workspace.memberships.length === 1) {
+            groupId = context.params.$workspace.memberships[0].groupId
+          } else {
+            throw new BadRequest('Please provide the header x-lck-group to access records.', {
+              code: ERROR_CODE.WS.ACCESS.NEED_HEADER,
+            })
+          }
         }
 
         /**

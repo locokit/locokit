@@ -5,6 +5,7 @@ import { Forbidden } from '@feathersjs/errors'
 import { NextFunction, Paginated } from '@feathersjs/feathers'
 import { SERVICES } from '@locokit/definitions'
 import { checkUserHasProfile, checkProviderIsInternal } from '../profile.hooks'
+import { ERROR_CODE } from '@/errors'
 
 /**
  * Check a user has access to a workspace :
@@ -41,25 +42,29 @@ export async function checkUserWorkspaceAccess(context: HookContext, next?: Next
     /**
      * Search if the current user is in a usergroup of the current workspace
      */
-    const memberships = (await context.app.service(SERVICES.CORE_USERGROUP).find(
-      {
-        query: {
-          userId: context.params.user?.id,
-          'group.workspaceId': $workspace.id,
-          $joinEager: 'group',
-          $limit: 100,
-        },
+    const memberships = (await context.app.service(SERVICES.CORE_USERGROUP).find({
+      ...context.params,
+      query: {
+        userId: context.params.user?.id,
+        'group.workspaceId': $workspace.id,
+        $joinEager: 'group',
+        $limit: 100,
       },
-      {
-        params: context.params,
-      },
-    )) as Paginated<UserGroupResult>
+    })) as Paginated<UserGroupResult>
+    /**
+     *
+     */
     console.log('checkUserWorkspaceAccess', memberships)
-    if (memberships.total === 0) throw new Forbidden('You cannot access this workspace.')
+    if (memberships.total === 0)
+      throw new Forbidden('You cannot access this workspace.', {
+        code: ERROR_CODE.WS.ACCESS.NO_GROUP,
+      })
     $workspace.memberships = memberships.data
   } else {
     if (!isInternalProvider && !userHasProfile && !$workspace.creator) {
-      throw new Forbidden('You cannot access this workspace.')
+      throw new Forbidden('You cannot access this workspace.', {
+        code: ERROR_CODE.WS.ACCESS.NO_ACCESS,
+      })
     }
   }
 

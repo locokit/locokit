@@ -7,5 +7,10 @@ export const ERROR_CODE = Object.freeze({
         METHOD_NOT_ALLOWED: 'ERROR_WS_POLICY_TABLE_METHOD_NOT_ALLOWED',
       },
     },
+    ACCESS: {
+      NO_GROUP: 'ERROR_WS_ACCESS_NO_GROUP',
+      NO_ACCESS: 'ERROR_WS_ACCESS_NO_ACCESS',
+      NEED_HEADER: 'ERROR_WS_ACCESS_NEED_HEADER',
+    },
   },
 })

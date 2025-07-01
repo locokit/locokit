@@ -255,6 +255,7 @@ describe('[workspace] group service', () => {
           },
         })
       })
+      it.todo('allow removal for owner ()')
       it('forbid to create a new group in a workspace if the user is not the owner', async () => {
         expect.assertions(2)
         const request = app.service(SERVICES.WORKSPACE_GROUP).create(
