@@ -75,6 +75,7 @@ export class UserSignUpService {
       // TODO: security issue, only for agrinichoirs.
       // rapidly implement the signup with templates issue #375
       result.token = newUser.verifyToken!
+      result.id = newUser.id
       userSignupClassLogger.info('Creation ok.')
     } catch (error: any) {
       userSignupClassLogger.error(
