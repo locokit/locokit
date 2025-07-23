@@ -9,7 +9,7 @@ import axios from 'axios'
 describe('authentication', () => {
   const app = createApp()
   const port = (app.get('port') as number) || 8998
-  const builder = builderTestEnvironment('authentication')
+  const builder = builderTestEnvironment('authentication', app)
   let setupData: SetupData
 
   vi.mock('../../../utils/password')

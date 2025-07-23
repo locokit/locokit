@@ -53,7 +53,8 @@ export function getFieldSettingsFromDatasource(
     table: tableDatasource.name,
     schema: tableDatasource.schema,
     documentation: fieldDatasource.comment,
-    dbType: fieldDatasource.data_type as DB_TYPE,
+    // we lower case to avoid case sentitivity between db types in uppercase vs lowercase
+    dbType: fieldDatasource.data_type.toLowerCase() as DB_TYPE,
     unique: fieldDatasource.is_unique,
     nullable: fieldDatasource.is_nullable,
     primary: fieldDatasource.is_primary_key,

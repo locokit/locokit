@@ -28,14 +28,14 @@ export const checkUserHasAccess =
      */
     allowedProfile: Array<keyof typeof USER_PROFILE> | keyof typeof USER_PROFILE
     /**
-     * is the call has to be an internal one ?
+     * is the call can be an internal one ?
      */
     internalProvider: boolean
     /**
      * do we need to check the user profile,
      * even if we are in an internal call
      */
-    internalProviderProfileCheck?: 'ALWAYS' | 'IF_USER_PROVIDED'
+    internalProviderProfileCheck?: 'ALWAYS' | 'IF_USER_PROVIDED' | 'NEVER'
   }) =>
   (context: HookContext): HookContext => {
     const userHasProfile = checkUserHasProfile(options.allowedProfile, context)
@@ -51,6 +51,7 @@ export const checkUserHasAccess =
           if (context.params.user && userHasProfile) return context
           if (!context.params.user) return context
           break
+        case 'NEVER':
         default:
           return context
       }

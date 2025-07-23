@@ -17,6 +17,7 @@ import {
   AjvValidator,
   raw,
   ColumnRef,
+  NotFoundError,
 } from 'objection'
 import addFormats from 'ajv-formats'
 import { getJSONTypeFromSQLType } from '../../utils/sqlTypeConverter'
@@ -659,11 +660,11 @@ export class SQLAdapter implements GenericAdapter {
 
   async get<T>(
     tableName: string,
-    id: string | number,
+    id: string | number | string[] | string[],
     params?: any,
   ): Promise<T | Feature<Geometry, T>> {
     adapterLogger.debug('get table %s, id %s', tableName, id, this.databaseObjectionModel)
-    const { $join, $select, $output } = params?.query ?? {}
+    const { $join, $fetch, $select, $output, ...realQuery } = params?.query ?? {}
 
     const model = this.databaseObjectionModel[tableName]
 
@@ -684,9 +685,9 @@ export class SQLAdapter implements GenericAdapter {
        */
       if (Array.isArray($join)) {
         $join.forEach((r) => {
-          query.withGraphFetched(r)
+          // query.withGraphFetched(r)
 
-          query.joinRelated(r)
+          query.leftJoinRelated(r)
 
           /**
            * Find if some $select rules
@@ -703,6 +704,7 @@ export class SQLAdapter implements GenericAdapter {
               }
             })
             if (allSubSelect.length > 0) {
+              // query.withGraphFetched(r)
               query.modifyGraph(r, (builder) => {
                 builder.select(allSubSelect)
               })
@@ -727,7 +729,11 @@ export class SQLAdapter implements GenericAdapter {
           //   delete realQuery[rq]
           // })
         })
-      }
+      } else query.leftJoinRelated($join)
+    }
+
+    if ($fetch) {
+      query.withGraphFetched($fetch)
     }
 
     if ($output === 'geojson') {
@@ -743,7 +749,10 @@ export class SQLAdapter implements GenericAdapter {
       query.select(selectFields)
     }
 
+    objectify(query, realQuery)
+
     const result = await query.findById(id)
+    if (!result) throw new NotFoundError({})
     if ($output === 'geojson') {
       const feature = result.data
       if (Array.isArray($join)) {
@@ -810,27 +819,23 @@ export class SQLAdapter implements GenericAdapter {
 
   async update<T>(
     tableName: string,
-    id: string | number,
+    id: string | number | string[],
     record: Partial<T>,
     params?: any,
   ): Promise<T | Feature<Geometry, T>> {
     const currentModel = this.databaseObjectionModel[tableName]
     adapterLogger.debug('update %s, id %s', tableName, id, record)
-    const queryFind = currentModel.query(this.database).findById(id)
+
+    await this.get(tableName, id, params)
+
     const query = currentModel.query(this.database).updateAndFetchById(id, record)
 
     if (this.connexion.type === 'pg') {
       if (this.connexion.schema) {
         adapterLogger.info('set search path for queries to %s', this.connexion.schema)
-        queryFind.withSchema?.(this.connexion.schema)
         query.withSchema?.(this.connexion.schema)
       }
     }
-
-    // check the object really exist OR raise an error if not found
-    const object = await queryFind
-
-    adapterLogger.debug(object)
 
     // Do the update
     await query
@@ -843,13 +848,16 @@ export class SQLAdapter implements GenericAdapter {
 
   async patch<T>(
     tableName: string,
-    id: string | number,
+    id: string | number | string[],
     record: Partial<T>,
     params?: any,
   ): Promise<T | Feature<Geometry, T>> {
-    adapterLogger.debug('patch %s, id %s', tableName, id, record)
+    adapterLogger.debug('patch %s, id %s', tableName, id, record, params)
     adapterLogger.debug('patch', this.databaseObjectionModel[tableName])
-    const queryFind = this.databaseObjectionModel[tableName].query(this.database).findById(id)
+
+    // if object does not exist, it will fail (useful for security purpose)
+    await this.get(tableName, id, params)
+
     const query = this.databaseObjectionModel[tableName]
       .query(this.database)
       .patchAndFetchById(id, record)
@@ -857,40 +865,39 @@ export class SQLAdapter implements GenericAdapter {
     if (this.connexion.type === 'pg') {
       if (this.connexion.schema) {
         adapterLogger.info('set search path for queries to %s', this.connexion.schema)
-        queryFind.withSchema?.(this.connexion.schema)
+        // queryFind.withSchema?.(this.connexion.schema)
         query.withSchema?.(this.connexion.schema)
       }
     }
 
-    const object = await queryFind // this will raise an error if not found
-
-    adapterLogger.debug(object)
-
     await query
 
     /**
-     * Do another GET before sending result to end user
+     * Do another GET before sending result to end user,
+     * useful for retrieving data computed by trigger if any
      */
     return this.get<T>(tableName, id, params)
   }
 
-  async delete<T>(tableName: string, id: string | number): Promise<T | null> {
+  async delete<T>(
+    tableName: string,
+    id: string | number | string[],
+    params?: any,
+  ): Promise<T | null> {
     adapterLogger.debug('delete %s, id %s', tableName, id)
     adapterLogger.debug('delete', this.databaseObjectionModel[tableName])
-    const queryFind = this.databaseObjectionModel[tableName].query(this.database).findById(id)
+
+    // if object does not exist, it will fail (useful for security purpose)
+    await this.get(tableName, id, params)
+
     const query = this.databaseObjectionModel[tableName].query(this.database).deleteById(id)
 
     if (this.connexion.type === 'pg') {
       if (this.connexion.schema) {
         adapterLogger.info('set search path for queries to %s', this.connexion.schema)
-        queryFind.withSchema?.(this.connexion.schema)
         query.withSchema?.(this.connexion.schema)
       }
     }
-
-    const object = await queryFind // this will raise an error if not found
-
-    adapterLogger.debug(object)
 
     return (await query) as unknown as T
   }

@@ -6,34 +6,59 @@ import { WorkspaceResult } from '@/services/core/workspace/workspace.schema'
 import { DatasourceResult } from '@/services/core/datasource/datasource.schema'
 import { MigrationResult } from '../migration/migration.schema'
 import { NotAcceptable } from '@feathersjs/errors'
+import { Application } from '@/declarations'
+import { Server } from 'http'
 
 describe('[workspace] datasource service', () => {
-  const app = createApp()
-  const builder = builderTestEnvironment('workspace-datasource')
+  let app: Application
+  let server: Server
+  let port: number
+  let builder: ReturnType<typeof builderTestEnvironment>
   let setupData: SetupData
-  const port = app.get('port') || 8998
   let workspace: WorkspaceResult
 
   beforeAll(async () => {
+    app = createApp()
+    builder = builderTestEnvironment('workspace-datasource', app)
+    port = app.get('port') || 8998
     setupData = await builder.setupWorkspace()
-    await app.listen(port)
-
+    server = await app.listen(port)
     workspace = await app.service(SERVICES.CORE_WORKSPACE).create({
       name: 'Testing workspace datasource',
       createdBy: setupData.userCreator1.id,
     })
   })
 
+  afterAll(async () => {
+    await app.service(SERVICES.CORE_WORKSPACE).patch(workspace.id, {
+      softDeletedAt: new Date().toISOString(),
+    })
+    await app.service(SERVICES.CORE_WORKSPACE).remove(workspace.id, {
+      authenticated: true,
+      user: setupData.userAdmin,
+      authentication: setupData.userAdminAuthentication,
+    })
+
+    await builder.teardownWorkspace()
+    await app.teardown(server)
+  })
+
   describe('general purpose', async () => {
     let generalDatasource: DatasourceResult
     beforeAll(async () => {
-      generalDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create({
-        name: 'Testing datasource general',
-        client: 'pg',
-        type: 'local',
-        connection: '',
-        workspaceId: workspace.id,
-      })
+      generalDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create(
+        {
+          name: 'Testing datasource general',
+          client: 'pg',
+          type: 'local',
+          connection: '',
+        },
+        {
+          route: {
+            workspaceSlug: workspace.slug,
+          },
+        },
+      )
     })
 
     it('registered the service', () => {
@@ -132,13 +157,19 @@ describe('[workspace] datasource service', () => {
 
     beforeAll(async () => {
       // create a new datasource
-      localPgDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create({
-        workspaceId: workspace.id,
-        name: 'Testing datasource general',
-        client: 'pg',
-        type: 'local',
-        connection: '',
-      })
+      localPgDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create(
+        {
+          name: 'Testing datasource general',
+          client: 'pg',
+          type: 'local',
+          connection: '',
+        },
+        {
+          route: {
+            workspaceSlug: workspace.slug,
+          },
+        },
+      )
       schemaName = `ds_${localPgDatasource.id as string}`
 
       // create a metamodel
@@ -371,7 +402,7 @@ describe('[workspace] datasource service', () => {
       const actualFields = await app
         .get('db')
         .raw('SELECT * FROM information_schema.columns WHERE table_schema = ?;', [schemaName])
-      expect(actualFields.rowCount).toBe(0)
+      expect(actualFields.rowCount).toBe(14) // 14 = 2 x 7 columns for geography + geometry postgis views
 
       // apply the migration
       await app
@@ -380,18 +411,20 @@ describe('[workspace] datasource service', () => {
 
       // check the dedicated datasource schema
       // we have to find 3 tables
-      const injectedTables = await app
-        .get('db')
-        .raw(
-          "SELECT * FROM information_schema.tables WHERE table_schema = ? AND table_type = 'BASE TABLE';",
-          [schemaName],
-        )
+      const injectedTables = await app.get('db').raw(
+        `
+          SELECT * FROM information_schema.tables
+          WHERE table_schema = ?
+          AND table_type = 'BASE TABLE';
+          `,
+        [schemaName],
+      )
       expect(injectedTables.rowCount).toBe(3)
 
       const injectedFields = await app
         .get('db')
         .raw('SELECT * FROM information_schema.columns WHERE table_schema = ?;', [schemaName])
-      expect(injectedFields.rowCount).toBe(11)
+      expect(injectedFields.rowCount).toBe(11 + 14)
 
       // 2 foreign keys between tables
       const injectedForeignKeys = await app.get('db').raw(
@@ -533,19 +566,5 @@ describe('[workspace] datasource service', () => {
   describe.todo('remove with a soft-delete ?', () => {
     it.todo('should remove all tables / fields / ... related ressources')
     it.todo('should remove dedicated schema if this is a local pg datasource')
-  })
-
-  afterAll(async () => {
-    await app.service(SERVICES.CORE_WORKSPACE).patch(workspace.id, {
-      softDeletedAt: new Date().toISOString(),
-    })
-    await app.service(SERVICES.CORE_WORKSPACE).remove(workspace.id, {
-      authenticated: true,
-      user: setupData.userAdmin,
-      authentication: setupData.userAdminAuthentication,
-    })
-
-    await builder.teardownWorkspace()
-    await app.teardown()
   })
 })

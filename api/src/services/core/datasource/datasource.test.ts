@@ -5,38 +5,60 @@ import { builderTestEnvironment, SetupData } from '@/configure.test'
 import { WorkspaceResult } from '@/services/core/workspace/workspace.schema'
 import { DatasourceResult } from '@/services/core/datasource/datasource.schema'
 import { Forbidden, MethodNotAllowed } from '@feathersjs/errors/lib'
+import { Application } from '@/declarations'
+import { Server } from 'http'
 
 describe('[core] datasource service', () => {
-  const app = createApp()
-  const builder = builderTestEnvironment('core-datasource')
+  let app: Application
+  let server: Server
+  let port: number
+  let builder: ReturnType<typeof builderTestEnvironment>
   let setupData: SetupData
-  const port = app.get('port') || 8998
-  // const getUrl = (pathname: string) =>
-  //   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-  //   new URL(`http://${app.get('host') || 'localhost'}:${port}${pathname}`).toString()
-
   let workspace: WorkspaceResult
 
   beforeAll(async () => {
+    app = createApp()
+    builder = builderTestEnvironment('core-datasource', app)
+    port = app.get('port') || 8998
     setupData = await builder.setupWorkspace()
-    await app.listen(port)
-
+    server = await app.listen(port)
     workspace = await app.service(SERVICES.CORE_WORKSPACE).create({
       name: 'Testing workspace datasource',
       createdBy: setupData.userCreator1.id,
     })
   })
 
+  afterAll(async () => {
+    await app.service(SERVICES.CORE_WORKSPACE).patch(workspace.id, {
+      softDeletedAt: new Date().toISOString(),
+    })
+    await app.service(SERVICES.CORE_WORKSPACE).remove(workspace.id, {
+      authenticated: true,
+      user: setupData.userAdmin,
+      authentication: setupData.userAdminAuthentication,
+    })
+
+    await builder.teardownWorkspace()
+    await app.teardown(server)
+  })
+
   describe('general purpose', async () => {
     let generalDatasource: DatasourceResult
     beforeAll(async () => {
-      generalDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create({
-        name: 'Testing datasource general',
-        client: 'pg',
-        type: 'local',
-        connection: '',
-        workspaceId: workspace.id,
-      })
+      generalDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create(
+        {
+          name: 'Testing datasource general',
+          client: 'pg',
+          type: 'local',
+          connection: '',
+          // workspaceId: workspace.id,
+        },
+        {
+          route: {
+            workspaceSlug: workspace.slug,
+          },
+        },
+      )
     })
 
     it('registered the service', () => {
@@ -72,13 +94,19 @@ describe('[core] datasource service', () => {
   describe('manage permissions / forbid methods', async () => {
     let forbidDatasource: DatasourceResult
     beforeAll(async () => {
-      forbidDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create({
-        name: 'Testing datasource forbids',
-        client: 'pg',
-        type: 'local',
-        connection: '',
-        workspaceId: workspace.id,
-      })
+      forbidDatasource = await app.service(SERVICES.WORKSPACE_DATASOURCE).create(
+        {
+          name: 'Testing datasource forbids',
+          client: 'pg',
+          type: 'local',
+          connection: '',
+        },
+        {
+          route: {
+            workspaceSlug: workspace.slug,
+          },
+        },
+      )
     })
 
     it('forbid create', async () => {
@@ -173,19 +201,5 @@ describe('[core] datasource service', () => {
     afterAll(async () => {
       await app.service(SERVICES.WORKSPACE_DATASOURCE).remove(forbidDatasource.id)
     })
-  })
-
-  afterAll(async () => {
-    await app.service(SERVICES.CORE_WORKSPACE).patch(workspace.id, {
-      softDeletedAt: new Date().toISOString(),
-    })
-    await app.service(SERVICES.CORE_WORKSPACE).remove(workspace.id, {
-      authenticated: true,
-      user: setupData.userAdmin,
-      authentication: setupData.userAdminAuthentication,
-    })
-
-    await builder.teardownWorkspace()
-    await app.teardown()
   })
 })

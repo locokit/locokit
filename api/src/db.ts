@@ -1,6 +1,3 @@
-import dotenv from 'dotenv-flow'
-dotenv.config()
-
 import knex from 'knex'
 import type { Knex } from 'knex'
 import type { Application } from './declarations'

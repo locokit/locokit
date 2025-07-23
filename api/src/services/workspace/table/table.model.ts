@@ -3,6 +3,8 @@ import { WorkspaceDatasourceModel } from '../datasource/datasource.model'
 import { TableFieldModel } from '../table-field/table-field.model'
 import { TableRelationModel } from '../table-relation/table-relation.model'
 import { tableDataSchema } from './table.schema'
+import { WorkspacePolicyVariableModel } from '../policy-variable/policy-variable.model'
+import { WorkspacePolicyTableModel } from '../policy-table/policy-table.model'
 
 export class TableModel extends Model {
   static readonly model = 'table'
@@ -45,6 +47,22 @@ export class TableModel extends Model {
         join: {
           from: 'table.id',
           to: 'tableRelation.toTableId',
+        },
+      },
+      policyTable: {
+        relation: Model.HasOneRelation,
+        modelClass: WorkspacePolicyTableModel,
+        join: {
+          from: 'table.id',
+          to: 'policyTable.tableId',
+        },
+      },
+      policyVariables: {
+        relation: Model.HasManyRelation,
+        modelClass: WorkspacePolicyVariableModel,
+        join: {
+          from: 'table.id',
+          to: 'policyVariable.tableId',
         },
       },
     }

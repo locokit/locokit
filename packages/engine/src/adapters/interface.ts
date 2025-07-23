@@ -126,7 +126,7 @@ export type GenericAdapter = {
 
   get: <T extends TableRecord<T>>(
     tableName: string,
-    id: string | number,
+    id: string | number | string[],
     params?: Params & { query: Record<string, any>; $output?: 'geojson' | 'json' },
   ) => Promise<T | Feature<Geometry, T>>
 
@@ -138,17 +138,21 @@ export type GenericAdapter = {
 
   patch: <T extends TableRecord<T>, PatchData extends Partial<T> = Partial<T>>(
     tableName: string,
-    id: string | number,
+    id: string | number | string[],
     record: PatchData,
     params?: Params & { $output?: 'geojson' | 'json' },
   ) => Promise<T | Feature<Geometry, T>>
 
   update: <T extends TableRecord<T>, UpdateData extends Partial<T> = Partial<T>>(
     tableName: string,
-    id: string | number,
+    id: string | number | string[],
     record: UpdateData,
     params?: Params & { $output?: 'geojson' | 'json' },
-  ) => Promise<T>
+  ) => Promise<T | Feature<Geometry, T>>
 
-  delete: <T extends TableRecord<T>>(tableName: string, id: string | number) => Promise<T | null>
+  delete: <T extends TableRecord<T>>(
+    tableName: string,
+    id: string | number,
+    params?: Params,
+  ) => Promise<T | null>
 }

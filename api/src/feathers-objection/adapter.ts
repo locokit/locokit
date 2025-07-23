@@ -528,7 +528,6 @@ export class ObjectionAdapter<
     // $select uses a specific find syntax, so it has to come first.
 
     const joinEager = filters?.$joinEager
-
     if (joinEager) {
       builder.withGraphJoined(filters.$joinEager, eagerOptions)
       delete filters.$joinEager
@@ -536,7 +535,7 @@ export class ObjectionAdapter<
 
     const joinRelated = filters?.$joinRelated
     if (joinRelated) {
-      builder.joinRelated(filters.$joinRelated)
+      builder.leftJoinRelated(filters.$joinRelated)
       delete filters.$joinRelated
     }
 
@@ -666,16 +665,14 @@ export class ObjectionAdapter<
     // $select uses a specific find syntax, so it has to come first.
 
     const joinEager = filters?.$joinEager
-
     if (joinEager) {
-      builder.joinRelated(filters.$joinEager, eagerOptions)
+      builder.leftJoinRelated(joinEager, eagerOptions)
       delete filters.$joinEager
     }
 
     const joinRelated = filters?.$joinRelated
-
     if (joinRelated) {
-      builder.joinRelated(filters.$joinRelated)
+      builder.leftJoinRelated(filters.$joinRelated)
       delete filters.$joinRelated
     }
 

@@ -31,7 +31,7 @@ import { SERVICES } from '@locokit/definitions'
 
 export const hooks: HookOptions<Application, UserService> = {
   around: {
-    all: [authenticate('api-key', 'jwt')],
+    all: [authenticate('jwt')],
     get: [schemaHooks.resolveExternal(userDispatchResolver)],
     find: [schemaHooks.resolveExternal(userRestrictedDispatchResolver)],
     create: [schemaHooks.resolveExternal(userDispatchResolver)],
@@ -104,6 +104,13 @@ export const hooks: HookOptions<Application, UserService> = {
        * Notify the user its account has been created
        */
       (context: HookContext) => {
+        /**
+         * Specific case where we don't want the user receive the initial mail
+         */
+        if (context.params?.headers?.['x-lck-notification'] === false) {
+          console.log('No notification for this user :', context.result.id, context.result.username)
+          return
+        }
         return authManagementSettings(context.app as Application).notifier(
           'sendVerifySignup',
           context.result,

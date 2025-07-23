@@ -1,6 +1,3 @@
-import dotenv from 'dotenv-flow'
-dotenv.config()
-
 /**
  * This file start the API
  * This file IS NOT USED in development,

@@ -20,7 +20,8 @@ const OPERATORS = {
 }
 
 /**
- * Function forked from https://github.com/feathersjs/feathers/blob/dove/packages/knex/src/adapter.ts#L79
+ * Function forked from
+ * https://github.com/feathersjs/feathers/blob/dove/packages/knex/src/adapter.ts#L79
  */
 export function objectify<T extends Model>(
   knexQuery: QueryBuilder<T, T[]>,

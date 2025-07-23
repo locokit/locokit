@@ -29,25 +29,52 @@ const ROUTE_NAMES = Object.freeze({
     SLUG: 'workspace.slug',
     ADMIN: {
       ROOT: 'workspace.admin',
-      DASHBOARDS: 'workspace.admin.dashboards',
+      APPS: {
+        ROOT: 'workspace.admin.apps',
+        UUID: 'workspace.admin.apps.uuid',
+      },
+      DASHBOARDS: {
+        ROOT: 'workspace.admin.dashboards',
+        UUID: 'workspace.admin.dashboards.uuid',
+      },
       DATASOURCES: {
         ROOT: 'workspace.admin.datasources',
         SLUG: 'workspace.admin.datasource.slug',
+        CREATE: 'workspace.admin.datasource.create',
         TABLES: {
           ROOT: 'workspace.admin.datasource.slug.tables',
           SLUG: 'workspace.admin.datasource.slug.table.slug',
+          CREATE: 'workspace.admin.datasource.slug.table.create',
           VIEWS: {
             ROOT: 'workspace.admin.datasource.slug.table.slug.views',
             SLUG: 'workspace.admin.datasource.slug.table.slug.view.slug',
+            CREATE: 'workspace.admin.datasource.slug.table.slug.view.create',
           },
         },
       },
-      APPS: 'workspace.admin.apps',
-      GROUPS: 'workspace.admin.groups',
-      POLICIES: 'workspace.admin.policies',
-      USERS: 'workspace.admin.users',
-      MEDIAS: 'workspace.admin.medias',
-      WORKFLOWS: 'workspace.admin.workflows',
+      POLICIES: {
+        ROOT: 'workspace.admin.policies',
+        UUID: 'workspace.admin.policies.uuid',
+        CREATE: 'workspace.admin.policies.create',
+      },
+      GROUPS: {
+        ROOT: 'workspace.admin.groups',
+        UUID: 'workspace.admin.groups.uuid',
+        CREATE: 'workspace.admin.groups.create',
+      },
+      USERS: {
+        ROOT: 'workspace.admin.users',
+        CREATE: 'workspace.admin.users.create',
+      },
+      MEDIAS: {
+        ROOT: 'workspace.admin.medias',
+        CREATE: 'workspace.admin.medias.create',
+      },
+      WORKFLOWS: {
+        ROOT: 'workspace.admin.workflows',
+        UUID: 'workspace.admin.workflows.uuid',
+        CREATE: 'workspace.admin.workflows.create',
+      },
       SETTINGS: 'workspace.admin.settings',
     },
   },

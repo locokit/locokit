@@ -7,7 +7,7 @@ import { objectionLogger } from './logger'
 const ROLLBACK = { rollback: true }
 
 export const getKnex = (context: HookContext): Knex => {
-  const knex = context.service.Model.knex()
+  const knex = context.service.Model?.knex()
 
   return knex && typeof knex.transaction === 'function' ? knex : undefined
 }

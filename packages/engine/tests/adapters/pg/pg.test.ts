@@ -2,14 +2,17 @@ import { createAdapter } from '../../../src'
 import { SQLAdapter } from '../../../src/adapters/sql'
 import { describe, expect, it } from 'vitest'
 import { playDDLSuite } from '../../ddl.suite'
-import { dropUnaccentExtension, initDatasource } from './pg.init'
+import { dropUnaccentExtension, configureEventDatasource } from './pg.init'
 import { playDQLSuite } from '../../dql.suite'
+import { playDMLSuite } from '../../dml.suite'
+import knex from 'knex'
 
 /**
  * Test suite for pg database
  */
+const schemaName = 'lck-engine'
 describe('engine pg adapter', () => {
-  it.skip('fail to create it if schema does not exist', async () => {
+  it('fail to create it if schema does not exist', async () => {
     await expect(
       createAdapter({
         type: 'pg',
@@ -19,8 +22,12 @@ describe('engine pg adapter', () => {
     ).rejects.toThrowError()
   })
 
-  it.skip('can create it if schema exist', async () => {
-    await initDatasource(process.env.VITE_POSTGRES_CONNECTION as string)
+  it('can create it if schema exist', async () => {
+    const knexConnection = knex({
+      client: 'pg',
+      connection: process.env.VITE_POSTGRES_CONNECTION,
+    })
+    await configureEventDatasource(knexConnection, schemaName, true)
 
     await expect(
       createAdapter({
@@ -31,8 +38,12 @@ describe('engine pg adapter', () => {
     ).resolves.toBeDefined()
   })
 
-  describe.skip('play the ddl suite', async () => {
-    await initDatasource(process.env.VITE_POSTGRES_CONNECTION as string)
+  describe('play the ddl suite', async () => {
+    const knexConnection = knex({
+      client: 'pg',
+      connection: process.env.VITE_POSTGRES_CONNECTION,
+    })
+    await configureEventDatasource(knexConnection, schemaName, true)
 
     const adapter: SQLAdapter = (await createAdapter({
       type: 'pg',
@@ -44,7 +55,11 @@ describe('engine pg adapter', () => {
   })
 
   describe('play the dql suite', async () => {
-    await initDatasource(process.env.VITE_POSTGRES_CONNECTION as string)
+    const knexConnection = knex({
+      client: 'pg',
+      connection: process.env.VITE_POSTGRES_CONNECTION,
+    })
+    await configureEventDatasource(knexConnection, schemaName, true)
 
     const adapter: SQLAdapter = (await createAdapter({
       type: 'pg',
@@ -54,7 +69,19 @@ describe('engine pg adapter', () => {
 
     playDQLSuite(adapter, dropUnaccentExtension(process.env.VITE_POSTGRES_CONNECTION as string))
   })
-  // describe('play the dml suite', () => {
-  //   playDDLSuite(adapter)
-  // })
+  describe('play the dml suite', async () => {
+    const knexConnection = knex({
+      client: 'pg',
+      connection: process.env.VITE_POSTGRES_CONNECTION,
+    })
+    await configureEventDatasource(knexConnection, schemaName, true)
+
+    const adapter: SQLAdapter = (await createAdapter({
+      type: 'pg',
+      options: process.env.VITE_POSTGRES_CONNECTION as string,
+      schema: 'lck-engine',
+    })) as SQLAdapter
+
+    playDMLSuite(adapter)
+  })
 })

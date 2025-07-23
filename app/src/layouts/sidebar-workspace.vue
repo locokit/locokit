@@ -2,230 +2,8 @@
   <LayoutSidebar
     v-if="workspace"
     locokit-logo-url="/assets/themes/locokit/logo.svg"
-    workspace-logo-url="/assets/themes/hm/logo.png"
+    workspace-logo-url="/assets/themes/locokit/logo.svg"
   >
-    <template #sidebar-title>
-      <h3 class="flex items-center text-2xl font-bold">
-        <template v-if="workspace">
-          <i
-            v-if="workspace.settings?.icon"
-            :class="workspace.settings?.icon"
-            class="w-8 h-8 rounded-full mr-2"
-          />
-          <img v-else class="w-8 h-8 rounded-full mr-2" src="/assets/themes/locokit/favicon.svg" />
-          {{ workspace.name }}
-        </template>
-        <template v-else>
-          <i class="pi pi-spin pi-spinner"></i>
-        </template>
-      </h3>
-    </template>
-    <template #sidebar-nav="{ closeSidebar }">
-      <ul class="pl-2">
-        <!-- <li class="">
-          <router-link
-
-  activeClass="font-bold"
-  exactActiveClass="font-bold"
-            :to="{
-              name: ROUTE_NAMES.WORKSPACE.ADMIN.DASHBOARDS,
-              params: { wsslug: workspace.slug },
-            }"
-            class="flex items-center justify-between hover:font-bold hover:bg-primary hover:text-white p-1 rounded"
-          >
-            <span class="flex items-center gap-2">
-              <i class="bi bi-graph-up-arrow text-xl"></i>
-              Dashboards
-            </span>
-            <i class="bi bi-chevron-right font-bold text-xs"></i>
-          </router-link>
-        </li> -->
-        <li class="">
-          <router-link
-            activeClass="font-bold"
-            exactActiveClass="font-bold"
-            :to="{
-              name: ROUTE_NAMES.WORKSPACE.ADMIN.DATASOURCES.ROOT,
-              params: { wsslug: workspace.slug },
-            }"
-            class="flex items-center justify-between hover:font-bold hover:bg-primary hover:text-white p-1 rounded"
-          >
-            <span class="flex items-center gap-2">
-              <i class="bi bi-database-fill text-xl"></i>
-              Datasources
-            </span>
-            <!-- <i class="bi bi-chevron-right font-bold text-xs" /> -->
-          </router-link>
-          <ul v-if="workspace.datasources">
-            <li class="ml-8 my-1" v-for="datasource in workspace.datasources" :key="datasource.id">
-              <router-link
-                activeClass="font-bold"
-                exactActiveClass="font-bold"
-                :to="{
-                  name: ROUTE_NAMES.WORKSPACE.ADMIN.DATASOURCES.SLUG,
-                  params: { wsslug: workspace.slug, dsslug: datasource.slug },
-                }"
-                class="flex items-center justify-between hover:font-bold hover:bg-primary hover:text-white p-1 rounded"
-              >
-                <span class="flex items-center gap-2">
-                  <i class="bi bi-database text-xl"></i>
-                  {{ datasource.slug }}
-                </span>
-                <!-- <i class="bi bi-chevron-right font-bold text-xs"></i> -->
-              </router-link>
-              <ul v-if="datasource.tables">
-                <li class="ml-8 my-1" v-for="table in datasource.tables" :key="table.id">
-                  <router-link
-                    activeClass="font-bold"
-                    exactActiveClass="font-bold"
-                    :to="{
-                      name: ROUTE_NAMES.WORKSPACE.ADMIN.DATASOURCES.TABLES.SLUG,
-                      params: {
-                        wsslug: workspace.slug,
-                        dsslug: datasource.slug,
-                        tslug: table.slug,
-                      },
-                    }"
-                    class="flex items-center justify-between hover:font-bold hover:bg-primary hover:text-white p-1 rounded"
-                  >
-                    <span class="flex items-center gap-2">
-                      <i class="bi bi-table text-xl"></i>
-                      {{ table.slug }}
-                    </span>
-                    <!-- <i class="bi bi-chevron-right font-bold text-xs"></i> -->
-                  </router-link>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <!-- <li class="">
-          <router-link
-
-  activeClass="font-bold"
-  exactActiveClass="font-bold"
-            :to="{
-              name: ROUTE_NAMES.WORKSPACE.ADMIN.APPS,
-              params: { wsslug: workspace.slug },
-            }"
-            class="flex items-center justify-between hover:font-bold hover:bg-primary hover:text-white p-1 rounded"
-          >
-            <span class="flex items-center gap-2">
-              <i class="bi bi-window text-xl"></i>
-              Applications
-            </span>
-            <i class="bi bi-chevron-right font-bold text-xs"></i>
-          </router-link>
-        </li>
-        <li class="">
-          <router-link
-
-  activeClass="font-bold"
-  exactActiveClass="font-bold"
-            :to="{
-              name: ROUTE_NAMES.WORKSPACE.ADMIN.POLICIES,
-              params: { wsslug: workspace.slug },
-            }"
-            class="flex items-center justify-between hover:font-bold hover:bg-primary hover:text-white p-1 rounded"
-          >
-            <span class="flex items-center gap-2">
-              <i class="bi bi-shield-fill-check text-xl"></i>
-              Policies
-            </span>
-            <i class="bi bi-chevron-right font-bold text-xs"></i>
-          </router-link>
-        </li>
-        <li class="">
-          <router-link
-
-  activeClass="font-bold"
-  exactActiveClass="font-bold"
-            :to="{
-              name: ROUTE_NAMES.WORKSPACE.ADMIN.GROUPS,
-              params: { wsslug: workspace.slug },
-            }"
-            class="flex items-center justify-between hover:font-bold hover:bg-primary hover:text-white p-1 rounded"
-          >
-            <span class="flex items-center gap-2">
-              <i class="bi bi-people-fill text-xl"></i>
-              Groupes
-            </span>
-            <i class="bi bi-chevron-right font-bold text-xs"></i>
-          </router-link>
-        </li>
-        <li class="">
-          <router-link
-
-  activeClass="font-bold"
-  exactActiveClass="font-bold"
-            :to="{
-              name: ROUTE_NAMES.WORKSPACE.ADMIN.USERS,
-              params: { wsslug: workspace.slug },
-            }"
-            class="flex items-center justify-between hover:font-bold hover:bg-primary hover:text-white p-1 rounded"
-          >
-            <span class="flex items-center gap-2">
-              <i class="bi bi-person-fill text-xl"></i>
-              Utilisateurs
-            </span>
-            <i class="bi bi-chevron-right font-bold text-xs"></i>
-          </router-link>
-        </li>
-        <li class="">
-          <router-link
-
-  activeClass="font-bold"
-  exactActiveClass="font-bold"
-            :to="{
-              name: ROUTE_NAMES.WORKSPACE.ADMIN.MEDIAS,
-              params: { wsslug: workspace.slug },
-            }"
-            class="flex items-center justify-between hover:font-bold hover:bg-primary hover:text-white p-1 rounded"
-          >
-            <span class="flex items-center gap-2">
-              <i class="bi bi-file-earmark text-xl"></i>
-              Medias
-            </span>
-            <i class="bi bi-chevron-right font-bold text-xs"></i>
-          </router-link>
-        </li>
-        <li class="">
-          <router-link
-
-  activeClass="font-bold"
-  exactActiveClass="font-bold"
-            :to="{
-              name: ROUTE_NAMES.WORKSPACE.ADMIN.WORKFLOWS,
-              params: { wsslug: workspace.slug },
-            }"
-            class="flex items-center justify-between hover:font-bold hover:bg-primary hover:text-white p-1 rounded"
-          >
-            <span class="flex items-center gap-2">
-              <i class="bi bi-lightning text-xl"></i>
-              Workflows
-            </span>
-            <i class="bi bi-chevron-right font-bold text-xs"></i>
-          </router-link>
-        </li>
-        <li class="">
-          <router-link
-
-  activeClass="font-bold"
-  exactActiveClass="font-bold"
-            :to="{
-              name: ROUTE_NAMES.WORKSPACE.ADMIN.SETTINGS,
-              params: { wsslug: workspace.slug },
-            }"
-            class="flex items-center justify-between hover:font-bold hover:bg-primary hover:text-white p-1 rounded"
-          >
-            <span class="flex items-center gap-2">
-              <i class="bi bi-gear text-xl"></i>
-              Settings
-            </span>
-          </router-link>
-        </li> -->
-      </ul>
-    </template>
     <template #breadcrumb>
       <nav class="flex gap-2 overflow-x-auto">
         <template v-for="(b, index) in breadcrumbItems" :key="`breadcrumb-${index}`">
@@ -241,7 +19,43 @@
         </template>
       </nav>
     </template>
-    <slot></slot>
+    <template #sidebar-title>
+      <h3 class="flex items-center gap-2 text-2xl font-bold" v-if="workspace">
+        <div class="flex items-center justify-center w-[3rem]">
+          <i
+            v-if="workspace.settings?.icon"
+            :class="workspace.settings?.icon"
+            class="w-8 h-8 rounded-full mr-2"
+          />
+          <img v-else class="w-8 h-8 rounded-full" src="/assets/themes/locokit/favicon.svg" />
+        </div>
+        {{ workspace.name }}
+      </h3>
+      <div v-else>
+        <i class="pi pi-spin pi-spinner"></i>
+      </div>
+    </template>
+    <template #sidebar-nav>
+      <div class="flex h-full">
+        <div class="w-[3rem] bg-primary flex flex-col border-r border-white text-white">
+          <router-link
+            v-for="i in items"
+            :key="i.key"
+            :to="i.to"
+            :title="i.label"
+            class="w-[3rem] h-[3rem] flex items-center justify-center hover:bg-white hover:text-primary"
+            :active-class="i.activeClass"
+            :exact-active-class="i.exactActiveClass"
+          >
+            <i :class="i.icon" />
+          </router-link>
+        </div>
+        <div class="grow overflow-y-auto overflow-x-hidden" ref="sidebar"></div>
+      </div>
+    </template>
+    <div class="relative z-10 h-full">
+      <slot></slot>
+    </div>
   </LayoutSidebar>
 </template>
 
@@ -252,12 +66,61 @@ import type { DatasourceResult } from '@locokit/sdk/dist/src/services/core/datas
 import { LayoutSidebar } from '@locokit/vue-components'
 import { RouterLink } from 'vue-router'
 import { useBreadcrumb } from '@/composables/useBreadcrumb'
+import { computed, provide, useTemplateRef } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-defineProps<{
+const { t } = useI18n()
+const sidebar = useTemplateRef('sidebar')
+provide('sidebar', sidebar)
+
+const props = defineProps<{
   workspace?: WorkspaceResult & {
     datasources?: (DatasourceResult & { tables?: [] })[]
   }
 }>()
 
 const { breadcrumbItems } = useBreadcrumb()
+
+const items = computed(() => [
+  {
+    key: 'workspace',
+    label: t('locokit.pages.workspace.title'),
+    icon: 'bi bi-house-fill text-xl',
+    exactActiveClass: 'bg-white text-primary',
+    to: {
+      name: ROUTE_NAMES.WORKSPACE.ADMIN.ROOT,
+      params: { wsslug: props.workspace.slug },
+    },
+  },
+  {
+    key: 'datasources',
+    label: t('locokit.pages.workspace.datasources'),
+    icon: 'bi bi-database-fill text-xl',
+    activeClass: 'bg-white text-primary',
+    to: {
+      name: ROUTE_NAMES.WORKSPACE.ADMIN.DATASOURCES.ROOT,
+      params: { wsslug: props.workspace.slug },
+    },
+  },
+  {
+    key: 'policies',
+    label: t('locokit.pages.workspace.policies'),
+    icon: 'bi bi-shield-lock-fill text-xl',
+    activeClass: 'bg-white text-primary',
+    to: {
+      name: ROUTE_NAMES.WORKSPACE.ADMIN.POLICIES.ROOT,
+      params: { wsslug: props.workspace.slug },
+    },
+  },
+  {
+    key: 'groups',
+    label: t('locokit.pages.workspace.groups'),
+    icon: 'bi bi-people-fill text-xl',
+    activeClass: 'bg-white text-primary',
+    to: {
+      name: ROUTE_NAMES.WORKSPACE.ADMIN.GROUPS.ROOT,
+      params: { wsslug: props.workspace.slug },
+    },
+  },
+])
 </script>

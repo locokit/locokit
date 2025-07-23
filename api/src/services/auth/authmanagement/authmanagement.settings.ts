@@ -187,13 +187,14 @@ export function authManagementSettings(app: Application): {
         user,
         portalName: app.get('publicPortalName'),
       })
-
+      authMgtLogger.info('need to send email, but not actually')
+/*
       return await app.service(SERVICES.MISC_MAILER).create({
         to: notifierOptions?.emailAddress ?? user.email, // Use the specified email address or the user one
         subject: emailSubject,
         text: emailText,
         html: emailHTML,
-      })
+      })*/
     },
     delay: delayInDays * 24 * 60 * 60 * 1000, // 5 days by default
   }

@@ -4,6 +4,8 @@ import { WorkspaceDatasourceSchema } from '../datasource/datasource.schema'
 import { TableFieldSchema } from '../table-field/table-field.schema'
 import { TableRelationSchema } from '../table-relation/table-relation.schema'
 import { OptionalNullable } from '@locokit/definitions'
+import { WorkspacePolicyTableSchema } from '../policy-table/policy-table.schema'
+import { WorkspacePolicyVariableSchema } from '../policy-variable/policy-variable.schema'
 
 /**
  * Main schema
@@ -40,6 +42,15 @@ export const tableSchema = Type.Object(
         }),
       ),
     ),
+    /**
+     * Date times
+     */
+    createdAt: Type.String({
+      format: 'date-time',
+    }),
+    updatedAt: Type.String({
+      format: 'date-time',
+    }),
   },
   {
     $id: 'TableSchema',
@@ -52,6 +63,8 @@ interface TableRelations {
   fields?: TableFieldSchema[]
   relations?: TableRelationSchema[]
   lookups?: TableRelationSchema[]
+  policyTable?: WorkspacePolicyTableSchema
+  policyVariables?: WorkspacePolicyVariableSchema[]
 }
 
 export type TableSchema = Static<typeof tableSchema> & TableRelations
@@ -61,28 +74,39 @@ export type TableResult = Static<typeof tableResultSchema> & TableRelations
 /**
  * Creation
  */
-export const tableDataSchema = Type.Omit(tableSchema, ['id', 'slug', 'datasource', 'fields'], {
+export const tableDataSchema = Type.Pick(tableSchema, ['name', 'documentation', 'datasourceId'], {
   $id: 'TableDataSchema',
   additionalProperties: false,
 })
 export type TableData = Static<typeof tableDataSchema>
 export const tableDataValidator = getValidator(tableDataSchema, dataValidator)
 
-export const tableDataInternalSchema = Type.Omit(tableSchema, ['id', 'datasource', 'fields'], {
-  $id: 'TableDataInternalSchema',
-  additionalProperties: false,
-})
+export const tableDataInternalSchema = Type.Partial(
+  Type.Pick(tableSchema, [
+    'name',
+    'slug',
+    'documentation',
+    'datasourceId',
+    'createdAt',
+    'updatedAt',
+  ]),
+  {
+    $id: 'TableDataInternalSchema',
+    additionalProperties: false,
+  },
+)
+
 export type TableDataInternal = Static<typeof tableDataInternalSchema>
 export const tableDataInternalValidator = getValidator(tableDataInternalSchema, dataValidator)
 
 /**
- * Patch
+ * Patch is the same than table data internal for validation ?
  */
-export const tablePatchSchema = Type.Partial(tableDataSchema, {
+export const tablePatchInternalSchema = Type.Partial(tableDataInternalSchema, {
   additionalProperties: false,
-  $id: 'TablePatchSchema',
+  $id: 'TablePatchInternalSchema',
 })
-export type TablePatch = Static<typeof tablePatchSchema>
+export type TablePatchInternal = Static<typeof tablePatchInternalSchema>
 
 /**
  * Query
@@ -101,26 +125,26 @@ export const tableQuerySchema = Type.Intersect(
         // Type.RegEx(
         //   /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
         Type.String({
-          description: 'Join table to its datasource / relations / fields.',
+          description: 'Join table to its relations / fields.',
         }),
       ),
       $joinEager: Type.Optional(
         // Type.RegEx(
         //   /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
         Type.String({
-          description: 'Join table to its datasource / relations / fields.',
+          description: 'Join table to its relations / fields.',
         }),
       ),
       $eager: Type.Optional(
         // Type.RegEx(
         //   /(^(datasource|fields|relations(\.\[toTable\])?)$)|(^\[(datasource|fields|relations(\.\[toTable\])?)(,(datasource|fields|relations(\.\[toTable\])?)(?!.*\5))*\]$)/,
         Type.String({
-          description: 'Join table to its datasource / relations / fields.',
+          description: 'Join table to its relations / fields.',
         }),
       ),
     }),
   ],
-  { $id: 'TableQuery', additionalProperties: false },
+  { $id: 'TableQuery', additionalProperties: true },
 )
 export type TableQuery = Static<typeof tableQuerySchema>
 export const tableQueryValidator = getValidator(tableQuerySchema, queryValidator)

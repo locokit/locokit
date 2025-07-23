@@ -102,7 +102,7 @@ export type TableFieldSchema = Static<typeof tableFieldSchema> & TableFieldTypes
 
 export const tableFieldDataSchema = Type.Intersect(
   [
-    Type.Omit(tableFieldSchema, ['id', 'slug', 'settings', 'createdAt', 'updatedAt']),
+    Type.Pick(tableFieldSchema, ['name', 'documentation', 'type', 'dbType', 'tableId', 'settings']),
     Type.Object({
       settings: Type.Optional(tableFieldSettings),
     }),
@@ -117,9 +117,11 @@ export type TableFieldData = Static<typeof tableFieldDataSchema> & {
 }
 export const tableFieldDataValidator = getValidator(tableFieldDataSchema, dataValidator)
 
-export const tableFieldDataInternalSchema = Type.Omit(
-  tableFieldSchema,
-  ['id', 'createdAt', 'updatedAt'],
+export const tableFieldDataInternalSchema = Type.Partial(
+  Type.Intersect([
+    tableFieldDataSchema,
+    Type.Pick(tableFieldSchema, ['slug', 'createdAt', 'updatedAt']),
+  ]),
   {
     $id: 'TableFieldDataInternal',
     additionalProperties: false,
@@ -131,7 +133,7 @@ export const tableFieldDataInternalValidator = getValidator(
   dataValidator,
 )
 
-export const tableFieldPatchSchema = Type.Omit(tableFieldDataSchema, ['tableId'], {
+export const tableFieldPatchSchema = Type.Omit(tableFieldDataInternalSchema, ['tableId'], {
   $id: 'TableFieldPatch',
   additionalProperties: false,
 })

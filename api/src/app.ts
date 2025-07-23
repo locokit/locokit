@@ -18,7 +18,7 @@ import * as Sentry from '@sentry/node'
 
 import helmet from 'koa-helmet'
 
-import type { Application, HookContext } from './declarations'
+import type { Application, HookContext, NextFunction } from './declarations'
 import { configurationValidator } from './commons/configuration.schema'
 import { logErrorHook } from './logger'
 import { db } from './db'
@@ -135,7 +135,13 @@ We hope you will enjoy this tool!
   // Register application setup and teardown hooks here
   app.hooks({
     setup: [],
-    teardown: [],
+    teardown: [
+      async (context: HookContext, next: NextFunction) => {
+        // Close DB connection
+        await context.app.get('db').destroy()
+        await next()
+      },
+    ],
   })
 
   Sentry.setupKoaErrorHandler(app)

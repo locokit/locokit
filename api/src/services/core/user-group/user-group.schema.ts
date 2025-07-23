@@ -6,6 +6,8 @@ import { queryStringExtend } from '@/feathers-objection'
 // Schema for the basic data model (e.g. creating new entries)
 export const userGroupSchema = Type.Object(
   {
+    id: Type.String({ format: 'uuid' }),
+
     userId: Type.String({ format: 'uuid' }),
     groupId: Type.String({ format: 'uuid' }),
     role: Type.String({ format: 'group-role', default: GROUP_ROLE.MEMBER }),
@@ -57,6 +59,11 @@ export const userGroupQuerySchema = Type.Intersect(
             description: "Filter on related group's name",
           }),
         ),
+        'group.workspaceId': Type.Optional(
+          Type.String({
+            description: "Filter on workspace's id",
+          }),
+        ),
         'user.username': Type.Optional(
           Type.String({
             description: "Filter on related user's name",
@@ -65,6 +72,7 @@ export const userGroupQuerySchema = Type.Intersect(
       }),
       {
         'group.name': queryStringExtend,
+        'group.workspaceId': queryStringExtend,
         'user.username': queryStringExtend,
       },
     ),

@@ -6,7 +6,7 @@ import { ObjectionAdapterOptions } from '@/feathers-objection'
 
 import { GroupService, groupHooks } from './group.class'
 import { GroupModel } from './group.model'
-import { groupDataSchema, groupQuerySchema, groupSchema } from './group.schema'
+import { groupDataSchema, groupQuerySchema, groupSchema, groupPatchSchema } from './group.schema'
 import { groupMethods, groupPath } from './group.shared'
 
 // A configure function that registers the service and its hooks via `app.configure`
@@ -26,7 +26,7 @@ export function groupService(app: Application): void {
     // You can add additional custom events to be sent to clients here
     events: [],
     docs: createSwaggerServiceOptions({
-      schemas: { groupDataSchema, groupQuerySchema, groupSchema },
+      schemas: { groupDataSchema, groupQuerySchema, groupSchema, groupPatchSchema },
       docs: { description: 'Group service', tag: 'core > group' },
     }),
   })

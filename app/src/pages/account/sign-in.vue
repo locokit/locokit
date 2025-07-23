@@ -1,7 +1,9 @@
 <template>
   <LayoutHeader>
     <div class="grow flex items-center">
-      <main class="bg-white dark:bg-slate-800 rounded-md max-w-[48rem] mx-auto mt-4 p-4 shadow-md">
+      <main
+        class="bg-white dark:bg-slate-800 rounded-md w-[32rem] max-w-[48rem] mx-auto mt-4 p-4 shadow-md"
+      >
         <h1 class="text-xl text-center font-medium mb-4">
           {{ t('app.routes.auth.login') }}
         </h1>

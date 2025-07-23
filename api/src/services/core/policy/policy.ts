@@ -6,7 +6,7 @@ import { ObjectionAdapterOptions } from '@/feathers-objection'
 
 import { PolicyService, policyHooks } from './policy.class'
 import { PolicyModel } from './policy.model'
-import { policyDataSchema, policyQuerySchema, policySchema } from './policy.schema'
+import { policyPatchSchema, policyQuerySchema, policySchema } from './policy.schema'
 import { policyMethods, policyPath } from './policy.shared'
 
 // A configure function that registers the service and its hooks via `app.configure`
@@ -26,7 +26,7 @@ export function policyService(app: Application): void {
     // You can add additional custom events to be sent to clients here
     events: [],
     docs: createSwaggerServiceOptions({
-      schemas: { policyDataSchema, policyQuerySchema, policySchema },
+      schemas: { policyQuerySchema, policySchema, policyPatchSchema },
       docs: { description: 'Policy service', tag: 'core > policy' },
     }),
   })

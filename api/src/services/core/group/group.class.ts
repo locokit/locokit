@@ -8,16 +8,17 @@ import {
   GroupData,
   GroupResult,
   GroupQuery,
-  groupDataValidator,
   groupQueryValidator,
   groupPatchValidator,
   groupUpdateValidator,
+  GroupPatch,
 } from './group.schema'
 import { groupResolvers } from './group.resolver'
 import { authenticate } from '@feathersjs/authentication'
 
 import { setAbilities } from './group.ability'
 import { authorize } from 'feathers-casl'
+import { Forbidden } from '@feathersjs/errors'
 
 const authorizeHook = authorize({ adapter: '@feathersjs/knex' })
 
@@ -36,8 +37,11 @@ export const groupHooks: HookMap<Application, GroupService> = {
       schemaHooks.resolveQuery(groupResolvers.query),
     ],
     create: [
-      schemaHooks.validateData(groupDataValidator),
-      schemaHooks.resolveData(groupResolvers.data.create),
+      () => {
+        throw new Forbidden(
+          'You cannot create group from the core endpoint. Please use the workspace one.',
+        )
+      },
     ],
     patch: [
       schemaHooks.validateData(groupPatchValidator),
@@ -56,4 +60,9 @@ export const groupHooks: HookMap<Application, GroupService> = {
 export interface GroupParams extends KnexAdapterParams<GroupQuery> {}
 
 // By default, calls the standard Knex adapter service methods but can be customized with your own functionality.
-export class GroupService extends ObjectionService<GroupResult, GroupData, GroupParams> {}
+export class GroupService extends ObjectionService<
+  GroupResult,
+  GroupData,
+  GroupParams,
+  GroupPatch
+> {}

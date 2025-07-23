@@ -88,9 +88,9 @@ dataValidator.addSchema(groupSchema)
 
 export type GroupSchema = Static<typeof groupSchema>
 
-export const groupDataSchema = Type.Omit(
+export const groupDataSchema = Type.Pick(
   groupSchema,
-  ['id', 'workspace', 'users', 'createdAt', 'updatedAt'],
+  ['name', 'documentation', 'workspaceId', 'policyId'],
   { $id: 'GroupData' },
 )
 export type GroupData = Static<typeof groupSchema>
@@ -109,7 +109,7 @@ export const groupQuerySchema = Type.Intersect(
   [
     querySyntax(
       Type.Intersect([
-        Type.Omit(groupSchema, ['workspace', 'users']),
+        Type.Omit(groupSchema, ['workspace', 'users', 'policy', 'usergroups']),
         Type.Object({
           'workspace:owner.username': Type.Optional(
             Type.String({

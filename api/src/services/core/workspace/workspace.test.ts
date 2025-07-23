@@ -8,19 +8,31 @@ import { Id, Paginated } from '@feathersjs/feathers'
 import { BadRequest, Forbidden } from '@feathersjs/errors/lib'
 import path from 'path'
 import fs from 'fs'
+import { Application } from '@/declarations'
+import { Server } from 'http'
 
 describe('[core] workspace service', () => {
-  const app = createApp()
-  const builder = builderTestEnvironment('core-workspace')
+  let app: Application
+  let server: Server
+  let port: number
+  let builder: ReturnType<typeof builderTestEnvironment>
   let setupData: SetupData
-  const port = app.get('port') || 8998
-  const getUrl = (pathname: string) =>
-    new URL(`http://${app.get('host') || 'localhost'}:${port}${pathname}`).toString()
 
   beforeAll(async () => {
+    app = createApp()
+    builder = builderTestEnvironment('core-workspace', app)
+    port = app.get('port') || 8998
     setupData = await builder.setupWorkspace()
-    await app.listen(port)
+    server = await app.listen(port)
   })
+
+  afterAll(async () => {
+    await builder.teardownWorkspace()
+    await app.teardown(server)
+  })
+
+  const getUrl = (pathname: string) =>
+    new URL(`http://${app.get('host') || 'localhost'}:${port}${pathname}`).toString()
 
   describe('general purpose', async () => {
     it('registered the service', () => {
@@ -990,9 +1002,4 @@ $BODY$;
   })
 
   it.todo("don't take in consideration a slug given for creation (and maybe throw an error ?)")
-
-  afterAll(async () => {
-    await builder.teardownWorkspace()
-    await app.teardown()
-  })
 })

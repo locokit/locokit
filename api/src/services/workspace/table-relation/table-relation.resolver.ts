@@ -20,6 +20,12 @@ export const tableRelationDataResolver = resolve<TableRelationDataInternal, Hook
       if (!settings.name) settings.name = data.slug
       return settings
     },
+    async createdAt() {
+      return new Date().toISOString()
+    },
+    async updatedAt() {
+      return new Date().toISOString()
+    },
   },
   {
     // Convert the raw data into a new structure before running property resolvers
@@ -33,7 +39,11 @@ export const tableRelationDataResolver = resolve<TableRelationDataInternal, Hook
 )
 
 // Resolver for making partial updates
-export const tableRelationPatchResolver = resolve<TableRelationPatch, HookContext>({})
+export const tableRelationPatchResolver = resolve<TableRelationPatch, HookContext>({
+  async updatedAt() {
+    return new Date().toISOString()
+  },
+})
 // Resolver for the data that is being returned
 export const tableRelationResultResolver = resolve<TableRelationResult, HookContext>({})
 

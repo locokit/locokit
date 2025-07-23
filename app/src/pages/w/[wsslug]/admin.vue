@@ -1,7 +1,7 @@
 <template>
-  <layout-sidebar-workspace :workspace="workspace" :loading="stateWorkspace.loading">
+  <layout-sidebar-workspace :workspace :loading="stateWorkspace.loading">
     <router-view v-slot="{ Component }">
-      <component :is="Component" v-if="Component && workspace" :workspace="workspace" />
+      <component :is="Component" v-if="Component && workspace" :workspace />
       <template v-else>
         <main class="p-3">
           <h1 class="text-primary text-4xl mt-0 mb-4">
