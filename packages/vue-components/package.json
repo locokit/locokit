@@ -23,24 +23,21 @@
     "lint": "eslint ./"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^3.2.2",
-    "@storybook/addon-a11y": "^8.4.5",
-    "@storybook/addon-essentials": "^8.4.5",
-    "@storybook/addon-interactions": "^8.4.5",
-    "@storybook/addon-onboarding": "^8.4.5",
-    "@storybook/blocks": "^8.4.5",
-    "@storybook/test": "^8.4.5",
-    "@storybook/vue3": "^8.4.5",
-    "@storybook/vue3-vite": "^8.4.5",
+    "@chromatic-com/storybook": "^4.0.1",
+    "@storybook/addon-a11y": "^9.0.18",
+    "@storybook/addon-onboarding": "^9.0.18",
+    "@storybook/vue3-vite": "^9.0.18",
     "@vitejs/plugin-vue": "^5.2.0",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",
-    "storybook": "^8.4.5",
+    "storybook": "^9.0.18",
     "typescript": "~5.6.3",
     "vite": "^5.4.11",
     "vite-plugin-dts": "^4.3.0",
     "vite-plugin-vue-devtools": "^7.6.4",
-    "vue-tsc": "^2.1.10"
+    "vue-tsc": "^2.1.10",
+    "eslint-plugin-storybook": "9.0.18",
+    "@storybook/addon-docs": "^9.0.18"
   },
   "peerDependencies": {
     "@locokit/definitions": "workspace:^",
