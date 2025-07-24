@@ -1,5 +1,5 @@
-import type { Meta, StoryObj, StoryContext } from '@storybook/vue3';
-import { expect, fn, userEvent, waitFor, within } from '@storybook/test';
+import type { Meta, StoryObj, StoryContext } from '@storybook/vue3-vite';
+import { expect, fn, userEvent, waitFor, within } from 'storybook/test';
 import UpdatePasswordForm from './update-password.vue'
 
 const meta: Meta<typeof UpdatePasswordForm> = {

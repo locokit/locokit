@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
+import type { Meta, StoryObj } from '@storybook/vue3-vite'
 
 import LayoutSidebar from './layout-sidebar.vue'
 import PrimeMenu from 'primevue/menu'

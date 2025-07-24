@@ -1,6 +1,6 @@
 import { ref } from 'vue'
-import type { Meta, StoryContext, StoryObj } from '@storybook/vue3'
-import { expect, fn, screen, userEvent, waitFor, within } from '@storybook/test'
+import type { Meta, StoryContext, StoryObj } from '@storybook/vue3-vite'
+import { expect, fn, screen, userEvent, waitFor, within } from 'storybook/test'
 import PrimeButton from 'primevue/button'
 import {
   FIELD_COMPONENT,
