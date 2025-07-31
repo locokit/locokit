@@ -1,6 +1,6 @@
 {
   "name": "@locokit/definitions",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "LocoKit definitions, utilities, helpers...",
   "author": "Mathieu Dartigues",
   "license": "MIT",
@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@feathersjs/typebox": "5.0.10",
+    "@primevue/forms": "^4.2.4",
     "vite-plugin-dts": "^4.3.0"
   },
   "devDependencies": {

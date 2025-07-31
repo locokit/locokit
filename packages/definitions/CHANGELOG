@@ -1,3 +1,12 @@
+**0.0.6**
+
+* update of diff definitions
+  * remove Ajv
+  * migrate code to the api package for `addDiffSchemaToValidator` function
+* update `LocoKitFormField` definitions
+  * accept more properties : `settings`, `readonly`, `hidden`, `displayValue`, `attrs`, `defaultValue`
+  * accept `SPECIFIC` components (upgraded from nestify project)
+
 **0.0.5**
 
 * add new `FIELD_COMPONENT`
