@@ -50,6 +50,7 @@
         "signUp": "S'inscrire"
       },
       "formGeneric": {
+        "previous": "Précédent",
         "submit": "Enregistrer",
         "cancel": "Annuler",
         "reset": "Réinitialiser",
@@ -674,7 +675,11 @@
         "isFalseOrOtherTrue": "Le champ '{field}' ne peut être coché que si le champ '{target}' l'est également.",
         "minDate": "La date du champ '{field}' doit être après {fromDate}.",
         "dateValid": "La date du champ '{field}' ne correspond pas au format attendu.",
-        "reference": "La valeur du champ '{field}' est invalide : veuillez sélectionner une valeur dans la liste."
+        "reference": "La valeur du champ '{field}' est invalide : veuillez sélectionner une valeur dans la liste.",
+        "numberValid":"Le champ '{field}' est un nombre invalide.",
+        "minLength": "La valeur du champ '{field}' est invalide : longueur minimale de {minLength} caractères.",
+        "maxLength": "La valeur du champ '{field}' est invalide : longueur maximale de {maxLength} caractères.",
+        "mismatch": "La valeur du champ '{field}' ne correspond pas au champ '{target}'."
       }
     },
     "commons": {

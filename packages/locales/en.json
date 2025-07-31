@@ -50,6 +50,7 @@
         "signUp": "Sign up"
       },
       "formGeneric": {
+        "previous": "Previous",
         "submit": "Save",
         "cancel": "Cancel",
         "reset": "Reset",
@@ -677,7 +678,11 @@
         "isFalseOrOtherTrue": "The field '{field}' field can only be checked if the '{target}' field is also checked.",
         "minDate": "The field '{field}' must be after {fromDate}.",
         "dateValid": "The field '{field}' does not match the expected format.",
-        "reference": "The field '{field}' value is invalid: please select an item from the list."
+        "reference": "The field '{field}' value is invalid: please select an item from the list.",
+        "numberValid":"The field '{field}' is an invalid number.",
+        "minLength": "Field value '{field}' is invalid : min length of {minLength} characters.",
+        "maxLength": "The value of field '{field}' is invalid : maximum length of {maxLength} characters.",
+        "mismatch": "The value of field '{field}' does not match field '{target}'."
       }
     },
     "commons": {
