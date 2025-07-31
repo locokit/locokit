@@ -2,7 +2,9 @@ import { Meta } from '@storybook/addon-docs/blocks'
 
 <Meta title="Welcome on LocoKit's storybook" />
 
-![LocoKit logo](/logo.png)
+<div style={{ textAlign: 'center' }}>
+  <img style={{ margin: '2rem auto 4rem auto' }} src="/logo.png"></img>
+</div>
 
 # Welcome on LocoKit's storybook
 
@@ -14,6 +16,28 @@ and front-office applications.
 Please discover them through their dedicated stories,
 and learn how to use them,
 regarding their props or events.
+
+## Getting started
+
+### How to install ?
+
+This package `@locokit/vue-components` is based on:
+
+- TailwindCSS
+- PrimeVue components
+- `@locokit/locales` and `vue-i18n` to have translations
+- `@locokit/definitions` to have commons code
+- `primeicons` and `bootstrap-icons` according your needs
+
+This lead to this command
+
+```sh
+pnpm add primevue @primevue/themes \ # primevue dependencies
+  tailwindcss postcss autoprefixer tailwindcss-primeui \ # tailwind dependencies
+  @locokit/locales vue-i18n \ # translation dependencies
+  @locokit/definitions \ # other @locokit dependencies
+  primeicons bootstrap-icons # icons (bootstrap + prime)
+```
 
 ## Colors
 

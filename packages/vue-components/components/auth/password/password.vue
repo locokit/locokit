@@ -2,11 +2,21 @@
   <generic-form
     :fields
     :loading
-    :buttons="{
-      submit: true,
-      reset: false,
-      cancel: false,
-    }"
+      :buttons="{
+        submit: {
+          enabled: true,
+          label: t('locokit.components.passwordForm.prompt')
+        },
+        reset: {
+          enabled: false,
+        },
+        cancel: {
+          enabled: false,
+        },
+        delete: {
+          enabled: false,
+        },
+      }"
     :message="message"
     @submit="onSubmit"
   />
@@ -16,8 +26,8 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 //import { regexPasswordRules } from "../../../../designsystem/src/helpers/regex.ts";
-import { FIELD_COMPONENT, FIELD_TYPE, LocoKitFormField, LocoKitMessage } from "@locokit/definitions";
-import GenericForm from "@/components/commons/generic-form/generic-form.vue";
+import { FIELD_COMPONENT, FIELD_TYPE, LocoKitFormField, LocoKitMessage } from '@locokit/definitions'
+import GenericForm from '@/components/commons/generic-form/generic-form.vue'
 
 const { t } = useI18n()
 

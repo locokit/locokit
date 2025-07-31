@@ -4,12 +4,19 @@
       :fields
       :loading
       :buttons="{
-        submit: true,
-        reset: false,
-        cancel: false,
-      }"
-      :labels="{
-        submit: t('locokit.components.signInForm.signIn'),
+        submit: {
+          enabled: true,
+          label: t('locokit.components.signInForm.signIn'),
+        },
+        reset: {
+          enabled: false,
+        },
+        cancel: {
+          enabled: false,
+        },
+        delete: {
+          enabled: false,
+        },
       }"
       :message="message"
       @submit="onSubmit"
@@ -31,7 +38,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { FIELD_COMPONENT, FIELD_TYPE, type LocoKitFormField, type LocoKitMessage } from '@locokit/definitions'
+import {
+  FIELD_COMPONENT,
+  FIELD_TYPE,
+  type LocoKitFormField,
+  type LocoKitMessage,
+} from '@locokit/definitions'
 import GenericForm from '@/components/commons/generic-form/generic-form.vue'
 
 const { t } = useI18n()
@@ -41,7 +53,7 @@ const emit = defineEmits<{
     form: {
       email: string
       password: string
-    }
+    },
   ]
 }>()
 

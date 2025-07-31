@@ -2,12 +2,19 @@
   <generic-form
     :fields
     :buttons="{
-      submit: true,
-      reset: false,
-      cancel: false,
-    }"
-    :labels="{
-      submit: t('locokit.components.signUpForm.signUp'),
+      submit: {
+        enabled: true,
+        label: t('locokit.components.signUpForm.signUp'),
+      },
+      reset: {
+        enabled: false,
+      },
+      cancel: {
+        enabled: false,
+      },
+      delete: {
+        enabled: false,
+      },
     }"
     :loading="loading"
     :message="message"
@@ -37,7 +44,7 @@ const emit = defineEmits<{
     form: {
       email: string
       username: string
-    }
+    },
   ]
 }>()
 

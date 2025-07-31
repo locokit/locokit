@@ -26,6 +26,29 @@ pnpm add primevue @primevue/themes \ # primevue dependencies
   primeicons bootstrap-icons # icons (bootstrap + prime)
 ```
 
+TO BE CHANGED WITH PRIMEVUE MORE RECENT AND TAILWIND v4
+
+Create a vue project with the create-vite
+
+pnpm create vite calculator-vite --template vue
+
+pnpm i tailwindcss @tailwincss/vite // + instruction to update vite.config.ts + @import 'tailwindcss'; in style css file
+  primevue @primeuix/themes tailwindcss-primeui // + instruction to add it in main.ts and https://primevue.org/theming/styled
+  vue-router // if router is needed
+  @locokit/definitions // common package
+  vue-i18n @locokit/locales // for translation purpose, mandatory for vue-components as they are translated
+  primeicons bootstrap-icons // icons
+
+Add in the `style.css` file :
+
+```css
+@import 'tailwindcss';
+@import 'tailwindcss-primeui';
+@source '../node_modules/@locokit/vue-components/dist/lib.js';
+```
+
+https://vite.dev/guide/#scaffolding-your-first-vite-project
+
 ### Configure files
 
 Some files need to be created or updated :

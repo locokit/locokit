@@ -7,12 +7,19 @@
       firstName: user.firstName ?? null,
     }"
     :buttons="{
-      submit: true,
-      reset: false,
-      cancel: false,
-    }"
-    :labels="{
-      submit: t('locokit.components.updateGeneralForm.submit'),
+      submit: {
+        enabled: true,
+        label: t('locokit.components.updateGeneralForm.submit'),
+      },
+      reset: {
+        enabled: false,
+      },
+      cancel: {
+        enabled: false,
+      },
+      delete: {
+        enabled: false,
+      },
     }"
     :loading="loading"
     :message="message"
@@ -62,7 +69,7 @@ const emit = defineEmits<{
       username: string
       lastName: string | null
       firstName: string | null
-    }
+    },
   ]
 }>()
 
@@ -81,49 +88,59 @@ const props = withDefaults(
   },
 )
 
-const fields = computed<LocoKitFormField[]>(() => {
-  return [
-    {
-      id: 'username',
-      label: t('locokit.components.updateGeneralForm.username'),
-      type: FIELD_TYPE.TEXT,
-      component: FIELD_COMPONENT.INPUT_TEXT,
-      validationRules: {
-        required: true,
-        maxLength: 255,
+const fields = computed<LocoKitFormField[]>(() => [
+  {
+    id: 'username',
+    label: t('locokit.components.updateGeneralForm.username'),
+    type: FIELD_TYPE.TEXT,
+    component: FIELD_COMPONENT.INPUT_TEXT,
+    settings: {
+      default: {
+        validation: {
+          required: true,
+          maxLength: 255,
+        },
       },
     },
-    {
-      id: 'lastName',
-      label: t('locokit.components.updateGeneralForm.lastName'),
-      type: FIELD_TYPE.TEXT,
-      component: FIELD_COMPONENT.INPUT_TEXT,
-      validationRules: {
-        required: false,
-        maxLength: 255,
+  },
+  {
+    id: 'lastName',
+    label: t('locokit.components.updateGeneralForm.lastName'),
+    type: FIELD_TYPE.TEXT,
+    component: FIELD_COMPONENT.INPUT_TEXT,
+    settings: {
+      default: {
+        validation: {
+          required: false,
+          maxLength: 255,
+        },
       },
     },
-    {
-      id: 'firstName',
-      label: t('locokit.components.updateGeneralForm.firstName'),
-      type: FIELD_TYPE.TEXT,
-      component: FIELD_COMPONENT.INPUT_TEXT,
-      validationRules: {
-        required: false,
-        maxLength: 255,
+  },
+  {
+    id: 'firstName',
+    label: t('locokit.components.updateGeneralForm.firstName'),
+    type: FIELD_TYPE.TEXT,
+    component: FIELD_COMPONENT.INPUT_TEXT,
+    settings: {
+      default: {
+        validation: {
+          required: false,
+          maxLength: 255,
+        },
       },
     },
-  ]
-})
+  },
+])
 
 const onSubmit = (values: Record<string, unknown>) => {
   emit('submit', {
     id: props.user.id,
-    ...values as {
-      username: string,
-      lastName: string,
-      firstName: string,
-    }
+    ...(values as {
+      username: string
+      lastName: string
+      firstName: string
+    }),
   })
 }
 </script>

@@ -6,7 +6,7 @@ import {
   FIELD_COMPONENT,
   FIELD_TYPE,
   type LocoKitFormField,
-  type LocoKitFormFieldAutocomplete
+  type LocoKitFormFieldAutocomplete,
 } from '@locokit/definitions'
 import GenericForm from './generic-form.vue'
 import { AutoCompleteCompleteEvent } from 'primevue'
@@ -34,8 +34,12 @@ export const WithFields: Story = {
           type: FIELD_TYPE.STRING,
           class: 'text-center',
           component: FIELD_COMPONENT.INPUT_TEXT,
-          validationRules: {
-            required: true,
+          settings: {
+            default: {
+              validation: {
+                required: true,
+              },
+            },
           },
         },
         {
@@ -71,8 +75,13 @@ export const WithFieldsLoading: Story = {
           type: FIELD_TYPE.STRING,
           class: 'text-center',
           component: FIELD_COMPONENT.INPUT_TEXT,
-          validationRules: {
-            required: true,
+
+          settings: {
+            default: {
+              validation: {
+                required: true,
+              },
+            },
           },
         },
         {
@@ -107,8 +116,13 @@ export const WithInitialValues: Story = {
           label: 'Name (text center aligned)',
           type: FIELD_TYPE.STRING,
           component: FIELD_COMPONENT.INPUT_TEXT,
-          validationRules: {
-            required: true,
+
+          settings: {
+            default: {
+              validation: {
+                required: true,
+              },
+            },
           },
         },
         {
@@ -184,8 +198,13 @@ export const WithAllSortsOfField: Story = {
           type: FIELD_TYPE.STRING,
           class: 'text-center',
           component: FIELD_COMPONENT.INPUT_TEXT,
-          validationRules: {
-            required: true,
+
+          settings: {
+            default: {
+              validation: {
+                required: true,
+              },
+            },
           },
         },
         {
@@ -336,7 +355,7 @@ export const AutocompleteFields: Story = {
       {
         id: 'without_free_input',
         label: 'An autocomplete field without free input',
-        description: "This field will be emptied if you do not select one of the suggestions.",
+        description: 'This field will be emptied if you do not select one of the suggestions.',
         type: FIELD_TYPE.STRING,
         component: FIELD_COMPONENT.AUTOCOMPLETE,
         freeInput: false,
@@ -367,7 +386,7 @@ export const AutocompleteFields: Story = {
         (
           event: AutoCompleteCompleteEvent,
           field: LocoKitFormFieldAutocomplete,
-          values: Record<string, unknown>
+          values: Record<string, unknown>,
         ) => {
           if (field.id === 'default') {
             args.autocompleteSuggestions = [
@@ -380,10 +399,10 @@ export const AutocompleteFields: Story = {
               { fieldLabel: 'Suggestion 6', fieldValue: 'value6' },
             ]
           }
-        }
+        },
       )
 
-      return { args };
+      return { args }
     },
     template: '<generic-form v-bind="args" />',
   }),
@@ -415,7 +434,7 @@ export const AutocompleteFields: Story = {
           default: 'test',
           without_free_input: undefined,
           with_initial_value: 'value2',
-        }
+        },
       )
     })
 
@@ -424,8 +443,8 @@ export const AutocompleteFields: Story = {
 
     let options = within(listbox).getAllByRole('option')
     await expect(options).toHaveLength(2)
-    await expect(options[0]).toHaveTextContent("Suggestion 3")
-    await expect(options[1]).toHaveTextContent("Suggestion 4")
+    await expect(options[0]).toHaveTextContent('Suggestion 3')
+    await expect(options[1]).toHaveTextContent('Suggestion 4')
 
     const restrictedInput = canvas.getByRole('combobox', { name: /without free input$/i })
     await user.type(restrictedInput, 'test')
@@ -435,8 +454,8 @@ export const AutocompleteFields: Story = {
 
     options = within(listbox).getAllByRole('option')
     await expect(options).toHaveLength(2)
-    await expect(options[0]).toHaveTextContent("Suggestion 5")
-    await expect(options[1]).toHaveTextContent("Suggestion 6")
+    await expect(options[0]).toHaveTextContent('Suggestion 5')
+    await expect(options[1]).toHaveTextContent('Suggestion 6')
 
     const thirdInput = canvas.getByRole('combobox', { name: /with an initial value$/i })
     await user.click(thirdInput)
@@ -452,8 +471,8 @@ export const AutocompleteFields: Story = {
 
     options = within(listbox).getAllByRole('option')
     await expect(options).toHaveLength(2)
-    await expect(options[0]).toHaveTextContent("Suggestion 5")
-    await expect(options[1]).toHaveTextContent("Suggestion 6")
+    await expect(options[0]).toHaveTextContent('Suggestion 5')
+    await expect(options[1]).toHaveTextContent('Suggestion 6')
 
     await user.click(options[0])
 
@@ -461,7 +480,7 @@ export const AutocompleteFields: Story = {
       expect(listbox).not.toBeInTheDocument()
     })
 
-    await expect(thirdInput).toHaveValue("Suggestion 5")
+    await expect(thirdInput).toHaveValue('Suggestion 5')
 
     const saveButton = canvas.getByRole('button', { name: /Save/i })
     await user.click(saveButton)
@@ -476,7 +495,7 @@ export const AutocompleteFields: Story = {
   },
 }
 
-const options = [{name: 'Pouet'}, {name: 'Pouic'}, {name: 'Lambda'}]
+const options = [{ name: 'Pouet' }, { name: 'Pouic' }, { name: 'Lambda' }]
 export const WithSpecificFields: Story = {
   args: {
     buttonPosition: 'block',
@@ -484,10 +503,10 @@ export const WithSpecificFields: Story = {
       {
         id: 'default',
         label: 'A specific field',
-        type: FIELD_TYPE.ARRAY_STRING,
+        type: FIELD_TYPE.ARRAY_TEXT,
         component: 'SPECIFIC_COMPONENT',
         specificComponent: PrimeMultiSelect,
-        initialValue: [options[0]],
+        defaultValue: [options[0]],
         attrs: {
           options,
           optionLabel: 'name',
@@ -495,7 +514,7 @@ export const WithSpecificFields: Story = {
           display: 'chip',
         },
         class: 'w-full',
-        validationRules: 'required'
+        validationRules: 'required',
       },
     ] as LocoKitFormField[],
     onSubmit: fn(),
@@ -503,3 +522,5 @@ export const WithSpecificFields: Story = {
 }
 
 export const WithConditionalDisplayedFields: Story = {}
+
+export const WithDefaultValues: Story = {}

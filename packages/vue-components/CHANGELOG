@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.25 - to be published
+* work in progress on generic form
+
+## 0.0.24
+
+* `commons/generic-form`
+  * several enhancements, work in progress
+* upgrade primevue to 4.3.6
+* testing tailwind v4 (client project)
+
+
 ## 0.0.23
 
 * `commons/generic-form`

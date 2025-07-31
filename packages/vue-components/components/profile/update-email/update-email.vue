@@ -2,12 +2,19 @@
   <generic-form
     :fields
     :buttons="{
-      submit: true,
-      reset: false,
-      cancel: false,
-    }"
-    :labels="{
-      submit: t('locokit.components.updateEmailForm.submit'),
+      submit: {
+        enabled: true,
+        label: t('locokit.components.updateEmailForm.submit'),
+      },
+      reset: {
+        enabled: false,
+      },
+      cancel: {
+        enabled: false,
+      },
+      delete: {
+        enabled: false,
+      },
     }"
     :loading="loading"
     :message="message"
@@ -44,7 +51,7 @@ const emit = defineEmits<{
     form: {
       newEmail: string
       password: string
-    }
+    },
   ]
 }>()
 
@@ -62,35 +69,44 @@ withDefaults(
   },
 )
 
-const fields = computed<LocoKitFormField[]>(() => {
-  return [
-    {
-      id: 'newEmail',
-      label: t('locokit.components.updateEmailForm.newEmail'),
-      type: FIELD_TYPE.TEXT,
-      component: FIELD_COMPONENT.INPUT_EMAIL,
-      validationRules: {
-        required: true,
-        maxLength: 255,
+const fields = computed<LocoKitFormField[]>(() => [
+  {
+    id: 'newEmail',
+    label: t('locokit.components.updateEmailForm.newEmail'),
+    type: FIELD_TYPE.TEXT,
+    component: FIELD_COMPONENT.INPUT_EMAIL,
+    settings: {
+      default: {
+        validation: {
+          required: true,
+          // maxLength: 255
+        },
       },
     },
-    {
-      id: 'password',
-      label: t('locokit.components.updateEmailForm.password'),
-      type: FIELD_TYPE.TEXT,
-      component: FIELD_COMPONENT.INPUT_PASSWORD,
-      validationRules: {
-        required: true,
-        maxLength: 255,
+  },
+  {
+    id: 'password',
+    label: t('locokit.components.updateEmailForm.password'),
+    type: FIELD_TYPE.TEXT,
+    component: FIELD_COMPONENT.INPUT_PASSWORD,
+    settings: {
+      default: {
+        validation: {
+          required: true,
+          // maxLength: 255
+        },
       },
     },
-  ]
-})
+  },
+])
 
 const onSubmit = (values: Record<string, unknown>) => {
-  emit('submit', values as {
-    newEmail: string
-    password: string
-  })
+  emit(
+    'submit',
+    values as {
+      newEmail: string
+      password: string
+    },
+  )
 }
 </script>
