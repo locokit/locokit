@@ -2,7 +2,7 @@
 
 import { pgDbTypes } from './pg/dbType'
 import { sqliteDbTypes } from './sqlite/dbType'
-
+import { type FormFieldState, FormInstance, useFormFieldProps } from '@primevue/forms'
 /**
  * Ids are not in order,
  * this is for backward compatibility with 0.x version
@@ -113,6 +113,8 @@ export const FIELD_COMPONENT = Object.freeze({
 
   SINGLE_SELECT: 'SINGLE_SELECT',
   MULTI_SELECT: 'MULTI_SELECT',
+
+  SPECIFIC_COMPONENT: 'SPECIFIC_COMPONENT',
 })
 
 export type DB_TYPE = pgDbTypes | sqliteDbTypes
@@ -261,19 +263,85 @@ export function convertDBTypeToFieldType(
   throw new Error(`No matching found for dialect ${dbDialect} and type ${dbType}`)
 }
 
-export type LocoKitFormFieldRule =
+/**
+ * Basic value for a field
+ */
+export type LocoKitTableFieldValue =
+  | number
+  | string
+  | boolean
+  | number[]
+  | string[]
+  | boolean[]
+  | undefined
+  | null
+  | Object
+  | Object[]
+
+export type LocoKitTableFieldComplexValue = Record<string, LocoKitTableFieldValue>
+
+/**
+ * Generic interface for LocoKit table records
+ */
+export interface LocoKitTableRecord extends Record<string, LocoKitTableFieldValue> {}
+
+/**
+ * An enhanced type for a specific business type,
+ * useful when we need to complexify datasource record
+ * with hydrated values (foreign keys => record from the foreign table)
+ */
+export type LocoKitTableRecordEnhanced<T extends LocoKitTableRecord = LocoKitTableRecord> = {
+  [Property in keyof T]: T[Property] | LocoKitTableFieldComplexValue
+}
+
+export type LocoKitFormFieldRuleCondition =
   | {
       fieldId: string
-      operator: '$eq'
+      operator: '$eq' | '$neq'
       value: string | number
     }
   | {
       fieldId: string
-      operator: '$in'
+      operator: '$in' | '$nin'
       value: string[] | number[]
     }
 
-type LocoKitFormFieldBase = {
+export type LocoKitFormFieldState = {
+  /**
+   * Dedicated attributes that will bound to the input field
+   *
+   * Can be function like the onChange one,
+   * or other properties needed by the field / component field itself
+   */
+  attrs?:
+    | ((
+        field: useFormFieldProps,
+        currentRecord: {
+          [key: string]: FormFieldState
+        },
+        relatedRecords: Record<string, LocoKitTableRecord[]>,
+        primeForm: FormInstance,
+      ) => Record<string, any>)
+    | Record<string, any>
+
+  validation?: {
+    required?: boolean
+    maxLength?: number
+    minLength?: number
+    match?: string
+  }
+
+  display?: {
+    visible?: boolean
+  }
+}
+
+export type LocoKitFormFieldRule = {
+  conditions: LocoKitFormFieldRuleCondition[]
+  impact: LocoKitFormFieldState
+}
+
+type LocoKitFormFieldDefaultType = {
   /**
    * Id allowing the form to have unique input ids,
    * ideal for accessibility / label purposes.
@@ -304,37 +372,62 @@ type LocoKitFormFieldBase = {
    */
   component: LocoKitFieldComponentId
   /**
+   * In the case of a specific one,
+   * which component vue to use
+   */
+  specificComponent?: any
+  /**
    * Is the input disabled?
    */
   disabled?: boolean
   /**
-   * Validation rules to specify if a field's value is OK
+   * Is the field a read only one ?
+   * (displayed but not editable)
    */
-  validationRules?: {
-    required?: boolean
-    requiredIf?: {
-      rules: LocoKitFormFieldRule[]
-    }
-    minLength?: number
-    maxLength?: number
-  }
+  readonly?: boolean
   /**
-   * Conditional display of the field,
-   * with dedicated rules for displaying it.
-   *
-   * If it's not displayed,
-   * it's not taken in consideration during the form validation process.
+   * Is the input hidden ?
    */
-  conditionalDisplay?: {
-    enabled: boolean
-    rules: LocoKitFormFieldRule[]
+  hidden?: boolean
+  /**
+   * Settings for the current field,
+   * with default settings applied,
+   * and settings applied through conditional rules
+   */
+  settings?: {
+    default?: LocoKitFormFieldState
+    rules?: LocoKitFormFieldRule[]
   }
+
+  /**
+   * Display value, depending the field value itself
+   */
+  displayValue?: (
+    value: LocoKitTableFieldValue[] | LocoKitTableFieldValue,
+    record?: LocoKitTableRecord | LocoKitTableRecord[],
+    relatedRecords?: Record<string, LocoKitTableRecord[]>,
+  ) => string
+
   /**
    * Default value for the field,
    * can be a function (eg. for date) or a static value
    */
-  defaultValue?: Function | number | string | boolean | number[] | string[] | boolean[] | null
+  defaultValue?: Function | LocoKitTableFieldValue
 }
+
+export type LocoKitFormFieldHidden = LocoKitFormFieldDefaultType & {
+  /**
+   * Is the input hidden ?
+   */
+  hidden: true
+  /**
+   * Optional type, component
+   */
+  type?: LocoKitFieldTypeId
+  component?: LocoKitFieldComponentId
+}
+
+export type LocoKitFormFieldBase = LocoKitFormFieldDefaultType | LocoKitFormFieldHidden
 
 export type LocoKitFormFieldAutocomplete = LocoKitFormFieldBase & {
   component: typeof FIELD_COMPONENT.AUTOCOMPLETE

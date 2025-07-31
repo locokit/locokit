@@ -157,7 +157,12 @@ export type pgDbTypes =
    * restricted to the ones who are tested
    */
   | '_text'
+  | 'text[]'
   | '_uuid'
+  | 'uuid[]'
   | '_boolean'
+  | 'boolean[]'
   | '_integer'
+  | 'integer[]'
   | '_date'
+  | 'date[]'
