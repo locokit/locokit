@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import tailwindcss from '@tailwindcss/vite'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
 import path from 'path'
@@ -10,6 +11,7 @@ import { fileURLToPath, URL } from 'node:url'
 export default defineConfig({
   plugins: [
     vue(),
+    tailwindcss(),
     dts({
       // include: [path.resolve(__dirname, './lib.ts')],
       tsconfigPath: './tsconfig.app.json',
