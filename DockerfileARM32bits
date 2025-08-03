@@ -40,7 +40,7 @@ COPY api api
 COPY docs docs
 COPY packages packages
 RUN pnpm i --ignore-scripts
-RUN pnpm --filter @locokit/definitions build
+RUN pnpm --filter @locokit/shared build
 RUN pnpm --filter @locokit/designsystem build
 RUN pnpm --filter @locokit/engine build
 RUN pnpm --filter @locokit/vue-components build

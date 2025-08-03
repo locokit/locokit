@@ -1,7 +1,7 @@
 import { ObjectionAdapterOptions } from '@/feathers-objection'
 import type { Application } from '@/declarations'
 import { hooks } from './user.hooks'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import { UserService } from './user.class'
 import { userDataSchema, userQuerySchema, userSchema } from './user.schema'
 import { UserModel } from './user.model'

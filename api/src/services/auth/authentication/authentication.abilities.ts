@@ -1,5 +1,5 @@
 import { AbilityBuilder, createMongoAbility } from '@casl/ability'
-import { USER_PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/shared'
 import { resolveAction } from '@/abilities/definitions'
 import { UserResult } from '@/services/core/user/user.schema'
 import { HookContext } from '@feathersjs/feathers'

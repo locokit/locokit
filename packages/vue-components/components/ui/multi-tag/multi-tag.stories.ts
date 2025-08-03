@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import MultiTag from './multi-tag.vue'
-import { COLOR_SCHEME } from '@locokit/definitions'
+import { COLOR_SCHEME } from '@locokit/shared'
 
 const meta: Meta<typeof MultiTag> = {
   title: 'components/ui/multi-tag',

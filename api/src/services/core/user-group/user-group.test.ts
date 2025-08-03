@@ -1,4 +1,4 @@
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import { describe, it, assert, afterAll, beforeAll } from 'vitest'
 import { createApp } from '../../../app'
 import { Application } from '@/declarations'

@@ -1,7 +1,7 @@
 {
-  "name": "@locokit/definitions",
-  "version": "0.0.6",
-  "description": "LocoKit definitions, utilities, helpers...",
+  "name": "@locokit/shared",
+  "version": "0.0.7",
+  "description": "Internal typings, helpers shared accross @locokit packages.",
   "author": "Mathieu Dartigues",
   "license": "MIT",
   "main": "dist/index.js",
@@ -20,14 +20,14 @@
     "vitest:coverage": "NODE_ENV=test vitest run --coverage"
   },
   "dependencies": {
-    "@feathersjs/typebox": "5.0.10",
-    "@primevue/forms": "^4.2.4",
-    "vite-plugin-dts": "^4.3.0"
+    "@feathersjs/typebox": "5.0.34",
+    "@primevue/forms": "^4.3.7"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^1.6.0",
     "@vitest/ui": "^1.6.0",
     "dotenv-flow": "^3.3.0",
+    "vite-plugin-dts": "^4.3.0",
     "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^1.6.0"
   }

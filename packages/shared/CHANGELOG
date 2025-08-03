@@ -1,3 +1,7 @@
+**0.0.7**
+
+* rename package to `@locokit/shared`
+
 **0.0.6**
 
 * update of diff definitions

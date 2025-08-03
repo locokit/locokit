@@ -26,7 +26,7 @@ import {
   USER_PROFILE,
   type LocoKitFormField,
   type LocoKitMessage,
-} from '@locokit/definitions'
+} from '@locokit/shared'
 import { sdkClient } from '@/services/sdk'
 import ROUTE_NAMES from '@/router/routes'
 

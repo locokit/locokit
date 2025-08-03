@@ -1,5 +1,5 @@
 import { createApp } from '@/app'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import { expect, describe, it, beforeAll, afterAll, afterEach, beforeEach } from 'vitest'
 import { builderTestEnvironment, SetupData } from '@/configure.test'
 import axios, { AxiosError, AxiosResponse } from 'axios'

@@ -9,7 +9,7 @@ import {
 import { ObjectionService } from '@/feathers-objection'
 import { Id, NullableId } from '@feathersjs/feathers'
 import { UserResult } from '../user/user.schema'
-import { USER_PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/shared'
 import { Forbidden } from '@feathersjs/errors/lib'
 import { Transaction } from 'objection'
 

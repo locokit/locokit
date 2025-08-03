@@ -1,4 +1,4 @@
-import { FIELD_TYPE } from '@locokit/definitions'
+import { FIELD_TYPE } from '@locokit/shared'
 import type { Filter, FilterRule, FilterValue } from '@locokit/vue-components'
 import { formatDateISO, formatDateTimeISO } from './date'
 
@@ -16,10 +16,7 @@ export function getFormattedValue(
 ): boolean | number | string | Array<string | number> {
   if (typeof value === 'string') {
     // Replace the specific keys containing in the string pattern by the corresponding values
-    return (
-      wildCards[value] ||
-      (rule.valuePrefix ?? '') + value + (rule.valueSuffix ?? '')
-    )
+    return wildCards[value] || (rule.valuePrefix ?? '') + value + (rule.valueSuffix ?? '')
   } else if (Array.isArray(value)) {
     // Replace the specific keys containing in the items of the pattern by the corresponding values
     return value.map((item) => wildCards[item] || item)
@@ -53,10 +50,10 @@ export function getCurrentFilters(
         formattedFilters[
           // Operator
           `${logicalOperator}[${index}]` +
-          // Field
-          `[${field.slug}]` +
-          // Action
-          `[${rule.operator}]`
+            // Field
+            `[${field.slug}]` +
+            // Action
+            `[${rule.operator}]`
         ] = getFormattedValue(value, field.type, rule, wildCards)
       }
     })

@@ -76,7 +76,7 @@ import { Field } from 'vee-validate'
 import { FormGeneric, MessageForUser } from '@locokit/designsystem'
 import { useLocoKitClient } from '../../../../services/api'
 import { findDatasources } from '../../../../services/datasource'
-import { toSnakeCase } from '@locokit/definitions'
+import { toSnakeCase } from '@locokit/shared'
 import { computed, useRoute } from '#imports'
 
 const route = useRoute()

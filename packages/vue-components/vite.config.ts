@@ -28,10 +28,10 @@ export default defineConfig({
     rollupOptions: {
       // disable the fact that these libraries are transpiled inside the package
       external: [
-        '@locokit/definitions',
+        '@locokit/shared',
         '@locokit/locales',
         '@primevue/forms',
-        '@primevue/themes',
+        '@primeuix/themes',
         'bootstrap-icons',
         'primeicons',
         /**

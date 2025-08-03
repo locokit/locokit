@@ -1,5 +1,5 @@
 import { NotAcceptable, BadRequest, Forbidden } from '@feathersjs/errors'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import { expect, describe, beforeEach, afterEach, it, vi } from 'vitest'
 import { createApp } from '@/app'
 import { UserResult } from '@/services/core/user/user.schema'

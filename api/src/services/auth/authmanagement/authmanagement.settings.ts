@@ -6,7 +6,7 @@ import path from 'path'
 import { marked } from 'marked'
 import { NotificationType, NotifierOptions, User } from 'feathers-authentication-management'
 import { logger } from '../../../logger'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 
 const authMgtLogger = logger.child({ service: 'service-auth-mgmt' })
 

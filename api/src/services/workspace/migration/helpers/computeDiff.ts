@@ -1,5 +1,6 @@
-import { Diff } from '@locokit/definitions'
-import { type ConnexionSQL, type Table, createAdapter } from '@locokit/engine'
+import { Diff } from '@locokit/shared'
+import { createAdapter } from '@locokit/engine'
+import type { ConnexionSQL, Table } from '@locokit/engine/dist/adapters/interface'
 import { type ForeignKey, type Column } from '@directus/schema'
 import { GeneralError } from '@feathersjs/errors'
 

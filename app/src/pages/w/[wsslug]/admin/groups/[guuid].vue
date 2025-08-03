@@ -238,7 +238,7 @@ import {
   type LocoKitFormField,
   type LocoKitFormFieldAutocomplete,
   type LocoKitMessage,
-} from '@locokit/definitions'
+} from '@locokit/shared'
 import type { PolicyResult, UserGroupData, UserResult } from '@locokit/sdk'
 import ErrorHandler from '@/components/error-handler.vue'
 import { searchUsers } from '@/services/core/user'

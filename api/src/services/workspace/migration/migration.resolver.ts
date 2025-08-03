@@ -7,7 +7,7 @@ import type {
   MigrationResult,
   MigrationQuery,
 } from './migration.schema'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 
 // Resolver for the basic data model (e.g. creating new entries)
 export const migrationDataResolver = resolve<MigrationDataInternal, HookContext>({

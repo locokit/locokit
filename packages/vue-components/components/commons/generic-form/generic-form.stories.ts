@@ -7,7 +7,7 @@ import {
   FIELD_TYPE,
   type LocoKitFormField,
   type LocoKitFormFieldAutocomplete,
-} from '@locokit/definitions'
+} from '@locokit/shared'
 import GenericForm from './generic-form.vue'
 import { AutoCompleteCompleteEvent } from 'primevue'
 import PrimeMultiSelect from 'primevue/multiselect'

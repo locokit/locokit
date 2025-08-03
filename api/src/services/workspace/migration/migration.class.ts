@@ -22,7 +22,7 @@ import {
   DiffItemTable,
   DiffItemField,
   DiffItemRelation,
-} from '@locokit/definitions'
+} from '@locokit/shared'
 
 import { Application } from '@/declarations'
 import { TableResult } from '../table/table.schema'

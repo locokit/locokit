@@ -31,7 +31,7 @@ import {
   DiffItemRelation,
   DiffItemTable,
   FIELD_TYPE,
-} from '@locokit/definitions'
+} from '@locokit/shared'
 import { EngineModel } from './model'
 import { Feature, FeatureCollection, Geometry } from 'geojson'
 import { createInspector } from './inspector'

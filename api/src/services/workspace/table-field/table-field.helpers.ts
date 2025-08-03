@@ -1,4 +1,4 @@
-import { FIELD_TYPE, DB_DIALECT, DB_TYPE } from '@locokit/definitions'
+import { FIELD_TYPE, DB_DIALECT, DB_TYPE } from '@locokit/shared'
 
 export function convertLocoKitFieldTypeToDBType(
   locokitFieldType: keyof typeof FIELD_TYPE,

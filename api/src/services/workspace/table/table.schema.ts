@@ -3,7 +3,7 @@ import { dataValidator, queryValidator } from '@/commons/validators'
 import { WorkspaceDatasourceSchema } from '../datasource/datasource.schema'
 import { TableFieldSchema } from '../table-field/table-field.schema'
 import { TableRelationSchema } from '../table-relation/table-relation.schema'
-import { OptionalNullable } from '@locokit/definitions'
+import { OptionalNullable } from '@locokit/shared'
 import { WorkspacePolicyTableSchema } from '../policy-table/policy-table.schema'
 import { WorkspacePolicyVariableSchema } from '../policy-variable/policy-variable.schema'
 

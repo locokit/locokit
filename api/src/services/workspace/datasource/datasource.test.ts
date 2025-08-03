@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import { DiffItemRelation, FIELD_TYPE, SERVICES } from '@locokit/definitions'
+import { DiffItemRelation, FIELD_TYPE, SERVICES } from '@locokit/shared'
 import { createApp } from '@/app'
 import { builderTestEnvironment, SetupData } from '@/configure.test'
 import { WorkspaceResult } from '@/services/core/workspace/workspace.schema'

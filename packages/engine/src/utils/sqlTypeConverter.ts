@@ -1,4 +1,4 @@
-import { type DB_TYPE } from '@locokit/definitions'
+import { type DB_TYPE } from '@locokit/shared'
 
 /**
  * Try to convert a SQL Type to a JSON one for AJV

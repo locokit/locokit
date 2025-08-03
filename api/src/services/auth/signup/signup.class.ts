@@ -1,6 +1,6 @@
 import { Conflict, Forbidden, TooManyRequests } from '@feathersjs/errors'
 import { Params } from '@feathersjs/feathers'
-import { SERVICES, USER_PROFILE } from '@locokit/definitions'
+import { SERVICES, USER_PROFILE } from '@locokit/shared'
 import { RateLimiterMemory } from 'rate-limiter-flexible'
 
 import { Application } from '@/declarations'

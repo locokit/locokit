@@ -1,5 +1,5 @@
 import { Type } from '@feathersjs/typebox'
-import { FIELD_TYPE, Nullable } from '@locokit/definitions'
+import { FIELD_TYPE, Nullable } from '@locokit/shared'
 import { TableFieldSchema } from '../table-field/table-field.schema'
 
 export function convertLocoKitFieldTypeToTypeboxSchema(locokitField: TableFieldSchema) {

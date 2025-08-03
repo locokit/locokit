@@ -1,4 +1,4 @@
-import { USER_PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/shared'
 import type { Knex } from 'knex'
 
 export async function up(knex: Knex): Promise<void> {
