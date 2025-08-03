@@ -270,7 +270,7 @@ import { onMounted } from 'vue'
 import mermaid from 'mermaid'
 import { Field } from 'vee-validate'
 import { FormGeneric } from '@locokit/designsystem'
-import { FIELD_TYPE } from '@locokit/definitions'
+import { FIELD_TYPE } from '@locokit/shared'
 import {
   findDatasources,
   getSchemaDatasource,

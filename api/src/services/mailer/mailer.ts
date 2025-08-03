@@ -1,4 +1,4 @@
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import SMTPConnection from 'nodemailer/lib/smtp-connection'
 import { Application } from '../../declarations'
 import { MailerService, mailerHooks } from './mailer.class'

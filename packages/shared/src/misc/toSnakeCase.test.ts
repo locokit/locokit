@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { toSnakeCase } from '.'
+import { toSnakeCase } from './toSnakeCase'
 
 describe('[toSnakeCase] utils to snake case', () => {
   const expectedConversions: Record<string, string> = {

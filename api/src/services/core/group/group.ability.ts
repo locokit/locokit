@@ -1,5 +1,5 @@
 import { HookContext } from '@/declarations'
-import { SERVICES, USER_PROFILE } from '@locokit/definitions'
+import { SERVICES, USER_PROFILE } from '@locokit/shared'
 import { AbilityBuilder, createMongoAbility } from '@casl/ability'
 import { UserResult } from '../user/user.schema'
 import { resolveAction } from '@/abilities/definitions'

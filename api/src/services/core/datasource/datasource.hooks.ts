@@ -2,7 +2,7 @@ import { authenticate } from '@feathersjs/authentication'
 import { transaction } from '@/feathers-objection'
 import { disallow } from 'feathers-hooks-common'
 import { checkUserHasAccess } from '@/hooks/profile.hooks'
-import { USER_PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/shared'
 
 export const coreDatasourceHooks = {
   around: {

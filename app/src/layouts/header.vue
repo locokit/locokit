@@ -123,7 +123,7 @@
 import { computed, ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { USER_PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/shared'
 import ROUTE_NAMES from '@/router/routes'
 import { useStoreAuth } from '@/stores/auth'
 import ButtonTranslate from '@/components/button-translate.vue'

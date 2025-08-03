@@ -15,6 +15,6 @@
   "dependencies": {
     "@feathersjs/authentication-client": "^5.0.34",
     "@feathersjs/feathers": "^5.0.34",
-    "@locokit/definitions": "workspace:*"
+    "@locokit/shared": "workspace:*"
   }
 }

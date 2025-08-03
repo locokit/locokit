@@ -1,4 +1,4 @@
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import { type UserGroupData } from '@locokit/sdk'
 import { sdkClient } from '../sdk'
 

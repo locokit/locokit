@@ -3,7 +3,7 @@ import { describe, it, beforeEach, beforeAll, afterAll, afterEach, vi, expect } 
 import { UserResult } from '@/services/core/user/user.schema'
 import { Paginated } from '@feathersjs/feathers'
 import { builderTestEnvironment, SetupData } from '@/configure.test'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import axios from 'axios'
 
 describe('authentication', () => {

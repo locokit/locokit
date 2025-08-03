@@ -1,4 +1,4 @@
-import { USER_PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/shared'
 
 import { AppAbility, resolveAction } from '../../../abilities/definitions'
 import { HookContext } from '@feathersjs/feathers'

@@ -1,6 +1,6 @@
 import { Type, Static, StringEnum } from '@feathersjs/typebox'
-import { DB_TYPE } from '../fieldType'
-import { OptionalNullable, Nullable } from './typebox'
+import { OptionalNullable, Nullable } from '../../misc/typebox'
+import { DB_TYPE } from '../helpers'
 
 export const diffItemTableSettingsSchema = Type.Object(
   {

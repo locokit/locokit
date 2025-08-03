@@ -1,5 +1,5 @@
 import { resolve, Resolver } from '@feathersjs/schema'
-import { GROUP_ROLE } from '@locokit/definitions'
+import { GROUP_ROLE } from '@locokit/shared'
 import type { HookContext } from '@/declarations'
 import { groupDispatchResolver } from '../group/group.resolver'
 import { userDispatchResolver } from '../../core/user/user.resolver'

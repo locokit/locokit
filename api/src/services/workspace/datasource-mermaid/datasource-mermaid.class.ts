@@ -1,7 +1,7 @@
 import type { KnexAdapterParams } from '@feathersjs/knex'
 
 import { Application } from '@/declarations'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import { DatasourceMermaidQuery } from './datasource-mermaid.schema'
 import { NotFound } from '@feathersjs/errors/lib'
 import { TableFieldResult } from '../table-field/table-field.schema'

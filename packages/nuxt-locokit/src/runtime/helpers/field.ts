@@ -1,4 +1,4 @@
-import { FIELD_TYPE } from '@locokit/definitions'
+import { FIELD_TYPE } from '@locokit/shared'
 
 export function getFieldIconClass(type: string): string {
   switch (type) {

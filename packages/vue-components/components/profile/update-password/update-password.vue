@@ -30,7 +30,7 @@ import {
   FIELD_TYPE,
   type LocoKitFormField,
   type LocoKitMessage,
-} from '@locokit/definitions'
+} from '@locokit/shared'
 //import { regexPasswordRules } from '@/helpers/regex'
 import GenericForm from '@/components/commons/generic-form/generic-form.vue'
 

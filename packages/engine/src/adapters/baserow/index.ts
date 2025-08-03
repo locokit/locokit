@@ -1,5 +1,5 @@
 import { Params } from '@feathersjs/feathers'
-import { DiffItem } from '@locokit/definitions'
+import { DiffItem } from '@locokit/shared'
 import { ConnexionBaserow, type GenericAdapter, Field, Table } from '../interface'
 
 export class BaserowAdapter implements GenericAdapter {

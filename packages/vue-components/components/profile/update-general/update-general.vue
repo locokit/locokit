@@ -52,7 +52,7 @@ import {
   type LocoKitFormField,
   type LocoKitMessage,
   type LocoKitUser,
-} from '@locokit/definitions'
+} from '@locokit/shared'
 import GenericForm from '@/components/commons/generic-form/generic-form.vue'
 import SingleTag from '@/components/ui/single-tag/single-tag.vue'
 

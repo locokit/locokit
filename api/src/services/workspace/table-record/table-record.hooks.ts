@@ -1,6 +1,6 @@
 import { HookContext, NextFunction } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
-import { GROUP_ROLE, SERVICES, USER_PROFILE } from '@locokit/definitions'
+import { GROUP_ROLE, SERVICES, USER_PROFILE } from '@locokit/shared'
 import { Ajv, addFormats, Validator, hooks as schemaHooks } from '@feathersjs/schema'
 import type { DataValidatorMap, FormatsPluginOptions } from '@feathersjs/schema'
 import ajvErrors from 'ajv-errors'

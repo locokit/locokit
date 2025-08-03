@@ -173,15 +173,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  computed,
-  nextTick,
-  onWatcherCleanup,
-  ref,
-  shallowRef,
-  watch,
-  watchEffect,
-} from 'vue'
+import { computed, nextTick, onWatcherCleanup, ref, shallowRef, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
@@ -205,13 +197,8 @@ import {
   type LocoKitFormField,
   type LocoKitFormFieldAutocomplete,
   type LocoKitMessage,
-} from '@locokit/definitions'
-import type {
-  GroupResult,
-  PolicyResult,
-  UserResult,
-  WorkspaceResult,
-} from '@locokit/sdk'
+} from '@locokit/shared'
+import type { GroupResult, PolicyResult, UserResult, WorkspaceResult } from '@locokit/sdk'
 import ErrorHandler from '@/components/error-handler.vue'
 import { sdkClient } from '@/services/sdk'
 import { searchUsers } from '@/services/core/user'

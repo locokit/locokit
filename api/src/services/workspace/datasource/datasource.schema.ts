@@ -1,7 +1,7 @@
 import { Type, Static, StringEnum, querySyntax, getValidator } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '@/commons/validators'
 import { TableResult } from '../table/table.schema'
-import { DB_DIALECT } from '@locokit/definitions'
+import { DB_DIALECT } from '@locokit/shared'
 import { WorkspaceResult } from '@/services/core/workspace/workspace.schema'
 
 export const workspaceDatasourceSchema = Type.Object(

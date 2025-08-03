@@ -1,5 +1,5 @@
 import type { Paginated } from '@feathersjs/feathers'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import type { GroupPatch, UserGroupResult } from '@locokit/sdk'
 import type { Filter } from '@locokit/vue-components'
 import { getCurrentFilters } from '@/helpers/filter'

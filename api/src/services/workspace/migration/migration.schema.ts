@@ -1,6 +1,6 @@
 import { Type, Static, querySyntax, getValidator, StringEnum } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '@/commons/validators'
-import { diffSchema } from '@locokit/definitions'
+import { diffSchema } from '@locokit/shared'
 
 export const migrationSchema = Type.Object(
   {

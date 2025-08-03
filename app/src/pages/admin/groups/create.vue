@@ -30,7 +30,7 @@ import {
   type LocoKitFormField,
   type LocoKitFormFieldAutocomplete,
   type LocoKitMessage,
-} from '@locokit/definitions'
+} from '@locokit/shared'
 import type { PolicyResult, WorkspaceResult } from '@locokit/sdk'
 import { sdkClient } from '@/services/sdk'
 import { findWorkspaces } from '@/services/core/workspace'

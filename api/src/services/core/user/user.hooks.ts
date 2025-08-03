@@ -27,7 +27,7 @@ import {
   userPatchValidator,
   userQueryValidator,
 } from './user.schema'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 
 export const hooks: HookOptions<Application, UserService> = {
   around: {

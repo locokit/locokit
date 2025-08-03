@@ -1,6 +1,6 @@
 import { type Column, type Table as KnexInspectorTable, type ForeignKey } from '@directus/schema'
 import { Params } from '@feathersjs/feathers'
-import { DiffItem } from '@locokit/definitions'
+import { DiffItem } from '@locokit/shared'
 import { Feature, FeatureCollection, Geometry } from 'geojson'
 
 /**
@@ -126,7 +126,7 @@ export type GenericAdapter = {
 
   get: <T extends TableRecord<T>>(
     tableName: string,
-    id: string | number | string[],
+    id: string | number,
     params?: Params & { query: Record<string, any>; $output?: 'geojson' | 'json' },
   ) => Promise<T | Feature<Geometry, T>>
 
@@ -138,14 +138,14 @@ export type GenericAdapter = {
 
   patch: <T extends TableRecord<T>, PatchData extends Partial<T> = Partial<T>>(
     tableName: string,
-    id: string | number | string[],
+    id: string | number,
     record: PatchData,
     params?: Params & { $output?: 'geojson' | 'json' },
   ) => Promise<T | Feature<Geometry, T>>
 
   update: <T extends TableRecord<T>, UpdateData extends Partial<T> = Partial<T>>(
     tableName: string,
-    id: string | number | string[],
+    id: string | number,
     record: UpdateData,
     params?: Params & { $output?: 'geojson' | 'json' },
   ) => Promise<T | Feature<Geometry, T>>

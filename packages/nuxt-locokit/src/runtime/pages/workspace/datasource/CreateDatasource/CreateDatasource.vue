@@ -180,7 +180,7 @@ import {
 } from '../../../../interfaces/toMigrate'
 import { createDatasource } from '../../../../services/datasource'
 import { ROUTES_NAMES } from '../../../../locokit-paths'
-import { toSnakeCase } from '@locokit/definitions'
+import { toSnakeCase } from '@locokit/shared'
 import { useRouter, computed } from '#imports'
 
 const router = useRouter()

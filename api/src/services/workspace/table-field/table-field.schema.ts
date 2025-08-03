@@ -1,6 +1,6 @@
 import { Type, Static, querySyntax, getValidator } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '@/commons/validators'
-import { DB_TYPE, FIELD_TYPE, OptionalNullable, Nullable } from '@locokit/definitions'
+import { DB_TYPE, FIELD_TYPE, OptionalNullable, Nullable } from '@locokit/shared'
 
 export const tableFieldSettings = Type.Object(
   {

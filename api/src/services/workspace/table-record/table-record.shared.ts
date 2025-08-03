@@ -1,6 +1,6 @@
 // For more information about this file see https://dove.feathersjs.com/guides/cli/service.shared.html
 import type { ClientApplication } from '@/client'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import type { TableRecordService } from './table-record.class'
 
 export type TableRecordClientService = Pick<

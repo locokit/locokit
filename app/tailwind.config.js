@@ -1,4 +1,4 @@
-import { TAILWIND_COLORS } from '@locokit/definitions'
+import { TAILWIND_COLORS } from '@locokit/shared'
 
 /** @type {import('tailwindcss').Config} */
 export default {

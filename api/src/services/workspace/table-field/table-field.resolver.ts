@@ -1,6 +1,6 @@
 import { resolve } from '@feathersjs/schema'
 import type { HookContext } from '@/declarations'
-import { toSnakeCase } from '@locokit/definitions'
+import { toSnakeCase } from '@locokit/shared'
 import { Value } from '@sinclair/typebox/value'
 
 import {
@@ -14,7 +14,7 @@ import { NotAcceptable, NotFound } from '@feathersjs/errors/lib'
 import { Paginated } from '@feathersjs/feathers'
 import { WorkspaceResult } from '@/services/core/workspace/workspace.schema'
 import { WorkspaceDatasourceResult } from '../datasource/datasource.schema'
-import { DB_DIALECT, FIELD_TYPE, SERVICES } from '@locokit/definitions'
+import { DB_DIALECT, FIELD_TYPE, SERVICES } from '@locokit/shared'
 import { convertLocoKitFieldTypeToDBType } from './table-field.helpers'
 
 // Resolver for the basic data model (e.g. creating new entries)

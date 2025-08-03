@@ -1,6 +1,6 @@
 import { createApp } from '../../app'
 import { describe, it, expect, afterAll, beforeAll } from 'vitest'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 
 describe("'mailer' service", () => {
   const app = createApp()

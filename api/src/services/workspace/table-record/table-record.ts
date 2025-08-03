@@ -1,4 +1,4 @@
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import type { Application } from '@/declarations'
 
 import { TableRecord } from './table-record.class'

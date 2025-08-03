@@ -6,7 +6,7 @@ import {
   createEventDatasource,
 } from '@/configure.test'
 import { DatasourceResult } from '@/services/core/datasource/datasource.schema'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 describe('table service', () => {

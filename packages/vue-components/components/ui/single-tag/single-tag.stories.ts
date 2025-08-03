@@ -8,17 +8,17 @@
 // }
 // </style>
 
-import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import SingleTag from './single-tag.vue';
-import { COLOR_SCHEME } from '@locokit/definitions'
+import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import SingleTag from './single-tag.vue'
+import { COLOR_SCHEME } from '@locokit/shared'
 
 const meta: Meta<typeof SingleTag> = {
   title: 'components/ui/single-tag',
   component: SingleTag,
 }
 
-export default meta;
-type Story = StoryObj<typeof SingleTag>;
+export default meta
+type Story = StoryObj<typeof SingleTag>
 
 export const Default: Story = {
   name: 'default one',
@@ -26,34 +26,34 @@ export const Default: Story = {
     components: { SingleTag },
     template: `
       <SingleTag class="m-4" label="placeholder" />
-    `
-  })
+    `,
+  }),
 }
 export const Example: Story = {
   name: 'example',
   render: () => ({
     components: { SingleTag },
-    data: () =>  ({
-      COLOR_SCHEME
+    data: () => ({
+      COLOR_SCHEME,
     }),
     template: `
       <SingleTag class="m-4" v-bind="COLOR_SCHEME[17]" label="placeholder" />
-    `
-  })
+    `,
+  }),
 }
 export const AllColors: Story = {
   name: 'all colors',
   render: () => ({
     components: { SingleTag },
-    data: () =>  ({
-      COLOR_SCHEME
+    data: () => ({
+      COLOR_SCHEME,
     }),
     template: `
       <div v-for="color in COLOR_SCHEME" :key="color.name">
         <SingleTag class="m-4" v-bind="color" label="placeholder" />
       </div>
-    `
-  })
+    `,
+  }),
 }
 
 // <docs lang="md">

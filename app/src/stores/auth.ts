@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import { ref } from 'vue'
 import { sdkClient } from '@/services/sdk'
 import { type UserData } from '@locokit/sdk'
@@ -146,9 +146,7 @@ export const useStoreAuth = defineStore('auth', () => {
     authState.value.error = null
 
     try {
-      const res = await sdkClient
-        .service(SERVICES.CORE_USER)
-        .patch(authState.value.user.id, data)
+      const res = await sdkClient.service(SERVICES.CORE_USER).patch(authState.value.user.id, data)
 
       authState.value.user = res
       authState.value.loading = false

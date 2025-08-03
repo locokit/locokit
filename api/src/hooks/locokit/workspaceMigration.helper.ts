@@ -1,6 +1,6 @@
 import { HookContext } from '@/declarations'
 import { NotAcceptable, NotImplemented } from '@feathersjs/errors'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 
 /**
  * Helper to compute workspac & datasource

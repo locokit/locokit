@@ -1,5 +1,5 @@
 import type { Knex } from 'knex'
-import { GROUP_ROLE } from '@locokit/definitions'
+import { GROUP_ROLE } from '@locokit/shared'
 
 export async function up(knex: Knex): Promise<void> {
   const doesColumnExist = await knex.schema.withSchema('core').hasColumn('lck_userGroup', 'role')

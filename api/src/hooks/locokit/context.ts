@@ -1,7 +1,7 @@
 import { HookContext, NextFunction } from '@/declarations'
 import { TableResult } from '@/services/workspace/table/table.schema'
 import { NotAcceptable, NotFound, NotImplemented } from '@feathersjs/errors'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 
 import workspaceMigrationHelper from './workspaceMigration.helper'
 import workspaceDatasourceHelper from './workspaceDatasource.helper'

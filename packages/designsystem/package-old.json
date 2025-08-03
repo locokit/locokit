@@ -17,9 +17,9 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@locokit/definitions": "workspace:*",
+    "@locokit/shared": "workspace:*",
     "@locokit/locales": "workspace:*",
-    "@primevue/themes": "^4.2.3",
+    "@primeuix/themes": "^1.2.3",
     "@vee-validate/rules": "^4.13.2",
     "bootstrap-icons": "^1.11.3",
     "date-fns": "^2.30.0",

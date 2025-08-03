@@ -1,7 +1,7 @@
 import { Model, AjvValidator } from 'objection'
 import { addFormats } from '@feathersjs/schema'
 import { formats } from './validators'
-import { GROUP_ROLE, USER_PROFILE } from '@locokit/definitions'
+import { GROUP_ROLE, USER_PROFILE } from '@locokit/shared'
 
 export default class BaseModel extends Model {
   static createValidator() {

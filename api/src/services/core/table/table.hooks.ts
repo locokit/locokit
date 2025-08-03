@@ -3,7 +3,7 @@ import { transaction } from '@/feathers-objection'
 import { hooks as schemaHooks } from '@feathersjs/schema'
 import { coreTablePatchResolver } from './table.resolver'
 import { checkUserHasAccess } from '@/hooks/profile.hooks'
-import { USER_PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/shared'
 
 export const coreTableHooks = {
   around: {

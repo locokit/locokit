@@ -1,17 +1,11 @@
-import { FIELD_TYPE, type LocoKitFieldTypeId } from '@locokit/definitions'
+import { FIELD_TYPE, type LocoKitFieldTypeId } from '@locokit/shared'
 import PrimeDatePicker from 'primevue/datepicker'
 import PrimeInputNumber from 'primevue/inputnumber'
 import PrimeInputText from 'primevue/inputtext'
 import PrimeMultiSelect from 'primevue/multiselect'
 import { type Component } from 'vue'
 
-export type FilterValue =
-  | boolean
-  | number
-  | string
-  | Array<string | number>
-  | Date
-  | null
+export type FilterValue = boolean | number | string | Array<string | number> | Date | null
 
 export interface FilterField {
   name: string
@@ -187,7 +181,9 @@ export const RULES: Record<string, FilterRule> = {
  *   value when necessary.
  * - valueComponentProps: properties to transmit to the component.
  */
-export const FIELD_TYPE_TO_FILTERING_PARAMS: Partial<Record<LocoKitFieldTypeId, FilteringParameters>> = {
+export const FIELD_TYPE_TO_FILTERING_PARAMS: Partial<
+  Record<LocoKitFieldTypeId, FilteringParameters>
+> = {
   [FIELD_TYPE.BOOLEAN]: {
     rules: [RULES.TRUE, RULES.FALSE, RULES.EMPTY, RULES.NOT_EMPTY],
   },

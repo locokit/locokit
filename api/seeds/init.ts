@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs'
-import { USER_PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/shared'
 import { Knex } from 'knex'
 
 export async function seed(knex: Knex): Promise<any> {

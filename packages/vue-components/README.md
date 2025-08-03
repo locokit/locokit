@@ -19,10 +19,10 @@ The `@locokit/vue-components` needs some packages to work.
 On a VueJS project, please add these dependencies :
 
 ```sh
-pnpm add primevue @primevue/themes \ # primevue dependencies
+pnpm add primevue @primeuix/themes \ # primevue dependencies
   tailwindcss postcss autoprefixer tailwindcss-primeui \ # tailwind dependencies
   @locokit/locales vue-i18n \ # translation dependencies
-  @locokit/definitions \ # other @locokit dependencies
+  @locokit/shared \ # other @locokit dependencies
   primeicons bootstrap-icons # icons (bootstrap + prime)
 ```
 
@@ -35,7 +35,7 @@ pnpm create vite calculator-vite --template vue
 pnpm i tailwindcss @tailwincss/vite // + instruction to update vite.config.ts + @import 'tailwindcss'; in style css file
   primevue @primeuix/themes tailwindcss-primeui // + instruction to add it in main.ts and https://primevue.org/theming/styled
   vue-router // if router is needed
-  @locokit/definitions // common package
+  @locokit/shared // common package
   vue-i18n @locokit/locales // for translation purpose, mandatory for vue-components as they are translated
   primeicons bootstrap-icons // icons
 
@@ -76,7 +76,7 @@ import fr from '@locokit/locales/fr.json'
  * PrimeVue
  */
 import PrimeVue from 'primevue/config'
-import Aura from '@primevue/themes/aura'
+import Aura from '@primeuix/themes/aura'
 
 import './styles.css'
 import App from './App.vue'
@@ -186,7 +186,7 @@ Autocomplete for properties and events is provided in IDE like VS Code :
 
 ## Dependencies
 
-**[@locokit/definitions](https://www.npmjs.com/package/@locokit/definitions)**
+**[@locokit/shared](https://www.npmjs.com/package/@locokit/shared)**
 
 This package contains typings and some helpers.
 
@@ -195,7 +195,7 @@ This package contains typings and some helpers.
 This library provides `vue-i18n` and the `t` function for translation purpose,
 used in `vue-components`.
 
-**[primevue](https://primevue.org/) @primevue/themes**
+**[primevue](https://primevue.org/) @primeuix/themes**
 
 `vue-components` is based on `primevue` components.
 

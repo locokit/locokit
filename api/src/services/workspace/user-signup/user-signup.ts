@@ -1,4 +1,4 @@
-import { SERVICES, USER_PROFILE } from '@locokit/definitions'
+import { SERVICES, USER_PROFILE } from '@locokit/shared'
 import { Application, HookContext, NextFunction } from '@/declarations'
 import { UserSignUpService } from './user-signup.class'
 import { validateData } from '@feathersjs/schema/lib'

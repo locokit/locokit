@@ -3,8 +3,8 @@ import {
   DiffItemFieldSettings,
   DiffItemRelationSettings,
   DiffItemTableSettings,
-} from '@locokit/definitions'
-import { Field, Table } from '@locokit/engine'
+} from '@locokit/shared'
+import { Field, Table } from '@locokit/engine/dist/adapters/interface'
 import { Value } from '@sinclair/typebox/value'
 import { type ForeignKey } from '@directus/schema'
 import { TableFieldResult } from '../table-field/table-field.schema'

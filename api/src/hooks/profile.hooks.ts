@@ -1,4 +1,4 @@
-import { USER_PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/shared'
 import { HookContext } from '../declarations'
 import { Forbidden } from '@feathersjs/errors'
 

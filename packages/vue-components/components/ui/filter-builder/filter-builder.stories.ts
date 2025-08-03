@@ -1,6 +1,6 @@
 import type { Meta, StoryContext, StoryObj } from '@storybook/vue3-vite'
 import { expect, fn, screen, userEvent, waitFor, within } from 'storybook/test'
-import { FIELD_TYPE } from '@locokit/definitions'
+import { FIELD_TYPE } from '@locokit/shared'
 import FilterBuilder from './filter-builder.vue'
 
 const meta: Meta<typeof FilterBuilder> = {

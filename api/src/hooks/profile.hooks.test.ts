@@ -5,7 +5,7 @@ import {
   checkUserHasAccess,
   checkUserIsAdmin,
 } from './profile.hooks'
-import { USER_PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/shared'
 import { HookContext } from '@/declarations'
 
 describe('[hooks] profile', () => {

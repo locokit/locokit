@@ -1,4 +1,4 @@
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import { sdkClient } from '../sdk'
 
 const ITEMS_PER_PAGE = 10
