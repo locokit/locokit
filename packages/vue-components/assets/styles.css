@@ -8,29 +8,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('bootstrap-icons/font/bootstrap-icons.css');
 @import url('primeicons/primeicons.css');
+@import 'tailwindcss';
+@import 'tailwindcss-primeui';
+@source "../components";
+@source "../layouts";
+@source "../stories";
 
-@layer tailwind-base, primevue, tailwind-utilities;
-
-@layer tailwind-base {
-  @tailwind base;
+/* Add custom base styles here */
+html {
+  @apply text-gray-900 bg-white h-full;
 }
-
-@layer tailwind-utilities {
-  @tailwind components;
-  @tailwind utilities;
-}
-
-@layer base {
-  /* Add custom base styles here */
-  html {
-    @apply text-gray-900 bg-white h-full;
-  }
-  body {
-    @apply font-sans antialiased h-full;
-    font-family: 'Raleway', sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-  }
+body {
+  @apply font-sans antialiased h-full;
+  font-family: 'Raleway', sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 /* Typography */
 h1 {
@@ -43,6 +35,9 @@ h3 {
   @apply text-xl font-medium;
 }
 
+/**
+ * externalize in a dedicated file to be bundled
+ */
 .scroll-shadows {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
