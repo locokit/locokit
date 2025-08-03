@@ -17,8 +17,6 @@
               'mb-4': !f.hidden,
             }"
           >
-            {{ f.component }}
-            {{ f.type }}
             <!-- boolean -->
             <div class="flex items-center" v-if="!f.hidden">
               <PrimeToggleSwitch
