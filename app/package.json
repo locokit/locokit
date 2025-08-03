@@ -26,7 +26,7 @@
     "@locokit/sdk": "workspace:1.0.0-alpha.0",
     "@locokit/vue-components": "workspace:^",
     "@primevue/forms": "^4.2.4",
-    "@primevue/themes": "^4.2.4",
+    "@primeuix/themes": "^1.2.3",
     "@unhead/vue": "^1.11.15",
     "@vueuse/core": "^13.3.0",
     "bootstrap-icons": "^1.11.3",

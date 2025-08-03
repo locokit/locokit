@@ -27,16 +27,18 @@
     "@storybook/addon-docs": "^9.1.0",
     "@storybook/addon-onboarding": "^9.1.0",
     "@storybook/vue3-vite": "^9.1.0",
+    "@primeuix/themes": "^1.2.3",
     "@tailwindcss/vite": "^4.1.11",
+    "@types/node": "^24",
     "@vitejs/plugin-vue": "^6.0.1",
     "date-fns": "^4.1.0",
     "eslint-plugin-storybook": "9.1.0",
     "storybook": "^9.1.0",
-    "typescript": "~5.6.3",
+    "typescript": "~5.9.2",
     "vite": "^7.0.6",
     "vite-plugin-dts": "^4.5.4",
     "vite-plugin-vue-devtools": "^8.0.0",
-    "vue-tsc": "^2.1.10"
+    "vue-tsc": "^3.0.5"
   },
   "peerDependencies": {
     "@locokit/definitions": "workspace:^",
