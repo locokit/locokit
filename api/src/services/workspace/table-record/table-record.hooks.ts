@@ -137,14 +137,10 @@ export const tableRecordHooks = {
             (ug: UserGroupResult) => ug.groupId === groupId,
           )
 
-          console.log(currentMembership)
-
           if (!currentMembership)
             throw new Error(
-              `
-        User is unauthorized to access this endpoint through the group provided.
-        Please be sure to specify the right id in your request by providing the header 'x-lck-group'.
-        `,
+              `User is unauthorized to access this endpoint through the group provided.
+Please be sure to specify the right id in your request by providing the header 'x-lck-group'.`,
             )
 
           const currentGroup: WorkspaceGroupResult = currentMembership.group

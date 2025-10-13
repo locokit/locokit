@@ -41,7 +41,7 @@
         <PrimeMessage
           v-if="membershipFormMessage"
           :severity="membershipFormMessage.status"
-          @close="() => membershipFormMessage = null"
+          @close="() => (membershipFormMessage = null)"
           class="mb-4"
           closable
         >
@@ -93,7 +93,7 @@
           :paginator="Boolean(groupMembers.data)"
           :total-records="groupMembers.total"
           :rows="MEMBERS_PER_PAGE"
-          @page="(event) => membershipPage = event.page"
+          @page="(event) => (membershipPage = event.page)"
           data-key="id"
           lazy
         >
@@ -110,23 +110,20 @@
                     shape="circle"
                     size="large"
                   />
-                  <PrimeAvatar
-                    v-else
-                    icon="bi bi-person-fill"
-                    shape="circle"
-                    size="large"
-                  />
+                  <PrimeAvatar v-else icon="bi bi-person-fill" shape="circle" size="large" />
                 </div>
                 <div class="w-full flex-grow flex flex-col">
                   <span>
                     <RouterLink
                       :to="{
                         name: ROUTE_NAMES.ADMIN.USERS.RECORD,
-                        params: { id: scope.data.id }
+                        params: { id: scope.data.id },
                       }"
-                      :title="t('locokit.pages.recordGroup.memberLinkTitle', {
-                        username: scope.data.username,
-                      })"
+                      :title="
+                        t('locokit.pages.recordGroup.memberLinkTitle', {
+                          username: scope.data.username,
+                        })
+                      "
                       class="hover:underline"
                     >
                       {{ scope.data.username }}
@@ -213,7 +210,7 @@ interface LabelValuePair {
 const { t, d } = useI18n()
 
 definePage({
-  name: ROUTE_NAMES.ADMIN.GROUPS.RECORD
+  name: ROUTE_NAMES.ADMIN.GROUPS.RECORD,
 })
 useHead({
   titleTemplate: `${t('locokit.pages.admin.title')} | %s`,
@@ -223,7 +220,7 @@ const emit = defineEmits<{
   /**
    * Triggered when a group has been successfully patched.
    */
-  'patch-group': [form: { id: string, name: string }],
+  'patch-group': [form: { id: string; name: string }]
 }>()
 
 const confirm = useConfirm()
@@ -239,7 +236,10 @@ const userGroupService = sdkClient.service(SERVICES.CORE_USERGROUP)
 
 const group = ref<GroupResult | null>(null)
 const groupMembers = shallowRef<Paginated<UserResult>>({
-  limit: 0, skip: 0, total: 0, data: []
+  limit: 0,
+  skip: 0,
+  total: 0,
+  data: [],
 })
 
 const suggestions = ref<WorkspaceResult[] | PolicyResult[]>([])
@@ -367,7 +367,7 @@ watch([group, membershipPage], async ([group, page]: [GroupResult | null, number
   })
 
   try {
-    groupMembers.value = await userService.find({
+    groupMembers.value = (await userService.find({
       query: {
         $joinEager: 'memberships',
         'memberships.groupId': group.id,
@@ -377,8 +377,8 @@ watch([group, membershipPage], async ([group, page]: [GroupResult | null, number
       },
       connection: {
         signal: controller.signal,
-      }
-    }) as Paginated<UserResult>
+      },
+    })) as Paginated<UserResult>
   } catch (e) {
     console.log(e)
   }
@@ -398,7 +398,7 @@ watchEffect(() => {
 
 async function fetchGroupMembers() {
   try {
-    groupMembers.value = await userService.find({
+    groupMembers.value = (await userService.find({
       query: {
         $joinEager: 'memberships',
         'memberships.groupId': group.value.id,
@@ -406,7 +406,7 @@ async function fetchGroupMembers() {
         $limit: MEMBERS_PER_PAGE,
         $skip: membershipPage.value * MEMBERS_PER_PAGE,
       },
-    }) as Paginated<UserResult>
+    })) as Paginated<UserResult>
   } catch (e) {
     console.log(e)
   }
@@ -414,7 +414,7 @@ async function fetchGroupMembers() {
 
 async function onAddButtonClick() {
   if (!group.value || !selectedUser.value) {
-    return;
+    return
   }
 
   try {
@@ -449,7 +449,7 @@ async function onAddButtonClick() {
     } else {
       membershipFormMessage.value = {
         status: 'error',
-        text: (e instanceof Error) ? e.message : (e as string),
+        text: e instanceof Error ? e.message : (e as string),
       }
     }
   }
@@ -457,7 +457,7 @@ async function onAddButtonClick() {
 
 function onRemoveButtonClick(event: MouseEvent, user: UserResult) {
   if (!group.value) {
-    return;
+    return
   }
 
   confirm.require({
@@ -492,7 +492,7 @@ function onRemoveButtonClick(event: MouseEvent, user: UserResult) {
       } catch (e) {
         membershipFormMessage.value = {
           status: 'error',
-          text: (e instanceof Error) ? e.message : (e as string),
+          text: e instanceof Error ? e.message : (e as string),
         }
       }
     },
@@ -522,7 +522,7 @@ async function onMemberRoleChange(newRole: keyof typeof GROUP_ROLE, user: UserRe
   } catch (e) {
     membershipFormMessage.value = {
       status: 'error',
-      text: (e instanceof Error) ? e.message : (e as string),
+      text: e instanceof Error ? e.message : (e as string),
     }
 
     // We have to restore the initial role to keep the UI consistent with the
@@ -539,18 +539,18 @@ async function onUserComplete(event: AutoCompleteCompleteEvent) {
   try {
     const params: Record<string, unknown> = {}
 
-    const result = await searchUsers({
+    const result = (await searchUsers({
       search: event.query,
       params,
       limit: 10,
-      sort: { username: 1 }
-    }) as Paginated<UserResult>
+      sort: { username: 1 },
+    })) as Paginated<UserResult>
 
     userSuggestions.value = result.data
   } catch (e) {
     membershipFormMessage.value = {
       status: 'error',
-      text: (e instanceof Error) ? e.message : (e as string),
+      text: e instanceof Error ? e.message : (e as string),
     }
   }
 }
@@ -558,7 +558,7 @@ async function onUserComplete(event: AutoCompleteCompleteEvent) {
 async function onComplete(
   event: AutoCompleteCompleteEvent,
   field: LocoKitFormFieldAutocomplete,
-  values: Record<string, unknown>
+  values: Record<string, unknown>,
 ) {
   try {
     const params: Record<string, unknown> = {}
@@ -571,7 +571,10 @@ async function onComplete(
           params.name = { $ilike: `%${event.query}%` }
         }
 
-        const policies = await findPolicies({ params, sort: { name: 1 } }) as Paginated<PolicyResult>
+        const policies = (await findPolicies({
+          params,
+          sort: { name: 1 },
+        })) as Paginated<PolicyResult>
 
         suggestions.value = policies.data
         break
@@ -579,7 +582,7 @@ async function onComplete(
   } catch (e) {
     formMessage.value = {
       status: 'error',
-      text: (e instanceof Error) ? e.message : (e as string),
+      text: e instanceof Error ? e.message : (e as string),
     }
   }
 }
@@ -623,8 +626,8 @@ async function onSubmit(values: Record<string, unknown>) {
   color: var(--p-slate-500);
 }
 :deep(.p-avatar-icon.bi::before),
-:deep(.p-avatar-icon[class^="bi-"]::before),
-:deep(.p-avatar-icon[class*=" bi-"]::before) {
+:deep(.p-avatar-icon[class^='bi-']::before),
+:deep(.p-avatar-icon[class*=' bi-']::before) {
   vertical-align: top;
 }
 </style>

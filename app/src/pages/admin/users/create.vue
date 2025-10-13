@@ -3,12 +3,7 @@
     <h1 class="mb-4 text-2xl text-primary font-bold">
       {{ $t('locokit.pages.createUser.title') }}
     </h1>
-    <generic-form
-      :fields
-      :loading
-      :message
-      @submit="onSubmit"
-    />
+    <generic-form :fields :loading :message @submit="onSubmit" />
   </div>
 </template>
 
@@ -92,11 +87,7 @@ const fields = computed<LocoKitFormField[]>(() => {
       type: FIELD_TYPE.SINGLE_SELECT,
       component: FIELD_COMPONENT.SINGLE_SELECT,
       source: {
-        options: [
-          USER_PROFILE.MEMBER,
-          USER_PROFILE.CREATOR,
-          USER_PROFILE.ADMIN,
-        ],
+        options: [USER_PROFILE.MEMBER, USER_PROFILE.CREATOR, USER_PROFILE.ADMIN],
       },
       validationRules: {
         required: true,

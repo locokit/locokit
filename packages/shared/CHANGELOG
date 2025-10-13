@@ -1,6 +1,7 @@
 **0.0.7**
 
 * rename package to `@locokit/shared`
+* better organization of files
 
 **0.0.6**
 

@@ -9,7 +9,8 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "CHANGELOG"
+    "CHANGELOG",
+    "README.md"
   ],
   "scripts": {
     "build": "vite build",

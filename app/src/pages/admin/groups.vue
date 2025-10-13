@@ -19,7 +19,7 @@
             <RouterLink
               :to="{
                 name: ROUTE_NAMES.ADMIN.GROUPS.RECORD,
-                params: { id: group.id }
+                params: { id: group.id },
               }"
               class="flex px-4 py-2 group hover:bg-slate-300 focus:bg-slate-200"
               active-class="router-link-active ps-3 border-l-4 border-secondary bg-slate-200"
@@ -36,7 +36,7 @@
                 </span>
               </div>
               <div>
-                <Tag value="0" class="text-xs px-2 py-1"/>
+                <Tag value="0" class="text-xs px-2 py-1" />
               </div>
             </RouterLink>
           </li>
@@ -63,12 +63,12 @@
             },
           },
         }"
-        @page="(event) => page = event.page"
+        @page="(event) => (page = event.page)"
         class="mt-2"
       />
     </div>
     <div class="w-full px-6 py-8">
-      <RouterView/>
+      <RouterView />
     </div>
   </div>
 </template>
@@ -92,43 +92,50 @@ import ROUTE_NAMES from '@/router/routes'
 const { t } = useI18n()
 const groupService = sdkClient.service(SERVICES.CORE_GROUP)
 const groups = ref<Paginated<GroupResult>>({
-  limit: 0, skip: 0, total: 0, data: []
+  limit: 0,
+  skip: 0,
+  total: 0,
+  data: [],
 })
 const search = ref<string | null>(null)
 const page = ref<number>(0)
 const error = ref<Error | null>(null)
 const GROUPS_PER_PAGE = 25
 
-watch([search, page], async ([search, page]: [string | null, number]) => {
-  const controller = new AbortController()
-  onWatcherCleanup(() => {
-    controller.abort()
-  })
+watch(
+  [search, page],
+  async ([search, page]: [string | null, number]) => {
+    const controller = new AbortController()
+    onWatcherCleanup(() => {
+      controller.abort()
+    })
 
-  const query: Record<string, unknown> = {}
-  if (search) {
-    query.name = { $ilike: `%${search}%` }
-  }
+    const query: Record<string, unknown> = {}
+    if (search) {
+      query.name = { $ilike: `%${search}%` }
+    }
 
-  try {
-    groups.value = await groupService.find({
-      query: {
-        ...query,
-        $joinEager: 'policy',
-        $limit: GROUPS_PER_PAGE,
-        $skip: page * GROUPS_PER_PAGE,
-        $sort: { name: 1 },
-      },
-      connection: {
-        signal: controller.signal,
-      },
-    }) as Paginated<GroupResult>
+    try {
+      groups.value = (await groupService.find({
+        query: {
+          ...query,
+          $joinEager: 'policy',
+          $limit: GROUPS_PER_PAGE,
+          $skip: page * GROUPS_PER_PAGE,
+          $sort: { name: 1 },
+        },
+        connection: {
+          signal: controller.signal,
+        },
+      })) as Paginated<GroupResult>
 
-    error.value = null
-  } catch (e) {
-    error.value = e as Error
-  }
-}, {
-  immediate: true,
-})
+      error.value = null
+    } catch (e) {
+      error.value = e as Error
+    }
+  },
+  {
+    immediate: true,
+  },
+)
 </script>

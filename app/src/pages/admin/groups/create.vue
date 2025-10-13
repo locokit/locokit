@@ -113,7 +113,7 @@ const fields = computed<LocoKitFormField[]>(() => {
 async function onComplete(
   event: AutoCompleteCompleteEvent,
   field: LocoKitFormFieldAutocomplete,
-  values: Record<string, unknown>
+  values: Record<string, unknown>,
 ) {
   try {
     const params: Record<string, unknown> = {}
@@ -124,7 +124,10 @@ async function onComplete(
           params.name = { $ilike: `%${event.query}%` }
         }
 
-        const workspaces = await findWorkspaces({ params, sort: { name: 1 } }) as Paginated<WorkspaceResult>
+        const workspaces = (await findWorkspaces({
+          params,
+          sort: { name: 1 },
+        })) as Paginated<WorkspaceResult>
 
         suggestions.value = workspaces.data
         break
@@ -141,7 +144,10 @@ async function onComplete(
           params.name = { $ilike: `%${event.query}%` }
         }
 
-        const policies = await findPolicies({ params, sort: { name: 1 } }) as Paginated<PolicyResult>
+        const policies = (await findPolicies({
+          params,
+          sort: { name: 1 },
+        })) as Paginated<PolicyResult>
 
         suggestions.value = policies.data
         break

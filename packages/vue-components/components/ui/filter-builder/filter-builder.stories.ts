@@ -147,8 +147,12 @@ export const Default: Story = {
     const addFilterButton = within(popover).getByRole('button', { name: /add a filter/i })
     await user.click(addFilterButton)
 
-    const fieldSelect2 = await within(popover).findByRole('combobox', { name: /Field to consider for filter #2/i })
-    const ruleSelect2 = within(popover).getByRole('combobox', { name: /Rule to apply for filter #2/i })
+    const fieldSelect2 = await within(popover).findByRole('combobox', {
+      name: /Field to consider for filter #2/i,
+    })
+    const ruleSelect2 = within(popover).getByRole('combobox', {
+      name: /Rule to apply for filter #2/i,
+    })
 
     await expect(fieldSelect2).not.toHaveAttribute('aria-disabled', 'true')
     await expect(fieldSelect2).not.toHaveValue()
@@ -173,7 +177,9 @@ export const Default: Story = {
     const ruleOption2 = within(ruleListbox2).getByRole('option', { name: 'is greater than' })
     await user.click(ruleOption2)
 
-    const valueField2 = await within(popover).findByRole('spinbutton', { name: /Reference value for filter #2/i })
+    const valueField2 = await within(popover).findByRole('spinbutton', {
+      name: /Reference value for filter #2/i,
+    })
     await expect(valueField2).toBeInTheDocument()
 
     // 5.3. Define the filter value
@@ -182,8 +188,12 @@ export const Default: Story = {
     // 6. Test the definition of a third filter for a boolean type field.
     await user.click(addFilterButton)
 
-    const fieldSelect3 = await within(popover).findByRole('combobox', { name: /Field to consider for filter #3/i })
-    const ruleSelect3 = within(popover).getByRole('combobox', { name: /Rule to apply for filter #3/i })
+    const fieldSelect3 = await within(popover).findByRole('combobox', {
+      name: /Field to consider for filter #3/i,
+    })
+    const ruleSelect3 = within(popover).getByRole('combobox', {
+      name: /Rule to apply for filter #3/i,
+    })
 
     await expect(fieldSelect3).not.toHaveAttribute('aria-disabled', 'true')
     await expect(fieldSelect3).not.toHaveValue()
@@ -211,8 +221,12 @@ export const Default: Story = {
     // 7. Test the definition of a third filter for a date type field.
     await user.click(addFilterButton)
 
-    const fieldSelect4 = await within(popover).findByRole('combobox', { name: /Field to consider for filter #4/i })
-    const ruleSelect4 = within(popover).getByRole('combobox', { name: /Rule to apply for filter #4/i })
+    const fieldSelect4 = await within(popover).findByRole('combobox', {
+      name: /Field to consider for filter #4/i,
+    })
+    const ruleSelect4 = within(popover).getByRole('combobox', {
+      name: /Rule to apply for filter #4/i,
+    })
 
     await expect(fieldSelect4).not.toHaveAttribute('aria-disabled', 'true')
     await expect(fieldSelect4).not.toHaveValue()
@@ -237,7 +251,9 @@ export const Default: Story = {
     const ruleOption4 = within(ruleListbox4).getByRole('option', { name: 'is earlier than' })
     await user.click(ruleOption4)
 
-    const valueField4 = await within(popover).findByRole('combobox', { name: /Reference value for filter #4/i })
+    const valueField4 = await within(popover).findByRole('combobox', {
+      name: /Reference value for filter #4/i,
+    })
     await expect(valueField4).toBeInTheDocument()
 
     // 7.3. Define the filter value
@@ -260,18 +276,24 @@ export const Default: Story = {
     await user.click(day15)
 
     await waitFor(() => {
-      expect(valueField4).toHaveValue(date.toLocaleDateString('en-US', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      }))
+      expect(valueField4).toHaveValue(
+        date.toLocaleDateString('en-US', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        }),
+      )
     })
 
     // 8. Test the definition of a third filter for a select type field.
     await user.click(addFilterButton)
 
-    const fieldSelect5 = await within(popover).findByRole('combobox', { name: /Field to consider for filter #5/i })
-    const ruleSelect5 = within(popover).getByRole('combobox', { name: /Rule to apply for filter #5/i })
+    const fieldSelect5 = await within(popover).findByRole('combobox', {
+      name: /Field to consider for filter #5/i,
+    })
+    const ruleSelect5 = within(popover).getByRole('combobox', {
+      name: /Rule to apply for filter #5/i,
+    })
 
     await expect(fieldSelect5).not.toHaveAttribute('aria-disabled', 'true')
     await expect(fieldSelect5).not.toHaveValue()
@@ -296,7 +318,9 @@ export const Default: Story = {
     const ruleOption5 = within(ruleListbox5).getByRole('option', { name: /contains at least/i })
     await user.click(ruleOption5)
 
-    const valueField5 = await within(popover).findByRole('combobox', { name: /Reference value for filter #5/i })
+    const valueField5 = await within(popover).findByRole('combobox', {
+      name: /Reference value for filter #5/i,
+    })
     await expect(valueField5).toBeInTheDocument()
     // The "value field" we found is the <input> used in background of the
     // Prime MultiSelect component and it turns out to be rather passive:
@@ -324,12 +348,12 @@ export const Default: Story = {
       expect(args.onSubmitFilters).toHaveBeenCalledWith([
         {
           field: {
-            name: "String field",
+            name: 'String field',
             slug: 'string_field',
             type: FIELD_TYPE.STRING,
           },
           rule: {
-            label: "match",
+            label: 'match',
             operator: '$ilike',
             valuePrefix: '%',
             valueSuffix: '%',
@@ -339,12 +363,12 @@ export const Default: Story = {
         },
         {
           field: {
-            name: "Number field",
+            name: 'Number field',
             slug: 'number_field',
             type: FIELD_TYPE.NUMBER,
           },
           rule: {
-            label: "isGreaterThan",
+            label: 'isGreaterThan',
             operator: '$gt',
           },
           value: 42,
@@ -352,12 +376,12 @@ export const Default: Story = {
         },
         {
           field: {
-            name: "Boolean field",
+            name: 'Boolean field',
             slug: 'boolean_field',
             type: FIELD_TYPE.BOOLEAN,
           },
           rule: {
-            label: "isFalse",
+            label: 'isFalse',
             operator: '$eq',
             predefinedValue: false,
           },
@@ -366,12 +390,12 @@ export const Default: Story = {
         },
         {
           field: {
-            name: "Date field",
+            name: 'Date field',
             slug: 'date_field',
             type: FIELD_TYPE.DATE,
           },
           rule: {
-            label: "isEarlierThan",
+            label: 'isEarlierThan',
             operator: '$lt',
           },
           value: date,
@@ -379,17 +403,17 @@ export const Default: Story = {
         },
         {
           field: {
-            name: "Multi select field",
+            name: 'Multi select field',
             slug: 'multi_select_field',
             type: FIELD_TYPE.MULTI_SELECT,
           },
           rule: {
-            label: "any",
+            label: 'any',
             operator: '$any',
           },
           value: [
-            { label: "Choice One", value: 'c1' },
-            { label: "Choice Three", value: 'c3' },
+            { label: 'Choice One', value: 'c1' },
+            { label: 'Choice Three', value: 'c3' },
           ],
           logicalOperator: '$and',
         },
@@ -438,12 +462,12 @@ export const WithPredefinedFilters: Story = {
     currentFilters: [
       {
         field: {
-          name: "String field",
+          name: 'String field',
           slug: 'string_field',
           type: FIELD_TYPE.STRING,
         },
         rule: {
-          label: "match",
+          label: 'match',
           operator: '$ilike',
           valuePrefix: '%',
           valueSuffix: '%',
@@ -453,12 +477,12 @@ export const WithPredefinedFilters: Story = {
       },
       {
         field: {
-          name: "Date field",
+          name: 'Date field',
           slug: 'date_field',
           type: FIELD_TYPE.DATE,
         },
         rule: {
-          label: "isEarlierThan",
+          label: 'isEarlierThan',
           operator: '$lt',
         },
         value: new Date(2050, 0, 1),
@@ -466,17 +490,17 @@ export const WithPredefinedFilters: Story = {
       },
       {
         field: {
-          name: "Multi select field",
+          name: 'Multi select field',
           slug: 'multi_select_field',
           type: FIELD_TYPE.MULTI_SELECT,
         },
         rule: {
-          label: "any",
+          label: 'any',
           operator: '$any',
         },
         value: [
-          { label: "Choice One", value: 'c1' },
-          { label: "Choice Three", value: 'c3' },
+          { label: 'Choice One', value: 'c1' },
+          { label: 'Choice Three', value: 'c3' },
         ],
         logicalOperator: '$and',
       },
