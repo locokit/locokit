@@ -504,7 +504,7 @@ export const WithSpecificFields: Story = {
         id: 'default',
         label: 'A specific field',
         type: FIELD_TYPE.ARRAY_TEXT,
-        component: 'SPECIFIC_COMPONENT',
+        component: FIELD_COMPONENT.SPECIFIC_COMPONENT,
         specificComponent: PrimeMultiSelect,
         defaultValue: [options[0]],
         attrs: {
@@ -521,6 +521,27 @@ export const WithSpecificFields: Story = {
   },
 }
 
-export const WithConditionalDisplayedFields: Story = {}
+export const WithConditionalDisplayedFields: Story = {
+  args: {
+    fields: [
+      {
+        id: 'select_1',
+        label: 'A select field',
+      },
+    ],
+  },
+}
 
 export const WithDefaultValues: Story = {}
+
+export const WithArray: Story = {}
+
+export const WithDynamicFieldValues: Story = {}
+
+/**
+ * This is the case for nestify where we set a modified_by field with the auth user id
+ *
+ * Better to override on the API side, but this is needed on the frontend side,
+ * with overriding purpose.
+ */
+export const WithDefaultValuesOverridingInitialValues: Story = {}

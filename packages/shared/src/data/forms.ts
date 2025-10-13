@@ -19,6 +19,33 @@ export type LocoKitFormFieldRuleCondition =
       value: string[] | number[]
     }
 
+/**
+ * Validation rules managed by LocoKit forms
+ */
+export type LocoKitFormFieldValidation = {
+  /**
+   * Field must be set
+   */
+  required?: boolean
+  /**
+   * Field maximum length
+   */
+  maxLength?: number
+  /**
+   * Field minimum length
+   */
+  minLength?: number
+  /**
+   * Field value need to match another field value
+   * (name of the matching field)
+   */
+  match?: string
+  /**
+   * Regular expression the field value must match
+   */
+  regex?: RegExp
+}
+
 export type LocoKitFormFieldState = {
   /**
    * Dedicated attributes that will bound to the input field
@@ -37,12 +64,7 @@ export type LocoKitFormFieldState = {
       ) => Record<string, any>)
     | Record<string, any>
 
-  validation?: {
-    required?: boolean
-    maxLength?: number
-    minLength?: number
-    match?: string
-  }
+  validation?: LocoKitFormFieldValidation
 
   display?: {
     visible?: boolean
@@ -85,7 +107,7 @@ type LocoKitFormFieldDefaultType = {
    */
   component: LocoKitFieldComponentId
   /**
-   * In the case of a specific one,
+   * In the case of `FIELD_COMPONENT.SPECIFIC_COMPONENT`,
    * which component vue to use
    */
   specificComponent?: any
@@ -100,6 +122,8 @@ type LocoKitFormFieldDefaultType = {
   readonly?: boolean
   /**
    * Is the input hidden ?
+   * (the field is still present in the DOM,
+   * so it will be present in form values)
    */
   hidden?: boolean
   /**
@@ -247,3 +271,106 @@ export type LocoKitFormField =
   | LocoKitFormFieldInputUuid
   | LocoKitFormFieldSingleSelect
   | LocoKitFormFieldTextarea
+
+type LocoKitFormBase = {
+  label: string
+  placeholder?: string
+  description?: string[]
+}
+
+/**
+ * Display element for a form
+ */
+// interface FormRecordBlock extends LocoKitFormBase {
+//   class: string
+//   /**
+//    * fields to be displayed in the block,
+//    * referencing fields of the current step
+//    */
+//   fields: {
+//     name: string
+//     class: string
+//   }[]
+// }
+
+export type LocoKitFormStep = LocoKitFormBase & {
+  /**
+   * All fields needed for this step
+   *
+   * Can be empty if the step
+   * is for display purpose
+   */
+  fields?: LocoKitFormField[]
+
+  /**
+   * How the fields are displayed to the user
+   *
+   * Blocks are also for display purpose
+   */
+  // blocks?: FormRecordBlock[]
+
+  /**
+   * Property name of the bounded value
+   * where to store the fields' values
+   *
+   * If undefined / null,
+   * all fields' values will be set
+   * at the root level of the bounded value form
+   */
+  property?: string
+
+  /**
+   * Do this property a multiple one,
+   * and if so, we store values in an array.
+   *
+   * Min records can be set to pregenerate forms.
+   * Max records can be set too to limit the number of records.
+   */
+  array?: boolean
+  minRecords?: number
+  maxRecords?: number
+  recordTitle?: (
+    record: {
+      [key: string]: FormFieldState
+    },
+    idx: number,
+  ) => string
+
+  /**
+   * Is this step a summary ?
+   *
+   * Sum up all data field by user
+   */
+  summary?: boolean
+}
+
+/**
+ * Global definition for a LocoKit form
+ */
+export type LocoKitForm = LocoKitFormBase & {
+  /**
+   * Is the form a multistep one ?
+   *
+   * if so, steps will be an array of more
+   * than 1 element.
+   *
+   * may not be useful if we can compute
+   * it directly from the steps array's length
+   */
+  multisteps: boolean
+
+  /**
+   * Set of all steps
+   * making the form
+   */
+  steps: LocoKitFormStep[]
+}
+
+export type FormValues = Record<
+  string,
+  string | number | boolean | Object | null | string[] | number[] | boolean[]
+>
+
+export type GenericFormField = LocoKitFormField & {
+  validationRules?: LocoKitFormFieldValidation
+}
