@@ -30,5 +30,26 @@ export function createInspector(knex: Knex): SchemaInspector {
 
     return result.rows?.map((r: { column: string }) => /* table + '.' + */ r.column) ?? null
   }
+
+  inspector.views = async (): Promise<string[]> => {
+    const schemaIn = inspector.explodedSchema.map(
+      (schemaName: string) => `${inspector.knex.raw('?', [schemaName])}`,
+    )
+
+    const result = await inspector.knex.raw(
+      `
+          SELECT
+            c.relname AS name
+          FROM pg_class c
+          JOIN pg_namespace n ON c.relnamespace = n.oid AND n.nspname IN (${schemaIn})
+          WHERE c.relkind IN ('v', 'm')
+          AND has_table_privilege(format('%I.%I', n.nspname, c.relname), 'SELECT')
+          ORDER BY n.nspname, c.relname
+        `,
+    )
+
+    return result.rows?.map((r: { schema: string; name: string }) => `${r.name}`) ?? []
+  }
+
   return inspector
 }

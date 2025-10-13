@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { Application } from '@/declarations'
 import ejs from 'ejs'
 import path from 'path'
@@ -187,8 +189,10 @@ export function authManagementSettings(app: Application): {
         user,
         portalName: app.get('publicPortalName'),
       })
-      authMgtLogger.info('need to send email, but not actually')
-/*
+      authMgtLogger.info(
+        'need to send email, but this is disabled for nestify purpose. Need to fix.',
+      )
+      /*
       return await app.service(SERVICES.MISC_MAILER).create({
         to: notifierOptions?.emailAddress ?? user.email, // Use the specified email address or the user one
         subject: emailSubject,
