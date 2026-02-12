@@ -1,5 +1,5 @@
 import { Paginated } from '@feathersjs/feathers'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import { describe, it, expect, afterEach, vi, beforeAll, afterAll } from 'vitest'
 import { createApp } from '../../../app'
 import { UserResult } from '@/services/core/user/user.schema'

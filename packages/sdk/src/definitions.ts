@@ -7,7 +7,7 @@ import {
   MapSourceSettings,
   MediaSettings,
   MEDIA_TYPE,
-} from '@locokit/definitions'
+} from '@locokit/shared'
 
 export class LckBaseModel {
   /**
@@ -206,11 +206,7 @@ export enum SORT_COLUMN {
   DESC = 'DESC',
 }
 
-export type LckTableViewFilterPattern =
-  | boolean
-  | number
-  | string
-  | Array<string | number>
+export type LckTableViewFilterPattern = boolean | number | string | Array<string | number>
 
 export interface LckTableViewFilterValue {
   action: string

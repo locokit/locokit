@@ -76,7 +76,7 @@
 </template>
 
 <script setup lang="ts">
-import { USER_PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/shared'
 import { storeToRefs } from 'pinia'
 import { useStoreAuth } from '../stores/auth'
 import { ROUTES_NAMES } from '../locokit-paths'

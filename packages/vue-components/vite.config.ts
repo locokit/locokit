@@ -1,20 +1,22 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import vueDevTools from 'vite-plugin-vue-devtools'
+import tailwindcss from '@tailwindcss/vite'
+// import vueDevTools from 'vite-plugin-vue-devtools'
 
-import path from 'path'
 import dts from 'vite-plugin-dts'
 import { fileURLToPath, URL } from 'node:url'
+import path from 'node:path'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
+    tailwindcss(),
     dts({
       // include: [path.resolve(__dirname, './lib.ts')],
       tsconfigPath: './tsconfig.app.json',
     }),
-    vueDevTools(),
+    // vueDevTools(),
   ],
   build: {
     lib: {
@@ -26,10 +28,10 @@ export default defineConfig({
     rollupOptions: {
       // disable the fact that these libraries are transpiled inside the package
       external: [
-        '@locokit/definitions',
+        '@locokit/shared',
         '@locokit/locales',
         '@primevue/forms',
-        '@primevue/themes',
+        '@primeuix/themes',
         'bootstrap-icons',
         'primeicons',
         /**

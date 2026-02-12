@@ -2,7 +2,7 @@ import { authenticate } from '@feathersjs/authentication'
 import { Forbidden } from '@feathersjs/errors'
 import { HookContext } from '@feathersjs/feathers'
 import { hooks as schemaHooks } from '@feathersjs/schema'
-import { USER_PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/shared'
 import { transaction } from '@/feathers-objection'
 import { UserResult } from '@/services/core/user/user.schema'
 import {

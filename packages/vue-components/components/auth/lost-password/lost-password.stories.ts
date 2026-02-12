@@ -1,5 +1,5 @@
-import { fn } from '@storybook/test'
-import type { Meta, StoryObj } from '@storybook/vue3'
+import { fn } from 'storybook/test'
+import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import LostPasswordForm from './lost-password.vue'
 
 const meta: Meta<typeof LostPasswordForm> = {

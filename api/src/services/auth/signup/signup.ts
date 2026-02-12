@@ -1,5 +1,5 @@
 // Initializes the `signup` service on path `/signup`
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import { Application } from '@/declarations'
 import { SignUpService } from './signup.class'
 import { validateData } from '@feathersjs/schema/lib'

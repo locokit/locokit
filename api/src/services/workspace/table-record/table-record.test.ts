@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import { createApp } from '@/app'
 import {
   builderTestEnvironment,

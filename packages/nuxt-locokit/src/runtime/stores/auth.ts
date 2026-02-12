@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import { useLocoKitClient } from '../services/api'
 import { ref, useCookie } from '#imports'
 

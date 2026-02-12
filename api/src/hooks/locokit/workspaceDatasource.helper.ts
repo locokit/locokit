@@ -3,7 +3,7 @@ import { WorkspaceResult } from '@/services/core/workspace/workspace.schema'
 import { DatasourceResult } from '@/services/core/datasource/datasource.schema'
 import { NotAcceptable, NotImplemented } from '@feathersjs/errors'
 import { Id } from '@feathersjs/feathers'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 
 /**
  * Helper to compute workspace

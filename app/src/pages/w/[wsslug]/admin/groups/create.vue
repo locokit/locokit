@@ -29,7 +29,7 @@ import {
   type LocoKitFormField,
   type LocoKitFormFieldAutocomplete,
   type LocoKitMessage,
-} from '@locokit/definitions'
+} from '@locokit/shared'
 import ROUTE_NAMES from '@/router/routes'
 import { useGroup } from '@/composables/useGroup'
 import { useRoute } from 'vue-router'

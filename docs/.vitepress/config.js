@@ -1,10 +1,12 @@
 export default {
   title: 'LocoKit',
-  description:
-    'Documentation of the Low-Code Kit platform, store, share, visualize your data',
+  description: 'Documentation of the Low-Code Kit platform, store, share, visualize your data',
   base: process.env.BASE_URL ? process.env.BASE_URL : '',
   themeConfig: {
-    logo: '/logo.png',
+    logo: {
+      src: '/logo.svg',
+      alt: 'LocoKit',
+    },
     siteTitle: false,
     nav: [
       { text: 'Guide', link: '/guide/getting-started' },

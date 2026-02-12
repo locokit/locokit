@@ -60,7 +60,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - name: Install dependencies
         run: pnpm i --ignore-scripts
-      - name: Build @locokit/definitions
+      - name: Build @locokit/shared
         run: cd packages/definitions && pnpm build
       - name: Test pkg engine
         run: cd packages/engine && pnpm test
@@ -165,7 +165,7 @@ jobs:
         run: tar -cvzf lck-api-build-artifact.tar.gz api/dist
       - name: Tar build app
         run: tar -cvzf lck-app-build-artifact.tar.gz app/dist
-      - name: Tar build @locokit/definitions
+      - name: Tar build @locokit/shared
         run: tar -cvzf locokit-definitions-build-artifact.tar.gz packages/definitions/dist
       - name: Tar build @locokit/vue-components
         run: tar -cvzf locokit-vue-components-build-artifact.tar.gz packages/vue-components/dist
@@ -204,7 +204,7 @@ jobs:
         run: ls -al
       - name: Extract build api
         run: tar -xzf lck-api-build-artifact.tar.gz
-      - name: Extract build @locokit/definitions
+      - name: Extract build @locokit/shared
         run: tar -xzf locokit-definitions-build-artifact.tar.gz
       - name: Extract build @locokit/engine
         run: tar -xzf locokit-engine-build-artifact.tar.gz

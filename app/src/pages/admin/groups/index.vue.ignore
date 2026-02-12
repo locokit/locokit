@@ -150,7 +150,7 @@ import {
   MessageForUser,
 } from '@locokit/designsystem'
 import { useI18n } from 'vue-i18n'
-import { FIELD_TYPE } from '@locokit/definitions'
+import { FIELD_TYPE } from '@locokit/shared'
 import { ROUTES_NAMES } from '../../../locokit-paths'
 import { useStoreGroups } from '../../../stores/groups'
 import { searchGroups } from '../../../services/core/group'

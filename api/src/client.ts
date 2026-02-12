@@ -8,7 +8,7 @@ import type { TransportConnection, Application } from '@feathersjs/feathers'
 import authenticationClient from '@feathersjs/authentication-client'
 import type { AuthenticationClientOptions } from '@feathersjs/authentication-client'
 
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 
 import { signupClient } from './services/auth/signup/signup.shared'
 import './services/auth/authentication/authentication.shared'

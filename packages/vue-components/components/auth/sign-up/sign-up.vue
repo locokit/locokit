@@ -2,12 +2,19 @@
   <generic-form
     :fields
     :buttons="{
-      submit: true,
-      reset: false,
-      cancel: false,
-    }"
-    :labels="{
-      submit: t('locokit.components.signUpForm.signUp'),
+      submit: {
+        enabled: true,
+        label: t('locokit.components.signUpForm.signUp'),
+      },
+      reset: {
+        enabled: false,
+      },
+      cancel: {
+        enabled: false,
+      },
+      delete: {
+        enabled: false,
+      },
     }"
     :loading="loading"
     :message="message"
@@ -23,7 +30,7 @@ import {
   FIELD_TYPE,
   type LocoKitFormField,
   type LocoKitMessage,
-} from '@locokit/definitions'
+} from '@locokit/shared'
 import GenericForm from '@/components/commons/generic-form/generic-form.vue'
 
 const { t } = useI18n()
@@ -37,7 +44,7 @@ const emit = defineEmits<{
     form: {
       email: string
       username: string
-    }
+    },
   ]
 }>()
 

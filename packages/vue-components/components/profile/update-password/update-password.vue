@@ -2,12 +2,19 @@
   <generic-form
     :fields
     :buttons="{
-      submit: true,
-      reset: false,
-      cancel: false,
-    }"
-    :labels="{
-      submit: t('locokit.components.updateGeneralForm.submit'),
+      submit: {
+        enabled: true,
+        label: t('locokit.components.updateGeneralForm.submit'),
+      },
+      reset: {
+        enabled: false,
+      },
+      cancel: {
+        enabled: false,
+      },
+      delete: {
+        enabled: false,
+      },
     }"
     :loading="loading"
     :message="message"
@@ -23,11 +30,11 @@ import {
   FIELD_TYPE,
   type LocoKitFormField,
   type LocoKitMessage,
-} from '@locokit/definitions'
+} from '@locokit/shared'
 //import { regexPasswordRules } from '@/helpers/regex'
 import GenericForm from '@/components/commons/generic-form/generic-form.vue'
 
-const { t } = useI18n();
+const { t } = useI18n()
 
 const emit = defineEmits<{
   /**
@@ -38,7 +45,7 @@ const emit = defineEmits<{
     form: {
       currentPassword: string
       newPassword: string
-    }
+    },
   ]
 }>()
 
@@ -54,43 +61,53 @@ withDefaults(
   },
 )
 
-const fields = computed<LocoKitFormField[]>(() => {
-  return [
-    {
-      id: 'currentPassword',
-      label: t('locokit.components.updatePasswordForm.currentPassword'),
-      type: FIELD_TYPE.TEXT,
-      component: FIELD_COMPONENT.INPUT_PASSWORD,
-      validationRules: {
-        required: true,
-        maxLength: 255,
+const fields = computed<LocoKitFormField[]>(() => [
+  {
+    id: 'currentPassword',
+    label: t('locokit.components.updatePasswordForm.currentPassword'),
+    type: FIELD_TYPE.TEXT,
+    component: FIELD_COMPONENT.INPUT_PASSWORD,
+    settings: {
+      default: {
+        validation: {
+          required: true,
+          maxLength: 255,
+        },
       },
     },
-    {
-      id: 'newPassword',
-      label: t('locokit.components.updatePasswordForm.newPassword'),
-      // description: TODO: describe password validation rules
-      type: FIELD_TYPE.TEXT,
-      component: FIELD_COMPONENT.INPUT_PASSWORD,
-      validationRules: {
-        required: true,
-        maxLength: 255,
-        // TODO: check that input matches a regex
+  },
+  {
+    id: 'newPassword',
+    label: t('locokit.components.updatePasswordForm.newPassword'),
+    // description: TODO: describe password validation rules
+    type: FIELD_TYPE.TEXT,
+    component: FIELD_COMPONENT.INPUT_PASSWORD,
+    settings: {
+      default: {
+        validation: {
+          required: true,
+          maxLength: 255,
+          // TODO: check that input matches a regex
+        },
       },
     },
-    {
-      id: 'confirmPassword',
-      label: t('locokit.components.updatePasswordForm.confirmPassword'),
-      type: FIELD_TYPE.TEXT,
-      component: FIELD_COMPONENT.INPUT_PASSWORD,
-      validationRules: {
-        required: true,
-        maxLength: 255,
-        // TODO: check that input is identical to the other field's value
+  },
+  {
+    id: 'confirmPassword',
+    label: t('locokit.components.updatePasswordForm.confirmPassword'),
+    type: FIELD_TYPE.TEXT,
+    component: FIELD_COMPONENT.INPUT_PASSWORD,
+    settings: {
+      default: {
+        validation: {
+          required: true,
+          maxLength: 255,
+          // TODO: check that input is identical to the other field's value
+        },
       },
     },
-  ]
-})
+  },
+])
 
 const onSubmit = (values: Record<string, unknown>) => {
   emit('submit', {

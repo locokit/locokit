@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { createApp } from '@/app'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import { builderTestEnvironment, SetupData } from '@/configure.test'
 import { WorkspaceResult } from '@/services/core/workspace/workspace.schema'
 import { DatasourceResult } from '@/services/core/datasource/datasource.schema'

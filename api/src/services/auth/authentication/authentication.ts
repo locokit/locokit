@@ -1,6 +1,6 @@
 import { AuthenticationService } from '@feathersjs/authentication'
 import { LocalStrategy } from '@feathersjs/authentication-local'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 // import { ServiceSwaggerOptions } from 'feathers-swagger'
 
 import type { Application } from '@/declarations'

@@ -7,7 +7,7 @@ export default defineConfig({
     sourcemap: true,
     lib: {
       entry: ['src/index.ts'],
-      name: '@locokit/definitions',
+      name: '@locokit/shared',
       formats: ['cjs', 'es'],
       fileName(format, entry) {
         switch (format) {
@@ -19,6 +19,9 @@ export default defineConfig({
         }
       },
     },
-    target: 'node18',
+    rollupOptions: {
+      external: ['@feathersjs/typebox', '@primevue/forms'],
+    },
+    target: 'node22',
   },
 })

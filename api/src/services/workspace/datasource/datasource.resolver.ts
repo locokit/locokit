@@ -1,6 +1,6 @@
 import { resolve } from '@feathersjs/schema'
 import type { HookContext } from '@/declarations'
-import { toSnakeCase } from '@locokit/definitions'
+import { toSnakeCase } from '@locokit/shared'
 
 import type {
   WorkspaceDatasourceDataInternal,
@@ -12,7 +12,7 @@ import { NotFound } from '@feathersjs/errors/lib'
 import { Paginated } from '@feathersjs/feathers'
 import { WorkspaceResult } from '@/services/core/workspace/workspace.schema'
 // import { logger } from '@/logger'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 
 // const datasourceLogger = logger.child({ service: 'datasource-hooks' })
 

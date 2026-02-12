@@ -1,7 +1,7 @@
 import { describe, beforeAll, afterAll, afterEach, it, expect, vi } from 'vitest'
 
 import { Paginated } from '@feathersjs/feathers'
-import { SERVICES, USER_PROFILE } from '@locokit/definitions'
+import { SERVICES, USER_PROFILE } from '@locokit/shared'
 import { UserResult } from '@/services/core/user/user.schema'
 import { createApp } from '@/app'
 import axios from 'axios'

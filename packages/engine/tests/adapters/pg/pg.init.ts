@@ -1,14 +1,13 @@
 import { knex } from 'knex'
 import { GenericAdapter } from 'packages/engine/src'
 import {
+  LocoKitEngineTestType,
   Place,
   Company,
   Person,
   Room,
   Session,
   Participate,
-  Event,
-  LocoKitEngineTestType,
 } from '../../definitions'
 
 /**

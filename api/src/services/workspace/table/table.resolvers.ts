@@ -1,6 +1,6 @@
 import { resolve } from '@feathersjs/schema'
 import type { HookContext } from '@/declarations'
-import { toSnakeCase } from '@locokit/definitions'
+import { toSnakeCase } from '@locokit/shared'
 
 import type { TableDataInternal, TableResult, TableQuery, TablePatchInternal } from './table.schema'
 

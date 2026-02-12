@@ -22,7 +22,7 @@ import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
 import { useToast } from 'primevue/usetoast'
 import { UpdateEmailForm } from '@locokit/vue-components'
-import { type LocoKitMessage } from '@locokit/definitions'
+import { type LocoKitMessage } from '@locokit/shared'
 import { useStoreAuth } from '@/stores/auth'
 import ROUTE_NAMES from '@/router/routes'
 

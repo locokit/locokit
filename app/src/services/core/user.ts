@@ -1,5 +1,5 @@
 import type { Paginated } from '@feathersjs/feathers'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import type { UserData } from '@locokit/sdk'
 import type { Filter } from '@locokit/vue-components'
 import { getCurrentFilters } from '@/helpers/filter'
@@ -68,9 +68,7 @@ export async function searchUsers({
   }
 
   if (search) {
-    parameters.$or = [
-      { username: { $ilike: `%${search}%` } },
-    ]
+    parameters.$or = [{ username: { $ilike: `%${search}%` } }]
   }
 
   if (filters) {

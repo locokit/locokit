@@ -1,13 +1,13 @@
-import { TAILWIND_COLORS } from '@locokit/definitions'
-import Aura from '@primevue/themes/aura'
-import type { Preview } from '@storybook/vue3'
-import { setup } from '@storybook/vue3'
+import { TAILWIND_COLORS } from '@locokit/shared'
+import Aura from '@primeuix/themes/aura'
+import type { Preview } from '@storybook/vue3-vite'
+import { setup } from '@storybook/vue3-vite'
 import PrimeVue from 'primevue/config'
 import ToastService from 'primevue/toastservice'
 import '../assets/styles.css'
 import './storybook.css'
 
-import { definePreset } from '@primevue/themes'
+import { definePreset } from '@primeuix/themes'
 import { createI18n } from 'vue-i18n'
 
 import en from '@locokit/locales/en.json'
@@ -52,7 +52,7 @@ setup((app) => {
       options: {
         cssLayer: {
           name: 'primevue',
-          order: 'tailwind-base, primevue, tailwind-utilities',
+          order: 'theme, base, primevue',
         },
       },
     },

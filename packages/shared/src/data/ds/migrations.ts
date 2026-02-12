@@ -1,7 +1,6 @@
 import { Type, Static, StringEnum } from '@feathersjs/typebox'
-import Ajv from 'ajv'
-import { DB_TYPE } from '../fieldType'
-import { OptionalNullable, Nullable } from './typebox'
+import { OptionalNullable, Nullable } from '../../misc/typebox'
+import { DB_TYPE } from '../helpers'
 
 export const diffItemTableSettingsSchema = Type.Object(
   {
@@ -154,15 +153,3 @@ export const diffSchema = Type.Object(
 )
 
 export type Diff = Static<typeof diffSchema>
-
-export function addDiffSchemaToValidator(validator: Ajv) {
-  validator.addSchema(diffItemTypebox)
-  validator.addSchema(diffItemTableSettingsSchema)
-  validator.addSchema(diffItemTableSchema)
-  validator.addSchema(diffItemFieldSettingsSchema)
-  validator.addSchema(diffItemFieldSchema)
-  validator.addSchema(diffItemRelationSettingsSchema)
-  validator.addSchema(diffItemRelationSchema)
-  validator.addSchema(diffItemSchema)
-  validator.addSchema(diffSchema)
-}

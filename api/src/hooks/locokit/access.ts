@@ -3,7 +3,7 @@ import { HookContext } from '@/declarations'
 import { WorkspacePolicyResult } from '@/services/workspace/policy/policy.schema'
 import { Forbidden } from '@feathersjs/errors'
 import { NextFunction, Paginated } from '@feathersjs/feathers'
-import { SERVICES } from '@locokit/definitions'
+import { SERVICES } from '@locokit/shared'
 import { checkUserHasProfile, checkProviderIsInternal } from '../profile.hooks'
 import { ERROR_CODE } from '@/errors'
 

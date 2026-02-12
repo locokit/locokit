@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs'
-import { USER_PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/shared'
 
 export async function seed(knex): Promise<any> {
   const hashPassword = await bcrypt.hash(process.env.LCK_ADMIN_PASSWORD || 'locokit', 10)

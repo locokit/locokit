@@ -7,7 +7,7 @@ import type {
   TableRelationResult,
   TableRelationQuery,
 } from './table-relation.schema'
-import { toSnakeCase } from '@locokit/definitions'
+import { toSnakeCase } from '@locokit/shared'
 
 // Resolver for the basic data model (e.g. creating new entries)
 export const tableRelationDataResolver = resolve<TableRelationDataInternal, HookContext>(

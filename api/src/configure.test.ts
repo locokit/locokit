@@ -12,7 +12,7 @@
 import { AuthenticationResult } from '@feathersjs/authentication/lib'
 import { LocalStrategy } from '@feathersjs/authentication-local/lib/strategy'
 
-import { GROUP_ROLE, SERVICES, USER_PROFILE } from '@locokit/definitions'
+import { GROUP_ROLE, SERVICES, USER_PROFILE } from '@locokit/shared'
 
 import { UserResult } from './services/core/user/user.schema'
 import { WorkspaceResult } from './services/core/workspace/workspace.schema'

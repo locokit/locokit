@@ -1,5 +1,5 @@
-import type { Meta, StoryContext, StoryObj } from '@storybook/vue3'
-import { expect, fn, userEvent, waitFor, within } from '@storybook/test'
+import type { Meta, StoryContext, StoryObj } from '@storybook/vue3-vite'
+import { expect, fn, userEvent, waitFor, within } from 'storybook/test'
 import SignUpForm from './sign-up.vue'
 
 const meta: Meta<typeof SignUpForm> = {

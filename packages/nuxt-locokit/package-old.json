@@ -13,9 +13,7 @@
   "main": "./dist/module.cjs",
   "module": "./dist/module.mjs",
   "types": "./dist/types.d.ts",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "nuxt-module-build build",
     "dev": "nuxi dev playground",
@@ -30,13 +28,13 @@
     "@feathersjs/authentication-client": "^5.0.10",
     "@feathersjs/feathers": "^5.0.10",
     "@feathersjs/rest-client": "^5.0.25",
-    "@locokit/definitions": "workspace:*",
+    "@locokit/shared": "workspace:*",
     "@locokit/designsystem": "workspace:*",
     "@locokit/locales": "workspace:*",
     "@locokit/sdk": "workspace:*",
     "@nuxt/kit": "^3.13.2",
     "@pinia/nuxt": "^0.5.1",
-    "@primevue/themes": "^4.0.5",
+    "@primeuix/themes": "^4.0.5",
     "@vee-validate/rules": "^4.13.1",
     "bootstrap-icons": "^1.11.3",
     "date-fns": "^3.6.0",

@@ -12,25 +12,46 @@ hero:
     - theme: alt
       text: View on GitHub
       link: https://github.com/locokit/locokit
+  image:
+    src: /favicon.png
+    alt: LocoKit
 
 features:
+  - icon: ❤️
+    title: Full Open Source Software
+    details: No vendor lock-in, no open source core. just FOSS.
   - icon: ✨
     title: Data flexibility
     details: Craft your data model and visualize your database schema
-  - icon: ❤️
-    title: AirTable like
-    details: Manage your data with a spreadsheet-like UI
+  - icon: 🧩
+    title: Interoperability
+    details:
+      Connect to your SQL database directly to inter your schema,
+      access to a dedicated API.
   - icon: 🔒
-    title: Permissions
-    details: Manage user / group permissions at record level
+    title: Roles & Permissions
+    details: Manage user / group permissions at record level (field level soon™)
+  - icon: 𝄜
+    title: AirTable like (soon™)
+    details:
+      Manage your data with a spreadsheet-like UI
+      (migration in progress from 0.x version)
   - icon: ⚙️
-    title: Automation
-    details: Call webhooks with record level triggers, like record creation, record update, or field level
+    title: Automation (soon™)
+    details:
+      Call webhooks with record level triggers,
+      like record creation, record update, or field level.
+      (migration in progress from 0.x version)
   - icon: 🎉
-    title: App designer
-    details: Design a dedicated app for your users by assembling UI blocks and data blocks
+    title: App designer (soon™)
+    details:
+      Design a dedicated app for your users
+      by assembling UI blocks and data blocks.
+      (migration in progress from 0.x version)
   - icon: 📁
-    title: Files manager
-    details: Manage files with S3 storage or file storage
+    title: Files manager (soon™)
+    details:
+      Manage files with S3 storage or file storage like Minio
+      (migration in progress from 0.x version)
 
 ---

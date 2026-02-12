@@ -1,11 +1,11 @@
 import { type App } from 'vue'
-import Aura from '@primevue/themes/aura'
+import Aura from '@primeuix/themes/aura'
 // import Aura from '@/presets/aura'
 
 import ConfirmationService from 'primevue/confirmationservice'
 import ToastService from 'primevue/toastservice' // theme
 import PrimeVue from 'primevue/config'
-import { definePreset } from '@primevue/themes'
+import { definePreset } from '@primeuix/themes'
 
 /**
  * from https://uicolors.app/create with #005767 and fic input color to 500 shade
@@ -48,17 +48,17 @@ export function definePluginPrime(app: App): void {
       preset: definePreset(Aura, {
         semantic: {
           primary,
-          secondary
-        }
+          secondary,
+        },
       }),
     },
     pt: {
       password: {
         pcInput: {
-          root: 'w-full'
+          root: 'w-full',
         },
-      }
-    }
+      },
+    },
   })
   app.use(ToastService)
   app.use(ConfirmationService)

@@ -21,7 +21,7 @@ import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
 import { useToast } from 'primevue/usetoast'
 import { UpdatePasswordForm } from '@locokit/vue-components'
-import { type LocoKitMessage } from '@locokit/definitions'
+import { type LocoKitMessage } from '@locokit/shared'
 import { useStoreAuth } from '@/stores/auth'
 import { sdkClient } from '@/services/sdk'
 import ROUTE_NAMES from '@/router/routes'
@@ -39,10 +39,7 @@ const authStore = useStoreAuth()
 const message = ref<LocoKitMessage | undefined>(undefined)
 const toast = useToast()
 
-async function onSubmit(data: {
-  currentPassword: string
-  newPassword: string
-}) {
+async function onSubmit(data: { currentPassword: string; newPassword: string }) {
   await authStore.updatePassword({
     email: authStore.authState.user.email,
     password: data.currentPassword,

@@ -6,7 +6,7 @@ import { policyQueryValidator, policyResolvers } from './policy.resolver'
 import { Application } from '@/declarations'
 import { authenticate } from '@feathersjs/authentication'
 import { ObjectionService } from '@/feathers-objection'
-import { USER_PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/shared'
 import { HookMap } from '@feathersjs/feathers'
 import { checkUserHasAccess } from '@/hooks/profile.hooks'
 

@@ -2,14 +2,13 @@ import { resolve } from '@feathersjs/schema'
 import { getValidator } from '@feathersjs/typebox'
 import type { HookContext } from '@/declarations'
 import { queryValidator } from '@/commons/validators'
-import { toSnakeCase } from '@locokit/definitions'
 import { groupDispatchResolver } from '@/services/core/group/group.resolver'
 import { policyDispatchResolver } from '@/services/core/policy/policy.resolver'
 import { PolicySchema } from '@/services/core/policy/policy.schema'
 import { userDispatchResolver } from '@/services/core/user/user.resolver'
 
 import { WorkspaceQuery, workspaceQuerySchema, WorkspaceSchema } from './workspace.schema'
-import { USER_PROFILE } from '@locokit/definitions'
+import { toSnakeCase, USER_PROFILE } from '@locokit/shared'
 import { Forbidden } from '@feathersjs/errors/lib'
 
 // Resolver for the basic data model (e.g. creating new entries)

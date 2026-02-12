@@ -1,5 +1,5 @@
 // /* eslint-disable no-duplicate-case */
-import { USER_PROFILE } from '@locokit/definitions'
+import { USER_PROFILE } from '@locokit/shared'
 // import { AbilityBuilder, makeAbilityFromRules } from 'feathers-casl'
 import makeAbilityFromRules from '../../../abilities/makeAbilityFromRules'
 import { AbilityBuilder } from '@casl/ability'

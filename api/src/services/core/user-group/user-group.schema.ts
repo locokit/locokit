@@ -1,5 +1,5 @@
 import { Type, querySyntax, Static, getValidator } from '@feathersjs/typebox'
-import { GROUP_ROLE } from '@locokit/definitions'
+import { GROUP_ROLE } from '@locokit/shared'
 import { dataValidator, queryValidator } from '@/commons/validators'
 import { queryStringExtend } from '@/feathers-objection'
 
