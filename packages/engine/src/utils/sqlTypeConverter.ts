@@ -17,6 +17,10 @@ export function getJSONTypeFromSQLType(sqlType: DB_TYPE) {
     case 'integer':
     case 'decimal':
     case 'numeric':
+    case 'smallint':
+    case 'real':
+    case 'float4':
+    case 'float2':
       return 'number'
     case 'boolean':
     case 'bool':

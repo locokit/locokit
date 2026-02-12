@@ -113,7 +113,7 @@ export class SQLAdapter implements GenericAdapter {
      * Transform tableNames into an object
      * initialized with an object with the property name equal to table name
      */
-    const tables: Record<
+    const tablesAndViews: Record<
       string,
       {
         id: string | string[] | null
@@ -128,8 +128,7 @@ export class SQLAdapter implements GenericAdapter {
       }),
       {},
     )
-    adapterLogger.info('[boot] %s tables found', Object.keys(tables).length)
-
+    adapterLogger.info('[boot] %s tables found', tableNames.length)
     /**
      * Fetch also all column info for all of the table
      */
@@ -137,9 +136,9 @@ export class SQLAdapter implements GenericAdapter {
       await accumulator
       adapterLogger.info('[boot] inspecting table %s', tableName)
       const primary = await inspector.primary(tableName)
-      tables[tableName].id = primary
+      tablesAndViews[tableName].id = primary
       const columnInfos = await inspector.columnInfo(tableName)
-      tables[tableName].columns = columnInfos
+      tablesAndViews[tableName].columns = columnInfos
       columnInfos.forEach((c: Column) => {
         adapterLogger.info(
           '[boot] inspecting table %s, column %s, type %s',
@@ -156,7 +155,7 @@ export class SQLAdapter implements GenericAdapter {
           /**
            * Add the belongs to one relation
            */
-          tables[tableName].relations[relationName] = {
+          tablesAndViews[tableName].relations[relationName] = {
             from: tableName + '.' + c.name,
             // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
             to: relationName + '.' + c.foreign_key_column,
@@ -166,7 +165,7 @@ export class SQLAdapter implements GenericAdapter {
           /**
            * And also the has many relation
            */
-          tables[relationName].relations[tableName] = {
+          tablesAndViews[relationName].relations[tableName] = {
             // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
             from: relationName + '.' + c.foreign_key_column,
             to: tableName + '.' + c.name,
@@ -179,12 +178,81 @@ export class SQLAdapter implements GenericAdapter {
         }
       })
     }, Promise.resolve())
+
+    /**
+     * Fetch all views to create Objection's Model for each one
+     */
+    const viewNames = await inspector.views()
+    /**
+     * Transform tableNames into an object
+     * initialized with an object with the property name equal to table name
+     */
+    viewNames.forEach(
+      (viewName: string) =>
+        (tablesAndViews[viewName] = { name: viewName, columns: [], relations: [] }),
+    )
+
+    adapterLogger.info('[boot] %s views found', viewNames.length)
+    adapterLogger.info('[boot] %s table + views found', Object.keys(tablesAndViews).length)
+
+    /**
+     * Fetch also all column info for all of the table
+     */
+    await viewNames.reduce(async (accumulator: Promise<void>, viewName: string) => {
+      await accumulator
+      adapterLogger.info('[boot] inspecting view %s', viewName)
+      // const primary = await inspector.primary(viewName)
+      // views[viewName].id = primary
+      // const columnInfos = await inspector.columnInfo(viewName)
+      // views[viewName].columns = columnInfos
+      // columnInfos.forEach((c: Column) => {
+      //   adapterLogger.info(
+      //     '[boot] inspecting view %s, column %s, type %s',
+      //     viewName,
+      //     c.name,
+      //     c.data_type,
+      //   )
+
+      //   /**
+      //    * is this column linked to a foreign ?
+      //    */
+      //   if (c.foreign_key_table) {
+      //     const relationName = c.foreign_key_table
+      //     /**
+      //      * Add the belongs to one relation
+      //      */
+      //     views[viewName].relations[relationName] = {
+      //       from: viewName + '.' + c.name,
+      //       // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+      //       to: relationName + '.' + c.foreign_key_column,
+      //       type: Model.BelongsToOneRelation,
+      //       model: relationName,
+      //     }
+      //     /**
+      //      * And also the has many relation
+      //      */
+      //     views[relationName].relations[viewName] = {
+      //       // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+      //       from: relationName + '.' + c.foreign_key_column,
+      //       to: viewName + '.' + c.name,
+      //       type: Model.HasManyRelation,
+      //       model: viewName,
+      //     }
+      //     /**
+      //      * TODO: detect the many to many ?
+      //      */
+      //   }
+      // })
+    }, Promise.resolve())
+    console.log(tablesAndViews)
+
     const allModels = this.databaseObjectionModel
 
     adapterLogger.info('[boot] building Models...')
-    Object.keys(tables).forEach((tableName) => {
+
+    Object.keys(tablesAndViews).forEach((tableName) => {
       adapterLogger.info('[boot] building Model %s', tableName)
-      const t = tables[tableName]
+      const t = tablesAndViews[tableName]
 
       const schema = {
         type: 'object',
@@ -269,7 +337,11 @@ export class SQLAdapter implements GenericAdapter {
         }
 
         static get idColumn(): string | string[] {
-          if (!t.id) throw new Error('No primary column available for the table ' + tableName)
+          // case of views where there is no id
+          if (!t.id) {
+            return ''
+            // throw new Error('No primary column available for the table ' + tableName)
+          }
           // TODO: handle for table alias
           return t.id
         }
@@ -547,15 +619,20 @@ export class SQLAdapter implements GenericAdapter {
      * to provide it for count distinct on the total query,
      * needed for pagination result.
      */
-    let countDistinctOn: ColumnRef[] = []
-    if (Array.isArray(model.idColumn)) {
-      countDistinctOn = model.idColumn.map((c) => `${model.tableName}.${c}`)
+    const totalQuery = model.query(this.database)
+    if (!model.idColumn) {
+      totalQuery.count('*')
     } else {
-      countDistinctOn = [`${model.tableName}.${model.idColumn}`]
+      let countDistinctOn: ColumnRef[] = []
+      if (Array.isArray(model.idColumn)) {
+        countDistinctOn = model.idColumn.map((c) => `${model.tableName}.${c}`)
+      } else {
+        countDistinctOn = [`${model.tableName}.${model.idColumn}`]
+      }
+      totalQuery.countDistinct(countDistinctOn)
     }
 
     // const totalQuery = model.query(this.database).countDistinct(...model.idColumn) // tableName + '.id', { as: 'count' })
-    const totalQuery = model.query(this.database).countDistinct(countDistinctOn)
 
     if (this.connexion.type === 'pg') {
       if (this.connexion.schema) {
@@ -660,7 +737,7 @@ export class SQLAdapter implements GenericAdapter {
 
   async get<T>(
     tableName: string,
-    id: string | number | string[] | string[],
+    id: string | number,
     params?: any,
   ): Promise<T | Feature<Geometry, T>> {
     adapterLogger.debug('get table %s, id %s', tableName, id, this.databaseObjectionModel)
@@ -819,7 +896,7 @@ export class SQLAdapter implements GenericAdapter {
 
   async update<T>(
     tableName: string,
-    id: string | number | string[],
+    id: string | number,
     record: Partial<T>,
     params?: any,
   ): Promise<T | Feature<Geometry, T>> {
@@ -848,7 +925,7 @@ export class SQLAdapter implements GenericAdapter {
 
   async patch<T>(
     tableName: string,
-    id: string | number | string[],
+    id: string | number,
     record: Partial<T>,
     params?: any,
   ): Promise<T | Feature<Geometry, T>> {
@@ -879,11 +956,7 @@ export class SQLAdapter implements GenericAdapter {
     return this.get<T>(tableName, id, params)
   }
 
-  async delete<T>(
-    tableName: string,
-    id: string | number | string[],
-    params?: any,
-  ): Promise<T | null> {
+  async delete<T>(tableName: string, id: string | number, params?: any): Promise<T | null> {
     adapterLogger.debug('delete %s, id %s', tableName, id)
     adapterLogger.debug('delete', this.databaseObjectionModel[tableName])
 
